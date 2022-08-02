@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "253003905930",
+    "project_id": "wysidequest",
+    "storage_bucket": "wysidequest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253003905930:android:da895cb2b30dd38dafa673",
+        "android_client_info": {
+          "package_name": "uk.co.sidequest.wy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253003905930-ktubsvg54duuq2jggpunuug29u0o3p7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq_-LTiicSrxKId1MkLlcBNv_lAeulhTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253003905930-ktubsvg54duuq2jggpunuug29u0o3p7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:get/get.dart';
+import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/common/wy_dialog.dart';
+
+class DateTimePickerDialog extends StatelessWidget {
+
+  late final DateTimePickerDialogController controller;
+
+  final String format;
+
+  final DateTime? minDateTime;
+
+  final DateTime? maxDateTime;
+
+  final DateTime initDateTime;
+
+  final int? minuteDivider;
+
+  DateTimePickerDialog({
+    this.format = "dd-MM-yyyy",
+    this.minDateTime,
+    this.maxDateTime,
+    required this.initDateTime,
+    this.minuteDivider
+  }){
+    controller = Get.put(DateTimePickerDialogController(date: initDateTime));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WyDialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 10,bottom: 10),
+            child: Text("Select Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16, color: Colors.white),),
+          ),
+          _buildItems(context),
+          _buildActions()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItems(BuildContext context){
+    return Container(
+      padding: const EdgeInsets.only(top: 0,bottom: 0),
+      child: DateTimePickerWidget(
+        dateFormat: format,
+        minDateTime: minDateTime,
+        initDateTime: initDateTime,
+        minuteDivider: minuteDivider == null ? 1 : minuteDivider!,
+        pickerTheme: DateTimePickerTheme(
+          showTitle: false,
+          backgroundColor: Colors.white12,
+          itemTextStyle: TextStyle(color: Colors.white, fontSize: 14)
+        ),
+        onChange: (date, _)=> controller.updateDate(date),
+      )
+    );
+  }
+
+  Widget _buildActions(){
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.black12))
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: ColorfulButton(
+              onTap: (){
+                Get.back(result: controller.getDate());
+              },
+              height: 40,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text("CONFIRM", style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),)
+              ),
+            )
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DateTimePickerDialogController extends GetxController {
+  late DateTime date;
+
+  DateTimePickerDialogController({required this.date});
+
+  void updateDate(DateTime date) {
+    this.date = date;
+  }
+
+  DateTime getDate() {
+    return this.date;
+  }
+}

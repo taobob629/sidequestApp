@@ -1,0 +1,6 @@
+framework module Pay360 {
+  umbrella header "Pay360.h"
+
+  export *
+  module * { export * }
+}

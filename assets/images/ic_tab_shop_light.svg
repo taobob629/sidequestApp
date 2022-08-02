@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_tab_shipping_n</title>
+    <defs>
+        <path d="M22.384,4.4624 C24.3408,4.4624 25.984,5.9344 26.2,7.8784 L28.0672,22.6896 C28.3216,24.9648 26.5408,26.9536 24.2528,26.9536 L7.744,26.9536 C5.456,26.9536 3.6752,24.9648 3.928,22.6896 L5.7936,7.8784 C6.0096,5.9344 7.6528,4.4624 9.6096,4.4624 L22.384,4.4624 Z M21.0224,9.792 C20.5808,9.792 20.2224,10.1504 20.2224,10.592 L20.2224,10.592 L20.2224,11.1584 C20.2224,13.5392 18.2864,15.4752 15.9056,15.4752 C13.5248,15.4752 11.5888,13.5392 11.5888,11.1584 L11.5888,11.1584 L11.5888,10.592 C11.5888,10.1504 11.2304,9.792 10.7888,9.792 C10.3472,9.792 9.9888,10.1504 9.9888,10.592 L9.9888,10.592 L9.9888,11.1584 C9.9888,14.4208 12.6432,17.0752 15.9056,17.0752 C19.168,17.0752 21.8224,14.4208 21.8224,11.1584 L21.8224,11.1584 L21.8224,10.592 C21.8224,10.1504 21.464,9.792 21.0224,9.792 Z" id="path-1"></path>
+        <filter x="-10.3%" y="-11.1%" width="120.7%" height="122.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="1" operator="erode" in="SourceAlpha" result="shadowSpreadInner1"></feMorphology>
+            <feGaussianBlur stdDeviation="2" in="shadowSpreadInner1" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="图标" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-291.000000, -394.000000)">
+            <g id="ic_tab_shipping_n" transform="translate(291.000000, 394.000000)">
+                <rect id="矩形" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="32" height="32"></rect>
+                <g id="形状结合">
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+
+class PrivilegeView extends StatelessWidget {
+
+  final String content;
+  final String title;
+  final int index;
+  final int showIndex;
+  final Function(int) onTap;
+
+  PrivilegeView({
+    required this.title,
+    required this.content,
+    required this.index,
+    required this.showIndex,
+    required this.onTap
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 7),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: ()=>this.onTap.call(this.index),
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/images/ic_privilege1.webp",
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(width: 15,),
+                Expanded(
+                  child: Text(
+                    "$title",
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 18,fontFamily: "DIN",color: Color(0xFFEFC887)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 55,right: 10),
+            child: Text(
+              "$content",
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 14,color: Colors.white),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 15),
+            height: 1,
+            color: Colors.white12,
+          )
+        ],
+      )
+    );
+  }
+}
