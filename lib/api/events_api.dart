@@ -30,14 +30,15 @@ class EventsApi {
   }
 
   static Future<EventDetailModel> getMatchDetail(int id) async {
-    var response = await http.get('/app/events/match/detail/$id',
+    var response = await http.get('/app/events/26/match/detail/$id',
       queryParameters: ({})
     );
     return EventDetailModel.fromJson(response.data);
   }
 
   static Future<EventDetailModel> getActivityDetail(int id) async {
-    var response = await http.get('/app/events/event/detail/$id',
+    // var response = await http.get('/app/events/event/detail/$id',
+    var response = await http.get('/app/events/26/event/detail/$id',
       queryParameters: ({})
     );
     return EventDetailModel.fromJson(response.data);

@@ -14,7 +14,8 @@ class BookingApi  {
   }
 
   static Future<List<BookingSelectModel>> listStores() async {
-    var response = await http.get('/app/booking/stores',
+    // var response = await http.get('/app/booking/stores',
+    var response = await http.get('/app/booking/211/stores',
       queryParameters: ({})
     );
     List<BookingSelectModel> list = [];

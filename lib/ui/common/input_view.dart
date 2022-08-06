@@ -52,6 +52,7 @@ class InputView extends StatelessWidget {
               onSubmitted: (text) => {},
               decoration: InputDecoration(
                 hintText: tips,
+                counterText: '',
                 hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(bottom: 8)
