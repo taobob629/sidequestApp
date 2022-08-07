@@ -36,31 +36,31 @@ Widget htmlView(data) {
 }
 
 ///右箭头
-Widget rightJtView([size]) {
+Widget rightJtView([size, color]) {
   return PWidget.icon(
     Icons.arrow_forward_ios_rounded,
-    [aColor.withOpacity(0.25), size ?? 16],
+    [color ?? aColor.withOpacity(0.25), size ?? 16],
   );
 }
 
 ///底部箭头
-Widget bottomJtView([size]) {
+Widget bottomJtView([size, color]) {
   return Transform.rotate(
     angle: pi / 2,
     child: PWidget.icon(
       Icons.arrow_forward_ios_rounded,
-      [aColor.withOpacity(0.25), size ?? 16],
+      [color ?? aColor.withOpacity(0.25), size ?? 16],
     ),
   );
 }
 
 ///向上箭头
-Widget topJtView([size]) {
+Widget topJtView([size, color]) {
   return Transform.rotate(
     angle: pi / -2,
     child: PWidget.icon(
       Icons.arrow_forward_ios_rounded,
-      [aColor.withOpacity(0.25), size ?? 16],
+      [color ?? aColor.withOpacity(0.25), size ?? 16],
     ),
   );
 }

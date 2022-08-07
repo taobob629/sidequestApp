@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/view/views.dart';
 import 'package:wy/widget/expansion_tile.dart';
+import 'package:wy/widget/paixs_widget.dart';
 
 class PrivilegeView extends StatelessWidget {
   final String content;
@@ -8,12 +10,21 @@ class PrivilegeView extends StatelessWidget {
   final int index;
   final int showIndex;
   final Function(int) onTap;
+  final Key? key;
 
-  PrivilegeView({required this.title, required this.content, required this.index, required this.showIndex, required this.onTap});
+  PrivilegeView({
+    required this.title,
+    required this.content,
+    required this.index,
+    required this.showIndex,
+    required this.onTap,
+    this.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: key,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
       child: ExpansionTileWidget(
         title: Row(children: [
@@ -35,11 +46,22 @@ class PrivilegeView extends StatelessWidget {
             ),
           ),
         ]),
-        // onTap: () => this.onTap.call(this.index),
-        onExpansionChanged: (v) {
-          this.onTap.call(this.index);
-          flog(v);
+        expandViewBuilder: (anima) {
+          flog(anima.status);
+          return PWidget.row([
+            PWidget.text(anima.isCompleted ? 'Up' : 'More', [Colors.white, 12]),
+            PWidget.boxw(8),
+            PWidget.container(
+              RotationTransition(
+                turns: anima,
+                child: bottomJtView(12, Colors.black),
+              ),
+              [16, 16, Colors.white],
+              {'br': 16},
+            ),
+          ]);
         },
+        onExpansionChanged: (v) => this.onTap.call(this.index),
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 55, right: 10),

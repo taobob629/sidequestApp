@@ -31,7 +31,7 @@ class PWidget {
       list = list1 ?? [];
       data = data1 ?? {};
     }
-    return PaixsContainer(key: key!, data: data, child: child, list: list);
+    return PaixsContainer(key: key, data: data, child: child, list: list);
   }
 
   ///[2,0,1,1,[0,0,0,0]]内边距

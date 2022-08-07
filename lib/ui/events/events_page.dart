@@ -37,10 +37,10 @@ class _EventsPageState extends State<EventsPage> {
   ///事件选项卡
   var eventTabDm = DataModel();
   Future<int> eventTab() async {
-    await http.get('/app/events/26/eventTab').catchError((e) {
-      eventTabDm.toError();
-    }).then((res) async {
+    await http.get('/app/events/26/eventTab').then((res) async {
       eventTabDm.addList(res.data, true, 0);
+    }).catchError((e) {
+      eventTabDm.toError();
     });
     flog(eventTabDm.toJson(), 'eventTabDm');
     setState(() {});
@@ -170,11 +170,11 @@ class _EventsChildState extends State<EventsChild> with AutomaticKeepAliveClient
   ///网络活动
   var webActivitiesDm = DataModel<ActivityItemModel>();
   Future<int> webActivities() async {
-    await http.get('/app/events/26/webActivities?matchDiff=${widget.data['type']}').catchError((e) {
-      webActivitiesDm.toError();
-    }).then((res) async {
+    await http.get('/app/events/26/webActivities?matchDiff=${widget.data['type']}').then((res) async {
       var list = res.data['matchList'] as List;
       webActivitiesDm.addList(list.map((m) => ActivityItemModel.fromJson(m)).toList(), true, 0);
+    }).catchError((e) {
+      webActivitiesDm.toError();
     });
     setState(() {});
     return webActivitiesDm.flag;

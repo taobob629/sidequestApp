@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,6 +25,7 @@ class ExpansionTileWidget extends StatefulWidget {
     this.expandView,
     this.controller,
     this.onTap,
+    this.expandViewBuilder,
   })  : assert(maintainState != null),
         assert(
           expandedCrossAxisAlignment != CrossAxisAlignment.baseline,
@@ -62,6 +63,7 @@ class ExpansionTileWidget extends StatefulWidget {
   final EdgeInsetsGeometry? childrenPadding;
 
   final Widget? expandView;
+  final Widget Function(Animation<double> turns)? expandViewBuilder;
 
   final AnimationController? controller;
   final Function? onTap;
@@ -149,6 +151,14 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> with SingleTi
                     turns: _iconTurns,
                     child: widget.expandView,
                   ),
+                if (widget.expandViewBuilder != null)
+                  widget.expandViewBuilder!(
+                    _iconTurns,
+                  ),
+                // RotationTransition(
+                //   turns: _iconTurns,
+                //   child: widget.expandView,
+                // ),
               ],
             ),
           ),
