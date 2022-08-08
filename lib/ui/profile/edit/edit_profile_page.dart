@@ -40,21 +40,25 @@ class EditProfilePage extends StatelessWidget {
             InputView(
               controller: controller.nickController,
               label: "Nickname",
+              maxLength: 20,
               tips: "${userController.userInfoModel.value.nick}"
             ),
             InputView(
               controller: controller.fistController,
               label: "First Name",
+              maxLength: 20,
               tips: "${userController.user.value.firstName}"
             ),
             InputView(
               controller: controller.lastController,
               label: "Last Name",
+              maxLength: 20,
               tips: "${userController.user.value.lastName}"
             ),
             InputView(
               controller: controller.phoneController,
               label: "Phone",
+              maxLength: 20,
               textInputType: TextInputType.phone,
               tips: "${userController.user.value.phone}"
             ),

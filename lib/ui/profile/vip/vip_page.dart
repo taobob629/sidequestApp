@@ -9,6 +9,8 @@ import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/vip/subscribe_dialog.dart';
 import 'package:wy/ui/profile/vip/vip_info_dialog.dart';
+import 'package:wy/widget/custom_scroll_physics.dart';
+import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
 import '../../../utils/navigator_helper.dart';
 import 'privilege_view.dart';
@@ -78,6 +80,7 @@ class VipPage extends StatelessWidget {
                         loop: false,
                         viewportFraction: 0.35,
                         scale: 0.01,
+                        physics: PagePhysics(parent: MyBouncingScrollPhysics()),
                         index: controller.vipIndex.value,
                         itemBuilder: (BuildContext context, int index) {
                           int level = controller.vipInfoList[index].level;

@@ -71,6 +71,7 @@ dependencies:
   flutter_stripe: ^4.0.0
   flutter_html: ^3.0.0-alpha.5
   flutter_svg: ^1.0.3
+  waterfall_flow: 3.0.1
 
 
 dev_dependencies:
