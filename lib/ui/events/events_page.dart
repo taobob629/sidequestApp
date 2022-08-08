@@ -15,6 +15,19 @@ import '../../model/data_model.dart';
 import '../../widget/mylistview.dart';
 import '../common/empty_view.dart';
 
+///事件选项卡
+var eventTabDm = DataModel();
+Future<int> eventTab(Function fun) async {
+  await http.get('/app/events/26/eventTab').then((res) async {
+    eventTabDm.addList(res.data, true, 0);
+  }).catchError((e) {
+    eventTabDm.toError();
+  });
+  flog(eventTabDm.toJson(), 'eventTabDm');
+  fun();
+  return eventTabDm.flag;
+}
+
 class EventsPage extends StatefulWidget {
   @override
   State<EventsPage> createState() => _EventsPageState();
@@ -31,27 +44,14 @@ class _EventsPageState extends State<EventsPage> {
 
   ///初始化函数
   Future initData() async {
-    this.eventTab();
-  }
-
-  ///事件选项卡
-  var eventTabDm = DataModel();
-  Future<int> eventTab() async {
-    await http.get('/app/events/26/eventTab').then((res) async {
-      eventTabDm.addList(res.data, true, 0);
-    }).catchError((e) {
-      eventTabDm.toError();
-    });
-    flog(eventTabDm.toJson(), 'eventTabDm');
-    setState(() {});
-    return eventTabDm.flag;
+    eventTab(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitchBuilder<dynamic>(
       value: eventTabDm,
-      errorOnTap: () => this.eventTab(),
+      errorOnTap: () => eventTab(() => setState(() {})),
       noDataView: EmptyView(),
       listBuilder: (list, p, h) {
         var tabList = list.map<String>((m) => m['name']).toList();
@@ -150,7 +150,8 @@ class EventsPageController extends GetxController with GetSingleTickerProviderSt
 
 class EventsChild extends StatefulWidget {
   final Map data;
-  const EventsChild(this.data, {Key? key}) : super(key: key);
+  final bool isMe;
+  const EventsChild(this.data, {Key? key, this.isMe = false}) : super(key: key);
   @override
   _EventsChildState createState() => _EventsChildState();
 }
@@ -170,10 +171,24 @@ class _EventsChildState extends State<EventsChild> with AutomaticKeepAliveClient
   ///网络活动
   var webActivitiesDm = DataModel<ActivityItemModel>();
   Future<int> webActivities() async {
-    await http.get('/app/events/26/webActivities?matchDiff=${widget.data['type']}').then((res) async {
-      var list = res.data['matchList'] as List;
-      webActivitiesDm.addList(list.map((m) => ActivityItemModel.fromJson(m)).toList(), true, 0);
+    var matchDiff = widget.data['type'];
+    var path = [
+      [
+        '/app/events/26/userMatches?matchDiff=$matchDiff',
+        '/app/events/26/userActivities?matchDiff=$matchDiff',
+      ][matchDiff == '0' ? 0 : 1],
+      '/app/events/26/webActivities?matchDiff=$matchDiff',
+    ][widget.isMe ? 0 : 1];
+    await http.get(path).then((res) async {
+      if (widget.isMe) {
+        var list = res.data as List;
+        webActivitiesDm.addList(list.map((m) => ActivityItemModel.fromJson(m)).toList(), true, 0);
+      } else {
+        var list = res.data['matchList'] as List;
+        webActivitiesDm.addList(list.map((m) => ActivityItemModel.fromJson(m)).toList(), true, 0);
+      }
     }).catchError((e) {
+      flog(e);
       webActivitiesDm.toError();
     });
     setState(() {});
