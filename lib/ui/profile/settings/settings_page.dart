@@ -16,6 +16,7 @@ import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 import '../../common/dialog_confirm.dart';
 import 'setting_item.dart';
@@ -46,7 +47,7 @@ class SettingsPage extends StatelessWidget {
             title: "About Us",
             onTap: ()=> gotoAboutPage(context),
           ),
-          Obx(()=>userController.userInfoModel.value.vipLevel > 0?SettingItem(
+          Obx(()=>controller.online.value && userController.userInfoModel.value.vipLevel > 0?SettingItem(
             title: "Cancel Subscription",
             info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
             onTap: ()=>controller.cancelVip(userController.userInfoModel.value.vipLevel),
@@ -78,10 +79,13 @@ class SettingsPageController extends GetxController {
 
   var version = "".obs;
 
+  var online = false.obs;
+
   @override
   void onReady() async {
     super.onReady();
     version.value = await PlatformUtils.getAppVersion();
+    online.value = StorageManager.getOnline();
   }
 
   void logout() async {

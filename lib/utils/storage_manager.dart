@@ -22,6 +22,7 @@ class StorageManager {
   static const String kCredit = 'kCredit';
   static const String kPushToken = 'kPushToken';
   static const String kEnv= 'kEnv';
+  static const String kOnline= 'kOnline';//是否通过审核在线版
   static const String kPayPasswordCheckTime= 'kPayPasswordCheckTime';
 
   /// 必备数据的初始化操作
@@ -133,6 +134,18 @@ class StorageManager {
 
   static void setCart(String value){
     sharedPreferences.setString(kCart, value);
+  }
+
+  static bool getOnline(){
+    String? value = sharedPreferences.getString(kOnline);
+    if(value == null || value != "1"){
+      return false;
+    }
+    return true;
+  }
+
+  static void setOnline(String value){
+    sharedPreferences.setString(kOnline, value);
   }
 
   static String getEnv(){

@@ -6,6 +6,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 import 'balance/balance_page.dart';
 import 'count_info.dart';
@@ -22,7 +23,7 @@ class ProfileHeader extends StatelessWidget {
     return Obx(()=>Stack(
       children: [
         Container(
-          height: 320,
+          height: profilePageController.online.value ? 320 : 250,
           margin: const EdgeInsets.only(left: 10,right: 10,top: 40),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -101,18 +102,18 @@ class ProfileHeader extends StatelessWidget {
             children: [
               CountInfo(
                 icon: "corns",
-                label: "£${controller.userInfoModel.value.balance}",
-                info: "Credits",
-                onTap: ()=>controller.checkLogin(()=>Get.to(()=>BalancePage())?.whenComplete(() => controller.updateInfo())),
+                label: profilePageController.online.value ? "£${controller.userInfoModel.value.balance}" : "${controller.userInfoModel.value.balance}",
+                info: profilePageController.online.value ? "Credits" : "Online Time",
+                onTap: ()=>controller.checkLogin(()=>profilePageController.online.value ? Get.to(()=>BalancePage())?.whenComplete(() => controller.updateInfo()):null),
               ),
               CountInfo(
                 icon: "times",
                 label: "${controller.userInfoModel.value.freeMins}",
                 info: "Free Time",
                 onTap: ()=>controller.checkLogin(
-                    ()=>Get.to(
+                    ()=>profilePageController.online.value ? Get.to(
                         ()=>VipPage(vipLevel: 1, vipIndex: 0,list: profilePageController.vipInfoList,)
-                    )
+                    ):null
                 ),
               ),
               CountInfo(
@@ -129,7 +130,7 @@ class ProfileHeader extends StatelessWidget {
         Positioned(
           left: 0,
           right: 0,
-          bottom: 75,
+          top: 235,
           child: EnergyView(
             percent: controller.userInfoModel.value.total == 0 ? 0 : controller.userInfoModel.value.remain.toDouble() / controller.userInfoModel.value.total,
             remaining: controller.userInfoModel.value.remain,
@@ -139,12 +140,12 @@ class ProfileHeader extends StatelessWidget {
           left: 0,
           right: 0,
           bottom: 0,
-          child: SingleChildScrollView(
+          child: profilePageController.online.value ? SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: _buildVipViews(),
             ),
-          )
+          ) : Container()
         ),
       ],
     ));

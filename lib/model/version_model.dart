@@ -5,6 +5,7 @@ class VersionModel {
   late bool force;
   late String intro;
   late String version;
+  late bool status;
 
   VersionModel();
 
@@ -14,5 +15,6 @@ class VersionModel {
     force = json['force'];
     intro = json['intro'];
     version = json['new'];
+    status = json['status'] == null ? false : json['status'];
   }
 }

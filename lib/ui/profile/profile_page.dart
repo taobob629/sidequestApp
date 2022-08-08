@@ -12,6 +12,7 @@ import 'package:wy/ui/profile/orders/orders_page.dart';
 import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 import '../common/dialog_input.dart';
 import 'balance/balance_page.dart';
@@ -78,7 +79,7 @@ class ProfilePage extends StatelessWidget {
                 child: ProfileHeader(),
               ),
               SliverToBoxAdapter(
-                child: MenuView(
+                child: controller.online.value ? MenuView(
                   icon: "balance",
                   title: "My Balance",
                   detail: "",
@@ -86,7 +87,7 @@ class ProfilePage extends StatelessWidget {
                       ()=>Get.to(
                           ()=>BalancePage())?.whenComplete(() => userController.updateInfo())
                   ),
-                ),
+                ):Container(),
               ),
               SliverToBoxAdapter(
                 child: MenuView(
@@ -133,9 +134,12 @@ class ProfilePageController extends GetxController {
 
   int devCount = 0;
 
+  var online = false.obs;
+
   @override
   void onReady() async {
     super.onReady();
+    online.value = StorageManager.getOnline();
     vipInfoList.clear();
     vipInfoList.addAll(await VipApi.info());
   }
