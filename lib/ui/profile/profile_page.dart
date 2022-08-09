@@ -79,15 +79,15 @@ class ProfilePage extends StatelessWidget {
                 child: ProfileHeader(),
               ),
               SliverToBoxAdapter(
-                child: controller.online.value ? MenuView(
+                child: Obx(()=>controller.online.value ? MenuView(
                   icon: "balance",
                   title: "My Balance",
                   detail: "",
                   onTap: ()=>userController.checkLogin(
                       ()=>Get.to(
-                          ()=>BalancePage())?.whenComplete(() => userController.updateInfo())
+                        ()=>BalancePage())?.whenComplete(() => userController.updateInfo())
                   ),
-                ):Container(),
+                ):Container()),
               ),
               SliverToBoxAdapter(
                 child: MenuView(
