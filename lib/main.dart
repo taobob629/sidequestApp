@@ -1,12 +1,17 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ume/flutter_ume.dart';
+import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
+import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/https_overrides.dart';
 import 'package:wy/utils/platform_utils.dart';
+import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/route.dart';
+
+import 'api/wy_http.dart';
 
 PackageInfo? packageInfo;
 Future<void> getAppPackageInfo() async {
@@ -24,7 +29,18 @@ void main() async {
 
   await getAppPackageInfo();
   await AppConfig.init("default");
-  runApp(await AppConfig.createApp());
+  var app = await AppConfig.createApp();
+
+  String env = StorageManager.getEnv();
+  if(env == "dev" || env == "test") {
+    PluginManager.instance // 注册插件
+      ..register(DioInspector(dio: http));
+    runApp(UMEWidget(child: app, enable: true));
+  }else{
+    runApp(app);
+  }
+
+
 
   ///路由配置
   RouteState.isMove = true;

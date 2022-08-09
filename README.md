@@ -31,7 +31,7 @@ wangyu888
 
 ## Getting Started
 
-flutter build apk -t lib/main.dart --target-platform android-arm,android-arm64
+flutter build apk --target-platform android-arm,android-arm64
 
 flutter build appbundle --target-platform android-arm,android-arm64
 
