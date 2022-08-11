@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/index_api.dart';
+import 'package:wy/api/user_api.dart';
 import 'package:wy/api/vip_api.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/model/version_model.dart';
@@ -56,7 +57,12 @@ class SettingsPage extends StatelessWidget {
             title: "Version",
             info: "${controller.version.value}",
             onTap: ()=> controller.checkVersion(),
-          ))
+          )),
+          SettingItem(
+            title: "Delete Account",
+            info: "${userController.user.value.email}",
+            onTap: ()=>controller.deleteAccount(),
+          ),
         ],
       ),
       floatingActionButton: FloatingButton(
@@ -88,7 +94,7 @@ class SettingsPageController extends GetxController {
     online.value = StorageManager.getOnline();
   }
 
-  void logout() async {
+  Future<void> logout() async {
     EasyLoading.show();
     await AuthApi.signOut();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
@@ -106,6 +112,24 @@ class SettingsPageController extends GetxController {
       EasyLoading.dismiss();
       Get.dialog(UpgradeDialog(model:model),barrierColor: Colors.black26);
     }
+  }
+
+  void deleteAccount() async {
+    var info = '''
+Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you. 
+
+This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?''';
+    Get.dialog(ConfirmDialog(
+      title: "Delete Account",
+      info: info,
+      confirmBtn: "CONFIRM",
+      onConfirm: () async {
+        Get.back();
+        EasyLoading.show();
+        await UserApi.deleteAccount();
+        await logout();
+      },
+    ),barrierColor: Colors.black26);
   }
 
   String getVipName(int level){

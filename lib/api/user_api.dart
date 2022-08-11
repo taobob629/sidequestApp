@@ -77,4 +77,10 @@ class UserApi {
     var digest = md5.convert(bytes);
     return digest.toString();
   }
+
+  static Future<void> deleteAccount() async {
+    await http.get('/app/user/delete',
+      queryParameters: ({})
+    );
+  }
 }
