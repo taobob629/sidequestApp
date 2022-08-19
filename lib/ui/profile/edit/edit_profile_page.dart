@@ -18,7 +18,11 @@ import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/ui/profile/edit/info_item.dart';
 import 'package:wy/utils/permission_helper.dart';
 
+import '../../../api/auth_api.dart';
+import '../../../config/app_config.dart';
 import '../../../utils/datetime_utils.dart';
+import '../../common/action_button.dart';
+import '../../common/dialog_confirm.dart';
 
 
 class EditProfilePage extends StatelessWidget {
@@ -31,6 +35,12 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyboardScaffold(
       title: "Profile",
+      actions: [
+        ActionButton(
+          icon: Icon(Icons.delete,color: Colors.white,),
+          onTap: ()=>controller.deleteAccount(),
+        )
+      ],
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -234,5 +244,27 @@ class EditProfilePageController extends GetxController {
     EasyLoading.showSuccess("Success");
     Get.back(result: true);
 
+  }
+
+  void deleteAccount() async {
+    var info = '''
+Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you. 
+
+This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?''';
+    Get.dialog(ConfirmDialog(
+      title: "Delete Account",
+      info: info,
+      confirmBtn: "CONFIRM",
+      onConfirm: () async {
+        Get.back();
+        EasyLoading.show();
+        await UserApi.deleteAccount();
+        await AuthApi.signOut();
+        await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
+        EasyLoading.dismiss();
+        UserController userController = Get.find<UserController>();
+        userController.logout(done: ()=>Get.back());
+      },
+    ),barrierColor: Colors.black26);
   }
 }
