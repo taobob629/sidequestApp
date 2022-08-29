@@ -258,6 +258,13 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
       loglevel: LogLevelEnum.V2TIM_LOG_DEBUG,
       listener: V2TimSDKListener());
     if(initDone == true){
+      TUITheme timTheme = TUITheme(
+        primaryColor: AppColor.accent,
+        weakBackgroundColor: Colors.white12,
+        weakDividerColor:Colors.white12,
+        darkTextColor:Colors.white
+      );
+      _coreInstance.setTheme(theme: timTheme);
       _coreInstance.login(userID: "1", userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g")
         .then((value) {
         UserController userController = Get.find<UserController>();

@@ -227,6 +227,8 @@ class _ChatState extends State<Chat> {
             ],
           ),
           appBarConfig: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
             actions: [
               IconButton(
                   padding: const EdgeInsets.only(left: 8, right: 16),
