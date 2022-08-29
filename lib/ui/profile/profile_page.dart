@@ -2,6 +2,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/api/vip_api.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
@@ -15,6 +16,7 @@ import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
 
 import '../common/dialog_input.dart';
+import '../im/conversation.dart';
 import 'balance/balance_page.dart';
 import 'developer/developer_page.dart';
 import 'menu_view.dart';

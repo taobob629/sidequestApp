@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
@@ -18,6 +19,7 @@ import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/events_page.dart';
 import 'package:wy/ui/frame/tab_button.dart';
+import 'package:wy/ui/im/play_page.dart';
 import 'package:wy/ui/index/Index_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/profile/profile_page.dart';
@@ -65,8 +67,8 @@ class MainPage extends GetView<MainPageController> {
                 child: PreloadPageView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   controller: controller.controller,
-                  itemCount: 4,
-                  preloadPagesCount: 4,
+                  itemCount: 5,
+                  preloadPagesCount: 5,
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
@@ -74,8 +76,10 @@ class MainPage extends GetView<MainPageController> {
                       case 1:
                         return EventsPage();
                       case 2:
-                        return ShopPage();
+                        return PlayPage();
                       case 3:
+                        return ShopPage();
+                      case 4:
                         return ProfilePage();
                       default:
                         return IndexPage();
@@ -129,10 +133,9 @@ class MainPage extends GetView<MainPageController> {
                       TabButton(
                         index: 2,
                         currentIndex: controller.currentIndex.value,
-                        iconName: "shop",
-                        title: "Shop",
-                        //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                        colors: [Color(0xffff747b), Color(0xff99272c)],
+                        iconName: "events",
+                        title: "Play",
+                        colors: [Color(0xffFFD189), Color(0xffFF3617)],
                         onTap: () {
                           controller.controller.jumpToPage(2);
                           controller.updateCurrentIndex(2);
@@ -141,13 +144,25 @@ class MainPage extends GetView<MainPageController> {
                       TabButton(
                         index: 3,
                         currentIndex: controller.currentIndex.value,
+                        iconName: "shop",
+                        title: "Shop",
+                        //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
+                        colors: [Color(0xffff747b), Color(0xff99272c)],
+                        onTap: () {
+                          controller.controller.jumpToPage(3);
+                          controller.updateCurrentIndex(3);
+                        }
+                      ),
+                      TabButton(
+                        index: 4,
+                        currentIndex: controller.currentIndex.value,
                         iconName: "user",
                         title: "Profile",
                         colors: [Color(0xff99c6fa), Color(0xff727DFF)],
                         onTap: () {
                           userController.updateInfo();
-                          controller.controller.jumpToPage(3);
-                          controller.updateCurrentIndex(3);
+                          controller.controller.jumpToPage(4);
+                          controller.updateCurrentIndex(4);
                         }
                       ),
                     ],
@@ -179,6 +194,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class MainPageController extends FullLifeCycleController with FullLifeCycleMixin{
   late PreloadPageController controller;
   var currentIndex = 0.obs;
+
+  final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   bool checking = false;
 
@@ -234,6 +251,19 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if(notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp){
       print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(()=>NotificationPage());
+    }
+
+    bool? initDone = await _coreInstance.init(
+      sdkAppID: 40000072, // 控制台申请的 SDKAppID
+      loglevel: LogLevelEnum.V2TIM_LOG_DEBUG,
+      listener: V2TimSDKListener());
+    if(initDone == true){
+      _coreInstance.login(userID: "1", userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g")
+        .then((value) {
+        UserController userController = Get.find<UserController>();
+        userController.imLoginDone.value = true;
+        print("~~~~~~~~~im login done~~~~~~~~~~~~~");
+      });
     }
   }
 

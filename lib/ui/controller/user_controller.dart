@@ -28,6 +28,8 @@ class UserController extends GetxController {
 
   DateTime lastLoginTime = DateTime.parse("1970-01-01 00:00:00");
 
+  var imLoginDone = false.obs;
+
   @override
   void onReady() async {
     super.onReady();
