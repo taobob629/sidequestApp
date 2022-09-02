@@ -62,7 +62,7 @@ class _ConversationState extends State<ConversationPage> {
         },
         backgroundColor: hexToColor("006EFF"),
         foregroundColor: Colors.white,
-        label: "清除聊天",
+        label: "Clear",
         autoClose: true,
       ),
       ConversationItemSlidablePanel(
@@ -71,7 +71,7 @@ class _ConversationState extends State<ConversationPage> {
         },
         backgroundColor: hexToColor("FF9C19"),
         foregroundColor: Colors.white,
-        label: conversationItem.isPinned! ? "取消置顶" : "置顶",
+        label: conversationItem.isPinned! ? "UnTop" : "Top",
       ),
       ConversationItemSlidablePanel(
         onPressed: (context) {
@@ -79,7 +79,7 @@ class _ConversationState extends State<ConversationPage> {
         },
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
-        label: "删除",
+        label: "Delete",
       )
     ];
   }
@@ -104,7 +104,7 @@ class _ConversationState extends State<ConversationPage> {
               return Container(
                 padding: const EdgeInsets.only(top:100),
                 child:const Center(
-                  child: Text("暂无会话"),
+                  child: Text("No Conversation", style: TextStyle(color: Colors.white54),),
                 ),
               );
             },

@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/app.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
+
+import 'app_color.dart';
 
 
 
@@ -15,6 +18,8 @@ class AppConfig {
   static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  static final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   static OverlayEntry? overlayEntry;
 
@@ -62,6 +67,22 @@ class AppConfig {
     }
     Stripe.merchantIdentifier = "merchant.com.sidequest";
     await Stripe.instance.applySettings();
+
+    bool? initDone = await _coreInstance.init(
+      sdkAppID: 40000072, // 控制台申请的 SDKAppID
+      loglevel: LogLevelEnum.V2TIM_LOG_DEBUG,
+      language: LanguageEnum.en,
+      listener: V2TimSDKListener()
+    );
+    if(initDone == true){
+      TUITheme timTheme = TUITheme(
+        primaryColor: AppColor.accent,
+        weakBackgroundColor: Colors.white12,
+        weakDividerColor:Colors.white12,
+        darkTextColor:Colors.white
+      );
+      _coreInstance.setTheme(theme: timTheme);
+    }
   }
 
   static String getBaseServer(){

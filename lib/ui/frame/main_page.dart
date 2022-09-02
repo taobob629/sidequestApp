@@ -195,8 +195,6 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   late PreloadPageController controller;
   var currentIndex = 0.obs;
 
-  final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
-
   bool checking = false;
 
   DateTime? lastPopTime;
@@ -251,26 +249,6 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if(notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp){
       print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(()=>NotificationPage());
-    }
-
-    bool? initDone = await _coreInstance.init(
-      sdkAppID: 40000072, // 控制台申请的 SDKAppID
-      loglevel: LogLevelEnum.V2TIM_LOG_DEBUG,
-      listener: V2TimSDKListener());
-    if(initDone == true){
-      TUITheme timTheme = TUITheme(
-        primaryColor: AppColor.accent,
-        weakBackgroundColor: Colors.white12,
-        weakDividerColor:Colors.white12,
-        darkTextColor:Colors.white
-      );
-      _coreInstance.setTheme(theme: timTheme);
-      _coreInstance.login(userID: "1", userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g")
-        .then((value) {
-        UserController userController = Get.find<UserController>();
-        userController.imLoginDone.value = true;
-        print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-      });
     }
   }
 

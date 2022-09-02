@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, unused_field, unused_element
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tim_ui_kit/business_logic/life_cycle/chat_life_cycle.dart';
@@ -156,6 +158,26 @@ class _ChatState extends State<Chat> {
     }
   }
 
+  _sendOrderMsg() async{
+    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
+    await TencentImSDKPlugin.v2TIMManager
+      .getMessageManager()
+      .createCustomMessage(
+      data:
+      '{"businessID":"play_order","icon":"http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg"}',
+      desc: '自定义desc',
+      extension: '自定义extension',
+    );
+    if (createCustomMessageRes.code == 0) {
+      String? id = createCustomMessageRes.data?.id;
+      V2TimValueCallback<V2TimMessage>? sendMessageRes =
+      await _timuiKitChatController.sendMessage(
+        messageInfo: createCustomMessageRes.data?.messageInfo,
+        receiverID: widget.selectedConversation.userID!,
+        convType: ConvType.c2c);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -171,6 +193,9 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width * 0.6;
+    double height = width * 191 / 369;
+    double iconHeight = height * 0.5;
     return Scaffold(
       body: TIMUIKitChat(
           lifeCycle: ChatLifeCycle(
@@ -195,7 +220,6 @@ class _ChatState extends State<Chat> {
             notificationOPPOChannelID: "",//PushConfig.OPPOChannelID,
               groupReadReceiptPermisionList: [
                 // The group receipt function only works with `Ultimate Edition`
-
                 // GroupReceptAllowType.work,
                 // GroupReceptAllowType.meeting,
                 // GroupReceptAllowType.public
@@ -208,7 +232,55 @@ class _ChatState extends State<Chat> {
           initFindingMsg: widget.initFindingMsg,
           draftText: _getDraftText(),
           messageItemBuilder: MessageItemBuilder(
-
+            customMessageItemBuilder: (message, isShowJump, clearJump) {
+              var data = jsonDecode(message.customElem!.data!);
+              return Container(
+                height: height,
+                width: width,
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.white12,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.network(data['icon'], width: iconHeight,height: iconHeight,),
+                          SizedBox(width: 5,),
+                          Container(
+                            height: iconHeight,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("GAME",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                                Text("League of legends",style: TextStyle(color: Colors.white54,fontSize: 14,)),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Text("GAME",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
+                          Text("League of legends",style: TextStyle(color: Colors.white54,fontSize: 14,)),
+                        ],
+                      )
+                    ],
+                  )
+                ),
+              );
+            }
           ),
           morePanelConfig: MorePanelConfig(
             showFilePickAction: false,
@@ -217,11 +289,12 @@ class _ChatState extends State<Chat> {
                   id: "order",
                   title: "Order",
                   onTap: (c) {
-
+                    _sendOrderMsg();
                   },
                   icon: Container(
                     height: 64,
                     width: 64,
+                    margin: const EdgeInsets.only(bottom: 6),
                     child: Image.asset("assets/images/ui_order.png",fit: BoxFit.contain,),
                   )),
             ],
@@ -229,6 +302,7 @@ class _ChatState extends State<Chat> {
           appBarConfig: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
+            flexibleSpace: Container(),
             actions: [
               IconButton(
                   padding: const EdgeInsets.only(left: 8, right: 16),

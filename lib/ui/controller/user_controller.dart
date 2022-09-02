@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
@@ -17,6 +18,8 @@ import '../../utils/db_helper.dart';
 class UserController extends GetxController {
   Rx<UserModel> user = Rx(UserModel());
   Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
+
+  final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   late Timer _timer;
 
@@ -37,7 +40,7 @@ class UserController extends GetxController {
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
       login();
     });
-    startPayNotify();
+    //startPayNotify();
   }
 
   @override
@@ -136,7 +139,19 @@ class UserController extends GetxController {
     if(loginModel.user.id != 0){
       db = DBHelper(loginModel.user.id);
     }
+    imLogin();
     done?.call(loginModel);
+  }
+
+  void imLogin(){
+    if(imLoginDone.value == false) {
+      _coreInstance.login(userID: "1",
+        userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g")
+        .then((value) {
+        imLoginDone.value = true;
+        print("~~~~~~~~~im login done~~~~~~~~~~~~~");
+      });
+    }
   }
 
   void logout({Function? done}) async{
