@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MyText extends StatefulWidget {
   final dynamic text;
   final String nullValue;
+  final String? fontFamily;
   final Color color;
   final bool isBold;
   final double? size;
@@ -25,7 +26,7 @@ class MyText extends StatefulWidget {
     this.children = const [],
     this.nullValue = '暂无',
     this.decoration,
-    this.height,
+    this.height, this.fontFamily,
   }) : super(key: key);
   @override
   _MyTextState createState() => _MyTextState();
@@ -70,6 +71,7 @@ class _MyTextState extends State<MyText> {
       textAlign: widget.textAlign,
       style: TextStyle(
         color: widget.color,
+        fontFamily: widget.fontFamily,
         decoration: widget.decoration,
         height: widget.height ?? 1.3,
         // fontWeight: widget.isBold ? FontWeight.bold : FontWeight.w600,
@@ -92,6 +94,7 @@ class _MyTextState extends State<MyText> {
       style: TextStyle(
         color: widget.color,
         height: 1.3,
+        fontFamily: widget.fontFamily,
         decoration: widget.decoration,
         fontWeight: widget.isBold ? FontWeight.bold : null,
         fontSize: widget.size,
