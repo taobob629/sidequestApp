@@ -79,6 +79,8 @@ dependencies:
   flutter_ume_kit_show_code: ^0.3.0
   flutter_ume_kit_console: ^0.3.0
   flutter_ume_kit_dio: ^0.3.0
+  # 跑马灯
+  text_scroll: 0.1.0
 
 
 dev_dependencies:
@@ -103,6 +105,7 @@ flutter:
   assets:
     - assets/data/city.json
     - assets/images/
+    - assets/images/play/
 
   fonts:
     - family: iconfont

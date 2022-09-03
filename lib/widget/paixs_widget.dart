@@ -337,6 +337,7 @@ class PWidget {
       isOverflow: data['isOf'] ?? true,
       maxLines: data['max'],
       height: data['h'],
+      fontFamily: data['ff'],
       key: key,
       children: (children.isNotEmpty) ? children : (data['ts'] ?? []),
       nullValue: data['null'] ?? '暂无数据',
@@ -389,6 +390,7 @@ class PWidget {
         child: MyText(
           text,
           color: list[0],
+          fontFamily: data['ff'],
           size: isDataNull(() => list[1], 14),
           isBold: list.length > 2 ? list[2] : false,
           // height: data['h'],
