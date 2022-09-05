@@ -38,7 +38,7 @@ class App extends StatelessWidget {
       hideFooterWhenNotFull: true,
       enableBallisticLoad: true,
       child: GetMaterialApp(
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         navigatorKey: AppConfig.navigatorKey,
         theme: theme.copyWith(
           primaryColor: AppColor.accent,
