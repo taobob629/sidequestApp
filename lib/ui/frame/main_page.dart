@@ -21,6 +21,7 @@ import 'package:wy/ui/events/events_page.dart';
 import 'package:wy/ui/frame/tab_button.dart';
 import 'package:wy/ui/im/play_page.dart';
 import 'package:wy/ui/index/Index_page.dart';
+import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/shop/shop_page.dart';
@@ -76,7 +77,7 @@ class MainPage extends GetView<MainPageController> {
                       case 1:
                         return EventsPage();
                       case 2:
-                        return PlayPage();
+                        return PlayWithPage();
                       case 3:
                         return ShopPage();
                       case 4:
@@ -133,9 +134,9 @@ class MainPage extends GetView<MainPageController> {
                       TabButton(
                         index: 2,
                         currentIndex: controller.currentIndex.value,
-                        iconName: "events",
-                        title: "Play",
-                        colors: [Color(0xffFFD189), Color(0xffFF3617)],
+                        iconName: "play",
+                        title: "PlayWidth",
+                        colors: [Color(0xffe7e439), Color(0xff6c6301)],
                         onTap: () {
                           controller.controller.jumpToPage(2);
                           controller.updateCurrentIndex(2);
@@ -147,7 +148,7 @@ class MainPage extends GetView<MainPageController> {
                         iconName: "shop",
                         title: "Shop",
                         //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                        colors: [Color(0xffff747b), Color(0xff99272c)],
+                        colors: [Color(0xfffa7f85), Color(0xffb6262c)],
                         onTap: () {
                           controller.controller.jumpToPage(3);
                           controller.updateCurrentIndex(3);

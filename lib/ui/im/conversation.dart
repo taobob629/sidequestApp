@@ -95,6 +95,9 @@ class _ConversationState extends State<ConversationPage> {
 
     return Column(
       children: [
+        Container(
+          height: MediaQuery.of(context).padding.top+60,
+        ),
         Expanded(
           child: TIMUIKitConversation(
             onTapItem: _handleOnConvItemTaped,

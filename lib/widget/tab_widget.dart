@@ -56,14 +56,14 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             // color: widget.color ?? Colors.white,
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 2,
-                spreadRadius: -2,
-                color: Colors.black12,
-                offset: Offset(0, 2),
-              ),
-            ],
+            // boxShadow: const [
+            //   BoxShadow(
+            //     blurRadius: 2,
+            //     spreadRadius: -2,
+            //     color: Colors.black12,
+            //     offset: Offset(0, 2),
+            //   ),
+            // ],
             // border: Border(
             //   bottom: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.15)),
             // ),

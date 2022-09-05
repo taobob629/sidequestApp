@@ -99,7 +99,7 @@ Widget buildTFView(
   return [
     Expanded(
       child: WidgetTap(
-        onTap: onTap!,
+        onTap: onTap,
         child: Container(
           padding: padding ?? EdgeInsets.zero,
           height: height,
