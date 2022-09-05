@@ -11,6 +11,7 @@ import 'package:wy/ui/playwith/play_tab_widget.dart';
 import 'package:wy/ui/playwith/play_user_info.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -153,9 +154,13 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 }),
               ]),
               [null, null, Color(0xff282640)],
-              {'mg': PFun.lg(0, 0, 16, 16), 'crr': 12, 'fun': () {
-                // return jumpPage(PlayUserInfo());
-              }},
+              {
+                'mg': PFun.lg(0, 0, 16, 16),
+                'crr': 12,
+                'fun': () {
+                  return jumpPage(PlayUserInfo());
+                }
+              },
             );
           },
           itemCount: 100 + 1,
@@ -190,11 +195,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
     await this.superlist();
   }
 
-  var gamelistDm = DataModel();
+  var gamelistDm = DataModel<Map>(object: {});
   Future<int> gamelist() async {
-    await http.get('/app/home/gamelist?pageNum=1&pageSize=10&searchParams=111').then((res) async {
+    await http.get('http://43.138.104.201:8081/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
       gamelistDm.addList(res.data, true, 0);
     }).catchError((e) {
+      flog(e, 'gamelistDm');
       gamelistDm.toError();
     });
     flog(gamelistDm.toJson());
@@ -216,27 +222,32 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // return
-    return PWidget.container(
-      ListView.separated(
-        physics: MyBouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 10),
-        itemCount: 10,
-        itemBuilder: (_, i) {
-          var isDy = seleIndex == i;
+    return AnimatedSwitchBuilder<Map>(
+        value: gamelistDm,
+        errorOnTap: () => this.gamelist(),
+        listBuilder: (list, p, h) {
           return PWidget.container(
-            PWidget.ccolumn([
-              PWidget.container(Placeholder(), [isDy ? 64 : 56, isDy ? 64 : 56, Colors.white10], {'crr': 8}),
-              PWidget.boxh(8),
-              PWidget.text('文本', [Colors.white, 12]),
-            ], '211'),
-            {'fun': () => setState(() => seleIndex = i)},
+            ListView.separated(
+              physics: MyBouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 10),
+              itemCount: list.length,
+              itemBuilder: (_, i) {
+                var isDy = seleIndex == i;
+                var data = list[i];
+                return PWidget.container(
+                  PWidget.ccolumn([
+                    PWidget.container(Placeholder(), [isDy ? 64 : 56, isDy ? 64 : 56, Colors.white10], {'crr': 8}),
+                    PWidget.boxh(8),
+                    PWidget.text('${data['Valorant']}', [Colors.white, 12]),
+                  ], '211'),
+                  {'fun': () => setState(() => seleIndex = i)},
+                );
+              },
+            ),
+            [null, 64 + 14 + 16],
           );
-        },
-      ),
-      [null, 64 + 14 + 16],
-    );
+        });
   }
 }
