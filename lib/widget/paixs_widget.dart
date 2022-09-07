@@ -545,6 +545,7 @@ class PWidget {
       }
     }
     if (data['fun'] != null) view = WidgetTap(isElastic: true, child: view, onTap: data['fun']);
+    if (data['exp'] != null) view = Expanded(child: view);
     return view;
   }
 
