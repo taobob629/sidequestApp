@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/utils/navigator_helper.dart';
+
+import '../../model/pay_order_model.dart';
+
+
+class PayButton extends StatelessWidget {
+
+  final playOrderController = Get.find<PlayOrderController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      color: Colors.black,
+      padding: const EdgeInsets.all(15,),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Total",
+                style: TextStyle(color: Colors.white38,fontSize: 18,fontFamily: "DIN"),
+              ),
+              Obx(()=>Text(
+                "£ ${playOrderController.totalAmount.value.toStringAsFixed(2)}",
+                style: TextStyle(color: Colors.white,fontSize: 30,fontFamily: "DIN"),
+              ),)
+            ],
+          ),
+          SizedBox(width: 20,),
+          Expanded(
+            child: ColorfulButton(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Pay",
+                  style: TextStyle(color: Colors.white,fontSize: 26,fontFamily: "DIN"),
+                ),
+              ),
+              height: 56,
+              onTap: () {
+                PayOrderModel model = PayOrderModel();
+                NavigatorHelper.gotoPayPage(
+                  model,
+                  offPage: true,
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

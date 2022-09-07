@@ -4,29 +4,27 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:tim_ui_kit/business_logic/life_cycle/chat_life_cycle.dart';
 import 'package:tim_ui_kit/business_logic/view_models/tui_chat_view_model.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_chat_controller.dart';
 import 'package:tim_ui_kit/ui/utils/permission.dart';
 import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
-
+import 'package:wy/ui/im/play_detail.dart';
 
 class Chat extends StatefulWidget {
   final V2TimConversation selectedConversation;
   final V2TimMessage? initFindingMsg;
 
-  const Chat(
-      {Key? key, required this.selectedConversation, this.initFindingMsg})
-      : super(key: key);
+  const Chat({Key? key, required this.selectedConversation, this.initFindingMsg}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
-  final TIMUIKitChatController _timuiKitChatController =
-      TIMUIKitChatController();
+  final TIMUIKitChatController _timuiKitChatController = TIMUIKitChatController();
   bool isDisscuss = false;
   bool isTopic = false;
   String? backRemark;
@@ -48,9 +46,7 @@ class _ChatState extends State<Chat> {
   }
 
   ConvType _getConvType() {
-    return widget.selectedConversation.type == 1
-        ? ConvType.c2c
-        : ConvType.group;
+    return widget.selectedConversation.type == 1 ? ConvType.c2c : ConvType.group;
   }
 
   _initListener() async {
@@ -60,6 +56,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
+    Get.to(() => PlayDetail(userId: 1));
   }
 
   // _onTapLocation() {
@@ -97,10 +94,8 @@ class _ChatState extends State<Chat> {
   // }
 
   _goToVideoUI() async {
-    final hasCameraPermission =
-        await Permissions.checkPermission(context, Permission.camera.value);
-    final hasMicphonePermission =
-        await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasCameraPermission = await Permissions.checkPermission(context, Permission.camera.value);
+    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasCameraPermission || !hasMicphonePermission) {
       return;
     }
@@ -126,15 +121,14 @@ class _ChatState extends State<Chat> {
         desc: "邀请你视频通话",
         ext: "{\"conversationID\": \"c2c_$myId\"}",
         disablePush: false,
-        androidOPPOChannelID: "",//PushConfig.OPPOChannelID,
+        androidOPPOChannelID: "", //PushConfig.OPPOChannelID,
         ignoreIOSBadge: false,
       );
     }
   }
 
   _goToVoiceUI() async {
-    final hasMicphonePermission =
-        await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasMicphonePermission) {
       return;
     }
@@ -149,33 +143,29 @@ class _ChatState extends State<Chat> {
           ),
         ),
       );
-      if (selectedMember != null) {
-
-      }
+      if (selectedMember != null) {}
     } else {
       final user = await sdkInstance.getLoginUser();
       final myId = user.data;
     }
   }
 
-  _sendOrderMsg() async{
-    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
-    await TencentImSDKPlugin.v2TIMManager
-      .getMessageManager()
-      .createCustomMessage(
-      data:
-      '{"businessID":"play_order","icon":"http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg"}',
-      desc: '自定义desc',
-      extension: '自定义extension',
-    );
-    if (createCustomMessageRes.code == 0) {
-      String? id = createCustomMessageRes.data?.id;
-      V2TimValueCallback<V2TimMessage>? sendMessageRes =
-      await _timuiKitChatController.sendMessage(
-        messageInfo: createCustomMessageRes.data?.messageInfo,
-        receiverID: widget.selectedConversation.userID!,
-        convType: ConvType.c2c);
-    }
+  _sendOrderMsg() async {
+    // V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
+    //     await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
+    //           data:
+    //               '{"businessID":"play_order","icon":"http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg"}',
+    //           desc: '自定义desc',
+    //           extension: '自定义extension',
+    //         );
+    // if (createCustomMessageRes.code == 0) {
+    //   String? id = createCustomMessageRes.data?.id;
+    //   V2TimValueCallback<V2TimMessage>? sendMessageRes = await _timuiKitChatController.sendMessage(
+    //       messageInfo: createCustomMessageRes.data?.messageInfo,
+    //       receiverID: widget.selectedConversation.userID!,
+    //       convType: ConvType.c2c);
+    // }
+    Get.to(()=>PlayDetail(userId: 2));
   }
 
   @override
@@ -189,8 +179,6 @@ class _ChatState extends State<Chat> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.6;
@@ -198,63 +186,64 @@ class _ChatState extends State<Chat> {
     double iconHeight = height * 0.5;
     return Scaffold(
       body: TIMUIKitChat(
-          lifeCycle: ChatLifeCycle(
-              newMessageWillMount: (V2TimMessage message) async {
-                // This configuration is unnecessary and only for demonstration purpose.
-                // It shows if you tend to avoid a message from rending, you can `return null` here.
-                return message;
-              }
-          ),
-          onDealWithGroupApplication: (String groupId) {
-          },
+        topFixWidget: _buildOrderState(),
+          lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
+            // This configuration is unnecessary and only for demonstration purpose.
+            // It shows if you tend to avoid a message from rending, you can `return null` here.
+            return message;
+          }),
+          onDealWithGroupApplication: (String groupId) {},
           groupAtInfoList: widget.selectedConversation.groupAtInfoList,
           key: tuiChatField,
           config: const TIMUIKitChatConfig(
-            // For demonstration only, not all configuration items.
-            // In practical use, only parameters that are different from the default items need be provided.
-            isAllowClickAvatar: true,
-            isAllowLongPressMessage: true,
-            isShowReadingStatus: true,
-            isShowGroupReadingStatus: false,
-            notificationTitle: "",
-            notificationOPPOChannelID: "",//PushConfig.OPPOChannelID,
+              // For demonstration only, not all configuration items.
+              // In practical use, only parameters that are different from the default items need be provided.
+              isAllowClickAvatar: true,
+              isAllowLongPressMessage: true,
+              isShowReadingStatus: true,
+              isShowGroupReadingStatus: false,
+              notificationTitle: "",
+              notificationOPPOChannelID: "", //PushConfig.OPPOChannelID,
               groupReadReceiptPermisionList: [
                 // The group receipt function only works with `Ultimate Edition`
                 // GroupReceptAllowType.work,
                 // GroupReceptAllowType.meeting,
                 // GroupReceptAllowType.public
-              ]
-          ),
+              ]),
           conversationID: _getConvID() ?? '',
           conversationType: widget.selectedConversation.type ?? ConversationType.V2TIM_C2C,
           onTapAvatar: _onTapAvatar,
           conversationShowName: _getTitle(),
           initFindingMsg: widget.initFindingMsg,
           draftText: _getDraftText(),
-          messageItemBuilder: MessageItemBuilder(
-            customMessageItemBuilder: (message, isShowJump, clearJump) {
-              var data = jsonDecode(message.customElem!.data!);
-              return Container(
-                height: height,
-                width: width,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white12,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Container(
+          messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
+            var data = jsonDecode(message.customElem!.data!);
+            return Container(
+              height: height,
+              width: width,
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white12,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)
-                  ),
+                      borderRadius: BorderRadius.circular(5),
+                      image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Image.network(data['icon'], width: iconHeight,height: iconHeight,),
-                          SizedBox(width: 5,),
+                          Image.network(
+                            data['icon'],
+                            width: iconHeight,
+                            height: iconHeight,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
                           Container(
                             height: iconHeight,
                             child: Column(
@@ -262,26 +251,40 @@ class _ChatState extends State<Chat> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text("GAME",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                                Text("League of legends",style: TextStyle(color: Colors.white54,fontSize: 14,)),
+                                Text(
+                                  "GAME",
+                                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text("League of legends",
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                      fontSize: 14,
+                                    )),
                               ],
                             ),
                           )
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         children: [
-                          Text("GAME",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
-                          Text("League of legends",style: TextStyle(color: Colors.white54,fontSize: 14,)),
+                          Text(
+                            "GAME",
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text("League of legends",
+                              style: TextStyle(
+                                color: Colors.white54,
+                                fontSize: 14,
+                              )),
                         ],
                       )
                     ],
-                  )
-                ),
-              );
-            }
-          ),
+                  )),
+            );
+          }),
           morePanelConfig: MorePanelConfig(
             showFilePickAction: false,
             extraAction: [
@@ -295,7 +298,10 @@ class _ChatState extends State<Chat> {
                     height: 64,
                     width: 64,
                     margin: const EdgeInsets.only(bottom: 6),
-                    child: Image.asset("assets/images/ui_order.png",fit: BoxFit.contain,),
+                    child: Image.asset(
+                      "assets/images/ui_order.png",
+                      fit: BoxFit.contain,
+                    ),
                   )),
             ],
           ),
@@ -314,9 +320,7 @@ class _ChatState extends State<Chat> {
 
                     } else {
                       final groupID = widget.selectedConversation.groupID;
-                      if (groupID != null) {
-
-                      }
+                      if (groupID != null) {}
                     }
                   },
                   icon: Image.asset(
@@ -327,6 +331,73 @@ class _ChatState extends State<Chat> {
                   ))
             ],
           )),
+    );
+  }
+
+  Widget _buildOrderState(){
+    return Container(
+      height: 80,
+      color: Colors.white12,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 40,
+            child: Container(
+              height: 2,
+              margin: const EdgeInsets.symmetric(horizontal: 35),
+              color: Colors.white24,
+            )
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 35,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.green,
+                        radius: 6,
+                      ),
+                      Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 6,
+                      ),
+                      Text("待服务",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 6,
+                      ),
+                      Text("待评价",style: TextStyle(color: Colors.white,fontSize: 12),)
+                    ],
+                  ),
+                )
+              ],
+            )
+          )
+        ],
+      ),
     );
   }
 }

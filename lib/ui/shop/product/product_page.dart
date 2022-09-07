@@ -77,7 +77,7 @@ class ProductPage extends StatelessWidget {
                           },
                           itemCount: controller.productDetailModel.value.imageList.length,
                           pagination: SwiperPagination(
-                            alignment: Alignment.bottomRight,
+                            alignment: Alignment.bottomCenter,
                             margin: const EdgeInsets.only(bottom: 50)
                           ),
                           onTap: (index) {},

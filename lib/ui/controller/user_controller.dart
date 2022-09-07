@@ -4,9 +4,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/auth_api.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/model/db_model.dart';
+import 'package:wy/model/im_sig_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
@@ -143,10 +145,15 @@ class UserController extends GetxController {
     done?.call(loginModel);
   }
 
-  void imLogin(){
+  void imLogin() async{
     if(imLoginDone.value == false) {
-      _coreInstance.login(userID: "1",
-        userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g")
+      ImSigModel userSig = await ImApi.login();
+      // if(userSig == ""){
+      //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
+      // }
+      print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
+      _coreInstance.login(userID: "${userSig.uid}",
+        userSig: userSig.token)
         .then((value) {
         imLoginDone.value = true;
         print("~~~~~~~~~im login done~~~~~~~~~~~~~");
