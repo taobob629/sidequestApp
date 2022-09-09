@@ -82,7 +82,10 @@ dependencies:
   text_scroll: 0.1.0 # 跑马灯
   ff_stars: ^1.2.5 # 评分
   tim_ui_kit: #^0.1.3
-    path: ../TIMSDK/Flutter/IMSDK/tim_ui_kit/
+    #path: ../TIMSDK/Flutter/IMSDK/tim_ui_kit/
+    git:
+      url: https://github.com/rainver/TIMSDK.git
+      path: Flutter/IMSDK/tim_ui_kit
 
 dependency_overrides:
   permission_handler: ^10.0.0
