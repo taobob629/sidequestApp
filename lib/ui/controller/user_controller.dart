@@ -35,6 +35,8 @@ class UserController extends GetxController {
 
   var imLoginDone = false.obs;
 
+  var unreadMsgCount = 0.obs;
+
   @override
   void onReady() async {
     super.onReady();
@@ -157,6 +159,9 @@ class UserController extends GetxController {
         .then((value) {
         imLoginDone.value = true;
         print("~~~~~~~~~im login done~~~~~~~~~~~~~");
+        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(
+          onTotalUnreadMessageCountChanged: (count)=> unreadMsgCount.value = count
+        ));
       });
     }
   }

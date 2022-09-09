@@ -11,32 +11,23 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
-import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
-import 'package:wy/widget/code_widget.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
-import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
-import 'package:wy/widget/views.dart';
 
-// 认证页面
-class AccompanyCertificationPage extends StatefulWidget {
+///添加游戏
+class AddGamePage extends StatefulWidget {
   @override
-  _AccompanyCertificationPageState createState() => _AccompanyCertificationPageState();
+  _AddGamePageState createState() => _AddGamePageState();
 }
 
-class _AccompanyCertificationPageState extends State<AccompanyCertificationPage> {
-  TextEditingController phoneCon = TextEditingController();
-  TextEditingController codeCon = TextEditingController();
-  TextEditingController nameCon = TextEditingController();
-  TextEditingController idNumberCon = TextEditingController();
+class _AddGamePageState extends State<AddGamePage> {
   TextEditingController beGoodAtCon = TextEditingController();
   var platform;
   var platformIndex;
@@ -73,7 +64,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Accompany Certification', style: TextStyle(fontSize: 18)),
+        title: Text('add game', style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -106,17 +97,11 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       btnBar: FloatingButton(
         label: "Reserve",
         onTap: () {
-          if (nameCon.text.isEmpty) return EasyLoading.showToast('Please enter realName');
-          if (idNumberCon.text.isEmpty) return EasyLoading.showToast('Please enter idNumber');
-          if (phoneCon.text.isEmpty) return EasyLoading.showToast('Please enter phoneCon');
-          if (codeCon.text.isEmpty) return EasyLoading.showToast('Please enter verification code');
-          if (front == null) return EasyLoading.showToast('Please upload ID card front photo');
-          if (back == null) return EasyLoading.showToast('Please upload ID card back photo');
-
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
+          if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
         },
       ),
     );
@@ -127,33 +112,27 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   }
 
   List<Widget> get item {
-    return [
-      basicInformationView(),
-      gameMaterialsView(),
-      iDPhotoView(),
-    ];
+    return [gameMaterialsView(), iDPhotoView()];
   }
 
-  Future<String> selectAvatar(BuildContext context) async {
+  void selectAvatar(BuildContext context) async {
     var status = await PermissionHelper.requestPhotosPermission(context);
     if (status == false) {
-      return '';
+      return;
     }
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
-      String url = '';
-      await Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
-        // flog(value!.path);
-        url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+      Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
+        // flog(value!.path, 'selectAvatar');
+        var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+        setState(() => gamePhotos.add('$url'));
         // controller.setAvatar(value);
       });
-      return url;
     } else {
       print('No image selected.');
-      return '';
     }
   }
 
@@ -264,119 +243,47 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
     ]);
   }
 
-  ///身份证正反面
-  var front, back;
+  var gamePhotos = ['12'];
 
-  ///身份证录入
+  ///游戏图像
   iDPhotoView() {
-    flog(back, 'back');
     return PWidget.column([
-      PWidget.text('ID Photo', [Colors.white, 20], {'ff': 'DIN'}),
-      PWidget.boxh(16),
-      PWidget.row([
-        if (front != null) previewImage(front, () => setState(() => front = null)) else addImageBefore('front'),
-        PWidget.boxw(16),
-        if (back != null) previewImage(back, () => setState(() => back = null)) else addImageBefore('back'),
-      ]),
-    ]);
-  }
-
-  ///待添加
-  Widget addImageBefore(text) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () async {
-          var url = await this.selectAvatar(context!);
-          if (url != '') {
-            if (text == 'back') {
-              setState(() => back = url);
-            } else {
-              setState(() => front = url);
-            }
+      PWidget.text('Game Photo', [Colors.white, 20], {'ff': 'DIN'}),
+      GridView.builder(
+        padding: EdgeInsets.only(top: 16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 13,
+          mainAxisSpacing: 13,
+        ),
+        itemCount: 9,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (_, i) {
+          if (gamePhotos.length > i) {
+            return PWidget.container(
+              Stack(children: [
+                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i])),
+                Positioned.fill(child: Container(color: Colors.black54)),
+                PWidget.positioned(
+                  PWidget.icon(
+                    Icons.highlight_remove_rounded,
+                    [Colors.white],
+                    {'pd': 8, 'fun': () => setState(() => gamePhotos.removeAt(i))},
+                  ),
+                  [0, null, null, 0],
+                ),
+              ]),
+              {'crr': 16},
+            );
           }
-        },
-        child: PWidget.container(
-          PWidget.ccolumn([
-            PWidget.spacer(),
+          return PWidget.container(
             PWidget.image('assets/images/paly_add.png', [32, 32]),
-            PWidget.spacer(),
-            PWidget.text('Upload ID photo $text', [Colors.white, 12]),
-            PWidget.spacer(),
-          ]),
-          [null, 112, Color(0xff282640)],
-          {'br': 16, 'pd': 16},
-        ),
+            [null, null, Color(0xff282640)],
+            {'crr': 16, 'pd': 16, 'ali': PFun.lg(0, 0), 'fun': () => this.selectAvatar(context!)},
+          );
+        },
       ),
-    );
-  }
-
-  ///预览图像
-  Widget previewImage(url, Function fun) {
-    return PWidget.container(
-      Stack(children: [
-        Positioned.fill(child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)),
-        Positioned.fill(child: Container(color: Colors.black54)),
-        PWidget.positioned(
-          PWidget.icon(
-            Icons.highlight_remove_rounded,
-            [Colors.white],
-            {'pd': 8, 'fun': fun},
-          ),
-          [0, null, null, 0],
-        ),
-      ]),
-      [null, 112],
-      {'crr': 16, 'exp': true},
-    );
-  }
-
-  ///基本信息录入
-  basicInformationView() {
-    return PWidget.column([
-      PWidget.text('Basic information', [Colors.white, 18, true], {'ff': 'DIN'}),
-      PWidget.boxh(16),
-      itemBg(PWidget.row([
-        PWidget.text('Real name', [Colors.white]),
-        PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Real name', hintColor: Colors.white24, textColor: Colors.white, con: nameCon, isExp: true),
-      ])),
-      PWidget.boxh(16),
-      itemBg(PWidget.row([
-        PWidget.text('ID number', [Colors.white]),
-        PWidget.boxw(8),
-        buildTFView(context!, hintText: 'ID number', hintColor: Colors.white24, textColor: Colors.white, con: idNumberCon, isExp: true),
-      ])),
-      PWidget.boxh(16),
-      itemBg(buildTFView(context!, con: phoneCon, hintText: 'your phone number', hintColor: Colors.white24, textColor: Colors.white)),
-      PWidget.boxh(16),
-      itemBg(PWidget.row([
-        buildTFView(
-          context!,
-          hintText: 'verification code',
-          hintColor: Colors.white24,
-          textColor: Colors.white,
-          con: codeCon,
-          isExp: true,
-        ),
-        CodeWidget(
-          text: 'Get code',
-          phoneCon: phoneCon,
-          successColor: const Color(0xff59C4FA),
-          errorColor: const Color(0xff59C4FA),
-          callApi: (v, e, s) async {
-            // return await Request.post(
-            //   '/home/code',
-            //   isLoading: true,
-            //   data: {"aesText": encryptedFun(getTime()), "phone": v, "type": widget.isRegister ? 2 : 1},
-            //   catchError: (v) => e.call(v),
-            //   success: (v) => s.call(null),
-            // );
-          },
-          childBuilder: (s, c) {
-            return PWidget.text('$s', [c], {'pd': 8});
-          },
-        ),
-      ])),
     ]);
   }
 }

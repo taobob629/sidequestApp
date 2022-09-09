@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
 
 import '../../config/app_color.dart';
 import '../../model/play_detail_model.dart';
+import 'chat.dart';
 
 class PlayDetail extends StatelessWidget {
 
-  final int userId;
+  final String userId;
   late final PlayDetailController controller;
 
   PlayDetail({required this.userId}){
@@ -191,6 +193,20 @@ class PlayDetail extends StatelessWidget {
                   ),
                   height: 50,
                   width: 160,
+                  onTap: () async{
+                    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_$userId");
+                    if(conv.data != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                            Chat(
+                              selectedConversation: conv.data!,
+                            ),
+                        ));
+                    }
+                  },
                 )
               ],
             )
@@ -244,6 +260,8 @@ class PlayDetail extends StatelessWidget {
             ),
             child: Column(
               children: [
+                _buildGame(),
+                SizedBox(height: 10,),
                 _buildGame()
               ],
             ),
@@ -301,7 +319,7 @@ class PlayDetail extends StatelessWidget {
 }
 
 class PlayDetailController extends GetxController {
-  int userId;
+  String userId;
 
   late ScrollController scrollController;
 

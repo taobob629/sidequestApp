@@ -56,7 +56,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    Get.to(() => PlayDetail(userId: 1));
+    Get.to(() => PlayDetail(userId: "2"));
   }
 
   // _onTapLocation() {
@@ -165,7 +165,7 @@ class _ChatState extends State<Chat> {
     //       receiverID: widget.selectedConversation.userID!,
     //       convType: ConvType.c2c);
     // }
-    Get.to(()=>PlayDetail(userId: 2));
+    Get.to(()=>PlayDetail(userId: "2"));
   }
 
   @override
@@ -341,9 +341,21 @@ class _ChatState extends State<Chat> {
       child: Stack(
         children: [
           Positioned(
+            left: 10,
+            right: 10,
+            top: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
+                Text("£ 40.00 for 2 Hours",style: TextStyle(color: Colors.white,fontSize: 12),)
+              ],
+            )
+          ),
+          Positioned(
             left: 0,
             right: 0,
-            top: 40,
+            top: 45,
             child: Container(
               height: 2,
               margin: const EdgeInsets.symmetric(horizontal: 35),
@@ -353,7 +365,7 @@ class _ChatState extends State<Chat> {
           Positioned(
             left: 0,
             right: 0,
-            top: 35,
+            top: 40,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

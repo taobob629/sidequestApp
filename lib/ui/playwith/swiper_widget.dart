@@ -24,6 +24,7 @@ class _SwiperWidgetState extends State<SwiperWidget> {
     return Container(
       height: widget.height,
       child: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
           StreamBuilder(builder: (context, v) {
             return Swiper(
@@ -61,14 +62,20 @@ class _SwiperWidgetState extends State<SwiperWidget> {
               },
             );
           }),
-          PWidget.positioned(
-            PWidget.container(
-              PWidget.text('${index + 1}/${widget.imageList.length}', [Colors.white]),
-              [null, null, Colors.black26],
-              {'br': 56, 'pd': PFun.lg(2, 2, 12, 12)},
-            ),
-            [null, 12, null, 12],
+          PWidget.row(
+            List.generate(widget.imageList.length, (i) {
+              return PWidget.container(PWidget.boxh(0), [8, 8, Colors.white.withOpacity(index == i ? 1 : 0.25)], {'br': 8, 'mg': 4});
+            }),
+            '221',
           ),
+          // PWidget.positioned(
+          //   PWidget.container(
+          //     PWidget.text('${index + 1}/${widget.imageList.length}', [Colors.white]),
+          //     [null, null, Colors.black26],
+          //     {'br': 56, 'pd': PFun.lg(2, 2, 12, 12)},
+          //   ),
+          //   [null, 12, null, 12],
+          // ),
         ],
       ),
     );

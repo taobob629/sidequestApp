@@ -29,9 +29,9 @@ abstract class BaseHttp extends DioForNative {
       client.badCertificateCallback = (X509Certificate cert, String host, int port){
         return true;
       };
-      client.findProxy = (uri){
-        return AppConfig.isProd ? 'DIRECT':'PROXY 192.168.0.164:8888';
-      };
+      // client.findProxy = (uri){
+      //   return AppConfig.isProd ? 'DIRECT':'PROXY 192.168.0.164:8888';
+      // };
     };
 
     init();

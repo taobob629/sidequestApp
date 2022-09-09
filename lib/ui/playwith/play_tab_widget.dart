@@ -16,6 +16,7 @@ class PlayTabWidget extends StatefulWidget {
   final int? page;
   final Color? color;
   final double? fontSize;
+  final bool isShowLeft;
   final Widget? rightChild;
   final ScrollController? controller;
 
@@ -31,6 +32,7 @@ class PlayTabWidget extends StatefulWidget {
     this.tabBuilder,
     this.rightChild,
     this.controller,
+    this.isShowLeft = true,
   }) : super(key: key);
   @override
   _PlayTabWidgetState createState() => _PlayTabWidgetState();
@@ -78,17 +80,18 @@ class _PlayTabWidgetState extends State<PlayTabWidget> with TickerProviderStateM
               ),
               child: Row(
                 children: [
-                  SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () => close(),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.white,
+                  if (widget.isShowLeft) SizedBox(width: 8),
+                  if (widget.isShowLeft)
+                    GestureDetector(
+                      onTap: () => close(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
                   Expanded(
                     child: TabBar(
                       controller: tabCon,

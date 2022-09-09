@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -131,16 +132,25 @@ class MainPage extends GetView<MainPageController> {
                           controller.updateCurrentIndex(1);
                         }
                       ),
-                      TabButton(
-                        index: 2,
-                        currentIndex: controller.currentIndex.value,
-                        iconName: "play",
-                        title: "PlayWidth",
-                        colors: [Color(0xffe7e439), Color(0xff6c6301)],
-                        onTap: () {
-                          controller.controller.jumpToPage(2);
-                          controller.updateCurrentIndex(2);
-                        }
+                      Badge(
+                        shape: BadgeShape.circle,
+                        badgeColor: Colors.red,
+                        position: BadgePosition(top: 3, end: 5),
+                        animationType: BadgeAnimationType.fade,
+                        animationDuration: const Duration(microseconds: 500),
+                        showBadge: userController.unreadMsgCount.value > 0,
+                        badgeContent: Text("${userController.unreadMsgCount.value}",style: TextStyle(fontSize: 12, color: Colors.white),),
+                        child: TabButton(
+                          index: 2,
+                          currentIndex: controller.currentIndex.value,
+                          iconName: "play",
+                          title: "PlayWidth",
+                          colors: [Color(0xffe7e439), Color(0xff6c6301)],
+                          onTap: () {
+                            controller.controller.jumpToPage(2);
+                            controller.updateCurrentIndex(2);
+                          }
+                        ),
                       ),
                       TabButton(
                         index: 3,
