@@ -7,11 +7,13 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/accompany_certification_page.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
+import 'package:wy/ui/profile/icon_menu.dart';
 import 'package:wy/ui/profile/orders/orders_page.dart';
 import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
@@ -86,37 +88,44 @@ class ProfilePage extends StatelessWidget {
                 child: ProfileHeader(),
               ),
               SliverToBoxAdapter(
-                child: Builder(builder: (context) {
-                  var view;
-                  if (true) {
-                    view = PWidget.row([
-                      PWidget.boxw(24),
-                      PWidget.text(
-                        "You're playing with me now",
-                        [Colors.white, 20],
-                        {'ff': 'DIN', 'exp': true},
-                      ),
-                      PWidget.container(
-                        PWidget.text("Enter the play space", [Color(0xff3C8AEC), 16], {'ff': 'DIN'}),
-                        [null, 32, Colors.white],
-                        {
-                          'br': 56,
-                          'ali': PFun.lg(0, 0),
-                          'pd': PFun.lg(0, 0, 16, 16),
-                          'fun': () => jumpPage(AccompanyCertificationPage()),
-                        },
-                      ),
-                      PWidget.boxw(24),
-                    ]);
-                  } else {
-                    view = PWidget.text("Join as a companion", [Colors.white, 24], {'ff': 'DIN'});
-                  }
-                  return PWidget.container(
-                    Stack(alignment: Alignment.center, children: [Image.asset("assets/images/peiwan.png"), view]),
-                    {'pd': PFun.lg(8), 'fun': () {}},
-                  );
-                }),
+                child: _buildPlayMenu(),
               ),
+              SliverToBoxAdapter(
+                child: _buildStoreMenu(),
+              ),
+              // SliverToBoxAdapter(
+              //   child: Builder(builder: (context) {
+              //     var view;
+              //     if (true) {
+              //       view = PWidget.row([
+              //         PWidget.boxw(24),
+              //         PWidget.text(
+              //           "You're playing with me now",
+              //           [Colors.white, 20],
+              //           {'ff': 'DIN', 'exp': true},
+              //         ),
+              //         PWidget.container(
+              //           PWidget.text("Enter the play space", [Color(0xff3C8AEC), 16], {'ff': 'DIN'}),
+              //           [null, 32, Colors.white],
+              //           {
+              //             'br': 56,
+              //             'ali': PFun.lg(0, 0),
+              //             'pd': PFun.lg(0, 0, 16, 16),
+              //             'fun': () => jumpPage(AccompanyCertificationPage()),
+              //           },
+              //         ),
+              //         PWidget.boxw(24),
+              //       ]);
+              //     } else {
+              //       view = PWidget.text("Join as a companion", [Colors.white, 24], {'ff': 'DIN'});
+              //     }
+              //     return PWidget.container(
+              //       Stack(alignment: Alignment.center, children: [Image.asset("assets/images/peiwan.png"), view]),
+              //       {'pd': PFun.lg(8), 'fun': () {}},
+              //     );
+              //   }),
+              // ),
+              /*
               SliverToBoxAdapter(
                 child: Obx(() => controller.online.value
                     ? MenuView(
@@ -168,11 +177,136 @@ class ProfilePage extends StatelessWidget {
                   detail: "",
                   onTap: () => userController.checkLogin(() => NavigatorHelper.gotoAddressPage()),
                 ),
-              ),
+              ),*/
             ],
           ),
         )
       ],
+    );
+  }
+
+  Widget _buildPlayMenu(){
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15,bottom: 15),
+            child: Text("Play Function",style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconMenu(
+                icon: "assets/images/ic_booking_new.webp",
+                title: "Play Skills",
+                onTap: (){
+
+                },
+              ),
+              IconMenu(
+                icon: "assets/images/ic_orders_new.webp",
+                title: "Play Orders",
+                onTap: (){
+
+                },
+              ),
+              IconMenu(
+                icon: "assets/images/ic_balance_new.webp",
+                title: "Play Wallet",
+                onTap: (){
+
+                },
+              )
+            ],
+          ),
+          SizedBox(height: 15,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconMenu(
+                icon: "assets/images/ic_tab_user_new.webp",
+                title: "Play Profile",
+                onTap: (){
+
+                },
+              ),
+              IconMenu(
+                icon: "assets/images/ic_tab_shop_new.webp",
+                title: "Play Home",
+                onTap: (){
+                  Get.to(()=>PlayDetail(userId: ""));
+                },
+              ),
+              IconMenu(icon: "", title: ""),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStoreMenu(){
+    return Container(
+      margin: const EdgeInsets.only(top: 30,bottom: 50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15,bottom: 15),
+            child: Text("Store Function",style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconMenu(
+                icon: "assets/images/ic_balance_new.webp",
+                title: "My Balance",
+                onTap: (){
+                  userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
+                },
+              ),
+              IconMenu(
+                icon: "assets/images/ic_booking_new.webp",
+                title: "My Bookings",
+                onTap: (){
+                  userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
+                },
+              ),
+              IconMenu(
+                icon: "assets/images/ic_orders_new.webp",
+                title: "My Orders",
+                onTap: (){
+                  userController.checkLogin(() => Get.to(() => OrdersPage()));
+                }
+              ),
+
+            ],
+          ),
+          SizedBox(height: 15,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconMenu(
+                icon: "assets/images/ic_tab_events_new.webp",
+                title: "My Activities",
+                onTap: (){
+                  userController.checkLogin(() => Get.to(() => MyEventsPage()));
+                }
+              ),
+              IconMenu(
+                icon: "assets/images/ic_address_new.webp",
+                title: "My Address",
+                onTap: (){
+                  userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
+                }
+              ),
+              IconMenu(icon: "", title: ""),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
