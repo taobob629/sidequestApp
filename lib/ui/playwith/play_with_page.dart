@@ -177,7 +177,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           onLoading: (p) => this.superlist(page: p),
           itemModel: superlistDm,
           headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
-          headers: [PlaySwitchWidget(onTap: (v) => EasyLoading.showToast(v.toString()))],
+          headers: [PlaySwitchWidget(onTap: (v){})],
           mainAxisSpacing: 10,
           itemPadding: EdgeInsets.only(bottom: 16),
           itemModelBuilder: (i, data) {
@@ -225,7 +225,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 'mg': PFun.lg(0, 0, 16, 16),
                 'crr': 12,
                 'fun': () {
-                  return Get.to(()=>PlayDetail(userId: "2"));//jumpPage(PlayUserInfo(data));
+                  return Get.to(()=>PlayDetail(userId: "${data['id']}"));//jumpPage(PlayUserInfo(data));
                 }
               },
             );
@@ -366,7 +366,7 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
                     {'crr': 8},
                   ),
                   PWidget.boxh(8),
-                  PWidget.text('${data['name']}', [Colors.white, 12]),
+                  //PWidget.text('${data['name']}', [Colors.white, 12]),
                 ], '211'),
                 [isDy ? 64 : 56],
                 {'fun': () => fun(i, data)},

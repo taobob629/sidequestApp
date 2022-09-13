@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
 
+import '../../api/im_api.dart';
 import '../../config/app_color.dart';
 import '../../model/play_detail_model.dart';
 import 'chat.dart';
@@ -15,9 +18,10 @@ import 'chat.dart';
 class PlayDetail extends StatelessWidget {
 
   final String userId;
+  final bool fromChat;
   late final PlayDetailController controller;
 
-  PlayDetail({required this.userId}){
+  PlayDetail({required this.userId, this.fromChat = false}){
     controller = Get.put(PlayDetailController(userId:userId));
   }
 
@@ -139,13 +143,15 @@ class PlayDetail extends StatelessWidget {
                     if (index == 0) {
                       return buildInfo();
                     }else if(index == 1){
-                      return buildGames();
+                      return _buildGames();
+                    }else if(index == 2){
+                      return  _buildIntro();
                     }
                     return Container(
-                      height: 600,
+                      height: 400,
                     );
                   },
-                  childCount: 3
+                  childCount: 4
                 )
               )
             ],
@@ -194,6 +200,10 @@ class PlayDetail extends StatelessWidget {
                   height: 50,
                   width: 160,
                   onTap: () async{
+                    if(fromChat){
+                      Get.back();
+                      return;
+                    }
                     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
                     V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_$userId");
                     if(conv.data != null) {
@@ -243,14 +253,14 @@ class PlayDetail extends StatelessWidget {
     );
   }
 
-  Widget buildGames(){
+  Widget _buildGames(){
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("I am good at: ",style: TextStyle(fontSize: 18,color: Colors.white),),
+          Text("My Skills",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           Container(
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.only(top: 10),
@@ -265,7 +275,8 @@ class PlayDetail extends StatelessWidget {
                 _buildGame()
               ],
             ),
-          )
+          ),
+          SizedBox(height: 20,),
         ],
       ),
     );
@@ -316,6 +327,34 @@ class PlayDetail extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildIntro(){
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          _introItem("Gender","Male"),
+          _introItem("Age","28"),
+        ],
+      ),
+    );
+  }
+
+  Widget _introItem(String title, String value){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+      child: Row(
+        children: [
+          Text("$title", style: TextStyle(fontSize: 12, color: Colors.white54),),
+          Spacer(),
+          Text("$value", style: TextStyle(fontSize: 14, color: Colors.white),),
+        ],
+      ),
+    );
+  }
 }
 
 class PlayDetailController extends GetxController {
@@ -345,7 +384,7 @@ class PlayDetailController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
     scrollController.addListener(() {
       if (scrollController.offset >= headerHeight.value - kToolbarHeight) {
@@ -358,6 +397,8 @@ class PlayDetailController extends GetxController {
         }
       }
     });
+
+    await ImApi.getPlayDetail(userId);
   }
 
   void initData(double headerHeight) async {

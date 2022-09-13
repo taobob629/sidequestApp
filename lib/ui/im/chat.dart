@@ -11,6 +11,7 @@ import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_chat_controller.dart';
 import 'package:tim_ui_kit/ui/utils/permission.dart';
 import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
+import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
 
 class Chat extends StatefulWidget {
@@ -56,7 +57,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    Get.to(() => PlayDetail(userId: "2"));
+    Get.to(() => PlayDetail(userId: "2",fromChat: true,));
   }
 
   // _onTapLocation() {
@@ -165,7 +166,7 @@ class _ChatState extends State<Chat> {
     //       receiverID: widget.selectedConversation.userID!,
     //       convType: ConvType.c2c);
     // }
-    Get.to(()=>PlayDetail(userId: "2"));
+    Get.to(()=>PlayDetail(userId: "2", fromChat: true,));
   }
 
   @override
@@ -335,80 +336,83 @@ class _ChatState extends State<Chat> {
   }
 
   Widget _buildOrderState(){
-    return Container(
-      height: 80,
-      color: Colors.white12,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 10,
-            right: 10,
-            top: 10,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
-                Text("£ 40.00 for 2 Hours",style: TextStyle(color: Colors.white,fontSize: 12),)
-              ],
-            )
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 45,
-            child: Container(
-              height: 2,
-              margin: const EdgeInsets.symmetric(horizontal: 35),
-              color: Colors.white24,
-            )
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 80,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 6,
-                      ),
-                      Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
-                    ],
+    return GestureDetector(
+      onTap: ()=>Get.to(()=>OrderDetail()),
+      child: Container(
+        height: 80,
+        color: Colors.white12,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 10,
+              right: 10,
+              top: 10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
+                  Text("£ 40.00 for 2 Hours",style: TextStyle(color: Colors.white,fontSize: 12),)
+                ],
+              )
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 45,
+              child: Container(
+                height: 2,
+                margin: const EdgeInsets.symmetric(horizontal: 35),
+                color: Colors.white24,
+              )
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 80,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.green,
+                          radius: 6,
+                        ),
+                        Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: 80,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 6,
-                      ),
-                      Text("待服务",style: TextStyle(color: Colors.white,fontSize: 12),)
-                    ],
+                  Container(
+                    width: 80,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          radius: 6,
+                        ),
+                        Text("待服务",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: 80,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 6,
-                      ),
-                      Text("待评价",style: TextStyle(color: Colors.white,fontSize: 12),)
-                    ],
-                  ),
-                )
-              ],
+                  Container(
+                    width: 80,
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          radius: 6,
+                        ),
+                        Text("待评价",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      ],
+                    ),
+                  )
+                ],
+              )
             )
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
