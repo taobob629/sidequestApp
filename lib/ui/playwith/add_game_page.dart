@@ -96,12 +96,30 @@ class _AddGamePageState extends State<AddGamePage> {
       ]),
       btnBar: FloatingButton(
         label: "Reserve",
-        onTap: () {
+        onTap: () async {
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
           if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
+          flog(game);
+          flog(gameLv);
+          var data = {
+            "skillid": game['id'],
+            "thumb": gamePhotos.join(''),
+            "levelid": gameLv['id'],
+            "wswitch": 0,
+            "coinid": 0,
+            "coin": 0,
+            "des": beGoodAtCon.text,
+          };
+          flog(data, 'data');
+          await http.post('/peiwan/app/user/setSkillAuth', data: data).then((v) {
+            EasyLoading.showToast('Submitted successfully');
+            Get.back(result: true);
+          }).catchError((e) {
+            EasyLoading.showToast('Network exception');
+          });
         },
       ),
     );
@@ -243,7 +261,7 @@ class _AddGamePageState extends State<AddGamePage> {
     ]);
   }
 
-  var gamePhotos = ['12'];
+  var gamePhotos = [];
 
   ///游戏图像
   iDPhotoView() {
@@ -252,11 +270,11 @@ class _AddGamePageState extends State<AddGamePage> {
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 1,
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: 9,
+        itemCount: 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {

@@ -46,7 +46,11 @@ class _PlayWithPageState extends State<PlayWithPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget page = Obx(()=>userController.imLoginDone.value?ConversationPage(conversationController: conversationController,):Container());
+    Widget page = Obx(() => userController.imLoginDone.value
+        ? ConversationPage(
+            conversationController: conversationController,
+          )
+        : Container());
     return ScaffoldWidget(
       body: PlayTabWidget(
         isScrollable: true,
@@ -61,10 +65,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
             if (i == 1) buildCount(),
           ]);
         },
-        tabPage: [
-          PlayWithChild(),
-          page
-        ],
+        tabPage: [PlayWithChild(), page],
       ),
     );
   }
@@ -121,16 +122,16 @@ class _PlayWithPageState extends State<PlayWithPage> {
 
   ///消息总数
   Widget buildCount() {
-    return Obx(()=>userController.unreadMsgCount.value == 0 ?Container() : PWidget.positioned(
-      PWidget.container(PWidget.text(userController.unreadMsgCount.value, [Colors.white, 12]), {
-        'gd': PFun.tbGd(Color(0xffFF6D6D), Color(0xffFF5252)),
-        'br': 24,
-        'pd': PFun.lg(1, 0, 4, 4),
-      }),
-      [-4, null, null, -16],
-    ));
-
-
+    return Obx(() => userController.unreadMsgCount.value == 0
+        ? Container()
+        : PWidget.positioned(
+            PWidget.container(PWidget.text(userController.unreadMsgCount.value, [Colors.white, 12]), {
+              'gd': PFun.tbGd(Color(0xffFF6D6D), Color(0xffFF5252)),
+              'br': 24,
+              'pd': PFun.lg(1, 0, 4, 4),
+            }),
+            [-4, null, null, -16],
+          ));
   }
 }
 
@@ -140,6 +141,8 @@ class PlayWithChild extends StatefulWidget {
 }
 
 class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveClientMixin {
+  var gid = '';
+
   @override
   void initState() {
     this.initData();
@@ -154,7 +157,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   ///大神列表
   var superlistDm = DataModel();
   Future<int> superlist({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=').then((res) async {
+    await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=&gid=$gid').then((res) async {
       superlistDm.addList(res.data, true, 0);
     }).catchError((e) {
       superlistDm.toError(e.toString());
@@ -177,7 +180,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           onLoading: (p) => this.superlist(page: p),
           itemModel: superlistDm,
           headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
-          headers: [PlaySwitchWidget(onTap: (v){})],
+          headers: [
+            PlaySwitchWidget(onTap: (v) {
+              flog(v, 'PlaySwitchWidget');
+            })
+          ],
           mainAxisSpacing: 10,
           itemPadding: EdgeInsets.only(bottom: 16),
           itemModelBuilder: (i, data) {
@@ -201,13 +208,25 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                       PWidget.boxh(8),
                       PWidget.text('我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
                       PWidget.boxh(8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: List.generate(3, (i) {
-                          return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
-                        }),
-                      ),
+                      Builder(builder: (context) {
+                        var list = (data['label'] ?? []) as List;
+                        return Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: List.generate(list.length, (i) {
+                            var item = list[i];
+                            // return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
+                            return PWidget.container(
+                              PWidget.text(item, [Colors.white]),
+                              [null, null, pColor],
+                              {
+                                'crr': 56,
+                                'pd': [2, 2, 8, 8],
+                              },
+                            );
+                          }),
+                        );
+                      }),
                     ], {
                       'exp': 1,
                     }),
@@ -225,7 +244,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 'mg': PFun.lg(0, 0, 16, 16),
                 'crr': 12,
                 'fun': () {
-                  return Get.to(()=>PlayDetail(userId: "${data['id']}"));//jumpPage(PlayUserInfo(data));
+                  return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
                 }
               },
             );
@@ -365,7 +384,6 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
                     [isDy ? 64 : 56, isDy ? 64 : 56, Colors.white10],
                     {'crr': 8},
                   ),
-                  PWidget.boxh(8),
                   //PWidget.text('${data['name']}', [Colors.white, 12]),
                 ], '211'),
                 [isDy ? 64 : 56],
@@ -373,7 +391,7 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
               );
             },
           ),
-          [null, 64 + 14 + 16],
+          [null, 64 + 16],
         );
       },
     );

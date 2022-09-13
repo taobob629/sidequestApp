@@ -35,7 +35,7 @@ class App extends StatelessWidget {
         noDataText: "",
       ),
       enableLoadingWhenFailed : true,
-      hideFooterWhenNotFull: true,
+      hideFooterWhenNotFull: !true,
       enableBallisticLoad: true,
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

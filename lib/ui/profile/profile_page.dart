@@ -10,6 +10,9 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/accompany_certification_page.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
+import 'package:wy/ui/playwith/play_orders_page.dart';
+import 'package:wy/ui/playwith/play_profile_page.dart';
+import 'package:wy/ui/playwith/play_skills_page.dart';
 import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
@@ -202,14 +205,14 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Play Skills",
                 onTap: (){
-
+                  Get.to(()=>PlaySkillsPage());
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_orders_new.webp",
                 title: "Play Orders",
                 onTap: (){
-
+                  Get.to(()=>PlayOrdersPage());
                 },
               ),
               IconMenu(
@@ -229,7 +232,7 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_tab_user_new.webp",
                 title: "Play Profile",
                 onTap: (){
-
+                  Get.to(()=>PlayProfilePage());
                 },
               ),
               IconMenu(
