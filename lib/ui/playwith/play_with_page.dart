@@ -182,7 +182,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
           headers: [
             PlaySwitchWidget(onTap: (v) {
-              flog(v, 'PlaySwitchWidget');
+              gid = v['id'];
+              setState(() => superlistDm.init());
+              this.superlist(isRef: true);
             })
           ],
           mainAxisSpacing: 10,
