@@ -10,6 +10,8 @@ class PayApi {
       return await _buy(model);
     }else if(model.type == 0){
       return await _charge(model);
+    }else if(model.type == -2){//陪玩
+      return await _play(model);
     }
 
     return await _openVip(model);
@@ -77,6 +79,22 @@ class PayApi {
     return PayInfoModel.fromJson(response.data);
   }
 
+  static Future<PayInfoModel> _play(PayOrderModel model) async {
+    var formData = {
+      "liveuid" : model.liveuid,
+      "skillid" : model.skillid,
+      "svctm" : model.svctm,
+      "nums" : model.nums,
+      "des" : model.des,
+      "type" : model.payType,
+    };
+    var response = await http.post('/peiwan/app/order/setorder',
+      data: formData
+    );
+
+    return PayInfoModel.fromJson(response.data);
+  }
+
   static Future<bool> checkPassword(String password) async {
     var response = await http.get('/app/pay/checkPassword',
       queryParameters: ({"password":password})
@@ -84,8 +102,12 @@ class PayApi {
     return response.data['data'];
   }
 
-  static Future<bool> status(String orderNo) async {
-    var response = await http.get('/app/order/status',
+  static Future<bool> status(int type, String orderNo) async {
+    String url = '/app/order/status';
+    if(type == -2){
+      url = '/peiwan/app/order/status';
+    }
+    var response = await http.get(url,
       queryParameters: ({"orderNo":orderNo})
     );
     return response.data["status"];

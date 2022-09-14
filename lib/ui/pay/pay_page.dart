@@ -16,8 +16,6 @@ import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_checking.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/ui/common/dialog_password.dart';
-import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -61,7 +59,7 @@ class PayPage extends StatelessWidget {
               //return Container();
             }
           }else if(index == 4){
-            if(controller.payOrderModel.type >= -1){
+            if(controller.payOrderModel.type >= -2){
               return Container();
             }else {
               return Obx(()=>_buildPayView("Balance", "balance_money",2,controller.payType.value));
@@ -635,7 +633,7 @@ class PayPageController extends GetxController {
 
   Future<void> autoCheckPay(String orderNo) async{
     checkCount ++;
-    bool payStatus = await PayApi.status(orderNo);
+    bool payStatus = await PayApi.status(payOrderModel.type,orderNo);
     if(payStatus) {
       _timer.cancel();
       _onPayDone();
@@ -655,7 +653,7 @@ class PayPageController extends GetxController {
 
   Future<void> manualCheckPay(String orderNo) async{
     EasyLoading.show();
-    bool payStatus = await PayApi.status(orderNo);
+    bool payStatus = await PayApi.status(payOrderModel.type, orderNo);
     if(payStatus) {
       _onPayDone();
     }else{

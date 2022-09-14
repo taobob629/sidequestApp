@@ -23,6 +23,13 @@ class PayOrderModel {
   //优惠券ID
   late int couponId = 0;
 
+  //陪玩使用
+  late int svctm = 0;
+  late String liveuid = "";
+  late String skillid = "";
+  late int nums = 1;
+  late String des = "";
+
   late String totalAmount = "0";
 }
 

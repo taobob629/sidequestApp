@@ -1,15 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/model/play_item_model.dart';
 
+import '../../model/pay_order_model.dart';
+import '../../model/play_detail_model.dart';
 import '../common/base_scaffold.dart';
+import '../common/dialog_date_time_picker.dart';
+import '../common/input_view.dart';
 import '../common/quantity_selector.dart';
+import '../common/select_view.dart';
 import 'pay_button.dart';
+import 'package:date_format/date_format.dart';
 
 class PlayOrder extends StatelessWidget {
 
-  final controller = Get.put(PlayOrderController());
+  late final SkillModel skillModel;
+  late final PlayOrderController controller;
+  late final String liveUid;
+
+  PlayOrder({required String liveUid, required SkillModel skillModel}){
+    controller = Get.put(PlayOrderController(liveUid, skillModel));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +35,8 @@ class PlayOrder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _buildItem(),
+                  _buildTime(),
+                  _buildMemo(),
                   Container(height: 120,)
                 ],
               ))
@@ -60,7 +73,7 @@ class PlayOrder extends StatelessWidget {
                   width: 80,
                   height: 80,
                   child: CachedNetworkImage(
-                    imageUrl: controller.playItem.value.icon,
+                    imageUrl: controller.skillModel.value.thumb,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -71,7 +84,7 @@ class PlayOrder extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          controller.playItem.value.name,
+                          controller.skillModel.value.name,
                           maxLines: 2,
                           style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),
                         ),
@@ -82,7 +95,9 @@ class PlayOrder extends StatelessWidget {
                           QuantitySelector(
                             initValue: 1,
                             tag: "1",
-                            onQuantityChanged: (quantity){},
+                            onQuantityChanged: (quantity){
+                              controller.changeQuantity(quantity);
+                            },
                           )
                         ],
                       )
@@ -96,13 +111,20 @@ class PlayOrder extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: Text(
-                    "£ 20.0",
+                    "£ ${controller.skillModel.value.coin}",
                     style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 7.0,left: 5),
+                  child: Text(
+                    " / Hour",
+                    style: TextStyle(color: Colors.white54,fontSize: 14,fontFamily: "DIN"),
                   ),
                 ),
               ],
@@ -112,18 +134,91 @@ class PlayOrder extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildTime(){
+    return SelectView(
+      label: "Play Time",
+      tips: "What Time",
+      value: formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
+      onTap: (){
+        controller.showSelectTime();
+      },
+    );
+  }
+
+  Widget _buildMemo(){
+    return InputView(
+      label: "Remarks",
+      tips: "remarks",
+      controller: controller.remarksController,
+    );
+  }
 }
 
 class PlayOrderController extends GetxController {
-  var totalAmount = 0.0.obs;
+  var totalAmount = 0.obs;
 
-  var playItem = PlayItemModel().obs;
+  var nums = 1.obs;
+
+  var timeSelect = false.obs;
+
+  var time = DateTime.now().obs;
+
+  late TextEditingController remarksController;
+
+  Rx<SkillModel> skillModel = SkillModel().obs;
+
+  late final String liveUid;
+
+  PlayOrderController(String liveUid, SkillModel skillModel){
+    remarksController = TextEditingController();
+    this.skillModel.value = skillModel;
+    this.liveUid = liveUid;
+    changeQuantity(1);
+  }
 
   @override
   void onInit() {
     super.onInit();
-    playItem.value.icon = "http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg";
-    playItem.value.name = "LEAGUE OF LEGENDS";
+  }
+
+  @override
+  void onClose() {
+    remarksController.dispose();
+    super.onClose();
+  }
+
+  void changeQuantity(int quantity){
+    totalAmount.value = skillModel.value.coin * quantity;
+    nums.value = quantity;
+  }
+
+  void showSelectTime(){
+    DateTime start = DateTime.now();
+    Get.dialog<DateTime?>(DateTimePickerDialog(
+      format: "dd-MMM-yyyy HH:mm",
+      initDateTime: start,
+      minDateTime: start,
+      minuteDivider: 30,
+    ),barrierColor: Colors.black26).then((value) {
+      if(value != null){
+        this.timeSelect.value = true;
+        this.time.value = value;
+      }
+    }
+    );
+  }
+
+  PayOrderModel getPayOrderModel(){
+    PayOrderModel model = PayOrderModel();
+    model.type = -2;
+    model.totalAmount = totalAmount.value.toString();
+    model.svctm = this.time.value.millisecondsSinceEpoch;
+    model.liveuid = liveUid;
+    model.skillid = skillModel.value.id;
+    model.nums = nums.value;
+    model.des = remarksController.text;
+    return model;
   }
 
 }
