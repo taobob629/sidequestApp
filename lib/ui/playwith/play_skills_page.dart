@@ -41,8 +41,13 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
         },
       ),
       body: TabWidget(
-        tabList: ['审核中', '通过', '拒绝'],
-        tabPage: [PlaySkillsChild(0), PlaySkillsChild(1), PlaySkillsChild(2)],
+        isScrollable: false,
+        indicator: null,
+        indicatorSize: TabBarIndicatorSize.tab,
+        tabList: ['通过', '审核中', '拒绝'],
+        tabPage: [PlaySkillsChild(1), PlaySkillsChild(0), PlaySkillsChild(2)],
+        // tabList: ['审核中', '通过', '拒绝'],
+        // tabPage: [PlaySkillsChild(0), PlaySkillsChild(1), PlaySkillsChild(2)],
         key: key,
       ),
     );
@@ -99,17 +104,41 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
           onLoading: (p) => this.authlist(page: p),
           itemPadding: EdgeInsets.all(12),
           itemCount: list.length,
-          crossAxisCount: 3,
-          crossAxisSpacing: 12,
+          crossAxisCount: 1,
+          mainAxisSpacing: 12,
           // divider: Divider(height: 12, color: Colors.transparent),
           itemModelBuilder: (i, data) {
             flog(data, 'skillsFlog');
+            return PWidget.row([
+              CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover, width: 64, height: 64),
+              PWidget.boxw(8),
+              PWidget.text('${data['skillName']}', [Colors.white], {'exp': true}),
+              if (widget.status == 1)
+                Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: data['wswitch'] == 1,
+                    thumbColor: Colors.white,
+                    trackColor: Colors.white24,
+                    onChanged: (v) async {
+                      setState(() => data['wswitch'] = (v ? 1 : 0));
+                      var jsonData = {"skillid": data['skillid'], "wswitch": data['wswitch']};
+                      flog(jsonData);
+                      await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
+                        setState(() => data['wswitch'] = (!v ? 1 : 0));
+                        EasyLoading.showToast('Network exception');
+                      });
+                    },
+                  ),
+                ),
+              PWidget.boxh(8),
+            ]);
             return PWidget.ccolumn([
               AspectRatio(
                 aspectRatio: 1 / 1,
                 child: PWidget.container(
                   CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover),
-                  {'crr': 8},
+                  // {'crr': 8},
                 ),
               ),
               PWidget.boxh(8),

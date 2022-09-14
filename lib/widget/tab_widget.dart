@@ -7,13 +7,28 @@ import 'my_bouncing_scroll_physics.dart';
 class TabWidget extends StatefulWidget {
   final List<String>? tabList;
   final List<Widget>? tabPage;
-  final bool? isScrollable;
+  final bool isScrollable;
   final ScrollPhysics? pagePhysics;
+  final TabBarIndicatorSize indicatorSize;
+  final Decoration? indicator;
   final int? page;
   final Color? color;
   final double? fontSize;
+  final EdgeInsetsGeometry? padding;
 
-  const TabWidget({Key? key, this.tabList, this.tabPage, this.isScrollable, this.pagePhysics, this.page = 0, this.color, this.fontSize}) : super(key: key);
+  const TabWidget({
+    Key? key,
+    this.tabList,
+    this.tabPage,
+    this.isScrollable = true,
+    this.pagePhysics,
+    this.page = 0,
+    this.color,
+    this.fontSize,
+    this.indicatorSize = TabBarIndicatorSize.label,
+    this.indicator = const HomeIndicator(),
+    this.padding,
+  }) : super(key: key);
   @override
   _TabWidgetState createState() => _TabWidgetState();
 }
@@ -55,35 +70,38 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
           width: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            // color: widget.color ?? Colors.white,
-            // boxShadow: const [
-            //   BoxShadow(
-            //     blurRadius: 2,
-            //     spreadRadius: -2,
-            //     color: Colors.black12,
-            //     offset: Offset(0, 2),
-            //   ),
-            // ],
-            // border: Border(
-            //   bottom: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.15)),
-            // ),
-          ),
-          child: TabBar(
-            controller: tabCon,
-            isScrollable: true,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white38,
-            indicatorColor: Colors.white38,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicator: HomeIndicator(),
-            indicatorWeight: 4,
-            indicatorPadding: EdgeInsets.only(bottom: 5),
-            labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-            labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-            unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-            tabs: widget.tabList!.map((m) {
-              return Tab(text: m);
-            }).toList(),
+              // color: widget.color ?? Colors.white,
+              // boxShadow: const [
+              //   BoxShadow(
+              //     blurRadius: 2,
+              //     spreadRadius: -2,
+              //     color: Colors.black12,
+              //     offset: Offset(0, 2),
+              //   ),
+              // ],
+              // border: Border(
+              //   bottom: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.15)),
+              // ),
+              ),
+          child: Theme(
+            data: ThemeData(splashColor: Colors.transparent, highlightColor: Colors.white24),
+            child: TabBar(
+              controller: tabCon,
+              isScrollable: widget.isScrollable,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white38,
+              indicatorColor: Colors.white38,
+              indicatorSize: widget.indicatorSize,
+              indicator: widget.indicator,
+              // indicatorWeight: 4,
+              // indicatorPadding: EdgeInsets.only(bottom: 5),
+              labelPadding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 3),
+              labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+              unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+              tabs: widget.tabList!.map((m) {
+                return Tab(text: m);
+              }).toList(),
+            ),
           ),
           // child: TabBar(
           //   controller: tabCon,

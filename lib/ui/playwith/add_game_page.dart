@@ -69,20 +69,21 @@ class _AddGamePageState extends State<AddGamePage> {
         elevation: 0,
       ),
       body: PWidget.column([
-        PWidget.container(
-          PWidget.row([
-            PWidget.image('assets/images/hall_ic_notice.png', [24, 24]),
-            PWidget.boxw(8),
-            Expanded(
-              child: TextScroll(
-                'The following items are required. To ensure your interests, please fill them out truthfully',
-                style: TextStyle(color: Color(0xff4488FF)),
+        if (1 != 1)
+          PWidget.container(
+            PWidget.row([
+              PWidget.image('assets/images/hall_ic_notice.png', [24, 24]),
+              PWidget.boxw(8),
+              Expanded(
+                child: TextScroll(
+                  'The following items are required. To ensure your interests, please fill them out truthfully',
+                  style: TextStyle(color: Color(0xff4488FF)),
+                ),
               ),
-            ),
-          ]),
-          [null, null, Color(0xffDEEAFF).withOpacity(0.1)],
-          {'pd': 8},
-        ),
+            ]),
+            [null, null, Color(0xffDEEAFF).withOpacity(0.1)],
+            {'pd': 8},
+          ),
         Expanded(
           child: MyListView(
             isShuaxin: false,
@@ -95,7 +96,7 @@ class _AddGamePageState extends State<AddGamePage> {
         ),
       ]),
       btnBar: FloatingButton(
-        label: "Reserve",
+        label: "OK",
         onTap: () async {
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');

@@ -29,8 +29,11 @@ class _PlayOrdersPageState extends State<PlayOrdersPage> {
         elevation: 0,
       ),
       body: TabWidget(
+        indicator: null,
+        isScrollable: false,
         tabList: ['我发起的', '我接受的'],
-        tabPage: [PlayOrdersChild(1), PlayOrdersChild(1)],
+        indicatorSize: TabBarIndicatorSize.tab,
+        tabPage: [PlayOrdersChild(1), PlayOrdersChild(2)],
         key: key,
       ),
     );
@@ -61,7 +64,9 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
   var orderlistDm = DataModel();
   Future<int> orderlist({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/order/list?pageSize=10&pageNum=$page&type=${widget.status}').then((res) async {
-      orderlistDm.addList(res.data['list'], isRef, 0);
+      var list = (res.data['rows'] ?? []) as List;
+      // orderlistDm.addList(list, isRef, (!isRef && list.isEmpty) ? orderlistDm.list.length : 9999);
+      orderlistDm.addList(list, isRef, res.data['total']);
     }).catchError((e) {
       orderlistDm.toError(e.toString());
     });
@@ -70,11 +75,14 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
     return orderlistDm.flag;
   }
 
+  var statusMap = {-4: '已超时', -3: '拒绝', -2: '已完成', -1: '取消', 0: '待支付', 1: '已支付', 2: '已接单', 3: '等待退款', 4: '拒绝退款', 5: '同意退款', 6: '退款申诉,等待平台退款'};
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return AnimatedSwitchBuilder(
       value: orderlistDm,
+      isRef: true,
       errorOnTap: () => this.orderlist(isRef: true),
       listBuilder: (list, p, h) {
         return MyCustomScroll(
@@ -87,12 +95,39 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
           onLoading: (p) => this.orderlist(page: p),
           itemPadding: EdgeInsets.all(12),
           itemCount: list.length,
-          crossAxisCount: 3,
-          crossAxisSpacing: 8,
+          crossAxisCount: 1,
           mainAxisSpacing: 8,
           // divider: Divider(height: 12, color: Colors.transparent),
           itemModelBuilder: (i, data) {
-            flog(data, 'skillsFlog');
+            flog(data, 'ordersFlog');
+            var skillVo = data['skillVo'];
+            return PWidget.container(
+              PWidget.row(
+                [
+                  PWidget.container(CachedNetworkImage(imageUrl: skillVo['thumb'], fit: BoxFit.cover, width: 64, height: 64), {'crr': 8}),
+                  PWidget.boxw(8),
+                  PWidget.column([
+                    PWidget.text('${skillVo['nameEn']}', [Colors.white, 16, true], {'isOf': false}),
+                    PWidget.spacer(),
+                    PWidget.text('', [], {
+                      'isOf': false
+                    }, [
+                      PWidget.textIs('时长：${data['svctm']}h\t\t\t\t\t\t价格：£${data['total']}', [Colors.white54]),
+                    ]),
+                    PWidget.boxh(8),
+                  ], {
+                    'exp': 1
+                  }),
+                  PWidget.column([
+                    PWidget.text('${statusMap[data['status']]}', [Colors.white54])
+                  ], '221'),
+                ],
+                '011',
+                {'fill': true},
+              ),
+              [null, null, Colors.white.withOpacity(0.05)],
+              {'pd': 12, 'br': 8},
+            );
             return PWidget.column([
               AspectRatio(
                 aspectRatio: 1 / 1,
