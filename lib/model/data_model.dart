@@ -41,9 +41,9 @@ class DataModel<T> {
   void toError([String v = 'Please check the network settings', bool isLine = true]) {
     this.flag = this.list.isEmpty ? 1 : -1;
     if (isLine) {
-      this.msg = v;
+      this.msg = 'Please check the network settings';
     } else {
-      this.msg = v + '\n';
+      this.msg = 'Please check the network settings' + '\n';
     }
   }
 

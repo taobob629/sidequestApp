@@ -1,19 +1,15 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/api/vip_api.dart';
-import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/im/play_detail.dart';
-import 'package:wy/ui/playwith/accompany_certification_page.dart';
+import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/play_orders_page.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/ui/playwith/play_skills_page.dart';
-import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/icon_menu.dart';
@@ -22,18 +18,14 @@ import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/widget/paixs_widget.dart';
-import 'package:wy/widget/route.dart';
-
 import '../common/dialog_input.dart';
-import '../im/conversation.dart';
 import 'balance/balance_page.dart';
 import 'developer/developer_page.dart';
-import 'menu_view.dart';
 import 'notification/notification_page.dart';
 
 class ProfilePage extends StatelessWidget {
   final controller = Get.put(ProfilePageController());
+  final mainController = Get.put(MainPageController());
 
   final userController = Get.find<UserController>();
 
@@ -188,15 +180,18 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildPlayMenu(){
+  Widget _buildPlayMenu() {
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15,bottom: 15),
-            child: Text("Play Function",style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),),
+            padding: const EdgeInsets.only(left: 15, bottom: 15),
+            child: Text(
+              "Play Function",
+              style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -204,42 +199,46 @@ class ProfilePage extends StatelessWidget {
               IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Play Skills",
-                onTap: (){
-                  Get.to(()=>PlaySkillsPage());
+                onTap: () {
+                  Get.to(() => PlaySkillsPage());
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_orders_new.webp",
                 title: "Play Orders",
-                onTap: (){
-                  Get.to(()=>PlayOrdersPage());
+                onTap: () {
+                  Get.to(() => PlayOrdersPage());
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
                 title: "Play Wallet",
-                onTap: (){
-
+                onTap: () {
+                  Get.to(() => PlayBalancePage());
                 },
               )
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconMenu(
                 icon: "assets/images/ic_tab_user_new.webp",
                 title: "Play Profile",
-                onTap: (){
-                  Get.to(()=>PlayProfilePage());
+                onTap: () {
+                  Get.to(() => PlayProfilePage());
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_tab_shop_new.webp",
                 title: "Play Home",
-                onTap: (){
-                  Get.to(()=>PlayDetail(userId: ""));
+                onTap: () {
+                  // Get.to(()=>PlayDetail(userId: ""));
+                  mainController.controller.jumpToPage(2);
+                  mainController.updateCurrentIndex(2);
                 },
               ),
               IconMenu(icon: "", title: ""),
@@ -250,15 +249,18 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStoreMenu(){
+  Widget _buildStoreMenu() {
     return Container(
-      margin: const EdgeInsets.only(top: 30,bottom: 50),
+      margin: const EdgeInsets.only(top: 30, bottom: 50),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15,bottom: 15),
-            child: Text("Store Function",style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),),
+            padding: const EdgeInsets.only(left: 15, bottom: 15),
+            child: Text(
+              "Store Function",
+              style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -266,45 +268,43 @@ class ProfilePage extends StatelessWidget {
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
                 title: "My Balance",
-                onTap: (){
+                onTap: () {
                   userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
                 title: "My Bookings",
-                onTap: (){
+                onTap: () {
                   userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_orders_new.webp",
-                title: "My Orders",
-                onTap: (){
-                  userController.checkLogin(() => Get.to(() => OrdersPage()));
-                }
-              ),
-
+                  icon: "assets/images/ic_orders_new.webp",
+                  title: "My Orders",
+                  onTap: () {
+                    userController.checkLogin(() => Get.to(() => OrdersPage()));
+                  }),
             ],
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconMenu(
-                icon: "assets/images/ic_tab_events_new.webp",
-                title: "My Activities",
-                onTap: (){
-                  userController.checkLogin(() => Get.to(() => MyEventsPage()));
-                }
-              ),
+                  icon: "assets/images/ic_tab_events_new.webp",
+                  title: "My Activities",
+                  onTap: () {
+                    userController.checkLogin(() => Get.to(() => MyEventsPage()));
+                  }),
               IconMenu(
-                icon: "assets/images/ic_address_new.webp",
-                title: "My Address",
-                onTap: (){
-                  userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
-                }
-              ),
+                  icon: "assets/images/ic_address_new.webp",
+                  title: "My Address",
+                  onTap: () {
+                    userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
+                  }),
               IconMenu(icon: "", title: ""),
             ],
           )
