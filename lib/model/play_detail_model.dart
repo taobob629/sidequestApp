@@ -2,6 +2,7 @@
 
 class PlayDetailModel {
   late int userId = 0;
+  late String memberId = "";
   late List<String> imageList = [];
   late String name = "";
   late String avatar = "";
@@ -16,6 +17,7 @@ class PlayDetailModel {
 
   PlayDetailModel.fromJson(Map<String, dynamic> json) {
     userId = json['basicInfo']['id'];
+    memberId = json['basicInfo']['userLogin'];
     imageList = json['imageList'] == null ? [] : (json['imageList'] as List).map<String>((e) => e.toString()).toList();
     name = json['basicInfo']['userNickname'] ?? '';
     avatar = json['basicInfo']['avatar'] ?? '';

@@ -19,10 +19,11 @@ class PlayDetail extends StatelessWidget {
 
   final String userId;
   final bool fromChat;
+  final bool isMemberCode;
   late final PlayDetailController controller;
 
-  PlayDetail({required this.userId, this.fromChat = false}){
-    controller = Get.put(PlayDetailController(userId:userId));
+  PlayDetail({required this.userId, this.fromChat = false, this.isMemberCode = false}){
+    controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode));
   }
 
   @override
@@ -144,7 +145,7 @@ class PlayDetail extends StatelessWidget {
                     if (index == 0) {
                       return buildInfo();
                     }else if(index == 1){
-                      return Obx(()=>_buildGames());
+                      return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames():Container());
                     }else if(index == 2){
                       return  _buildIntro();
                     }
@@ -206,7 +207,7 @@ class PlayDetail extends StatelessWidget {
                       return;
                     }
                     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_$userId");
+                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
                     if(conv.data != null) {
                       Navigator.push(
                         context,
@@ -285,7 +286,7 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildGame(SkillModel skillModel){
     return GestureDetector(
-      onTap: ()=>Get.to(()=>PlayOrder(liveUid: userId, skillModel: skillModel,)),
+      onTap: ()=>Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,)),
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(7),
@@ -362,6 +363,8 @@ class PlayDetail extends StatelessWidget {
 class PlayDetailController extends GetxController {
   String userId;
 
+  bool isMemberCode;
+
   late ScrollController scrollController;
 
   var titleColor = Colors.transparent.obs;
@@ -370,7 +373,7 @@ class PlayDetailController extends GetxController {
 
   Rx<PlayDetailModel> detailModel = PlayDetailModel().obs;
 
-  PlayDetailController({required this.userId});
+  PlayDetailController({required this.userId, required this.isMemberCode});
 
   @override
   void onInit() {
@@ -401,7 +404,7 @@ class PlayDetailController extends GetxController {
     });
 
     EasyLoading.show();
-    detailModel.value = await ImApi.getPlayDetail(userId);
+    detailModel.value = await ImApi.getPlayDetail(userId, isMemberCode);
     if(detailModel.value.imageList.length == 0) {
       detailModel.value.imageList.add(
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6020354b4960f27eab51c5005f4dfecb5007557e12e014-2vf4WP_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=819cd5ffe0a6286cac0515d00681e361");
