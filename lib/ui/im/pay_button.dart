@@ -44,7 +44,7 @@ class PayButton extends StatelessWidget {
               ),
               height: 56,
               onTap: () {
-                PayOrderModel model = PayOrderModel();
+                PayOrderModel model = playOrderController.getPayOrderModel();
                 NavigatorHelper.gotoPayPage(
                   model,
                   offPage: true,

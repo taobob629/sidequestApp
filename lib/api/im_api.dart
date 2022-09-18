@@ -1,6 +1,7 @@
 
 import '../model/im_sig_model.dart';
 import '../model/play_detail_model.dart';
+import '../model/play_order_detail_model.dart';
 import 'wy_http.dart';
 
 class ImApi {
@@ -10,10 +11,35 @@ class ImApi {
     return ImSigModel.fromJson(response.data);
   }
 
-  static Future<PlayDetailModel> getPlayDetail(String id) async {
-    var response = await http.get('/peiwan/app/home/super/$id',
+  static Future<PlayDetailModel> getPlayDetail(String id,bool isMemberCode) async {
+    String url = '/peiwan/app/home/super/$id';
+    if(isMemberCode){
+      url = '/peiwan/app/home/superMemberCode/$id';
+    }
+    var response = await http.get(url,
       queryParameters: ({})
     );
     return PlayDetailModel.fromJson(response.data);
+  }
+
+  static Future<PlayDetailModel> getPlayDetailByMemberCode(String memberCode) async {
+    var response = await http.get('/peiwan/app/home/superMemberCode/$memberCode',
+      queryParameters: ({})
+    );
+    return PlayDetailModel.fromJson(response.data);
+  }
+
+  static Future<PlayOrderDetailModel> getCurrentPlayOrderDetail(String memberCode) async {
+    var response = await http.get('/peiwan/app/order/imOrderDetail',
+      queryParameters: ({'memberCode':memberCode})
+    );
+    return PlayOrderDetailModel.fromJson(response.data);
+  }
+
+  static Future<PlayOrderDetailModel> getPlayOrderDetail(int orderId) async {
+    var response = await http.get('/peiwan/app/order/orderDetail',
+      queryParameters: ({'orderId':orderId})
+    );
+    return PlayOrderDetailModel.fromJson(response.data);
   }
 }

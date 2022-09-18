@@ -19,10 +19,11 @@ class PlayDetail extends StatelessWidget {
 
   final String userId;
   final bool fromChat;
+  final bool isMemberCode;
   late final PlayDetailController controller;
 
-  PlayDetail({required this.userId, this.fromChat = false}){
-    controller = Get.put(PlayDetailController(userId:userId));
+  PlayDetail({required this.userId, this.fromChat = false, this.isMemberCode = false}){
+    controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode));
   }
 
   @override
@@ -108,7 +109,8 @@ class PlayDetail extends StatelessWidget {
                                   radius: 35,
                                   child: Padding(
                                     padding: const EdgeInsets.all(2.0),
-                                    child: CachedNetworkImage(
+                                    child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
+                                    CachedNetworkImage(
                                       imageUrl: controller.detailModel.value.avatar,
                                       fit: BoxFit.cover,
                                       imageBuilder: (context,provider){
@@ -125,7 +127,7 @@ class PlayDetail extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                    )
+                                    ))
                                   )
                                 ),
                               )
@@ -143,7 +145,7 @@ class PlayDetail extends StatelessWidget {
                     if (index == 0) {
                       return buildInfo();
                     }else if(index == 1){
-                      return _buildGames();
+                      return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames():Container());
                     }else if(index == 2){
                       return  _buildIntro();
                     }
@@ -205,7 +207,7 @@ class PlayDetail extends StatelessWidget {
                       return;
                     }
                     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_$userId");
+                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
                     if(conv.data != null) {
                       Navigator.push(
                         context,
@@ -227,7 +229,7 @@ class PlayDetail extends StatelessWidget {
   }
 
   Widget buildInfo(){
-    return Container(
+    return Obx(()=>Container(
       height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -250,10 +252,14 @@ class PlayDetail extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildGames(){
+    List<Widget> items = [];
+    controller.detailModel.value.skills.forEach((element) {
+      items.add(_buildGame(element));
+    });
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -262,18 +268,14 @@ class PlayDetail extends StatelessWidget {
         children: [
           Text("My Skills",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white12
             ),
             child: Column(
-              children: [
-                _buildGame(),
-                SizedBox(height: 10,),
-                _buildGame()
-              ],
+              children: items
             ),
           ),
           SizedBox(height: 20,),
@@ -282,30 +284,31 @@ class PlayDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildGame(){
+  Widget _buildGame(SkillModel skillModel){
     return GestureDetector(
-      onTap: ()=>Get.to(()=>PlayOrder()),
+      onTap: ()=>Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,)),
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(7),
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Color(0xFF7D00FF)
         ),
         child: Row(
           children: [
-            Image.network("http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg",width: 66,height: 66,fit: BoxFit.cover,),
+            Image.network("${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover,),
             SizedBox(width: 5,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 14),),
-                Text("King 120star",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
+                Text("${skillModel.label}",style: TextStyle(color: Colors.white54,fontSize: 12),),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text("£ 20.0",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text("£ ${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
                     Text(" / hour",style: TextStyle(color: Colors.white54,fontSize: 12),),
                   ],
                 )
@@ -360,6 +363,8 @@ class PlayDetail extends StatelessWidget {
 class PlayDetailController extends GetxController {
   String userId;
 
+  bool isMemberCode;
+
   late ScrollController scrollController;
 
   var titleColor = Colors.transparent.obs;
@@ -368,7 +373,7 @@ class PlayDetailController extends GetxController {
 
   Rx<PlayDetailModel> detailModel = PlayDetailModel().obs;
 
-  PlayDetailController({required this.userId});
+  PlayDetailController({required this.userId, required this.isMemberCode});
 
   @override
   void onInit() {
@@ -398,12 +403,8 @@ class PlayDetailController extends GetxController {
       }
     });
 
-    await ImApi.getPlayDetail(userId);
-  }
-
-  void initData(double headerHeight) async {
-    this.headerHeight.value = headerHeight;
     EasyLoading.show();
+    detailModel.value = await ImApi.getPlayDetail(userId, isMemberCode);
     if(detailModel.value.imageList.length == 0) {
       detailModel.value.imageList.add(
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6020354b4960f27eab51c5005f4dfecb5007557e12e014-2vf4WP_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=819cd5ffe0a6286cac0515d00681e361");
@@ -413,14 +414,21 @@ class PlayDetailController extends GetxController {
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2F0%2Fde%2F6300ed8f12.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=680fd115dad0fecb14f0eccebb3a52d3");
     }
     // this.productDetailModel.value = await ShopApi.getProductDetail(id);
-    detailModel.value.name = "Wakabe";
-    detailModel.value.avatar = "https://pics0.baidu.com/feed/9d82d158ccbf6c81ff60dec6d3b2443332fa40d8.jpeg?token=c04443f136e02e3712476a018e2694be";
+    if(detailModel.value.avatar == "") {
+      detailModel.value.avatar =
+      "https://pics0.baidu.com/feed/9d82d158ccbf6c81ff60dec6d3b2443332fa40d8.jpeg?token=c04443f136e02e3712476a018e2694be";
+    }
     if(this.detailModel.value.imageList.isNotEmpty){
       this.detailModel.value.imageList.forEach((element) {
         DefaultCacheManager().downloadFile(element);
       });
     }
     EasyLoading.dismiss();
+  }
+
+  void initData(double headerHeight) async {
+    this.headerHeight.value = headerHeight;
+
   }
 
   void changeTitleColor(Color titleColor) {

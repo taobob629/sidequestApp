@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/colorful_button.dart';
-import 'package:wy/widget/views.dart';
 
 import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
 
 class OrderDetail extends StatelessWidget {
 
-  final controller = Get.put(OrderDetailController());
+  late final PlayOrderDetailModel playOrderDetailModel;
+  late final OrderDetailController controller ;
+
+  OrderDetail({required this.playOrderDetailModel}){
+    controller = Get.put(OrderDetailController(playOrderDetailModel));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +72,13 @@ class OrderDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 14),),
-              Text("King 120star",style: TextStyle(color: Colors.white54,fontSize: 12),),
+              Text("${controller.playOrderDetailModel.value.gameName}",style: TextStyle(color: Colors.white,fontSize: 14),),
+              Text("",style: TextStyle(color: Colors.white54,fontSize: 12),),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("£ 20.0",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                  Text(" / hour",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                  Text("",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text("",style: TextStyle(color: Colors.white54,fontSize: 12),),
                 ],
               )
             ],
@@ -93,10 +97,10 @@ class OrderDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Order Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
-          _infoItem("Order Time","2022-09-12 23:00:00"),
-          _infoItem("Order Number","28979866764"),
-          _infoItem("Service Duration","2 hours"),
-          _infoItem("Total Price","£ 40.00"),
+          //_infoItem("Order Time","2022-09-12 23:00:00"),
+          _infoItem("Order Number","${controller.playOrderDetailModel.value.orderno}"),
+          _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} hours"),
+          _infoItem("Total Price","£ ${controller.playOrderDetailModel.value.total}"),
         ],
       ),
     );
@@ -186,10 +190,13 @@ class OrderDetail extends StatelessWidget {
 class OrderDetailController extends GetxController {
   Rx<PlayOrderDetailModel> playOrderDetailModel = PlayOrderDetailModel().obs;
 
+  OrderDetailController(PlayOrderDetailModel model){
+    playOrderDetailModel.value = model;
+  }
+
   @override
   void onInit() {
     super.onInit();
-    playOrderDetailModel.value.icon = "http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg";
 
   }
 

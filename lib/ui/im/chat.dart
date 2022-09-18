@@ -11,8 +11,11 @@ import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_chat_controller.dart';
 import 'package:tim_ui_kit/ui/utils/permission.dart';
 import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
+
+import '../../model/play_order_detail_model.dart';
 
 class Chat extends StatefulWidget {
   final V2TimConversation selectedConversation;
@@ -31,6 +34,16 @@ class _ChatState extends State<Chat> {
   String? backRemark;
   final V2TIMManager sdkInstance = TIMUIKitCore.getSDKInstance();
   GlobalKey<dynamic> tuiChatField = GlobalKey();
+
+  PlayOrderDetailModel? playOrderDetailModel;
+
+  _getPlayOrder(){
+    ImApi.getCurrentPlayOrderDetail(widget.selectedConversation.userID!).then((value) {
+      setState(() {
+        playOrderDetailModel = value;
+      });
+    });
+  }
 
   String _getTitle() {
     return backRemark ?? widget.selectedConversation.showName ?? "";
@@ -57,7 +70,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    Get.to(() => PlayDetail(userId: "2",fromChat: true,));
+    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,));
   }
 
   // _onTapLocation() {
@@ -166,13 +179,14 @@ class _ChatState extends State<Chat> {
     //       receiverID: widget.selectedConversation.userID!,
     //       convType: ConvType.c2c);
     // }
-    Get.to(()=>PlayDetail(userId: "2", fromChat: true,));
+    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,));
   }
 
   @override
   void initState() {
     super.initState();
     _initListener();
+    _getPlayOrder();
   }
 
   @override
@@ -336,8 +350,11 @@ class _ChatState extends State<Chat> {
   }
 
   Widget _buildOrderState(){
+    if(playOrderDetailModel == null){
+      return Container();
+    }
     return GestureDetector(
-      onTap: ()=>Get.to(()=>OrderDetail()),
+      onTap: ()=>Get.to(()=>OrderDetail(playOrderDetailModel: playOrderDetailModel!)),
       child: Container(
         height: 80,
         color: Colors.white12,
@@ -350,8 +367,8 @@ class _ChatState extends State<Chat> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("LEAGUE OF LEGENDS",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
-                  Text("£ 40.00 for 2 Hours",style: TextStyle(color: Colors.white,fontSize: 12),)
+                  Text("${playOrderDetailModel!.gameName}",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
+                  Text("£ ${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} * Hour",style: TextStyle(color: Colors.white,fontSize: 12),)
                 ],
               )
             ),
@@ -389,10 +406,10 @@ class _ChatState extends State<Chat> {
                     child: Column(
                       children: [
                         CircleAvatar(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: playOrderDetailModel!.status ==2 ? Colors.green : Colors.blue,
                           radius: 6,
                         ),
-                        Text("待服务",style: TextStyle(color: Colors.white,fontSize: 12),)
+                        Text("${playOrderDetailModel!.status ==2 ? '服务中' : '待服务'}",style: TextStyle(color: Colors.white,fontSize: 12),)
                       ],
                     ),
                   ),
