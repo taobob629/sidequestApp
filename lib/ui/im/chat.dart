@@ -233,71 +233,81 @@ class _ChatState extends State<Chat> {
           draftText: _getDraftText(),
           messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
             var data = jsonDecode(message.customElem!.data!);
-            return Container(
-              height: height,
-              width: width,
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.white12,
-                borderRadius: BorderRadius.circular(5),
-              ),
+            var type = data['type'];
+            if(type != "play_order"){
+              return Text("Unsupported message type, please update your app!",style: TextStyle(fontSize: 12,color: Colors.white24),);
+            }
+            print(data);
+            return GestureDetector(
+              onTap: (){
+                Get.to(()=>OrderDetail(orderId: data['orderId']));
+              },
               child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.network(
-                            data['icon'],
-                            width: iconHeight,
-                            height: iconHeight,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                            height: iconHeight,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "GAME",
-                                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                                ),
-                                Text("League of legends",
-                                    style: TextStyle(
-                                      color: Colors.white54,
-                                      fontSize: 14,
-                                    )),
-                              ],
+                height: height,
+                width: width,
+                padding: const EdgeInsets.all(0),
+                child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            data['icon'] == null ? Container(
+                              width: iconHeight,
+                              height: iconHeight,):
+                            Image.network(
+                              data['icon'],
+                              width: iconHeight,
+                              height: iconHeight,
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "GAME",
-                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text("League of legends",
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 14,
-                              )),
-                        ],
-                      )
-                    ],
-                  )),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: iconHeight,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "GAME",
+                                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("${data['game']}",
+                                      style: TextStyle(
+                                        color: Colors.white54,
+                                        fontSize: 14,
+                                      )),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "£ ${data['price']}",
+                              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: 10,),
+                            Text("for ${data['num']} ${data['num'] > 1 ? 'Hours':'Hour' }",
+                                style: TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 14,
+                                )),
+                          ],
+                        )
+                      ],
+                    )),
+              ),
             );
           }),
           morePanelConfig: MorePanelConfig(
@@ -354,7 +364,7 @@ class _ChatState extends State<Chat> {
       return Container();
     }
     return GestureDetector(
-      onTap: ()=>Get.to(()=>OrderDetail(playOrderDetailModel: playOrderDetailModel!)),
+      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId)),
       child: Container(
         height: 80,
         color: Colors.white12,
@@ -368,7 +378,7 @@ class _ChatState extends State<Chat> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("${playOrderDetailModel!.gameName}",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
-                  Text("£ ${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} * Hour",style: TextStyle(color: Colors.white,fontSize: 12),)
+                  Text("£ ${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} ${playOrderDetailModel!.nums > 1 ? 'Hours' : 'Hour'}",style: TextStyle(color: Colors.white,fontSize: 12),)
                 ],
               )
             ),

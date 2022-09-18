@@ -184,6 +184,9 @@ class PlayDetail extends StatelessWidget {
                   ),
                   height: 50,
                   width: 160,
+                  onTap: (){
+
+                  },
                 ),
                 ColorfulButton(
                   child: Row(
@@ -243,11 +246,11 @@ class PlayDetail extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text("Follow: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
-              Text("332",style: TextStyle(fontSize: 16,color: Colors.white),),
+              Text("Follows: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
+              Text("${controller.detailModel.value.follows}",style: TextStyle(fontSize: 16,color: Colors.white),),
               SizedBox(width: 30,),
               Text("Fans: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
-              Text("32",style: TextStyle(fontSize: 16,color: Colors.white),)
+              Text("${controller.detailModel.value.fans}",style: TextStyle(fontSize: 16,color: Colors.white),)
             ],
           )
         ],
@@ -309,7 +312,7 @@ class PlayDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text("£ ${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                    Text(" / hour",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                    Text(" / Hour",style: TextStyle(color: Colors.white,fontSize: 12),),
                   ],
                 )
               ],

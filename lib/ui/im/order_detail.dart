@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 
+import '../../api/im_api.dart';
 import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
 
 class OrderDetail extends StatelessWidget {
 
-  late final PlayOrderDetailModel playOrderDetailModel;
+  late final int orderId;
   late final OrderDetailController controller ;
 
-  OrderDetail({required this.playOrderDetailModel}){
-    controller = Get.put(OrderDetailController(playOrderDetailModel));
+  OrderDetail({required this.orderId}){
+    controller = Get.put(OrderDetailController(orderId));
   }
 
   @override
@@ -48,16 +51,28 @@ class OrderDetail extends StatelessWidget {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-        child: ColorfulButton(
-          height: 50,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text("SCORE",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
-          ),
-          onTap: (){},
-        ),
+        child: _buildActionButton()
       )
     );
+  }
+
+  Widget _buildActionButton(){
+    UserController userController = Get.find<UserController>();
+    print(userController.user.value.id);
+    return Obx((){
+        if(controller.playOrderDetailModel.value.status == 1){
+          if(userController.user.value.id == controller.playOrderDetailModel.value.fromUid){//发起人
+            return ColorfulButton(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text("CANCEL",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
+              ),
+              height: 48
+            );
+          }
+        }
+        return Container();
+    });
   }
 
   Widget _buildSkillInfo(){
@@ -66,6 +81,7 @@ class OrderDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
         children: [
+          controller.playOrderDetailModel.value.icon == "" ? Container():
           Image.network("${controller.playOrderDetailModel.value.icon}",width: 66,height: 66,fit: BoxFit.cover,),
           SizedBox(width: 10,),
           Column(
@@ -99,7 +115,8 @@ class OrderDetail extends StatelessWidget {
           Text("Order Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number","${controller.playOrderDetailModel.value.orderno}"),
-          _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} hours"),
+          _infoItem("Service Time","${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.svctm))}"),
+          _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.nums > 1 ? 'Hours':'Hour'}"),
           _infoItem("Total Price","£ ${controller.playOrderDetailModel.value.total}"),
         ],
       ),
@@ -189,9 +206,10 @@ class OrderDetail extends StatelessWidget {
 
 class OrderDetailController extends GetxController {
   Rx<PlayOrderDetailModel> playOrderDetailModel = PlayOrderDetailModel().obs;
+  late int orderId;
 
-  OrderDetailController(PlayOrderDetailModel model){
-    playOrderDetailModel.value = model;
+  OrderDetailController(int orderId){
+    this.orderId = orderId;
   }
 
   @override
@@ -203,6 +221,6 @@ class OrderDetailController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
+    ImApi.getPlayOrderDetail(orderId).then((value) => playOrderDetailModel.value = value);
   }
 }
