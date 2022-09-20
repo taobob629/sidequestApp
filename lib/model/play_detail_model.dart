@@ -18,12 +18,12 @@ class PlayDetailModel {
   PlayDetailModel.fromJson(Map<String, dynamic> json) {
     userId = json['basicInfo']['id'];
     memberId = json['basicInfo']['userLogin'];
-    imageList = json['imageList'] == null ? [] : (json['imageList'] as List).map<String>((e) => e.toString()).toList();
+    imageList = json['thumb'] == null ? [] : (json['thumb'] as List).map<String>((e) => e.toString()).toList();
     name = json['basicInfo']['userNickname'] ?? '';
     avatar = json['basicInfo']['avatar'] ?? '';
     age = json['basicInfo']['age'] ?? 0;
     level = json['level'] ?? 0;
-    follows = json['follows'] ?? 0;
+    follows = json['followers'] ?? 0;
     fans = json['fans'] ?? 0;
 
     skills = json["games"].map<SkillModel>((item) => SkillModel.fromJson(item)).toList();

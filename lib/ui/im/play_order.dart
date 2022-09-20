@@ -72,7 +72,7 @@ class PlayOrder extends StatelessWidget {
                 Container(
                   width: 80,
                   height: 80,
-                  child: CachedNetworkImage(
+                  child: controller.skillModel.value.thumb == "" ? Container():CachedNetworkImage(
                     imageUrl: controller.skillModel.value.thumb,
                     fit: BoxFit.cover,
                   ),
