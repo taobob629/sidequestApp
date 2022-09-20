@@ -6,6 +6,7 @@ import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/play_orders_page.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
@@ -47,7 +48,14 @@ class ProfilePage extends StatelessWidget {
                 actions: [
                   ActionButton(
                     icon: Image.asset("assets/images/ic_edit_new.webp", width: 24),
-                    onTap: () => userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage()),
+                    onTap: () {
+                      var userInfoModel = userController.userInfoModel.value;
+                      if (userInfoModel.isauth == 1) {
+                        userController.checkLogin(() => Get.to(() => PlayDetail(userId: "${userInfoModel.pwuserId}")));
+                      } else {
+                        userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage());
+                      }
+                    },
                   ),
                   SizedBox(
                     width: 0,
