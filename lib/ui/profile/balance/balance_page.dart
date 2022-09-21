@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/model/coin_charge_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -60,14 +63,12 @@ class BalancePage extends StatelessWidget {
     List<Widget> itemList = [];
     int index = 0;
     controller.list.forEach((element) {
-      itemList.add(
-        ChargeItem(
-          index: index,
-          num: element,
-          selected: index == controller.productIndex.value,
-          onTap: (idx) => controller.changeProductIndex(idx),
-        )
-      );
+      itemList.add(ChargeItem(
+        index: index,
+        item: element,
+        selected: index == controller.productIndex.value,
+        onTap: (idx) => controller.changeProductIndex(idx),
+      ));
       index++;
     });
     return GridView.count(
@@ -274,17 +275,11 @@ class BalancePageController extends GetxListController {
     }
   }
 
-  Future<List<int>> loadData() async {
-    List<int> chargeProductList = [];
-
-    chargeProductList.add(10);
-    chargeProductList.add(30);
-    chargeProductList.add(50);
-    chargeProductList.add(100);
-    chargeProductList.add(200);
-    chargeProductList.add(300);
-
-    return chargeProductList;
+  Future<List<CoinChargeRuleModel>> loadData() async {
+    EasyLoading.show();
+    List<CoinChargeRuleModel> chargeRolues =await BalanceApi.chargeRule();
+    EasyLoading.dismiss();
+    return chargeRolues;
   }
 
   void changeProductIndex(int index) {
@@ -317,11 +312,12 @@ class BalancePageController extends GetxListController {
     PayOrderModel payOrderModel = PayOrderModel();
     String amountStr = amountController.text;
     double amount = 0.0;
-    if(amountStr.isNotEmpty) {
+    if (amountStr.isNotEmpty) {
       amount = double.parse(amountStr);
     }
-    if(amount == 0){
-      amount = list[productIndex.value] * 1.0;
+    if (amount == 0) {
+      CoinChargeRuleModel model=list[productIndex.value];
+      amount = double.parse(model.money) * 1.0;
     }
     payOrderModel.goodsPrice = "$amount";
     payOrderModel.totalAmount = "$amount";

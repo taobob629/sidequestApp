@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
@@ -59,7 +60,22 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       ),
       ItemTitle(title: "Enter withdrawal amount", subTitle: ""),
       _buildCustomInput(),
-      ItemTitle(title: "Withdrawal Account", subTitle: ""),
+      ItemTitle(
+        title: "Withdrawal Account",
+        subTitle: "",
+        actions: TextButton(
+          onPressed: () {
+            Get.toNamed(AppPages.BindBankCard);
+          },
+          child: Text(
+            'Add Account',
+            style: TextStyle(
+              color: Colors.white,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
       _buildAccountSelect(context),
       PWidget.boxh(8),
       FloatingButton(

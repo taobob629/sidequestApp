@@ -1,5 +1,5 @@
-
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/model/coin_charge_rule_model.dart';
 import 'package:wy/model/balance_record_model.dart';
 
 class BalanceApi {
@@ -40,6 +40,20 @@ class BalanceApi {
     List<ConsumeRecordModel> list = response.data
       .map<ConsumeRecordModel>((item) => ConsumeRecordModel.fromJson(item))
       .toList();
+    return list;
+  }
+
+  /**
+   * 金币和金额充值规则
+   */
+  static Future<List<CoinChargeRuleModel>> chargeRule() async {
+    var response = await http.get('/peiwan/app/home/chargeRule');
+    if (response.data == null) {
+      return [];
+    }
+    List<CoinChargeRuleModel> list = response.data['pw_charge_rules']
+        .map<CoinChargeRuleModel>((item) => CoinChargeRuleModel.fromJson(item))
+        .toList();
     return list;
   }
 }

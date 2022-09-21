@@ -214,7 +214,10 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_balance_new.webp",
                 title: "Play Wallet",
                 onTap: () {
-                  Get.to(() => PlayBalancePage());
+                  Get.to(() => PlayBalancePage(),
+                      arguments: Map()
+                        ..['balance'] =
+                            userController?.userInfoModel?.value?.balance);
                 },
               )
             ],

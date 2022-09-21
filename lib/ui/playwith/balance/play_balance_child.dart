@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
 import 'package:wy/ui/profile/balance/count_view.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
-import 'package:wy/ui/profile/balance/top_banner.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -22,10 +20,13 @@ class PlayBalanceChild extends StatefulWidget {
 
 class _PlayBalanceChildState extends State<PlayBalanceChild> {
   late BalancePageController controller;
-
+  var balance; //参数
   @override
   void initState() {
     this.initData();
+    if (Get.arguments != null) {
+      balance = Get.arguments['balance'];
+    }
     super.initState();
   }
 
@@ -56,10 +57,17 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       ItemTitle(title: "Recharge", subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
-      ItemTitle(title: "Other recharge amount", subTitle: ""),
+      ItemTitle(
+        title: "Other recharge amount",
+        subTitle: "",
+        actions: Text(
+          'Add Account',
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
       _buildCustomInput(),
-      ItemTitle(title: "Top Up Account", subTitle: ""),
-      _buildAccountSelect(context!),
+      // ItemTitle(title: "Top Up Account", subTitle: ""),
+      // _buildAccountSelect(context!),
     ];
   }
 
@@ -67,7 +75,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         padding: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.white24))),
         child: TextField(
           maxLines: 1,
           inputFormatters: [PrecisionLimitFormatter(2)],
@@ -76,9 +85,15 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           cursorColor: Colors.white70,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
+          style: const TextStyle(
+              color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(hintText: "£0", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(
+              hintText: "£0",
+              hintStyle: TextStyle(
+                  fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 
@@ -133,7 +148,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CountView(icon: "money", title: "Cash", count: "0.0"),
+              CountView(
+                  icon: "money", title: "Cash", count: "${balance ?? '0'}"),
               CountView(icon: "time", title: "Free time", count: "0.0"),
             ],
           ),
@@ -151,7 +167,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     controller.list.forEach((element) {
       itemList.add(ChargeItem(
         index: index,
-        num: element,
+        item: element,
         selected: index == controller.productIndex.value,
         onTap: (idx) => controller.changeProductIndex(idx),
       ));
