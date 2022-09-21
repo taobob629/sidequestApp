@@ -1,13 +1,15 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as f;
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/config/app_config.dart';
 
 /// 调起拨号页
@@ -110,7 +112,8 @@ var context = AppConfig.navigatorKey.currentState?.overlay?.context;
 ///间隔日
 int daysBetween(DateTime a, DateTime b, [bool ignoreTime = false]) {
   if (ignoreTime) {
-    int v = a.millisecondsSinceEpoch ~/ 86400000 - b.millisecondsSinceEpoch ~/ 86400000;
+    int v = a.millisecondsSinceEpoch ~/ 86400000 -
+        b.millisecondsSinceEpoch ~/ 86400000;
     if (v < 0) return -v;
     return v;
   } else {
@@ -125,7 +128,8 @@ void flog(v, [String? name]) => f.log(v.toString(), name: name ?? 'flog');
 ///是否移动端
 bool get isMobile {
   if (kIsWeb) {
-    if (MediaQuery.of(context!).size.aspectRatio <= 1 || MediaQuery.of(context!).size.width <= 500) {
+    if (MediaQuery.of(context!).size.aspectRatio <= 1 ||
+        MediaQuery.of(context!).size.width <= 500) {
       return true;
     } else {
       return false;
@@ -140,7 +144,8 @@ bool get isMobile {
 }
 
 ///是否深色模式
-bool get isDark => (MediaQuery.platformBrightnessOf(context!) == Brightness.dark);
+bool get isDark =>
+    (MediaQuery.platformBrightnessOf(context!) == Brightness.dark);
 
 int get isDarkIndex => isDark ? 0 : 1;
 
@@ -170,3 +175,27 @@ void mapFlog(data, i, {bool isSort = true}) {
   flog('}', '$i');
   flog('======================================================');
 }
+
+Timer? timer;
+/**
+ * 防止连续调用搜索
+ */
+searchDelay(Function doSomething, {durationTime = 500}) {
+  timer?.cancel();
+  timer = new Timer(Duration(milliseconds: durationTime), () {
+    doSomething?.call();
+    timer = null;
+  });
+}
+  /**
+   * 只显示最后四位数字
+   */
+  getPayCardStr(String? code) {
+  if(code==null||code.length<=4)return code;
+    final int length = code.length;
+    final int replaceLength = length - 4;
+    final String replacement =
+        List<String>.generate((replaceLength / 4).ceil(), (int _) => '....    ')
+            .join('');
+    return code.replaceRange(0, replaceLength, replacement);
+  }

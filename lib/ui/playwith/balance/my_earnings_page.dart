@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/playwith/balance/bank_widget.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
@@ -65,6 +67,10 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         subTitle: "",
         actions: TextButton(
           onPressed: () {
+            if(controller.bankList.length>=4){
+              EasyLoading.showToast('only 4 bankcards allowed!');
+              return;
+            }
             Get.toNamed(AppPages.BindBankCard);
           },
           child: Text(
@@ -76,7 +82,8 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           ),
         ),
       ),
-      _buildAccountSelect(context),
+    //  _buildAccountSelect(context),
+      BankListWidget(),
       PWidget.boxh(8),
       FloatingButton(
         label: "Withdrawal",

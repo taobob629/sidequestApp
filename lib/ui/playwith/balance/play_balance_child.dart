@@ -21,11 +21,13 @@ class PlayBalanceChild extends StatefulWidget {
 class _PlayBalanceChildState extends State<PlayBalanceChild> {
   late BalancePageController controller;
   var balance; //参数
+  var votes; //钻石数
   @override
   void initState() {
     this.initData();
     if (Get.arguments != null) {
       balance = Get.arguments['balance'];
+      votes=Get.arguments['votes'];
     }
     super.initState();
   }
@@ -60,10 +62,6 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       ItemTitle(
         title: "Other recharge amount",
         subTitle: "",
-        actions: Text(
-          'Add Account',
-          style: TextStyle(color: Colors.red),
-        ),
       ),
       _buildCustomInput(),
       // ItemTitle(title: "Top Up Account", subTitle: ""),
@@ -150,7 +148,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
             children: [
               CountView(
                   icon: "money", title: "Cash", count: "${balance ?? '0'}"),
-              CountView(icon: "time", title: "Free time", count: "0.0"),
+              CountView(icon: "money", title: "Votes", count: '${votes??'0'}'),
             ],
           ),
         ]),

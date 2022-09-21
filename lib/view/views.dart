@@ -90,6 +90,7 @@ Widget buildTFView(
   bool isDouble = false,
   bool isAz = false,
   bool isEdit = true,
+  bool isBankCode = false,
   bool autofocus = false,
   int maxLines = 1,
   double height = 20,
@@ -116,7 +117,9 @@ Widget buildTFView(
               if (isInt) FilteringTextInputFormatter.digitsOnly, //只允许输入数字
               // ignore: deprecated_member_use
               if (isDouble) FilteringTextInputFormatter(RegExp("[0-9.0-9]"), allow: true), //只允许输入小数
-              if (isDouble) PrecisionLimitFormatter(doubleCount)
+              if (isDouble) PrecisionLimitFormatter(doubleCount),
+              if (isBankCode) TextInputFormatter.withFunction(
+                      (oldValue, newValue) => _addSeparator(newValue.text)),
             ],
             style: (textStyle ?? TextStyle(fontSize: textSize, color: textColor)).copyWith(height: 1.5),
             cursorColor: Theme.of(context).primaryColor,
@@ -163,7 +166,9 @@ Widget buildTFView(
             if (isInt) FilteringTextInputFormatter.digitsOnly, //只允许输入数字
             // ignore: deprecated_member_use
             if (isDouble) FilteringTextInputFormatter(RegExp("[0-9.0-9]"), allow: true), //只允许输入小数
-            if (isDouble) PrecisionLimitFormatter(doubleCount)
+            if (isDouble) PrecisionLimitFormatter(doubleCount),
+            if (isBankCode) TextInputFormatter.withFunction(
+                    (oldValue, newValue) => _addSeparator(newValue.text)),
           ],
           textAlign: textAlign ?? TextAlign.start,
           decoration: InputDecoration(
@@ -186,6 +191,31 @@ Widget buildTFView(
     )
   ][isExp ? 0 : 1];
 }
+///银行卡号每四位加一个分隔符
+TextEditingValue _addSeparator(String text, {String separator = "-"}) {
+  if (text.isEmpty) {
+    return TextEditingValue(text: text);
+  }
+  ///移除了分隔符
+  var removeSeparator = text.replaceAll(separator, "");
+  var list = removeSeparator.split("");
+  int separatorCount = 0;
+  for (var i = 0; i < removeSeparator.length; i = i + 2) {
+    if (i == 0) continue;
+    list.insert(i + separatorCount, separator);
+    separatorCount++;
+  }
+  var endText = list.join("");
+  return TextEditingValue(
+    text: endText,
+    selection: TextSelection(
+      baseOffset: endText.length,
+      extentOffset: endText.length,
+      affinity: TextAffinity.upstream,
+    ),
+  );
+}
+
 
 class PrecisionLimitFormatter extends TextInputFormatter {
   int _scale;
@@ -235,4 +265,5 @@ class PrecisionLimitFormatter extends TextInputFormatter {
     }
     return newValue;
   }
+
 }

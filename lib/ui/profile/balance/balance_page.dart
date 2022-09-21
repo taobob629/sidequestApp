@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/coin_charge_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/action_button.dart';
@@ -211,6 +212,13 @@ class BalancePageController extends GetxListController {
   late TextEditingController accountController;
   late FocusNode accountFocusNode;
   late FocusNode amountFocusNode;
+  RxList<BankCardModel> _bankList = RxList();
+
+  List<BankCardModel> get bankList => _bankList;
+
+  set bankList(List<BankCardModel> value) {
+    _bankList.value = value;
+  }
 
   BalancePageController({double amount = 0.0}){
     customAmount.value = amount;
@@ -219,6 +227,7 @@ class BalancePageController extends GetxListController {
   @override
   void onInit() {
     super.onInit();
+    getBankList();
     amountController = TextEditingController();
     accountController = TextEditingController();
     accountFocusNode = FocusNode();
@@ -326,5 +335,17 @@ class BalancePageController extends GetxListController {
       var userController = Get.find<UserController>();
       userController.updateInfo();
     });
+  }
+
+  void getBankList() async {
+   bankList= await BalanceApi.getBankList();
+  }
+
+   void deleteBank(var id) async{
+      EasyLoading.show();
+      await BalanceApi.unbindBankCard(id);
+      getBankList();
+      EasyLoading.showToast('Success');
+      EasyLoading.dismiss();
   }
 }

@@ -1,6 +1,8 @@
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/coin_charge_rule_model.dart';
 import 'package:wy/model/balance_record_model.dart';
+import 'package:wy/utils/utils.dart';
 
 class BalanceApi {
 
@@ -55,5 +57,23 @@ class BalanceApi {
         .map<CoinChargeRuleModel>((item) => CoinChargeRuleModel.fromJson(item))
         .toList();
     return list;
+  }
+  //添加银行卡
+  static Future<void> addBankCard(Map<String, dynamic> params) async{
+    var response=  await http.post('/peiwan/app/card/addCard',
+        data: params
+    );
+  }
+
+  //获取银行卡列表
+  static Future<List<BankCardModel>> getBankList() async{
+    var response=  await http.get('/peiwan/app/card/list');
+    List<BankCardModel> list = response.data
+        .map<BankCardModel>((item) => BankCardModel.fromJson(item))
+        .toList();
+    return list;
+  }
+  static Future<void> unbindBankCard(var id) async {
+    var response=  await http.get('/peiwan/app/card/delete/$id');
   }
 }

@@ -96,7 +96,9 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           ),
           FloatingButton(
             label: "Next",
-            onTap: () {},
+            onTap: () {
+              controller.save();
+            },
           )
         ],
       ),
@@ -123,11 +125,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         }),
         PWidget.boxw(8),
         buildTFView(context!,
-            hintText: 'please input',
+            hintText: 'Please enter the 6-digit format xx-xx-xx',
             con: controller.sortCodeTEC,
             textAlign: TextAlign.right,
             hintColor: hintColor,
             textColor: Colors.white,
+            isBankCode: true,
             isExp: true),
       ])),
       itemBg(PWidget.row([
@@ -136,7 +139,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         ], {
           'ali': 1
         }),
-        Spacer(),
+        PWidget.boxw(8),
         buildTFView(context!,
             hintText: 'please input',
             con: controller.bankNameTEC,

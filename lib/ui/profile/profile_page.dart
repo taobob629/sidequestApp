@@ -217,7 +217,9 @@ class ProfilePage extends StatelessWidget {
                   Get.to(() => PlayBalancePage(),
                       arguments: Map()
                         ..['balance'] =
-                            userController?.userInfoModel?.value?.balance);
+                            userController?.userInfoModel?.value?.balance
+                        ..['votes'] =
+                            userController?.userInfoModel?.value?.votes);
                 },
               )
             ],

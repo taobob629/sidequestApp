@@ -19,7 +19,7 @@ class ChargeItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       onTap: ()=>this.onTap.call(index),
       child: Container(
-        padding: const EdgeInsets.only(top: 10,bottom: 5),
+        padding: const EdgeInsets.only(top: 6,bottom: 5),
         decoration: BoxDecoration(
           color: Colors.white10,
           borderRadius: BorderRadius.circular(12),
