@@ -36,7 +36,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     log(
-      'api-request:${options.baseUrl}${options.path}' + ' queryParameters: ${options.queryParameters}',
+      'api-request:${options.baseUrl}${options.path}' + ' queryParameters: ${options.queryParameters} data :${options.data} ',
       name: "WY_API",
     );
     //debugPrint('---api-request--->data--->${options.data}');

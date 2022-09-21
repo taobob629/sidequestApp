@@ -5,7 +5,7 @@ import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/bank_card_model.dart';
-import 'package:wy/model/coin_charge_rule_model.dart';
+import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -220,7 +220,9 @@ class BalancePageController extends GetxListController {
     _bankList.value = value;
   }
 
-  BalancePageController({double amount = 0.0}){
+  BankCardModel? selectedBank;
+
+  BalancePageController({double amount = 0.0}) {
     customAmount.value = amount;
   }
 
@@ -275,8 +277,8 @@ class BalancePageController extends GetxListController {
       }
     });
 
-    if(customAmount.value > 0){
-      if(customAmount.value < 1){
+    if (customAmount.value > 0) {
+      if (customAmount.value < 1) {
         customAmount.value = 1;
       }
       productIndex.value = -1;
@@ -284,11 +286,13 @@ class BalancePageController extends GetxListController {
     }
   }
 
+  ChargeRuleModel? chargeRule;
+
   Future<List<CoinChargeRuleModel>> loadData() async {
     EasyLoading.show();
-    List<CoinChargeRuleModel> chargeRolues =await BalanceApi.chargeRule();
+    chargeRule = await BalanceApi.chargeRule();
     EasyLoading.dismiss();
-    return chargeRolues;
+    return chargeRule?.pwChargeRules ?? [];
   }
 
   void changeProductIndex(int index) {
@@ -317,7 +321,12 @@ class BalancePageController extends GetxListController {
     accountType.value = value;
   }
 
-  void pay(){
+  void selectBank(BankCardModel bank) {
+    selectedBank = bank;
+    accountType.value = bank.id;
+  }
+
+  void pay() {
     PayOrderModel payOrderModel = PayOrderModel();
     String amountStr = amountController.text;
     double amount = 0.0;
@@ -338,14 +347,49 @@ class BalancePageController extends GetxListController {
   }
 
   void getBankList() async {
-   bankList= await BalanceApi.getBankList();
+    bankList = await BalanceApi.getBankList();
+    selectedBank = bankList?.first;
+    accountType.value = selectedBank?.id ?? -1;
   }
 
-   void deleteBank(var id) async{
-      EasyLoading.show();
-      await BalanceApi.unbindBankCard(id);
-      getBankList();
-      EasyLoading.showToast('Success');
-      EasyLoading.dismiss();
+  void deleteBank(var id) async {
+    EasyLoading.show();
+    await BalanceApi.unbindBankCard(id);
+    getBankList();
+    EasyLoading.showToast('Success');
+    EasyLoading.dismiss();
+  }
+
+  /*
+   * 提现
+   *  post方法
+参数 ：
+name：用户昵称，可选
+card：银行卡号
+cardId:银行卡ID
+votes:金币数量
+voucherId：优惠券ID，若有
+withDrawalRatio：提现手续费比例
+chargeRatio：金币兑换比例
+   */
+  Future<void> withDraw() async {
+    var votes = amountController.text;
+    if (votes.isEmpty) {
+      EasyLoading.showInfo('Please Enter withdraw amount!');
+      return;
+    }
+    if (selectedBank == null) {
+      EasyLoading.showInfo('Please Add withdraw account First!');
+      return;
+    }
+    EasyLoading.show();
+    await BalanceApi.withDraw(Map<String, dynamic>()
+      ..['card'] = selectedBank?.cardNumber
+      ..['cardId'] = selectedBank?.id
+      ..['votes'] = votes
+      ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
+      ..['chargeRatio'] = chargeRule?.chargeRatio);
+    EasyLoading.dismiss();
+    Get.back();
   }
 }

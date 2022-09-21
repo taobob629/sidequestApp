@@ -87,7 +87,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.boxh(8),
       FloatingButton(
         label: "Withdrawal",
-        onTap: () => controller.pay(),
+        onTap: () => controller.withDraw(),
       ),
       PWidget.container(
         PWidget.column([

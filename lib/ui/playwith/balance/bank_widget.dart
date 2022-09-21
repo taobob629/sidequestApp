@@ -44,8 +44,8 @@ class BankListWidget extends GetView<BalancePageController> {
           groupValue: controller.accountType.value,
           toggleable: true,
           onChanged: (value) {
-            flog('onChanged ${bankModel.id}');
-            controller.changeAccountType(bankModel.id);
+           // controller.changeAccountType(bankModel.id);
+            controller.selectBank(bankModel);
             //   controller.accountFocusNode.unfocus();
           })),
       title: Text(

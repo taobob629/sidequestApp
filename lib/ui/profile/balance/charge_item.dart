@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wy/model/coin_charge_rule_model.dart';
+import 'package:wy/model/chage_rule_model.dart';
 
 class ChargeItem extends StatelessWidget {
   final int index;
