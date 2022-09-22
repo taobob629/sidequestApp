@@ -89,6 +89,13 @@ class IndexApi {
     );
     return VersionModel.fromJson(response.data);
   }
-
+ //搜索
+  static Future<String> searchBankByCode(var code) async {
+    var response = await http.get('/peiwan/app/card/sortcode/$code');
+    if (response.data == null) {
+      return '';
+    }
+    return response.data;
+  }
 
 }
