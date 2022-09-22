@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/withdraw_record_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
-import 'package:wy/ui/playwith/balance/record/controller.dart';
+import 'package:wy/ui/playwith/balance/withdraw/record/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
@@ -15,13 +15,25 @@ import 'package:wy/widget/scaffold_widget.dart';
     Created by chunma on .
     Copyright © sidequest_hub_app. All rights reserved.
  */
-class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
+const TYPE_CASH = '0';
+const TYPE_VOTES = '1';
+
+class WithDrawRecordPage extends StatelessWidget {
+  var type;
+
+  WithDrawRecordPage(this.type) {
+    initController();
+  }
+
+  initController() async {
+    controller = Get.put(WithDrawRecordPageController(), tag: type);
+  }
+
+  late WithDrawRecordPageController controller;
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(
-        title: Text('WithDraw Records'),
-      ),
       body: Obx(() => SmartRefresher(
           controller: controller.refreshController,
           onRefresh: controller.refresh,
@@ -32,21 +44,27 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
               : controller.list.length == 0
                   ? Stack(
                       children: [
-                        Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: EmptyView())
                       ],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate:
-                                  SliverChildBuilderDelegate((BuildContext context, int index) {
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
                             if (index.isOdd) {
                               return Divider(
                                 color: Colors.white24,
                               );
                             }
-                            WithdrawRecordModel model = controller.list[index ~/ 2];
+                            WithdrawRecordModel model =
+                                controller.list[index ~/ 2];
                             return recordItem(model);
                           }, childCount: controller.list.length * 2 - 1));
                         })
@@ -102,4 +120,7 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
