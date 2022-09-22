@@ -1,7 +1,8 @@
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/model/balance_record_model.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
-import 'package:wy/model/balance_record_model.dart';
+import 'package:wy/model/withdraw_record_model.dart';
 
 class BalanceApi {
 
@@ -59,20 +60,33 @@ class BalanceApi {
   }
 
   //获取银行卡列表
-  static Future<List<BankCardModel>> getBankList() async{
-    var response=  await http.get('/peiwan/app/card/list');
-    List<BankCardModel> list = response.data
-        .map<BankCardModel>((item) => BankCardModel.fromJson(item))
-        .toList();
+  static Future<List<BankCardModel>> getBankList() async {
+    var response = await http.get('/peiwan/app/card/list');
+    List<BankCardModel> list =
+        response.data.map<BankCardModel>((item) => BankCardModel.fromJson(item)).toList();
     return list;
   }
+
   static Future<void> unbindBankCard(var id) async {
-    var response=  await http.get('/peiwan/app/card/delete/$id');
+    var response = await http.get('/peiwan/app/card/delete/$id');
   }
+
   /*
   提现
    */
-  static Future<void> withDraw(Map<String,dynamic> params) async {
-    var response=  await http.post('/peiwan/app/withDrawal/order',data: params);
+  static Future<void> withDraw(Map<String, dynamic> params) async {
+    var response = await http.post('/peiwan/app/withDrawal/order', data: params);
+  }
+
+  static Future<List<WithdrawRecordModel>> withDrawRecords(int pageNum, int pageSize) async {
+    var response = await http.get('/peiwan/app/cash/pwWithDrawalRecord',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    if (response.data == null) {
+      return [];
+    }
+    List<WithdrawRecordModel> list = response.data
+        .map<WithdrawRecordModel>((item) => WithdrawRecordModel.fromJson(item))
+        .toList();
+    return list;
   }
 }

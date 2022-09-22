@@ -195,7 +195,7 @@ searchDelay(Function doSomething, {durationTime = 500}) {
     final int length = code.length;
     final int replaceLength = length - 4;
     final String replacement =
-        List<String>.generate((replaceLength / 4).ceil(), (int _) => '....    ')
+        List<String>.generate((replaceLength / 4).ceil(), (int _) => '****    ')
             .join('');
     return code.replaceRange(0, replaceLength, replacement);
   }

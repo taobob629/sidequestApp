@@ -5,7 +5,7 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/balance/bank_widget.dart';
+import 'package:wy/ui/playwith/balance/widget/bank_widget.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
@@ -67,22 +67,28 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         subTitle: "",
         actions: TextButton(
           onPressed: () {
-            if(controller.bankList.length>=4){
+            if (controller.bankList.length >= 4) {
               EasyLoading.showToast('only 4 bankcards allowed!');
               return;
             }
             Get.toNamed(AppPages.BindBankCard);
           },
-          child: Text(
-            'Add Account',
-            style: TextStyle(
-              color: Colors.white,
-              decoration: TextDecoration.underline,
-            ),
+          child: Row(
+            children: [
+              PWidget.image('assets/images/ic_add.webp', [16, 16, null, BoxFit.cover]),
+              PWidget.boxw(3),
+              Text(
+                'Add Account',
+                style: TextStyle(
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                ),
+              )
+            ],
           ),
         ),
       ),
-    //  _buildAccountSelect(context),
+      //  _buildAccountSelect(context),
       BankListWidget(),
       PWidget.boxh(8),
       FloatingButton(
@@ -92,16 +98,10 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.container(
         PWidget.column([
           PWidget.text('Withdrawal and exchange instructions:', [Color(0xffEEF3FF)]),
-          PWidget.text('''1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；
-1. Withdrawal introduction and relevant legal provisions；''', [Color(0xff8291B4)]),
+          Text(
+            '''1.If you withdraw cash from us, you’ll be charged a handling fee of 15%.\n2. Withdrawals typically take three to five bank working days.''',
+            style: TextStyle(color: Color(0xff8291B4)),
+          ),
         ]),
         {'pd': 16},
       ),

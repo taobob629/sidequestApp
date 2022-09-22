@@ -389,7 +389,8 @@ chargeRatio：金币兑换比例
       ..['votes'] = votes
       ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
       ..['chargeRatio'] = chargeRule?.chargeRatio);
+    EasyLoading.showSuccess('Sucess');
     EasyLoading.dismiss();
-    Get.back();
+  //  Get.back();
   }
 }
