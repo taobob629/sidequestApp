@@ -9,6 +9,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/widget/custom_scroll_physics.dart';
 
 import '../../api/im_api.dart';
 import '../../config/app_color.dart';
@@ -71,6 +72,7 @@ class PlayDetail extends StatelessWidget {
                               fit: BoxFit.cover,
                             );
                           },
+                          physics: PagePhysics(),
                           itemCount: controller.detailModel.value.imageList.length,
                           pagination: SwiperPagination(
                             alignment: Alignment.bottomCenter,
@@ -307,7 +309,7 @@ class PlayDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
-                Text("${skillModel.label}",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [

@@ -197,7 +197,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   PWidget.row([
                     PWidget.container(
                       CachedNetworkImage(
-                        imageUrl: 'https://pic1.afdiancdn.com/user/de28a438903911ecb24d52540025c377/common/f1b37f4c524ca61b9a0c2da941f0a35f_w960_h960_s271.jpg?imageView2/1/w/576/h/320',
+                        imageUrl: data['thumb'],
                         fit: BoxFit.cover,
                         width: 74,
                         height: 74,
@@ -208,7 +208,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                     PWidget.column([
                       PWidget.text('${data['name']}', [Colors.white, 14, true]),
                       PWidget.boxh(8),
-                      PWidget.text('我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
+                      PWidget.text(data['signature'] ?? '我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
                       PWidget.boxh(8),
                       Builder(builder: (context) {
                         var list = (data['label'] ?? []) as List;

@@ -92,7 +92,7 @@ class MyCustomScroll extends StatefulWidget {
     this.onScrollToList,
     this.maskHeight,
     this.shrinkWrap = false,
-    this.noDataText = '暂无数据',
+    this.noDataText = 'No more data',
     this.noDataView,
     this.errorOnTap,
     this.animationType = AnimationType.open,

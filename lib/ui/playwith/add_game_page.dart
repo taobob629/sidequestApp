@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class AddGamePage extends StatefulWidget {
 }
 
 class _AddGamePageState extends State<AddGamePage> {
-  // TextEditingController beGoodAtCon = TextEditingController();
+  TextEditingController priceRangeCon = TextEditingController();
   var platform;
   var platformIndex;
   var game;
@@ -50,12 +51,12 @@ class _AddGamePageState extends State<AddGamePage> {
     isEdit = widget.data.isNotEmpty;
     if (isEdit) this.skillInfo();
     mapFlog(widget.data, 'isEdit');
-    await this.skill();
-    await this.config();
+    this.skill();
+    this.config();
   }
 
   ///技能详情
-  var skillInfoDm = DataModel();
+  var skillInfoDm = DataModel<Map>(object: {});
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
       skillInfoDm.addObject(res.data);
@@ -72,15 +73,18 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> skill({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill').then((res) async {
       skillDm.addList(res.data, true, 0);
-      flog(skillDm.list.length, 'skillDm.list.length');
-      platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object['platfromId']);
-      platform = skillDm.list[platformIndex];
-      gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object['gameId']);
-      game = platform['skill'][gameIndex];
-      gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object['levelId']);
-      gameLv = game['level'][gameLvIndex];
-      flog(platform, 'platform');
-      flog(platformIndex, 'platform');
+      if (isEdit) {
+        flog(skillDm.list.length, 'skillDm.list.length');
+        platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
+        platform = skillDm.list[platformIndex];
+        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
+        game = platform['skill'][gameIndex];
+        gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        gameLv = game['level'][gameLvIndex];
+        gamePhotos = [skillInfoDm.object?['pwSkillAuth']['thumb']];
+        flog(platform, 'platform');
+        flog(platformIndex, 'platform');
+      }
     }).catchError((e) {
       skillDm.toError(e.toString());
     });
@@ -90,10 +94,10 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   ///游戏价格区间
-  var configDm = DataModel();
+  var configDm = DataModel<Map>(object: {});
   Future<int> config({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/config').then((res) async {
-      skillDm.addObject(res.data);
+      configDm.addObject(res.data);
     }).catchError((e) {
       configDm.toError(e.toString());
     });
@@ -148,7 +152,13 @@ class _AddGamePageState extends State<AddGamePage> {
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
           // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
           if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
-          flog(game);
+          if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
+          if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
+            return EasyLoading.showToast('The price cannot be less than the minimum value');
+          }
+          if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
+            return EasyLoading.showToast('The price cannot be greater than the maximum value');
+          }
           flog(gameLv);
           var data = {
             "skillid": game['id'],
@@ -156,11 +166,11 @@ class _AddGamePageState extends State<AddGamePage> {
             "levelid": gameLv['id'],
             "wswitch": 0,
             "coinid": 0,
-            "coin": 0,
+            "coin": priceRangeCon.text,
             // "des": beGoodAtCon.text,
           };
           flog(data, 'data');
-          await http.post('/peiwan/app/user/setSkillAuth', data: data).then((v) {
+          await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
             EasyLoading.showToast('Submitted successfully');
             Get.back(result: true);
           }).catchError((e) {
@@ -301,12 +311,35 @@ class _AddGamePageState extends State<AddGamePage> {
           }
         },
       ),
-      PWidget.boxh(16),
-      // itemBg(PWidget.row([
-      //   PWidget.text('Be good at', [Colors.white]),
-      //   PWidget.boxw(8),
-      //   buildTFView(context!, hintText: 'Be good at', hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
-      // ])),
+      if (configDm.object?.isNotEmpty ?? false) PWidget.boxh(16),
+      if (configDm.object?.isNotEmpty ?? false)
+        itemBg(PWidget.row([
+          PWidget.text('Price range', [Colors.white]),
+          PWidget.boxw(8),
+          buildTFView(context!, isDouble: true, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, isExp: true, textAlign: TextAlign.end),
+        ])),
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
+        itemBg(PWidget.row([
+          PWidget.text('Whether to open', [Colors.white]),
+          PWidget.spacer(),
+          Builder(builder: (context) {
+            var wswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
+            return CupertinoSwitch(
+              value: wswitch == 1,
+              onChanged: (v) async {
+                setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
+                var jsonData = {"skillid": skillInfoDm.object?['pwSkillAuth']['skillid'], "wswitch": wswitch};
+                await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
+                  setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
+                  EasyLoading.showToast('Network exception');
+                }).then((v) {
+                  EasyLoading.showToast('Operation succeeded');
+                });
+              },
+            );
+          }),
+        ])),
     ]);
   }
 

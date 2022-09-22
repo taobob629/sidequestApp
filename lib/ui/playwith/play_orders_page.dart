@@ -5,6 +5,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
@@ -127,7 +128,13 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
                 {'fill': true},
               ),
               [null, null, Colors.white.withOpacity(0.05)],
-              {'pd': 12, 'br': 8},
+              {
+                'pd': 12,
+                'br': 8,
+                'fun': () {
+                  Get.to(() => OrderDetail(orderId: int.parse(data['id']) ));
+                },
+              },
             );
             return PWidget.column([
               AspectRatio(
