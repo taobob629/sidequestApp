@@ -173,6 +173,9 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
+    await _coreInstance.logout();
+    imLoginDone.value = false;
+    unreadMsgCount.value = 0;
     done?.call();
   }
 

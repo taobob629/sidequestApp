@@ -70,7 +70,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,));
+    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
   // _onTapLocation() {
@@ -179,7 +179,7 @@ class _ChatState extends State<Chat> {
     //       receiverID: widget.selectedConversation.userID!,
     //       convType: ConvType.c2c);
     // }
-    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,));
+    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
   @override
@@ -240,7 +240,7 @@ class _ChatState extends State<Chat> {
             print(data);
             return GestureDetector(
               onTap: (){
-                Get.to(()=>OrderDetail(orderId: data['orderId']));
+                Get.to(()=>OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
               },
               child: Container(
                 height: height,
@@ -364,7 +364,7 @@ class _ChatState extends State<Chat> {
       return Container();
     }
     return GestureDetector(
-      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId)),
+      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId))!.whenComplete(() => _getPlayOrder()),
       child: Container(
         height: 80,
         color: Colors.white12,

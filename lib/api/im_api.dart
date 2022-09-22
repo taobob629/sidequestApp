@@ -46,4 +46,49 @@ class ImApi {
     );
     return PlayOrderDetailModel.fromJson(response.data);
   }
+
+  static Future<void> cancelOrder(String orderId) async {
+    var formData = {
+      "orderId" : orderId,
+      "reason" : ""
+    };
+    await http.put(
+      '/peiwan/app/order/cancel',
+      queryParameters: ({'orderId':orderId}),
+      data: formData
+    );
+  }
+
+  static Future<void> acceptOrder(String orderId) async {
+    var formData = {
+      "orderId" : orderId
+    };
+    await http.put(
+      '/peiwan/app/order/accept',
+      queryParameters: ({'orderId':orderId}),
+      data: formData
+    );
+  }
+
+  static Future<void> rejectOrder(String orderId) async {
+    var formData = {
+      "orderId" : orderId
+    };
+    await http.put(
+      '/peiwan/app/order/reject',
+      queryParameters: ({'orderId':orderId}),
+      data: formData
+    );
+  }
+
+  static Future<void> finishOrder(String orderId) async {
+    var formData = {
+      "orderId" : orderId
+    };
+    await http.put(
+      '/peiwan/app/order/complete',
+      queryParameters: ({'orderId':orderId}),
+      data: formData
+    );
+  }
 }

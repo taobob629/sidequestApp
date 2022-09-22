@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/ui/common/colorful_button.dart';
@@ -7,6 +8,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import '../../api/im_api.dart';
 import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
+import '../common/dialog_confirm.dart';
 
 class OrderDetail extends StatelessWidget {
 
@@ -58,16 +60,90 @@ class OrderDetail extends StatelessWidget {
 
   Widget _buildActionButton(){
     UserController userController = Get.find<UserController>();
-    print(userController.user.value.id);
     return Obx((){
         if(controller.playOrderDetailModel.value.status == 1){
-          if(userController.user.value.id == controller.playOrderDetailModel.value.fromUid){//发起人
+          if(userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.fromUid){//发起人
             return ColorfulButton(
               child: Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text("CANCEL",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
               ),
-              height: 48
+              height: 48,
+              onTap: (){
+                Get.dialog(ConfirmDialog(
+                  title: "Cancel Order",
+                  info: "Do you want to cancel this order?",
+                  confirmBtn: "CONFIRM",
+                  onConfirm: () async {
+                    controller.cancelOrder();
+                  },
+                ),barrierColor: Colors.black26);
+              },
+            );
+          }else if(userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.toUid){
+            return Row(
+              children: [
+                Expanded(
+                  child: ColorfulButton(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text("ACCEPT",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
+                    ),
+                    height: 48,
+                    onTap: (){
+                      controller.acceptOrder();
+                    },
+                  ),
+                ),
+                SizedBox(width: 15,),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      Get.dialog(ConfirmDialog(
+                        title: "Reject Order",
+                        info: "Do you want to reject this order?",
+                        confirmBtn: "CONFIRM",
+                        onConfirm: () async {
+                          controller.rejectOrder();
+                        },
+                      ),barrierColor: Colors.black26);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius: BorderRadius.circular(30)
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text("REJECT",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
+                        ),
+                      ),
+                      height: 48
+                    ),
+                  ),
+                )
+              ],
+            );
+          }
+        }else if(controller.playOrderDetailModel.value.status == 2){
+          if(userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.fromUid) {
+            return ColorfulButton(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text("FINISHED", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+              ),
+              height: 48,
+              onTap: () {
+                Get.dialog(ConfirmDialog(
+                  title: "Order Finished",
+                  info: "Do you confirm that this order finished?",
+                  confirmBtn: "CONFIRM",
+                  onConfirm: () async {
+                    controller.finishOrder();
+                  },
+                ),barrierColor: Colors.black26);
+              },
             );
           }
         }
@@ -137,11 +213,38 @@ class OrderDetail extends StatelessWidget {
   }
 
   Widget _buildState(){
+    var status = controller.playOrderDetailModel.value.status;
+    if(status == 0){
+      return Container();
+    }
+
+    String serviceState = "待服务";
+    Color serviceColor = Colors.blue;
+    if(status == 2){
+      serviceState = "服务中";
+      serviceColor = Colors.green;
+    }else if(status == -2){
+      serviceState = "已服务";
+      serviceColor = Colors.green;
+    }
+
+    String finishState = "待评价";
+    Color finishColor = Colors.blue;
+    if(status == -1){
+      finishState = "Canceled";
+      finishColor = Colors.green;
+    }else if(status == -3){
+      finishState = "Rejected";
+      finishColor = Colors.green;
+    }else if(status == -2){
+      finishState = "Complete";
+      finishColor = Colors.green;
+    }
+
     return Container(
       height: 80,
       child: Stack(
         children: [
-
           Positioned(
             left: 0,
             right: 0,
@@ -167,7 +270,26 @@ class OrderDetail extends StatelessWidget {
                         backgroundColor: Colors.green,
                         radius: 6,
                       ),
-                      Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      Container(
+                        height: 16,
+                        child: Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      )
+                    ],
+                  ),
+                ),
+            status == -1 || status == -3? Container():
+                Container(
+                  width: 80,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: serviceColor,
+                        radius: 6,
+                      ),
+                      Container(
+                        height: 16,
+                        child: Text(serviceState,style: TextStyle(color: Colors.white,fontSize: 12),)
+                      )
                     ],
                   ),
                 ),
@@ -176,22 +298,13 @@ class OrderDetail extends StatelessWidget {
                   child: Column(
                     children: [
                       CircleAvatar(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: finishColor,
                         radius: 6,
                       ),
-                      Text("待服务",style: TextStyle(color: Colors.white,fontSize: 12),)
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 80,
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 6,
-                      ),
-                      Text("待评价",style: TextStyle(color: Colors.white,fontSize: 12),)
+                      Container(
+                        height: 16,
+                        child: Text(finishState,style: TextStyle(color: Colors.white,fontSize: 12),)
+                      )
                     ],
                   ),
                 )
@@ -222,5 +335,35 @@ class OrderDetailController extends GetxController {
   void onReady() {
     super.onReady();
     ImApi.getPlayOrderDetail(orderId).then((value) => playOrderDetailModel.value = value);
+  }
+
+  void cancelOrder(){
+    Get.back();
+    EasyLoading.show();
+    ImApi.cancelOrder(orderId.toString());
+    EasyLoading.dismiss();
+    Get.back();
+  }
+
+  void acceptOrder(){
+    EasyLoading.show();
+    ImApi.acceptOrder(orderId.toString());
+    EasyLoading.dismiss();
+    Get.back();
+  }
+
+  void rejectOrder(){
+    Get.back();
+    EasyLoading.show();
+    ImApi.rejectOrder(orderId.toString());
+    EasyLoading.dismiss();
+    Get.back();
+  }
+
+  void finishOrder(){
+    EasyLoading.show();
+    ImApi.finishOrder(orderId.toString());
+    EasyLoading.dismiss();
+    Get.back();
   }
 }
