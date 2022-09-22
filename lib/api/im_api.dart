@@ -81,9 +81,11 @@ class ImApi {
     );
   }
 
-  static Future<void> finishOrder(String orderId) async {
+  static Future<void> finishOrder(String orderId, double star, String comments) async {
     var formData = {
-      "orderId" : orderId
+      "orderId" : orderId,
+      "star" : star,
+      "comments" : comments
     };
     await http.put(
       '/peiwan/app/order/complete',

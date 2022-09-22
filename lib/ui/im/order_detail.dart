@@ -9,6 +9,7 @@ import '../../api/im_api.dart';
 import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
 import '../common/dialog_confirm.dart';
+import 'dialog_comment.dart';
 
 class OrderDetail extends StatelessWidget {
 
@@ -135,14 +136,10 @@ class OrderDetail extends StatelessWidget {
               ),
               height: 48,
               onTap: () {
-                Get.dialog(ConfirmDialog(
-                  title: "Order Finished",
-                  info: "Do you confirm that this order finished?",
-                  confirmBtn: "CONFIRM",
-                  onConfirm: () async {
-                    controller.finishOrder();
-                  },
-                ),barrierColor: Colors.black26);
+                Get.dialog(
+                  CommentDialog(controller.orderId, ()=>Get.back(),),
+                  barrierColor: Colors.black26
+                );
               },
             );
           }
@@ -356,13 +353,6 @@ class OrderDetailController extends GetxController {
     Get.back();
     EasyLoading.show();
     ImApi.rejectOrder(orderId.toString());
-    EasyLoading.dismiss();
-    Get.back();
-  }
-
-  void finishOrder(){
-    EasyLoading.show();
-    ImApi.finishOrder(orderId.toString());
     EasyLoading.dismiss();
     Get.back();
   }
