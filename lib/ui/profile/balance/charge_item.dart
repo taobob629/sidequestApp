@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:wy/model/chage_rule_model.dart';
 
 class ChargeItem extends StatelessWidget {
   final int index;
-  final int num;
+  final CoinChargeRuleModel item;
   final bool selected;
   final Function(int idx) onTap;
 
-  ChargeItem({
-    required this.index,
-    required this.num,
-    required this.selected,
-    required this.onTap
-  });
+  ChargeItem(
+      {required this.index,
+      required this.item,
+      required this.selected,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ChargeItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       onTap: ()=>this.onTap.call(index),
       child: Container(
-        padding: const EdgeInsets.only(top: 10,bottom: 5),
+        padding: const EdgeInsets.only(top: 6,bottom: 5),
         decoration: BoxDecoration(
           color: Colors.white10,
           borderRadius: BorderRadius.circular(12),
@@ -28,8 +28,26 @@ class ChargeItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset("assets/images/ic_balance_charge${index+1}.webp",width: 60,),
-            Text("£$num", style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 26),)
+            Image.asset(
+              "assets/images/ic_balance_charge${index + 1}.webp",
+              width: 50,
+            ),
+            SizedBox(
+              height: 2,
+            ),
+            Text(
+              "${item.coin}",
+              style: TextStyle(
+                  color: Colors.yellow,
+                  fontFamily: "DIN",
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "£${item.money}",
+              style: TextStyle(
+                  color: Colors.white, fontFamily: "DIN", fontSize: 20),
+            )
           ],
         ),
       ),
