@@ -98,7 +98,7 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                '${model.addtime}',
+                '${model.datatime}',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               SizedBox(

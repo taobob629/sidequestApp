@@ -17,7 +17,7 @@ class WithDrawMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "WithDraw Records",
+        title: "Wallet Records",
         body: Stack(
           children: [
             Positioned(left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),

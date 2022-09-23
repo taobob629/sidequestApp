@@ -44,7 +44,10 @@ class ChargeItem extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      child: PWidget.image('assets/images/ic_balance_money.webp', [20, 20]),
+                    ),
                     Text(
                       " ${item.coin}",
                       style: TextStyle(
