@@ -78,9 +78,23 @@ class BalanceApi {
     var response = await http.post('/peiwan/app/withDrawal/order', data: params);
   }
 
-  static Future<List<WithdrawRecordModel>> withDrawRecords(int pageNum, int pageSize) async {
+  static Future<List<WithdrawRecordModel>> withDrawRecords(
+      int pageNum, int pageSize) async {
     var response = await http.get('/peiwan/app/cash/pwWithDrawalRecord',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    if (response.data == null) {
+      return [];
+    }
+    List<WithdrawRecordModel> list = response.data
+        .map<WithdrawRecordModel>((item) => WithdrawRecordModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<List<WithdrawRecordModel>> coinAndVotesRecords(
+      int pageNum, int pageSize, String type) async {
+    var response = await http.get('/peiwan/app/order/list/record',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize, 'type': type}));
     if (response.data == null) {
       return [];
     }

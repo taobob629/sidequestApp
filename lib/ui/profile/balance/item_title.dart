@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/utils/utils.dart';
 
 class ItemTitle extends StatelessWidget {
   final String title;
   final String subTitle;
+  final Widget? customSubTitle;
   final Widget? actions;
 
-  ItemTitle({required this.title, required this.subTitle, this.actions});
+  ItemTitle({required this.title, required this.subTitle, this.customSubTitle, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,11 @@ class ItemTitle extends StatelessWidget {
               style: TextStyle(
                   color: Colors.white, fontFamily: "DIN", fontSize: 20),
             ),
-            Text(
-              subTitle,
-              style: TextStyle(
-                  color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-            ),
+            customSubTitle ??
+                Text(
+                  subTitle,
+                  style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+                ),
             Spacer(),
             actions ?? Container()
           ],

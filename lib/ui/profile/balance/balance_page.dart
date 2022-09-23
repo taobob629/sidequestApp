@@ -14,6 +14,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
 import 'package:wy/ui/profile/consume/my_consume_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/num_utils.dart';
+import 'package:wy/utils/utils.dart';
 
 import 'charge_item.dart';
 import 'input_formatter.dart';
@@ -40,23 +42,33 @@ class BalancePage extends StatelessWidget {
         )
       ],
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TopBanner(),
-            ItemTitle(title: "Top Up",subTitle: "",),
-            Obx(()=>_buildChargeItems(context)),
-            ItemTitle(title: "Other Top Up Amount", subTitle: "Min:£1",),
-            _buildCustomInput(),
-            ItemTitle(title: "Top Up Account",subTitle: "",),
-            _buildAccountSelect(context),
-            Container(height: 100,)
-          ],
-        )
-      ),
-      floatingActionButton: FloatingButton(
-        label: "CONFIRM",
-        onTap: ()=> controller.pay()
-      ),
+          child: Column(
+        children: [
+          TopBanner(),
+          ItemTitle(
+            title: "Top Up",
+            subTitle: "",
+          ),
+          Obx(() => _buildChargeItems(context)),
+          ItemTitle(
+              title: "Other Top Up Amount",
+              subTitle: '',
+              actions: Text(
+                'Min:£1',
+                style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+              )),
+          _buildCustomInput(),
+          ItemTitle(
+            title: "Top Up Account",
+            subTitle: "",
+          ),
+          _buildAccountSelect(context),
+          Container(
+            height: 100,
+          )
+        ],
+      )),
+      floatingActionButton: FloatingButton(label: "CONFIRM", onTap: () => controller.pay()),
     );
   }
 
@@ -86,29 +98,25 @@ class BalancePage extends StatelessWidget {
 
   Widget _buildCustomInput() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: const EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.white24))
-      ),
-      child: TextField(
-        maxLines: 1,
-        inputFormatters: [PrecisionLimitFormatter(2)],
-        controller: controller.amountController,
-        focusNode: controller.amountFocusNode,
-        cursorColor: Colors.white70,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
-        style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
-        onSubmitted: (text) => controller.changeCustomAmount(text),
-        decoration: const InputDecoration(
-          hintText: "£0",
-          hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 0)
-        ),
-      )
-    );
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        child: TextField(
+          maxLines: 1,
+          inputFormatters: [PrecisionLimitFormatter(2)],
+          controller: controller.amountController,
+          focusNode: controller.amountFocusNode,
+          cursorColor: Colors.white70,
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
+          onSubmitted: (text) => controller.changeCustomAmount(text),
+          decoration: const InputDecoration(
+              hintText: "£0",
+              hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 0)),
+        ));
   }
 
   Widget _buildAccountSelect(BuildContext context) {
@@ -207,6 +215,26 @@ class BalancePageController extends GetxListController {
   late var customAmount = 0.0.obs;
 
   late var accountType = 0.obs;
+  var _iconByChargeRatio = 0.obs;
+
+  get iconByChargeRatio => _iconByChargeRatio.value;
+
+  set iconByChargeRatio(value) {
+    _iconByChargeRatio.value = value;
+  }
+
+  void dealIconChargeRatio() {
+    double amount = double.parse(amountController.text);
+    if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
+    var chargeRatio;
+    try {
+      chargeRatio = double.parse(chargeRule?.chargeRatio ?? '0');
+      double doubleResult = chargeRatio * amount;
+      iconByChargeRatio = doubleResult.ceil();
+    } catch (e) {
+      iconByChargeRatio = 0;
+    }
+  }
 
   late TextEditingController amountController;
   late TextEditingController accountController;
@@ -230,7 +258,10 @@ class BalancePageController extends GetxListController {
   void onInit() {
     super.onInit();
     getBankList();
-    amountController = TextEditingController();
+    amountController = TextEditingController()
+      ..addListener(() {
+        dealIconChargeRatio();
+      });
     accountController = TextEditingController();
     accountFocusNode = FocusNode();
     amountFocusNode = FocusNode();
@@ -298,6 +329,7 @@ class BalancePageController extends GetxListController {
   void changeProductIndex(int index) {
     productIndex.value = index;
     amountController.clear();
+    iconByChargeRatio=0;
   }
 
   void changeCustomAmount(String amount) {
@@ -378,6 +410,10 @@ chargeRatio：金币兑换比例
       EasyLoading.showInfo('Please Enter withdraw amount!');
       return;
     }
+    if (!isValidateAmount(votes)) {
+      EasyLoading.showInfo('Please enter an valid number greater than 1');
+      return;
+    }
     if (selectedBank == null) {
       EasyLoading.showInfo('Please Add withdraw account First!');
       return;
@@ -391,6 +427,6 @@ chargeRatio：金币兑换比例
       ..['chargeRatio'] = chargeRule?.chargeRatio);
     EasyLoading.showSuccess('Sucess');
     EasyLoading.dismiss();
-  //  Get.back();
+    //  Get.back();
   }
 }

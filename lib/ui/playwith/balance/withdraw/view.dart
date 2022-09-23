@@ -91,7 +91,7 @@ class WithDrawMainPage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text("Cash",));
+    tabs.add(Text("Coin",));
     tabs.add(Text("Votes",));
     return tabs;
   }

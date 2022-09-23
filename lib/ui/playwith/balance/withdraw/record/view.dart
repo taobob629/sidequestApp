@@ -26,7 +26,7 @@ class WithDrawRecordPage extends StatelessWidget {
   }
 
   initController() async {
-    controller = Get.put(WithDrawRecordPageController(), tag: type);
+    controller = Get.put(WithDrawRecordPageController(type), tag: type);
   }
 
   late WithDrawRecordPageController controller;
@@ -89,7 +89,7 @@ class WithDrawRecordPage extends StatelessWidget {
               //   height: 10,
               // ),
               Text(
-                getPayCardStr(model.card),
+                getPayCardStr(model.card)??'',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(

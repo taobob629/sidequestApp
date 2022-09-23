@@ -21,10 +21,13 @@ class MyEarningsPage extends StatefulWidget {
 
 class _MyEarningsPageState extends State<MyEarningsPage> {
   late BalancePageController controller;
-
+  var votes; //钻石数
   @override
   void initState() {
     this.initData();
+    if (Get.arguments != null) {
+      votes=Get.arguments['votes'];
+    }
     super.initState();
   }
 
@@ -50,17 +53,19 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.container(
         PWidget.column([
           PWidget.row([
-            PWidget.image('assets/images/play/xingzuan_gold.png'),
+            PWidget.image('assets/images/ic_balance_votes.webp'),
             PWidget.boxw(4),
             PWidget.text('Withdrawal income amount', [Color(0xffEEF3FF)], {'exp': true}),
           ]),
           PWidget.boxh(10),
-          PWidget.text('532', [Color(0xffEEF3FF), 32, true]),
+          PWidget.text('${votes??'0'}', [Color(0xffEEF3FF), 32, true]),
         ]),
         [null, null, Color(0xff282640)],
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
-      ItemTitle(title: "Enter withdrawal amount", subTitle: ""),
+      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:£1', style:TextStyle(
+          color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+      )),
       _buildCustomInput(),
       ItemTitle(
         title: "Withdrawal Account",

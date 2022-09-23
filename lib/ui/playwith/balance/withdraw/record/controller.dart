@@ -10,6 +10,10 @@ import 'package:wy/model/withdraw_record_model.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class WithDrawRecordPageController extends GetxRefreshController {
+  var type;
+
+  WithDrawRecordPageController(this.type);
+
   @override
   void onInit() {
     initialRefresh = true;

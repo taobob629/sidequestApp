@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
@@ -20,14 +19,14 @@ class PlayBalanceChild extends StatefulWidget {
 
 class _PlayBalanceChildState extends State<PlayBalanceChild> {
   late BalancePageController controller;
-  var balance; //参数
+  var coin; //参数
   var votes; //钻石数
   @override
   void initState() {
     this.initData();
     if (Get.arguments != null) {
-      balance = Get.arguments['balance'];
-      votes=Get.arguments['votes'];
+      coin = Get.arguments['coin'];
+      votes = Get.arguments['votes'];
     }
     super.initState();
   }
@@ -59,9 +58,26 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       ItemTitle(title: "Recharge", subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
-      ItemTitle(
-        title: "Other recharge amount",
-        subTitle: "",
+      Obx(
+        () => ItemTitle(
+            title: "Other recharge amount",
+            subTitle: '',
+            customSubTitle: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Row(
+                children: [
+                  PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
+                  Text(
+                    " ${controller.iconByChargeRatio}",
+                    style: TextStyle(color: Colors.yellow),
+                  )
+                ],
+              ),
+            ),
+            actions: Text(
+              'Min:£1',
+              style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+            )),
       ),
       _buildCustomInput(),
       // ItemTitle(title: "Top Up Account", subTitle: ""),
@@ -87,48 +103,11 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
               color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration: const InputDecoration(
-              hintText: "£0",
-              hintStyle: TextStyle(
-                  fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
+              hintText: "£1",
+              hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 0)),
         ));
-  }
-
-  Widget _buildAccountSelect(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
-      child: Column(
-        children: [
-          Container(
-            height: 50,
-            padding: const EdgeInsets.only(left: 10, right: 15),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(12)),
-            child: Obx(() {
-              return Row(
-                children: [
-                  Radio(
-                      activeColor: AppColor.accent,
-                      value: 0,
-                      groupValue: controller.accountType.value,
-                      onChanged: (value) {
-                        controller.changeAccountType(0);
-                        controller.accountFocusNode.unfocus();
-                      }),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Text(
-                      "2930118234@qq.com",
-                      style: TextStyle(fontSize: 18, color: controller.accountType.value == 0 ? Colors.white : Colors.white30, fontFamily: "DIN"),
-                    ),
-                  )
-                ],
-              );
-            }),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget cardView() {
@@ -146,9 +125,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CountView(
-                  icon: "money", title: "Cash", count: "${balance ?? '0'}"),
-              CountView(icon: "money", title: "Votes", count: '${votes??'0'}'),
+              CountView(icon: "money", title: "Cash", count: "${coin ?? '0'}"),
+              CountView(icon: "votes", title: "Votes", count: '${votes ?? '0'}'),
             ],
           ),
         ]),
@@ -164,6 +142,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     int index = 0;
     controller.list.forEach((element) {
       itemList.add(ChargeItem(
+        showCoin: true,
         index: index,
         item: element,
         selected: index == controller.productIndex.value,
