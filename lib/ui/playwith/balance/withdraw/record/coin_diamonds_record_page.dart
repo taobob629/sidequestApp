@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wy/model/withdraw_record_model.dart';
+import 'package:wy/api/balance_api.dart';
+import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
-import 'package:wy/ui/playwith/balance/withdraw/record/controller.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 /*
@@ -15,21 +16,21 @@ import 'package:wy/widget/scaffold_widget.dart';
     Created by chunma on .
     Copyright © sidequest_hub_app. All rights reserved.
  */
-const TYPE_CASH = '0';
-const TYPE_VOTES = '1';
+const String TYPE_COIN = '0'; //金币
+const String TYPE_DIAMONDS = '1'; //钻石
 
-class WithDrawRecordPage extends StatelessWidget {
-  var type;
+class CoinAndDiamondsRecordPage extends StatelessWidget {
+  final String type;
 
-  WithDrawRecordPage(this.type) {
+  CoinAndDiamondsRecordPage(this.type) {
     initController();
   }
 
-  initController() async {
-    controller = Get.put(WithDrawRecordPageController(type), tag: type);
-  }
+  late CoinAndDiamondsRecordPageController controller;
 
-  late WithDrawRecordPageController controller;
+  initController() async {
+    controller = Get.put(CoinAndDiamondsRecordPageController(type), tag: type);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +45,21 @@ class WithDrawRecordPage extends StatelessWidget {
               : controller.list.length == 0
                   ? Stack(
                       children: [
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: EmptyView())
+                        Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
                       ],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
+                              delegate:
+                                  SliverChildBuilderDelegate((BuildContext context, int index) {
                             if (index.isOdd) {
                               return Divider(
                                 color: Colors.white24,
                               );
                             }
-                            WithdrawRecordModel model =
-                                controller.list[index ~/ 2];
+                            CoinRecordsModel model = controller.list[index ~/ 2];
                             return recordItem(model);
                           }, childCount: controller.list.length * 2 - 1));
                         })
@@ -73,7 +68,7 @@ class WithDrawRecordPage extends StatelessWidget {
     );
   }
 
-  recordItem(WithdrawRecordModel model) {
+  recordItem(CoinRecordsModel model) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
@@ -89,21 +84,21 @@ class WithDrawRecordPage extends StatelessWidget {
               //   height: 10,
               // ),
               Text(
-                getPayCardStr(model.card)??'',
+                model.actionName ?? '-',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Status:${model.statusText()}',
+            /*  Text(
+                'uid:${model.uid}',
                 style: TextStyle(fontSize: 14, color: Colors.white),
-              ),
+              ),*/
               SizedBox(
                 height: 10,
               ),
               Text(
-                model?.createTime ?? '',
+                '${model.addtime}',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               SizedBox(
@@ -113,14 +108,29 @@ class WithDrawRecordPage extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            "${model.money}",
+            "${model.total}",
             style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
           ),
         ],
       ),
     );
   }
+}
+
+class CoinAndDiamondsRecordPageController extends GetxRefreshController {
+  var type;
+
+  CoinAndDiamondsRecordPageController(this.type);
 
   @override
-  bool get wantKeepAlive => true;
+  void onInit() {
+    initialRefresh = true;
+    super.onInit();
+  }
+
+  @override
+  Future<List<CoinRecordsModel>> loadData({int pageNum = 1}) async {
+    var list = await BalanceApi.coinAndVotesRecords(pageNum, pageSize, type);
+    return list;
+  }
 }

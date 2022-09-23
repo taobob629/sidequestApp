@@ -2,6 +2,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/balance_record_model.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
+import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/model/withdraw_record_model.dart';
 
 class BalanceApi {
@@ -91,15 +92,15 @@ class BalanceApi {
     return list;
   }
 
-  static Future<List<WithdrawRecordModel>> coinAndVotesRecords(
+  static Future<List<CoinRecordsModel>> coinAndVotesRecords(
       int pageNum, int pageSize, String type) async {
     var response = await http.get('/peiwan/app/order/list/record',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize, 'type': type}));
     if (response.data == null) {
       return [];
     }
-    List<WithdrawRecordModel> list = response.data
-        .map<WithdrawRecordModel>((item) => WithdrawRecordModel.fromJson(item))
+    List<CoinRecordsModel> list = response.data
+        .map<CoinRecordsModel>((item) => CoinRecordsModel.fromJson(item))
         .toList();
     return list;
   }
