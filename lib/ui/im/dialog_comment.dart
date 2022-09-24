@@ -87,7 +87,7 @@ class CommentDialogController extends GetxController{
 
   double star = 4.0;
 
-  CommentDialogController({required this.orderId, required Function onDone});
+  CommentDialogController({required this.orderId, required this.onDone});
 
   @override
   void onInit() {

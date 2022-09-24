@@ -8,6 +8,8 @@ class PayInfoModel{
   late bool applePay;
   late bool googlePay;
 
+  bool insufficient = false;
+
   PayInfoModel();
 
   PayInfoModel.fromJson(Map<String, dynamic> json) {

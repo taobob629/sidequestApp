@@ -26,10 +26,20 @@ class PayButton extends StatelessWidget {
                 "Total",
                 style: TextStyle(color: Colors.white38,fontSize: 18,fontFamily: "DIN"),
               ),
-              Obx(()=>Text(
-                "£ ${playOrderController.totalAmount.value.toStringAsFixed(2)}",
-                style: TextStyle(color: Colors.white,fontSize: 30,fontFamily: "DIN"),
-              ),)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset("assets/images/ic_balance_money.webp",width: 28,height: 28,),
+                  SizedBox(width: 5,),
+                  Obx(()=>Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "${playOrderController.totalAmount.value.toStringAsFixed(2)}",
+                      style: TextStyle(color: Colors.white,fontSize: 30,fontFamily: "DIN"),
+                    ),
+                  ),)
+                ],
+              )
             ],
           ),
           SizedBox(width: 20,),

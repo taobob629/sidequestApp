@@ -311,7 +311,9 @@ class PlayDetail extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text("£ ${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                    Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
+                    SizedBox(width: 5,),
+                    Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
                     Text(" / Hour",style: TextStyle(color: Colors.white,fontSize: 12),),
                   ],
                 )

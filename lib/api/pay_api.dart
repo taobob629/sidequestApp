@@ -92,6 +92,15 @@ class PayApi {
       data: formData
     );
 
+    PayInfoModel payInfoModel = PayInfoModel();
+    if(model.payType == 2){
+      if(response.data == 0){
+        payInfoModel.insufficient = false;
+      }else{
+        payInfoModel.insufficient = true;
+      }
+      return payInfoModel;
+    }
     return PayInfoModel.fromJson(response.data);
   }
 

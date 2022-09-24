@@ -190,7 +190,18 @@ class OrderDetail extends StatelessWidget {
           _infoItem("Order Number","${controller.playOrderDetailModel.value.orderno}"),
           _infoItem("Service Time","${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.svctm))}"),
           _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.nums > 1 ? 'Hours':'Hour'}"),
-          _infoItem("Total Price","£ ${controller.playOrderDetailModel.value.total}"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            child: Row(
+              children: [
+                Text("Total Price", style: TextStyle(fontSize: 12, color: Colors.white54),),
+                Spacer(),
+                Image.asset("assets/images/ic_balance_money.webp",width: 14,height: 14,),
+                SizedBox(width: 4,),
+                Text("${controller.playOrderDetailModel.value.total}", style: TextStyle(fontSize: 14, color: Colors.white),),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -215,17 +226,17 @@ class OrderDetail extends StatelessWidget {
       return Container();
     }
 
-    String serviceState = "待服务";
+    String serviceState = "Waiting";
     Color serviceColor = Colors.blue;
     if(status == 2){
-      serviceState = "服务中";
+      serviceState = "Serving";
       serviceColor = Colors.green;
     }else if(status == -2){
-      serviceState = "已服务";
+      serviceState = "Served";
       serviceColor = Colors.green;
     }
 
-    String finishState = "待评价";
+    String finishState = "No Comment";
     Color finishColor = Colors.blue;
     if(status == -1){
       finishState = "Canceled";
@@ -269,7 +280,7 @@ class OrderDetail extends StatelessWidget {
                       ),
                       Container(
                         height: 16,
-                        child: Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                        child: Text("Paid",style: TextStyle(color: Colors.white,fontSize: 12),)
                       )
                     ],
                   ),
