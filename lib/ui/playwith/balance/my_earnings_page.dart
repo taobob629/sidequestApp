@@ -128,7 +128,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(hintText: "£0", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(hintText: "£1", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 

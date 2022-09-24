@@ -359,20 +359,21 @@ class BalancePageController extends GetxListController {
   }
 
   void pay() {
-    PayOrderModel payOrderModel = PayOrderModel();
+    PayOrderModel payOrderModel = PayOrderModel()..type = 2;
     String amountStr = amountController.text;
     double amount = 0.0;
     if (amountStr.isNotEmpty) {
       amount = double.parse(amountStr);
     }
     if (amount == 0) {
-      CoinChargeRuleModel model=list[productIndex.value];
+      CoinChargeRuleModel model = list[productIndex.value];
       amount = double.parse(model.money) * 1.0;
+      payOrderModel.chargeid = model.id;
     }
+
     payOrderModel.goodsPrice = "$amount";
     payOrderModel.totalAmount = "$amount";
-
-    NavigatorHelper.gotoPayPage(payOrderModel,whenComplete: (){
+    NavigatorHelper.gotoPayPage(payOrderModel, whenComplete: () {
       var userController = Get.find<UserController>();
       userController.updateInfo();
     });

@@ -125,8 +125,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CountView(icon: "money", title: "Cash", count: "${coin ?? '0'}"),
-              CountView(icon: "votes", title: "Votes", count: '${votes ?? '0'}'),
+              CountView(icon: "money", title: "Coin", count: "${coin ?? '0'}"),
+              CountView(icon: "votes", title: "Diamond", count: '${votes ?? '0'}'),
             ],
           ),
         ]),
