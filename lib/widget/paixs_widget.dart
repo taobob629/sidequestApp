@@ -303,7 +303,7 @@ class PWidget {
 
       key: key,
 
-      nullValue: data['null'] ?? '暂无数据',
+      nullValue: data['null'] ?? 'No more data',
 
       textAlign: data['ali'] == null ? null : TextAlign.values[data['ali']],
 
@@ -340,7 +340,7 @@ class PWidget {
       fontFamily: data['ff'],
       key: key,
       children: (children.isNotEmpty) ? children : (data['ts'] ?? []),
-      nullValue: data['null'] ?? '暂无数据',
+      nullValue: data['null'] ?? 'No more data',
       textAlign: data['ali'] == null ? null : TextAlign.values[data['ali']],
       decoration: data['td'],
     );
@@ -394,7 +394,7 @@ class PWidget {
           size: isDataNull(() => list[1], 14),
           isBold: list.length > 2 ? list[2] : false,
           // height: data['h'],
-          nullValue: data['null'] ?? '暂无数据',
+          nullValue: data['null'] ?? 'No more data',
           decoration: data['td'],
         ),
       );
@@ -405,7 +405,7 @@ class PWidget {
       size: isDataNull(() => list[1], 14),
       isBold: list.length > 2 ? list[2] : false,
       // height: data['h'],
-      nullValue: data['null'] ?? '暂无数据',
+      nullValue: data['null'] ?? 'No more data',
       decoration: data['td'],
     );
   }

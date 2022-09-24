@@ -15,6 +15,7 @@ import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_custom_scroll.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tab_widget.dart';
 
@@ -36,7 +37,7 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
       btnBar: FloatingButton(
         label: 'apply for new skill',
         onTap: () async {
-          var res = await Get.to(() => AddGamePage());
+          var res = await Get.to(() => AddGamePage({}));
           if (res != null) setState(() => key = UniqueKey());
         },
       ),
@@ -113,24 +114,24 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
               CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover, width: 64, height: 64),
               PWidget.boxw(8),
               PWidget.text('${data['skillName']}', [Colors.white], {'exp': true}),
-              if (widget.status == 1)
-                Transform.scale(
-                  scale: 0.8,
-                  child: CupertinoSwitch(
-                    value: data['wswitch'] == 1,
-                    thumbColor: Colors.white,
-                    trackColor: Colors.white24,
-                    onChanged: (v) async {
-                      setState(() => data['wswitch'] = (v ? 1 : 0));
-                      var jsonData = {"skillid": data['skillid'], "wswitch": data['wswitch']};
-                      flog(jsonData);
-                      await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
-                        setState(() => data['wswitch'] = (!v ? 1 : 0));
-                        EasyLoading.showToast('Network exception');
-                      });
-                    },
-                  ),
-                ),
+              if (widget.status == 1) PWidget.text('编辑', [Colors.white], {'pd': 8, 'fun': () => jumpPage(AddGamePage(data))}),
+              // Transform.scale(
+              //   scale: 0.8,
+              //   child: CupertinoSwitch(
+              //     value: data['wswitch'] == 1,
+              //     thumbColor: Colors.white,
+              //     trackColor: Colors.white24,
+              //     onChanged: (v) async {
+              //       setState(() => data['wswitch'] = (v ? 1 : 0));
+              //       var jsonData = {"skillid": data['skillid'], "wswitch": data['wswitch']};
+              //       flog(jsonData);
+              //       await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
+              //         setState(() => data['wswitch'] = (!v ? 1 : 0));
+              //         EasyLoading.showToast('Network exception');
+              //       });
+              //     },
+              //   ),
+              // ),
               PWidget.boxh(8),
             ]);
             return PWidget.ccolumn([

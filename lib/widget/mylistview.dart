@@ -127,7 +127,7 @@ class _MyListViewState<T> extends State<MyListView<T>> {
           color: Colors.white.withOpacity(0.1),
         ),
         SizedBox(width: 8),
-        MyText('No more', color: Colors.white.withOpacity(0.25)),
+        MyText('No more data', color: Colors.white.withOpacity(0.25)),
         SizedBox(width: 8),
         Container(
           height: 1,

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
@@ -53,7 +55,13 @@ class ProfileHeader extends StatelessWidget {
           right: 0,
           top: 0,
           child: GestureDetector(
-            onTap: ()=> controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage()),
+            onTap: () {
+              if(controller.userInfoModel.value.isauth==1){
+                controller.checkLogin(()=>Get.to(PlayProfilePage()));
+              }else{
+                controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage());
+              }
+            },
             child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 40,

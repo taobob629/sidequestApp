@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:wy/api/common.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -23,12 +25,14 @@ import 'package:wy/widget/scaffold_widget.dart';
 
 ///添加游戏
 class AddGamePage extends StatefulWidget {
+  final Map data;
+  const AddGamePage(this.data, {Key? key}) : super(key: key);
   @override
   _AddGamePageState createState() => _AddGamePageState();
 }
 
 class _AddGamePageState extends State<AddGamePage> {
-  TextEditingController beGoodAtCon = TextEditingController();
+  TextEditingController priceRangeCon = TextEditingController();
   var platform;
   var platformIndex;
   var game;
@@ -44,7 +48,24 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///初始化函数
   Future initData() async {
-    await this.skill();
+    isEdit = widget.data.isNotEmpty;
+    if (isEdit) this.skillInfo();
+    mapFlog(widget.data, 'isEdit');
+    this.skill();
+    this.config();
+  }
+
+  ///技能详情
+  var skillInfoDm = DataModel<Map>(object: {});
+  Future<int> skillInfo({int page = 1, bool isRef = false}) async {
+    await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
+      skillInfoDm.addObject(res.data);
+    }).catchError((e) {
+      skillInfoDm.toError(e.toString());
+    });
+    flog(skillInfoDm.toJson(), 'skillInfoDm');
+    setState(() {});
+    return skillInfoDm.flag;
   }
 
   ///游戏
@@ -52,6 +73,18 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> skill({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill').then((res) async {
       skillDm.addList(res.data, true, 0);
+      if (isEdit) {
+        flog(skillDm.list.length, 'skillDm.list.length');
+        platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
+        platform = skillDm.list[platformIndex];
+        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
+        game = platform['skill'][gameIndex];
+        gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        gameLv = game['level'][gameLvIndex];
+        gamePhotos = [skillInfoDm.object?['pwSkillAuth']['thumb']];
+        flog(platform, 'platform');
+        flog(platformIndex, 'platform');
+      }
     }).catchError((e) {
       skillDm.toError(e.toString());
     });
@@ -60,11 +93,27 @@ class _AddGamePageState extends State<AddGamePage> {
     return skillDm.flag;
   }
 
+  ///游戏价格区间
+  var configDm = DataModel<Map>(object: {});
+  Future<int> config({int page = 1, bool isRef = false}) async {
+    await http.get('/peiwan/app/home/config').then((res) async {
+      configDm.addObject(res.data);
+    }).catchError((e) {
+      configDm.toError(e.toString());
+    });
+    flog(configDm.toJson(), 'configDm');
+    setState(() {});
+    return configDm.flag;
+  }
+
+  ///是否编辑
+  bool isEdit = false;
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('add game', style: TextStyle(fontSize: 18)),
+        title: Text(isEdit ? 'edit game' : 'add game', style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -101,9 +150,15 @@ class _AddGamePageState extends State<AddGamePage> {
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
+          // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
           if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
-          flog(game);
+          if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
+          if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
+            return EasyLoading.showToast('The price cannot be less than the minimum value');
+          }
+          if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
+            return EasyLoading.showToast('The price cannot be greater than the maximum value');
+          }
           flog(gameLv);
           var data = {
             "skillid": game['id'],
@@ -111,11 +166,11 @@ class _AddGamePageState extends State<AddGamePage> {
             "levelid": gameLv['id'],
             "wswitch": 0,
             "coinid": 0,
-            "coin": 0,
-            "des": beGoodAtCon.text,
+            "coin": priceRangeCon.text,
+            // "des": beGoodAtCon.text,
           };
           flog(data, 'data');
-          await http.post('/peiwan/app/user/setSkillAuth', data: data).then((v) {
+          await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
             EasyLoading.showToast('Submitted successfully');
             Get.back(result: true);
           }).catchError((e) {
@@ -146,7 +201,8 @@ class _AddGamePageState extends State<AddGamePage> {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
-        var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+        var url = Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => gamePhotos.add('$url'));
         // controller.setAvatar(value);
       });
@@ -168,6 +224,7 @@ class _AddGamePageState extends State<AddGamePage> {
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
+          if (isEdit) return;
           if (skillDm.list.isEmpty) return EasyLoading.showToast('Please check the network settings');
           var res = await Get.dialog(
             SelectorDialog(
@@ -200,6 +257,7 @@ class _AddGamePageState extends State<AddGamePage> {
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
+          if (isEdit) return;
           if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
           var list = skillDm.list[platformIndex]['skill'] as List;
           var res = await Get.dialog(
@@ -253,12 +311,35 @@ class _AddGamePageState extends State<AddGamePage> {
           }
         },
       ),
-      PWidget.boxh(16),
-      itemBg(PWidget.row([
-        PWidget.text('Be good at', [Colors.white]),
-        PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Be good at', hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
-      ])),
+      if (configDm.object?.isNotEmpty ?? false) PWidget.boxh(16),
+      if (configDm.object?.isNotEmpty ?? false)
+        itemBg(PWidget.row([
+          PWidget.text('Price range', [Colors.white]),
+          PWidget.boxw(8),
+          buildTFView(context!, isDouble: true, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, isExp: true, textAlign: TextAlign.end),
+        ])),
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
+        itemBg(PWidget.row([
+          PWidget.text('Whether to open', [Colors.white]),
+          PWidget.spacer(),
+          Builder(builder: (context) {
+            var wswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
+            return CupertinoSwitch(
+              value: wswitch == 1,
+              onChanged: (v) async {
+                setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
+                var jsonData = {"skillid": skillInfoDm.object?['pwSkillAuth']['skillid'], "wswitch": wswitch};
+                await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
+                  setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
+                  EasyLoading.showToast('Network exception');
+                }).then((v) {
+                  EasyLoading.showToast('Operation succeeded');
+                });
+              },
+            );
+          }),
+        ])),
     ]);
   }
 

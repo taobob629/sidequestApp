@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:wy/api/common.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -149,7 +150,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
-        var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => gamePhotos.add('$url'));
         // controller.setAvatar(value);
       });

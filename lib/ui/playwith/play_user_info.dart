@@ -193,7 +193,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
           GestureDetector(
             child: Image.asset('assets/images/play/add_games.png', height: 44),
             onTap: () {
-              jumpPage(AddGamePage());
+              jumpPage(AddGamePage({}));
             },
           ),
         ])

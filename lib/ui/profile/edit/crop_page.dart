@@ -47,7 +47,7 @@ class CropPage extends StatelessWidget {
               editorMaskColorHandler: (context, down) {
                 return Colors.black.withOpacity(down ? 0.4 : 0.8);
               },
-              cropAspectRatio: CropAspectRatios.ratio1_1);
+              cropAspectRatio: CropAspectRatios.custom);
           },
         ),
       )
