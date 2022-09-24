@@ -110,13 +110,14 @@ class PlayOrder extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 10),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
+                SizedBox(width: 4,),
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
                   child: Text(
-                    "£ ${controller.skillModel.value.coin}",
+                    "${controller.skillModel.value.coin}",
                     style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),
                   ),
                 ),

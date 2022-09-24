@@ -1,6 +1,6 @@
 
 class PayOrderModel {
-  // 订单类型 -1 商品 0 充值  1 2 3 4 开会员
+  // 订单类型 -1 商品 0 充值  1 2 3 4 开会员 -2陪玩
   late int type = 0;
   // 地址id
   late int addressId = 0;
@@ -14,7 +14,7 @@ class PayOrderModel {
   late String couponPrice = "0";
   // 优惠券码
   late String couponCode = "";
-  // 支付方式 1 卡(visa、master) 2 余额  3 微信 4 支付宝
+  // 支付方式 1 卡(visa、master) 2 余额/陪玩金币  3 微信 4 支付宝
   late int payType = 1;
   // 商品快照
   late String orderShot = "";

@@ -14,6 +14,7 @@ import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_cal
 import 'package:wy/api/im_api.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
+import 'package:intl/intl.dart';
 
 import '../../model/play_order_detail_model.dart';
 
@@ -70,7 +71,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,));
+    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
   // _onTapLocation() {
@@ -179,7 +180,7 @@ class _ChatState extends State<Chat> {
     //       receiverID: widget.selectedConversation.userID!,
     //       convType: ConvType.c2c);
     // }
-    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,));
+    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
   @override
@@ -240,7 +241,7 @@ class _ChatState extends State<Chat> {
             print(data);
             return GestureDetector(
               onTap: (){
-                Get.to(()=>OrderDetail(orderId: data['orderId']));
+                Get.to(()=>OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
               },
               child: Container(
                 height: height,
@@ -252,6 +253,7 @@ class _ChatState extends State<Chat> {
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -274,37 +276,45 @@ class _ChatState extends State<Chat> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(
-                                    "GAME",
-                                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                  Container(
+                                    width: width-iconHeight-25,
+                                    child: Text(
+                                      "${data['game']}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                  Text("${data['game']}",
-                                      style: TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 14,
-                                      )),
+                                  Row(
+                                    children: [
+                                      Image.asset("assets/images/ic_balance_money.webp",width: 15,height: 15,),
+                                      SizedBox(width: 3,),
+                                      Text(
+                                        "${data['price']}",
+                                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text("for ${data['num']} ${data['num'] > 1 ? 'Hours':'Hour' }",
+                                        style: TextStyle(
+                                          color: Colors.white54,
+                                          fontSize: 14,
+                                        )),
+                                    ],
+                                  )
                                 ],
                               ),
                             )
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "£ ${data['price']}",
-                              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 10,),
-                            Text("for ${data['num']} ${data['num'] > 1 ? 'Hours':'Hour' }",
-                                style: TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: 14,
-                                )),
-                          ],
-                        )
+                        Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 14,
+                          )
+                        ),
                       ],
                     )),
               ),
@@ -364,7 +374,7 @@ class _ChatState extends State<Chat> {
       return Container();
     }
     return GestureDetector(
-      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId)),
+      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId))!.whenComplete(() => _getPlayOrder()),
       child: Container(
         height: 80,
         color: Colors.white12,
@@ -375,10 +385,11 @@ class _ChatState extends State<Chat> {
               right: 10,
               top: 10,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("${playOrderDetailModel!.gameName}",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
-                  Text("£ ${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} ${playOrderDetailModel!.nums > 1 ? 'Hours' : 'Hour'}",style: TextStyle(color: Colors.white,fontSize: 12),)
+                  Spacer(),
+                  Image.asset("assets/images/ic_balance_money.webp",width: 12,height: 12,),
+                  Text("${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} ${playOrderDetailModel!.nums > 1 ? 'Hours' : 'Hour'}",style: TextStyle(color: Colors.white,fontSize: 12),)
                 ],
               )
             ),

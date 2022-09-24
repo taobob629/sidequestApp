@@ -27,6 +27,7 @@ import '../../api/address_api.dart';
 import '../../config/app_config.dart';
 import '../../model/address_model.dart';
 import '../../utils/navigator_helper.dart';
+import '../common/dialog_password.dart';
 
 class PayPage extends StatelessWidget {
 
@@ -49,17 +50,21 @@ class PayPage extends StatelessWidget {
           }else if(index == 1){
             return Obx(()=>_buildBillAddress());
           }else if(index == 2){
+            if(controller.payOrderModel.type == -2){
+              return Container();
+            }
             return Obx(()=>_buildCredit(1,controller.payType.value));
-            return Container();
           }else if(index == 3){
-            if(controller.payOrderModel.type > 0){
+            if(controller.payOrderModel.type > 0 || controller.payOrderModel.type == -2){
               return Container();
             }else {
               return Obx(() => _buildPayView("Alipay", "alipay", 4, controller.payType.value));
               //return Container();
             }
           }else if(index == 4){
-            if(controller.payOrderModel.type >= -2){
+            if(controller.payOrderModel.type == -2){
+              return Obx(()=>_buildPayView("Gold Coins", "balance_money",2,controller.payType.value));
+            }else if(controller.payOrderModel.type > -2){
               return Container();
             }else {
               return Obx(()=>_buildPayView("Balance", "balance_money",2,controller.payType.value));
@@ -99,10 +104,24 @@ class PayPage extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  "£ ${double.parse(controller.payOrderModel.totalAmount).toStringAsFixed(2)}",
-                  style: TextStyle(fontSize: 34,color: Colors.white, fontFamily: "DIN"),
-                ),
+                child:Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    controller.payOrderModel.type == -2 ?
+                    Image.asset("assets/images/ic_balance_money.webp",width: 30,height: 30,):
+                    Text(
+                      "￡",
+                      style: TextStyle(fontSize: 34,color: Colors.white, fontFamily: "DIN"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0,left: 5),
+                      child: Text(
+                        "${double.parse(controller.payOrderModel.totalAmount).toStringAsFixed(controller.payOrderModel.type == -2 ? 0:2)}",
+                        style: TextStyle(fontSize: 34,color: Colors.white, fontFamily: "DIN"),
+                      ),
+                    ),
+                  ],
+                )
               )
             ),
           ),
@@ -558,76 +577,55 @@ class PayPageController extends GetxController {
         }
       }
     }
-    /*
-    else if(payType.value == 1){
-      String cardNumber = cardNumberController.text;
-      if(cardNumber.isEmpty){
-        EasyLoading.showInfo("Please input your card number");
-        return;
-      }
-      if(cardNumber.indexOf("*") >= 0){
-        CreditCardModel cardModel = StorageManager.getCreditCardModel();
-        cardNumber = cardModel.cardNumber;
-      }
-      String cardHolder = cardHolderController.text;
-      if(cardHolder.isEmpty){
-        EasyLoading.showInfo("Please input your card holder name");
-        return;
-      }
-      String exDate = exDateController.text;
-      if(exDate.length != 4){
-        EasyLoading.showInfo("Please input your card expire date");
-        return;
-      }
-      String cvCode = cvController.text;
-      if(cvCode.length != 3){
-        EasyLoading.showInfo("Please input your card security code");
-        return;
-      }
-      Map params = <String, dynamic>{'cardNumber': cardNumber};
-      bool ret = await _channel.invokeMethod('verifyCard', params);
-      if(ret == false){
-        EasyLoading.showInfo("Your card is invalid or not supported");
-        return;
-      }
-      EasyLoading.show(maskType: EasyLoadingMaskType.black);
-      PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-      if(payInfoModel.orderNo.isEmpty){
-        EasyLoading.showError("Create order failed");
-        return;
-      }
-      String token = await PayApi.genToken();
-      orderId = payInfoModel.orderNo;
-      params = <String, dynamic>{
-        'token': token,
-        'cardNumber': cardNumber,//5573615093808179
-        'cardHolder': cardHolder,//Z CHEN
-        'exDate': exDate,//0524
-        'cvCode': cvCode,//297
-        'orderId': orderId,
-        'amount':payOrderModel.totalAmount,
-        'recurring':payOrderModel.type > 0 ? 'true' : 'false'
-      };
+    else if(payType.value == 2) { //余额支付
 
-      cardModel.cardNumber = cardNumber;
-      cardModel.cardHolder = cardHolder;
-      cardModel.exDate = exDate;
-      cardModel.cvCode = cvCode;
+      checkPayPin(()async{
+        PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
 
-      EasyLoading.show(maskType: EasyLoadingMaskType.black);
-      await _channel.invokeMethod('getCardPay', params);
-    }*/
-    else if(payType.value == 2){//余额支付
-      PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-      if(payInfoModel.orderNo.isEmpty){
-        EasyLoading.showError("Server response error!");
-      }else{
-        if(payOrderModel.type == -1) {
-          var cartController = Get.find<CartController>();
-          cartController.clearCart();
+        if (payOrderModel.type == -2) {
+          if (payInfoModel.insufficient) {
+            Get.dialog(
+              ConfirmDialog(title: "Payment Result", info: "Insufficient coin, Please recharge first!"),
+              barrierColor: Colors.black26
+            );
+          }else{
+            Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
+              .whenComplete(() => Get.back());
+          }
+        } else {
+          if (payInfoModel.orderNo.isEmpty) {
+            EasyLoading.showError("Server response error!");
+          } else {
+            if (payOrderModel.type == -1) {
+              var cartController = Get.find<CartController>();
+              cartController.clearCart();
+            }
+            Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
+              .whenComplete(() => Get.back());
+          }
         }
-        Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26).whenComplete(() => Get.back());
+      });
+    }
+  }
+
+  void checkPayPin(Function checkDone){
+    if(havePayPassword.value == false){
+      Get.to(()=>ChangePasswordPage(type: 2, check: false, have: false,))?.whenComplete(() async=> await havePassword());
+      return;
+    }else{
+      DateTime now = DateTime.now();
+      DateTime checkTime = StorageManager.getPayPasswordCheckTime();
+      if((now.millisecondsSinceEpoch - checkTime.millisecondsSinceEpoch)/1000 < 300){
+        checkDone.call();
+      }else {
+        Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+          if (value == true) {
+            StorageManager.setPayPasswordCheckTime(now);
+            checkDone.call();
+          }
+        });
       }
+      return;
     }
   }
 

@@ -15,6 +15,8 @@ class UserInfoModel {
   late String email = "";
   late int total = 0;
   late int remain = 0;
+  late int isauth = 0;
+  late int pwuserId = 0;
 
   UserInfoModel();
 
@@ -34,5 +36,7 @@ class UserInfoModel {
     bookingCount = json['bookingCount'];
     total = json['total'] == null ? 0:json['total'];
     remain = json['remain'] == null ? 0:json['remain'];
+    isauth = json['isauth'] == null ? 0:json['isauth'];
+    pwuserId = json['pwuserId'] == null ? 0:json['pwuserId'];
   }
 }
