@@ -109,9 +109,12 @@ class PayPage extends StatelessWidget {
                   children: [
                     controller.payOrderModel.type == -2 ?
                     Image.asset("assets/images/ic_balance_money.webp",width: 30,height: 30,):
-                    Text(
-                      "￡",
-                      style: TextStyle(fontSize: 34,color: Colors.white, fontFamily: "DIN"),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "£",
+                        style: TextStyle(fontSize: 34,color: Colors.white, fontFamily: "DIN"),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0,left: 5),

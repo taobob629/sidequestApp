@@ -32,7 +32,7 @@ void main() async {
   var app = await AppConfig.createApp();
 
   String env = StorageManager.getEnv();
-  if(env == "dev" || env == "test") {
+  if(env.contains("dev") || env.contains("test")) {
     PluginManager.instance // 注册插件
       ..register(DioInspector(dio: http));
     runApp(UMEWidget(child: app, enable: true));

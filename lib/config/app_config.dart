@@ -26,6 +26,7 @@ class AppConfig {
   static String? name;
 
   static String _devServer = 'http://114.117.239.220:8081';
+  static String _devServer2 = 'http://43.138.104.201:8081';
   static String _testServer = 'http://139.186.179.121:8081';
   static String _prodServer = 'https://sidequestmeta.com';
 
@@ -47,20 +48,10 @@ class AppConfig {
     }
 
     if(!StorageManager.haveEnv()) {
-      switch (name) {
-        case "dev":
-          StorageManager.setEnv("dev");
-          break;
-        case "test":
-          StorageManager.setEnv("test");
-          break;
-        default:
-          StorageManager.setEnv("prod");
-
-      }
+      StorageManager.setEnv("prod");
     }
     String env = StorageManager.getEnv();
-    if(env == "dev" || env == "test"){
+    if(env.contains("dev") || env.contains("test")){
       Stripe.publishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg";
     }else{
       Stripe.publishableKey = "pk_live_51L2yYXIXDgiM7OYZrSLG5cd2s9TQmlmNCMZjjIXporezDYxYrFuEziACkmsXOVVq6eAmXh4bykLcPov7xuFTAiKB00FUsm5xFM";
@@ -87,8 +78,10 @@ class AppConfig {
 
   static String getBaseServer(){
     String env = StorageManager.getEnv();
-    if(env == "dev"){
+    if(env == "dev220"){
       return _devServer;
+    }else if(env == "dev201"){
+      return _devServer2;
     }else if(env == "test"){
       return _testServer;
     }

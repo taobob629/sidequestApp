@@ -165,21 +165,7 @@ class _ChatState extends State<Chat> {
     }
   }
 
-  _sendOrderMsg() async {
-    // V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
-    //     await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
-    //           data:
-    //               '{"businessID":"play_order","icon":"http://p2.itc.cn/images01/20201106/bd3499c7f6694ef68dcf84f7085bf071.jpeg"}',
-    //           desc: '自定义desc',
-    //           extension: '自定义extension',
-    //         );
-    // if (createCustomMessageRes.code == 0) {
-    //   String? id = createCustomMessageRes.data?.id;
-    //   V2TimValueCallback<V2TimMessage>? sendMessageRes = await _timuiKitChatController.sendMessage(
-    //       messageInfo: createCustomMessageRes.data?.messageInfo,
-    //       receiverID: widget.selectedConversation.userID!,
-    //       convType: ConvType.c2c);
-    // }
+  _toOrderPage() async {
     Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
@@ -327,7 +313,7 @@ class _ChatState extends State<Chat> {
                   id: "order",
                   title: "Order",
                   onTap: (c) {
-                    _sendOrderMsg();
+                    _toOrderPage();
                   },
                   icon: Container(
                     height: 64,
@@ -348,15 +334,7 @@ class _ChatState extends State<Chat> {
               IconButton(
                   padding: const EdgeInsets.only(left: 8, right: 16),
                   onPressed: () async {
-                    final conversationType = widget.selectedConversation.type;
-                    if (conversationType == 1) {
-                      final userID = widget.selectedConversation.userID;
-                      // if had remark modifed its will back new remark
-
-                    } else {
-                      final groupID = widget.selectedConversation.groupID;
-                      if (groupID != null) {}
-                    }
+                    _toOrderPage();
                   },
                   icon: Image.asset(
                     'images/more.png',
