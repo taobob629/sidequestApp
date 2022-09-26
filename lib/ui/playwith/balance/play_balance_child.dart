@@ -159,9 +159,6 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
   }
 
   Widget _buildChargeItems(BuildContext context) {
-    controller.list.forEach((element) {
-      flog(element);
-    });
     List<Widget> itemList = [];
     int index = 0;
     controller.list.forEach((element) {
