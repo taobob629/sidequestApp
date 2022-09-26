@@ -5,6 +5,7 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/balance/widget/bank_widget.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
@@ -20,7 +21,7 @@ class MyEarningsPage extends StatefulWidget {
 }
 
 class _MyEarningsPageState extends State<MyEarningsPage> {
-  late BalancePageController controller;
+  late WalletBalancePageController controller;
   var votes; //钻石数
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
 
   ///初始化函数
   Future initData() async {
-    controller = Get.put(BalancePageController());
+    controller = Get.put(WalletBalancePageController());
   }
 
   @override

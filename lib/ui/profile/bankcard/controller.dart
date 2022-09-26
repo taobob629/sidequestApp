@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
-import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 
 /**
     controller
@@ -69,7 +69,7 @@ class BindBankCardController extends GetxController {
    */
   refreshBankList() {
     try{
-      Get.find<BalancePageController>().getBankList();
+      Get.find<WalletBalancePageController>().getBankList();
     }catch(e){
 
     }

@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/balance_api.dart';
+import 'package:wy/common/getx_list_controller.dart';
+import 'package:wy/model/bank_card_model.dart';
+import 'package:wy/model/chage_rule_model.dart';
+import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
 import 'package:wy/ui/profile/balance/count_view.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
+import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/num_utils.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -18,22 +27,16 @@ class PlayBalanceChild extends StatefulWidget {
 }
 
 class _PlayBalanceChildState extends State<PlayBalanceChild> {
-  late BalancePageController controller;
-  var coin; //参数
-  var votes; //钻石数
+  late WalletBalancePageController controller;
   @override
   void initState() {
     this.initData();
-    if (Get.arguments != null) {
-      coin = Get.arguments['coin'];
-      votes = Get.arguments['votes'];
-    }
     super.initState();
   }
-
+  UserController userControlle=Get.find<UserController>();
   ///初始化函数
   Future initData() async {
-    controller = Get.put(BalancePageController());
+    controller = Get.put(WalletBalancePageController());
   }
 
   @override
@@ -122,13 +125,13 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
           Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
           Positioned(right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
-          Row(
+          Obx(()=>Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CountView(icon: "money", title: "Coin", count: "${coin ?? '0'}"),
-              CountView(icon: "votes", title: "Diamond", count: '${votes ?? '0'}'),
+              CountView(icon: "money", title: "Coin", count: "${userControlle.userInfoModel.value.coin}"),
+              CountView(icon: "votes", title: "Diamond", count: "${userControlle.userInfoModel.value.votes}"),
             ],
-          ),
+          )),
         ]),
       ),
     );
@@ -208,5 +211,227 @@ class _Bottom2Path extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return true;
+  }
+}
+class WalletBalancePageController extends GetxListController {
+  late var productIndex = 0.obs;
+
+  late var customAmount = 0.0.obs;
+
+  late var accountType = 0.obs;
+  var _iconByChargeRatio = 0.obs;
+
+  get iconByChargeRatio => _iconByChargeRatio.value;
+
+  set iconByChargeRatio(value) {
+    _iconByChargeRatio.value = value;
+  }
+
+  void dealIconChargeRatio() {
+    double amount = double.parse(amountController.text);
+    if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
+    var chargeRatio;
+    try {
+      chargeRatio = double.parse(chargeRule?.chargeRatio ?? '0');
+      double doubleResult = chargeRatio * amount;
+      iconByChargeRatio = doubleResult.ceil();
+    } catch (e) {
+      iconByChargeRatio = 0;
+    }
+  }
+
+  late TextEditingController amountController;
+  late TextEditingController accountController;
+  late FocusNode accountFocusNode;
+  late FocusNode amountFocusNode;
+  RxList<BankCardModel> _bankList = RxList();
+
+  List<BankCardModel> get bankList => _bankList;
+
+  set bankList(List<BankCardModel> value) {
+    _bankList.value = value;
+  }
+
+  BankCardModel? selectedBank;
+
+  WalletBalancePageController({double amount = 0.0}) {
+    customAmount.value = amount;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getBankList();
+    amountController = TextEditingController()
+      ..addListener(() {
+        dealIconChargeRatio();
+      });
+    accountController = TextEditingController();
+    accountFocusNode = FocusNode();
+    amountFocusNode = FocusNode();
+
+    amountFocusNode.addListener(() {
+      if (amountFocusNode.hasFocus) {
+        changeProductIndex(-1);
+      } else {
+        if (amountController.text.isEmpty) {
+          changeProductIndex(0);
+        }else{
+          customAmount.value = double.parse(amountController.text);
+          if (customAmount.value > 0) {
+            if(customAmount.value < 1){
+              customAmount.value = 1;
+              amountController.text = "1.0";
+            }
+            productIndex.value = -1;
+          }
+        }
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    amountController.dispose();
+    amountFocusNode.dispose();
+    accountFocusNode.dispose();
+    accountController.dispose();
+    super.onClose();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    accountFocusNode.addListener(() {
+      if (accountFocusNode.hasFocus) {
+        changeAccountType(1);
+      } else {
+        if (accountController.text.isEmpty) {
+          changeAccountType(0);
+        }
+      }
+    });
+
+    if (customAmount.value > 0) {
+      if (customAmount.value < 1) {
+        customAmount.value = 1;
+      }
+      productIndex.value = -1;
+      amountController.text = customAmount.value.toStringAsFixed(2);
+    }
+  }
+
+  ChargeRuleModel? chargeRule;
+
+  Future<List<CoinChargeRuleModel>> loadData() async {
+    EasyLoading.show();
+    chargeRule = await BalanceApi.chargeRule();
+    EasyLoading.dismiss();
+    return chargeRule?.pwChargeRules ?? [];
+  }
+
+  void changeProductIndex(int index) {
+    productIndex.value = index;
+    amountController.clear();
+    iconByChargeRatio=0;
+  }
+
+  void changeCustomAmount(String amount) {
+    if(amount.isEmpty){
+      productIndex.value = 0;
+      return;
+    }
+    customAmount.value = double.parse(amount);
+    if (customAmount.value > 0) {
+      if(customAmount.value < 1){
+        customAmount.value = 1;
+        amountController.text = "1.0";
+      }
+      productIndex.value = -1;
+    } else {
+      productIndex.value = 0;
+    }
+  }
+
+  void changeAccountType(int value) {
+    accountType.value = value;
+  }
+
+  void selectBank(BankCardModel bank) {
+    selectedBank = bank;
+    accountType.value = bank.id;
+  }
+
+  void pay() {
+    PayOrderModel payOrderModel = PayOrderModel()..type = 2;
+    String amountStr = amountController.text;
+    double amount = 0.0;
+    if (amountStr.isNotEmpty) {
+      amount = double.parse(amountStr);
+    }
+    if (amount == 0) {
+      CoinChargeRuleModel model = list[productIndex.value];
+      amount = double.parse(model.money) * 1.0;
+      payOrderModel.chargeid = model.id;
+    }
+
+    payOrderModel.goodsPrice = "$amount";
+    payOrderModel.totalAmount = "$amount";
+    NavigatorHelper.gotoPayPage(payOrderModel, whenComplete: () {
+      var userController = Get.find<UserController>();
+      userController.updateInfo();
+    });
+  }
+
+  void getBankList() async {
+    bankList = await BalanceApi.getBankList();
+    selectedBank = bankList?.first;
+    accountType.value = selectedBank?.id ?? -1;
+  }
+
+  void deleteBank(var id) async {
+    EasyLoading.show();
+    await BalanceApi.unbindBankCard(id);
+    getBankList();
+    EasyLoading.showToast('Success');
+    EasyLoading.dismiss();
+  }
+
+  /*
+   * 提现
+   *  post方法
+参数 ：
+name：用户昵称，可选
+card：银行卡号
+cardId:银行卡ID
+votes:金币数量
+voucherId：优惠券ID，若有
+withDrawalRatio：提现手续费比例
+chargeRatio：金币兑换比例
+   */
+  Future<void> withDraw() async {
+    var votes = amountController.text;
+    if (votes.isEmpty) {
+      EasyLoading.showInfo('Please Enter withdraw amount!');
+      return;
+    }
+    if (!isValidateAmount(votes)) {
+      EasyLoading.showInfo('Please enter an valid number greater than 1');
+      return;
+    }
+    if (selectedBank == null) {
+      EasyLoading.showInfo('Please Add withdraw account First!');
+      return;
+    }
+    EasyLoading.show();
+    await BalanceApi.withDraw(Map<String, dynamic>()
+      ..['card'] = selectedBank?.cardNumber
+      ..['cardId'] = selectedBank?.id
+      ..['votes'] = votes
+      ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
+      ..['chargeRatio'] = chargeRule?.chargeRatio);
+    EasyLoading.showSuccess('Sucess');
+    EasyLoading.dismiss();
+    //  Get.back();
   }
 }
