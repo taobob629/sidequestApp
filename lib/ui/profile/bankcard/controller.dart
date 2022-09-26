@@ -13,10 +13,10 @@ import 'package:wy/ui/playwith/balance/play_balance_child.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class BindBankCardController extends GetxController {
-  TextEditingController? sortCodeTEC;
-  TextEditingController? bankNameTEC;
-  TextEditingController? accountNumTEC;
-  TextEditingController? nameOnAccountNumTEC;
+  late TextEditingController sortCodeTEC;
+  late TextEditingController bankNameTEC;
+  late TextEditingController accountNumTEC;
+  late TextEditingController nameOnAccountNumTEC;
   RxString _bankName = RxString('');
 
   String get bankName => _bankName.value;
@@ -32,9 +32,9 @@ class BindBankCardController extends GetxController {
     bankNameTEC = TextEditingController();
     accountNumTEC = TextEditingController();
     nameOnAccountNumTEC = TextEditingController();
-    sortCodeTEC?.addListener(() {
-      var text = sortCodeTEC?.text;
-      if (text?.length == 8) {
+    sortCodeTEC.addListener(() {
+      var text = sortCodeTEC.text;
+      if (text.length == 8) {
         search(text);
       }
     });
@@ -42,15 +42,15 @@ class BindBankCardController extends GetxController {
 
   search(String? text) async {
     bankName = await IndexApi.searchBankByCode(text);
-    bankNameTEC?.text = bankName ?? '';
+    bankNameTEC.text = bankName;
   }
 
   save() async {
     EasyLoading.show();
-    var sortcode = sortCodeTEC?.text;
-    var bankName = bankNameTEC?.text;
-    var cardNumber = accountNumTEC?.text;
-    var accountName = nameOnAccountNumTEC?.text;
+    var sortcode = sortCodeTEC.text;
+    var bankName = bankNameTEC.text;
+    var cardNumber = accountNumTEC.text;
+    var accountName = nameOnAccountNumTEC.text;
     await BalanceApi.addBankCard(Map<String, dynamic>()
           ..['sortcode'] = sortcode
           ..['bankName'] = bankName
@@ -68,19 +68,17 @@ class BindBankCardController extends GetxController {
    * 添加完成银行卡之后刷新列表
    */
   refreshBankList() {
-    try{
+    try {
       Get.find<WalletBalancePageController>().getBankList();
-    }catch(e){
-
-    }
+    } catch (e) {}
   }
 
   @override
   void onClose() {
-    sortCodeTEC?.dispose();
-    bankNameTEC?.dispose();
-    accountNumTEC?.dispose();
-    nameOnAccountNumTEC?.dispose();
+    sortCodeTEC.dispose();
+    bankNameTEC.dispose();
+    accountNumTEC.dispose();
+    nameOnAccountNumTEC.dispose();
     super.onClose();
   }
 }

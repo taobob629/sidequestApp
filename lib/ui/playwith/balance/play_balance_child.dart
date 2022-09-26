@@ -8,7 +8,6 @@ import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
 import 'package:wy/ui/profile/balance/count_view.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
@@ -28,12 +27,15 @@ class PlayBalanceChild extends StatefulWidget {
 
 class _PlayBalanceChildState extends State<PlayBalanceChild> {
   late WalletBalancePageController controller;
+
   @override
   void initState() {
     this.initData();
     super.initState();
   }
-  UserController userControlle=Get.find<UserController>();
+
+  UserController userController = Get.find<UserController>();
+
   ///初始化函数
   Future initData() async {
     controller = Get.put(WalletBalancePageController());
@@ -121,17 +123,36 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       child: AspectRatio(
         aspectRatio: 343 / 136,
         child: Stack(children: [
-          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: BottomPath(), child: Container(color: Colors.white30))),
-          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
-          Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
-          Positioned(right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
-          Obx(()=>Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CountView(icon: "money", title: "Coin", count: "${userControlle.userInfoModel.value.coin}"),
-              CountView(icon: "votes", title: "Diamond", count: "${userControlle.userInfoModel.value.votes}"),
-            ],
-          )),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 100,
+              child: ClipPath(clipper: BottomPath(), child: Container(color: Colors.white30))),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 100,
+              child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
+          Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
+          Positioned(
+              right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
+          Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CountView(
+                      icon: "money",
+                      title: "Coin",
+                      count: "${userController.userInfoModel.value.coin}"),
+                  CountView(
+                      icon: "votes",
+                      title: "Diamond",
+                      count: "${userController.userInfoModel.value.votes}"),
+                ],
+              )),
         ]),
       ),
     );
@@ -333,11 +354,11 @@ class WalletBalancePageController extends GetxListController {
   void changeProductIndex(int index) {
     productIndex.value = index;
     amountController.clear();
-    iconByChargeRatio=0;
+    iconByChargeRatio = 0;
   }
 
   void changeCustomAmount(String amount) {
-    if(amount.isEmpty){
+    if (amount.isEmpty) {
       productIndex.value = 0;
       return;
     }
@@ -385,8 +406,10 @@ class WalletBalancePageController extends GetxListController {
 
   void getBankList() async {
     bankList = await BalanceApi.getBankList();
-    selectedBank = bankList?.first;
-    accountType.value = selectedBank?.id ?? -1;
+    if (bankList.isNotEmpty) {
+      selectedBank = bankList.first;
+      accountType.value = selectedBank?.id ?? 0;
+    }
   }
 
   void deleteBank(var id) async {
@@ -409,7 +432,8 @@ voucherId：优惠券ID，若有
 withDrawalRatio：提现手续费比例
 chargeRatio：金币兑换比例
    */
-  Future<void> withDraw() async {
+  Future<void> withDraw(String type) async {
+    UserController userController = Get.find<UserController>();
     var votes = amountController.text;
     if (votes.isEmpty) {
       EasyLoading.showInfo('Please Enter withdraw amount!');
@@ -419,18 +443,29 @@ chargeRatio：金币兑换比例
       EasyLoading.showInfo('Please enter an valid number greater than 1');
       return;
     }
-    if (selectedBank == null) {
-      EasyLoading.showInfo('Please Add withdraw account First!');
+    double votesDouble = double.parse(votes);
+    double votesSum = double.parse(userController.userInfoModel.value.votes);
+    if (votesDouble.isGreaterThan(votesSum)) {
+      EasyLoading.showInfo('Please enter an valid number smaller than $votesSum!');
       return;
     }
     EasyLoading.show();
-    await BalanceApi.withDraw(Map<String, dynamic>()
-      ..['card'] = selectedBank?.cardNumber
-      ..['cardId'] = selectedBank?.id
-      ..['votes'] = votes
-      ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
-      ..['chargeRatio'] = chargeRule?.chargeRatio);
-    EasyLoading.showSuccess('Sucess');
+    if (type == 'withDraw') {
+      if (selectedBank == null) {
+        EasyLoading.showInfo('Please Add withdraw account First!');
+        return;
+      }
+      await BalanceApi.withDraw(Map<String, dynamic>()
+            ..['card'] = selectedBank?.cardNumber
+            ..['cardId'] = selectedBank?.id
+            ..['votes'] = votes
+            ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
+            ..['chargeRatio'] = chargeRule?.chargeRatio)
+          .then((value) => userController.updateInfo());
+    } else {
+      await BalanceApi.exchangeToCoin(votes).then((value) => userController.updateInfo());
+    }
+    EasyLoading.showSuccess('Success');
     EasyLoading.dismiss();
     //  Get.back();
   }
