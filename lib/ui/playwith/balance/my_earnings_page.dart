@@ -62,7 +62,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         [null, null, Color(0xff282640)],
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
-      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:1', style:TextStyle(
+      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:1000', style:TextStyle(
           color: Colors.white54, fontFamily: "DIN", fontSize: 18),
       )),
       _buildCustomInput(),
@@ -131,7 +131,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(hintText: "£1", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(hintText: "1000", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 

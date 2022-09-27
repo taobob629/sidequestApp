@@ -143,14 +143,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CountView(
-                      icon: "money",
-                      title: "Coin",
-                      count: "${userController.userInfoModel.value.coin}"),
-                  CountView(
-                      icon: "votes",
-                      title: "Diamond",
-                      count: "${userController.userInfoModel.value.votes}"),
+                  CountView(icon: "money", title: "Coin", count: "${controller.coin}"),
+                  CountView(icon: "votes", title: "Diamond", count: "${controller.diamonds}"),
                 ],
               )),
         ]),
@@ -245,12 +239,27 @@ class WalletBalancePageController extends GetxListController {
     _iconByChargeRatio.value = value;
   }
 
+  var _coin = 0.obs;
+  var _diamonds = 0.obs;
+
+  get coin => _coin;
+
+  set coin(value) {
+    _coin.value = value;
+  }
+
+  get diamonds => _diamonds.value;
+
+  set diamonds(value) {
+    _diamonds.value = value;
+  }
+
   void dealIconChargeRatio() {
     double amount = double.parse(amountController.text);
     if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
     try {
-      chargeRatio = double.parse(chargeRule?.chargeRatio ?? '0');
+      chargeRatio = double.parse(chargeRule.chargeRatio ?? '0');
       double doubleResult = chargeRatio * amount;
       iconByChargeRatio = doubleResult.ceil();
     } catch (e) {
@@ -339,13 +348,15 @@ class WalletBalancePageController extends GetxListController {
     }
   }
 
-  ChargeRuleModel? chargeRule;
+  late ChargeRuleModel chargeRule;
 
   Future<List<CoinChargeRuleModel>> loadData() async {
     EasyLoading.show();
     chargeRule = await BalanceApi.chargeRule();
+    coin = chargeRule.coin;
+    diamonds = chargeRule.votes;
     EasyLoading.dismiss();
-    return chargeRule?.pwChargeRules ?? [];
+    return chargeRule.pwChargeRules ?? [];
   }
 
   void changeProductIndex(int index) {
@@ -386,6 +397,10 @@ class WalletBalancePageController extends GetxListController {
     double amount = 0.0;
     if (amountStr.isNotEmpty) {
       amount = double.parse(amountStr);
+      if (!isValidateAmount(amountStr, 1)) {
+        EasyLoading.showInfo('Please enter an valid number greater than 1');
+        return;
+      }
     }
     if (amount == 0) {
       CoinChargeRuleModel model = list[productIndex.value];
@@ -396,9 +411,14 @@ class WalletBalancePageController extends GetxListController {
     payOrderModel.goodsPrice = "$amount";
     payOrderModel.totalAmount = "$amount";
     NavigatorHelper.gotoPayPage(payOrderModel, whenComplete: () {
-      var userController = Get.find<UserController>();
-      userController.updateInfo();
+      updateCoinAndDiamonds();
     });
+  }
+
+  Future<void> updateCoinAndDiamonds() async {
+    ChargeRuleModel chargeRule = await BalanceApi.chargeRule();
+    coin = chargeRule.coin;
+    diamonds = chargeRule.votes;
   }
 
   void getBankList() async {
@@ -436,8 +456,8 @@ chargeRatio：金币兑换比例
       EasyLoading.showInfo('Please Enter withdraw amount!');
       return;
     }
-    if (!isValidateAmount(votes)) {
-      EasyLoading.showInfo('Please enter an valid number greater than 1');
+    if (!isValidateAmount(votes, 1000)) {
+      EasyLoading.showInfo('Please enter an valid number greater than 1000');
       return;
     }
     double votesDouble = double.parse(votes);
@@ -456,9 +476,9 @@ chargeRatio：金币兑换比例
             ..['card'] = selectedBank?.cardNumber
             ..['cardId'] = selectedBank?.id
             ..['votes'] = votes
-            ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
-            ..['chargeRatio'] = chargeRule?.chargeRatio)
-          .then((value) => userController.updateInfo());
+            ..['withDrawalRatio'] = chargeRule.withdrawalRatio
+            ..['chargeRatio'] = chargeRule.chargeRatio)
+          .then((value) => updateCoinAndDiamonds());
     } else {
       await BalanceApi.exchangeToCoin(votes).then((value) => userController.updateInfo());
     }
