@@ -96,7 +96,7 @@ class WithDrawRecordPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Status:${model.statusText()}',
+                '${model.statusText()}',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/model/user_info_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/my_earnings_page.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/play_tab_widget.dart';
@@ -13,7 +15,8 @@ class PlayBalancePage extends StatefulWidget {
 }
 
 class _PlayBalancePageState extends State<PlayBalancePage> {
-  var tabList = ["Balance", "My earnings"];
+  //var tabList = ["Balance", "My earnings"];
+  UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +36,24 @@ class _PlayBalancePageState extends State<PlayBalancePage> {
           child: PWidget.text('WithDraw record', [Colors.white], {'pd': 8}),
           onTap: () =>  Get.toNamed(AppPages.WithDrawRecord),
         ),*/
-        tabList: tabList,
-        tabPage: [
-          PlayBalanceChild(),
-          MyEarningsPage(),
-        ],
+        tabList: tabs(),
+        tabPage: tabPages(),
       ),
     );
+  }
+
+  tabs() {
+    return userController.userInfoModel.value.isauth == TYPE_VIP
+        ? ["Balance", "My earnings"]
+        : ['Balance'];
+  }
+
+  tabPages() {
+    return userController.userInfoModel.value.isauth == TYPE_VIP
+        ? [
+            PlayBalanceChild(),
+            MyEarningsPage(),
+          ]
+        : [PlayBalanceChild()];
   }
 }
