@@ -205,17 +205,19 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconMenu(
+                icon: "assets/images/ic_tab_shop_new.webp",
+                title: "Play Home",
+                onTap: () {
+                  // Get.to(()=>PlayDetail(userId: ""));
+                  mainController.controller.jumpToPage(2);
+                  mainController.updateCurrentIndex(2);
+                },
+              ),
+              IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Play Skills",
                 onTap: () {
                   Get.to(() => PlaySkillsPage());
-                },
-              ),
-              IconMenu(
-                icon: "assets/images/ic_orders_new.webp",
-                title: "Play Orders",
-                onTap: () {
-                  Get.to(() => PlayOrdersPage());
                 },
               ),
               IconMenu(
@@ -241,12 +243,10 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_tab_shop_new.webp",
-                title: "Play Home",
+                icon: "assets/images/ic_orders_new.webp",
+                title: "Play Orders",
                 onTap: () {
-                  // Get.to(()=>PlayDetail(userId: ""));
-                  mainController.controller.jumpToPage(2);
-                  mainController.updateCurrentIndex(2);
+                  Get.to(() => PlayOrdersPage());
                 },
               ),
               IconMenu(icon: "", title: ""),

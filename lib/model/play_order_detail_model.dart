@@ -12,6 +12,8 @@ class PlayOrderDetailModel {
   late String orderno = "";
   late int svctm = 0;
   late int addtime = 0;
+  late String comments = "";
+  late double star = 0.0;
 
   PlayOrderDetailModel();
 
@@ -26,6 +28,7 @@ class PlayOrderDetailModel {
     status = json['order']['status'] ?? 0;
     orderno = json['order']['orderno'] ?? 0;
     svctm = json['order']['svctm'] ?? 0;
-    addtime = json['order']['addtime'] ?? 0;
+    star = json['order']['star'] ?? 0.0;
+    comments = json['order']['comments'] ?? "";
   }
 }

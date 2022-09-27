@@ -396,7 +396,7 @@ class _ChatState extends State<Chat> {
                           backgroundColor: Colors.green,
                           radius: 6,
                         ),
-                        Text("已付款",style: TextStyle(color: Colors.white,fontSize: 12),)
+                        Text("Paid",style: TextStyle(color: Colors.white,fontSize: 12),)
                       ],
                     ),
                   ),
@@ -408,7 +408,7 @@ class _ChatState extends State<Chat> {
                           backgroundColor: playOrderDetailModel!.status ==2 ? Colors.green : Colors.blue,
                           radius: 6,
                         ),
-                        Text("${playOrderDetailModel!.status ==2 ? '服务中' : '待服务'}",style: TextStyle(color: Colors.white,fontSize: 12),)
+                        Text("${playOrderDetailModel!.status ==2 ? 'Serving' : 'Waiting'}",style: TextStyle(color: Colors.white,fontSize: 12),)
                       ],
                     ),
                   ),
@@ -420,7 +420,7 @@ class _ChatState extends State<Chat> {
                           backgroundColor: Colors.blue,
                           radius: 6,
                         ),
-                        Text("待评价",style: TextStyle(color: Colors.white,fontSize: 12),)
+                        Text("Comment",style: TextStyle(color: Colors.white,fontSize: 12),)
                       ],
                     ),
                   )

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -28,6 +26,7 @@ import '../../config/app_config.dart';
 import '../../model/address_model.dart';
 import '../../utils/navigator_helper.dart';
 import '../common/dialog_password.dart';
+import '../playwith/play_balance_page.dart';
 
 class PayPage extends StatelessWidget {
 
@@ -63,7 +62,21 @@ class PayPage extends StatelessWidget {
             }
           }else if(index == 4){
             if(controller.payOrderModel.type == -2){
-              return Obx(()=>_buildPayView("Gold Coins", "balance_money",2,controller.payType.value));
+              return Obx(()=>
+                _buildPayView(
+                  "Gold Coins",
+                  "balance_money",
+                  2,
+                  controller.payType.value,
+                  subTitle: Row(
+                    children: [
+                      Image.asset("assets/images/ic_balance_money.webp",width: 14,height: 14,),
+                      SizedBox(width: 5,),
+                      Text("${userController.userInfoModel.value.coin}",style: TextStyle(color: Colors.white,fontSize: 14),)
+                    ],
+                  )
+                )
+              );
             }else if(controller.payOrderModel.type > -2){
               return Container();
             }else {
@@ -248,100 +261,9 @@ class PayPage extends StatelessWidget {
         ],
       )
     );
-/*
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Color(0xff28253D),
-      ),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: ()=>controller.changePayType(value),
-            child: Container(
-              color: Colors.transparent,
-              padding: const EdgeInsets.only(left: 5,right: 15,top: 5,bottom: 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Radio(
-                    activeColor: AppColor.accent,
-                    value: value,
-                    groupValue: groupValue,
-                    onChanged: (value) => controller.changePayType(value as int),
-                    hoverColor: AppColor.accent,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      "Credit Card",
-                      style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),
-                    ),
-                  ),
-                  Spacer(),
-                  Image.asset("assets/images/ic_visa.webp",height: 32,),
-                  SizedBox(width: 10,),
-                  Image.asset("assets/images/ic_master.webp",height: 32,)
-                ],
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(bottom: 15),
-            color: Color(0x08ffffff),
-            child: Column(
-              children: [
-                InputView(
-                  textInputType: TextInputType.number,
-                  controller: controller.cardNumberController,
-                  label: "Card Number",
-                  tips: "Card Number"
-                ),
-                InputView(
-                  controller:controller.cardHolderController,
-                  label: "Card Holder Name",
-                  tips: "Card Holder Name"
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InputView(
-                        textInputType: TextInputType.number,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(4),
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
-                        ],
-                        controller:controller.exDateController,
-                        label: "Expire Date",
-                        tips: "MMYY"
-                      ),
-                    ),
-                    Expanded(
-                      child: InputView(
-                        textInputType: TextInputType.number,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(3),
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
-                        ],
-                        controller:controller.cvController,
-                        label: "Security Code",
-                        tips: "XXX"
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ],
-      )
-    );*/
   }
 
-  Widget _buildPayView(String name, String icon, int value, int groupValue){
+  Widget _buildPayView(String name, String icon, int value, int groupValue, {Widget? subTitle}){
     return GestureDetector(
       onTap: ()=>controller.changePayType(value),
       child: Container(
@@ -368,6 +290,7 @@ class PayPage extends StatelessWidget {
               ),
             ),
             Spacer(),
+            subTitle??Container()
             //Image.asset("assets/images/ic_$icon.webp",height: 24,),
           ],
         ),
@@ -392,12 +315,11 @@ class PayPageController extends GetxController {
 
   var havePayPassword = false.obs;
 
-  PayPageController({required this.payOrderModel});
-
-  late TextEditingController cardNumberController;
-  late TextEditingController cardHolderController;
-  late TextEditingController exDateController;
-  late TextEditingController cvController;
+  PayPageController({required this.payOrderModel}){
+    if(payOrderModel.type == -2){
+      payType.value = 2;
+    }
+  }
 
   CreditCardModel cardModel = CreditCardModel();
   String orderId = "";
@@ -407,10 +329,6 @@ class PayPageController extends GetxController {
   @override
   void onInit() async{
     super.onInit();
-    cardNumberController = TextEditingController();
-    cardHolderController = TextEditingController();
-    exDateController = TextEditingController();
-    cvController = TextEditingController();
 
     List<AddressModel> list = await AddressApi.list();
     if(list.length > 0) {
@@ -445,10 +363,6 @@ class PayPageController extends GetxController {
   @override
   void onClose() {
     _streamSubscription.cancel();
-    cardNumberController.dispose();
-    cardHolderController.dispose();
-    exDateController.dispose();
-    cvController.dispose();
     super.onClose();
   }
 
@@ -581,15 +495,22 @@ class PayPageController extends GetxController {
       }
     }
     else if(payType.value == 2) { //余额支付
-
       checkPayPin(()async{
         PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
 
         if (payOrderModel.type == -2) {
           if (payInfoModel.insufficient) {
             Get.dialog(
-              ConfirmDialog(title: "Payment Result", info: "Insufficient coin, Please recharge first!"),
-              barrierColor: Colors.black26
+              ConfirmDialog(
+                title: "Payment Result",
+                info: "Insufficient coin, Please recharge first!",
+                onConfirm: (){
+                  Get.back();
+                  Get.back();
+                  Get.to(() => PlayBalancePage());
+                },
+              ),
+              barrierColor: Colors.black26,
             );
           }else{
             Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
