@@ -3,17 +3,19 @@
 /// coin2votes : "0.9"
 /// withdrawal_threshold : "100"
 /// withdrawal_ratio : "0.15"
-
 class ChargeRuleModel {
   ChargeRuleModel({
-      this.chargeRatio, 
-      this.pwChargeRules, 
-      this.coin2votes, 
-      this.withdrawalThreshold, 
-      this.withdrawalRatio,});
+    this.chargeRatio,
+    this.pwChargeRules,
+    this.coin2votes,
+    this.withdrawalThreshold,
+    this.withdrawalRatio,
+  });
 
   ChargeRuleModel.fromJson(dynamic json) {
     chargeRatio = json['chargeRatio'];
+    coin = json['coin']??0;
+    votes = json['votes']??0;
     if (json['pw_charge_rules'] != null) {
       pwChargeRules = [];
       json['pw_charge_rules'].forEach((v) {
@@ -24,11 +26,14 @@ class ChargeRuleModel {
     withdrawalThreshold = json['withdrawal_threshold'];
     withdrawalRatio = json['withdrawal_ratio'];
   }
+
   String? chargeRatio;
   List<CoinChargeRuleModel>? pwChargeRules;
   String? coin2votes;
   String? withdrawalThreshold;
   String? withdrawalRatio;
+  late int coin;
+  late int votes;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -41,8 +46,8 @@ class ChargeRuleModel {
     map['withdrawal_ratio'] = withdrawalRatio;
     return map;
   }
-
 }
+
 class CoinChargeRuleModel {
   CoinChargeRuleModel({
     this.id,
@@ -54,7 +59,7 @@ class CoinChargeRuleModel {
     this.googlePid,
     this.give,
     this.listOrder,
-    this. addtime,
+    this.addtime,
     this.coinPaypal,
   });
 

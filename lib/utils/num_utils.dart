@@ -8,11 +8,11 @@
 /*
  *要求大于1
  */
-bool isValidateAmount(var amount) {
+bool isValidateAmount(var amount,int compareNum) {
   var num;
   try {
     num = double.parse(amount.toString());
-    return num >= 1;
+    return num >= compareNum;
   } catch (e) {
     return false;
   }
