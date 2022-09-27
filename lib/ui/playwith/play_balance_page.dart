@@ -22,10 +22,17 @@ class _PlayBalancePageState extends State<PlayBalancePage> {
         controller: ScrollController(),
         isScrollable: true,
         color: Color(0xff171525),
-        rightChild: GestureDetector(
+        rightChild: IconButton(
+          onPressed: () => Get.toNamed(AppPages.WithDrawRecord),
+          icon: Icon(
+            Icons.list,
+            color: Colors.white,
+          ),
+        ),
+        /*  rightChild: GestureDetector(
           child: PWidget.text('WithDraw record', [Colors.white], {'pd': 8}),
           onTap: () =>  Get.toNamed(AppPages.WithDrawRecord),
-        ),
+        ),*/
         tabList: tabList,
         tabPage: [
           PlayBalanceChild(),

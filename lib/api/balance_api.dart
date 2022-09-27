@@ -2,6 +2,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/balance_record_model.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
+import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/model/withdraw_record_model.dart';
 
 class BalanceApi {
@@ -78,7 +79,8 @@ class BalanceApi {
     var response = await http.post('/peiwan/app/withDrawal/order', data: params);
   }
 
-  static Future<List<WithdrawRecordModel>> withDrawRecords(int pageNum, int pageSize) async {
+  static Future<List<WithdrawRecordModel>> withDrawRecords(
+      int pageNum, int pageSize) async {
     var response = await http.get('/peiwan/app/cash/pwWithDrawalRecord',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
@@ -89,4 +91,23 @@ class BalanceApi {
         .toList();
     return list;
   }
+
+  static Future<List<CoinRecordsModel>> coinAndVotesRecords(
+      int pageNum, int pageSize, String type) async {
+    var response = await http.get('/peiwan/app/order/list/record',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize, 'type': type}));
+    if (response.data == null) {
+      return [];
+    }
+    List<CoinRecordsModel> list = response.data
+        .map<CoinRecordsModel>((item) => CoinRecordsModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+ static Future<void> exchangeToCoin(var amount) async {
+    await http.post('/peiwan/app/withDrawal/voteToCoin',
+        queryParameters: ({'amount': amount}));
+  }
+
 }

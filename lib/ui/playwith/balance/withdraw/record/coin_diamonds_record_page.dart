@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wy/model/withdraw_record_model.dart';
+import 'package:wy/api/balance_api.dart';
+import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
-import 'package:wy/ui/playwith/balance/record/controller.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 /*
@@ -15,13 +16,25 @@ import 'package:wy/widget/scaffold_widget.dart';
     Created by chunma on .
     Copyright © sidequest_hub_app. All rights reserved.
  */
-class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
+const String TYPE_COIN = '0'; //金币
+const String TYPE_DIAMONDS = '1'; //钻石
+
+class CoinAndDiamondsRecordPage extends StatelessWidget {
+  final String type;
+
+  CoinAndDiamondsRecordPage(this.type) {
+    initController();
+  }
+
+  late CoinAndDiamondsRecordPageController controller;
+
+  initController() async {
+    controller = Get.put(CoinAndDiamondsRecordPageController(type), tag: type);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(
-        title: Text('WithDraw Records'),
-      ),
       body: Obx(() => SmartRefresher(
           controller: controller.refreshController,
           onRefresh: controller.refresh,
@@ -46,7 +59,7 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
                                 color: Colors.white24,
                               );
                             }
-                            WithdrawRecordModel model = controller.list[index ~/ 2];
+                            CoinRecordsModel model = controller.list[index ~/ 2];
                             return recordItem(model);
                           }, childCount: controller.list.length * 2 - 1));
                         })
@@ -55,7 +68,7 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
     );
   }
 
-  recordItem(WithdrawRecordModel model) {
+  recordItem(CoinRecordsModel model) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
@@ -71,21 +84,21 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
               //   height: 10,
               // ),
               Text(
-                getPayCardStr(model.card),
+                model.actionName ?? '-',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Status:${model.statusText()}',
+            /*  Text(
+                'uid:${model.uid}',
                 style: TextStyle(fontSize: 14, color: Colors.white),
-              ),
+              ),*/
               SizedBox(
                 height: 10,
               ),
               Text(
-                model?.createTime ?? '',
+                '${model.datatime}',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               SizedBox(
@@ -95,11 +108,29 @@ class WithDrawRecordPage extends GetView<WithDrawRecordPageController> {
           ),
           Spacer(),
           Text(
-            "${model.money}",
+            "${model.total}",
             style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
           ),
         ],
       ),
     );
+  }
+}
+
+class CoinAndDiamondsRecordPageController extends GetxRefreshController {
+  var type;
+
+  CoinAndDiamondsRecordPageController(this.type);
+
+  @override
+  void onInit() {
+    initialRefresh = true;
+    super.onInit();
+  }
+
+  @override
+  Future<List<CoinRecordsModel>> loadData({int pageNum = 1}) async {
+    var list = await BalanceApi.coinAndVotesRecords(pageNum, pageSize, type);
+    return list;
   }
 }

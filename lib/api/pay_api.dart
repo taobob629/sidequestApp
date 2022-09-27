@@ -8,7 +8,7 @@ class PayApi {
   static Future<PayInfoModel> pay(PayOrderModel model) async {
     if(model.type == -1){
       return await _buy(model);
-    }else if(model.type == 0){
+    }else if(model.type == 0 ||model.type==2){
       return await _charge(model);
     }else if(model.type == -2){//陪玩
       return await _play(model);
@@ -20,7 +20,7 @@ class PayApi {
 
   static Future<PayInfoModel> _charge(PayOrderModel model) async {
     var formData = {
-      "type" : 0,
+      "type" : model.type,
       "addressId" : 0,
       "goodsPrice" : model.goodsPrice,
       "freightPrice" : "0",
@@ -30,6 +30,7 @@ class PayApi {
       "payType" : model.payType,
       "orderShot" : "",
       "phrase" : 0,
+      'chargeid':model.chargeid
     };
     var response = await http.post(model.payType == 1 ? '/app/order/stripe/charge' : '/app/order/charge',
       data: formData

@@ -8,6 +8,7 @@ class UserInfoModel {
   late int uid = 0;
   late int vipLevel = 0;
   late String balance = "0.00";
+  late String coin = "0";
   late String votes = "0.00";
   late int coupons = 0;
   late int bookingCount = 0;
@@ -27,6 +28,7 @@ class UserInfoModel {
     vipLevel = json['vipLevel'];
     balance = json['balance'];
     votes = json['votes'].toString();
+    coin = json['coin'].toString();
     freeMins = json['freeMins'];
     coupons = json['coupons'];
     orderCount = json['orderCount'];

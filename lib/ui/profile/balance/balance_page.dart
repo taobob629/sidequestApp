@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/action_button.dart';
@@ -40,23 +38,33 @@ class BalancePage extends StatelessWidget {
         )
       ],
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TopBanner(),
-            ItemTitle(title: "Top Up",subTitle: "",),
-            Obx(()=>_buildChargeItems(context)),
-            ItemTitle(title: "Other Top Up Amount", subTitle: "Min:£1",),
-            _buildCustomInput(),
-            ItemTitle(title: "Top Up Account",subTitle: "",),
-            _buildAccountSelect(context),
-            Container(height: 100,)
-          ],
-        )
-      ),
-      floatingActionButton: FloatingButton(
-        label: "CONFIRM",
-        onTap: ()=> controller.pay()
-      ),
+          child: Column(
+        children: [
+          TopBanner(),
+          ItemTitle(
+            title: "Top Up",
+            subTitle: "",
+          ),
+          Obx(() => _buildChargeItems(context)),
+          ItemTitle(
+              title: "Other Top Up Amount",
+              subTitle: '',
+              actions: Text(
+                'Min:£1',
+                style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+              )),
+          _buildCustomInput(),
+          ItemTitle(
+            title: "Top Up Account",
+            subTitle: "",
+          ),
+          _buildAccountSelect(context),
+          Container(
+            height: 100,
+          )
+        ],
+      )),
+      floatingActionButton: FloatingButton(label: "CONFIRM", onTap: () => controller.pay()),
     );
   }
 
@@ -86,29 +94,25 @@ class BalancePage extends StatelessWidget {
 
   Widget _buildCustomInput() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: const EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.white24))
-      ),
-      child: TextField(
-        maxLines: 1,
-        inputFormatters: [PrecisionLimitFormatter(2)],
-        controller: controller.amountController,
-        focusNode: controller.amountFocusNode,
-        cursorColor: Colors.white70,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
-        style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
-        onSubmitted: (text) => controller.changeCustomAmount(text),
-        decoration: const InputDecoration(
-          hintText: "£0",
-          hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 0)
-        ),
-      )
-    );
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        child: TextField(
+          maxLines: 1,
+          inputFormatters: [PrecisionLimitFormatter(2)],
+          controller: controller.amountController,
+          focusNode: controller.amountFocusNode,
+          cursorColor: Colors.white70,
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
+          onSubmitted: (text) => controller.changeCustomAmount(text),
+          decoration: const InputDecoration(
+              hintText: "£1",
+              hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 0)),
+        ));
   }
 
   Widget _buildAccountSelect(BuildContext context) {
@@ -212,15 +216,6 @@ class BalancePageController extends GetxListController {
   late TextEditingController accountController;
   late FocusNode accountFocusNode;
   late FocusNode amountFocusNode;
-  RxList<BankCardModel> _bankList = RxList();
-
-  List<BankCardModel> get bankList => _bankList;
-
-  set bankList(List<BankCardModel> value) {
-    _bankList.value = value;
-  }
-
-  BankCardModel? selectedBank;
 
   BalancePageController({double amount = 0.0}) {
     customAmount.value = amount;
@@ -229,7 +224,6 @@ class BalancePageController extends GetxListController {
   @override
   void onInit() {
     super.onInit();
-    getBankList();
     amountController = TextEditingController();
     accountController = TextEditingController();
     accountFocusNode = FocusNode();
@@ -241,10 +235,10 @@ class BalancePageController extends GetxListController {
       } else {
         if (amountController.text.isEmpty) {
           changeProductIndex(0);
-        }else{
+        } else {
           customAmount.value = double.parse(amountController.text);
           if (customAmount.value > 0) {
-            if(customAmount.value < 1){
+            if (customAmount.value < 1) {
               customAmount.value = 1;
               amountController.text = "1.0";
             }
@@ -286,13 +280,9 @@ class BalancePageController extends GetxListController {
     }
   }
 
-  ChargeRuleModel? chargeRule;
-
   Future<List<CoinChargeRuleModel>> loadData() async {
-    EasyLoading.show();
-    chargeRule = await BalanceApi.chargeRule();
-    EasyLoading.dismiss();
-    return chargeRule?.pwChargeRules ?? [];
+    var chargeRole = await BalanceApi.chargeRule();
+    return chargeRole.pwChargeRules ?? [];
   }
 
   void changeProductIndex(int index) {
@@ -301,13 +291,13 @@ class BalancePageController extends GetxListController {
   }
 
   void changeCustomAmount(String amount) {
-    if(amount.isEmpty){
+    if (amount.isEmpty) {
       productIndex.value = 0;
       return;
     }
     customAmount.value = double.parse(amount);
     if (customAmount.value > 0) {
-      if(customAmount.value < 1){
+      if (customAmount.value < 1) {
         customAmount.value = 1;
         amountController.text = "1.0";
       }
@@ -321,11 +311,6 @@ class BalancePageController extends GetxListController {
     accountType.value = value;
   }
 
-  void selectBank(BankCardModel bank) {
-    selectedBank = bank;
-    accountType.value = bank.id;
-  }
-
   void pay() {
     PayOrderModel payOrderModel = PayOrderModel();
     String amountStr = amountController.text;
@@ -334,63 +319,17 @@ class BalancePageController extends GetxListController {
       amount = double.parse(amountStr);
     }
     if (amount == 0) {
-      CoinChargeRuleModel model=list[productIndex.value];
+      CoinChargeRuleModel model = list[productIndex.value];
       amount = double.parse(model.money) * 1.0;
+      payOrderModel.chargeid = model.id;
     }
+
     payOrderModel.goodsPrice = "$amount";
     payOrderModel.totalAmount = "$amount";
 
-    NavigatorHelper.gotoPayPage(payOrderModel,whenComplete: (){
+    NavigatorHelper.gotoPayPage(payOrderModel, whenComplete: () {
       var userController = Get.find<UserController>();
       userController.updateInfo();
     });
-  }
-
-  void getBankList() async {
-    bankList = await BalanceApi.getBankList();
-    selectedBank = bankList?.first;
-    accountType.value = selectedBank?.id ?? -1;
-  }
-
-  void deleteBank(var id) async {
-    EasyLoading.show();
-    await BalanceApi.unbindBankCard(id);
-    getBankList();
-    EasyLoading.showToast('Success');
-    EasyLoading.dismiss();
-  }
-
-  /*
-   * 提现
-   *  post方法
-参数 ：
-name：用户昵称，可选
-card：银行卡号
-cardId:银行卡ID
-votes:金币数量
-voucherId：优惠券ID，若有
-withDrawalRatio：提现手续费比例
-chargeRatio：金币兑换比例
-   */
-  Future<void> withDraw() async {
-    var votes = amountController.text;
-    if (votes.isEmpty) {
-      EasyLoading.showInfo('Please Enter withdraw amount!');
-      return;
-    }
-    if (selectedBank == null) {
-      EasyLoading.showInfo('Please Add withdraw account First!');
-      return;
-    }
-    EasyLoading.show();
-    await BalanceApi.withDraw(Map<String, dynamic>()
-      ..['card'] = selectedBank?.cardNumber
-      ..['cardId'] = selectedBank?.id
-      ..['votes'] = votes
-      ..['withDrawalRatio'] = chargeRule?.withdrawalRatio
-      ..['chargeRatio'] = chargeRule?.chargeRatio);
-    EasyLoading.showSuccess('Sucess');
-    EasyLoading.dismiss();
-  //  Get.back();
   }
 }

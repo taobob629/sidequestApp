@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
-import 'package:wy/ui/playwith/balance/record/bindings.dart';
-import 'package:wy/ui/playwith/balance/record/view.dart';
+import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/profile/bankcard/bindings.dart';
 import 'package:wy/ui/profile/bankcard/view.dart';
 
@@ -22,8 +21,7 @@ class AppPages {
     ),
     GetPage(
       name: WithDrawRecord,
-      page: () => WithDrawRecordPage(),
-      binding: WithDrawRecordPageBinding(),
+      page: () => WithDrawMainPage(),
     ),
   ];
 }

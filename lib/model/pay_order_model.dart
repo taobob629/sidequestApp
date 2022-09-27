@@ -22,6 +22,7 @@ class PayOrderModel {
   late int phrase = 0;
   //优惠券ID
   late int couponId = 0;
+  late int chargeid = 0;//金币兑换规则id
 
   //陪玩使用
   late int svctm = 0;
@@ -31,6 +32,11 @@ class PayOrderModel {
   late String des = "";
 
   late String totalAmount = "0";
+
+  @override
+  String toString() {
+    return 'PayOrderModel{type: $type, addressId: $addressId, goodsPrice: $goodsPrice, freightPrice: $freightPrice, tax: $tax, couponPrice: $couponPrice, couponCode: $couponCode, payType: $payType, orderShot: $orderShot, phrase: $phrase, couponId: $couponId, chargeid: $chargeid, svctm: $svctm, liveuid: $liveuid, skillid: $skillid, nums: $nums, des: $des, totalAmount: $totalAmount}';
+  }
 }
 
 class OrderPriceModel {
