@@ -1,6 +1,6 @@
 
 class PayOrderModel {
-  // 订单类型 -1 商品 0 充值  1 2 3 4 开会员 -2陪玩
+  // 订单类型 -1购买商品 0网吧账户充值  >=5 开会员 -2陪玩支付 2陪玩账户充值
   late int type = 0;
   // 地址id
   late int addressId = 0;

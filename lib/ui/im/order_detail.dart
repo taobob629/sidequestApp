@@ -1,3 +1,4 @@
+import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,7 @@ class OrderDetail extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 15,bottom: 20),
-                    child: Text("Order Skill",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+                    child: Text("Skill",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
                   ),
                   _buildSkillInfo(),
                   SizedBox(height: 20,),
@@ -43,9 +44,15 @@ class OrderDetail extends StatelessWidget {
                   SizedBox(height: 20,),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
-                    child: Text("Order Status",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+                    child: Text("Status",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
                   ),
-                  _buildState()
+                  _buildState(),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text("Comments",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+                  ),
+                  _buildComments(context)
                 ],
               ))
             ),
@@ -185,7 +192,7 @@ class OrderDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Order Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          Text("Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number","${controller.playOrderDetailModel.value.orderno}"),
           _infoItem("Service Time","${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.svctm))}"),
@@ -236,7 +243,7 @@ class OrderDetail extends StatelessWidget {
       serviceColor = Colors.green;
     }
 
-    String finishState = "No Comment";
+    String finishState = "Comment";
     Color finishColor = Colors.blue;
     if(status == -1){
       finishState = "Canceled";
@@ -318,6 +325,43 @@ class OrderDetail extends StatelessWidget {
                 )
               ],
             )
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildComments(BuildContext context){
+    double width = MediaQuery.of(context).size.width;
+    print(controller.playOrderDetailModel.value.star);
+    if(controller.playOrderDetailModel.value.star == 0){
+      return Container();
+    }
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 20,),
+          FFStars(
+            normalStar: Image.asset("assets/images/play/score0.png"),
+            selectedStar: Image.asset("assets/images/play/score1.png"),
+            step: 0.01,
+            defaultStars: controller.playOrderDetailModel.value.star,
+            starHeight: 20,
+            starWidth: 20,
+            starMargin: 16,
+            followChange: true,
+            justShow: true,
+          ),
+          SizedBox(height: 20,),
+          Text(
+            "${controller.playOrderDetailModel.value.comments}",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
           )
         ],
       ),

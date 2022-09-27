@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
@@ -25,7 +25,7 @@ const List _colorArray = [
 ];
 double _topSpace = 20.0;
 
-class BankListWidget extends GetView<BalancePageController> {
+class BankListWidget extends GetView<WalletBalancePageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
@@ -41,7 +41,6 @@ class BankListWidget extends GetView<BalancePageController> {
   }
 
   Widget item(BuildContext context, int index, BankCardModel bankModel) {
-    flog('item $index');
     double top = 0;
     if (index == 0) {
       top = 0;

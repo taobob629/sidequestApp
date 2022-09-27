@@ -21,6 +21,8 @@ class UserController extends GetxController {
   Rx<UserModel> user = Rx(UserModel());
   Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
 
+  RxList<String> imBlackList = RxList();
+
   final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   late Timer _timer;
@@ -154,9 +156,7 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}",
-        userSig: userSig.token)
-        .then((value) {
+      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) {
         imLoginDone.value = true;
         print("~~~~~~~~~im login done~~~~~~~~~~~~~");
         TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(

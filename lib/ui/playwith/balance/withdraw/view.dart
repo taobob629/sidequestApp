@@ -6,13 +6,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
+import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/withdraw/record/coin_diamonds_record_page.dart';
 
 import 'record/withdraw_record_page.dart';
 
 class WithDrawMainPage extends StatelessWidget {
   final controller = Get.put(WithDrawMainPageController());
+  UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +23,16 @@ class WithDrawMainPage extends StatelessWidget {
         title: "Wallet Records",
         body: Stack(
           children: [
-            Positioned(left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
+            Positioned(
+                left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               top: 40,
-              child: TabBarView(controller: controller.tabController, children: createPages()),
+              child: TabBarView(
+                  controller: controller.tabController,
+                  children: createPages()),
             )
           ],
         ));
@@ -50,35 +56,50 @@ class WithDrawMainPage extends StatelessWidget {
   }
 
   List<Widget> createTabs() {
-    List<Widget> tabs = [];
-    tabs.add(Text(
-      "WithDraw",
-    ));
-    tabs.add(Text(
-      "Coin",
-    ));
-    tabs.add(Text(
-      "Diamonds",
-    ));
-    return tabs;
+    var userType = userController.userInfoModel.value.isauth;
+    if (userType == TYPE_VIP) {
+      return [
+        Text(
+          "WithDraw",
+        ),
+        Text(
+          "Coin",
+        ),
+        Text(
+          "Diamonds",
+        )
+      ];
+    }
+    return [
+      Text(
+        "Coin",
+      )
+    ];
   }
 
   List<Widget> createPages() {
-    List<Widget> pages = [];
-    pages.add(KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH)));
-    pages.add(KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN)));
-    pages.add(KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS)));
-    return pages;
+    var userType = userController.userInfoModel.value.isauth;
+    if (userType == TYPE_VIP) {
+      return [
+        KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH)),
+        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN)),
+        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS))
+      ];
+    }
+    return [KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN))];
   }
 }
 
-class WithDrawMainPageController extends GetxController with SingleGetTickerProviderMixin {
+class WithDrawMainPageController extends GetxController
+    with SingleGetTickerProviderMixin {
   late TabController tabController;
 
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    var userType = Get.find<UserController>().userInfoModel.value.isauth;
+    tabController = TabController(
+        vsync: this, length: userType == TYPE_VIP ? 3 : 1, initialIndex: 0);
   }
 
   @override

@@ -180,14 +180,28 @@ class ReservePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
             child: Text(
-              "* Any Events/BootCamp/Birthday booking requirements please contact customer service directly. ",
+              "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly. ",
               style: TextStyle(color: Colors.white54,fontSize: 12),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
             child: Text(
-              "* Please note we can only hold your booking for half an hour. If you arrive late, The booking deposit is not refundable. ",
+              "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms.",
+              style: TextStyle(color: Colors.white54,fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
+            child: Text(
+              "* If you arrive more than half an hour after your booking time, your reservation will be invalidated. ",
+              style: TextStyle(color: Colors.white54,fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
+            child: Text(
+              "* Please note that if you don't meet the above criteria, the deposit will not be refundable.",
               style: TextStyle(color: Colors.white54,fontSize: 12),
             ),
           )

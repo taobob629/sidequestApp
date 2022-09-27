@@ -37,12 +37,12 @@ class CoinRecordsModel {
     showid = json['showid'];
     actionName = json['actionName'];
   }
-  num? id;
+  int? id;
   num? type;
   num? action;
   num? uid;
   num? touid;
-  num? actionid;
+  int? actionid;
   num? nums;
   num? total;
   String? datatime;

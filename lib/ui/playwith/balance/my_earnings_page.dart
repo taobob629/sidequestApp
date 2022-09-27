@@ -5,6 +5,8 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/balance/widget/bank_widget.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
@@ -20,20 +22,16 @@ class MyEarningsPage extends StatefulWidget {
 }
 
 class _MyEarningsPageState extends State<MyEarningsPage> {
-  late BalancePageController controller;
-  var votes; //钻石数
+  late WalletBalancePageController controller;
   @override
   void initState() {
     this.initData();
-    if (Get.arguments != null) {
-      votes=Get.arguments['votes'];
-    }
     super.initState();
   }
 
   ///初始化函数
   Future initData() async {
-    controller = Get.put(BalancePageController());
+    controller = Get.put(WalletBalancePageController());
   }
 
   @override
@@ -49,6 +47,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
   }
 
   List<Widget> get item {
+    UserController userController=Get.find<UserController>();
     return [
       PWidget.container(
         PWidget.column([
@@ -58,12 +57,12 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
             PWidget.text('Withdrawal income amount', [Color(0xffEEF3FF)], {'exp': true}),
           ]),
           PWidget.boxh(10),
-          PWidget.text('${votes??'0'}', [Color(0xffEEF3FF), 32, true]),
+         Obx(()=> PWidget.text('${userController.userInfoModel.value.votes}', [Color(0xffEEF3FF), 32, true])),
         ]),
         [null, null, Color(0xff282640)],
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
-      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:£1', style:TextStyle(
+      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:1000', style:TextStyle(
           color: Colors.white54, fontFamily: "DIN", fontSize: 18),
       )),
       _buildCustomInput(),
@@ -98,7 +97,11 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.boxh(8),
       FloatingButton(
         label: "Withdrawal",
-        onTap: () => controller.withDraw(),
+        onTap: () => controller.withDraw('withDraw'),
+      ),
+      FloatingButton(
+        label: "Exchange To Coin",
+        onTap: () => controller.withDraw('exchange'),
       ),
       PWidget.container(
         PWidget.column([
@@ -128,7 +131,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(hintText: "£1", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(hintText: "1000", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 

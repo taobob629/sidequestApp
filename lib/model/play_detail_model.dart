@@ -44,13 +44,13 @@ class SkillModel{
   SkillModel();
 
   SkillModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    coinType = json['coinType'];
-    thumb = json['thumb'];
-    name = json['name'];
-    coin = json['coin'];
-    label = json['label'];
-    level = json['level'];
+    id = json['id'] ?? "";
+    coinType = json['coinType'] ?? 0;
+    thumb = json['thumb'] ??"";
+    name = json['name']?? "";
+    coin = json['coin'] ?? 0;
+    label = json['label']?? "";
+    level = json['level']?? "";
   }
 
 }

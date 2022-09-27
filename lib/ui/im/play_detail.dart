@@ -17,6 +17,7 @@ import 'package:wy/widget/custom_scroll_physics.dart';
 import '../../api/im_api.dart';
 import '../../config/app_color.dart';
 import '../../model/play_detail_model.dart';
+import '../common/dialog_confirm.dart';
 import 'chat.dart';
 
 class PlayDetail extends StatelessWidget {
@@ -57,6 +58,30 @@ class PlayDetail extends StatelessWidget {
                     style: TextStyle(color: controller.titleColor.value, fontSize: 16),
                   );
                 }),
+                actions: [
+                  GestureDetector(
+                    onTap: (){
+                      Get.dialog(ConfirmDialog(
+                        title: "Add Block List",
+                        info: "Do you want to add this person to black list?",
+                        confirmBtn: "CONFIRM",
+                        onConfirm: () async {
+                          EasyLoading.show();
+                          var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
+                          List<String> userIDList = [];
+                          userIDList.add(userId);
+                          await friendshipManager.addToBlackList(userIDList: userIDList);
+                          EasyLoading.dismiss();
+                          Get.back();
+                        },
+                      ),barrierColor: Colors.black26);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                      child: Text("Block",style: TextStyle(color: Colors.white, fontSize: 16),),
+                    ),
+                  )
+                ],
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   background: Stack(

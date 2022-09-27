@@ -45,7 +45,7 @@ class DeveloperPage extends StatelessWidget {
               children: [
                 Radio<String>(
                   activeColor: AppColor.accent,
-                  value: "dev",
+                  value: "dev220",
                   groupValue: controller.env.value,
                   onChanged: (value) {
                     controller.env.value = value!;
@@ -53,7 +53,23 @@ class DeveloperPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("dev", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev220", style: TextStyle(fontSize: 14, color: Colors.white),),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Radio<String>(
+                  activeColor: AppColor.accent,
+                  value: "dev201",
+                  groupValue: controller.env.value,
+                  onChanged: (value) {
+                    controller.env.value = value!;
+                  }
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text("dev201", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),
@@ -69,7 +85,7 @@ class DeveloperPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("test", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("test121", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),
@@ -112,7 +128,7 @@ class DeveloperPageController extends GetxController {
 
   var pushToken = "".obs;
 
-  var env = "dev".obs;
+  var env = "prod".obs;
 
   @override
   void onReady() {

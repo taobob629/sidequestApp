@@ -223,8 +223,8 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_orders_new.webp",
-                title: "Play Orders",
+                icon: "assets/images/ic_booking_new.webp",
+                title: "Play Skills",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayOrdersPage());

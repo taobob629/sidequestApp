@@ -104,4 +104,10 @@ class BalanceApi {
         .toList();
     return list;
   }
+
+ static Future<void> exchangeToCoin(var amount) async {
+    await http.post('/peiwan/app/withDrawal/voteToCoin',
+        queryParameters: ({'amount': amount}));
+  }
+
 }

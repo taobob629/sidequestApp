@@ -7,6 +7,8 @@ import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
+import 'package:wy/ui/im/order_detail.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 /*
@@ -60,7 +62,14 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                               );
                             }
                             CoinRecordsModel model = controller.list[index ~/ 2];
-                            return recordItem(model);
+                            return InkWell(
+                              onTap: (){
+                                if( model.actionid!<=0){
+                                  return;
+                                }
+                                Get.to(() => OrderDetail(orderId: model.actionid!));
+                              },
+                              child: recordItem(model),);
                           }, childCount: controller.list.length * 2 - 1));
                         })
                       ],

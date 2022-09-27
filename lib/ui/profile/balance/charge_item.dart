@@ -34,7 +34,7 @@ class ChargeItem extends StatelessWidget {
           children: [
             Image.asset(
               "assets/images/ic_balance_charge${index + 1}.webp",
-              width: 50,
+              width: showCoin?50:60,
             ),
             SizedBox(
               height: 2,

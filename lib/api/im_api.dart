@@ -83,7 +83,7 @@ class ImApi {
 
   static Future<void> finishOrder(String orderId, double star, String comments) async {
     var formData = {
-      "orderId" : orderId,
+      "id" : orderId,
       "star" : star,
       "comments" : comments
     };

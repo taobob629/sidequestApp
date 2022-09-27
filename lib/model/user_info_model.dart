@@ -1,3 +1,4 @@
+const int TYPE_VIP=1;//1是大神
 
 class UserInfoModel {
   late int freeMins = 0;
@@ -15,7 +16,7 @@ class UserInfoModel {
   late String email = "";
   late int total = 0;
   late int remain = 0;
-  late int isauth = 0;
+  late int isauth = 0;//1 大神
   late int pwuserId = 0;
 
   UserInfoModel();

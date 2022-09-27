@@ -34,6 +34,7 @@ class CommentDialog extends StatelessWidget {
                 },
                 step: 0.01,
                 defaultStars: 4,
+                miniStars: 1,
                 starHeight: 20,
                 starWidth: 20,
                 starMargin: 16,
