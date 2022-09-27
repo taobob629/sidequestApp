@@ -9,6 +9,7 @@ class PlayDetailModel {
   late int age = 0;
   late int level = 0;
   late int follows = 0;
+  late int follow = 0;
   late int fans = 0;
 
   late List<SkillModel> skills = [];
@@ -24,6 +25,7 @@ class PlayDetailModel {
     age = json['basicInfo']['age'] ?? 0;
     level = json['level'] ?? 0;
     follows = json['followers'] ?? 0;
+    follow = json['follow'] ?? 0;
     fans = json['fans'] ?? 0;
 
     skills = json["games"].map<SkillModel>((item) => SkillModel.fromJson(item)).toList();

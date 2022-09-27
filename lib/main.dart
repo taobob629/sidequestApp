@@ -32,6 +32,7 @@ void main() async {
   var app = await AppConfig.createApp();
 
   String env = StorageManager.getEnv();
+  PaintingBinding.instance?.imageCache?.maximumSizeBytes = 1000 << 20;
   if(env == "dev" || env == "test") {
     PluginManager.instance // 注册插件
       ..register(DioInspector(dio: http));

@@ -167,7 +167,7 @@ class _AddGamePageState extends State<AddGamePage> {
           if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
           flog(gameLv);
           var data = {
-            if (isEdit) "id": skillInfoDm.object?['id'],
+            if (isEdit) "id": widget.data['id'],
             "skillid": game['id'],
             "thumb": gamePhotos.join(','),
             "levelid": gameLv['id'],

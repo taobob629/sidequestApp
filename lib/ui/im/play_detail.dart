@@ -7,8 +7,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 
 import '../../api/im_api.dart';
@@ -170,25 +173,47 @@ class PlayDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ColorfulButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_circle,color: Colors.white,size: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,top: 4),
-                        child: Text(
-                          "Follow",
-                          style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
-                        ),
+                Obx(() {
+                    return ColorfulButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,top: 4),
+                            child: Text(
+                             controller.detailModel.value.follow==1?"UnFollow": "Follow",
+                              style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  height: 50,
-                  width: 160,
-                  onTap: (){
-
-                  },
+                      height: 50,
+                      width: 160,
+                      onTap: () async {
+                        if(controller.detailModel.value.follow==1){
+                          controller.detailModel.value.follow=0;
+                          controller.detailModel.value.fans--;
+                        }else{
+                          controller.detailModel.value.follow=1;
+                          controller.detailModel.value.fans++;
+                        }
+                        controller.detailModel.refresh();
+                        await http.get('/peiwan/app/user/attention/${controller.detailModel.value.userId}').then((v) {}).catchError((e) {
+                          EasyLoading.showToast('Network exception');
+                            if(controller.detailModel.value.follow==1){
+                            controller.detailModel.value.follow=0;
+                            controller.detailModel.value.fans--;
+                          }else{
+                            controller.detailModel.value.follow=1;
+                            controller.detailModel.value.fans++;
+                          }
+                          controller.detailModel.refresh();
+                        });
+                        flog(controller.detailModel.value.follow);
+                      },
+                    );
+                  }
                 ),
                 ColorfulButton(
                   child: Row(
