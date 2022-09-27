@@ -64,6 +64,9 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                             CoinRecordsModel model = controller.list[index ~/ 2];
                             return InkWell(
                               onTap: (){
+                                if( model.actionid!<=0){
+                                  return;
+                                }
                                 Get.to(() => OrderDetail(orderId: model.actionid!));
                               },
                               child: recordItem(model),);
