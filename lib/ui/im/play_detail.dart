@@ -213,7 +213,6 @@ class PlayDetail extends StatelessWidget {
                   height: 50,
                   width: 160,
                   onTap: (){
-
                   },
                 ),
                 ColorfulButton(
