@@ -19,6 +19,7 @@ import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 import '../common/dialog_input.dart';
 import 'balance/balance_page.dart';
 import 'developer/developer_page.dart';
@@ -223,8 +224,8 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_booking_new.webp",
-                title: "Play Skills",
+                icon: "assets/images/ic_orders_new.webp",
+                title: "Play Orders",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayOrdersPage());

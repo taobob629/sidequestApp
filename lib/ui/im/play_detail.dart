@@ -11,6 +11,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 
@@ -31,6 +32,10 @@ class PlayDetail extends StatelessWidget {
     controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode));
   }
 
+  ///自己视角
+  bool isMe=false;
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery
@@ -38,6 +43,8 @@ class PlayDetail extends StatelessWidget {
       .size
       .width;
     controller.initData(width);
+    isMe = controller.userId==Get.put(UserController()).userInfoModel.value.pwuserId.toString();
+    flog(Get.put(UserController()).userInfoModel.value.pwuserId.toString());
     return Stack(
       children: [
         Scaffold(
@@ -60,7 +67,12 @@ class PlayDetail extends StatelessWidget {
                 }),
                 actions: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () async {
+                      if(isMe){
+                        await Get.to(PlayProfilePage());
+                        controller.onReady();
+                        return;
+                      }  
                       Get.dialog(ConfirmDialog(
                         title: "Add Block List",
                         info: "Do you want to add this person to black list?",
@@ -78,7 +90,7 @@ class PlayDetail extends StatelessWidget {
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                      child: Text("Block",style: TextStyle(color: Colors.white, fontSize: 16),),
+                      child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
                     ),
                   )
                 ],
@@ -189,6 +201,7 @@ class PlayDetail extends StatelessWidget {
             ],
           )
         ),
+        if(!isMe)
         Positioned(
           left: 0,
           right: 0,
@@ -224,6 +237,7 @@ class PlayDetail extends StatelessWidget {
                           controller.detailModel.value.fans++;
                         }
                         controller.detailModel.refresh();
+                        EasyLoading.show();
                         await http.get('/peiwan/app/user/attention/${controller.detailModel.value.userId}').then((v) {}).catchError((e) {
                           EasyLoading.showToast('Network exception');
                             if(controller.detailModel.value.follow==1){
@@ -235,6 +249,7 @@ class PlayDetail extends StatelessWidget {
                           }
                           controller.detailModel.refresh();
                         });
+                        EasyLoading.dismiss();
                         flog(controller.detailModel.value.follow);
                       },
                     );
@@ -341,7 +356,10 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildGame(SkillModel skillModel){
     return GestureDetector(
-      onTap: ()=>Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,)),
+      onTap: () {
+        if(isMe) return;
+        Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
+      },
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(7),
@@ -372,6 +390,7 @@ class PlayDetail extends StatelessWidget {
               ],
             ),
             Spacer(),
+            if(!isMe)
             ColorfulButton(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 2),

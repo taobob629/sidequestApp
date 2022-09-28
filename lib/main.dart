@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
@@ -32,16 +31,16 @@ void main() async {
   var app = await AppConfig.createApp();
 
   String env = StorageManager.getEnv();
+
+  ///图片缓存大小
   PaintingBinding.instance?.imageCache?.maximumSizeBytes = 1000 << 20;
-  if(env == "dev" || env == "test") {
+  if (env == "dev" || env == "test") {
     PluginManager.instance // 注册插件
       ..register(DioInspector(dio: http));
     runApp(UMEWidget(child: app, enable: true));
-  }else{
+  } else {
     runApp(app);
   }
-
-
 
   ///路由配置
   RouteState.isMove = true;

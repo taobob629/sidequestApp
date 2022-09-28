@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
@@ -57,7 +58,7 @@ class ProfileHeader extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               if(controller.userInfoModel.value.isauth==1){
-                controller.checkLogin(()=>Get.to(PlayProfilePage()));
+                controller.checkLogin(()=>Get.to(PlayDetail(userId: "${controller.userInfoModel.value.pwuserId}")));
               }else{
                 controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage());
               }

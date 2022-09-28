@@ -10,22 +10,38 @@ import '../common/wy_dialog.dart';
 class CommentDialog extends StatelessWidget {
 
   late final CommentDialogController controller;
+  ///拒绝订单
+  final bool isRehect;
 
-  CommentDialog(int orderId, Function onDone){
-    controller = Get.put(CommentDialogController(orderId:orderId, onDone:onDone));
+  ///退款订单
+  final bool isRefund;
+
+  CommentDialog(int orderId, Function onDone,{ this.isRehect=false,this.isRefund=false}){
+    controller = Get.put(CommentDialogController(orderId:orderId, onDone:onDone,isReject: isRehect,isRefund: isRefund));
   }
 
   @override
   Widget build(BuildContext context) {
+    var title="Comment";
+    var hintText="Input your comment";
+    if(isRehect){
+      hintText="Input your reasons for refusal";
+      title="Reject Order";
+    } 
+    if(isRefund){
+      title="Refund";
+      hintText="Input your refund reason";
+    } 
     return WyDialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Comment", style: TextStyle(fontSize: 16, color: Colors.white),),
+          Text(title, style: TextStyle(fontSize: 16, color: Colors.white)),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 20,),
+              if(title=='Comment') SizedBox(height: 20,),
+              if(title=='Comment')
               FFStars(
                 normalStar: Image.asset("assets/images/play/score0.png"),
                 selectedStar: Image.asset("assets/images/play/score1.png"),
@@ -55,7 +71,7 @@ class CommentDialog extends StatelessWidget {
                   style: const TextStyle(color: Colors.white, fontSize: 16),
                   onSubmitted: (text) => {},
                   decoration: InputDecoration(
-                    hintText: "Input your comment",
+                    hintText:hintText,
                     hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(bottom: 0)
@@ -83,12 +99,14 @@ class CommentDialogController extends GetxController{
   late TextEditingController commentController;
 
   late int orderId;
+  late bool isReject;
+  late bool isRefund;
 
   late Function onDone;
 
   double star = 4.0;
 
-  CommentDialogController({required this.orderId, required this.onDone});
+  CommentDialogController({required this.orderId, required this.onDone,required this.isReject,required this.isRefund});
 
   @override
   void onInit() {
@@ -104,7 +122,19 @@ class CommentDialogController extends GetxController{
 
   void comment() async{
     EasyLoading.show();
-    await ImApi.finishOrder(orderId.toString(), star, commentController.text);
+    if(isReject){
+      var res = await ImApi.rejectOrder(orderId.toString(), commentController.text).catchError((v){});
+      if(res!=null){
+        EasyLoading.showToast('${res.statusMessage}');
+      }
+    }else if(isRefund){
+      var res = await ImApi.refundOrder(orderId.toString(), commentController.text).catchError((v){});
+      if(res!=null){
+        EasyLoading.showToast('${res.statusMessage}');
+      }
+    }else{
+      await ImApi.finishOrder(orderId.toString(), star, commentController.text);
+    }
     EasyLoading.dismiss();
     Get.back();
     onDone.call();

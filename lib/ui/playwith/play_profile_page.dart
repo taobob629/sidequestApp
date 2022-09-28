@@ -47,7 +47,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   Future<int> getPhotos() async {
     await http.get('/peiwan/app/user/getPhotos').then((res) async {
       photosDm.addList(res.data, true, 0);
-      gamePhotos.addAll(photosDm.list.map((m) => m['thumb']).toList());
+      gamePhotos.addAll(photosDm.list.map((m) => {'thumb': m['thumb'], 'isUpload': 0, 'id': m['id']}).toList());
     }).catchError((e) {
       photosDm.toError(e.toString());
     });
@@ -111,20 +111,29 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         onTap: () async {
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter personal profile');
           var data = {"signature": beGoodAtCon.text};
+          EasyLoading.show();
           await http.post('/peiwan/app/user/setUserinfo', data: data).then((v) {
-            EasyLoading.showToast('Saved successfully');
+            EasyLoading.dismiss();
           }).catchError((e) {
+            EasyLoading.dismiss();
             EasyLoading.showToast('Network exception');
           });
           if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload you album');
-          // EasyLoading.showToast('Under development');
-          // return;
-          var jsonData = gamePhotos.map((m) => {"thumb": m}).toList();
-          await http.post('/peiwan/app/user/setPhoto', data: jsonData).then((v) {
-            EasyLoading.showToast('Submitted successfully');
-          }).catchError((e) {
-            EasyLoading.showToast('Network exception');
-          });
+          var gamePhotoList = gamePhotos.where((w) => w['isUpload'] == 1).toList();
+          var jsonData = gamePhotoList.map((m) => {"thumb": m['thumb']}).toList();
+          flog(jsonData);
+          if (jsonData.isEmpty) {
+            Get.back();
+          } else {
+            EasyLoading.show();
+            await http.post('/peiwan/app/user/setPhoto', data: jsonData).then((v) {
+              EasyLoading.dismiss();
+              Get.back();
+            }).catchError((e) {
+              EasyLoading.dismiss();
+              EasyLoading.showToast('Network exception');
+            });
+          }
         },
       ),
     );
@@ -145,13 +154,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     }
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
+        EasyLoading.show();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
-        setState(() => gamePhotos.add('$url'));
+        setState(() => gamePhotos.add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
+        EasyLoading.dismiss();
         // controller.setAvatar(value);
       });
     } else {
@@ -172,7 +182,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     ]);
   }
 
-  var gamePhotos = [];
+  var gamePhotos = <Map>[];
 
   ///游戏图像
   iDPhotoView() {
@@ -192,7 +202,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (gamePhotos.length > i) {
             return PWidget.container(
               Stack(children: [
-                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i])),
+                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i]['thumb'], fit: BoxFit.cover)),
                 Positioned.fill(child: Container(color: Colors.black54)),
                 PWidget.positioned(
                   PWidget.icon(
@@ -201,13 +211,18 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                     {
                       'pd': 8,
                       'fun': () async {
-                        // var jsonData = gamePhotos.map((m) => {"thumb": m}).toList();
-                        // await http.post('/peiwan/app/user/delPhoto/[]', data: jsonData).then((v) {
-                        //   EasyLoading.showToast('Submitted successfully');
-                        // }).catchError((e) {
-                        //   EasyLoading.showToast('Network exception');
-                        // });
-                        setState(() => gamePhotos.removeAt(i));
+                        if (gamePhotos[i]['isUpload'] == 1) {
+                          setState(() => gamePhotos.removeAt(i));
+                        } else {
+                          // var jsonData = gamePhotos.map((m) => {"thumb": m}).toList();
+                          EasyLoading.show();
+                          await http.post('/peiwan/app/user/delPhoto/${gamePhotos[i]['id']}').then((v) {
+                            setState(() => gamePhotos.removeAt(i));
+                          }).catchError((e) {
+                            EasyLoading.showToast('Network exception');
+                          });
+                          EasyLoading.dismiss();
+                        }
                       }
                     },
                   ),
