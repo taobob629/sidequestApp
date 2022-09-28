@@ -9,6 +9,7 @@ import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 /*
@@ -117,9 +118,11 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
           ),
           Spacer(),
           Text(
-            "${model.total}",
+            "${model.total!.isNegative?'':'+'}${model.total}",
             style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
           ),
+          PWidget.boxw(3),
+          PWidget.image('assets/images/${type==TYPE_COIN?'ic_balance_money':'ic_balance_votes'}.webp', [20, 20, null, BoxFit.cover]),
         ],
       ),
     );

@@ -105,7 +105,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           textAlign: TextAlign.center,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: const TextStyle(
-              color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
+              color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration: const InputDecoration(
               hintText: "£1",
@@ -480,7 +480,7 @@ chargeRatio：金币兑换比例
             ..['chargeRatio'] = chargeRule.chargeRatio)
           .then((value) => updateCoinAndDiamonds());
     } else {
-      await BalanceApi.exchangeToCoin(votes).then((value) => userController.updateInfo());
+      await BalanceApi.exchangeToCoin(votes).then((value) => updateCoinAndDiamonds());
     }
     EasyLoading.showSuccess('Success');
     EasyLoading.dismiss();
