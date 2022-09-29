@@ -114,7 +114,15 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
               CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover, width: 64, height: 64),
               PWidget.boxw(8),
               PWidget.text('${data['skillName']}', [Colors.white], {'exp': true}),
-              if (widget.status == 1) PWidget.text('编辑', [Colors.white], {'pd': 8, 'fun': () => jumpPage(AddGamePage(data))}),
+              if (widget.status == 1)
+                PWidget.text('编辑', [
+                  Colors.white
+                ], {
+                  'pd': 8,
+                  'fun': () => jumpPage(AddGamePage(data), callback: (res) {
+                        if (res != null) this.authlist(isRef: true);
+                      })
+                }),
               // Transform.scale(
               //   scale: 0.8,
               //   child: CupertinoSwitch(

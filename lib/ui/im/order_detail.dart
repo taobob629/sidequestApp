@@ -115,13 +115,18 @@ class OrderDetail extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: (){
-                      Get.dialog(RejectDialog(),barrierColor: Colors.black26).then((value){
-                        if(value != null){
-                          if(value.toString().isNotEmpty){
-                            controller.rejectOrder(value.toString());
-                          }
-                        }
-                      });
+                      Get.dialog(
+                        CommentDialog(controller.orderId, ()=>Get.back(),isRehect:true),
+                        barrierColor: Colors.black26
+                      );
+                      // Get.dialog(ConfirmDialog(
+                      //   title: "Reject Order",
+                      //   info: "Do you want to reject this order?",
+                      //   confirmBtn: "CONFIRM",
+                      //   onConfirm: () async {
+                      //     controller.rejectOrder();
+                      //   },
+                      // ),barrierColor: Colors.black26);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -143,18 +148,68 @@ class OrderDetail extends StatelessWidget {
           }
         }else if(controller.playOrderDetailModel.value.status == 2){
           if(userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.fromUid) {
-            return ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text("FINISHED", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+            return Row(
+              children: [
+                  Expanded(
+                    child: ColorfulButton(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text("FINISHED", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+                  ),
+                  height: 48,
+                  onTap: () {
+                    Get.dialog(
+                      CommentDialog(controller.orderId, ()=>Get.back(),),
+                      barrierColor: Colors.black26
+                    );
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: ColorfulButton(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text("REFUND", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+                    ),
+                    height: 48,
+                    onTap: () {
+                      Get.dialog(
+                        CommentDialog(controller.orderId, ()=>Get.back(),isRefund: true),
+                        barrierColor: Colors.black26
+                      );
+                    },
+            ),
               ),
-              height: 48,
-              onTap: () {
-                Get.dialog(
-                  CommentDialog(controller.orderId, ()=>Get.back(),),
-                  barrierColor: Colors.black26
-                );
-              },
+              ],
+            );
+          }
+        }else if(controller.playOrderDetailModel.value.status == 3){
+          if(userController.userInfoModel.value.isauth == 1) {
+            return Row(
+              children: [
+                  Expanded(
+                    child: ColorfulButton(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text("REJECT", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+                  ),
+                  height: 48,
+                  onTap: () => controller.dsRejectOrder(),
+                  ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: ColorfulButton(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text("REFUND", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+                    ),
+                    height: 48,
+                    onTap: () => controller.dsRefundOrder(),
+            ),
+              ),
+              ],
             );
           }
         }
@@ -429,18 +484,37 @@ class OrderDetailController extends GetxController {
     Get.back();
   }
 
-  void acceptOrder(){
+  Future<void> acceptOrder() async {
     EasyLoading.show();
-    ImApi.acceptOrder(orderId.toString());
+    var res = await ImApi.acceptOrder(orderId.toString()).catchError((v){});
+    EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
     Get.back();
   }
 
-  void rejectOrder(String reason){
-    Get.back();
+  ///大神拒绝退款
+  Future<void> dsRejectOrder() async {
     EasyLoading.show();
-    ImApi.rejectOrder(orderId.toString(),reason);
+    var res = await ImApi.dsRefundOrder(orderId.toString(),'4').catchError((v){});
+    EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
     Get.back();
   }
+
+  ///大神同意退款
+  Future<void> dsRefundOrder() async {
+    EasyLoading.show();
+    var res = await ImApi.dsRefundOrder(orderId.toString(),'5').catchError((v){});
+    EasyLoading.showToast('${res.statusMessage}');
+    EasyLoading.dismiss();
+    Get.back();
+  }
+
+  // void rejectOrder(){
+  //   Get.back();
+  //   EasyLoading.show();
+  //   ImApi.rejectOrder(orderId.toString(),'');
+  //   EasyLoading.dismiss();
+  //   Get.back();
+  // }
 }

@@ -19,6 +19,7 @@ import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 import '../common/dialog_input.dart';
 import 'balance/balance_page.dart';
 import 'developer/developer_page.dart';
@@ -217,16 +218,20 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Play Skills",
                 onTap: () {
-                  Get.to(() => PlaySkillsPage());
+                  userController.checkLogin(() {
+                    Get.to(() => PlaySkillsPage());
+                  });
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_balance_new.webp",
-                title: "Play Wallet",
+                icon: "assets/images/ic_orders_new.webp",
+                title: "Play Orders",
                 onTap: () {
-                  Get.to(() => PlayBalancePage());
-                  },
-              )
+                  userController.checkLogin(() {
+                    Get.to(() => PlayOrdersPage());
+                  });
+                },
+              ),
             ],
           ),
           SizedBox(
@@ -235,20 +240,26 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              // IconMenu(
+              //   icon: "assets/images/ic_tab_user_new.webp",
+              //   title: "Play Profile",
+              //   onTap: () {
+              //     Get.to(() => PlayProfilePage());
+              //   },
+              // ),
               IconMenu(
-                icon: "assets/images/ic_tab_user_new.webp",
-                title: "Play Profile",
+                icon: "assets/images/ic_balance_new.webp",
+                title: "Play Wallet",
                 onTap: () {
-                  Get.to(() => PlayProfilePage());
+                  userController.checkLogin(() {
+                    Get.to(() => PlayBalancePage(),
+                        arguments: Map()
+                          ..['coin'] = userController?.userInfoModel?.value?.coin
+                          ..['votes'] = userController?.userInfoModel?.value?.votes);
+                  });
                 },
               ),
-              IconMenu(
-                icon: "assets/images/ic_orders_new.webp",
-                title: "Play Orders",
-                onTap: () {
-                  Get.to(() => PlayOrdersPage());
-                },
-              ),
+              IconMenu(icon: "", title: ""),
               IconMenu(icon: "", title: ""),
             ],
           )

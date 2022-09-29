@@ -1,4 +1,6 @@
 
+import 'package:dio/dio.dart';
+
 import '../model/im_sig_model.dart';
 import '../model/play_detail_model.dart';
 import '../model/play_order_detail_model.dart';
@@ -59,25 +61,47 @@ class ImApi {
     );
   }
 
-  static Future<void> acceptOrder(String orderId) async {
+  static Future<Response> acceptOrder(String orderId) async {
     var formData = {
       "orderId" : orderId
     };
-    await http.put(
+    return await http.put(
       '/peiwan/app/order/accept',
       queryParameters: ({'orderId':orderId}),
       data: formData
     );
   }
 
-  static Future<void> rejectOrder(String orderId,String reason) async {
+  ///大神是否同意退款
+  static Future<Response> dsRefundOrder(String orderId,String status) async {
     var formData = {
       "orderId" : orderId,
-      "reason" : reason
     };
-    await http.put(
+    return await http.put(
+      '/peiwan/app/order/god/refund',
+      queryParameters: ({'orderId':orderId,'status':status}),
+      data: formData
+    );
+  }
+
+  static Future<Response> rejectOrder(String orderId,String reason) async {
+    var formData = {
+      "orderId" : orderId
+    };
+    return await http.put(
       '/peiwan/app/order/reject',
-      queryParameters: ({'orderId':orderId}),
+      queryParameters: ({'orderId':orderId,'reason':reason}),
+      data: formData
+    );
+  }
+
+    static Future<Response> refundOrder(String orderId,String reason) async {
+    var formData = {
+      "orderId" : orderId
+    };
+    return await http.put(
+      '/peiwan/app/order/refund',
+      queryParameters: ({'orderId':orderId,'reason':reason}),
       data: formData
     );
   }

@@ -5,6 +5,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
@@ -21,20 +22,30 @@ class PlayOrdersPage extends StatefulWidget {
 
 class _PlayOrdersPageState extends State<PlayOrdersPage> {
   UniqueKey? key = UniqueKey();
+  bool isAuth = false;
+  final controller = Get.find<UserController>();
+
+  @override
+  void initState() {
+    this.initData();
+    super.initState();
+  }
+
+  ///初始化函数
+  Future initData() async {
+    isAuth = controller.userInfoModel.value.isauth == 1;
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(
-        title: Text('Play Orders'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: Text('Play Orders'), elevation: 0),
       body: TabWidget(
         indicator: null,
         isScrollable: false,
-        tabList: ['我发起的', '我接受的'],
+        tabList: isAuth ? ['我接受的', '我发起的'] : ['我发起的', '我接受的'],
         indicatorSize: TabBarIndicatorSize.tab,
-        tabPage: [PlayOrdersChild(1), PlayOrdersChild(2)],
+        tabPage: isAuth ? [PlayOrdersChild(2), PlayOrdersChild(1)] : [PlayOrdersChild(1), PlayOrdersChild(2)],
         key: key,
       ),
     );
@@ -131,8 +142,9 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
               {
                 'pd': 12,
                 'br': 8,
-                'fun': () {
-                  Get.to(() => OrderDetail(orderId: int.parse(data['id']) ));
+                'fun': () async {
+                  await Get.to(() => OrderDetail(orderId: int.parse(data['id'])));
+                  this.orderlist(isRef: true);
                 },
               },
             );

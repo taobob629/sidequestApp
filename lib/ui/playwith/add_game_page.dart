@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
-import 'package:wy/api/user_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
@@ -39,6 +37,7 @@ class _AddGamePageState extends State<AddGamePage> {
   var gameIndex;
   var gameLv;
   var gameLvIndex;
+  var isWswitch = 0;
 
   @override
   void initState() {
@@ -49,10 +48,9 @@ class _AddGamePageState extends State<AddGamePage> {
   ///初始化函数
   Future initData() async {
     isEdit = widget.data.isNotEmpty;
+    await this.skill();
     if (isEdit) this.skillInfo();
     mapFlog(widget.data, 'isEdit');
-    this.skill();
-    this.config();
   }
 
   ///技能详情
@@ -60,6 +58,21 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
       skillInfoDm.addObject(res.data);
+      if (isEdit) {
+        isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
+        flog(skillDm.list.length, 'skillDm.list.length');
+        platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
+        platform = skillDm.list[platformIndex];
+        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
+        game = platform['skill'][gameIndex];
+        gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        gameLv = game['level'][gameLvIndex];
+        priceRangeCon.text = '';
+        gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
+        flog(platform, 'platform');
+        flog(platformIndex, 'platform');
+        this.config();
+      }
     }).catchError((e) {
       skillInfoDm.toError(e.toString());
     });
@@ -73,18 +86,6 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> skill({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill').then((res) async {
       skillDm.addList(res.data, true, 0);
-      if (isEdit) {
-        flog(skillDm.list.length, 'skillDm.list.length');
-        platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
-        platform = skillDm.list[platformIndex];
-        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
-        game = platform['skill'][gameIndex];
-        gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
-        gameLv = game['level'][gameLvIndex];
-        gamePhotos = [skillInfoDm.object?['pwSkillAuth']['thumb']];
-        flog(platform, 'platform');
-        flog(platformIndex, 'platform');
-      }
     }).catchError((e) {
       skillDm.toError(e.toString());
     });
@@ -96,8 +97,13 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏价格区间
   var configDm = DataModel<Map>(object: {});
   Future<int> config({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/config').then((res) async {
+    await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
       configDm.addObject(res.data);
+      if (isEdit) {
+        priceRangeCon.text = '${skillInfoDm.object?['pwSkillAuth']['coin']}';
+      } else {
+        priceRangeCon.text = '${configDm.object?['gameCoinMin']}';
+      }
     }).catchError((e) {
       configDm.toError(e.toString());
     });
@@ -149,9 +155,8 @@ class _AddGamePageState extends State<AddGamePage> {
         onTap: () async {
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');
-          // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
+          if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
           // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
-          if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
           if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
           if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
             return EasyLoading.showToast('The price cannot be less than the minimum value');
@@ -159,12 +164,14 @@ class _AddGamePageState extends State<AddGamePage> {
           if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
             return EasyLoading.showToast('The price cannot be greater than the maximum value');
           }
+          if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
           flog(gameLv);
           var data = {
+            if (isEdit) "id": widget.data['id'],
             "skillid": game['id'],
-            "thumb": gamePhotos.join(''),
+            "thumb": gamePhotos.join(','),
             "levelid": gameLv['id'],
-            "wswitch": 0,
+            "wswitch": isWswitch,
             "coinid": 0,
             "coin": priceRangeCon.text,
             // "des": beGoodAtCon.text,
@@ -201,7 +208,7 @@ class _AddGamePageState extends State<AddGamePage> {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
-        var url = Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
         // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => gamePhotos.add('$url'));
         // controller.setAvatar(value);
@@ -277,6 +284,7 @@ class _AddGamePageState extends State<AddGamePage> {
               gameLvIndex = null;
               gameLv = null;
             });
+            this.config();
           }
         },
       ),
@@ -315,27 +323,56 @@ class _AddGamePageState extends State<AddGamePage> {
       if (configDm.object?.isNotEmpty ?? false)
         itemBg(PWidget.row([
           PWidget.text('Price range', [Colors.white]),
-          PWidget.boxw(8),
-          buildTFView(context!, isDouble: true, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, isExp: true, textAlign: TextAlign.end),
+          PWidget.spacer(),
+          PWidget.container(
+            PWidget.icon(Icons.remove_rounded, [Colors.white70, 20]),
+            [24, 24, Colors.white10],
+            {
+              'br': 40,
+              'ali': PFun.lg(0, 0),
+              'fun': () {
+                if (int.parse(priceRangeCon.text) <= configDm.object?['gameCoinMin']) return EasyLoading.showToast('The price cannot be less than the minimum value');
+                return priceRangeCon.text = (int.parse(priceRangeCon.text) - 1).toString();
+              },
+            },
+          ),
+          PWidget.boxw(12),
+          Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
+          PWidget.container(
+            buildTFView(context!, isInt: true, isEdit: false, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, textAlign: TextAlign.end),
+            PFun.lg(16),
+          ),
+          PWidget.boxw(12),
+          PWidget.container(
+            PWidget.icon(Icons.add_rounded, [Colors.white70, 20]),
+            [24, 24, Colors.white10],
+            {
+              'br': 40,
+              'ali': PFun.lg(0, 0),
+              'fun': () {
+                if (int.parse(priceRangeCon.text) >= configDm.object?['gameCoinMax']) return EasyLoading.showToast('The price cannot be greater than the maximum value');
+                return priceRangeCon.text = (int.parse(priceRangeCon.text) + 1).toString();
+              },
+            },
+          ),
         ])),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
         itemBg(PWidget.row([
-          PWidget.text('Whether to open', [Colors.white]),
+          PWidget.text('Enable', [Colors.white]),
           PWidget.spacer(),
           Builder(builder: (context) {
-            var wswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
             return CupertinoSwitch(
-              value: wswitch == 1,
+              value: isWswitch == 1,
               onChanged: (v) async {
-                setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
-                var jsonData = {"skillid": skillInfoDm.object?['pwSkillAuth']['skillid'], "wswitch": wswitch};
-                await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
-                  setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
-                  EasyLoading.showToast('Network exception');
-                }).then((v) {
-                  EasyLoading.showToast('Operation succeeded');
-                });
+                setState(() => isWswitch = (isWswitch == 1 ? 0 : 1));
+                // var jsonData = {"skillid": skillInfoDm.object?['pwSkillAuth']['skillid'], "wswitch": wswitch};
+                // await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
+                //   setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
+                //   EasyLoading.showToast('Network exception');
+                // }).then((v) {
+                //   EasyLoading.showToast('Operation succeeded');
+                // });
               },
             );
           }),
@@ -352,18 +389,18 @@ class _AddGamePageState extends State<AddGamePage> {
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1,
+          crossAxisCount: 3,
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: 1,
+        itemCount: 9,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
           if (gamePhotos.length > i) {
             return PWidget.container(
               Stack(children: [
-                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i])),
+                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i], fit: BoxFit.cover)),
                 Positioned.fill(child: Container(color: Colors.black54)),
                 PWidget.positioned(
                   PWidget.icon(
