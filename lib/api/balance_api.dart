@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/balance_record_model.dart';
 import 'package:wy/model/bank_card_model.dart';
@@ -75,8 +76,9 @@ class BalanceApi {
   /*
   提现
    */
-  static Future<void> withDraw(Map<String, dynamic> params) async {
+  static Future<Response> withDraw(Map<String, dynamic> params) async {
     var response = await http.post('/peiwan/app/withDrawal/order', data: params);
+    return response;
   }
 
   static Future<List<WithdrawRecordModel>> withDrawRecords(
@@ -105,9 +107,10 @@ class BalanceApi {
     return list;
   }
 
- static Future<void> exchangeToCoin(var amount) async {
-    await http.post('/peiwan/app/withDrawal/voteToCoin',
+ static Future<Response> exchangeToCoin(var amount) async {
+   Response response=  await http.post('/peiwan/app/withDrawal/voteToCoin',
         queryParameters: ({'amount': amount}));
+    return response;
   }
 
 }

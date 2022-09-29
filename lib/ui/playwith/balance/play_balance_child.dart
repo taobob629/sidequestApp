@@ -94,8 +94,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         padding: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.white24))),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
         child: TextField(
           maxLines: 1,
           inputFormatters: [PrecisionLimitFormatter(2)],
@@ -104,8 +103,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           cursorColor: Colors.white70,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(
-              color: Colors.white, fontSize: 26, fontFamily: "DIN"),
+          style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration: const InputDecoration(
               hintText: "£1",
@@ -215,7 +213,8 @@ class _Bottom2Path extends CustomClipper<Path> {
     var path = Path();
     path.moveTo(0, size.height);
     path.lineTo(0, size.height * 55 / 100);
-    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700, size.height * 1.3, size.width, size.height * 60 / 100);
+    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700, size.height * 1.3, size.width,
+        size.height * 60 / 100);
     path.lineTo(size.width, size.height); // 第五个点
     return path;
   }
@@ -225,6 +224,7 @@ class _Bottom2Path extends CustomClipper<Path> {
     return true;
   }
 }
+
 class WalletBalancePageController extends GetxListController {
   late var productIndex = 0.obs;
 
@@ -303,10 +303,10 @@ class WalletBalancePageController extends GetxListController {
       } else {
         if (amountController.text.isEmpty) {
           changeProductIndex(0);
-        }else{
+        } else {
           customAmount.value = double.parse(amountController.text);
           if (customAmount.value > 0) {
-            if(customAmount.value < 1){
+            if (customAmount.value < 1) {
               customAmount.value = 1;
               amountController.text = "1.0";
             }
@@ -372,7 +372,7 @@ class WalletBalancePageController extends GetxListController {
     }
     customAmount.value = double.parse(amount);
     if (customAmount.value > 0) {
-      if(customAmount.value < 1){
+      if (customAmount.value < 1) {
         customAmount.value = 1;
         amountController.text = "1.0";
       }
@@ -467,23 +467,26 @@ chargeRatio：金币兑换比例
       return;
     }
     EasyLoading.show();
+    var response;
     if (type == 'withDraw') {
       if (selectedBank == null) {
         EasyLoading.showInfo('Please Add withdraw account First!');
         return;
       }
-      await BalanceApi.withDraw(Map<String, dynamic>()
-            ..['card'] = selectedBank?.cardNumber
-            ..['cardId'] = selectedBank?.id
-            ..['votes'] = votes
-            ..['withDrawalRatio'] = chargeRule.withdrawalRatio
-            ..['chargeRatio'] = chargeRule.chargeRatio)
-          .then((value) => updateCoinAndDiamonds());
+      response = await BalanceApi.withDraw(Map<String, dynamic>()
+        ..['card'] = selectedBank?.cardNumber
+        ..['cardId'] = selectedBank?.id
+        ..['votes'] = votes
+        ..['withDrawalRatio'] = chargeRule.withdrawalRatio
+        ..['chargeRatio'] = chargeRule.chargeRatio);
     } else {
-      await BalanceApi.exchangeToCoin(votes).then((value) => updateCoinAndDiamonds());
+      response = await BalanceApi.exchangeToCoin(votes);
     }
-    EasyLoading.showSuccess('Success');
+    if (response.statusCode == 200) {
+      diamonds = double.parse(response.data['votes'].toString()).toInt();
+      coin = double.parse(response.data['coin'].toString()).toInt();
+      EasyLoading.showSuccess(response.statusMessage!);
+    }
     EasyLoading.dismiss();
-    //  Get.back();
   }
 }
