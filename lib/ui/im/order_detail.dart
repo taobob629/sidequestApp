@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../api/im_api.dart';
@@ -11,6 +12,7 @@ import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
 import '../common/dialog_confirm.dart';
 import 'dialog_comment.dart';
+import 'dialog_reject.dart';
 
 class OrderDetail extends StatelessWidget {
 
@@ -50,9 +52,15 @@ class OrderDetail extends StatelessWidget {
                   SizedBox(height: 20,),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
+                    child: Text("Score",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+                  ),
+                  _buildScore(context),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
                     child: Text("Comments",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
                   ),
-                  _buildComments(context)
+                  _buildComments(context),
                 ],
               ))
             ),
@@ -107,14 +115,13 @@ class OrderDetail extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: (){
-                      Get.dialog(ConfirmDialog(
-                        title: "Reject Order",
-                        info: "Do you want to reject this order?",
-                        confirmBtn: "CONFIRM",
-                        onConfirm: () async {
-                          controller.rejectOrder();
-                        },
-                      ),barrierColor: Colors.black26);
+                      Get.dialog(RejectDialog(),barrierColor: Colors.black26).then((value){
+                        if(value != null){
+                          if(value.toString().isNotEmpty){
+                            controller.rejectOrder(value.toString());
+                          }
+                        }
+                      });
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -331,19 +338,27 @@ class OrderDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildComments(BuildContext context){
+  Widget _buildScore(BuildContext context){
     double width = MediaQuery.of(context).size.width;
-    print(controller.playOrderDetailModel.value.star);
-    if(controller.playOrderDetailModel.value.star == 0){
-      return Container();
-    }
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 20,),
+          controller.playOrderDetailModel.value.star == 0 ?
+          FFStars(
+            normalStar: Image.asset("assets/images/play/score0.png"),
+            selectedStar: Image.asset("assets/images/play/score1.png"),
+            step: 0.01,
+            defaultStars: 0,
+            starHeight: 20,
+            starWidth: 20,
+            starMargin: 16,
+            followChange: true,
+            justShow: true,
+          ):
           FFStars(
             normalStar: Image.asset("assets/images/play/score0.png"),
             selectedStar: Image.asset("assets/images/play/score1.png"),
@@ -355,15 +370,32 @@ class OrderDetail extends StatelessWidget {
             followChange: true,
             justShow: true,
           ),
-          SizedBox(height: 20,),
+          SizedBox(width: 10,),
           Text(
-            "${controller.playOrderDetailModel.value.comments}",
+            "${controller.playOrderDetailModel.value.star.toStringAsFixed(1)}",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 14,
+              fontSize: 18,
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildComments(context){
+    double width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+      child: Text(
+        controller.playOrderDetailModel.value.status == 3 ?
+        "${controller.playOrderDetailModel.value.rejectReason}":
+        "${controller.playOrderDetailModel.value.comments}",
+        style: TextStyle(
+          color: Colors.white54,
+          fontSize: 14,
+        ),
       ),
     );
   }
@@ -404,10 +436,10 @@ class OrderDetailController extends GetxController {
     Get.back();
   }
 
-  void rejectOrder(){
+  void rejectOrder(String reason){
     Get.back();
     EasyLoading.show();
-    ImApi.rejectOrder(orderId.toString());
+    ImApi.rejectOrder(orderId.toString(),reason);
     EasyLoading.dismiss();
     Get.back();
   }

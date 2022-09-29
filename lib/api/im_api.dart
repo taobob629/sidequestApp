@@ -70,9 +70,10 @@ class ImApi {
     );
   }
 
-  static Future<void> rejectOrder(String orderId) async {
+  static Future<void> rejectOrder(String orderId,String reason) async {
     var formData = {
-      "orderId" : orderId
+      "orderId" : orderId,
+      "reason" : reason
     };
     await http.put(
       '/peiwan/app/order/reject',
