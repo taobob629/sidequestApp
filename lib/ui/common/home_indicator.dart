@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 
 class HomeIndicator extends Decoration {
   /// Create an underline style selected tab indicator.
   ///
   /// The [borderSide] and [insets] arguments must not be null.
-  const HomeIndicator({
-    this.borderSide = const BorderSide(width: 4.0, color: Colors.white),
-    this.insets = EdgeInsets.zero,
-  });
+  const HomeIndicator(
+      {this.borderSide = const BorderSide(width: 4.0, color: Colors.white),
+      this.insets = EdgeInsets.zero,
+      this.colors = const []});
 
   /// The color and weight of the horizontal line drawn below the selected tab.
   final BorderSide borderSide;
@@ -20,6 +19,7 @@ class HomeIndicator extends Decoration {
   /// [TabBarIndicatorSize.label], or the entire tab with
   /// [TabBarIndicatorSize.tab].
   final EdgeInsetsGeometry insets;
+  final List<Color> colors;
 
   @override
   Decoration? lerpFrom(Decoration? a, double t) {
@@ -44,8 +44,8 @@ class HomeIndicator extends Decoration {
   }
 
   @override
-  _UnderlinePainter createBoxPainter([ VoidCallback? onChanged ]) {
-    return _UnderlinePainter(this, onChanged);
+  _UnderlinePainter createBoxPainter([VoidCallback? onChanged]) {
+    return _UnderlinePainter(this, onChanged, colors);
   }
 
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
@@ -54,8 +54,8 @@ class HomeIndicator extends Decoration {
     double wantWidth = 15;
     //取中间坐标
     double cw = (indicator.left + indicator.right) / 2;
-    return Rect.fromLTWH(cw - wantWidth / 2,
-      indicator.bottom - borderSide.width, wantWidth, borderSide.width);
+    return Rect.fromLTWH(
+        cw - wantWidth / 2, indicator.bottom - borderSide.width, wantWidth, borderSide.width);
   }
 
   @override
@@ -65,18 +65,26 @@ class HomeIndicator extends Decoration {
 }
 
 class _UnderlinePainter extends BoxPainter {
-  _UnderlinePainter(this.decoration, VoidCallback? onChanged)
-    : super(onChanged);
+  _UnderlinePainter(this.decoration, VoidCallback? onChanged, this.colors) : super(onChanged);
 
   final HomeIndicator decoration;
+  final List<Color> colors;
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     assert(configuration.size != null);
     final Rect rect = offset & configuration.size!;
     final TextDirection textDirection = configuration.textDirection!;
-    final Rect indicator = decoration._indicatorRectFor(rect, textDirection).deflate(decoration.borderSide.width / 2.0);
+    final Rect indicator = decoration
+        ._indicatorRectFor(rect, textDirection)
+        .deflate(decoration.borderSide.width / 2.0);
     final Paint paint = decoration.borderSide.toPaint()..strokeCap = StrokeCap.round;
+    if (colors.isNotEmpty) {
+      var gradient = LinearGradient(
+        colors: colors,
+      );
+      paint.shader = gradient.createShader(indicator);
+    }
     canvas.drawLine(indicator.bottomLeft, indicator.bottomRight, paint);
   }
 }

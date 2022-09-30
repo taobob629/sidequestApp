@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_order.dart';
@@ -313,7 +314,9 @@ class PlayDetail extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text("Follows: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
+              InkWell(
+                onTap: ()=>Get.toNamed(AppPages.AttentionTab),
+                child: Text("Follows: ",style: TextStyle(fontSize: 12,color: Colors.white54),),),
               Text("${controller.detailModel.value.follows}",style: TextStyle(fontSize: 16,color: Colors.white),),
               SizedBox(width: 30,),
               Text("Fans: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
