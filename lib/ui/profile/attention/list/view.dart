@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/attention_model.dart';
+import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -105,6 +106,45 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
         style: TextStyle(color: Color.fromRGBO(88, 99, 126, 1), fontSize: 12),
         maxLines: 1,
       ),
+      trailing: button(user),
+    );
+  }
+
+  button(AttentionModel user) {
+    //   int type = user.status ?? 0;
+    if (type == TYPE_FOLLOW) {
+      return MaterialButton(
+        color: Color.fromRGBO(40, 62, 90, 1),
+        textColor: Color.fromRGBO(130, 145, 180, 1),
+        child: Text(
+          'Unfollow',
+        ),
+        onPressed: () {},
+        shape: StadiumBorder(),
+        height: 28,
+      );
+    }
+    int focusStatus = user.status ?? 0;
+    if (focusStatus == BOTH_FOCUS) {
+      return MaterialButton(
+        minWidth: 60,
+        color: Color.fromRGBO(40, 62, 90, 1),
+        textColor: Color.fromRGBO(130, 145, 180, 1),
+        child: Text(
+          'Follow',
+        ),
+        onPressed: () {},
+        shape: StadiumBorder(),
+        height: 28,
+      );
+    }
+    return ColorfulButton(
+      child: Text(
+        'Follow',
+        style: TextStyle(color: Colors.white),
+      ),
+      height: 28,
+      width: 60,
     );
   }
 }

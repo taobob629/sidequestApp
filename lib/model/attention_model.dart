@@ -3,7 +3,7 @@
 /// avatar : "https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/MemberAvatar/members/3.jpg"
 /// isfans : 1
 /// id : 19030
-
+const int BOTH_FOCUS=1;
 class AttentionModel {
   AttentionModel({this.sex, this.name, this.avatar, this.isfans, this.status, this.id});
 
