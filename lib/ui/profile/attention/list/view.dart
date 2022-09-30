@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/attention_model.dart';
-import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -114,6 +113,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
     //   int type = user.status ?? 0;
     if (type == TYPE_FOLLOW) {
       return MaterialButton(
+        minWidth: 60,
         color: Color.fromRGBO(40, 62, 90, 1),
         textColor: Color.fromRGBO(130, 145, 180, 1),
         child: Text(
@@ -124,27 +124,40 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
         height: 28,
       );
     }
-    int focusStatus = user.status ?? 0;
-    if (focusStatus == BOTH_FOCUS) {
-      return MaterialButton(
-        minWidth: 60,
-        color: Color.fromRGBO(40, 62, 90, 1),
-        textColor: Color.fromRGBO(130, 145, 180, 1),
-        child: Text(
-          'Follow',
-        ),
-        onPressed: () {},
-        shape: StadiumBorder(),
-        height: 28,
-      );
-    }
-    return ColorfulButton(
-      child: Text(
-        'Follow',
-        style: TextStyle(color: Colors.white),
-      ),
-      height: 28,
-      width: 60,
-    );
+    return Obx(() => Container(
+          height: 28,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: user.status.value == BOTH_FOCUS
+                      ? [
+                          Color.fromRGBO(40, 62, 90, 1),
+                          Color.fromRGBO(40, 62, 90, 1),
+                        ]
+                      : [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+          child: MaterialButton(
+            elevation: 0,
+            minWidth: 60,
+            color: Colors.transparent,
+            textColor:
+                user.status.value == BOTH_FOCUS ? Color.fromRGBO(130, 145, 180, 1) : Colors.white,
+            child: user.status.value == BOTH_FOCUS
+                ? Container(
+                    width: 30,
+                    child: Image(
+                      image: AssetImage('assets/images/ic_exchange.webp'),
+                      height: 16,
+                      width: 24,
+                    ),
+                  )
+                : Text(
+                    'Follow',
+                  ),
+            onPressed: () => user.status.value = BOTH_FOCUS,
+            height: 28,
+          ),
+        ));
   }
 }
