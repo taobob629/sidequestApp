@@ -1,4 +1,4 @@
-const int TYPE_VIP=1;//1是大神
+const int TYPE_VIP = 1; //1是大神
 
 class UserInfoModel {
   late int freeMins = 0;
@@ -16,7 +16,7 @@ class UserInfoModel {
   late String email = "";
   late int total = 0;
   late int remain = 0;
-  late int isauth = 0;//1 大神
+  late int isauth = 0; //1 大神
   late int pwuserId = 0;
 
   UserInfoModel();
@@ -24,8 +24,8 @@ class UserInfoModel {
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     email = json['email'];
-    nick = json['nick'];
-    avatar = json['avatar'] == null ? "":json['avatar'];
+    nick = json['nick'] ?? '';
+    avatar = json['avatar'] == null ? "" : json['avatar'];
     vipLevel = json['vipLevel'];
     balance = json['balance'];
     votes = json['votes'].toString();
@@ -35,9 +35,9 @@ class UserInfoModel {
     orderCount = json['orderCount'];
     eventCount = json['eventCount'];
     bookingCount = json['bookingCount'];
-    total = json['total'] == null ? 0:json['total'];
-    remain = json['remain'] == null ? 0:json['remain'];
-    isauth = json['isauth'] == null ? 0:json['isauth'];
-    pwuserId = json['pwuserId'] == null ? 0:json['pwuserId'];
+    total = json['total'] == null ? 0 : json['total'];
+    remain = json['remain'] == null ? 0 : json['remain'];
+    isauth = json['isauth'] == null ? 0 : json['isauth'];
+    pwuserId = json['pwuserId'] == null ? 0 : json['pwuserId'];
   }
 }

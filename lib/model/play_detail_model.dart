@@ -7,6 +7,7 @@ class PlayDetailModel {
   late String name = "";
   late String avatar = "";
   late int age = 0;
+  late int sex = 0;
   late int level = 0;
   late int follows = 0;
   late int follow = 0;
@@ -23,6 +24,7 @@ class PlayDetailModel {
     name = json['basicInfo']['userNickname'] ?? '';
     avatar = json['basicInfo']['avatar'] ?? '';
     age = json['basicInfo']['age'] ?? 0;
+    sex = json['basicInfo']['sex'] ?? 0;
     level = json['level'] ?? 0;
     follows = json['followers'] ?? 0;
     follow = json['follow'] ?? 0;
@@ -41,6 +43,8 @@ class SkillModel{
   late String level = "";
   late String label = "";
   late int coin = 0;
+  late int authId = 0;
+  late int wswitch = 0;
   SkillModel();
 
   SkillModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +53,8 @@ class SkillModel{
     thumb = json['thumb'] ??"";
     name = json['name']?? "";
     coin = json['coin'] ?? 0;
+    authId = json['authId'] ?? 0;
+    wswitch = json['wswitch'] ?? 0;
     label = json['label']?? "";
     level = json['level']?? "";
   }

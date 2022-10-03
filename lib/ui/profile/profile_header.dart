@@ -58,7 +58,7 @@ class ProfileHeader extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               if(controller.userInfoModel.value.isauth==1){
-                controller.checkLogin(()=>Get.to(PlayDetail(userId: "${controller.userInfoModel.value.pwuserId}")));
+                controller.checkLogin(()=>Get.to(()=>PlayDetail(userId: "${controller.userInfoModel.value.pwuserId}")));
               }else{
                 controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage());
               }
@@ -180,7 +180,7 @@ class ProfileHeader extends StatelessWidget {
         //   )
         // );
         return CachedNetworkImage(
-          imageUrl: controller.userInfoModel.value.avatar,
+          imageUrl: "${controller.userInfoModel.value.avatar}?imageMogr2/thumbnail/!10p",
           fit: BoxFit.cover,
           imageBuilder: (context,provider){
             return Container(

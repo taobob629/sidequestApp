@@ -29,6 +29,14 @@ class PlayProfilePage extends StatefulWidget {
 
 class _PlayProfilePageState extends State<PlayProfilePage> {
   TextEditingController beGoodAtCon = TextEditingController();
+  TextEditingController userNameCon = TextEditingController();
+  int? sex;
+  var sexList = [
+    {'name': '保密', 'value': 0},
+    {'name': '男', 'value': 1},
+    {'name': '女', 'value': 2},
+  ];
+  var avatar;
 
   @override
   void initState() {
@@ -62,6 +70,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     await http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data;
       beGoodAtCon.text = userinfoDm.object['signature'];
+      userNameCon.text = userinfoDm.object['userNickname'];
+      avatar = userinfoDm.object['avatar'];
+      sex = userinfoDm.object['sex'];
       userinfoDm.setTime();
     }).catchError((e) {
       userinfoDm.toError(e.toString());
@@ -109,8 +120,15 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       btnBar: FloatingButton(
         label: "OK",
         onTap: () async {
+          if (avatar == null) return EasyLoading.showToast('Please upload your avatar');
+          if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter personal profile');
-          var data = {"signature": beGoodAtCon.text};
+          var data = {
+            "signature": beGoodAtCon.text,
+            "userNickname": userNameCon.text,
+            "avatar": avatar,
+            "sex": sex,
+          };
           EasyLoading.show();
           await http.post('/peiwan/app/user/setUserinfo', data: data).then((v) {
             EasyLoading.dismiss();
@@ -139,39 +157,119 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     );
   }
 
+  ///修改头像
+  Widget _buildAvatarEdit() {
+    return Center(
+      child: GestureDetector(
+        onTap: () async {
+          var url = await selectAvatar(context!);
+          if (url != null) setState(() => avatar = url);
+        },
+        child: Container(
+          width: 80,
+          height: 80,
+          child: Stack(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.white54,
+                radius: 40,
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: ClipOval(
+                    child: avatar == null
+                        ? Icon(Icons.person, size: 70, color: Colors.black38)
+                        : CachedNetworkImage(
+                            imageUrl: avatar,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colors.grey,
+                  child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 12),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget itemBg(view, {Function? fun}) {
     return PWidget.container(view, [null, 48, Color(0xff282640)], {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 
   List<Widget> get item {
-    return [gameMaterialsView(), iDPhotoView()];
+    return [
+      _buildAvatarEdit(),
+      gameMaterialsView(),
+      iDPhotoView(),
+    ];
   }
 
-  void selectAvatar(BuildContext context) async {
+  Future<dynamic> selectAvatar(BuildContext context) async {
+    var url;
     var status = await PermissionHelper.requestPhotosPermission(context);
     if (status == false) {
-      return;
+      return url;
     }
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
-      Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
+      await Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
+        if (value == null) return;
         EasyLoading.show();
-        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
-        setState(() => gamePhotos.add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
+        url = await Common.uploadFile(value, (p0, p1) => flog("$p0,$p1"));
         EasyLoading.dismiss();
         // controller.setAvatar(value);
       });
     } else {
       print('No image selected.');
     }
+    return url;
   }
 
-  ///技能录入
+  ///基本信息
   Widget gameMaterialsView() {
     return PWidget.column([
+      PWidget.text('User Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.boxh(16),
+      itemBg(PWidget.row([
+        // PWidget.text('Be good at', [Colors.white]),
+        // PWidget.boxw(8),
+        buildTFView(context!, hintText: 'Please enter user nickname', hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true),
+      ])),
+      PWidget.boxh(16),
+      itemBg(
+        PWidget.row([
+          PWidget.text('Sex', [Colors.white]),
+          PWidget.boxw(8),
+          PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          rightJtView(16, Colors.white54),
+        ]),
+        fun: () async {
+          var res = await Get.dialog(
+            SelectorDialog(
+              items: List.generate(sexList.length, (i) {
+                return VerifyField.fromJson({'name': '$i', 'label': sexList[i]['name']});
+              }),
+              title: "Select Sex",
+              showInfo: true,
+            ),
+            barrierColor: Colors.black26,
+          );
+          if (res != null) setState(() => sex = int.parse(res.name));
+        },
+      ),
+      PWidget.boxh(16),
       PWidget.text('Personal profile', [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
@@ -235,10 +333,49 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           return PWidget.container(
             PWidget.image('assets/images/paly_add.png', [32, 32]),
             [null, null, Color(0xff282640)],
-            {'crr': 16, 'pd': 16, 'ali': PFun.lg(0, 0), 'fun': () => this.selectAvatar(context!)},
+            {
+              'crr': 16,
+              'pd': 16,
+              'ali': PFun.lg(0, 0),
+              'fun': () async {
+                var url = await this.selectAvatar(context!);
+                if (url != null) setState(() => gamePhotos.add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
+              }
+            },
           );
         },
       ),
     ]);
+  }
+}
+
+// 性别和年龄组件
+class SexAndAgeWidget extends StatefulWidget {
+  final String sex;
+  final String age;
+  const SexAndAgeWidget({Key? key, this.sex = '0', this.age = '0'}) : super(key: key);
+  @override
+  _SexAndAgeWidgetState createState() => _SexAndAgeWidgetState();
+}
+
+class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
+  @override
+  Widget build(BuildContext context) {
+    var isFemale = widget.sex == '2';
+    var gd = PFun.tl2brGd(Color(0xff9DBDFD), Color(0xff76A3FD));
+    if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
+    return PWidget.container(
+      PWidget.row([
+        PWidget.icon(isFemale?Icons.female_rounded:Icons.male_rounded, [Colors.white,14]),
+        PWidget.boxw(2),
+        PWidget.text(widget.age, [Colors.white, 12]),
+      ], '220'),
+      [null, null, Colors.black],
+      {
+        'gd': gd,
+        'pd': PFun.lg(2, 2, 4, 8),
+        'br': 56,
+      },
+    );
   }
 }

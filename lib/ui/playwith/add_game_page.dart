@@ -17,6 +17,7 @@ import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -84,7 +85,7 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏
   var skillDm = DataModel();
   Future<int> skill({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/skill').then((res) async {
+    await http.get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}').then((res) async {
       skillDm.addList(res.data, true, 0);
     }).catchError((e) {
       skillDm.toError(e.toString());
@@ -99,8 +100,10 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> config({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
       configDm.addObject(res.data);
+      var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
+      var gameCoinMin = configDm.object?['gameCoinMin'];
       if (isEdit) {
-        priceRangeCon.text = '${skillInfoDm.object?['pwSkillAuth']['coin']}';
+        priceRangeCon.text = '${coin<gameCoinMin?gameCoinMin:coin}';
       } else {
         priceRangeCon.text = '${configDm.object?['gameCoinMin']}';
       }
@@ -323,38 +326,56 @@ class _AddGamePageState extends State<AddGamePage> {
       if (configDm.object?.isNotEmpty ?? false)
         itemBg(PWidget.row([
           PWidget.text('Price range', [Colors.white]),
-          PWidget.spacer(),
-          PWidget.container(
-            PWidget.icon(Icons.remove_rounded, [Colors.white70, 20]),
-            [24, 24, Colors.white10],
-            {
-              'br': 40,
-              'ali': PFun.lg(0, 0),
-              'fun': () {
-                if (int.parse(priceRangeCon.text) <= configDm.object?['gameCoinMin']) return EasyLoading.showToast('The price cannot be less than the minimum value');
-                return priceRangeCon.text = (int.parse(priceRangeCon.text) - 1).toString();
-              },
-            },
+          PriceSlider(
+            min: double.parse('${configDm.object?['gameCoinMin'] ?? '0.0'}'),
+            max: double.parse('${configDm.object?['gameCoinMax'] ?? '0.0'}'),
+            value: double.parse('${priceRangeCon.text}'),
+            fun: (v) => priceRangeCon.text = '${v.toInt()}',
           ),
-          PWidget.boxw(12),
-          Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
-          PWidget.container(
-            buildTFView(context!, isInt: true, isEdit: false, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, textAlign: TextAlign.end),
-            PFun.lg(16),
-          ),
-          PWidget.boxw(12),
-          PWidget.container(
-            PWidget.icon(Icons.add_rounded, [Colors.white70, 20]),
-            [24, 24, Colors.white10],
-            {
-              'br': 40,
-              'ali': PFun.lg(0, 0),
-              'fun': () {
-                if (int.parse(priceRangeCon.text) >= configDm.object?['gameCoinMax']) return EasyLoading.showToast('The price cannot be greater than the maximum value');
-                return priceRangeCon.text = (int.parse(priceRangeCon.text) + 1).toString();
-              },
-            },
-          ),
+          // PWidget.container(
+          //   PWidget.column([
+          //     PWidget.row([
+          //       PWidget.boxw(4),
+          //       PWidget.text("${configDm.object?['gameCoinMin']}", [Colors.white54, 12]),
+          //       PWidget.spacer(),
+          //       PWidget.text("${configDm.object?['gameCoinMax']}", [Colors.white54, 12]),
+          //       PWidget.boxw(4),
+          //     ]),
+          //     PWidget.container(
+          //       PWidget.row([
+          //         PWidget.boxw(2),
+          //         PWidget.container(
+          //           PWidget.icon(Icons.remove_rounded, [Colors.white70, 20]),
+          //           [24, 24, Colors.white10],
+          //           {
+          //             'br': 40,
+          //             'ali': PFun.lg(0, 0),
+          //             'fun': () {
+          //               if (int.parse(priceRangeCon.text) <= configDm.object?['gameCoinMin']) return EasyLoading.showToast('The price cannot be less than the minimum value');
+          //               return priceRangeCon.text = (int.parse(priceRangeCon.text) - 1).toString();
+          //             },
+          //           },
+          //         ),
+          //         buildTFView(context!, isInt: true, isEdit: false, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, textAlign: TextAlign.center, isExp: true),
+          //         PWidget.container(
+          //           PWidget.icon(Icons.add_rounded, [Colors.white70, 20]),
+          //           [24, 24, Colors.white10],
+          //           {
+          //             'br': 40,
+          //             'ali': PFun.lg(0, 0),
+          //             'fun': () {
+          //               if (int.parse(priceRangeCon.text) >= configDm.object?['gameCoinMax']) return EasyLoading.showToast('The price cannot be greater than the maximum value');
+          //               return priceRangeCon.text = (int.parse(priceRangeCon.text) + 1).toString();
+          //             },
+          //           },
+          //         ),
+          //       ]),
+          //       [null, null, Colors.white.withOpacity(0.05)],
+          //       {'pd': 4, 'br': 56},
+          //     ),
+          //   ]),
+          //   [100],
+          // ),
         ])),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
@@ -422,5 +443,66 @@ class _AddGamePageState extends State<AddGamePage> {
         },
       ),
     ]);
+  }
+}
+
+// 价格滑块
+class PriceSlider extends StatefulWidget {
+  final double? max;
+  final double? min;
+  final double? value;
+  final Function(double)? fun;
+
+  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value}) : super(key: key);
+  @override
+  _PriceSliderState createState() => _PriceSliderState();
+}
+
+class _PriceSliderState extends State<PriceSlider> {
+  var value = 0.0;
+
+  @override
+  void initState() {
+    this.initData();
+    super.initState();
+  }
+
+  ///初始化函数
+  Future initData() async => value = widget.value!;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: FlutterSlider(
+        values: [value],
+        max: widget.max!,
+        min: widget.min!,
+        handlerWidth: 40,
+        trackBar: FlutterSliderTrackBar(
+          inactiveTrackBar: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+          activeTrackBar: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+        ),
+        tooltip: FlutterSliderTooltip(
+          positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+          custom: (v) => PWidget.container(
+            PWidget.row([
+              Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
+              PWidget.boxw(4),
+              PWidget.text('${double.parse('$v').toInt()}'),
+            ]),
+            [null, null, Colors.white],
+            {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
+          ),
+        ),
+        handler: FlutterSliderHandler(
+          child: PWidget.container(PWidget.text('${value.toInt()}', [Colors.black.withOpacity(0.75)]), [null, null, Colors.white], {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+          foregroundDecoration: BoxDecoration(),
+          decoration: BoxDecoration(),
+        ),
+        handlerAnimation: FlutterSliderHandlerAnimation(curve: Curves.elasticOut, reverseCurve: Curves.elasticIn, duration: Duration(milliseconds: 250)),
+        onDragging: (i, v1, v2) => setState(() => value = v1),
+        onDragCompleted: (i, v1, v2) => widget.fun!(v1),
+      ),
+    );
   }
 }
