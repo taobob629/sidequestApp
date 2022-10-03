@@ -11,9 +11,11 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
+import 'package:wy/widget/paixs_widget.dart';
 
 import '../../api/im_api.dart';
 import '../../config/app_color.dart';
@@ -69,7 +71,7 @@ class PlayDetail extends StatelessWidget {
                   GestureDetector(
                     onTap: () async {
                       if(isMe){
-                        await Get.to(PlayProfilePage());
+                        await Get.to(()=>PlayProfilePage());
                         controller.onReady();
                         return;
                       }  
@@ -104,7 +106,9 @@ class PlayDetail extends StatelessWidget {
                         bottom: 1,
                         top: 0,
                         child: Obx(()=>controller.detailModel.value.imageList.length == 0 ? Container(): Swiper(
-                          autoplay: false,
+                          autoplay: true,
+                          autoplayDelay: 5000,
+                          duration: 500,
                           itemBuilder: (BuildContext context, int index) {
                             String url = controller.detailModel.value.imageList[index];
                             return CachedNetworkImage(
@@ -304,11 +308,19 @@ class PlayDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 16,
             children: [
-              Text("${controller.detailModel.value.name}",style: TextStyle(fontSize: 24,color: Colors.white),)
-            ],
+              Text("${controller.detailModel.value.name}",style: TextStyle(fontSize: 24,color: Colors.white)),
+              SexAndAgeWidget(
+                age: '${controller.detailModel.value.age}',
+                sex: '${controller.detailModel.value.sex}',
+              ),
+            ]
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -326,10 +338,17 @@ class PlayDetail extends StatelessWidget {
   }
 
   Widget _buildGames(){
-    List<Widget> items = [];
+    return Obx((){
+      List<Widget> items = [];
     controller.detailModel.value.skills.forEach((element) {
       items.add(_buildGame(element));
     });
+    if(controller.detailModel.value.skills.length>2){
+      if(!controller.isExpand.value){
+        items = items.sublist(0,2);
+      }
+    }
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -348,17 +367,35 @@ class PlayDetail extends StatelessWidget {
               children: items
             ),
           ),
+          SizedBox(height: 8),
+          if(controller.detailModel.value.skills.length>2)
+          PWidget.container(
+          PWidget.row([
+            PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54]),
+            PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
+          ],'221'),
+          {'fun': () {
+            controller.isExpand.value=!controller.isExpand.value;
+          },},
+          ),
           SizedBox(height: 20,),
         ],
       ),
     );
+    });
   }
 
   Widget _buildGame(SkillModel skillModel){
+    var isOpen = skillModel.wswitch==1;
     return GestureDetector(
-      onTap: () {
-        if(isMe) return;
+      onTap: () async {
+        if(isMe){
+          await Get.to(()=>AddGamePage({"id":skillModel.authId}));
+          controller.onReady();
+          return;
+        }else if(isOpen){
         Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
+        }
       },
       child: Container(
         height: 80,
@@ -366,36 +403,38 @@ class PlayDetail extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xFF7D00FF)
+          color:skillModel.wswitch==0?Colors.white12: Color(0xFF7D00FF)
         ),
         child: Row(
           children: [
             Image.network("${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover,),
-            SizedBox(width: 5,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
-                Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
-                    SizedBox(width: 5,),
-                    Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                    Text(" / Hour",style: TextStyle(color: Colors.white,fontSize: 12),),
-                  ],
-                )
-              ],
+            SizedBox(width: 5),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
+                  Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
+                      SizedBox(width: 5,),
+                      Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                      Text(" / Hour",style: TextStyle(color: Colors.white,fontSize: 12),),
+                    ],
+                  )
+                ],
+              ),
             ),
-            Spacer(),
-            if(!isMe)
+            SizedBox(width: 5),
+            if(isOpen||isMe)
             ColorfulButton(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 2),
                 child: Text(
-                  "Order",
+                 isMe?"Edit": "Order",
                   style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
                 ),
               ),
@@ -446,6 +485,7 @@ class PlayDetailController extends GetxController {
   var titleColor = Colors.transparent.obs;
 
   var headerHeight = 0.0.obs;
+  var isExpand=false.obs;
 
   Rx<PlayDetailModel> detailModel = PlayDetailModel().obs;
 

@@ -45,7 +45,7 @@ class ApiInterceptor extends InterceptorsWrapper {
 
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) {
-    log('api-response:$response',name: "WY_API");
+    log('api-response:$response',name: "WY_API：${response.requestOptions.path}");
 
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {

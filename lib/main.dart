@@ -34,7 +34,7 @@ void main() async {
 
   ///图片缓存大小
   PaintingBinding.instance?.imageCache?.maximumSizeBytes = 1000 << 20;
-  if (env == "dev" || env == "test") {
+  if (env.contains("dev") || env.contains("test")) {
     PluginManager.instance // 注册插件
       ..register(DioInspector(dio: http));
     runApp(UMEWidget(child: app, enable: true));

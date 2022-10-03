@@ -12,6 +12,7 @@ import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
 import 'package:wy/ui/playwith/game_score_page.dart';
+import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/ui/playwith/play_tab_widget.dart';
 import 'package:wy/ui/playwith/play_user_info.dart';
 import 'package:wy/ui/playwith/success_page.dart';
@@ -54,7 +55,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
     return ScaffoldWidget(
       body: PlayTabWidget(
         isScrollable: true,
-        rightChild: rightTopViews(),
+        // rightChild: rightTopViews(),
         tabList: tabList,
         isShowLeft: false,
         // color: Color(0xff3B3860),
@@ -151,7 +152,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 
   ///初始化函数
   Future initData() async {
-    await this.superlist(isRef: true);
+    // await this.superlist(isRef: true);
   }
 
   ///大神列表
@@ -170,153 +171,97 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Stack(
-      children: [
-        Image.asset('assets/images/play_bg.png', width: double.infinity, fit: BoxFit.cover),
-        MyCustomScroll(
-          isShuaxin: true,
-          isGengduo: superlistDm.hasNext,
-          onRefresh: () => this.superlist(isRef: true),
-          onLoading: (p) => this.superlist(page: p),
-          itemModel: superlistDm,
-          headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
-          headers: [
-            PlaySwitchWidget(onTap: (v) {
-              gid = v['id'];
-              setState(() => superlistDm.init());
-              this.superlist(isRef: true);
-            })
-          ],
-          mainAxisSpacing: 10,
-          itemPadding: EdgeInsets.only(bottom: 16),
-          itemModelBuilder: (i, data) {
-            flog(data, 'superlist');
-            return PWidget.container(
-              Stack(children: [
-                PWidget.container(
-                  PWidget.row([
-                    PWidget.container(
-                      CachedNetworkImage(
-                        imageUrl: data['thumb'],
-                        fit: BoxFit.cover,
-                        width: 74,
-                        height: 74,
-                      ),
-                      {'crr': 8},
+    return Stack(children: [
+      Image.asset('assets/images/play_bg.png', width: double.infinity, fit: BoxFit.cover),
+      MyCustomScroll(
+        isShuaxin: true,
+        isGengduo: superlistDm.hasNext,
+        onRefresh: () => this.superlist(isRef: true),
+        onLoading: (p) => this.superlist(page: p),
+        itemModel: superlistDm,
+        headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
+        headers: [
+          PlaySwitchWidget(onTap: (v) {
+            gid = v['id'];
+            setState(() => superlistDm.init());
+            this.superlist(isRef: true);
+          })
+        ],
+        mainAxisSpacing: 10,
+        itemPadding: EdgeInsets.only(bottom: 16),
+        itemModelBuilder: (i, data) {
+          flog(data, 'superlist');
+          return PWidget.container(
+            Stack(children: [
+              PWidget.container(
+                PWidget.row([
+                  PWidget.container(
+                    CachedNetworkImage(
+                      imageUrl: data['thumb'],
+                      fit: BoxFit.cover,
+                      width: 74,
+                      height: 74,
                     ),
-                    PWidget.boxw(8),
-                    PWidget.column([
-                      PWidget.text('${data['name']}', [Colors.white, 14, true]),
-                      PWidget.boxh(8),
-                      PWidget.text(data['signature'] ?? '我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
-                      PWidget.boxh(8),
-                      Builder(builder: (context) {
-                        var list = (data['label'] ?? []) as List;
-                        return Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: List.generate(list.length, (i) {
-                            var item = list[i];
-                            // return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
-                            return PWidget.container(
-                              PWidget.text(item, [Colors.white]),
-                              [null, null, pColor],
-                              {
-                                'crr': 56,
-                                'pd': [2, 2, 8, 8],
-                              },
-                            );
-                          }),
-                        );
-                      }),
-                    ], {
-                      'exp': 1,
+                    {'crr': 8},
+                  ),
+                  PWidget.boxw(8),
+                  PWidget.column([
+                    PWidget.row([
+                      Flexible(child: PWidget.text('${data['name']}', [Colors.white, 14, true]), fit: FlexFit.loose),
+                      PWidget.boxw(4),
+                      SexAndAgeWidget(
+                        age: '1',
+                        // age: '${data.age}',
+                        sex: '1',
+                        // sex: '${data.sex}',
+                      ),
+                    ]),
+                    PWidget.boxh(8),
+                    PWidget.text(data['signature'] ?? '我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
+                    PWidget.boxh(8),
+                    Builder(builder: (context) {
+                      var list = (data['label'] ?? []) as List;
+                      return Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: List.generate(list.length, (i) {
+                          var item = list[i];
+                          // return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
+                          return PWidget.container(
+                            PWidget.text(item, [Colors.white]),
+                            [null, null, pColor],
+                            {
+                              'crr': 56,
+                              'pd': [2, 2, 8, 8],
+                            },
+                          );
+                        }),
+                      );
                     }),
-                  ], '001'),
-                  {'pd': 8},
-                ),
-                if (data['online'] == 1)
-                  PWidget.container(PWidget.text('Online', [Colors.white, 10]), {
-                    'gd': PFun.cl2crGd(Color(0xff5ADBAE), Color(0x005ADBAE)),
-                    'pd': PFun.lg(1, 1, 12, 12),
+                  ], {
+                    'exp': 1,
                   }),
-              ]),
-              [null, null, Color(0xff282640)],
-              {
-                'mg': PFun.lg(0, 0, 16, 16),
-                'crr': 12,
-                'fun': () {
-                  return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
-                }
-              },
-            );
-          },
-        ),
-        // MyListView(
-        //   isShuaxin: true,
-        //   isGengduo: superlistDm.hasNext,
-        //   onRefresh: () => this.superlist(isRef: true),
-        //   onLoading: () => this.superlist(page: superlistDm.page),
-        //   value: superlistDm,
-        //   padding: EdgeInsets.only(top: pmPadd.top + 56),
-        //   itemCount: superlistDm.list.length + 1,
-        //   listViewType: ListViewType.Separated,
-        //   divider: Divider(height: 10, color: Colors.transparent),
-        //   item: (i) {
-        //     if (i == 0) return PlaySwitchWidget();
-        //     i = i - 1;
-        //     var data = superlistDm.list[i];
-        //     flog(data, 'superlistDm');
-        //     return PWidget.container(
-        //       Stack(children: [
-        //         PWidget.container(
-        //           PWidget.row([
-        //             PWidget.container(
-        //               CachedNetworkImage(
-        //                 imageUrl: 'https://pic1.afdiancdn.com/user/de28a438903911ecb24d52540025c377/common/f1b37f4c524ca61b9a0c2da941f0a35f_w960_h960_s271.jpg?imageView2/1/w/576/h/320',
-        //                 fit: BoxFit.cover,
-        //                 width: 74,
-        //                 height: 74,
-        //               ),
-        //               {'crr': 8},
-        //             ),
-        //             PWidget.boxw(8),
-        //             PWidget.column([
-        //               PWidget.text('Nick name', [Colors.white, 14, true]),
-        //               PWidget.boxh(8),
-        //               PWidget.text('我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
-        //               PWidget.boxh(8),
-        //               Wrap(
-        //                 spacing: 8,
-        //                 runSpacing: 8,
-        //                 children: List.generate(3, (i) {
-        //                   return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
-        //                 }),
-        //               ),
-        //             ], {
-        //               'exp': 1,
-        //             }),
-        //           ], '001'),
-        //           {'pd': 8},
-        //         ),
-        //         PWidget.container(PWidget.text('Online', [Colors.white, 10]), {
-        //           'gd': PFun.cl2crGd(Color(0xff5ADBAE), Color(0x005ADBAE)),
-        //           'pd': PFun.lg(1, 1, 12, 12),
-        //         }),
-        //       ]),
-        //       [null, null, Color(0xff282640)],
-        //       {
-        //         'mg': PFun.lg(0, 0, 16, 16),
-        //         'crr': 12,
-        //         'fun': () {
-        //           return jumpPage(PlayUserInfo());
-        //         }
-        //       },
-        //     );
-        //   },
-        // ),
-      ],
-    );
+                ], '001'),
+                {'pd': 8},
+              ),
+              if (data['online'] == 1)
+                PWidget.container(PWidget.text('Online', [Colors.white, 10]), {
+                  'gd': PFun.cl2crGd(Color(0xff5ADBAE), Color(0x005ADBAE)),
+                  'pd': PFun.lg(1, 1, 12, 12),
+                }),
+            ]),
+            [null, null, Color(0xff282640)],
+            {
+              'mg': PFun.lg(0, 0, 16, 16),
+              'crr': 12,
+              'fun': () {
+                return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
+              }
+            },
+          );
+        },
+      ),
+    ]);
   }
 
   @override
@@ -333,7 +278,7 @@ class PlaySwitchWidget extends StatefulWidget {
 }
 
 class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
-  int seleIndex = 0;
+  int? seleIndex;
 
   @override
   void initState() {
@@ -350,6 +295,9 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
   Future<int> gamelist() async {
     await http.get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
       gamelistDm.addList(res.data, true, 0);
+      if (gamelistDm.list.isNotEmpty) {
+        fun(0, gamelistDm.list.first);
+      }
     }).catchError((e) {
       flog(e, 'gamelistDm');
       gamelistDm.toError();
@@ -400,7 +348,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
   }
 
   void fun(i, data) {
-    widget.onTap!(data);
-    setState(() => seleIndex = i);
+    if (1 != 1) {
+      widget.onTap!({'id': ''});
+      setState(() => seleIndex = null);
+    } else {
+      widget.onTap!(data);
+      setState(() => seleIndex = i);
+    }
   }
 }
