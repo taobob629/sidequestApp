@@ -191,34 +191,32 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
           flog(data, 'superlist');
+          var signature = data['signature'];
+          var levelName = data['levelName'];
           return PWidget.container(
             Stack(children: [
               PWidget.container(
                 PWidget.row([
-                  PWidget.container(
-                    CachedNetworkImage(
-                      imageUrl: data['thumb'],
-                      fit: BoxFit.cover,
-                      width: 74,
-                      height: 74,
+                  if (data['thumb'] == null || data['thumb'] == '')
+                    defaultAvatar()
+                  else
+                    PWidget.container(
+                      CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
+                      {'crr': 8},
                     ),
-                    {'crr': 8},
-                  ),
                   PWidget.boxw(8),
                   PWidget.column([
                     PWidget.row([
                       Flexible(child: PWidget.text('${data['name']}', [Colors.white, 14, true]), fit: FlexFit.loose),
-                      PWidget.boxw(4),
-                      SexAndAgeWidget(
-                        age: '1',
-                        // age: '${data.age}',
-                        sex: '1',
-                        // sex: '${data.sex}',
-                      ),
+                      PWidget.boxw(8),
+                      PlayLevelWidget(level: '${data['userLevel']}'),
+                      PWidget.boxw(8),
+                      SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
                     ]),
-                    PWidget.boxh(8),
-                    PWidget.text(data['signature'] ?? '我擅长英雄联盟以及永劫无间，请找我吧~', [Colors.white54, 12]),
-                    PWidget.boxh(8),
+                    if (signature != null && signature != '') PWidget.boxh(8),
+                    if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
+                    if (levelName != null && levelName != '') PWidget.boxh(8),
+                    if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
                     Builder(builder: (context) {
                       var list = (data['label'] ?? []) as List;
                       return Wrap(
@@ -262,6 +260,20 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         },
       ),
     ]);
+  }
+
+  Widget defaultAvatar() {
+    return Container(
+      width: 76,
+      height: 76,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          image: DecorationImage(
+            image: AssetImage("assets/images/default_logo.webp"),
+            fit: BoxFit.cover,
+          )),
+    );
   }
 
   @override

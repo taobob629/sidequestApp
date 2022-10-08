@@ -32,9 +32,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   TextEditingController userNameCon = TextEditingController();
   int? sex;
   var sexList = [
-    {'name': '保密', 'value': 0},
-    {'name': '男', 'value': 1},
-    {'name': '女', 'value': 2},
+    // {'name': '保密', 'value': 0},
+    {'name': 'Male', 'value': 1},
+    {'name': 'Female', 'value': 2},
   ];
   var avatar;
 
@@ -127,7 +127,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
-            "sex": sex,
+            "sex": sexList[sex!-1]['value'],
           };
           EasyLoading.show();
           await http.post('/peiwan/app/user/setUserinfo', data: data).then((v) {
@@ -170,18 +170,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           height: 80,
           child: Stack(
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.white54,
-                radius: 40,
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: ClipOval(
-                    child: avatar == null
-                        ? Icon(Icons.person, size: 70, color: Colors.black38)
-                        : CachedNetworkImage(
-                            imageUrl: avatar,
-                            fit: BoxFit.cover,
-                          ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white54,
+                  radius: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: avatar == null ? Icon(Icons.person, size: 70, color: Colors.black38) : CachedNetworkImage(imageUrl: avatar, fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -252,7 +248,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         PWidget.row([
           PWidget.text('Sex', [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(sex == null ? 'Please select' : sexList[sex!-1]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
@@ -266,7 +262,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             ),
             barrierColor: Colors.black26,
           );
-          if (res != null) setState(() => sex = int.parse(res.name));
+          if (res != null) setState(() => sex = int.parse(res.name)+1);
         },
       ),
       PWidget.boxh(16),
@@ -366,16 +362,41 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
     if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
     return PWidget.container(
       PWidget.row([
-        PWidget.icon(isFemale?Icons.female_rounded:Icons.male_rounded, [Colors.white,14]),
+        PWidget.icon(isFemale ? Icons.female_rounded : Icons.male_rounded, [Colors.white, 12]),
         PWidget.boxw(2),
-        PWidget.text(widget.age, [Colors.white, 12]),
+        PWidget.text(widget.age, [Colors.white, 10]),
       ], '220'),
       [null, null, Colors.black],
       {
         'gd': gd,
-        'pd': PFun.lg(2, 2, 4, 8),
+        'pd': PFun.lg(2, 2, 4, 4),
         'br': 56,
       },
+    );
+  }
+}
+
+// 游戏级别
+class PlayLevelWidget extends StatefulWidget {
+  final String level;
+  const PlayLevelWidget({Key? key, this.level = '1'}) : super(key: key);
+  @override
+  _PlayLevelWidgetState createState() => _PlayLevelWidgetState();
+}
+
+class _PlayLevelWidgetState extends State<PlayLevelWidget> {
+  var levelMap = {
+    '1': 'assets/images/play/level_1.png',
+    '2': 'assets/images/play/level_2.png',
+    '3': 'assets/images/play/level_3.png',
+    '4': 'assets/images/play/level_4.png',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return PWidget.image(
+      levelMap[widget.level] ?? 'assets/images/play/level_1.png',
+      [20, 20],
     );
   }
 }

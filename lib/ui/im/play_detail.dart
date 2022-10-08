@@ -315,13 +315,16 @@ class PlayDetail extends StatelessWidget {
               Wrap(
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 16,
+                  spacing: 12,
                   children: [
                     Text("${controller.detailModel.value.name}",
                         style: TextStyle(fontSize: 24, color: Colors.white)),
                     SexAndAgeWidget(
                       age: '${controller.detailModel.value.age}',
                       sex: '${controller.detailModel.value.sex}',
+                    ),
+                    PlayLevelWidget(
+                      level: '${controller.detailModel.value.userLevel}',
                     ),
                   ]),
               Row(
@@ -403,27 +406,27 @@ class PlayDetail extends StatelessWidget {
           SizedBox(height: 8),
           if(controller.detailModel.value.skills.length>2)
           PWidget.container(
-            Stack(children: [...List.generate(controller.detailModel.value.skills.length+1, (i) {
-                 if(i==0) return PWidget.container(
+            PWidget.row([
+              if(!controller.isExpand.value)
+              ...List.generate(controller.detailModel.value.skills.length.clamp(0, 5), (i) {
+                 var skill = controller.detailModel.value.skills[i];
+                 return CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover);
+                }),
+                PWidget.container(
                     PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54,20]),
                     [null, null, Colors.white12],
                     {'br': 56}
-                  );
-                i=i-1;
-                 var skill = controller.detailModel.value.skills[i];
-                 return PWidget.positioned(
-                    CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover),
-                    [null,null,null,8],
-                  );
-              })]
+                ),
+              ],'220'
             ),
             // PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
           [null, null, Colors.white10],
           {'fun': () {
             controller.isExpand.value=!controller.isExpand.value;
-          },'wali':PFun.lg(0,0),'pd': PFun.lg(4,4,8,8),'br': 56,
+          },'wali':PFun.lg(0,0),'pd':8,'br': 56,
           },
           ),
+          if(controller.detailModel.value.signature=='')
           SizedBox(height: 20,),
         ],
       ),
@@ -493,18 +496,30 @@ class PlayDetail extends StatelessWidget {
   }
 
   Widget _buildIntro(){
-    return Container(
+    return Obx((){
+      var signature = controller.detailModel.value.signature;
+      return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if(signature!='')
+          Divider(color: Colors.white10,height: 24),
+          if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
+          if(signature!='') Divider(color: Colors.white10,height: 24),
           Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
-          _introItem("Gender","Male"),
-          _introItem("Age","28"),
+          ////性别显示英文：Male，Female,other
+          _introItem("Gender","${{
+            '0':'other',
+            '1':'Male',
+            '2':'Female',
+          }[controller.detailModel.value.sex.toString()]}"),
+          _introItem("Age",controller.detailModel.value.age.toString()),
         ],
       ),
     );
+    });
   }
 
   Widget _introItem(String title, String value){

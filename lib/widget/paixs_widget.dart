@@ -330,7 +330,7 @@ class PWidget {
       list = [Colors.black, 14, false];
     }
     Widget view = MyText(
-      text,
+      text.replaceAll("", "\u200B"),
       color: list[0],
       size: isDataNull(() => list[1], 14),
       isBold: list.length > 2 ? list[2] : false,
