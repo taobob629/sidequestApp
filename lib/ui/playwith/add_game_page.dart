@@ -100,13 +100,14 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> config({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
       configDm.addObject(res.data);
-      var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
       var gameCoinMin = configDm.object?['gameCoinMin'];
       if (isEdit) {
-        priceRangeCon.text = '${coin<gameCoinMin?gameCoinMin:coin}';
+        var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
+        priceRangeCon.text = '${coin < gameCoinMin ? gameCoinMin : coin}';
       } else {
         priceRangeCon.text = '${configDm.object?['gameCoinMin']}';
       }
+      flog(priceRangeCon.text, 'priceRangeCon.text');
     }).catchError((e) {
       configDm.toError(e.toString());
     });
@@ -329,7 +330,8 @@ class _AddGamePageState extends State<AddGamePage> {
           PriceSlider(
             min: double.parse('${configDm.object?['gameCoinMin'] ?? '0.0'}'),
             max: double.parse('${configDm.object?['gameCoinMax'] ?? '0.0'}'),
-            value: double.parse('${priceRangeCon.text}'),
+            value: int.parse('${priceRangeCon.text}').toDouble(),
+            // key: UniqueKey(),
             fun: (v) => priceRangeCon.text = '${v.toInt()}',
           ),
           // PWidget.container(

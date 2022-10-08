@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -373,13 +374,26 @@ class PlayDetail extends StatelessWidget {
           SizedBox(height: 8),
           if(controller.detailModel.value.skills.length>2)
           PWidget.container(
-          PWidget.row([
-            PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54]),
-            PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
-          ],'221'),
+            Stack(children: [...List.generate(controller.detailModel.value.skills.length+1, (i) {
+                 if(i==0) return PWidget.container(
+                    PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54,20]),
+                    [null, null, Colors.white12],
+                    {'br': 56}
+                  );
+                i=i-1;
+                 var skill = controller.detailModel.value.skills[i];
+                 return PWidget.positioned(
+                    CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover),
+                    [null,null,null,8],
+                  );
+              })]
+            ),
+            // PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
+          [null, null, Colors.white10],
           {'fun': () {
             controller.isExpand.value=!controller.isExpand.value;
-          },},
+          },'wali':PFun.lg(0,0),'pd': PFun.lg(4,4,8,8),'br': 56,
+          },
           ),
           SizedBox(height: 20,),
         ],
@@ -410,7 +424,7 @@ class PlayDetail extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.network("${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover,),
+            CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover),
             SizedBox(width: 5),
             Expanded(
               child: Column(

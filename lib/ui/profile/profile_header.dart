@@ -180,7 +180,7 @@ class ProfileHeader extends StatelessWidget {
         //   )
         // );
         return CachedNetworkImage(
-          imageUrl: "${controller.userInfoModel.value.avatar}?imageMogr2/thumbnail/!10p",
+          imageUrl: "${controller.userInfoModel.value.avatar}",
           fit: BoxFit.cover,
           imageBuilder: (context,provider){
             return Container(
