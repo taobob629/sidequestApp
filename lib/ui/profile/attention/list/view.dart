@@ -29,8 +29,8 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
   }
 
   @override
-  AttentionListPageController get controller =>
-      GetInstance().find<AttentionListPageController>(tag: 'attention_${type}')!;
+  AttentionListPageController get controller => GetInstance()
+      .find<AttentionListPageController>(tag: 'attention_${type}')!;
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +45,21 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
               : controller.list.length == 0
                   ? Stack(
                       children: [
-                        Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: EmptyView())
                       ],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate:
-                                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                            return item(controller.list[index]);
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                            return item(index, controller.list[index]);
                           }, childCount: controller.list.length));
                         })
                       ],
@@ -62,7 +67,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
     );
   }
 
-  item(AttentionModel user) {
+  item(int index, AttentionModel user) {
     return ListTile(
       leading: CircleAvatar(
           backgroundColor: Colors.white,
@@ -88,16 +93,17 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
               ))),
       title: Row(
         children: [
-          Text(user.name ?? 'Unkown', style: TextStyle(color: Colors.white, fontSize: 15)),
+          Text(user.name ?? 'Unkown',
+              style: TextStyle(color: Colors.white, fontSize: 15)),
           PWidget.boxw(5),
-          CircleAvatar(
+          user.sex==0?Icon(Icons.male,color: Colors.white,size: 16,):   CircleAvatar(
               radius: 8,
-              backgroundColor: Color.fromRGBO(255, 149, 212, 1),
               child: Image(
                 fit: BoxFit.scaleDown,
-                image: AssetImage('assets/images/ic_female.webp'),
+                image: AssetImage(
+                    'assets/images/${user.sex == 0 ? 'ic_male' : 'ic_female'}.webp'),
                 height: 16,
-              )),
+              ))
         ],
       ),
       subtitle: Text(
@@ -105,11 +111,11 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
         style: TextStyle(color: Color.fromRGBO(88, 99, 126, 1), fontSize: 12),
         maxLines: 1,
       ),
-      trailing: button(user),
+      trailing: button(index, user),
     );
   }
 
-  button(AttentionModel user) {
+  button(int index, AttentionModel user) {
     //   int type = user.status ?? 0;
     if (type == TYPE_FOLLOW) {
       return MaterialButton(
@@ -119,7 +125,9 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
         child: Text(
           'Unfollow',
         ),
-        onPressed: () {},
+        onPressed: () {
+          controller.unfollow(index, user.id);
+        },
         shape: StadiumBorder(),
         height: 28,
       );
@@ -141,8 +149,9 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
             elevation: 0,
             minWidth: 60,
             color: Colors.transparent,
-            textColor:
-                user.status.value == BOTH_FOCUS ? Color.fromRGBO(130, 145, 180, 1) : Colors.white,
+            textColor: user.status.value == BOTH_FOCUS
+                ? Color.fromRGBO(130, 145, 180, 1)
+                : Colors.white,
             child: user.status.value == BOTH_FOCUS
                 ? Container(
                     width: 30,
@@ -155,7 +164,9 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
                 : Text(
                     'Follow',
                   ),
-            onPressed: () => user.status.value = BOTH_FOCUS,
+            onPressed: () {
+              controller.fanceFollow(index, user);
+            },
             height: 28,
           ),
         ));

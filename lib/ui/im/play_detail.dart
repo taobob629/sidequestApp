@@ -75,7 +75,7 @@ class PlayDetail extends StatelessWidget {
                         await Get.to(()=>PlayProfilePage());
                         controller.onReady();
                         return;
-                      }  
+                      }
                       Get.dialog(ConfirmDialog(
                         title: "Add Block List",
                         info: "Do you want to add this person to black list?",
@@ -190,7 +190,7 @@ class PlayDetail extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                     if (index == 0) {
-                      return buildInfo();
+                      return buildInfo(isMe);
                     }else if(index == 1){
                       return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames():Container());
                     }else if(index == 2){
@@ -303,41 +303,70 @@ class PlayDetail extends StatelessWidget {
     );
   }
 
-  Widget buildInfo(){
-    return Obx(()=>Container(
-      height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 16,
+  Widget buildInfo(bool isMe) {
+    return Obx(() => Container(
+          height: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${controller.detailModel.value.name}",style: TextStyle(fontSize: 24,color: Colors.white)),
-              SexAndAgeWidget(
-                age: '${controller.detailModel.value.age}',
-                sex: '${controller.detailModel.value.sex}',
-              ),
-            ]
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: ()=>Get.toNamed(AppPages.AttentionTab),
-                child: Text("Follows: ",style: TextStyle(fontSize: 12,color: Colors.white54),),),
-              Text("${controller.detailModel.value.follows}",style: TextStyle(fontSize: 16,color: Colors.white),),
-              SizedBox(width: 30,),
-              Text("Fans: ",style: TextStyle(fontSize: 12,color: Colors.white54),),
-              Text("${controller.detailModel.value.fans}",style: TextStyle(fontSize: 16,color: Colors.white),)
+              Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 16,
+                  children: [
+                    Text("${controller.detailModel.value.name}",
+                        style: TextStyle(fontSize: 24, color: Colors.white)),
+                    SexAndAgeWidget(
+                      age: '${controller.detailModel.value.age}',
+                      sex: '${controller.detailModel.value.sex}',
+                    ),
+                  ]),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () => isMe
+                        ? Get.toNamed(AppPages.AttentionTab,
+                            arguments: Map()..['index'] = 0)
+                        : null,
+                    child: Text(
+                      "Follows: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
+                  ),
+                  Text(
+                    "${controller.detailModel.value.follows}",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  InkWell(
+                    onTap: () => isMe
+                        ? Get.toNamed(AppPages.AttentionTab,
+                            arguments: Map()..['index'] = 1)
+                        : null,
+                    child: Text(
+                      "Fans: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
+                  ),
+                 InkWell(
+                   onTap: () => isMe
+                       ? Get.toNamed(AppPages.AttentionTab,
+                       arguments: Map()..['index'] = 1)
+                       : null,
+                   child:  Text(
+                   "${controller.detailModel.value.fans}",
+                   style: TextStyle(fontSize: 16, color: Colors.white),
+                 ),)
+                ],
+              )
             ],
-          )
-        ],
-      ),
-    ));
+          ),
+        ));
   }
 
   Widget _buildGames(){
@@ -351,7 +380,7 @@ class PlayDetail extends StatelessWidget {
         items = items.sublist(0,2);
       }
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(

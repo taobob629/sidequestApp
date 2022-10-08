@@ -5,6 +5,8 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/attention_model.dart';
@@ -28,8 +30,8 @@ class AttentionListPageController extends GetxRefreshController {
   Future<List<AttentionModel>> loadData({int pageNum = 0}) async {
     var list;
     //return [UserInfoModel()];
-    switch(type){
-      case  TYPE_FANS:
+    switch (type) {
+      case TYPE_FANS:
         list = await UserApi.fansList(pageNum, pageSize);
         break;
       case TYPE_FOLLOW:
@@ -38,5 +40,31 @@ class AttentionListPageController extends GetxRefreshController {
     }
     flog('user $list');
     return list;
+  }
+
+  Future<void> unfollow(int index, var id) async {
+    EasyLoading.show();
+    var response = await UserApi.attention(id);
+    if (response.statusCode == 200) {
+      EasyLoading.showSuccess('${response.statusMessage}');
+      list.removeAt(index);
+      list.refresh();
+      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FANS').refresh();
+    }
+  }
+
+  Future<void> fanceFollow(int index, AttentionModel user) async {
+    EasyLoading.show();
+    var response = await UserApi.attention(user.id);
+    if (response.statusCode == 200) {
+      EasyLoading.showSuccess('${response.statusMessage}');
+      if (user.status.value == BOTH_FOCUS) {
+        user.status.value = 0;
+      } else {
+        user.status.value = BOTH_FOCUS;
+      }
+      //更新follow列表
+      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FOLLOW').refresh();
+    }
   }
 }
