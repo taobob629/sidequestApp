@@ -15,5 +15,7 @@ class AttentionTabController extends GetxController with GetSingleTickerProvider
   @override
   void onInit() {
     super.onInit();
+    int index=Get.arguments['index']??0;
+    tabController.animateTo(index);
   }
 }
