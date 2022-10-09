@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/views.dart';
 
 class GradePage extends GetView<GradeController> {
   @override
@@ -20,7 +21,7 @@ class GradePage extends GetView<GradeController> {
           centerTitle: true,
           elevation: 0,
         ),
-        body: Column(
+        body:Obx(()=>controller.isLoadding?buildLoad(): Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Stack(
@@ -54,7 +55,7 @@ class GradePage extends GetView<GradeController> {
                               right: 0,
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Spacer(),
                                   Image(
@@ -105,7 +106,7 @@ class GradePage extends GetView<GradeController> {
               ],
             )
           ],
-        ),
+        )),
       );
 
   buildScoreItem(var title) {

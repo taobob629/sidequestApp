@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:wy/ui/profile/bankcard/controller.dart';
 import 'package:wy/utils/utils.dart';
+
+import 'controller.dart';
 
 /**
     bindiing
@@ -13,7 +14,6 @@ import 'package:wy/utils/utils.dart';
 class GradePageBinding extends Bindings {
   @override
   void dependencies() {
-    flog('dependencies');
-    Get.lazyPut(() => BindBankCardController());
+    Get.lazyPut(() => GradeController());
   }
 }
