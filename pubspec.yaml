@@ -115,6 +115,7 @@ flutter:
     - assets/data/city.json
     - assets/images/
     - assets/images/play/
+    - assets/images/grade/
 
   fonts:
     - family: iconfont
