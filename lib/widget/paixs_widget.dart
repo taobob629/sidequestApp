@@ -18,7 +18,7 @@ class PWidget {
   ///},
   ///),
   static PaixsContainer container(
-    Widget child, [
+    Widget? child, [
     dynamic list1,
     dynamic data1,
     Key? key,
@@ -330,7 +330,8 @@ class PWidget {
       list = [Colors.black, 14, false];
     }
     Widget view = MyText(
-      text.replaceAll("", "\u200B"),
+      // text.replaceAll("", "\u200B"),
+      text,
       color: list[0],
       size: isDataNull(() => list[1], 14),
       isBold: list.length > 2 ? list[2] : false,

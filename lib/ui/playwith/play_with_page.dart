@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -213,6 +214,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                       PWidget.boxw(8),
                       SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
                     ]),
+                    OrdersAndStarWidget(data),
                     if (signature != null && signature != '') PWidget.boxh(8),
                     if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
                     if (levelName != null && levelName != '') PWidget.boxh(8),
@@ -268,11 +270,12 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
       height: 76,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(
-            image: AssetImage("assets/images/default_logo.webp"),
-            fit: BoxFit.cover,
-          )),
+        borderRadius: BorderRadius.circular(8),
+        image: DecorationImage(
+          image: AssetImage("assets/images/default_logo.webp"),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 
