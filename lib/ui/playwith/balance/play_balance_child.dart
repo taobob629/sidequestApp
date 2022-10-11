@@ -66,16 +66,19 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       Obx(() => _buildChargeItems(context!)),
       Obx(
         () => ItemTitle(
-            title: "Other recharge amount",
+            title: '',
             subTitle: '',
             customSubTitle: Padding(
               padding: EdgeInsets.only(left: 10),
-              child: Row(
+              child:controller.iconByChargeRatio==0?Text(
+                "Other recharge amount",
+                style: TextStyle(color: Colors.white,fontSize: 18),
+              ): Row(
                 children: [
                   PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
                   Text(
                     " ${controller.iconByChargeRatio}",
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: Colors.yellow,fontSize: 18),
                   )
                 ],
               ),
@@ -256,6 +259,10 @@ class WalletBalancePageController extends GetxListController {
   }
 
   void dealIconChargeRatio() {
+    if(amountController.text.isBlank==true){
+      iconByChargeRatio=0;
+      return;
+    }
     double amount = double.parse(amountController.text);
     if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
