@@ -55,25 +55,33 @@ class GradePage extends GetView<GradeController> {
                                     bottom: 0,
                                     left: 0,
                                     right: 0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Spacer(),
-                                        Image(
-                                          image: AssetImage(
-                                              controller.curLevelImg()),
-                                          height: 32,
-                                        ),
-                                        Spacer(),
-                                        Image(
-                                          image: AssetImage(
-                                              controller.nextLevelImg()),
-                                          height: 32,
-                                        ),
-                                        Spacer()
-                                      ],
-                                    )),
+                                    child: controller.isTopLevel()
+                                        ? controller.isVip()
+                                            ? Container()
+                                            : Image(
+                                                image: AssetImage(
+                                                    controller.curLevelImg()),
+                                                height: 32,
+                                              )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Spacer(),
+                                              Image(
+                                                image: AssetImage(
+                                                    controller.curLevelImg()),
+                                                height: 32,
+                                              ),
+                                              Spacer(),
+                                              Image(
+                                                image: AssetImage(
+                                                    controller.nextLevelImg()),
+                                                height: 32,
+                                              ),
+                                              Spacer()
+                                            ],
+                                          )),
                                 Positioned(
                                   left: 10,
                                   right: 10,
@@ -97,22 +105,42 @@ class GradePage extends GetView<GradeController> {
                   PWidget.boxh(40),
                   PWidget.text(
                       'Current level', [Colors.white, 18, true], {'ff': 'DIN'}),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      buildScoreItem('recharge', controller.model.levelNum),
-                      buildScoreItem('consumption', controller.model.levelNum)
-                    ],
+                  Offstage(
+                      offstage: controller.isTopLevel() && controller.isVip(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: controller.isVip()
+                            ? [
+                                buildScoreItem(
+                                    'Order Quantity', controller.model.levelNum)
+                              ]
+                            : [
+                                buildScoreItem('Monthly recharge',
+                                    controller.model.levelNum),
+                                buildScoreItem('Monthly consumption',
+                                    controller.model.levelNum)
+                              ],
+                      )),
+                  Offstage(
+                    offstage: controller.isTopLevel() && controller.isVip(),
+                    child: nextLevelButton(),
                   ),
-                  nextLevelButton(),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      buildScoreItem('recharge', controller.model.nextLevelNum),
-                      buildScoreItem(
-                          'consumption', controller.model.nextLevelNum)
-                    ],
-                  )
+                  Offstage(
+                      offstage: controller.isTopLevel(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: controller.isVip()
+                            ? [
+                                buildScoreItem('Order Quantity',
+                                    controller.model.nextLevelNum)
+                              ]
+                            : [
+                                buildScoreItem('Monthly recharge',
+                                    controller.model.nextLevelNum),
+                                buildScoreItem('Monthly consumption',
+                                    controller.model.nextLevelNum)
+                              ],
+                      ))
                 ],
               )),
       );
@@ -123,25 +151,26 @@ class GradePage extends GetView<GradeController> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         PWidget.boxh(16),
-        PWidget.text(
-            'Monthly $title', [Color.fromRGBO(255, 255, 255, 0.65), 14, true]),
+        PWidget.text('$title', [Color.fromRGBO(255, 255, 255, 0.65), 14, true]),
         PWidget.boxh(8),
-        PWidget.text('£ $value', [Colors.white, 30, true], {'ff': 'DIN'}),
+        PWidget.text('$value', [Colors.white, 30, true], {'ff': 'DIN'}),
         PWidget.boxh(10),
       ],
     ));
   }
 
   nextLevelButton() {
-    return Column(
-      children: [
-        Image(
-          image: AssetImage('assets/images/grade/arrow_down.webp'),
-          height: 22,
-        ),
-        PWidget.boxh(22),
-        PWidget.text('Next Level', [Colors.white, 18, true], {'ff': 'DIN'})
-      ],
-    );
+    return Visibility(
+        visible: !controller.isTopLevel(),
+        child: Column(
+          children: [
+            Image(
+              image: AssetImage('assets/images/grade/arrow_down.webp'),
+              height: 22,
+            ),
+            PWidget.boxh(22),
+            PWidget.text('Next Level', [Colors.white, 18, true], {'ff': 'DIN'})
+          ],
+        ));
   }
 }

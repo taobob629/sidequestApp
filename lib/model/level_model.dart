@@ -10,7 +10,7 @@ class LevelModel {
     return LevelModel(
       levelNum: json['levelNum'],
       nextLevelNum: json['nextLevelNum'],
-      percent:double.parse(json['percent']) ,
+      percent:double.parse(json['percent'].toString()) ,
       userLevel: json['userLevel'],
     );
   }

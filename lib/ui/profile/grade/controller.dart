@@ -33,7 +33,7 @@ class GradeController extends GetxController {
 
   //获取等级数据
   initData() async {
-    model = await UserApi.level();
+    model = await UserApi.level(isauth);
     isLoadding = false;
   }
 
@@ -85,4 +85,13 @@ class GradeController extends GetxController {
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${model.userLevel+1}.webp';
   }
 
+ bool isTopLevel(){
+    if(isauth == TYPE_VIP){
+      return model.userLevel>=4;
+    }
+    return model.userLevel>=5;
+ }
+ bool isVip(){
+    return isauth == TYPE_VIP;
+ }
 }

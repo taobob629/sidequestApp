@@ -118,8 +118,8 @@ class UserApi {
   /**
    * 玩家爵位查询
    */
-  static Future<LevelModel>  level() async {
-    var response = await http.get('/peiwan/app/order/live/level',
+  static Future<LevelModel>  level(var type) async {
+    var response = await http.get(type==TYPE_VIP?'/peiwan/app/order/live/level':'/peiwan/app/order/user/level',
         queryParameters: ({}));
     return LevelModel.fromJson(response.data);
   }
