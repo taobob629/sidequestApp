@@ -344,9 +344,11 @@ class PlayDetail extends StatelessWidget {
                       age: '${controller.detailModel.value.age}',
                       sex: '${controller.detailModel.value.sex}',
                     ),
-                    PlayLevelWidget(
+                    InkWell(
+                      onTap: ()=>isMe?Get.toNamed(AppPages.Grade):null,
+                        child: PlayLevelWidget(
                       level: '${controller.detailModel.value.userLevel}',
-                    ),
+                    ),)
                   ]),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,

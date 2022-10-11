@@ -6,6 +6,7 @@ import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/ui/common/dialog_password.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
@@ -436,18 +437,17 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.showToast('Success');
     EasyLoading.dismiss();
   }
-
   /*
    * 提现
    *  post方法
-参数 ：
-name：用户昵称，可选
-card：银行卡号
-cardId:银行卡ID
-votes:金币数量
-voucherId：优惠券ID，若有
-withDrawalRatio：提现手续费比例
-chargeRatio：金币兑换比例
+    参数 ：
+    name：用户昵称，可选
+    card：银行卡号
+    cardId:银行卡ID
+    votes:金币数量
+    voucherId：优惠券ID，若有
+    withDrawalRatio：提现手续费比例
+    chargeRatio：金币兑换比例
    */
   Future<void> withDraw(String type) async {
     UserController userController = Get.find<UserController>();
@@ -466,7 +466,15 @@ chargeRatio：金币兑换比例
       EasyLoading.showInfo('Please enter an valid number smaller than $votesSum!');
       return;
     }
-    EasyLoading.show();
+    Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
+      if (value == true) {
+        await withdrawRequest(type, votes);
+      }
+    });
+  }
+
+  Future<void> withdrawRequest(String type, String votes) async {
+     EasyLoading.show();
     var response;
     if (type == 'withDraw') {
       if (selectedBank == null) {
