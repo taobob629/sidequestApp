@@ -258,7 +258,7 @@ class OrderDetail extends StatelessWidget {
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number","${controller.playOrderDetailModel.value.orderno}"),
           _infoItem("Service Time","${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.svctm))}"),
-          _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.nums > 1 ? 'Hours':'Hour'}"),
+          _infoItem("Service Duration","${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
             child: Row(

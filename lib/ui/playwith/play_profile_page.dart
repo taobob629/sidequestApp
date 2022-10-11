@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -32,9 +33,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   TextEditingController userNameCon = TextEditingController();
   int? sex;
   var sexList = [
-    {'name': '保密', 'value': 0},
-    {'name': '男', 'value': 1},
-    {'name': '女', 'value': 2},
+    // {'name': '保密', 'value': 0},
+    {'name': 'Male', 'value': 0},
+    {'name': 'Female', 'value': 1},
   ];
   var avatar;
 
@@ -73,6 +74,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       userNameCon.text = userinfoDm.object['userNickname'];
       avatar = userinfoDm.object['avatar'];
       sex = userinfoDm.object['sex'];
+      backgroundImage = userinfoDm.object['avatarThumb'];
       userinfoDm.setTime();
     }).catchError((e) {
       userinfoDm.toError(e.toString());
@@ -123,12 +125,15 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (avatar == null) return EasyLoading.showToast('Please upload your avatar');
           if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter personal profile');
+          if (backgroundImage == null) return EasyLoading.showToast('Please upload your background image');
           var data = {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
-            "sex": sex,
+            "sex": sexList[sex!]['value'],
           };
+          flog(data);
+          // return;
           EasyLoading.show();
           await http.post('/peiwan/app/user/setUserinfo', data: data).then((v) {
             EasyLoading.dismiss();
@@ -170,18 +175,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           height: 80,
           child: Stack(
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.white54,
-                radius: 40,
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: ClipOval(
-                    child: avatar == null
-                        ? Icon(Icons.person, size: 70, color: Colors.black38)
-                        : CachedNetworkImage(
-                            imageUrl: avatar,
-                            fit: BoxFit.cover,
-                          ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white54,
+                  radius: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: avatar == null ? Icon(Icons.person, size: 70, color: Colors.black38) : CachedNetworkImage(imageUrl: avatar, fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -209,8 +210,75 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     return [
       _buildAvatarEdit(),
       gameMaterialsView(),
+      backgroundImageView(),
       iDPhotoView(),
     ];
+  }
+
+  var backgroundImage;
+
+  ///背景图像
+  Widget backgroundImageView() {
+    return PWidget.column([
+      PWidget.text('Background image', [Colors.white, 20], {'ff': 'DIN'}),
+      GridView.builder(
+        padding: EdgeInsets.only(top: 16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 13,
+          mainAxisSpacing: 13,
+        ),
+        itemCount: 1,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (_, i) {
+          if (backgroundImage != null) {
+            return PWidget.container(
+              Stack(children: [
+                Positioned.fill(child: CachedNetworkImage(imageUrl: backgroundImage, fit: BoxFit.cover)),
+                Positioned.fill(child: Container(color: Colors.black54)),
+                PWidget.positioned(
+                  PWidget.icon(
+                    Icons.highlight_remove_rounded,
+                    [Colors.white],
+                    {
+                      'pd': 8,
+                      'fun': () async {
+                        setState(() => backgroundImage = null);
+                      }
+                    },
+                  ),
+                  [0, null, null, 0],
+                ),
+              ]),
+              {'crr': 16},
+            );
+          }
+          return PWidget.container(
+            PWidget.image('assets/images/paly_add.png', [32, 32]),
+            [null, null, Color(0xff282640)],
+            {
+              'crr': 16,
+              'pd': 16,
+              'ali': PFun.lg(0, 0),
+              'fun': () async {
+                var url = await this.selectAvatar(context!);
+                if (url != null) {
+                  setState(() => backgroundImage = url);
+                  EasyLoading.show();
+                  await http.post('/peiwan/app/user/setUserBackGround', data: {"avatarThumb": backgroundImage}).then((v) {
+                    EasyLoading.dismiss();
+                  }).catchError((e) {
+                    EasyLoading.dismiss();
+                    EasyLoading.showToast('Network exception');
+                  });
+                }
+              }
+            },
+          );
+        },
+      ),
+    ]);
   }
 
   Future<dynamic> selectAvatar(BuildContext context) async {
@@ -285,7 +353,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('Personal Photo', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Personal Photo(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -293,7 +361,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: 9,
+        itemCount: gamePhotos.length == 20 ? gamePhotos.length : gamePhotos.length + 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
@@ -361,21 +429,91 @@ class SexAndAgeWidget extends StatefulWidget {
 class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
   @override
   Widget build(BuildContext context) {
-    var isFemale = widget.sex == '2';
+    var isFemale = widget.sex == '1';
     var gd = PFun.tl2brGd(Color(0xff9DBDFD), Color(0xff76A3FD));
     if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
     return PWidget.container(
       PWidget.row([
-        PWidget.icon(isFemale?Icons.female_rounded:Icons.male_rounded, [Colors.white,14]),
+        PWidget.icon(isFemale ? Icons.female_rounded : Icons.male_rounded, [Colors.white, 12]),
         PWidget.boxw(2),
-        PWidget.text(widget.age, [Colors.white, 12]),
+        PWidget.text(widget.age, [Colors.white, 10]),
       ], '220'),
       [null, null, Colors.black],
       {
         'gd': gd,
-        'pd': PFun.lg(2, 2, 4, 8),
+        'pd': PFun.lg(2, 2, 4, 4),
         'br': 56,
       },
+    );
+  }
+}
+
+// 游戏级别
+class PlayLevelWidget extends StatefulWidget {
+  final String level;
+  const PlayLevelWidget({Key? key, this.level = '1'}) : super(key: key);
+  @override
+  _PlayLevelWidgetState createState() => _PlayLevelWidgetState();
+}
+
+class _PlayLevelWidgetState extends State<PlayLevelWidget> {
+  var levelMap = {
+    '1': 'assets/images/play/level_1.png',
+    '2': 'assets/images/play/level_2.png',
+    '3': 'assets/images/play/level_3.png',
+    '4': 'assets/images/play/level_4.png',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(alignment: Alignment.bottomRight, children: [
+      PWidget.image(
+        levelMap[widget.level] ?? 'assets/images/play/level_1.png',
+      ),
+      PWidget.container(
+        PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
+        [10, 10, Color(0xffefbd6d)],
+      ),
+    ]);
+  }
+}
+
+///接单数和评分
+class OrdersAndStarWidget extends StatefulWidget {
+  final Map data;
+  final Color? bgColor;
+  final Color? tColor;
+  final bool? isTran;
+  const OrdersAndStarWidget(this.data, {Key? key, this.bgColor, this.tColor, this.isTran = false}) : super(key: key);
+  @override
+  _OrdersAndStarWidgetState createState() => _OrdersAndStarWidgetState();
+}
+
+class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return PWidget.container(
+      PWidget.row([
+        PWidget.container(
+          PWidget.text('接单数:', [Colors.white70, 12]),
+          [null, null, widget.isTran! ? Colors.transparent : Colors.white10],
+          {'pd': PFun.lg(2, 2, 8, 4)},
+        ),
+        PWidget.text('${widget.data['orders']}', [widget.tColor ?? Colors.white70, 12], {'pd': PFun.lg(0, 0, 8, 8)}),
+        FFStars(
+          normalStar: Image.asset("assets/images/play/score0.png"),
+          selectedStar: Image.asset("assets/images/play/score1.png"),
+          justShow: true,
+          step: 0.01,
+          defaultStars: widget.data['star'],
+          starHeight: 10,
+          starWidth: 10,
+          starMargin: 0,
+        ),
+        PWidget.boxw(8),
+      ], '220'),
+      [null, null, widget.bgColor ?? Color(0xff444264)],
+      {'crr': 56, 'mg': PFun.lg(8)},
     );
   }
 }

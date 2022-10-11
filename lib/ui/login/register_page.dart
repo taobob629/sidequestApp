@@ -157,8 +157,8 @@ class RegisterPage extends StatelessWidget {
         Text("Male",style: TextStyle(color: Colors.white,fontSize: 14),),
         Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
         Text("Female",style: TextStyle(color: Colors.white,fontSize: 14),),
-        Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
-        Text("Others",style: TextStyle(color: Colors.white,fontSize: 14),),
+        // Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
+        // Text("Others",style: TextStyle(color: Colors.white,fontSize: 14),),
       ],
     ));
     list.add(SizedBox(height: 10,));

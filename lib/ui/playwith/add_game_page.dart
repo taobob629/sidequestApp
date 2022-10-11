@@ -251,6 +251,7 @@ class _AddGamePageState extends State<AddGamePage> {
             setState(() {
               platformIndex = int.parse(res.name);
               platform = skillDm.list[platformIndex];
+              configDm.object?.clear();
               gameIndex = null;
               game = null;
               gameLvIndex = null;
@@ -331,7 +332,6 @@ class _AddGamePageState extends State<AddGamePage> {
             min: double.parse('${configDm.object?['gameCoinMin'] ?? '0.0'}'),
             max: double.parse('${configDm.object?['gameCoinMax'] ?? '0.0'}'),
             value: int.parse('${priceRangeCon.text}').toDouble(),
-            // key: UniqueKey(),
             fun: (v) => priceRangeCon.text = '${v.toInt()}',
           ),
           // PWidget.container(
@@ -479,7 +479,7 @@ class _PriceSliderState extends State<PriceSlider> {
         values: [value],
         max: widget.max!,
         min: widget.min!,
-        handlerWidth: 40,
+        handlerWidth: 80,
         trackBar: FlutterSliderTrackBar(
           inactiveTrackBar: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
           activeTrackBar: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),

@@ -106,7 +106,7 @@ mixin CupertinoRouteTransitionMixin<T> on p.PageRoute<T> {
   Duration get transitionDuration => Duration(milliseconds: RouteState.routeAnimationTime);
 
   @override
-  Color get barrierColor => Colors.black54;
+  Color get barrierColor => Colors.transparent;
 
   @override
   String get barrierLabel => '';

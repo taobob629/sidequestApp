@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -7,17 +8,24 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/game_comment.dart';
+import 'package:wy/ui/playwith/photo_wall_widget.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
+import 'package:wy/widget/my_bouncing_scroll_physics.dart';
+import 'package:wy/widget/my_custom_scroll.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/photo_widget.dart';
 
 import '../../api/im_api.dart';
 import '../../config/app_color.dart';
@@ -55,6 +63,7 @@ class PlayDetail extends StatelessWidget {
           backgroundColor: AppColor.background,
           body: CustomScrollView(
             controller: controller.scrollController,
+            physics: MyBouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 elevation: 0,
@@ -70,31 +79,41 @@ class PlayDetail extends StatelessWidget {
                   );
                 }),
                 actions: [
-                  GestureDetector(
-                    onTap: () async {
-                      if(isMe){
-                        await Get.to(()=>PlayProfilePage());
-                        controller.onReady();
-                        return;
-                      }
-                      Get.dialog(ConfirmDialog(
-                        title: "Add Block List",
-                        info: "Do you want to add this person to black list?",
-                        confirmBtn: "CONFIRM",
-                        onConfirm: () async {
-                          EasyLoading.show();
-                          var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
-                          List<String> userIDList = [];
-                          userIDList.add(userId);
-                          await friendshipManager.addToBlackList(userIDList: userIDList);
-                          EasyLoading.dismiss();
-                          Get.back();
-                        },
-                      ),barrierColor: Colors.black26);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
-                      child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
+                  if(isMe)
+                  Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        if(isMe){
+                          await Get.to(()=>PlayProfilePage());
+                          controller.onReady();
+                          return;
+                        }
+                        Get.dialog(ConfirmDialog(
+                          title: "Add Block List",
+                          info: "Do you want to add this person to black list?",
+                          confirmBtn: "CONFIRM",
+                          onConfirm: () async {
+                            EasyLoading.show();
+                            var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
+                            List<String> userIDList = [];
+                            userIDList.add(userId);
+                            await friendshipManager.addToBlackList(userIDList: userIDList);
+                            EasyLoading.dismiss();
+                            Get.back();
+                          },
+                        ),barrierColor: Colors.black26);
+                      },
+                      child: Container(
+                        height: 32,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(56),
+                        ),
+                        child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
+                      ),
                     ),
                   )
                 ],
@@ -107,23 +126,25 @@ class PlayDetail extends StatelessWidget {
                         right: 0,
                         bottom: 1,
                         top: 0,
-                        child: Obx(()=>controller.detailModel.value.imageList.length == 0 ? Container(): Swiper(
-                          autoplay: true,
+                        child: Obx(()=>controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
                           autoplayDelay: 5000,
                           duration: 500,
                           itemBuilder: (BuildContext context, int index) {
-                            String url = controller.detailModel.value.imageList[index];
-                            return CachedNetworkImage(
-                              imageUrl: url,
-                              fit: BoxFit.cover,
+                            String url = controller.detailModel.value.avatarThumb;
+                            return GestureDetector(
+                              onTap: ()=> Get.to(()=>PhotoView(images: [url],index: 0)),
+                              child: CachedNetworkImage(
+                                imageUrl: url,
+                                fit: BoxFit.cover,
+                              ),
                             );
                           },
-                          physics: PagePhysics(),
-                          itemCount: controller.detailModel.value.imageList.length,
-                          pagination: SwiperPagination(
-                            alignment: Alignment.bottomCenter,
-                            margin: const EdgeInsets.only(bottom: 50)
-                          ),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 1,
+                          // pagination: SwiperPagination(
+                          //   alignment: Alignment.bottomCenter,
+                          //   margin: const EdgeInsets.only(bottom: 50)
+                          // ),
                           onTap: (index) {},
                         )),
                       ),
@@ -178,7 +199,7 @@ class PlayDetail extends StatelessWidget {
                                     ))
                                   )
                                 ),
-                              )
+                              ),
                             ],
                           )
                         )
@@ -315,13 +336,16 @@ class PlayDetail extends StatelessWidget {
               Wrap(
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 16,
+                  spacing: 12,
                   children: [
                     Text("${controller.detailModel.value.name}",
                         style: TextStyle(fontSize: 24, color: Colors.white)),
                     SexAndAgeWidget(
                       age: '${controller.detailModel.value.age}',
                       sex: '${controller.detailModel.value.sex}',
+                    ),
+                    PlayLevelWidget(
+                      level: '${controller.detailModel.value.userLevel}',
                     ),
                   ]),
               Row(
@@ -373,9 +397,10 @@ class PlayDetail extends StatelessWidget {
   Widget _buildGames(){
     return Obx((){
       List<Widget> items = [];
-    controller.detailModel.value.skills.forEach((element) {
-      items.add(_buildGame(element));
-    });
+      for (var i = 0; i < controller.detailModel.value.skills.length; i++) {
+      items.add(_buildGame(controller.detailModel.value.skills[i],i));
+        
+      }
     if(controller.detailModel.value.skills.length>2){
       if(!controller.isExpand.value){
         items = items.sublist(0,2);
@@ -403,27 +428,28 @@ class PlayDetail extends StatelessWidget {
           SizedBox(height: 8),
           if(controller.detailModel.value.skills.length>2)
           PWidget.container(
-            Stack(children: [...List.generate(controller.detailModel.value.skills.length+1, (i) {
-                 if(i==0) return PWidget.container(
+            PWidget.row([
+              if(!controller.isExpand.value)
+              ...List.generate(controller.detailModel.value.skills.length.clamp(0, 7), (i) {
+                if(i<=1)return SizedBox();
+                 var skill = controller.detailModel.value.skills[i];
+                 return CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover);
+                }),
+                PWidget.container(
                     PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54,20]),
                     [null, null, Colors.white12],
                     {'br': 56}
-                  );
-                i=i-1;
-                 var skill = controller.detailModel.value.skills[i];
-                 return PWidget.positioned(
-                    CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover),
-                    [null,null,null,8],
-                  );
-              })]
+                ),
+              ],'220'
             ),
             // PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
           [null, null, Colors.white10],
           {'fun': () {
             controller.isExpand.value=!controller.isExpand.value;
-          },'wali':PFun.lg(0,0),'pd': PFun.lg(4,4,8,8),'br': 56,
+          },'wali':PFun.lg(0,0),'pd':8,'br': 56,
           },
           ),
+          if(controller.detailModel.value.signature=='')
           SizedBox(height: 20,),
         ],
       ),
@@ -431,7 +457,7 @@ class PlayDetail extends StatelessWidget {
     });
   }
 
-  Widget _buildGame(SkillModel skillModel){
+  Widget _buildGame(SkillModel skillModel,int i){
     var isOpen = skillModel.wswitch==1;
     return GestureDetector(
       onTap: () async {
@@ -443,68 +469,128 @@ class PlayDetail extends StatelessWidget {
         Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
         }
       },
-      child: Container(
-        height: 80,
-        padding: const EdgeInsets.all(7),
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color:skillModel.wswitch==0?Colors.white12: Color(0xFF7D00FF)
-        ),
-        child: Row(
-          children: [
-            CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover),
-            SizedBox(width: 5),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
-                  Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
-                      SizedBox(width: 5,),
-                      Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                      Text(" / Hour",style: TextStyle(color: Colors.white,fontSize: 12),),
-                    ],
-                  )
-                ],
-              ),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            height: 124,
+            decoration: BoxDecoration(
+              color:skillModel.wswitch==0?Colors.white12: Color(0xFF7D00FF)
             ),
-            SizedBox(width: 5),
-            if(isOpen||isMe)
-            ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 2),
-                child: Text(
-                 isMe?"Edit": "Order",
-                  style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
+            child: Stack(
+              children: [
+                // Positioned.fill(left: -2,right: -2,top: -2,bottom: -2, child: CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: double.infinity,fit: BoxFit.cover,alignment: Alignment.bottomCenter)),
+                if(isOpen) Positioned.fill(child: CachedNetworkImage(imageUrl: "${skillModel.background}",fit: BoxFit.cover)),
+                // BackdropFilter(filter: ImageFilter.blur(sigmaX: 8,sigmaY: 8),child: Container(
+                // color: Color(0x007400FF),
+                // ),),
+                // Positioned.fill(child: PWidget.container(PWidget.boxh(0), {'gd': [
+                //   PFun.cl2crGd(Color(0xff7400FF), Color(0xff7400FF).withOpacity(0)),
+                //   PFun.cl2crGd(Color(0xFFFF4400), Color(0xFFFF4400).withOpacity(0)),
+                // ][i%2]})),
+                Column(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SizedBox(width: 8),
+                          CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
+                                Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
+                                    SizedBox(width: 5,),
+                                    Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                                    Text(" / ${skillModel.unit}",style: TextStyle(color: Colors.white,fontSize: 12),),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          if(isOpen||isMe)
+                           ColorfulButton(
+                             child: Padding(
+                               padding: const EdgeInsets.only(left: 20,right: 20,top: 2),
+                               child: Text(
+                               isMe?"Edit": "Order",
+                                 style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
+                               ),
+                             ),
+                             height: 30,
+                           ),
+                           SizedBox(height: 8),
+                          SizedBox(width: 8),
+                        ],
+                      ),
+                    ),
+                    PWidget.container(
+                    PWidget.row([
+                        OrdersAndStarWidget({
+                           ///controller.detailModel.value
+                           'orders':skillModel.orders,
+                           'star':skillModel.star,
+                        },bgColor: Colors.transparent,isTran: true),
+                      PWidget.text('More',[Colors.white70]),
+                      ],'231'),
+                    {'pd':PFun.lg(0,8,8,8),'fun': () {
+                      Get.to(()=>GameComment(skillModel,'${controller.detailModel.value.userId}'));
+                    },},
+                    ),
+                  ],
                 ),
-              ),
-              height: 30,
-            )
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildIntro(){
-    return Container(
+    return Obx((){
+      var signature = controller.detailModel.value.signature;
+      return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if(signature!='')
+          Divider(color: Colors.white10,height: 24),
+          if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
+          if(signature!='') Divider(color: Colors.white10,height: 24),
           Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
-          _introItem("Gender","Male"),
-          _introItem("Age","28"),
+          ////性别显示英文：Male，Female,other
+          _introItem("Gender","${{
+            '0':'Male',
+            '1':'Female',
+          }[controller.detailModel.value.sex.toString()]}"),
+          _introItem("Age",controller.detailModel.value.age.toString()),
+          if(controller.detailModel.value.imageList.isNotEmpty)
+          SizedBox(height: 16),
+          if(controller.detailModel.value.imageList.isNotEmpty)
+          PWidget.row([
+            PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
+            PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':(){
+              Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
+            }}),
+          ]),
+          if(controller.detailModel.value.imageList.isNotEmpty)
+          PhotoWallWidget(controller.detailModel.value.imageList),
         ],
       ),
     );
+    });
   }
 
   Widget _introItem(String title, String value){

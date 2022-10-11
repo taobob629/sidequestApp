@@ -3,6 +3,7 @@
 class PlayOrderDetailModel {
   late String icon = "";
   late String gameName = "";
+  late String unit = "";
   late int orderId = 0;
   late int fromUid = 0;
   late int toUid = 0;
@@ -25,6 +26,7 @@ class PlayOrderDetailModel {
     fromUid = json['order']['uid'] ?? 0;
     toUid = json['order']['liveuid'] ?? 0;
     nums = json['order']['nums'] ?? 0;
+    unit = json['order']['unit'] ?? "";
     total = json['order']['total'] ?? 0;
     status = json['order']['status'] ?? 0;
     orderno = json['order']['orderno'] ?? 0;

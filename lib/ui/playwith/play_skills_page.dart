@@ -41,24 +41,23 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
           if (res != null) setState(() => key = UniqueKey());
         },
       ),
-      body: TabWidget(
-        isScrollable: false,
-        indicator: null,
-        indicatorSize: TabBarIndicatorSize.tab,
-        tabList: ['通过', '审核中', '拒绝'],
-        tabPage: [PlaySkillsChild(1), PlaySkillsChild(0), PlaySkillsChild(2)],
-        // tabList: ['审核中', '通过', '拒绝'],
-        // tabPage: [PlaySkillsChild(0), PlaySkillsChild(1), PlaySkillsChild(2)],
-        key: key,
-      ),
+      body: PlaySkillsChild(key: key),
+      // body: TabWidget(
+      //   isScrollable: false,
+      //   indicator: null,
+      //   indicatorSize: TabBarIndicatorSize.tab,
+      //   tabList: ['通过', '审核中', '拒绝'],
+      //   tabPage: [PlaySkillsChild(1), PlaySkillsChild(0), PlaySkillsChild(2)],
+      //   // tabList: ['审核中', '通过', '拒绝'],
+      //   // tabPage: [PlaySkillsChild(0), PlaySkillsChild(1), PlaySkillsChild(2)],
+      //   key: key,
+      // ),
     );
   }
 }
 
 class PlaySkillsChild extends StatefulWidget {
-  final int status;
-
-  const PlaySkillsChild(this.status, {Key? key}) : super(key: key);
+  const PlaySkillsChild({Key? key}) : super(key: key);
   @override
   _PlaySkillsChildState createState() => _PlaySkillsChildState();
 }
@@ -78,8 +77,8 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
   ///技能列表
   var authlistDm = DataModel();
   Future<int> authlist({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/user/authlist?pageSize=10&pageNum=$page&status=${widget.status}').then((res) async {
-      authlistDm.addList(res.data['rows'], isRef, res.data['total']);
+    await http.get('/peiwan/app/user/myauthlist').then((res) async {
+      authlistDm.addList(res.data, isRef, 0);
     }).catchError((e) {
       authlistDm.toError(e.toString());
     });
@@ -96,13 +95,13 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
       errorOnTap: () => this.authlist(isRef: true),
       listBuilder: (list, p, h) {
         return MyCustomScroll(
-          isShuaxin: true,
-          isGengduo: h,
+          isShuaxin: false,
+          isGengduo: false,
           itemModel: authlistDm,
           btmWidget: PWidget.text('No more', [Colors.white54], {'ct': true, 'pd': 8}),
           touchBottomAnimationValue: 0.1,
-          onRefresh: () => this.authlist(isRef: true),
-          onLoading: (p) => this.authlist(page: p),
+          // onRefresh: () => this.authlist(isRef: true),
+          // onLoading: (p) => this.authlist(page: p),
           itemPadding: EdgeInsets.all(12),
           itemCount: list.length,
           crossAxisCount: 1,
@@ -113,64 +112,33 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
             return PWidget.row([
               CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover, width: 64, height: 64),
               PWidget.boxw(8),
-              PWidget.text('${data['skillName']}', [Colors.white], {'exp': true}),
-              if (widget.status == 1)
-                PWidget.text('编辑', [
-                  Colors.white
+              PWidget.column([
+                PWidget.text('${data['skillName']}', [Colors.white, 16, true]),
+                PWidget.boxh(4),
+                PWidget.text('${data['levelName']}', [Colors.white54, 12]),
+              ], {
+                'exp': 1
+              }),
+              PWidget.container(
+                PWidget.text({'2': 'reject', '0': 'under review', '1': 'edit'}['${data['status']}'], [
+                  {'2': Colors.white24, '0': Colors.white24, '1': Colors.black.withOpacity(0.75)}['${data['status']}'],
+                  16,
                 ], {
-                  'pd': 8,
-                  'fun': () => jumpPage(AddGamePage(data), callback: (res) {
+                  'pd': PFun.lg(4, 4, 12, 12),
+                  'fun': () {
+                    if ([1, 2].contains(data['status']))
+                      return jumpPage(AddGamePage(data), callback: (res) {
                         if (res != null) this.authlist(isRef: true);
-                      })
-                }),
-              // Transform.scale(
-              //   scale: 0.8,
-              //   child: CupertinoSwitch(
-              //     value: data['wswitch'] == 1,
-              //     thumbColor: Colors.white,
-              //     trackColor: Colors.white24,
-              //     onChanged: (v) async {
-              //       setState(() => data['wswitch'] = (v ? 1 : 0));
-              //       var jsonData = {"skillid": data['skillid'], "wswitch": data['wswitch']};
-              //       flog(jsonData);
-              //       await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
-              //         setState(() => data['wswitch'] = (!v ? 1 : 0));
-              //         EasyLoading.showToast('Network exception');
-              //       });
-              //     },
-              //   ),
-              // ),
-              PWidget.boxh(8),
-            ]);
-            return PWidget.ccolumn([
-              AspectRatio(
-                aspectRatio: 1 / 1,
-                child: PWidget.container(
-                  CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover),
-                  // {'crr': 8},
-                ),
-              ),
-              PWidget.boxh(8),
-              PWidget.text('${data['skillName']}', [Colors.white70, 12]),
-              if (widget.status == 1)
-                Transform.scale(
-                  scale: 0.8,
-                  child: CupertinoSwitch(
-                    value: data['wswitch'] == 1,
-                    thumbColor: Colors.white,
-                    trackColor: Colors.white24,
-                    onChanged: (v) async {
-                      setState(() => data['wswitch'] = (v ? 1 : 0));
-                      var jsonData = {"skillid": data['skillid'], "wswitch": data['wswitch']};
-                      flog(jsonData);
-                      await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
-                        setState(() => data['wswitch'] = (!v ? 1 : 0));
-                        EasyLoading.showToast('Network exception');
                       });
-                    },
-                  ),
-                ),
-              PWidget.boxh(8),
+                  }
+                }),
+                [
+                  null,
+                  null,
+                  {'2': Colors.white.withOpacity(0.1), '0': Colors.white.withOpacity(0.1), '1': Colors.white}['${data['status']}']
+                ],
+                {'br': 56},
+              ),
             ]);
           },
         );

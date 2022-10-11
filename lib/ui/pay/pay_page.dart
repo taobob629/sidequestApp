@@ -6,8 +6,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/credit_card_model.dart';
+import 'package:wy/model/data_model.dart';
 import 'package:wy/model/db_model.dart';
 import 'package:wy/model/pay_info_model.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -72,7 +74,7 @@ class PayPage extends StatelessWidget {
                     children: [
                       Image.asset("assets/images/ic_balance_money.webp",width: 14,height: 14,),
                       SizedBox(width: 5,),
-                      Text("${userController.userInfoModel.value.coin}",style: TextStyle(color: Colors.white,fontSize: 14),)
+                      Text("${controller.coin.value}",style: TextStyle(color: Colors.white,fontSize: 14),)
                     ],
                   )
                 )
@@ -329,7 +331,7 @@ class PayPageController extends GetxController {
   @override
   void onInit() async{
     super.onInit();
-
+    this.getCoin();
     List<AddressModel> list = await AddressApi.list();
     if(list.length > 0) {
       try {
@@ -352,6 +354,16 @@ class PayPageController extends GetxController {
     super.onReady();
 
     print("apple pay:: ${Stripe.instance.isApplePaySupported.value}");
+  }
+
+  ///硬币
+  var coin = 0.obs;
+  Future<int> getCoin() async {
+    await http.get('/peiwan/app/user/getCoin').then((res) async {
+      coin.value = res.data['coin'];
+    }).catchError((e) {
+    });
+    return coin.value;
   }
 
   Future<void> havePassword()async{
