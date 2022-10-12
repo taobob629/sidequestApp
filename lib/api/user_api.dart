@@ -5,7 +5,9 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/attention_model.dart';
+import 'package:wy/model/level_model.dart';
 import 'package:wy/model/user_info_model.dart';
+import 'package:wy/utils/utils.dart';
 
 class UserApi {
   static Future<UserInfoModel> info() async {
@@ -111,5 +113,14 @@ class UserApi {
     var response = await http.get('/peiwan/app/user/attention/$touid',
         queryParameters: ({}));
     return response;
+  }
+
+  /**
+   * 玩家爵位查询
+   */
+  static Future<LevelModel>  level(var type) async {
+    var response = await http.get(type==TYPE_VIP?'/peiwan/app/order/live/level':'/peiwan/app/order/user/level',
+        queryParameters: ({}));
+    return LevelModel.fromJson(response.data);
   }
 }

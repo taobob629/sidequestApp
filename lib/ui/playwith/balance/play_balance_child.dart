@@ -6,6 +6,7 @@ import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/ui/common/dialog_password.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
@@ -65,16 +66,19 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       Obx(() => _buildChargeItems(context!)),
       Obx(
         () => ItemTitle(
-            title: "Other recharge amount",
+            title: '',
             subTitle: '',
             customSubTitle: Padding(
               padding: EdgeInsets.only(left: 10),
-              child: Row(
+              child:controller.iconByChargeRatio==0?Text(
+                "Other recharge amount",
+                style: TextStyle(color: Colors.white,fontSize: 18),
+              ): Row(
                 children: [
                   PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
                   Text(
                     " ${controller.iconByChargeRatio}",
-                    style: TextStyle(color: Colors.yellow),
+                    style: TextStyle(color: Colors.yellow,fontSize: 18),
                   )
                 ],
               ),
@@ -255,6 +259,10 @@ class WalletBalancePageController extends GetxListController {
   }
 
   void dealIconChargeRatio() {
+    if(amountController.text.isBlank==true){
+      iconByChargeRatio=0;
+      return;
+    }
     double amount = double.parse(amountController.text);
     if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
@@ -436,18 +444,17 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.showToast('Success');
     EasyLoading.dismiss();
   }
-
   /*
    * 提现
    *  post方法
-参数 ：
-name：用户昵称，可选
-card：银行卡号
-cardId:银行卡ID
-votes:金币数量
-voucherId：优惠券ID，若有
-withDrawalRatio：提现手续费比例
-chargeRatio：金币兑换比例
+    参数 ：
+    name：用户昵称，可选
+    card：银行卡号
+    cardId:银行卡ID
+    votes:金币数量
+    voucherId：优惠券ID，若有
+    withDrawalRatio：提现手续费比例
+    chargeRatio：金币兑换比例
    */
   Future<void> withDraw(String type) async {
     UserController userController = Get.find<UserController>();
@@ -466,7 +473,15 @@ chargeRatio：金币兑换比例
       EasyLoading.showInfo('Please enter an valid number smaller than $votesSum!');
       return;
     }
-    EasyLoading.show();
+    Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
+      if (value == true) {
+        await withdrawRequest(type, votes);
+      }
+    });
+  }
+
+  Future<void> withdrawRequest(String type, String votes) async {
+     EasyLoading.show();
     var response;
     if (type == 'withDraw') {
       if (selectedBank == null) {
