@@ -5,12 +5,15 @@ import 'package:wy/ui/profile/attention/bindings.dart';
 import 'package:wy/ui/profile/attention/tab_view.dart';
 import 'package:wy/ui/profile/bankcard/bindings.dart';
 import 'package:wy/ui/profile/bankcard/view.dart';
+import 'package:wy/ui/profile/grade/bindings.dart';
+import 'package:wy/ui/profile/grade/index.dart';
 
 class AppPages {
   static const Main = '/main';
   static const BindBankCard = '/bindbankcard';
   static const WithDrawRecord = '/withdrawRecord';
   static const AttentionTab = '/attentionTabPage';
+  static const Grade = '/gradePage';
   static final routes = [
     GetPage(
       name: Main,
@@ -30,6 +33,11 @@ class AppPages {
       name: AttentionTab,
       page: () => AttentionTabPage(),
       binding: AttentionTabBinding(),
+    ),
+    GetPage(
+      name: Grade,
+      page: () => GradePage(),
+      binding: GradePageBinding(),
     ),
   ];
 }
