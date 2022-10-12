@@ -244,11 +244,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 ], '001'),
                 {'pd': 8},
               ),
-              if (data['online'] == 1)
-                PWidget.container(PWidget.text('Online', [Colors.white, 10]), {
-                  'gd': PFun.cl2crGd(Color(0xff5ADBAE), Color(0x005ADBAE)),
-                  'pd': PFun.lg(1, 1, 12, 12),
-                }),
+              // if (data['online'] == 1)
+              PWidget.container(PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white, 10]), {
+                'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                'pd': PFun.lg(1, 1, 12, 12),
+              }),
             ]),
             [null, null, Color(0xff282640)],
             {
@@ -310,9 +310,13 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
   Future<int> gamelist() async {
     await http.get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
       gamelistDm.addList(res.data, true, 0);
+      gamelistDm.addList([
+        for (var i = 0; i < 100; i++) ...gamelistDm.list,
+      ], false, 0);
       if (gamelistDm.list.isNotEmpty) {
         fun(0, gamelistDm.list.first);
       }
+      flog(gamelistDm.list.length, 'gamelistDm.list.length');
     }).catchError((e) {
       flog(e, 'gamelistDm');
       gamelistDm.toError();
@@ -333,12 +337,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
             physics: MyBouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 16),
-            separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 10),
+            separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 12),
             itemCount: list.length,
             itemBuilder: (_, i) {
               var isDy = seleIndex == i;
               var data = list[i];
-              flog(data);
+              flog(i, 'gamelistDm.list.length');
               return PWidget.container(
                 PWidget.ccolumn([
                   PWidget.container(
@@ -346,17 +350,17 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
                       imageUrl: data['thumb'],
                       fit: BoxFit.cover,
                     ),
-                    [isDy ? 64 : 56, isDy ? 64 : 56, Colors.white10],
-                    {'crr': 8},
+                    [(isDy ? 72 : 64), (isDy ? 72 : 56) + 24, Colors.white10],
+                    {'crr': 12},
                   ),
                   //PWidget.text('${data['name']}', [Colors.white, 12]),
                 ], '211'),
-                [isDy ? 64 : 56],
+                [(isDy ? 72 : 64)],
                 {'fun': () => fun(i, data)},
               );
             },
           ),
-          [null, 64 + 16],
+          [null, (72 + 16) + 12],
         );
       },
     );

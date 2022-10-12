@@ -53,7 +53,7 @@ class PlayDetail extends StatelessWidget {
     double width = MediaQuery
       .of(context)
       .size
-      .width;
+      .width * 0.75;
     controller.initData(width);
     isMe = controller.userId==Get.put(UserController()).userInfoModel.value.pwuserId.toString();
     flog(Get.put(UserController()).userInfoModel.value.pwuserId.toString());
@@ -124,7 +124,7 @@ class PlayDetail extends StatelessWidget {
                       Positioned(
                         left: 0,
                         right: 0,
-                        bottom: 1,
+                        bottom: 0,
                         top: 0,
                         child: Obx(()=>controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
                           autoplayDelay: 5000,
@@ -176,27 +176,41 @@ class PlayDetail extends StatelessWidget {
                                 child: CircleAvatar(
                                   backgroundColor: Colors.white,
                                   radius: 35,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
-                                    CachedNetworkImage(
-                                      imageUrl: controller.detailModel.value.avatar,
-                                      fit: BoxFit.cover,
-                                      imageBuilder: (context,provider){
-                                        return Container(
-                                          width: 66,
-                                          height: 66,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(35),
-                                            image:DecorationImage(
-                                              image: provider,
-                                              fit: BoxFit.cover,
-                                            )
-                                          ),
-                                        );
-                                      },
-                                    ))
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
+                                        CachedNetworkImage(
+                                          imageUrl: controller.detailModel.value.avatar,
+                                          fit: BoxFit.cover,
+                                          imageBuilder: (context,provider){
+                                            return Container(
+                                              width: 66,
+                                              height: 66,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(35),
+                                                image:DecorationImage(
+                                                  image: provider,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              ),
+                                            );
+                                          },
+                                        ))
+                                      ),
+                                      ///controller.detailModel.value
+                                      Builder(
+                                        builder: (context) {
+                                          var isOnline = controller.detailModel.value.online==1;
+                                          return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
+                                            'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                                            'pd': PFun.lg(1, 1, 12, 12),
+                                          });
+                                        }
+                                      ),
+                                    ],
                                   )
                                 ),
                               ),
@@ -218,9 +232,7 @@ class PlayDetail extends StatelessWidget {
                     }else if(index == 2){
                       return  _buildIntro();
                     }
-                    return Container(
-                      height: 400,
-                    );
+                    return Container(height: 64);
                   },
                   childCount: 4
                 )
@@ -459,6 +471,7 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildGame(SkillModel skillModel,int i){
     var isOpen = skillModel.wswitch==1;
+    flog('${skillModel.background}===','skillModel.background');
     return GestureDetector(
       onTap: () async {
         if(isMe){
@@ -481,7 +494,7 @@ class PlayDetail extends StatelessWidget {
             child: Stack(
               children: [
                 // Positioned.fill(left: -2,right: -2,top: -2,bottom: -2, child: CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: double.infinity,fit: BoxFit.cover,alignment: Alignment.bottomCenter)),
-                if(isOpen) Positioned.fill(child: CachedNetworkImage(imageUrl: "${skillModel.background}",fit: BoxFit.cover)),
+                if(isOpen&&skillModel.background!='') Positioned.fill(child: CachedNetworkImage(imageUrl: "${skillModel.background}",fit: BoxFit.cover)),
                 // BackdropFilter(filter: ImageFilter.blur(sigmaX: 8,sigmaY: 8),child: Container(
                 // color: Color(0x007400FF),
                 // ),),
@@ -569,15 +582,15 @@ class PlayDetail extends StatelessWidget {
           Divider(color: Colors.white10,height: 24),
           if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
           if(signature!='') Divider(color: Colors.white10,height: 24),
-          Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          // Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           ////性别显示英文：Male，Female,other
-          _introItem("Gender","${{
-            '0':'Male',
-            '1':'Female',
-          }[controller.detailModel.value.sex.toString()]}"),
-          _introItem("Age",controller.detailModel.value.age.toString()),
-          if(controller.detailModel.value.imageList.isNotEmpty)
-          SizedBox(height: 16),
+          // _introItem("Gender","${{
+          //   '0':'Male',
+          //   '1':'Female',
+          // }[controller.detailModel.value.sex.toString()]}"),
+          // _introItem("Age",controller.detailModel.value.age.toString()),
+          // if(controller.detailModel.value.imageList.isNotEmpty)
+          // SizedBox(height: 16),
           if(controller.detailModel.value.imageList.isNotEmpty)
           PWidget.row([
             PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
