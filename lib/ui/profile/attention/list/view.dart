@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
+import 'package:wy/ui/im/play_detail.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
@@ -69,7 +71,12 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
 
   item(int index, AttentionModel user) {
     return ListTile(
-      leading: CircleAvatar(
+      leading: GestureDetector(
+        onTap: (){
+          flog('user.id ${user.id}');
+          Get.to(() => PlayDetail(userId:'${user.id}'));
+        },
+        child: CircleAvatar(
           backgroundColor: Colors.white,
           radius: 24,
           child: Padding(
@@ -90,7 +97,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
                         )),
                   );
                 },
-              ))),
+              ))),),
       title: Row(
         children: [
           Text(user.name ?? 'Unkown',

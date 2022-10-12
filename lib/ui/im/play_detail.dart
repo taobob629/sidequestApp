@@ -41,7 +41,7 @@ class PlayDetail extends StatelessWidget {
   late final PlayDetailController controller;
 
   PlayDetail({required this.userId, this.fromChat = false, this.isMemberCode = false}){
-    controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode));
+    controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode),tag: userId);
   }
 
   ///自己视角
@@ -55,8 +55,7 @@ class PlayDetail extends StatelessWidget {
       .size
       .width;
     controller.initData(width);
-    isMe = controller.userId==Get.put(UserController()).userInfoModel.value.pwuserId.toString();
-    flog(Get.put(UserController()).userInfoModel.value.pwuserId.toString());
+    isMe = controller.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString();
     return Stack(
       children: [
         Scaffold(
