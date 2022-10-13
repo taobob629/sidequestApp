@@ -104,7 +104,7 @@ class GradePage extends GetView<GradeController> {
                   ),
                   PWidget.boxh(40),
                   PWidget.text(
-                      'Current level', [Colors.white, 18, true], {'ff': 'DIN'}),
+                       '${controller.isTopLevel()?'Top level':'Current level'}', [Colors.white, 18, true], {'ff': 'DIN'}),
                   Offstage(
                       offstage: controller.isTopLevel() && controller.isVip(),
                       child: Row(
