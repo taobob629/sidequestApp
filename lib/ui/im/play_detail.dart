@@ -359,6 +359,7 @@ class PlayDetail extends StatelessWidget {
                       onTap: ()=>isMe?Get.toNamed(AppPages.Grade):null,
                         child: PlayLevelWidget(
                       level: '${controller.detailModel.value.userLevel}',
+                      isauth: controller.detailModel.value.isauth,
                     ),)
                   ]),
               Row(

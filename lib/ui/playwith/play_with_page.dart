@@ -195,7 +195,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           var signature = data['signature'];
           var levelName = data['levelName'];
           return PWidget.container(
-            Stack(children: [
+            Stack(alignment: Alignment.bottomRight, children: [
               PWidget.container(
                 PWidget.row([
                   if (data['thumb'] == null || data['thumb'] == '')
@@ -208,11 +208,15 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   PWidget.boxw(8),
                   PWidget.column([
                     PWidget.row([
-                      Flexible(child: PWidget.text('${data['name']}', [Colors.white, 14, true]), fit: FlexFit.loose),
+                      Flexible(child: PWidget.text('${data['name']}'.replaceAll("", "\u200B"), [Colors.white, 14, true]), fit: FlexFit.loose),
                       PWidget.boxw(8),
-                      PlayLevelWidget(level: '${data['userLevel']}'),
-                      PWidget.boxw(8),
-                      SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
+                      PWidget.container(
+                        PWidget.row([
+                          PlayLevelWidget(level: '${data['userLevel']}',isauth: 1),
+                          PWidget.boxw(8),
+                          SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
+                        ]),
+                      ),
                     ]),
                     OrdersAndStarWidget(data),
                     if (signature != null && signature != '') PWidget.boxh(8),
@@ -245,10 +249,15 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 {'pd': 8},
               ),
               // if (data['online'] == 1)
-              PWidget.container(PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white, 10]), {
-                'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                'pd': PFun.lg(1, 1, 12, 12),
-              }),
+              PWidget.container(
+                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white, 12]),
+                [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Color(0xFF434343)],
+                {
+                  // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                  'pd': PFun.lg(2, 2, 12, 12),
+                  'br': PFun.lg(12),
+                },
+              ),
             ]),
             [null, null, Color(0xff282640)],
             {
