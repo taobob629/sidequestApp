@@ -57,7 +57,7 @@ class PayButton extends StatelessWidget {
                 PayOrderModel model = playOrderController.getPayOrderModel();
                 NavigatorHelper.gotoPayPage(
                   model,
-                  offPage: true,
+                  // offPage: true,
                 );
               },
             ),

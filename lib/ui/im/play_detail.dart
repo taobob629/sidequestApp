@@ -227,7 +227,7 @@ class PlayDetail extends StatelessWidget {
                     if (index == 0) {
                       return buildInfo(isMe);
                     }else if(index == 1){
-                      return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames():Container());
+                      return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
                     }else if(index == 2){
                       return  _buildIntro();
                     }
@@ -323,6 +323,7 @@ class PlayDetail extends StatelessWidget {
                           builder: (context) =>
                             Chat(
                               selectedConversation: conv.data!,
+                              orderSn: controller.detailModel.value.orderSn,
                             ),
                         ));
                     }
@@ -408,11 +409,11 @@ class PlayDetail extends StatelessWidget {
         ));
   }
 
-  Widget _buildGames(){
+  Widget _buildGames(BuildContext context){
     return Obx((){
       List<Widget> items = [];
       for (var i = 0; i < controller.detailModel.value.skills.length; i++) {
-      items.add(_buildGame(controller.detailModel.value.skills[i],i));
+      items.add(_buildGame(controller.detailModel.value.skills[i],i,context));
         
       }
     if(controller.detailModel.value.skills.length>2){
@@ -471,7 +472,7 @@ class PlayDetail extends StatelessWidget {
     });
   }
 
-  Widget _buildGame(SkillModel skillModel,int i){
+  Widget _buildGame(SkillModel skillModel,int i,BuildContext context){
     var isOpen = skillModel.wswitch==1;
     flog('${skillModel.background}===','skillModel.background');
     return GestureDetector(
@@ -481,7 +482,23 @@ class PlayDetail extends StatelessWidget {
           controller.onReady();
           return;
         }else if(isOpen){
-        Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
+        var res = await Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
+        flog('$res','Get.to(()=>PlayOrder');
+        if(res != null){
+          var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+          V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
+          if(conv.data != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                  Chat(
+                    selectedConversation: conv.data!,
+                    orderSn: res,
+                  ),
+              ));
+          }
+        }
         }
       },
       child: Padding(
