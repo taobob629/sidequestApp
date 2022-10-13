@@ -200,13 +200,12 @@ class PlayDetail extends StatelessWidget {
                                         ))
                                       ),
                                       ///controller.detailModel.value
-                                      Builder(
-                                        builder: (context) {
-                                          var isOnline = controller.detailModel.value.online==1;
-                                          return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
-                                            'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                                            'pd': PFun.lg(1, 1, 12, 12),
-                                          });
+                                      Obx(() {
+                                        var isOnline = controller.detailModel.value.online==1;
+                                        return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
+                                          'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                                          'pd': PFun.lg(1, 1, 12, 12),
+                                        });
                                         }
                                       ),
                                     ],
@@ -611,12 +610,12 @@ class PlayDetail extends StatelessWidget {
           // if(controller.detailModel.value.imageList.isNotEmpty)
           // SizedBox(height: 16),
           if(controller.detailModel.value.imageList.isNotEmpty)
-          PWidget.row([
-            PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
-            PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':(){
-              Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
-            }}),
-          ]),
+            PWidget.row([
+              PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
+              PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':(){
+                Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
+              }}),
+            ]),
           if(controller.detailModel.value.imageList.isNotEmpty)
           PhotoWallWidget(controller.detailModel.value.imageList),
         ],
@@ -685,19 +684,20 @@ class PlayDetailController extends GetxController {
 
     EasyLoading.show();
     detailModel.value = await ImApi.getPlayDetail(userId, isMemberCode);
-    if(detailModel.value.imageList.length == 0) {
-      detailModel.value.imageList.add(
-        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6020354b4960f27eab51c5005f4dfecb5007557e12e014-2vf4WP_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=819cd5ffe0a6286cac0515d00681e361");
-      detailModel.value.imageList.add(
-        "https://pics5.baidu.com/feed/a71ea8d3fd1f41343c411bba13c53dcdd3c85ee5.jpeg?token=ca8e4fac1efb35a98c56b83ca73bebd5");
-      detailModel.value.imageList.add(
-        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2F0%2Fde%2F6300ed8f12.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=680fd115dad0fecb14f0eccebb3a52d3");
+    if(detailModel.value.imageList.length != 0) {
+      detailModel.value.imageList.clear();
+      // detailModel.value.imageList.add(
+      //   "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6020354b4960f27eab51c5005f4dfecb5007557e12e014-2vf4WP_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=819cd5ffe0a6286cac0515d00681e361");
+      // detailModel.value.imageList.add(
+      //   "https://pics5.baidu.com/feed/a71ea8d3fd1f41343c411bba13c53dcdd3c85ee5.jpeg?token=ca8e4fac1efb35a98c56b83ca73bebd5");
+      // detailModel.value.imageList.add(
+      //   "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2F0%2Fde%2F6300ed8f12.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=680fd115dad0fecb14f0eccebb3a52d3");
     }
     // this.productDetailModel.value = await ShopApi.getProductDetail(id);
-    if(detailModel.value.avatar == "") {
-      detailModel.value.avatar =
-      "https://pics0.baidu.com/feed/9d82d158ccbf6c81ff60dec6d3b2443332fa40d8.jpeg?token=c04443f136e02e3712476a018e2694be";
-    }
+    // if(detailModel.value.avatar == "") {
+    //   // detailModel.value.avatar =
+    //   // "https://pics0.baidu.com/feed/9d82d158ccbf6c81ff60dec6d3b2443332fa40d8.jpeg?token=c04443f136e02e3712476a018e2694be";
+    // }
     if(this.detailModel.value.imageList.isNotEmpty){
       this.detailModel.value.imageList.forEach((element) {
         DefaultCacheManager().downloadFile(element);

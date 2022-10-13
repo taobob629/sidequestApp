@@ -212,7 +212,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                       PWidget.boxw(8),
                       PWidget.container(
                         PWidget.row([
-                          PlayLevelWidget(level: '${data['userLevel']}',isauth: 1),
+                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1),
                           PWidget.boxw(8),
                           SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
                         ]),
@@ -250,8 +250,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
               ),
               // if (data['online'] == 1)
               PWidget.container(
-                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white, 12]),
-                [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Color(0xFF434343)],
+                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
+                [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
                 {
                   // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
                   'pd': PFun.lg(2, 2, 12, 12),
