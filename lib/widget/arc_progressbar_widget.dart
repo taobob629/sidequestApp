@@ -80,9 +80,10 @@ class _ArcProgressBarPainter extends CustomPainter {
         _toRadius(300),
         false,
         _paint);
-
+    if (progress == 0) {
+      return;
+    }
     _paint
-      ..color = Colors.cyan
       ..strokeWidth = _strokeSize - 1;
     var gradient = LinearGradient(
       colors: [
