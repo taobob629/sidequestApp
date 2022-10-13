@@ -96,9 +96,10 @@ class PayApi {
     PayInfoModel payInfoModel = PayInfoModel();
     if(model.payType == 2){
       if(response.data == -1){
-        payInfoModel.insufficient = false;
-      }else{
         payInfoModel.insufficient = true;
+      }else{
+        payInfoModel.insufficient = false;
+        payInfoModel.orderNo = response.data;
       }
       return payInfoModel;
     }

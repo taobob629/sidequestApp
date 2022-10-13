@@ -19,6 +19,7 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
@@ -526,7 +527,10 @@ class PayPageController extends GetxController {
             );
           }else{
             Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
-              .whenComplete(() => Get.back());
+              .whenComplete(() {
+                Get.back();
+                Get.back(result: payInfoModel.orderNo);
+              });
           }
         } else {
           if (payInfoModel.orderNo.isEmpty) {

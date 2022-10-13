@@ -15,6 +15,7 @@ class PlayDetailModel {
   late int follows = 0;
   late int follow = 0;
   late int userLevel = 0;
+  late String orderSn = "";
   late int fans = 0;
   late int isauth = 0;
 
@@ -39,6 +40,7 @@ class PlayDetailModel {
     fans = json['fans'] ?? 0;
     isauth = json['basicInfo']['isauth'] ?? 0;
     userLevel = json['userLevel'] ?? 0;
+    orderSn = json['orderSn'] ?? '';
 
     skills = json["games"].map<SkillModel>((item) => SkillModel.fromJson(item)).toList();
   }
