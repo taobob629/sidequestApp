@@ -29,10 +29,10 @@ class ArcProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AspectRatio(
       aspectRatio: 1,
-      child: CustomPaint(
+      child:RepaintBoundary(child:  CustomPaint(
         size: Size(width, height),
         painter: _ArcProgressBarPainter(10, progress, min: min, max: max),
-      ));
+      ),));
 }
 
 class _ArcProgressBarPainter extends CustomPainter {
@@ -91,15 +91,18 @@ class _ArcProgressBarPainter extends CustomPainter {
         Color.fromRGBO(255, 183, 59, 1)
       ],
     );
-    _paint.shader = gradient
-        .createShader(Rect.fromLTWH(0, 0, size.width / 2, size.width / 2));
-    canvas.drawArc(
-        Rect.fromLTWH(_margin, _margin, size.width - _strokeSize,
-            size.width - _strokeSize),
-        _toRadius(120),
-        progress * _toRadius(300 / (max - min)),
-        false,
-        _paint);
+    if(progress>0) {
+      _paint.shader = gradient
+          .createShader(Rect.fromLTWH(0, 0, size.width / 2, size.width / 2));
+      canvas.drawArc(
+          Rect.fromLTWH(_margin, _margin, size.width - _strokeSize,
+              size.width - _strokeSize),
+          _toRadius(120),
+          progress * _toRadius(300 / (max - min)),
+          false,
+          _paint);
+    }
+
   }
 
   void _drawArcProgressPoint(
@@ -137,5 +140,5 @@ class _ArcProgressBarPainter extends CustomPainter {
   double _toRadius(double degree) => degree * Math.pi / 180;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
