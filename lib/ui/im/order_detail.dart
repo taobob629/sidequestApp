@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:timelines/timelines.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/paixs_widget.dart';
 
 import '../../api/im_api.dart';
 import '../../model/play_order_detail_model.dart';
@@ -57,27 +60,29 @@ class OrderDetail extends StatelessWidget {
     ));
     items.add(_buildSkillInfo());
     items.add(divider);
-    items.add( _buildOrderInfo());
+    items.add(_buildOrderInfo());
     items.add(divider);
-    items.add(Padding(
-      padding: const EdgeInsets.only(left: 15),
-      child: Text(
-        "Status",
-        style:
-        TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+    items.add(
+      Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: Text(
+          "Status",
+          style:
+              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+        ),
       ),
-    ),);
+    );
     items.add(_buildState());
     items.add(divider);
-    if(controller.playOrderDetailModel.value.status==-2){
-      items.add( Padding(
+    if (controller.playOrderDetailModel.value.status == -2) {
+      items.add(Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
           "Score",
           style:
-          TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
         ),
-      )) ;
+      ));
       items.add(_buildScore(context));
       items.add(divider);
       items.add(Padding(
@@ -85,7 +90,7 @@ class OrderDetail extends StatelessWidget {
         child: Text(
           "Comments",
           style:
-          TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
         ),
       ));
       items.add(_buildComments(context));
@@ -393,13 +398,47 @@ class OrderDetail extends StatelessWidget {
       ),
     );
   }
-
+  Color getColor(int index) {
+    switch(index){
+      case 1:return Colors.green;
+      case 0:return Colors.blue;
+      case 2:
+      default:return Colors.white24;
+    }
+  }
   Widget _buildState() {
+    int length=controller.playOrderDetailModel.value.status.length;
+    return Container(
+      height: 60,
+      child: Timeline.tileBuilder(
+      theme: TimelineThemeData(
+        direction: Axis.horizontal,
+        connectorTheme: ConnectorThemeData(
+          space: 30.0,
+          thickness: 5.0,
+        ),
+      ),
+      builder: TimelineTileBuilder.connected(
+          connectionDirection: ConnectionDirection.before,
+          itemExtentBuilder: (_, __) => Get.width / length,
+          indicatorBuilder: (_, index){
+            return DotIndicator(color: getColor(controller.playOrderDetailModel.value.status[index].colour),);
+          },
+          contentsBuilder: (_, index){
+            return PWidget.text('${ controller.playOrderDetailModel.value.status[index].displayLable}',[Colors.white, 14, true]);
+          },
+          connectorBuilder: (_, index, type){
+            return SolidLineConnector(
+              color: Colors.white24,
+            );
+          },
+          itemCount:length
+      ),
+    ),);
     var status = controller.playOrderDetailModel.value.status;
     if (status == 0) {
       return Container();
     }
-
     String serviceState = "Waiting";
     Color serviceColor = Colors.blue;
     if (status == 2) {
@@ -409,7 +448,6 @@ class OrderDetail extends StatelessWidget {
       serviceState = "Served";
       serviceColor = Colors.green;
     }
-
     String finishState = "Comment";
     Color finishColor = Colors.blue;
     if (status == -1) {
@@ -434,7 +472,7 @@ class OrderDetail extends StatelessWidget {
               child: Container(
                 height: 2,
                 margin: const EdgeInsets.symmetric(horizontal: 35),
-                color: Colors.white24,
+                color: Colors.red,
               )),
           Positioned(
               left: 0,

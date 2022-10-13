@@ -1,4 +1,27 @@
+import 'dart:convert';
 
+import 'package:wy/utils/utils.dart';
+
+class StatusLable {
+  late int colour;
+  late String displayLable;
+
+  StatusLable({required this.colour, required this.displayLable});
+
+  factory StatusLable.fromJson(Map<String, dynamic> json) {
+    return StatusLable(
+      colour: json['colour'],
+      displayLable: json['displayLable'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['colour'] = this.colour;
+    data['displayLable'] = this.displayLable;
+    return data;
+  }
+}
 
 class PlayOrderDetailModel {
   late String icon = "";
@@ -9,18 +32,22 @@ class PlayOrderDetailModel {
   late int toUid = 0;
   late int nums = 0;
   late int total = 0;
-  late int status = 0;//-4已超时-3拒绝-2已完成-1取消0待支付1已支付2已接单，3：等待退款；4：拒绝退款；5：同意退款；6：退款申诉：等待平台退款
+ // late int status = 0; //-4已超时-3拒绝-2已完成-1取消0待支付1已支付2已接单，3：等待退款；4：拒绝退款；5：同意退款；6：退款申诉：等待平台退款
   late String orderno = "";
   late int svctm = 0;
   late int addtime = 0;
   late String comments = "";
   late double star = 0.0;
   late String rejectReason = "";
+   List<StatusLable> status=[];
+  PlayOrderDetailModel
 
-  PlayOrderDetailModel();
+  (
+
+  );
 
   PlayOrderDetailModel.fromJson(Map<String, dynamic> json) {
-    icon = json['skill']['thumb']?? "";
+    icon = json['skill']['thumb'] ?? "";
     gameName = json['skill']['nameEn'] ?? "";
     orderId = json['order']['id'] ?? 0;
     fromUid = json['order']['uid'] ?? 0;
@@ -28,11 +55,14 @@ class PlayOrderDetailModel {
     nums = json['order']['nums'] ?? 0;
     unit = json['order']['unit'] ?? "";
     total = json['order']['total'] ?? 0;
-    status = json['order']['status'] ?? 0;
+    flog('status ${json['order']['status']}');
+    flog('status2 ${json['status'].cast<Map>()}');
+    status = json['status'] == null ? []:(json['status'] as List).map((e) => StatusLable.fromJson(e)).toList();
     orderno = json['order']['orderno'] ?? 0;
     svctm = json['order']['svctm'] ?? 0;
     star = json['order']['star'] ?? 0.0;
     comments = json['order']['comments'] ?? "";
     rejectReason = json['order']['rejectReason'] ?? "";
+    flog('status 3 $status');
   }
 }
