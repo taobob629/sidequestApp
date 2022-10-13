@@ -684,15 +684,15 @@ class PlayDetailController extends GetxController {
 
     EasyLoading.show();
     detailModel.value = await ImApi.getPlayDetail(userId, isMemberCode);
-    if(detailModel.value.imageList.length != 0) {
-      detailModel.value.imageList.clear();
+    // if(detailModel.value.imageList.length != 0) {
+      // detailModel.value.imageList.clear();
       // detailModel.value.imageList.add(
       //   "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6020354b4960f27eab51c5005f4dfecb5007557e12e014-2vf4WP_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=819cd5ffe0a6286cac0515d00681e361");
       // detailModel.value.imageList.add(
       //   "https://pics5.baidu.com/feed/a71ea8d3fd1f41343c411bba13c53dcdd3c85ee5.jpeg?token=ca8e4fac1efb35a98c56b83ca73bebd5");
       // detailModel.value.imageList.add(
       //   "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2F0%2Fde%2F6300ed8f12.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665099671&t=680fd115dad0fecb14f0eccebb3a52d3");
-    }
+    // }
     // this.productDetailModel.value = await ShopApi.getProductDetail(id);
     // if(detailModel.value.avatar == "") {
     //   // detailModel.value.avatar =
