@@ -408,7 +408,7 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('Game Photo', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Game Photo(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -416,7 +416,7 @@ class _AddGamePageState extends State<AddGamePage> {
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: 9,
+        itemCount: (gamePhotos.length == 20) ? gamePhotos.length : gamePhotos.length + 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {

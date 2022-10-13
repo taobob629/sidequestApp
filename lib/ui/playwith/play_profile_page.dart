@@ -124,6 +124,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         onTap: () async {
           if (avatar == null) return EasyLoading.showToast('Please upload your avatar');
           if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname');
+          if (userNameCon.text.length > 26) return EasyLoading.showToast('The user nick name cannot exceed 26 characters');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter personal profile');
           if (backgroundImage == null) return EasyLoading.showToast('Please upload your background image');
           var data = {
@@ -313,7 +314,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Please enter user nickname', hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true),
+        buildTFView(context!, hintText: 'Please enter user nickname', hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true, maxLength: 26),
       ])),
       PWidget.boxh(16),
       itemBg(
@@ -451,7 +452,8 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
 // 游戏级别
 class PlayLevelWidget extends StatefulWidget {
   final String level;
-  const PlayLevelWidget({Key? key, this.level = '1'}) : super(key: key);
+  final int isauth;
+  const PlayLevelWidget({Key? key, this.level = '1',required this.isauth}) : super(key: key);
   @override
   _PlayLevelWidgetState createState() => _PlayLevelWidgetState();
 }
@@ -464,16 +466,25 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
     '4': 'assets/images/play/level_4.png',
   };
 
+  var titleMap = {
+    '1': 'assets/images/play/titles_1.png',
+    '2': 'assets/images/play/titles_2.png',
+    '3': 'assets/images/play/titles_3.png',
+    '4': 'assets/images/play/titles_4.png',
+    '5': 'assets/images/play/titles_5.png',
+  };
+
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.bottomRight, children: [
       PWidget.image(
-        levelMap[widget.level] ?? 'assets/images/play/level_1.png',
+        (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ?? 'assets/images/play/level_1.png',
       ),
-      PWidget.container(
-        PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
-        [10, 10, Color(0xffefbd6d)],
-      ),
+      if (widget.isauth == 1)
+        PWidget.container(
+          PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
+          [10, 10, Color(0xffefbd6d)],
+        ),
     ]);
   }
 }

@@ -57,11 +57,11 @@ class ProfileHeader extends StatelessWidget {
           top: 0,
           child: GestureDetector(
             onTap: () {
-              if(controller.userInfoModel.value.isauth==1){
+              // if(controller.userInfoModel.value.isauth==1){
                 controller.checkLogin(()=>Get.to(()=>PlayDetail(userId: "${controller.userInfoModel.value.pwuserId}")));
-              }else{
-                controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage());
-              }
+              // }else{
+              //   controller.checkLogin(()=>NavigatorHelper.gotoEditProfilePage());
+              // }
             },
             child: CircleAvatar(
               backgroundColor: Colors.white,
