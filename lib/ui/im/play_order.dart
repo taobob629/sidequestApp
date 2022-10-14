@@ -35,7 +35,7 @@ class PlayOrder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _buildItem(),
-                  _buildTime(),
+                 // _buildTime(),
                   _buildMemo(),
                   Container(height: 120,)
                 ],

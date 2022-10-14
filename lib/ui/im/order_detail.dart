@@ -348,7 +348,7 @@ class OrderDetail extends StatelessWidget {
           _infoItem("Order Number",
               "${controller.playOrderDetailModel.value.orderno}"),
           _infoItem("Service Time",
-              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.svctm))}"),
+              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.receipttime))}"),
           _infoItem("Service Duration",
               "${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.unit}"),
           Padding(
@@ -402,8 +402,7 @@ class OrderDetail extends StatelessWidget {
     switch(index){
       case 1:return Colors.green;
       case 0:return Colors.blue;
-      case 2:
-      default:return Colors.white24;
+      default:return Colors.blue;
     }
   }
   Widget _buildState() {
@@ -435,113 +434,7 @@ class OrderDetail extends StatelessWidget {
           itemCount:length
       ),
     ),);
-    var status = controller.playOrderDetailModel.value.status;
-    if (status == 0) {
-      return Container();
-    }
-    String serviceState = "Waiting";
-    Color serviceColor = Colors.blue;
-    if (status == 2) {
-      serviceState = "Serving";
-      serviceColor = Colors.green;
-    } else if (status == -2) {
-      serviceState = "Served";
-      serviceColor = Colors.green;
-    }
-    String finishState = "Comment";
-    Color finishColor = Colors.blue;
-    if (status == -1) {
-      finishState = "Canceled";
-      finishColor = Colors.green;
-    } else if (status == -3) {
-      finishState = "Rejected";
-      finishColor = Colors.green;
-    } else if (status == -2) {
-      finishState = "Complete";
-      finishColor = Colors.green;
-    }
 
-    return Container(
-      height: 80,
-      child: Stack(
-        children: [
-          Positioned(
-              left: 0,
-              right: 0,
-              top: 45,
-              child: Container(
-                height: 2,
-                margin: const EdgeInsets.symmetric(horizontal: 35),
-                color: Colors.red,
-              )),
-          Positioned(
-              left: 0,
-              right: 0,
-              top: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 80,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 6,
-                        ),
-                        Container(
-                            height: 16,
-                            child: Text(
-                              "Paid",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ))
-                      ],
-                    ),
-                  ),
-                  status == -1 || status == -3
-                      ? Container()
-                      : Container(
-                          width: 80,
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: serviceColor,
-                                radius: 6,
-                              ),
-                              Container(
-                                  height: 16,
-                                  child: Text(
-                                    serviceState,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ))
-                            ],
-                          ),
-                        ),
-                  Container(
-                    width: 80,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: finishColor,
-                          radius: 6,
-                        ),
-                        Container(
-                            height: 16,
-                            child: Text(
-                              finishState,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ))
-                      ],
-                    ),
-                  )
-                ],
-              ))
-        ],
-      ),
-    );
   }
 
   Widget _buildScore(BuildContext context) {

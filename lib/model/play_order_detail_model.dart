@@ -39,6 +39,7 @@ class PlayOrderDetailModel {
   late String comments = "";
   late double star = 0.0;
   late String rejectReason = "";
+   int receipttime = 0;
    List<StatusLable> status=[];
   PlayOrderDetailModel
 
@@ -55,14 +56,13 @@ class PlayOrderDetailModel {
     nums = json['order']['nums'] ?? 0;
     unit = json['order']['unit'] ?? "";
     total = json['order']['total'] ?? 0;
-    flog('status ${json['order']['status']}');
-    flog('status2 ${json['status'].cast<Map>()}');
     status = json['status'] == null ? []:(json['status'] as List).map((e) => StatusLable.fromJson(e)).toList();
     orderno = json['order']['orderno'] ?? 0;
     svctm = json['order']['svctm'] ?? 0;
     star = json['order']['star'] ?? 0.0;
     comments = json['order']['comments'] ?? "";
     rejectReason = json['order']['rejectReason'] ?? "";
+    receipttime = json['order']['receipttime'] ?? "";
     flog('status 3 $status');
   }
 }
