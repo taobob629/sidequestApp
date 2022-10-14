@@ -526,7 +526,16 @@ class OrderDetail extends StatelessWidget {
   }
 
   String getCommentText() {
-    return controller.playOrderDetailModel.value.comments;
+    var model = controller.playOrderDetailModel.value;
+    int status = model.status;
+    switch (status) {
+      case -3:
+        return model.rejectReason;
+      case 3:
+        return model.reason;
+      default:
+        return model.comments;
+    }
   }
 }
 
