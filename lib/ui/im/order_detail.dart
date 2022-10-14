@@ -88,7 +88,7 @@ class OrderDetail extends StatelessWidget {
     items.add(Padding(
       padding: const EdgeInsets.only(left: 15),
       child: Text(
-        "Comments",
+        getCommentTitle(),
         style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
       ),
     ));
@@ -510,6 +510,19 @@ class OrderDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getCommentTitle() {
+    var model = controller.playOrderDetailModel.value;
+    int status = model.status;
+    switch (status) {
+      case -3:
+        return 'RejectReason';
+      case 3:
+        return 'Reason';
+      default:
+        return 'Comments';
+    }
   }
 
   String getCommentText() {
