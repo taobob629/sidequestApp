@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:timelines/timelines.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 import '../../api/im_api.dart';
@@ -85,16 +84,15 @@ class OrderDetail extends StatelessWidget {
       ));
       items.add(_buildScore(context));
       items.add(divider);
-      items.add(Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Text(
-          "Comments",
-          style:
-              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
-        ),
-      ));
-      items.add(_buildComments(context));
     }
+    items.add(Padding(
+      padding: const EdgeInsets.only(left: 15),
+      child: Text(
+        "Comments",
+        style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+      ),
+    ));
+    items.add(_buildComments(context));
     return items;
   }
 
@@ -333,6 +331,7 @@ class OrderDetail extends StatelessWidget {
   }
 
   Widget _buildOrderInfo() {
+    var palymodel = controller.playOrderDetailModel.value;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -345,12 +344,10 @@ class OrderDetail extends StatelessWidget {
                 TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
           ),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
-          _infoItem("Order Number",
-              "${controller.playOrderDetailModel.value.orderno}"),
+          _infoItem("Order Number", "${palymodel.orderno}"),
           _infoItem("Service Time",
-              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(controller.playOrderDetailModel.value.receipttime))}"),
-          _infoItem("Service Duration",
-              "${controller.playOrderDetailModel.value.nums} ${controller.playOrderDetailModel.value.unit}"),
+              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
+          _infoItem("Service Duration", "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
@@ -369,7 +366,7 @@ class OrderDetail extends StatelessWidget {
                   width: 4,
                 ),
                 Text(
-                  "${controller.playOrderDetailModel.value.total}",
+                  "${palymodel.total}",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ],
@@ -398,43 +395,57 @@ class OrderDetail extends StatelessWidget {
       ),
     );
   }
+
   Color getColor(int index) {
-    switch(index){
-      case 1:return Colors.green;
-      case 0:return Colors.blue;
-      default:return Colors.blue;
+    switch (index) {
+      case 1:
+        return Colors.green;
+      case 0:
+        return Colors.blue;
+      default:
+        return Colors.blue;
     }
   }
+
   Widget _buildState() {
-    int length=controller.playOrderDetailModel.value.status.length;
+    int length = controller.playOrderDetailModel.value.statusArray.length;
+    if (length == 0) return Container();
     return Container(
       height: 60,
       child: Timeline.tileBuilder(
-      theme: TimelineThemeData(
-        direction: Axis.horizontal,
-        connectorTheme: ConnectorThemeData(
-          space: 30.0,
-          thickness: 5.0,
+        theme: TimelineThemeData(
+          direction: Axis.horizontal,
+          connectorTheme: ConnectorThemeData(
+            space: 30.0,
+            thickness: 5.0,
+          ),
         ),
+        builder: TimelineTileBuilder.connected(
+            itemExtentBuilder: (_, index) {
+              if (index == 0) return 80;
+              if (length <= 2) return Get.width + 140;
+              if (index == (length - 1)) return 80;
+              return Get.width - 160;
+            },
+            indicatorBuilder: (_, index) {
+              return DotIndicator(
+                color: getColor(controller
+                    .playOrderDetailModel.value.statusArray[index].colour),
+              );
+            },
+            contentsBuilder: (_, index) {
+              return PWidget.text(
+                  '${controller.playOrderDetailModel.value.statusArray[index].displayLable}',
+                  [Colors.white, 14, true]);
+            },
+            connectorBuilder: (_, index, type) {
+              return SolidLineConnector(
+                color: Colors.white24,
+              );
+            },
+            itemCount: length),
       ),
-      builder: TimelineTileBuilder.connected(
-          connectionDirection: ConnectionDirection.before,
-          itemExtentBuilder: (_, __) => Get.width / length,
-          indicatorBuilder: (_, index){
-            return DotIndicator(color: getColor(controller.playOrderDetailModel.value.status[index].colour),);
-          },
-          contentsBuilder: (_, index){
-            return PWidget.text('${ controller.playOrderDetailModel.value.status[index].displayLable}',[Colors.white, 14, true]);
-          },
-          connectorBuilder: (_, index, type){
-            return SolidLineConnector(
-              color: Colors.white24,
-            );
-          },
-          itemCount:length
-      ),
-    ),);
-
+    );
   }
 
   Widget _buildScore(BuildContext context) {
@@ -492,15 +503,17 @@ class OrderDetail extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Text(
-        controller.playOrderDetailModel.value.status == 3
-            ? "${controller.playOrderDetailModel.value.rejectReason}"
-            : "${controller.playOrderDetailModel.value.comments}",
+        getCommentText(),
         style: TextStyle(
           color: Colors.white54,
           fontSize: 14,
         ),
       ),
     );
+  }
+
+  String getCommentText() {
+    return controller.playOrderDetailModel.value.comments;
   }
 }
 
