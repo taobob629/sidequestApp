@@ -29,9 +29,11 @@ class ArcProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AspectRatio(
       aspectRatio: 1,
-      child: CustomPaint(
-        size: Size(width, height),
-        painter: _ArcProgressBarPainter(10, progress, min: min, max: max),
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size(width, height),
+          painter: _ArcProgressBarPainter(10, progress, min: min, max: max),
+        ),
       ));
 }
 
@@ -47,6 +49,8 @@ class _ArcProgressBarPainter extends CustomPainter {
   late double min;
 
   late double max;
+  final double endRadius = 290;
+  final double startRadius = 125;
 
   _ArcProgressBarPainter(double strokeSize, this.progress,
       {this.min = 0, this.max = 100}) {
@@ -76,29 +80,31 @@ class _ArcProgressBarPainter extends CustomPainter {
     canvas.drawArc(
         Rect.fromLTWH(_margin, _margin, size.width - _strokeSize,
             size.width - _strokeSize),
-        _toRadius(120),
-        _toRadius(300),
+        _toRadius(startRadius),
+        _toRadius(endRadius),
         false,
         _paint);
-
-    _paint
-      ..color = Colors.cyan
-      ..strokeWidth = _strokeSize - 1;
+    if (progress == 0) {
+      return;
+    }
+    _paint..strokeWidth = _strokeSize - 1;
     var gradient = LinearGradient(
       colors: [
         Color.fromRGBO(255, 132, 96, 1),
         Color.fromRGBO(255, 183, 59, 1)
       ],
     );
-    _paint.shader = gradient
-        .createShader(Rect.fromLTWH(0, 0, size.width / 2, size.width / 2));
-    canvas.drawArc(
-        Rect.fromLTWH(_margin, _margin, size.width - _strokeSize,
-            size.width - _strokeSize),
-        _toRadius(120),
-        progress * _toRadius(300 / (max - min)),
-        false,
-        _paint);
+    if (progress > 0) {
+      _paint.shader = gradient
+          .createShader(Rect.fromLTWH(0, 0, size.width / 2, size.width / 2));
+      canvas.drawArc(
+          Rect.fromLTWH(_margin, _margin, size.width - _strokeSize,
+              size.width - _strokeSize),
+          _toRadius(startRadius),
+          progress * _toRadius(endRadius / (max - min)),
+          false,
+          _paint);
+    }
   }
 
   void _drawArcProgressPoint(
@@ -106,10 +112,10 @@ class _ArcProgressBarPainter extends CustomPainter {
     _paint.strokeWidth = 1;
     canvas.save();
     canvas.translate(cx, cy);
-    canvas.rotate(_toRadius(120));
+    canvas.rotate(_toRadius(startRadius));
     canvas.translate(-cx, -cy);
     canvas.translate(cx, cy);
-    canvas.rotate(_toRadius(-120));
+    canvas.rotate(_toRadius(-startRadius));
     canvas.translate(-cx, -cy);
     canvas.restore();
   }
@@ -118,13 +124,13 @@ class _ArcProgressBarPainter extends CustomPainter {
       UI.Canvas canvas, double cx, double cy, double radius) {
     canvas.save();
     canvas.translate(cx, cy);
-    canvas.rotate(_toRadius(120));
+    canvas.rotate(_toRadius(startRadius));
     canvas.translate(-cx, -cy);
     _paint
       ..color = Colors.amber
       ..style = PaintingStyle.fill
       ..strokeWidth = 3;
-    double degree = _toRadius(300 / (max - min)) * progress;
+    double degree = _toRadius(endRadius / (max - min)) * progress;
     double x = cx + radius * 3 / 5 * Math.cos(degree);
     double y = cy + radius * 3 / 5 * Math.sin(degree);
     canvas.drawLine(Offset(cx, cy), Offset(x, y), _paint);
@@ -136,5 +142,5 @@ class _ArcProgressBarPainter extends CustomPainter {
   double _toRadius(double degree) => degree * Math.pi / 180;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

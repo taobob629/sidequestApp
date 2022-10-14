@@ -51,11 +51,11 @@ class ProfilePage extends StatelessWidget {
                     icon: Image.asset("assets/images/ic_edit_new.webp", width: 24),
                     onTap: () {
                       var userInfoModel = userController.userInfoModel.value;
-                      if (userInfoModel.isauth == 1) {
+                      // if (userInfoModel.isauth == 1) {
                         userController.checkLogin(() => Get.to(() => PlayDetail(userId: "${userInfoModel.pwuserId}")));
-                      } else {
-                        userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage());
-                      }
+                      // } else {
+                      //   userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage());
+                      // }
                     },
                   ),
                   SizedBox(
@@ -205,13 +205,25 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              // IconMenu(
+              //   icon: "assets/images/ic_tab_shop_new.webp",
+              //   title: "Play Home",
+              //   onTap: () {
+              //     // Get.to(()=>PlayDetail(userId: ""));
+              //     mainController.controller.jumpToPage(2);
+              //     mainController.updateCurrentIndex(2);
+              //   },
+              // ),
               IconMenu(
-                icon: "assets/images/ic_tab_shop_new.webp",
-                title: "Play Home",
+                icon: "assets/images/ic_balance_new.webp",
+                title: "Play Wallet",
                 onTap: () {
-                  // Get.to(()=>PlayDetail(userId: ""));
-                  mainController.controller.jumpToPage(2);
-                  mainController.updateCurrentIndex(2);
+                  userController.checkLogin(() {
+                    Get.to(() => PlayBalancePage(),
+                        arguments: Map()
+                          ..['coin'] = userController?.userInfoModel?.value?.coin
+                          ..['votes'] = userController?.userInfoModel?.value?.votes);
+                  });
                 },
               ),
               IconMenu(
@@ -234,9 +246,11 @@ class ProfilePage extends StatelessWidget {
               ),
             ],
           ),
+          if(1!=1)
           SizedBox(
             height: 15,
           ),
+          if(1!=1)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

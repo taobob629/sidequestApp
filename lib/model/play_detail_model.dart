@@ -9,12 +9,15 @@ class PlayDetailModel {
   late String avatar = "";
   late String avatarThumb = "";
   late int age = 0;
+  late int online = 0;
   late int sex = 0;
   late int level = 0;
   late int follows = 0;
   late int follow = 0;
   late int userLevel = 0;
+  late String orderSn = "";
   late int fans = 0;
+  late int isauth = 0;
 
   late List<SkillModel> skills = [];
 
@@ -29,12 +32,15 @@ class PlayDetailModel {
     avatar = json['basicInfo']['avatar'] ?? '';
     avatarThumb = json['basicInfo']['avatarThumb'] ?? '';
     age = json['basicInfo']['age'] ?? 0;
+    online = json['basicInfo']['online'] ?? 0;
     sex = json['basicInfo']['sex'] ?? 0;
     level = json['level'] ?? 0;
     follows = json['followers'] ?? 0;
     follow = json['follow'] ?? 0;
     fans = json['fans'] ?? 0;
+    isauth = json['basicInfo']['isauth'] ?? 0;
     userLevel = json['userLevel'] ?? 0;
+    orderSn = json['orderSn'] ?? '';
 
     skills = json["games"].map<SkillModel>((item) => SkillModel.fromJson(item)).toList();
   }

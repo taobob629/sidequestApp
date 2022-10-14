@@ -21,8 +21,9 @@ import '../../model/play_order_detail_model.dart';
 class Chat extends StatefulWidget {
   final V2TimConversation selectedConversation;
   final V2TimMessage? initFindingMsg;
+  final String orderSn;
 
-  const Chat({Key? key, required this.selectedConversation, this.initFindingMsg}) : super(key: key);
+  const Chat({Key? key, required this.selectedConversation, this.initFindingMsg, this.orderSn=''}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChatState();
@@ -39,7 +40,7 @@ class _ChatState extends State<Chat> {
   PlayOrderDetailModel? playOrderDetailModel;
 
   _getPlayOrder(){
-    ImApi.getCurrentPlayOrderDetail(widget.selectedConversation.userID!).then((value) {
+    ImApi.getCurrentPlayOrderDetail(widget.selectedConversation.userID!,widget.orderSn).then((value) {
       setState(() {
         playOrderDetailModel = value;
       });

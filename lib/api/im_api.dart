@@ -31,9 +31,9 @@ class ImApi {
     return PlayDetailModel.fromJson(response.data);
   }
 
-  static Future<PlayOrderDetailModel?> getCurrentPlayOrderDetail(String memberCode) async {
+  static Future<PlayOrderDetailModel?> getCurrentPlayOrderDetail(String memberCode,String orderSn) async {
     var response = await http.get('/peiwan/app/order/imOrderDetail',
-      queryParameters: ({'memberCode':memberCode})
+      queryParameters: ({'memberCode':memberCode, if(orderSn!='') 'orderSn':orderSn})
     );
     if(response.data != null) {
       return PlayOrderDetailModel.fromJson(response.data);

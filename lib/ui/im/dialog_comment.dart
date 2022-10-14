@@ -49,7 +49,7 @@ class CommentDialog extends StatelessWidget {
                   controller.star = realStars;
                 },
                 step: 0.01,
-                defaultStars: 4,
+                defaultStars: 5,
                 miniStars: 1,
                 starHeight: 20,
                 starWidth: 20,
