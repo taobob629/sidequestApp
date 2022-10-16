@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 import 'package:wy/widget/photo_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -52,6 +53,7 @@ class _PhotoWallWidgetState extends State<PhotoWallWidget> {
         ),
       );
     }
+    flog(imageList.length);
     return StaggeredGrid.count(
       crossAxisCount: 4,
       mainAxisSpacing: 4,

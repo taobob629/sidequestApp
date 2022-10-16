@@ -337,11 +337,13 @@ class PlayDetail extends StatelessWidget {
   }
 
   Widget buildInfo(bool isMe) {
-    return Obx(() => Container(
-          height: 80,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+    return Obx(() {
+      var signature = controller.detailModel.value.signature;
+      return Container(
+          // height: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: signature != '' ? 0 : 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Wrap(
@@ -402,10 +404,15 @@ class PlayDetail extends StatelessWidget {
                    style: TextStyle(fontSize: 16, color: Colors.white),
                  ),)
                 ],
-              )
+              ),
+              if(signature!='')
+              Divider(color: Colors.white10,height: 24),
+              if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
+              if(signature!='') Divider(color: Colors.white10,height: 24),
             ],
           ),
-        ));
+        );
+    });
   }
 
   Widget _buildGames(BuildContext context){
@@ -589,17 +596,12 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildIntro(){
     return Obx((){
-      var signature = controller.detailModel.value.signature;
       return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(signature!='')
-          Divider(color: Colors.white10,height: 24),
-          if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
-          if(signature!='') Divider(color: Colors.white10,height: 24),
           // Text("My Information",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           ////性别显示英文：Male，Female,other
           // _introItem("Gender","${{
@@ -609,15 +611,20 @@ class PlayDetail extends StatelessWidget {
           // _introItem("Age",controller.detailModel.value.age.toString()),
           // if(controller.detailModel.value.imageList.isNotEmpty)
           // SizedBox(height: 16),
-          if(controller.detailModel.value.imageList.isNotEmpty)
+          if(controller.detailModel.value.imageList.isNotEmpty||isMe)
             PWidget.row([
               PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
-              PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':(){
-                Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
+              PWidget.text(controller.detailModel.value.imageList.isEmpty?'Upload' : 'More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':() async {
+                if(controller.detailModel.value.imageList.isEmpty){
+                  await Get.to(()=>PlayProfilePage());
+                  controller.onReady();
+                }else{
+                  Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
+                }
               }}),
             ]),
           if(controller.detailModel.value.imageList.isNotEmpty)
-          PhotoWallWidget(controller.detailModel.value.imageList),
+            PhotoWallWidget(controller.detailModel.value.imageList,key: UniqueKey()),
         ],
       ),
     );

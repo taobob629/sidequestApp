@@ -73,6 +73,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       beGoodAtCon.text = userinfoDm.object['signature'];
       userNameCon.text = userinfoDm.object['userNickname'];
       avatar = userinfoDm.object['avatar'];
+      if (avatar == '') avatar = null;
       sex = userinfoDm.object['sex'];
       backgroundImage = userinfoDm.object['avatarThumb'];
       userinfoDm.setTime();
@@ -233,7 +234,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
-          if (backgroundImage != null) {
+          if (backgroundImage != null && backgroundImage != '') {
             return PWidget.container(
               Stack(children: [
                 Positioned.fill(child: CachedNetworkImage(imageUrl: backgroundImage, fit: BoxFit.cover)),
@@ -453,7 +454,7 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
 class PlayLevelWidget extends StatefulWidget {
   final String level;
   final int isauth;
-  const PlayLevelWidget({Key? key, this.level = '1',required this.isauth}) : super(key: key);
+  const PlayLevelWidget({Key? key, this.level = '1', required this.isauth}) : super(key: key);
   @override
   _PlayLevelWidgetState createState() => _PlayLevelWidgetState();
 }
@@ -503,14 +504,19 @@ class OrdersAndStarWidget extends StatefulWidget {
 class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
   @override
   Widget build(BuildContext context) {
+    // widget.data['orders']=34;
+    // widget.data['star']=3.4;
     return PWidget.container(
       PWidget.row([
-        PWidget.container(
-          PWidget.text('接单数:', [Colors.white70, 12]),
-          [null, null, widget.isTran! ? Colors.transparent : Colors.white10],
-          {'pd': PFun.lg(2, 2, 8, 4)},
-        ),
-        PWidget.text('${widget.data['orders']}', [widget.tColor ?? Colors.white70, 12], {'pd': PFun.lg(0, 0, 8, 8)}),
+        if (widget.data['orders'] != 0)
+          PWidget.container(
+            PWidget.text('接单数:', [Colors.white70, 12]),
+            [null, null, widget.isTran! ? Colors.transparent : Colors.white10],
+            {'pd': PFun.lg(2, 2, 8, 4)},
+          ),
+        if (widget.data['orders'] != 0) PWidget.boxw(8),
+        if (widget.data['orders'] != 0) PWidget.text('${widget.data['orders']}', [widget.tColor ?? Colors.white70, 12]),
+        if (widget.data['orders'] != 0) PWidget.boxw(8),
         FFStars(
           normalStar: Image.asset("assets/images/play/score0.png"),
           selectedStar: Image.asset("assets/images/play/score1.png"),
@@ -521,10 +527,11 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
           starWidth: 10,
           starMargin: 0,
         ),
+        if (widget.data['orders'] != 0)
         PWidget.boxw(8),
       ], '220'),
       [null, null, widget.bgColor ?? Color(0xff444264)],
-      {'crr': 56, 'mg': PFun.lg(8)},
+      {'crr': 56, 'mg': PFun.lg(8),if (widget.data['orders'] == 0) 'pd': PFun.lg(4,4,8,8)},
     );
   }
 }
