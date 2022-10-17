@@ -9,6 +9,7 @@ import 'dart:math' as Math;
 import 'dart:ui' as UI;
 
 import 'package:flutter/material.dart';
+import 'package:wy/utils/utils.dart';
 
 class ArcProgressBar extends StatelessWidget {
   final double width;
@@ -27,14 +28,20 @@ class ArcProgressBar extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => AspectRatio(
-      aspectRatio: 1,
-      child: RepaintBoundary(
-        child: CustomPaint(
-          size: Size(width, height),
-          painter: _ArcProgressBarPainter(10, progress, min: min, max: max),
-        ),
-      ));
+  Widget build(BuildContext context) => TweenAnimationBuilder(
+    tween: Tween(begin: 0.0, end: this.progress),
+    duration: const Duration(seconds: 1),
+      curve:Curves.fastOutSlowIn,
+    builder: (context,double value,widget){
+    return AspectRatio(
+        aspectRatio: 1,
+        child: RepaintBoundary(
+          child: CustomPaint(
+            size: Size(width, height),
+            painter: _ArcProgressBarPainter(10, value, min: min, max: max),
+          ),
+        ));
+  },);
 }
 
 class _ArcProgressBarPainter extends CustomPainter {
@@ -142,5 +149,5 @@ class _ArcProgressBarPainter extends CustomPainter {
   double _toRadius(double degree) => degree * Math.pi / 180;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
