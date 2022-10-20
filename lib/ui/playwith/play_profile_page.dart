@@ -14,6 +14,7 @@ import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/playwith/filter_widget.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
@@ -32,12 +33,16 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   TextEditingController beGoodAtCon = TextEditingController();
   TextEditingController userNameCon = TextEditingController();
   int? sex;
+  List language = [];
   var sexList = [
     // {'name': '保密', 'value': 0},
     {'name': 'Male', 'value': 0},
     {'name': 'Female', 'value': 1},
   ];
   var avatar;
+
+  ///是否正在上传文件
+  bool isUploadFile = false;
 
   @override
   void initState() {
@@ -69,12 +74,19 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   var userinfoDm = DataModel();
   Future<int> getUserinfo() async {
     await http.get('/peiwan/app/user/getUserinfo').then((res) async {
-      userinfoDm.object = res.data;
+      userinfoDm.object = res.data['userInfo'];
+      userinfoDm.addList(res.data['initLanguage'], true, 0);
       beGoodAtCon.text = userinfoDm.object['signature'];
       userNameCon.text = userinfoDm.object['userNickname'];
       avatar = userinfoDm.object['avatar'];
       if (avatar == '') avatar = null;
       sex = userinfoDm.object['sex'];
+      flog(language, 'language');
+      var userLanguage = (userinfoDm.object['language']);
+      if (userLanguage != null) {
+        language = userLanguage.toString().split('/');
+      }
+      flog(language, 'language');
       backgroundImage = userinfoDm.object['avatarThumb'];
       userinfoDm.setTime();
     }).catchError((e) {
@@ -126,13 +138,16 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (avatar == null) return EasyLoading.showToast('Please upload your avatar');
           if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname');
           if (userNameCon.text.length > 26) return EasyLoading.showToast('The user nick name cannot exceed 26 characters');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter personal profile');
+          if (language.isEmpty) return EasyLoading.showToast('Please select language');
+          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter your signature');
+          if (beGoodAtCon.text.length > 255) return EasyLoading.showToast('Signature cannot exceed 255 characters');
           if (backgroundImage == null) return EasyLoading.showToast('Please upload your background image');
           var data = {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
             "sex": sexList[sex!]['value'],
+            "language": language.join('/'),
           };
           flog(data);
           // return;
@@ -297,7 +312,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         // flog(value!.path, 'selectAvatar');
         if (value == null) return;
         EasyLoading.show();
+        isUploadFile = true;
         url = await Common.uploadFile(value, (p0, p1) => flog("$p0,$p1"));
+        isUploadFile = false;
         EasyLoading.dismiss();
         // controller.setAvatar(value);
       });
@@ -337,6 +354,25 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             barrierColor: Colors.black26,
           );
           if (res != null) setState(() => sex = int.parse(res.name));
+        },
+      ),
+      PWidget.boxh(16),
+      itemBg(
+        PWidget.row([
+          PWidget.text('language', [Colors.white]),
+          PWidget.boxw(8),
+          PWidget.text(language.isEmpty ? 'Please language' : language.join('/'), [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          rightJtView(16, Colors.white54),
+        ]),
+        fun: () async {
+          var languageList = userinfoDm.list;
+          if (languageList.isEmpty) return EasyLoading.showToast('No language to choose');
+          FilterWidget.show(
+            list: languageList,
+            seleList: language,
+            title: 'Select Language',
+            fun: (v) => setState(() => language = v),
+          );
         },
       ),
       PWidget.boxh(16),
@@ -408,6 +444,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               'pd': 16,
               'ali': PFun.lg(0, 0),
               'fun': () async {
+                if(isUploadFile) return EasyLoading.showToast('Uploading files, please try again later');
                 var url = await this.selectAvatar(context!);
                 if (url != null) setState(() => gamePhotos.add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
               }
@@ -527,11 +564,10 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
           starWidth: 10,
           starMargin: 0,
         ),
-        if (widget.data['orders'] != 0)
-        PWidget.boxw(8),
+        if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
       [null, null, widget.bgColor ?? Color(0xff444264)],
-      {'crr': 56, 'mg': PFun.lg(8),if (widget.data['orders'] == 0) 'pd': PFun.lg(4,4,8,8)},
+      {'crr': 56, 'mg': PFun.lg(8), if (widget.data['orders'] == 0) 'pd': PFun.lg(4, 4, 8, 8)},
     );
   }
 }

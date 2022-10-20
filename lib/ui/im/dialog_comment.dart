@@ -104,7 +104,7 @@ class CommentDialogController extends GetxController{
 
   late Function onDone;
 
-  double star = 4.0;
+  double star = 5.0;
 
   CommentDialogController({required this.orderId, required this.onDone,required this.isReject,required this.isRefund});
 

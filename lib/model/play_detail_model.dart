@@ -4,10 +4,13 @@ class PlayDetailModel {
   late int userId = 0;
   late String memberId = "";
   late String signature = "";
+  late String emptyAlbumDesc1 = "";
+  late String emptyAlbumDesc2 = "";
   late List<String> imageList = [];
   late String name = "";
   late String avatar = "";
   late String avatarThumb = "";
+  late String language = "";
   late int age = 0;
   late int online = 0;
   late int sex = 0;
@@ -32,6 +35,7 @@ class PlayDetailModel {
     avatar = json['basicInfo']['avatar'] ?? '';
     avatarThumb = json['basicInfo']['avatarThumb'] ?? '';
     age = json['basicInfo']['age'] ?? 0;
+    language = json['basicInfo']['language'] ?? '';
     online = json['basicInfo']['online'] ?? 0;
     sex = json['basicInfo']['sex'] ?? 0;
     level = json['level'] ?? 0;
@@ -41,6 +45,8 @@ class PlayDetailModel {
     isauth = json['basicInfo']['isauth'] ?? 0;
     userLevel = json['userLevel'] ?? 0;
     orderSn = json['orderSn'] ?? '';
+    emptyAlbumDesc1 = json['emptyAlbumDesc1'] ?? '';
+    emptyAlbumDesc2 = json['emptyAlbumDesc2'] ?? '';
 
     skills = json["games"].map<SkillModel>((item) => SkillModel.fromJson(item)).toList();
   }

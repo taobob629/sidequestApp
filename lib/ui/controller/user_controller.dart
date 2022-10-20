@@ -14,6 +14,7 @@ import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../utils/db_helper.dart';
 
@@ -156,12 +157,27 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) {
+      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
         imLoginDone.value = true;
         print("~~~~~~~~~im login done~~~~~~~~~~~~~");
         TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(
-          onTotalUnreadMessageCountChanged: (count)=> unreadMsgCount.value = count
+          onTotalUnreadMessageCountChanged: (count) {
+            flog(count,'onTotalUnreadMessageCountChanged');
+            unreadMsgCount.value = count;
+          },
+          onConversationChanged: (v){
+            flog(v.length,'onConversationChanged');
+          },
+          onNewConversation: (v){
+            flog(v.length,'onNewConversation');
+          }
         ));
+        ///获取未读数量
+        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+        if(v2timValueCallback.code==0){
+          flog(v2timValueCallback.data,'getTotalUnreadMessageCount');
+          unreadMsgCount.value = v2timValueCallback.data!;
+        }
       });
     }
   }

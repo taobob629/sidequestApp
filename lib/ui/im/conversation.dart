@@ -1,11 +1,15 @@
 // ignore_for_file: unused_import
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:tim_ui_kit/ui/utils/color.dart';
 import 'package:tim_ui_kit/ui/views/TIMUIKitSearch/tim_uikit_search.dart';
 import 'package:provider/provider.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 
 import 'chat.dart';
 
@@ -25,6 +29,18 @@ class _ConversationState extends State<ConversationPage> {
   void initState() {
     super.initState();
     _controller = widget.conversationController;
+    _controller.model.addListener(() async {
+      // log(_controller.model.totalUnReadCount.toString(), name:'_controller.model.addListener');
+      getTotalUnreadMessageCount();
+    });
+  }
+
+  ///获取未读邮件总数
+  Future<void> getTotalUnreadMessageCount() async {
+    var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+    if(v2timValueCallback.code == 0){
+      Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
+    }
   }
 
   void _handleOnConvItemTaped(V2TimConversation? selectedConv) async {
@@ -36,10 +52,15 @@ class _ConversationState extends State<ConversationPage> {
           ),
         ));
     _controller.reloadData();
+    var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+    if(v2timValueCallback.code == 0){
+      Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
+    }
   }
 
   _clearHistory(V2TimConversation conversationItem) {
     _controller.clearHistoryMessage(conversation: conversationItem);
+    getTotalUnreadMessageCount();
   }
 
   _pinConversation(V2TimConversation conversation) {
@@ -50,6 +71,7 @@ class _ConversationState extends State<ConversationPage> {
 
   _deleteConversation(V2TimConversation conversation) {
     _controller.deleteConversation(conversationID: conversation.conversationID);
+    getTotalUnreadMessageCount();
   }
 
 

@@ -40,6 +40,9 @@ class _AddGamePageState extends State<AddGamePage> {
   var gameLvIndex;
   var isWswitch = 0;
 
+  ///是否正在上传文件
+  bool isUploadFile = false;
+
   @override
   void initState() {
     this.initData();
@@ -212,7 +215,9 @@ class _AddGamePageState extends State<AddGamePage> {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
+        isUploadFile = true;
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        isUploadFile = false;
         // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => gamePhotos.add('$url'));
         // controller.setAvatar(value);
@@ -440,7 +445,15 @@ class _AddGamePageState extends State<AddGamePage> {
           return PWidget.container(
             PWidget.image('assets/images/paly_add.png', [32, 32]),
             [null, null, Color(0xff282640)],
-            {'crr': 16, 'pd': 16, 'ali': PFun.lg(0, 0), 'fun': () => this.selectAvatar(context!)},
+            {
+              'crr': 16,
+              'pd': 16,
+              'ali': PFun.lg(0, 0),
+              'fun': () {
+                if (isUploadFile) return EasyLoading.showToast('Uploading files, please try again later');
+                this.selectAvatar(context!);
+              }
+            },
           );
         },
       ),

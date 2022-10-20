@@ -346,10 +346,12 @@ class PlayDetail extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 8),
               Wrap(
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 12,
+                  runSpacing: 8,
                   children: [
                     Text("${controller.detailModel.value.name}",
                         style: TextStyle(fontSize: 24, color: Colors.white)),
@@ -362,8 +364,20 @@ class PlayDetail extends StatelessWidget {
                         child: PlayLevelWidget(
                       level: '${controller.detailModel.value.userLevel}',
                       isauth: controller.detailModel.value.isauth,
-                    ),)
+                    ),),
+                    Builder(
+                      builder: (context) {
+                        var language = controller.detailModel.value.language;
+                        if(language=='')return SizedBox();
+                        return PWidget.container(
+                          PWidget.text('$language',[Colors.white,12]),
+                          [null, null, Colors.white10],
+                          {'pd': PFun.lg(2,2,8,8),'br': 56},
+                        );
+                      }
+                    ),
                   ]),
+              SizedBox(height: 8),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -611,20 +625,30 @@ class PlayDetail extends StatelessWidget {
           // _introItem("Age",controller.detailModel.value.age.toString()),
           // if(controller.detailModel.value.imageList.isNotEmpty)
           // SizedBox(height: 16),
-          if(controller.detailModel.value.imageList.isNotEmpty||isMe)
+          // if(controller.detailModel.value.imageList.isNotEmpty||isMe)
             PWidget.row([
               PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
-              PWidget.text(controller.detailModel.value.imageList.isEmpty?'Upload' : 'More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':() async {
-                if(controller.detailModel.value.imageList.isEmpty){
-                  await Get.to(()=>PlayProfilePage());
-                  controller.onReady();
-                }else{
-                  Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
-                }
+              if(controller.detailModel.value.imageList.isNotEmpty)
+              PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':() async {
+                Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
               }}),
             ]),
           if(controller.detailModel.value.imageList.isNotEmpty)
             PhotoWallWidget(controller.detailModel.value.imageList,key: UniqueKey()),
+          if(controller.detailModel.value.imageList.isEmpty)
+            PWidget.container(
+              PWidget.text(
+                isMe? '${controller.detailModel.value.emptyAlbumDesc1}':'${controller.detailModel.value.emptyAlbumDesc2}',
+                [Colors.white54],
+                {'ct': true,'isOf': false},
+              ),
+              [null, null, Colors.white.withOpacity(0.05)],
+              {
+                'mg': PFun.lg(8),
+                'br': 8,
+                'pd': 24,
+              }
+            ),
         ],
       ),
     );
