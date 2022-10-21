@@ -489,10 +489,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           currentState: state.isEmpty ? null : state,
           currentCity: city.isEmpty ? null : city,
           flagState: CountryFlag.DISABLE,
-          disabledDropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: AppColor.itemBg,
-              border: Border.all(color: AppColor.itemBg, width: 1)),
+          // disabledDropdownDecoration: BoxDecoration(
+          //     borderRadius: BorderRadius.all(Radius.circular(10)),
+          //     color: AppColor.itemBg,
+          //     border: Border.all(color: AppColor.itemBg, width: 1)),
           dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: AppColor.itemBg,
