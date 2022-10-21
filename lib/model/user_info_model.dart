@@ -18,11 +18,13 @@ class UserInfoModel {
   late int remain = 0;
   late int isauth = 0; //1 大神
   late int pwuserId = 0;
+  late int level = 0;//用户等级
 
   UserInfoModel();
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
+    level = json['level'];
     email = json['email'];
     nick = json['nick'] ?? '';
     avatar = json['avatar'] == null ? "" : json['avatar'];

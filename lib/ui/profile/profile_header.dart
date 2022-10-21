@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_detail.dart';
@@ -10,6 +11,7 @@ import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/widget/paixs_widget.dart';
 
 import 'balance/balance_page.dart';
 import 'count_info.dart';
@@ -86,7 +88,8 @@ class ProfileHeader extends StatelessWidget {
                   "${controller.userInfoModel.value.nick}",
                   style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
                 ),
-                _buildLevelIcon()
+                _buildLevelIcon(),
+                _buildGradeWidget()
               ],
             ),
           )
@@ -223,7 +226,21 @@ class ProfileHeader extends StatelessWidget {
       return Image.asset("assets/images/ic_level${controller.userInfoModel.value.vipLevel}.webp",width: 26,height: 26,);
     }
   }
-
+  Widget _buildGradeWidget(){
+    return Padding(padding: EdgeInsets.only(left: 5),child: Image(
+      image: AssetImage(gradeImg()),
+      height: 25,
+    ),);
+  }
+  String gradeImg() {
+    int isauth=controller.userInfoModel.value.isauth;
+    int level=controller.userInfoModel.value.level;
+    if (level== 0) {
+      if (isauth == TYPE_VIP)
+        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+    }
+    return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
+  }
   List<Widget> _buildVipViews(){
     List<Widget> list = [];
     list.add(SizedBox(width: 20),);
