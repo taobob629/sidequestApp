@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,9 +10,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
-import 'package:wy/api/user_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
@@ -40,6 +43,34 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     {'name': 'Female', 'value': 1},
   ];
   var avatar;
+  RxString _country = RxString('');
+  RxString _state = RxString('');
+  RxString _city = RxString('');
+  RxBool _hasInited = false.obs;
+
+  bool get hasInited => _hasInited.value;
+
+  set hasInited(bool value) {
+    _hasInited.value = value;
+  }
+
+  String get state => _state.value;
+
+  String get country => _country.value;
+
+  String get city => _city.value;
+
+  set country(String value) {
+    _country.value = value;
+  }
+
+  set state(String value) {
+    _state.value = value;
+  }
+
+  set city(String value) {
+    _city.value = value;
+  }
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -72,9 +103,17 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   ///个人信息
   var userinfoDm = DataModel();
+
   Future<int> getUserinfo() async {
     await http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data['userInfo'];
+      try {
+        Map location = json.decode(userinfoDm.object['location']);
+        city = location['city'];
+        country = location['country'];
+        state = location['state'];
+      } catch (e) {}
+      hasInited = true;
       userinfoDm.addList(res.data['initLanguage'], true, 0);
       beGoodAtCon.text = userinfoDm.object['signature'];
       userNameCon.text = userinfoDm.object['userNickname'];
@@ -135,21 +174,37 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       btnBar: FloatingButton(
         label: "OK",
         onTap: () async {
-          if (avatar == null) return EasyLoading.showToast('Please upload your avatar');
-          if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname');
-          if (userNameCon.text.length > 26) return EasyLoading.showToast('The user nick name cannot exceed 26 characters');
-          if (language.isEmpty) return EasyLoading.showToast('Please select language');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter your signature');
-          if (beGoodAtCon.text.length > 255) return EasyLoading.showToast('Signature cannot exceed 255 characters');
-          if (backgroundImage == null) return EasyLoading.showToast('Please upload your background image');
+          if (avatar == null)
+            return EasyLoading.showToast('Please upload your avatar');
+          if (userNameCon.text.isEmpty)
+            return EasyLoading.showToast('Please enter user nickname');
+          if (userNameCon.text.length > 26)
+            return EasyLoading.showToast(
+                'The user nick name cannot exceed 26 characters');
+          if (language.isEmpty)
+            return EasyLoading.showToast('Please select language');
+          if (beGoodAtCon.text.isEmpty)
+            return EasyLoading.showToast('Please enter your signature');
+          if (beGoodAtCon.text.length > 255)
+            return EasyLoading.showToast(
+                'Signature cannot exceed 255 characters');
+          if (backgroundImage == null)
+            return EasyLoading.showToast('Please upload your background image');
+          if (city.isEmpty) {
+            return EasyLoading.showToast('Please select your city');
+          }
           var data = {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
             "sex": sexList[sex!]['value'],
+            "location": json.encode({
+              'country': country,
+              'city': city,
+              'state': state,
+            }),
             "language": language.join('/'),
           };
-          flog(data);
           // return;
           EasyLoading.show();
           await http.post('/peiwan/app/user/setUserinfo', data: data).then((v) {
@@ -377,13 +432,67 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       ),
       PWidget.boxh(16),
       PWidget.text('Personal profile', [Colors.white, 18, true], {'ff': 'DIN'}),
-      PWidget.boxh(16),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
         buildTFView(context!, hintText: 'Please enter personal profile', hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
       ])),
+      PWidget.boxh(16),
+      PWidget.text('Location', [Colors.white, 18, true], {'ff': 'DIN'}),
+      cityWidget(),
     ]);
+  }
+
+  cityWidget() {
+    return Obx(() => Visibility(
+        visible: hasInited,
+        child: CSCPicker(
+          ///Enable disable state dropdown [OPTIONAL PARAMETER]
+          showStates: country.isEmpty ? false : true,
+          showCities: state.isEmpty ? false : true,
+          currentCountry: country.isEmpty ? null : country,
+          currentState: state.isEmpty ? null : state,
+          currentCity: city.isEmpty ? null : city,
+          flagState: CountryFlag.DISABLE,
+          disabledDropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: AppColor.itemBg,
+              border: Border.all(color: AppColor.itemBg, width: 1)),
+          dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: AppColor.itemBg,
+              border: Border.all(color: AppColor.itemBg, width: 1)),
+          countrySearchPlaceholder: "Country",
+          stateSearchPlaceholder: "State",
+          citySearchPlaceholder: "City",
+          countryDropdownLabel: "*Country",
+          stateDropdownLabel: "*State",
+          cityDropdownLabel: "*City",
+          //  defaultCountry: DefaultCountry.United_States,
+          ///selected item style [OPTIONAL PARAMETER]
+          selectedItemStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+          dropdownDialogRadius: 10.0,
+          searchBarRadius: 10.0,
+          onCountryChanged: (value) {
+            flog('onCountryChanged$value');
+            if (value == null) return;
+            country = value;
+          },
+          onStateChanged: (value) {
+            flog('onStateChanged$value');
+            if (value == null) return;
+            state = value!;
+          },
+
+          onCityChanged: (value) {
+            flog('onCityChanged$value');
+            if (value == null) return;
+            city = value!;
+          },
+        )));
   }
 
   var gamePhotos = <Map>[];
