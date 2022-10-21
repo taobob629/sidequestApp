@@ -411,7 +411,7 @@ class OrderDetail extends StatelessWidget {
     int length = controller.playOrderDetailModel.value.statusArray.length;
     if (length == 0) return Container();
     return Container(
-      height: 60,
+      height: 65,
       child: Timeline.tileBuilder(
         theme: TimelineThemeData(
           direction: Axis.horizontal,
@@ -436,7 +436,7 @@ class OrderDetail extends StatelessWidget {
             contentsBuilder: (_, index) {
               return PWidget.text(
                   '${controller.playOrderDetailModel.value.statusArray[index].displayLable}',
-                  [Colors.white, 14, true]);
+                  [Colors.white, 13, true]);
             },
             connectorBuilder: (_, index, type) {
               return SolidLineConnector(
