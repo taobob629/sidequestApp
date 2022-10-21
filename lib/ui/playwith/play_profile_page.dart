@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -22,6 +21,8 @@ import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/city_picker/csc_picker.dart';
+import 'package:wy/widget/city_picker/model/enum.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -83,29 +84,30 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   ///初始化函数
   Future initData() async {
-    await this.getUserinfo();
-    await this.getPhotos();
+    getUserinfo();
+    getPhotos();
   }
 
   ///相册
   var photosDm = DataModel();
-  Future<int> getPhotos() async {
+
+  void getPhotos() async {
     await http.get('/peiwan/app/user/getPhotos').then((res) async {
       photosDm.addList(res.data, true, 0);
-      gamePhotos.addAll(photosDm.list.map((m) => {'thumb': m['thumb'], 'isUpload': 0, 'id': m['id']}).toList());
+      gamePhotos.addAll(photosDm.list
+          .map((m) => {'thumb': m['thumb'], 'isUpload': 0, 'id': m['id']})
+          .toList());
     }).catchError((e) {
       photosDm.toError(e.toString());
     });
-    flog(photosDm.toJson(), 'photosDm');
-    setState(() {});
-    return photosDm.flag;
   }
 
   ///个人信息
   var userinfoDm = DataModel();
 
   Future<int> getUserinfo() async {
-    await http.get('/peiwan/app/user/getUserinfo').then((res) async {
+    EasyLoading.show();
+     http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data['userInfo'];
       try {
         Map location = json.decode(userinfoDm.object['location']);
@@ -128,11 +130,12 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       flog(language, 'language');
       backgroundImage = userinfoDm.object['avatarThumb'];
       userinfoDm.setTime();
+      setState(() {});
+      EasyLoading.dismiss();
     }).catchError((e) {
+       EasyLoading.dismiss();
       userinfoDm.toError(e.toString());
     });
-    flog(userinfoDm.toJson(), 'userinfoDm');
-    setState(() {});
     return userinfoDm.flag;
   }
 
@@ -213,15 +216,20 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             EasyLoading.dismiss();
             EasyLoading.showToast('Network exception');
           });
-          if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload you album');
-          var gamePhotoList = gamePhotos.where((w) => w['isUpload'] == 1).toList();
-          var jsonData = gamePhotoList.map((m) => {"thumb": m['thumb']}).toList();
+          if (gamePhotos.isEmpty)
+            return EasyLoading.showToast('Please upload you album');
+          var gamePhotoList =
+              gamePhotos.where((w) => w['isUpload'] == 1).toList();
+          var jsonData =
+              gamePhotoList.map((m) => {"thumb": m['thumb']}).toList();
           flog(jsonData);
           if (jsonData.isEmpty) {
             Get.back();
           } else {
             EasyLoading.show();
-            await http.post('/peiwan/app/user/setPhoto', data: jsonData).then((v) {
+            await http
+                .post('/peiwan/app/user/setPhoto', data: jsonData)
+                .then((v) {
               EasyLoading.dismiss();
               Get.back();
             }).catchError((e) {
@@ -254,7 +262,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                   radius: 40,
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: avatar == null ? Icon(Icons.person, size: 70, color: Colors.black38) : CachedNetworkImage(imageUrl: avatar, fit: BoxFit.cover),
+                    child: avatar == null
+                        ? Icon(Icons.person, size: 70, color: Colors.black38)
+                        : CachedNetworkImage(
+                            imageUrl: avatar, fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -264,7 +275,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 child: CircleAvatar(
                   radius: 10,
                   backgroundColor: Colors.grey,
-                  child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 12),
+                  child: Icon(Icons.camera_alt_rounded,
+                      color: Colors.white, size: 12),
                 ),
               )
             ],
@@ -275,7 +287,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 48, Color(0xff282640)], {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 48, Color(0xff282640)],
+        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 
   List<Widget> get item {
@@ -307,7 +320,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (backgroundImage != null && backgroundImage != '') {
             return PWidget.container(
               Stack(children: [
-                Positioned.fill(child: CachedNetworkImage(imageUrl: backgroundImage, fit: BoxFit.cover)),
+                Positioned.fill(
+                    child: CachedNetworkImage(
+                        imageUrl: backgroundImage, fit: BoxFit.cover)),
                 Positioned.fill(child: Container(color: Colors.black54)),
                 PWidget.positioned(
                   PWidget.icon(
@@ -338,7 +353,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 if (url != null) {
                   setState(() => backgroundImage = url);
                   EasyLoading.show();
-                  await http.post('/peiwan/app/user/setUserBackGround', data: {"avatarThumb": backgroundImage}).then((v) {
+                  await http.post('/peiwan/app/user/setUserBackGround',
+                      data: {"avatarThumb": backgroundImage}).then((v) {
                     EasyLoading.dismiss();
                   }).catchError((e) {
                     EasyLoading.dismiss();
@@ -387,21 +403,29 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Please enter user nickname', hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true, maxLength: 26),
+        buildTFView(context!,
+            hintText: 'Please enter user nickname',
+            hintColor: Colors.white24,
+            textColor: Colors.white,
+            con: userNameCon,
+            isExp: true,
+            maxLength: 26),
       ])),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
           PWidget.text('Sex', [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'],
+              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(sexList.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': sexList[i]['name']});
+                return VerifyField.fromJson(
+                    {'name': '$i', 'label': sexList[i]['name']});
               }),
               title: "Select Sex",
               showInfo: true,
@@ -416,12 +440,16 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         PWidget.row([
           PWidget.text('language', [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(language.isEmpty ? 'Please language' : language.join('/'), [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(
+              language.isEmpty ? 'Please language' : language.join('/'),
+              [Color(0xff8291B4), 16],
+              {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           var languageList = userinfoDm.list;
-          if (languageList.isEmpty) return EasyLoading.showToast('No language to choose');
+          if (languageList.isEmpty)
+            return EasyLoading.showToast('No language to choose');
           FilterWidget.show(
             list: languageList,
             seleList: language,
@@ -435,7 +463,12 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Please enter personal profile', hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
+        buildTFView(context!,
+            hintText: 'Please enter personal profile',
+            hintColor: Colors.white24,
+            textColor: Colors.white,
+            con: beGoodAtCon,
+            isExp: true),
       ])),
       PWidget.boxh(16),
       PWidget.text('Location', [Colors.white, 18, true], {'ff': 'DIN'}),
@@ -447,6 +480,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     return Obx(() => Visibility(
         visible: hasInited,
         child: CSCPicker(
+          arrowColor: Colors.white60,
+
           ///Enable disable state dropdown [OPTIONAL PARAMETER]
           showStates: country.isEmpty ? false : true,
           showCities: state.isEmpty ? false : true,
@@ -495,72 +530,91 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         )));
   }
 
-  var gamePhotos = <Map>[];
+  RxList<Map> _gamePhotos = RxList();
+
+  List<Map> get gamePhotos => _gamePhotos.value;
+
+  set gamePhotos(List<Map> value) {
+    _gamePhotos.value = value;
+  }
 
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('Personal Photo(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
-      GridView.builder(
-        padding: EdgeInsets.only(top: 16),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 13,
-          mainAxisSpacing: 13,
-        ),
-        itemCount: gamePhotos.length == 20 ? gamePhotos.length : gamePhotos.length + 1,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (_, i) {
-          if (gamePhotos.length > i) {
-            return PWidget.container(
-              Stack(children: [
-                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i]['thumb'], fit: BoxFit.cover)),
-                Positioned.fill(child: Container(color: Colors.black54)),
-                PWidget.positioned(
-                  PWidget.icon(
-                    Icons.highlight_remove_rounded,
-                    [Colors.white],
-                    {
-                      'pd': 8,
-                      'fun': () async {
-                        if (gamePhotos[i]['isUpload'] == 1) {
-                          setState(() => gamePhotos.removeAt(i));
-                        } else {
-                          // var jsonData = gamePhotos.map((m) => {"thumb": m}).toList();
-                          EasyLoading.show();
-                          await http.post('/peiwan/app/user/delPhoto/${gamePhotos[i]['id']}').then((v) {
-                            setState(() => gamePhotos.removeAt(i));
-                          }).catchError((e) {
-                            EasyLoading.showToast('Network exception');
-                          });
-                          EasyLoading.dismiss();
-                        }
-                      }
-                    },
-                  ),
-                  [0, null, null, 0],
-                ),
-              ]),
-              {'crr': 16},
-            );
-          }
-          return PWidget.container(
-            PWidget.image('assets/images/paly_add.png', [32, 32]),
-            [null, null, Color(0xff282640)],
-            {
-              'crr': 16,
-              'pd': 16,
-              'ali': PFun.lg(0, 0),
-              'fun': () async {
-                if(isUploadFile) return EasyLoading.showToast('Uploading files, please try again later');
-                var url = await this.selectAvatar(context!);
-                if (url != null) setState(() => gamePhotos.add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
+      Obx(() => PWidget.text('Personal Photo(${20 - gamePhotos.length})',
+          [Colors.white, 20], {'ff': 'DIN'})),
+      Obx(() => GridView.builder(
+            padding: EdgeInsets.only(top: 16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 13,
+              mainAxisSpacing: 13,
+            ),
+            itemCount: gamePhotos.length == 20
+                ? gamePhotos.length
+                : gamePhotos.length + 1,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (_, i) {
+              if (gamePhotos.length > i) {
+                return PWidget.container(
+                  Stack(children: [
+                    Positioned.fill(
+                        child: CachedNetworkImage(
+                            imageUrl: gamePhotos[i]['thumb'],
+                            fit: BoxFit.cover)),
+                    Positioned.fill(child: Container(color: Colors.black54)),
+                    PWidget.positioned(
+                      PWidget.icon(
+                        Icons.highlight_remove_rounded,
+                        [Colors.white],
+                        {
+                          'pd': 8,
+                          'fun': () async {
+                            if (gamePhotos[i]['isUpload'] == 1) {
+                              setState(() => gamePhotos.removeAt(i));
+                            } else {
+                              // var jsonData = gamePhotos.map((m) => {"thumb": m}).toList();
+                              EasyLoading.show();
+                              await http
+                                  .post(
+                                      '/peiwan/app/user/delPhoto/${gamePhotos[i]['id']}')
+                                  .then((v) {
+                                setState(() => gamePhotos.removeAt(i));
+                              }).catchError((e) {
+                                EasyLoading.showToast('Network exception');
+                              });
+                              EasyLoading.dismiss();
+                            }
+                          }
+                        },
+                      ),
+                      [0, null, null, 0],
+                    ),
+                  ]),
+                  {'crr': 16},
+                );
               }
+              return PWidget.container(
+                PWidget.image('assets/images/paly_add.png', [32, 32]),
+                [null, null, Color(0xff282640)],
+                {
+                  'crr': 16,
+                  'pd': 16,
+                  'ali': PFun.lg(0, 0),
+                  'fun': () async {
+                    if (isUploadFile)
+                      return EasyLoading.showToast(
+                          'Uploading files, please try again later');
+                    var url = await this.selectAvatar(context!);
+                    if (url != null)
+                      setState(() => gamePhotos
+                          .add({'thumb': '$url', 'isUpload': 1, 'id': ''}));
+                  }
+                },
+              );
             },
-          );
-        },
-      ),
+          )),
     ]);
   }
 }
@@ -569,7 +623,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 class SexAndAgeWidget extends StatefulWidget {
   final String sex;
   final String age;
-  const SexAndAgeWidget({Key? key, this.sex = '0', this.age = '0'}) : super(key: key);
+
+  const SexAndAgeWidget({Key? key, this.sex = '0', this.age = '0'})
+      : super(key: key);
+
   @override
   _SexAndAgeWidgetState createState() => _SexAndAgeWidgetState();
 }
@@ -582,7 +639,8 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
     if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
     return PWidget.container(
       PWidget.row([
-        PWidget.icon(isFemale ? Icons.female_rounded : Icons.male_rounded, [Colors.white, 12]),
+        PWidget.icon(isFemale ? Icons.female_rounded : Icons.male_rounded,
+            [Colors.white, 12]),
         PWidget.boxw(2),
         PWidget.text(widget.age, [Colors.white, 10]),
       ], '220'),
@@ -600,7 +658,10 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
 class PlayLevelWidget extends StatefulWidget {
   final String level;
   final int isauth;
-  const PlayLevelWidget({Key? key, this.level = '1', required this.isauth}) : super(key: key);
+
+  const PlayLevelWidget({Key? key, this.level = '1', required this.isauth})
+      : super(key: key);
+
   @override
   _PlayLevelWidgetState createState() => _PlayLevelWidgetState();
 }
@@ -625,7 +686,8 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.bottomRight, children: [
       PWidget.image(
-        (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ?? 'assets/images/play/level_1.png',
+        (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
+            'assets/images/play/level_1.png',
       ),
       if (widget.isauth == 1)
         PWidget.container(
@@ -642,7 +704,11 @@ class OrdersAndStarWidget extends StatefulWidget {
   final Color? bgColor;
   final Color? tColor;
   final bool? isTran;
-  const OrdersAndStarWidget(this.data, {Key? key, this.bgColor, this.tColor, this.isTran = false}) : super(key: key);
+
+  const OrdersAndStarWidget(this.data,
+      {Key? key, this.bgColor, this.tColor, this.isTran = false})
+      : super(key: key);
+
   @override
   _OrdersAndStarWidgetState createState() => _OrdersAndStarWidgetState();
 }
@@ -661,7 +727,9 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
             {'pd': PFun.lg(2, 2, 8, 4)},
           ),
         if (widget.data['orders'] != 0) PWidget.boxw(8),
-        if (widget.data['orders'] != 0) PWidget.text('${widget.data['orders']}', [widget.tColor ?? Colors.white70, 12]),
+        if (widget.data['orders'] != 0)
+          PWidget.text('${widget.data['orders']}',
+              [widget.tColor ?? Colors.white70, 12]),
         if (widget.data['orders'] != 0) PWidget.boxw(8),
         FFStars(
           normalStar: Image.asset("assets/images/play/score0.png"),
@@ -676,7 +744,11 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
         if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
       [null, null, widget.bgColor ?? Color(0xff444264)],
-      {'crr': 56, 'mg': PFun.lg(8), if (widget.data['orders'] == 0) 'pd': PFun.lg(4, 4, 8, 8)},
+      {
+        'crr': 56,
+        'mg': PFun.lg(8),
+        if (widget.data['orders'] == 0) 'pd': PFun.lg(4, 4, 8, 8)
+      },
     );
   }
 }
