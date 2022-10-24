@@ -365,17 +365,6 @@ class PlayDetail extends StatelessWidget {
                       level: '${controller.detailModel.value.userLevel}',
                       isauth: controller.detailModel.value.isauth,
                     ),),
-                    Builder(
-                      builder: (context) {
-                        var language = controller.detailModel.value.language;
-                        if(language=='')return SizedBox();
-                        return PWidget.container(
-                          PWidget.text('$language',[Colors.white,12]),
-                          [null, null, Colors.white10],
-                          {'pd': PFun.lg(2,2,8,8),'br': 56},
-                        );
-                      }
-                    ),
                     PWidget.container(
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -399,6 +388,17 @@ class PlayDetail extends StatelessWidget {
                       ),
                       [null, null, Colors.white10],
                       {'pd': PFun.lg(2, 2, 8, 8), 'br': 56},
+                    ),
+                    Builder(
+                      builder: (context) {
+                        var language = controller.detailModel.value.language;
+                        if(language=='')return SizedBox();
+                        return PWidget.container(
+                          PWidget.text('$language',[Colors.white,12]),
+                          [null, null, Colors.white10],
+                          {'pd': PFun.lg(2,2,8,8),'br': 56},
+                        );
+                      }
                     )
                   ]),
               SizedBox(height: 8),
