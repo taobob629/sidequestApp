@@ -8,6 +8,7 @@ import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart'
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
+import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
 import 'package:wy/ui/playwith/game_score_page.dart';
@@ -188,16 +189,12 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
-          var city='unknown';
+          var city;
           var signature = data['signature'];
           var levelName = data['levelName'];
-          String location = data['location'];
-          if (location.isNotEmpty) {
-            try {
-              Map map = json.decode(location);
-              city = map['city'];
-            } catch (e) {}
-          }
+          Location location = Location.fromStr(data['location']);
+          flog('${data['location']} $location');
+          city=location.location();
           return PWidget.container(
             Stack(alignment: Alignment.bottomRight, children: [
               PWidget.container(

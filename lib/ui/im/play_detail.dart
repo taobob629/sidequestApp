@@ -376,6 +376,30 @@ class PlayDetail extends StatelessWidget {
                         );
                       }
                     ),
+                    PWidget.container(
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white60,
+                            size: 14,
+                          ),
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 100),
+                            child: Text(
+                              '${controller.detailModel.value.location.location()}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style:
+                              TextStyle(color: Colors.white60, fontSize: 11),
+                            ),
+                          ),
+                        ],
+                      ),
+                      [null, null, Colors.white10],
+                      {'pd': PFun.lg(2, 2, 8, 8), 'br': 56},
+                    )
                   ]),
               SizedBox(height: 8),
               Row(

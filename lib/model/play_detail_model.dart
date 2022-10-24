@@ -1,5 +1,9 @@
 
 
+import 'package:wy/model/event_detail_model.dart';
+import 'package:wy/model/user_info_model.dart';
+import 'package:wy/utils/utils.dart';
+
 class PlayDetailModel {
   late int userId = 0;
   late String memberId = "";
@@ -21,7 +25,7 @@ class PlayDetailModel {
   late String orderSn = "";
   late int fans = 0;
   late int isauth = 0;
-
+  late Location location=Location();
   late List<SkillModel> skills = [];
 
   PlayDetailModel();
@@ -34,6 +38,7 @@ class PlayDetailModel {
     name = json['basicInfo']['userNickname'] ?? '';
     avatar = json['basicInfo']['avatar'] ?? '';
     avatarThumb = json['basicInfo']['avatarThumb'] ?? '';
+    location =  Location.fromStr(json['basicInfo']['location'])??Location();
     age = json['basicInfo']['age'] ?? 0;
     language = json['basicInfo']['language'] ?? '';
     online = json['basicInfo']['online'] ?? 0;

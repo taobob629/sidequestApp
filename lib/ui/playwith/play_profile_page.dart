@@ -12,6 +12,7 @@ import 'package:wy/api/common.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
@@ -194,9 +195,15 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if(country==null){
             return EasyLoading.showToast('Please select your city');
           }
+          if(state!=null&&state!='*State'){
+            flog('state ${state!=null&&state!='*State'}');
+            if(city==null){
+              return EasyLoading.showToast('Please select your city');
+            }
+          }
           if(_curCountry!=null){
             if(_curCountry?.state.isNotEmpty==true){
-               if(state==null||city==null){
+               if(state==null||state=='*State'||city==null||city=='*State'){
                  return EasyLoading.showToast('Please select your city');
                }
             }
@@ -208,8 +215,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             "sex": sexList[sex!]['value'],
             "location": json.encode({
               'country': country,
-              'city': city,
-              'state': state,
+              'city': city=='*City'?null:city,
+              'state': state=='*State'?null:state,
             }),
             "language": language.join('/'),
           };
@@ -484,7 +491,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     if (_curCountry != null) {
       return _curCountry?.state.isNotEmpty == true;
     }
-    if (state != null&&state!='*State') return true;
+    if (state!= null&&state!='*State') return true;
     return country?.isNotEmpty == true;
   }
 
@@ -710,7 +717,9 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(alignment: Alignment.bottomRight, children: [
+    return GestureDetector(
+      onTap: ()=>Get.toNamed(AppPages.Grade),
+      child: Stack(alignment: Alignment.bottomRight, children: [
       PWidget.image(
         (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
             'assets/images/play/level_1.png',
@@ -720,7 +729,7 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
           PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
           [10, 10, Color(0xffefbd6d)],
         ),
-    ]);
+    ]),);
   }
 }
 

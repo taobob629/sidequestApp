@@ -89,7 +89,9 @@ class ProfileHeader extends StatelessWidget {
                   style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
                 ),
                 _buildLevelIcon(),
-                _buildGradeWidget()
+                PWidget.boxw(5),
+                PlayLevelWidget(isauth: controller.userInfoModel.value.isauth,level: '${controller.userInfoModel.value.level}',),
+              //  _buildGradeWidget()
               ],
             ),
           )
