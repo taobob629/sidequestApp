@@ -38,7 +38,7 @@ class PlayDetailModel {
     name = json['basicInfo']['userNickname'] ?? '';
     avatar = json['basicInfo']['avatar'] ?? '';
     avatarThumb = json['basicInfo']['avatarThumb'] ?? '';
-    location =  Location.fromStr(json['basicInfo']['location'])??Location();
+    location =  Location.fromStr(json['basicInfo']['location']);
     age = json['basicInfo']['age'] ?? 0;
     language = json['basicInfo']['language'] ?? '';
     online = json['basicInfo']['online'] ?? 0;

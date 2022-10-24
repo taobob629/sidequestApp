@@ -297,7 +297,7 @@ class CSCPicker extends StatefulWidget {
     this.countries=const []
   }) : super(key: key);
   final Color? arrowColor;
-  final ValueChanged<Country>? onCountryChanged;
+  final ValueChanged<Country?>? onCountryChanged;
   final ValueChanged<String?>? onStateChanged;
   final ValueChanged<String?>? onCityChanged;
 
@@ -369,7 +369,7 @@ class CSCPickerState extends State<CSCPicker> {
   void _setDefaultCountry() {
     if (widget.defaultCountry != null) {
       print(widget.countries[DefaultCountries[widget.defaultCountry]!]);
-      _onSelectedCountry(widget.countries[DefaultCountries[widget.defaultCountry]!]!);
+      _onSelectedCountry(widget.countries[DefaultCountries[widget.defaultCountry]!]);
     }
   }
 
@@ -443,7 +443,7 @@ class CSCPickerState extends State<CSCPicker> {
   }
 
   ///get methods to catch newly selected country state and city and populate state based on country, and city based on state
-  void _onSelectedCountry(Country country) {
+  void _onSelectedCountry(Country? country) {
     if (!mounted) return;
     setState(() {
       if (widget.flagState == CountryFlag.SHOW_IN_DROP_DOWN_ONLY) {
@@ -453,14 +453,14 @@ class CSCPickerState extends State<CSCPicker> {
       } else
         this.widget.onCountryChanged!(country);
       //code added in if condition
-      if (country.name != _selectedCountry) {
+      if (country?.name != _selectedCountry) {
         _states.clear();
         _cities.clear();
         _selectedState = widget.stateDropdownLabel;
         _selectedCity = widget.cityDropdownLabel;
         this.widget.onStateChanged!(null);
         this.widget.onCityChanged!(null);
-        _selectedCountry = country.name;
+        _selectedCountry = country?.name;
         getStates();
       } else {
         this.widget.onStateChanged!(_selectedState);
@@ -593,7 +593,7 @@ class CSCPickerState extends State<CSCPicker> {
       dialogRadius: widget.dropdownDialogRadius,
       searchBarRadius: widget.searchBarRadius,
       label: widget.countrySearchPlaceholder,
-      items: widget.countries.map((item)=>item?.name).toList(),
+      items: widget.countries.map((item)=>item.name).toList(),
       selected: _selectedCountry != null
           ? _selectedCountry
           : widget.countryDropdownLabel,

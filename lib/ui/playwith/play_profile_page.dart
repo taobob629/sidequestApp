@@ -562,7 +562,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           searchBarRadius: 10.0,
           onCountryChanged: (value) {
           //  flog('onCountryChanged${value.name}');
-            country = value.name;
+            country = value?.name;
             _curCountry = value;
           },
           onStateChanged: (value) {
