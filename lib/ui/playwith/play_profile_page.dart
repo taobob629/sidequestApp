@@ -44,9 +44,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     {'name': 'Female', 'value': 1},
   ];
   var avatar;
-  RxString _country = RxString('');
-  RxString _state = RxString('');
-  RxString _city = RxString('');
+  Rxn<String?> _country = Rxn();
+  Rxn<String?> _state = Rxn();
+  Rxn<String?> _city = Rxn();
   RxBool _hasInited = false.obs;
 
   bool get hasInited => _hasInited.value;
@@ -55,21 +55,21 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     _hasInited.value = value;
   }
 
-  String get state => _state.value;
+  String? get state => _state.value;
 
-  String get country => _country.value;
+  String? get country => _country.value;
 
-  String get city => _city.value;
+  String? get city => _city.value;
 
-  set country(String value) {
+  set country(String? value) {
     _country.value = value;
   }
 
-  set state(String value) {
+  set state(String? value) {
     _state.value = value;
   }
 
-  set city(String value) {
+  set city(String? value) {
     _city.value = value;
   }
 
@@ -193,7 +193,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 'Signature cannot exceed 255 characters');
           if (backgroundImage == null)
             return EasyLoading.showToast('Please upload your background image');
-          if (city.isEmpty) {
+          if (city==null) {
             return EasyLoading.showToast('Please select your city');
           }
           var data = {
@@ -481,18 +481,16 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         visible: hasInited,
         child: CSCPicker(
           arrowColor: Colors.white60,
-
-          ///Enable disable state dropdown [OPTIONAL PARAMETER]
-          showStates: country.isEmpty ? false : true,
-          showCities: state.isEmpty ? false : true,
-          currentCountry: country.isEmpty ? null : country,
-          currentState: state.isEmpty ? null : state,
-          currentCity: city.isEmpty ? null : city,
-          flagState: CountryFlag.DISABLE,
-          // disabledDropdownDecoration: BoxDecoration(
-          //     borderRadius: BorderRadius.all(Radius.circular(10)),
-          //     color: AppColor.itemBg,
-          //     border: Border.all(color: AppColor.itemBg, width: 1)),
+          showStates: country==null ? false : true,
+          showCities: state==null ? false : true,
+          currentCountry: country==null ? null : country,
+          currentState: state==null ? null : state,
+          currentCity: city==null ? null : city,
+         // flagState: CountryFlag.DISABLE,
+          disabledDropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: AppColor.itemBg,
+              border: Border.all(color: AppColor.itemBg, width: 1)),
           dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: AppColor.itemBg,
@@ -513,19 +511,18 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           searchBarRadius: 10.0,
           onCountryChanged: (value) {
             flog('onCountryChanged$value');
-            if (value == null) return;
             country = value;
           },
           onStateChanged: (value) {
             flog('onStateChanged$value');
-            if (value == null) return;
-            state = value!;
+            //if (value == null) return;
+            state = value;
           },
 
           onCityChanged: (value) {
             flog('onCityChanged$value');
-            if (value == null) return;
-            city = value!;
+          //  if (value == null) return;
+            city = value;
           },
         )));
   }

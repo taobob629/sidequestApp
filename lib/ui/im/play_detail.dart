@@ -494,7 +494,6 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildGame(SkillModel skillModel,int i,BuildContext context){
     var isOpen = skillModel.wswitch==1;
-    flog('${skillModel.background}===','skillModel.background');
     return GestureDetector(
       onTap: () async {
         if(isMe){

@@ -359,7 +359,6 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
       if (gamelistDm.list.isNotEmpty) {
         fun(0, gamelistDm.list.first);
       }
-      flog(gamelistDm.list.length, 'gamelistDm.list.length');
     }).catchError((e) {
       flog(e, 'gamelistDm');
       gamelistDm.toError();
@@ -385,7 +384,6 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
             itemBuilder: (_, i) {
               var isDy = seleIndex == i;
               var data = list[i];
-              flog(i, 'gamelistDm.list.length');
               return PWidget.container(
                 PWidget.ccolumn([
                   PWidget.container(
