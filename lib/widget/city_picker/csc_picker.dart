@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_config.dart';
 import 'package:wy/utils/utils.dart';
 import 'dropdown_with_search.dart';
 import 'model/enum.dart';
@@ -292,7 +293,8 @@ class CSCPicker extends StatefulWidget {
     this.countryDropdownLabel = "Country",
     this.stateDropdownLabel = "State",
     this.cityDropdownLabel = "City",
-    this.arrowColor
+    this.arrowColor,
+    this.countries=const []
   }) : super(key: key);
   final Color? arrowColor;
   final ValueChanged<Country>? onCountryChanged;
@@ -319,7 +321,7 @@ class CSCPicker extends StatefulWidget {
   final String countrySearchPlaceholder;
   final String stateSearchPlaceholder;
   final String citySearchPlaceholder;
-
+  final List<Country> countries ;
   final String countryDropdownLabel;
   final String stateDropdownLabel;
   final String cityDropdownLabel;
@@ -330,7 +332,6 @@ class CSCPicker extends StatefulWidget {
 
 class CSCPickerState extends State<CSCPicker> {
   List<String?> _cities = [];
-  List<Country?> _country = [];
   List<String?> _states = [];
 
   String _selectedCity = 'City';
@@ -349,7 +350,6 @@ class CSCPickerState extends State<CSCPicker> {
   }
 
   Future<void> setDefaults() async {
-    await getResponse();
     _setDefaultCountry();
     if (widget.currentCountry != null) {
       setState(() => _selectedCountry = widget.currentCountry);
@@ -368,36 +368,28 @@ class CSCPickerState extends State<CSCPicker> {
 
   void _setDefaultCountry() {
     if (widget.defaultCountry != null) {
-      print(_country[DefaultCountries[widget.defaultCountry]!]);
-      _onSelectedCountry(_country[DefaultCountries[widget.defaultCountry]!]!);
+      print(widget.countries[DefaultCountries[widget.defaultCountry]!]);
+      _onSelectedCountry(widget.countries[DefaultCountries[widget.defaultCountry]!]!);
     }
   }
-  RxList _countrys=RxList();
 
-  List get countrys => _countrys.value;
-
-  set countrys(List value) {
-    _countrys.value = value;
-  }
-
-  ///Read JSON country data from assets
-  Future<dynamic> getResponse() async {
-    if(countrys.isNotEmpty)return countrys;
-    countrys.clear();
-    var res = await rootBundle
-        .loadString('assets/data/country.json');
-    try{
-      countrys=(jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
-    }catch(e){
-      flog('e..$e');
-    }
-
-    return countrys;
-  }
+// //   ///Read JSON country data from assets
+// getResponse()  {
+//     // if(countrys.isNotEmpty)return countrys;
+//     // countrys.clear();
+//     // var res = await rootBundle
+//     //     .loadString('assets/data/country.json');
+//     // try{
+//     //   countrys=(jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+//     // }catch(e){
+//     //   flog('e..$e');
+//     // }
+//     return AppConfig.countrys;
+//   }
 
   ///get countries from json response
    getCountries() async {
-    await getResponse();
+  //  await getResponse();
     _setDefaultCountry();
   }
 
@@ -405,8 +397,7 @@ class CSCPickerState extends State<CSCPicker> {
   Future<List<String?>> getStates() async {
     _states.clear();
     //print(_selectedCountry);
-    var response = await getResponse();
-    var takeState =  response
+    var takeState =  widget.countries
             .where((item) => item.name == _selectedCountry)
             .map((item) => item.state)
             .toList();
@@ -428,8 +419,7 @@ class CSCPickerState extends State<CSCPicker> {
   ///get cities from json response
   Future<List<String?>> getCities() async {
     _cities.clear();
-    var response = await getResponse();
-    var takeCity = response
+    var takeCity = widget.countries
             .where((item) => item.name == _selectedCountry)
             .map((item) => item.state)
             .toList();
@@ -590,7 +580,7 @@ class CSCPickerState extends State<CSCPicker> {
 
   ///Country Dropdown Widget
   Widget countryDropdown() {
-    return Obx(()=>DropdownWithSearch(
+    return DropdownWithSearch(
       arrowColor: widget.arrowColor,
       title: widget.countryDropdownLabel,
       placeHolder: widget.countrySearchPlaceholder,
@@ -603,7 +593,7 @@ class CSCPickerState extends State<CSCPicker> {
       dialogRadius: widget.dropdownDialogRadius,
       searchBarRadius: widget.searchBarRadius,
       label: widget.countrySearchPlaceholder,
-      items: countrys.map((item)=>item?.name).toList(),
+      items: widget.countries.map((item)=>item?.name).toList(),
       selected: _selectedCountry != null
           ? _selectedCountry
           : widget.countryDropdownLabel,
@@ -612,10 +602,10 @@ class CSCPickerState extends State<CSCPicker> {
       onChanged: (Map? map) {
         print("countryChanged $map $_selectedCountry");
         if (map != null) {
-          _onSelectedCountry(countrys[map['index']]);
+          _onSelectedCountry(widget.countries[map['index']]);
         }
       },
-    ));
+    );
   }
 
   ///State Dropdown Widget

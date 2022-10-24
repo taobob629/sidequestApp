@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +16,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
@@ -76,15 +78,33 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   ///是否正在上传文件
   bool isUploadFile = false;
-
+  @override
+  void dispose(){
+    countries.clear();
+  }
   @override
   void initState() {
     this.initData();
     super.initState();
   }
+   RxList<Country> _countries=RxList() ;
 
+  List<Country> get countries => _countries.value;
+
+  set countries(List<Country> value) {
+    _countries.value = value;
+  }
+
+  initLocation() async {
+    if(countries.isNotEmpty)return countries;
+    countries.clear();
+   var res=await rootBundle
+        .loadString('assets/data/country.json');
+    countries=(jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+  }
   ///初始化函数
   Future initData() async {
+    initLocation();
     getUserinfo();
     getPhotos();
   }
@@ -110,12 +130,13 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     EasyLoading.show();
     http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data['userInfo'];
-      try {
-        Map location = json.decode(userinfoDm.object['location']);
-        city = location['city'];
-        country = location['country'];
-        state = location['state'];
-      } catch (e) {}
+      Location location=Location.fromStr(userinfoDm.object['location']);
+      city = location.city;
+      country = location.country;
+      state = location.state;
+      if(country!=null){
+        _curCountry=countries.firstWhereOrNull((element) => element.name==country);
+      }
       hasInited = true;
       userinfoDm.addList(res.data['initLanguage'], true, 0);
       beGoodAtCon.text = userinfoDm.object['signature'];
@@ -507,9 +528,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   Country? _curCountry;
 
   cityWidget() {
-    return Obx(() => Visibility(
-        visible: hasInited,
+    return Obx(() =>countries.isEmpty?Container(): Visibility(
+        visible: hasInited&&countries.isNotEmpty,
         child: CSCPicker(
+          countries: countries,
           arrowColor: Colors.white60,
           showStates: showState(),
           showCities: showCity(),
