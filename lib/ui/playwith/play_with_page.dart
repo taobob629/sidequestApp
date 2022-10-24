@@ -162,7 +162,6 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
     }).catchError((e) {
       superlistDm.toError(e.toString());
     });
-    flog(superlistDm.toJson());
     setState(() {});
     return superlistDm.flag;
   }
@@ -189,7 +188,6 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
-          flog(data, 'superlist');
           var city='unknown';
           var signature = data['signature'];
           var levelName = data['levelName'];

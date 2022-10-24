@@ -1,28 +1,18 @@
 class Country {
   int? id;
-  String? name;
+  String name='';
   String? emoji;
   String? emojiU;
   String? iso2;
   String? iso3;
   String? frenchname;
   int? countrycode;
-  List<Region>? state;
+  List<Region> state=[];
 
-  Country(
-      {this.id,
-      this.name,
-      this.emoji,
-      this.emojiU,
-      this.state,
-      this.iso2,
-      this.iso3,
-      this.frenchname,
-      this.countrycode});
 
   Country.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    name = json['name']??'';
     emoji = json['emoji'];
     emojiU = json['emojiU'];
     iso2 = json['iso2'];

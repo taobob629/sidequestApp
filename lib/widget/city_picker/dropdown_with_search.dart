@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wy/config/app_color.dart';
 
 class DropdownWithSearch<T> extends StatelessWidget {
   final String title;
@@ -90,7 +89,10 @@ class DropdownWithSearch<T> extends StatelessWidget {
                       style: selectedItemStyle != null
                           ? selectedItemStyle
                           : TextStyle(fontSize: 14))),
-              Icon(Icons.keyboard_arrow_down_rounded,color: arrowColor,)
+              Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: arrowColor,
+              )
             ],
           ),
         ),
@@ -245,7 +247,14 @@ class _SearchDialogState<T> extends State<SearchDialog> {
                       return InkWell(
                           onTap: () {
                             FocusScope.of(context).unfocus();
-                            Navigator.pop(context, filteredList[index]);
+                            var item = filteredList[index];
+                            int index2 = widget.items.indexOf(item);
+                            if (index2 == -1) return;
+                            Navigator.pop(
+                                context,
+                                Map()
+                                  ..['data'] = filteredList[index]
+                                  ..['index'] = index2);
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(

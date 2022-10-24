@@ -22,7 +22,7 @@ import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/city_picker/csc_picker.dart';
-import 'package:wy/widget/city_picker/model/enum.dart';
+import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -107,7 +107,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   Future<int> getUserinfo() async {
     EasyLoading.show();
-     http.get('/peiwan/app/user/getUserinfo').then((res) async {
+    http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data['userInfo'];
       try {
         Map location = json.decode(userinfoDm.object['location']);
@@ -122,12 +122,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       avatar = userinfoDm.object['avatar'];
       if (avatar == '') avatar = null;
       sex = userinfoDm.object['sex'];
-      flog(language, 'language');
       var userLanguage = (userinfoDm.object['language']);
       if (userLanguage != null) {
         language = userLanguage.toString().split('/');
       }
-      flog(language, 'language');
       backgroundImage = userinfoDm.object['avatarThumb'];
       userinfoDm.setTime();
       setState(() {});
@@ -193,8 +191,15 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 'Signature cannot exceed 255 characters');
           if (backgroundImage == null)
             return EasyLoading.showToast('Please upload your background image');
-          if (city==null) {
+          if(country==null){
             return EasyLoading.showToast('Please select your city');
+          }
+          if(_curCountry!=null){
+            if(_curCountry?.state.isNotEmpty==true){
+               if(state==null||city==null){
+                 return EasyLoading.showToast('Please select your city');
+               }
+            }
           }
           var data = {
             "signature": beGoodAtCon.text,
@@ -222,7 +227,6 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               gamePhotos.where((w) => w['isUpload'] == 1).toList();
           var jsonData =
               gamePhotoList.map((m) => {"thumb": m['thumb']}).toList();
-          flog(jsonData);
           if (jsonData.isEmpty) {
             Get.back();
           } else {
@@ -476,21 +480,40 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     ]);
   }
 
+  showState() {
+    if (_curCountry != null) {
+      return _curCountry?.state.isNotEmpty == true;
+    }
+    if (state != null&&state!='*State') return true;
+    return country?.isNotEmpty == true;
+  }
+
+  showCity() {
+    if (_curCountry != null) {
+      if (_curCountry?.state.isEmpty == true) return false;
+    }
+    if (state == null||state=='*State') return false;
+    if (city != null) return true;
+    return state?.isNotEmpty == true;
+  }
+
+  Country? _curCountry;
+
   cityWidget() {
     return Obx(() => Visibility(
         visible: hasInited,
         child: CSCPicker(
           arrowColor: Colors.white60,
-          showStates: country==null ? false : true,
-          showCities: state==null ? false : true,
-          currentCountry: country==null ? null : country,
-          currentState: state==null ? null : state,
-          currentCity: city==null ? null : city,
-         // flagState: CountryFlag.DISABLE,
-          disabledDropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: AppColor.itemBg,
-              border: Border.all(color: AppColor.itemBg, width: 1)),
+          showStates: showState(),
+          showCities: showCity(),
+          currentCountry: country == null ? null : country,
+          currentState: state == null ? null : state,
+          currentCity: city == null ? null : city,
+          // flagState: CountryFlag.DISABLE,
+          //  disabledDropdownDecoration: BoxDecoration(
+          //      borderRadius: BorderRadius.all(Radius.circular(10)),
+          //      color: AppColor.itemBg,
+          //      border: Border.all(color: AppColor.itemBg, width: 1)),
           dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: AppColor.itemBg,
@@ -502,7 +525,6 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           stateDropdownLabel: "*State",
           cityDropdownLabel: "*City",
           //  defaultCountry: DefaultCountry.United_States,
-          ///selected item style [OPTIONAL PARAMETER]
           selectedItemStyle: TextStyle(
             color: Colors.white,
             fontSize: 14,
@@ -510,19 +532,26 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           dropdownDialogRadius: 10.0,
           searchBarRadius: 10.0,
           onCountryChanged: (value) {
-            flog('onCountryChanged$value');
-            country = value;
+          //  flog('onCountryChanged${value.name}');
+            country = value.name;
+            _curCountry = value;
           },
           onStateChanged: (value) {
-            flog('onStateChanged$value');
-            //if (value == null) return;
-            state = value;
+           // flog('onStateChanged$value');
+            if (value == null && value == '*State') {
+              state = null;
+            } else {
+              state = value;
+            }
           },
-
           onCityChanged: (value) {
-            flog('onCityChanged$value');
-          //  if (value == null) return;
-            city = value;
+         //   flog('onCityChanged$value');
+            //  if (value == null) return;
+            if (value == null && value == '*City') {
+              city = null;
+            } else {
+              city = value;
+            }
           },
         )));
   }
