@@ -31,8 +31,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
   }
 
   @override
-  AttentionListPageController get controller => GetInstance()
-      .find<AttentionListPageController>(tag: 'attention_${type}')!;
+  AttentionListPageController get controller => GetInstance().find<AttentionListPageController>(tag: 'attention_${type}');
 
   @override
   Widget build(BuildContext context) {

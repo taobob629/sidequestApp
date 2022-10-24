@@ -22,7 +22,7 @@ class Country {
     if (json['state'] != null) {
       state = [];
       json['state'].forEach((v) {
-        state!.add(new Region.fromJson(v));
+        state.add(new Region.fromJson(v));
       });
     }
   }
@@ -38,7 +38,7 @@ class Country {
     data['countrycode'] = this.countrycode;
     data['frenchname'] = this.frenchname;
     if (this.state != null) {
-      data['state'] = this.state!.map((v) => v.toJson()).toList();
+      data['state'] = this.state.map((v) => v.toJson()).toList();
     }
     return data;
   }
