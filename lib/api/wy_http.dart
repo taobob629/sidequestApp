@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as Get;
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
@@ -7,24 +8,25 @@ import '../utils/storage_manager.dart';
 import 'base_http.dart';
 import 'dart:developer';
 
+///是否正在登录
+bool isSigningIn = false;
+
 Http http = Http();
+
 class Http extends BaseHttp {
-
   @override
-  void init() async{
-
+  void init() async {
     options.baseUrl = AppConfig.getBaseServer();
     interceptors
       ..add(ApiInterceptor())
       ..add(HeaderInterceptor());
   }
-
 }
 
-class HeaderInterceptor extends InterceptorsWrapper{
+class HeaderInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if(options.headers['X-Wanyoo-Token'] == null) {
+    if (options.headers['X-Wanyoo-Token'] == null) {
       options.headers['X-Wanyoo-Token'] = StorageManager.getToken();
     }
     options.headers['platform'] = Platform.operatingSystem;
@@ -44,8 +46,8 @@ class ApiInterceptor extends InterceptorsWrapper {
   }
 
   @override
-  onResponse(Response response, ResponseInterceptorHandler handler) {
-    log('api-response:$response',name: "WY_API：${response.requestOptions.path}");
+  onResponse(Response response, ResponseInterceptorHandler handler) async {
+    log('api-response:$response', name: "WY_API：${response.requestOptions.path}");
 
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {
@@ -56,12 +58,21 @@ class ApiInterceptor extends InterceptorsWrapper {
       if (respData.code == 401) {
         //throw const UnAuthorizedException(); // 需要登录
         EasyLoading.dismiss(animation: false);
-        Get.Get.to(()=>LoginPage());
+        var email = StorageManager.getAccount();
+        var password = StorageManager.getPassword();
+        if (email.isEmpty || password.isEmpty) {
+          Get.Get.to(() => LoginPage());
+        } else {
+          if (isSigningIn) return;
+          isSigningIn = true;
+          await Get.Get.find<UserController>().login();
+          isSigningIn = false;
+        }
       } else {
         EasyLoading.dismiss(animation: false);
-        if(respData.msg.isEmpty) {
+        if (respData.msg.isEmpty) {
           EasyLoading.showError("Server Failure", duration: Duration(seconds: 3));
-        }else{
+        } else {
           EasyLoading.showError("${respData.msg}", duration: Duration(seconds: 3));
         }
       }
@@ -81,7 +92,7 @@ class ResponseData extends BaseResponseData {
 
   ResponseData.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    msg = json['msg'] == null?"":json['msg'];
+    msg = json['msg'] == null ? "" : json['msg'];
     data = json['data'];
   }
 }

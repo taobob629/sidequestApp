@@ -41,8 +41,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
 
   final UserController userController = Get.find<UserController>();
 
-  TIMUIKitConversationController conversationController =
-      TIMUIKitConversationController();
+  TIMUIKitConversationController conversationController = TIMUIKitConversationController();
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +180,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
         headers: [
           PlaySwitchWidget(onTap: (v) {
-            gid = v['id'];
+            gid = v['id'] ?? '';
             setState(() => superlistDm.init());
             this.superlist(isRef: true);
           })
@@ -190,7 +189,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
           flog(data, 'superlist');
-          var city='unknown';
+          var city = 'unknown';
           var signature = data['signature'];
           var levelName = data['levelName'];
           String location = data['location'];
@@ -257,17 +256,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
               locationWidget(city),
               // if (data['online'] == 1)
               PWidget.container(
-                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [
-                  Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5),
-                  12
-                ]),
-                [
-                  null,
-                  null,
-                  data['online'] == 1
-                      ? Color(0xff5ADBAE)
-                      : Colors.white.withOpacity(0.1)
-                ],
+                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
+                [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
                 {
                   // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
                   'pd': PFun.lg(2, 2, 12, 12),
@@ -291,20 +281,26 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 
   Positioned locationWidget(String city) {
     return Positioned(
-                right: 10,
-                top: 10,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: Colors.white60,
-                      size: 14,
-                    ),
-                Container(
-                  constraints: BoxConstraints(maxWidth: 100),
-                  child:     Text(city,overflow:TextOverflow.ellipsis,maxLines:1,style: TextStyle(color: Colors.white60,fontSize: 11),),)
-                  ],
-                ));
+        right: 10,
+        top: 10,
+        child: Row(
+          children: [
+            Icon(
+              Icons.location_on,
+              color: Colors.white60,
+              size: 14,
+            ),
+            Container(
+              constraints: BoxConstraints(maxWidth: 100),
+              child: Text(
+                city,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(color: Colors.white60, fontSize: 11),
+              ),
+            )
+          ],
+        ));
   }
 
   Widget defaultAvatar() {
@@ -356,9 +352,6 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
       gamelistDm.addList([
         for (var i = 0; i < 100; i++) ...gamelistDm.list,
       ], false, 0);
-      if (gamelistDm.list.isNotEmpty) {
-        fun(0, gamelistDm.list.first);
-      }
       flog(gamelistDm.list.length, 'gamelistDm.list.length');
     }).catchError((e) {
       flog(e, 'gamelistDm');
@@ -366,6 +359,9 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
     });
     flog(gamelistDm.toJson());
     setState(() {});
+    if (gamelistDm.list.isNotEmpty) {
+      fun(0, gamelistDm.list.isEmpty ? {} : gamelistDm.list.first);
+    }
     return gamelistDm.flag;
   }
 
