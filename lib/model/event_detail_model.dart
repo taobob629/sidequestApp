@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/model/participant_model.dart';
 import 'package:wy/model/selector_item.dart';
@@ -15,6 +16,7 @@ class EventDetailModel {
   late String prizes = "";
   late String startTime = "";
   late bool canJoin = false;
+  RxBool _canCancel = RxBool(false);
   late String generalInfo = "";
   late List<ParticipantModel> participants = [];
   late String rules = "";
@@ -22,6 +24,12 @@ class EventDetailModel {
   late List<LocationModel> location = [];
   late String listImage = "";
   late double fee = 0.0;
+
+  bool get canCancel => _canCancel.value;
+
+  set canCancel(bool value) {
+    _canCancel.value = value;
+  }
 
   EventDetailModel() {
     this.team = null;
@@ -39,7 +47,8 @@ class EventDetailModel {
     gameName = json['gameName'] == null ? "No data" : json['gameName'];
     prizes = json['prizes'] == null ? "No data" : json['prizes'];
     startTime = json['startTime'] == null ? "No data" : json['startTime'];
-    canJoin = json['canJoin'];
+    canJoin = json['canJoin']??false;
+    canCancel = json['canCancel'];
     image = json['image'] == null ? AppConfig.noImage : json['image'];
     listImage = json['listImage'] == null ? "" : json['listImage'];
     generalInfo = json['generalInfo'] == null ? "No data" : json['generalInfo'];

@@ -365,6 +365,30 @@ class PlayDetail extends StatelessWidget {
                       level: '${controller.detailModel.value.userLevel}',
                       isauth: controller.detailModel.value.isauth,
                     ),),
+                    PWidget.container(
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white60,
+                            size: 14,
+                          ),
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 100),
+                            child: Text(
+                              '${controller.detailModel.value.location.location()}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style:
+                              TextStyle(color: Colors.white60, fontSize: 11),
+                            ),
+                          ),
+                        ],
+                      ),
+                      [null, null, Colors.white10],
+                      {'pd': PFun.lg(2, 2, 8, 8), 'br': 56},
+                    ),
                     Builder(
                       builder: (context) {
                         var language = controller.detailModel.value.language;
@@ -375,7 +399,7 @@ class PlayDetail extends StatelessWidget {
                           {'pd': PFun.lg(2,2,8,8),'br': 56},
                         );
                       }
-                    ),
+                    )
                   ]),
               SizedBox(height: 8),
               Row(
@@ -494,7 +518,6 @@ class PlayDetail extends StatelessWidget {
 
   Widget _buildGame(SkillModel skillModel,int i,BuildContext context){
     var isOpen = skillModel.wswitch==1;
-    flog('${skillModel.background}===','skillModel.background');
     return GestureDetector(
       onTap: () async {
         if(isMe){

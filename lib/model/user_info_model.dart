@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 const int TYPE_VIP = 1; //1是大神
 
 class UserInfoModel {
@@ -18,7 +20,8 @@ class UserInfoModel {
   late int remain = 0;
   late int isauth = 0; //1 大神
   late int pwuserId = 0;
-  late int level = 0;//用户等级
+  late int level = 0; //用户等级
+  late Location location;
 
   UserInfoModel();
 
@@ -41,5 +44,37 @@ class UserInfoModel {
     remain = json['remain'] == null ? 0 : json['remain'];
     isauth = json['isauth'] == null ? 0 : json['isauth'];
     pwuserId = json['pwuserId'] == null ? 0 : json['pwuserId'];
+    location = Location.fromStr(json['location']);
+  }
+}
+
+class Location {
+  String? country;
+  String? city;
+  String? state;
+  location(){
+    if(country==null)return 'unknown';
+    if(state==null)return country;
+    return city;
+  }
+  @override
+  String toString() {
+    return 'Location{country: $country, city: $city, state: $state}';
+  }
+
+  Location();
+
+  Location.fromJson(Map<String, dynamic> json) {
+    country = json['country'];
+    city = json['city'];
+    state = json['state'];
+  }
+
+  Location.fromStr(String? str) {
+    if (str == null || str.isEmpty == true) return;
+    var map = json.decode(str);
+    country = map['country'];
+    city = map['city'];
+    state = map['state'];
   }
 }
