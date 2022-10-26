@@ -97,5 +97,9 @@ class IndexApi {
     }
     return response.data;
   }
-
+  static Future<dynamic> getMoreGames({int pwid=0}) async {
+    var response = await http.get('/peiwan/app/home/mygamelist',
+        queryParameters: ({'pwid': pwid})
+    );
+  }
 }
