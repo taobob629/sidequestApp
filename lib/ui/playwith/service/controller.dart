@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
+import 'package:wy/model/game_service_model.dart';
 import 'package:wy/utils/utils.dart';
 
 /*
@@ -12,22 +14,42 @@ import 'package:wy/utils/utils.dart';
  **/
 class MoreGamesPageController extends GetxController
     with SingleGetTickerProviderMixin {
-  late TabController tabController=TabController(
-  vsync: this, length: 0, initialIndex: 0);
+  late TabController tabController;
+
+  RxList<GameServiceModel> _services = RxList();
+
+  List<GameServiceModel> get services => _services.value;
+
+  set services(List<GameServiceModel> value) {
+    _services.value = value;
+  }
 
   @override
   void onInit() {
     super.onInit();
-    flog('onInit');
     initData();
   }
- initData(){
-  IndexApi.getMoreGames(pwid: 0);
- }
+
+  initData() async {
+    var result = await IndexApi.getMoreGames(pwid: 0);
+    _services.addAll(result);
+    tabController = TabController(vsync: this, length: services.length, initialIndex: 0);
+  }
 
   @override
   void onClose() {
     tabController.dispose();
     super.onClose();
+  }
+
+  focus(GameInfo gameInfo) async {
+    EasyLoading.show();
+    var response = await IndexApi.focusGame(gameid: gameInfo.gameid);
+    EasyLoading.showToast(response.statusMessage??'');
+    if(response.statusCode==200) {
+      gameInfo.changeFocus();
+    }
+    EasyLoading.dismiss();
+
   }
 }
