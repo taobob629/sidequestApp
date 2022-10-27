@@ -15,6 +15,6 @@ import 'controller.dart';
 class MoreGamesTabBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MoreGamesPageController());
+    Get.put(MoreGamesPageController());
   }
 }

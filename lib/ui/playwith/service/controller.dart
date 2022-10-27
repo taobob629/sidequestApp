@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/model/game_service_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
 
 /*
@@ -13,9 +14,9 @@ import 'package:wy/utils/utils.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class MoreGamesPageController extends GetxController
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   late TabController tabController;
-
+  UserController userController = Get.find<UserController>();
   RxList<GameServiceModel> _services = RxList();
 
   List<GameServiceModel> get services => _services.value;
@@ -27,13 +28,15 @@ class MoreGamesPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    flog('onInit.....');
     initData();
   }
 
   initData() async {
     var result = await IndexApi.getMoreGames(pwid: 0);
     _services.addAll(result);
-    tabController = TabController(vsync: this, length: services.length, initialIndex: 0);
+    tabController =
+        TabController(vsync: this, length: services.length, initialIndex: 0);
   }
 
   @override
@@ -45,11 +48,10 @@ class MoreGamesPageController extends GetxController
   focus(GameInfo gameInfo) async {
     EasyLoading.show();
     var response = await IndexApi.focusGame(gameid: gameInfo.gameid);
-    EasyLoading.showToast(response.statusMessage??'');
-    if(response.statusCode==200) {
+    EasyLoading.showToast(response.statusMessage ?? '');
+    if (response.statusCode == 200) {
       gameInfo.changeFocus();
     }
     EasyLoading.dismiss();
-
   }
 }

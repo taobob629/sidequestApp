@@ -6,6 +6,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/model/game_service_model.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -14,13 +15,13 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
 
 class MoreGamesPage extends GetView<MoreGamesPageController> {
-  UserController userController = Get.find<UserController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('All Services'),
+          centerTitle: true,
+          elevation: 0,
           bottom: _buildTabs(),
         ),
         body: Obx(() => controller.services.isEmpty
@@ -65,38 +66,42 @@ class MoreGamesPage extends GetView<MoreGamesPageController> {
   }
 
   Widget buildGameList(List<GameInfo> items) {
-    return ListView.separated(
-        itemBuilder: (context, index) => ListTile(
-              isThreeLine: true,
-              leading: PWidget.container(
-                CachedNetworkImage(
-                  imageUrl: items[index].url,
-                  fit: BoxFit.cover,
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
+      child: ListView.separated(
+          itemBuilder: (context, index) => ListTile(
+                isThreeLine: false,
+                leading: PWidget.container(
+                  CachedNetworkImage(
+                    imageUrl: items[index].url,
+                    fit: BoxFit.cover,
+                  ),
+                  [64, 56 + 24, Colors.white10],
+                  {'crr': 12},
                 ),
-                [64, 56 + 24, Colors.white10],
-                {'crr': 12},
-              ),
-              trailing: Obx(()=>IconButton(
-                icon: Icon(
-                  Icons.star,
-                  color: items[index].favorite == 0
-                      ? Colors.white10
-                      : Colors.orange,
-                ),
-                onPressed: () => controller.focus(items[index]),
-              )),
-              subtitle: Text(
+                trailing: Obx(() => IconButton(
+                      icon: Icon(
+                        Icons.star,
+                        color: items[index].favorite == 0
+                            ? Colors.white10
+                            : Colors.orange,
+                      ),
+                      onPressed: () => Get.find<UserController>()
+                          .checkLogin(() => controller.focus(items[index])),
+                    )),
+                /* subtitle: Text(
                 items[index].desc,
                 style: TextStyle(
                     fontSize: 12,
                     overflow: TextOverflow.ellipsis,
                     color: Colors.white60),
                 maxLines: 2,
+              ),*/
+                title: PWidget.text(
+                    items[index].gameName, [Colors.white, 18], {'ff': 'DIN'}),
               ),
-              title: PWidget.text(
-                  items[index].gameName, [Colors.white, 14], {'ff': 'DIN'}),
-            ),
-        separatorBuilder: (context, index) => Divider(),
-        itemCount: items.length);
+          separatorBuilder: (context, index) => Divider(color: AppColor.itemBg,),
+          itemCount: items.length),
+    );
   }
 }

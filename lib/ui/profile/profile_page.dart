@@ -219,10 +219,7 @@ class ProfilePage extends StatelessWidget {
                 title: "Play Wallet",
                 onTap: () {
                   userController.checkLogin(() {
-                    Get.to(() => PlayBalancePage(),
-                        arguments: Map()
-                          ..['coin'] = userController?.userInfoModel?.value?.coin
-                          ..['votes'] = userController?.userInfoModel?.value?.votes);
+                    Get.to(() => PlayBalancePage());
                   });
                 },
               ),
