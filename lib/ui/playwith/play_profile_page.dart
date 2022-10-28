@@ -522,7 +522,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     if (_curCountry != null) {
       return _curCountry?.state.isNotEmpty == true;
     }
-    if (_curState == null) return true;
+    if (_curState == null) return false;
     return country?.isNotEmpty == true;
   }
 
