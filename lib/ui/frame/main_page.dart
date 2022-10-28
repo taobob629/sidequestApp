@@ -140,6 +140,7 @@ class MainPage extends GetView<MainPageController> {
                         animationDuration: const Duration(microseconds: 500),
                         showBadge: userController.unreadMsgCount.value > 0,
                         badgeContent: Text("${userController.unreadMsgCount.value}",style: TextStyle(fontSize: 12, color: Colors.white),),
+                        ignorePointer: true,
                         child: TabButton(
                           index: 2,
                           currentIndex: controller.currentIndex.value,

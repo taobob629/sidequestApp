@@ -116,8 +116,8 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
             return PWidget.container(
               PWidget.row(
                 [
-                  PWidget.container(CachedNetworkImage(imageUrl: skillVo['thumb'], fit: BoxFit.cover, width: 64, height: 64), {'crr': 8}),
-                  PWidget.boxw(8),
+                  if (skillVo['thumb'] != null) PWidget.container(CachedNetworkImage(imageUrl: skillVo['thumb'], fit: BoxFit.cover, width: 64, height: 64), {'crr': 8}),
+                  if (skillVo['thumb'] != null) PWidget.boxw(8),
                   PWidget.column([
                     PWidget.text('${skillVo['nameEn']}', [Colors.white, 16, true], {'isOf': false}),
                     PWidget.spacer(),

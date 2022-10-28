@@ -13,9 +13,11 @@ import 'package:wy/ui/common/flexible_header.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/events/event/event_selecto_widget.dart';
 import 'package:wy/ui/events/event/team_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/views.dart';
 
 import 'join_button.dart';
 import 'tab_overview_page.dart';
@@ -310,28 +312,54 @@ class EventPageController extends GetxController
 
   void joinActivity(BuildContext context) async {
     userController.checkLogin(() async {
-      SelectorItem? item;
-      if (eventDetailModel.value.location.length > 1) {
-        item = await SelectorDialog.show(
-            context, eventDetailModel.value.location,
-            title: "Select Location");
-      } else {
-        item = eventDetailModel.value.location[0];
-      }
-      if (item != null) {
-        LocationModel store = item as LocationModel;
-        checkFee(() async {
-          EasyLoading.show();
-          await EventsApi.joinActivity(eventDetailModel.value.id,
-              userController.user.value.id, store.id);
-          eventDetailModel.value = await EventsApi.getActivityDetail(id);
-          EasyLoading.dismiss();
-          Get.dialog(
-              ConfirmDialog(
-                  title: "Congratulations",
-                  info: "You have successfully signed up!"),
-              barrierColor: Colors.black26);
-        });
+      if(eventDetailModel.value.matchDiff == 5){
+        var res =await showSheet(builder: (_) => EventSelectoWidget(
+          'Choose a Store',
+          selectorList: eventDetailModel.value.location,
+        ));
+        if(res!=null){
+          var store = res['location'] as LocationModel;
+          var time = res['time'] as DateTime;
+          var timeSplit = time.toString().split(':');
+          timeSplit.removeLast();
+          var dateTime = timeSplit.join(':');
+          checkFee(() async {
+            EasyLoading.show();
+            await EventsApi.joinActivity(eventDetailModel.value.id,
+                userController.user.value.id, store.id,cupsleeve: dateTime);
+            eventDetailModel.value = await EventsApi.getActivityDetail(id);
+            EasyLoading.dismiss();
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Congratulations",
+                    info: "You have successfully signed up!"),
+                barrierColor: Colors.black26);
+          });
+        }
+      }else{
+        SelectorItem? item;
+        if (eventDetailModel.value.location.length > 1) {
+          item = await SelectorDialog.show(
+              context, eventDetailModel.value.location,
+              title: "Select Location");
+        } else {
+          item = eventDetailModel.value.location[0];
+        }
+        if (item != null) {
+          LocationModel store = item as LocationModel;
+          checkFee(() async {
+            EasyLoading.show();
+            await EventsApi.joinActivity(eventDetailModel.value.id,
+                userController.user.value.id, store.id);
+            eventDetailModel.value = await EventsApi.getActivityDetail(id);
+            EasyLoading.dismiss();
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Congratulations",
+                    info: "You have successfully signed up!"),
+                barrierColor: Colors.black26);
+          });
+        }
       }
     });
   }

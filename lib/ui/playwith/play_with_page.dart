@@ -193,18 +193,26 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           var levelName = data['levelName'];
           Location location = Location.fromStr(data['location']);
           flog('${data['location']} $location');
-          city=location.location();
+          city = location.location();
           return PWidget.container(
             Stack(alignment: Alignment.bottomRight, children: [
               PWidget.container(
                 PWidget.row([
-                  if (data['thumb'] == null || data['thumb'] == '')
-                    defaultAvatar()
-                  else
-                    PWidget.container(
-                      CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
-                      {'crr': 8},
-                    ),
+                  Stack(alignment: Alignment.topCenter, children: [
+                    if (data['thumb'] == null || data['thumb'] == '')
+                      defaultAvatar()
+                    else
+                      PWidget.container(
+                        CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
+                        {'crr': 8},
+                      ),
+                    if (levelName != null && levelName != '')
+                      PWidget.container(
+                        PWidget.text('$levelName', [Colors.white54, 12]),
+                        [74 - 8, null, Color(0xff7C5EF4)],
+                        {'ali': PFun.lg(0, 0), 'pd': PFun.lg(2, 2, 8, 8)},
+                      ),
+                  ]),
                   PWidget.boxw(8),
                   PWidget.column([
                     PWidget.row([
@@ -221,8 +229,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                     OrdersAndStarWidget(data),
                     if (signature != null && signature != '') PWidget.boxh(8),
                     if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
-                    if (levelName != null && levelName != '') PWidget.boxh(8),
-                    if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
+                    // if (levelName != null && levelName != '') PWidget.boxh(8),
                     Builder(builder: (context) {
                       var list = (data['label'] ?? []) as List;
                       return Wrap(

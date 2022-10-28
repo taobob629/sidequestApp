@@ -8,6 +8,7 @@ class EventDetailModel {
   late String image = "";
   late String constraint = "";
   late String formation = "";
+  late int matchDiff = 0;
   late String checkinTime = "";
   late String title = "";
   late bool? team;
@@ -40,6 +41,7 @@ class EventDetailModel {
     checkinTime = json['checkinTime'] ?? '';
     constraint = json['constraint'] ?? '';
     formation = json['Formation'] ?? '';
+    matchDiff = json['matchDiff'] ?? 0;
     title = json['title'];
     team = json['team'];
     totalMembers = json['totalMembers'] ?? 0;

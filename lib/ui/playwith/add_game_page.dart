@@ -162,7 +162,13 @@ class _AddGamePageState extends State<AddGamePage> {
         onTap: () async {
           if (platform == null) return EasyLoading.showToast('Please select platform');
           if (game == null) return EasyLoading.showToast('Please select game');
-          if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
+          if (platformIndex == null) return EasyLoading.showToast('Please select platform');
+          var list = skillDm.list[platformIndex]['skill'] as List;
+          if (gameIndex == null) return EasyLoading.showToast('Please select game');
+          var levels = list[gameIndex]['level'] as List;
+          if (levels.isNotEmpty) {
+            if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
+          }
           // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
           if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
           if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
@@ -298,37 +304,51 @@ class _AddGamePageState extends State<AddGamePage> {
           }
         },
       ),
-      PWidget.boxh(16),
-      itemBg(
-        PWidget.row([
-          PWidget.text('Game LV', [Colors.white]),
-          PWidget.boxw(8),
-          PWidget.text(gameLv == null ? 'Please select' : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
-          rightJtView(16, Colors.white54),
-        ]),
-        fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
-          var list = skillDm.list[platformIndex]['skill'] as List;
-          if (gameIndex == null) return EasyLoading.showToast('Please select game first');
-          var levels = list[gameIndex]['level'] as List;
-          var res = await Get.dialog(
-            SelectorDialog(
-              items: List.generate(levels.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
-              }),
-              title: "Select Game Lv",
-              showInfo: true,
-            ),
-            barrierColor: Colors.black26,
-          );
-          if (res != null) {
-            setState(() {
-              gameLvIndex = int.parse(res.name);
-              gameLv = levels[gameLvIndex];
-            });
-          }
-        },
-      ),
+      Builder(builder: (context) {
+        if (platformIndex == null) return PWidget.boxh(0);
+        var list = skillDm.list[platformIndex]['skill'] as List;
+        if (gameIndex == null) return PWidget.boxh(0);
+        var levels = list[gameIndex]['level'] as List;
+        if (levels.isEmpty) return PWidget.boxh(0);
+        return PWidget.boxh(16);
+      }),
+      Builder(builder: (context) {
+        if (platformIndex == null) return PWidget.boxh(0);
+        var list = skillDm.list[platformIndex]['skill'] as List;
+        if (gameIndex == null) return PWidget.boxh(0);
+        var levels = list[gameIndex]['level'] as List;
+        if (levels.isEmpty) return PWidget.boxh(0);
+        return itemBg(
+          PWidget.row([
+            PWidget.text('Game LV', [Colors.white]),
+            PWidget.boxw(8),
+            PWidget.text(gameLv == null ? 'Please select' : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+            rightJtView(16, Colors.white54),
+          ]),
+          fun: () async {
+            if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
+            var list = skillDm.list[platformIndex]['skill'] as List;
+            if (gameIndex == null) return EasyLoading.showToast('Please select game first');
+            var levels = list[gameIndex]['level'] as List;
+            var res = await Get.dialog(
+              SelectorDialog(
+                items: List.generate(levels.length, (i) {
+                  return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
+                }),
+                title: "Select Game Lv",
+                showInfo: true,
+              ),
+              barrierColor: Colors.black26,
+            );
+            if (res != null) {
+              setState(() {
+                gameLvIndex = int.parse(res.name);
+                gameLv = levels[gameLvIndex];
+              });
+            }
+          },
+        );
+      }),
       if (configDm.object?.isNotEmpty ?? false) PWidget.boxh(16),
       if (configDm.object?.isNotEmpty ?? false)
         itemBg(PWidget.row([

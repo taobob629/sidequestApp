@@ -68,11 +68,12 @@ class EventsApi {
     return list;
   }
 
-  static Future<void> joinActivity(int eventId,int userId,int location) async {
+  static Future<void> joinActivity(int eventId,int userId,int location,{String cupsleeve = ''}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
-      "location" : location
+      "location" : location,
+      "cupsleeve" : cupsleeve,
     };
     var response = await http.post('/app/events/joinActivity',
       data: formData
