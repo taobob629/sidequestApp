@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/im/play_detail.dart';
@@ -179,11 +181,14 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         itemModel: superlistDm,
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
         headers: [
+          MaterialBanner(
+            backgroundColor: Colors.transparent,
+            content:PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}),actions: [IconButton(onPressed: ()=>Get.toNamed(AppPages.MoreGames), icon: Icon(Icons.arrow_forward_ios,color: Colors.white60,))],),
           PlaySwitchWidget(onTap: (v) {
             gid = v['id'] ?? '';
             setState(() => superlistDm.init());
             this.superlist(isRef: true);
-          })
+          }),
         ],
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),

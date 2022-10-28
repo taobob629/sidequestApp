@@ -56,228 +56,219 @@ class PlayDetail extends StatelessWidget {
       .width * 0.75;
     controller.initData(width);
     isMe = controller.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString();
-    return Stack(
+    return SafeArea(
+        top: false,
+        child: Stack(
       children: [
         Scaffold(
-          backgroundColor: AppColor.background,
-          body: CustomScrollView(
-            controller: controller.scrollController,
-            physics: MyBouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                elevation: 0,
-                pinned: true,
-                backgroundColor: AppColor.background,
-                expandedHeight: width,
-                title: Obx(() {
-                  return Text(
-                    controller.detailModel.value.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: controller.titleColor.value, fontSize: 16),
-                  );
-                }),
-                actions: [
-                  if(isMe)
-                  Center(
-                    child: GestureDetector(
-                      onTap: () async {
-                        if(isMe){
-                          await Get.to(()=>PlayProfilePage());
-                          controller.onReady();
-                          return;
-                        }
-                        Get.dialog(ConfirmDialog(
-                          title: "Add Block List",
-                          info: "Do you want to add this person to black list?",
-                          confirmBtn: "CONFIRM",
-                          onConfirm: () async {
-                            EasyLoading.show();
-                            var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
-                            List<String> userIDList = [];
-                            userIDList.add(userId);
-                            await friendshipManager.addToBlackList(userIDList: userIDList);
-                            EasyLoading.dismiss();
-                            Get.back();
+            backgroundColor: AppColor.background,
+            body: CustomScrollView(
+              controller: controller.scrollController,
+              physics: MyBouncingScrollPhysics(),
+              slivers: [
+                SliverAppBar(
+                  elevation: 0,
+                  pinned: true,
+                  backgroundColor: AppColor.background,
+                  expandedHeight: width,
+                  title: Obx(() {
+                    return Text(
+                      controller.detailModel.value.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: controller.titleColor.value, fontSize: 16),
+                    );
+                  }),
+                  actions: [
+                    if(isMe)
+                      Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            if(isMe){
+                              await Get.to(()=>PlayProfilePage());
+                              controller.onReady();
+                              return;
+                            }
+                            Get.dialog(ConfirmDialog(
+                              title: "Add Block List",
+                              info: "Do you want to add this person to black list?",
+                              confirmBtn: "CONFIRM",
+                              onConfirm: () async {
+                                EasyLoading.show();
+                                var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
+                                List<String> userIDList = [];
+                                userIDList.add(userId);
+                                await friendshipManager.addToBlackList(userIDList: userIDList);
+                                EasyLoading.dismiss();
+                                Get.back();
+                              },
+                            ),barrierColor: Colors.black26);
                           },
-                        ),barrierColor: Colors.black26);
-                      },
-                      child: Container(
-                        height: 32,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(56),
+                          child: Container(
+                            height: 32,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(56),
+                            ),
+                            child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
+                          ),
                         ),
-                        child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
-                      ),
-                    ),
-                  )
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  background: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Obx(()=>controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
-                          autoplayDelay: 5000,
-                          duration: 500,
-                          itemBuilder: (BuildContext context, int index) {
-                            String url = controller.detailModel.value.avatarThumb;
-                            return GestureDetector(
-                              onTap: ()=> Get.to(()=>PhotoView(images: [url],index: 0)),
-                              child: CachedNetworkImage(
-                                imageUrl: url,
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 1,
-                          // pagination: SwiperPagination(
-                          //   alignment: Alignment.bottomCenter,
-                          //   margin: const EdgeInsets.only(bottom: 50)
-                          // ),
-                          onTap: (index) {},
-                        )),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          height: 70,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left:0,
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  height:35,
-                                  decoration: BoxDecoration(
-                                    color: AppColor.background,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(22), topLeft: Radius.circular(22))
+                      )
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                      collapseMode: CollapseMode.pin,
+                      background: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            top: 0,
+                            child: Obx(()=>controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
+                              autoplayDelay: 5000,
+                              duration: 500,
+                              itemBuilder: (BuildContext context, int index) {
+                                String url = controller.detailModel.value.avatarThumb;
+                                return GestureDetector(
+                                  onTap: ()=> Get.to(()=>PhotoView(images: [url],index: 0)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: url,
+                                    fit: BoxFit.cover,
                                   ),
-                                )
-                              ),
-                              Positioned(
-                                left: 15,
-                                top: 0,
-                                bottom: 0,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 35,
+                                );
+                              },
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 1,
+                              // pagination: SwiperPagination(
+                              //   alignment: Alignment.bottomCenter,
+                              //   margin: const EdgeInsets.only(bottom: 50)
+                              // ),
+                              onTap: (index) {},
+                            )),
+                          ),
+                          Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: Container(
+                                  height: 70,
                                   child: Stack(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
-                                        CachedNetworkImage(
-                                          imageUrl: controller.detailModel.value.avatar,
-                                          fit: BoxFit.cover,
-                                          imageBuilder: (context,provider){
-                                            return Container(
-                                              width: 66,
-                                              height: 66,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(35),
-                                                image:DecorationImage(
-                                                  image: provider,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              ),
-                                            );
-                                          },
-                                        ))
+                                      Positioned(
+                                          left:0,
+                                          right: 0,
+                                          bottom: 0,
+                                          child: Container(
+                                            height:35,
+                                            decoration: BoxDecoration(
+                                                color: AppColor.background,
+                                                borderRadius: BorderRadius.only(
+                                                    topRight: Radius.circular(22), topLeft: Radius.circular(22))
+                                            ),
+                                          )
                                       ),
-                                      ///controller.detailModel.value
-                                      Obx(() {
-                                        var isOnline = controller.detailModel.value.online==1;
-                                        return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
-                                          'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                                          'pd': PFun.lg(1, 1, 12, 12),
-                                        });
-                                        }
+                                      Positioned(
+                                        left: 15,
+                                        top: 0,
+                                        bottom: 0,
+                                        child: CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            radius: 35,
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                    padding: const EdgeInsets.all(2.0),
+                                                    child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
+                                                    CachedNetworkImage(
+                                                      imageUrl: controller.detailModel.value.avatar,
+                                                      fit: BoxFit.cover,
+                                                      imageBuilder: (context,provider){
+                                                        return Container(
+                                                          width: 66,
+                                                          height: 66,
+                                                          clipBehavior: Clip.antiAlias,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(35),
+                                                              image:DecorationImage(
+                                                                image: provider,
+                                                                fit: BoxFit.cover,
+                                                              )
+                                                          ),
+                                                        );
+                                                      },
+                                                    ))
+                                                ),
+                                                ///controller.detailModel.value
+                                                Obx(() {
+                                                  var isOnline = controller.detailModel.value.online==1;
+                                                  return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
+                                                    'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                                                    'pd': PFun.lg(1, 1, 12, 12),
+                                                  });
+                                                }
+                                                ),
+                                              ],
+                                            )
+                                        ),
                                       ),
                                     ],
                                   )
-                                ),
-                              ),
-                            ],
+                              )
                           )
-                        )
+                        ],
                       )
-                    ],
-                  )
+                  ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                    if (index == 0) {
-                      return buildInfo(isMe);
-                    }else if(index == 1){
-                      return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
-                    }else if(index == 2){
-                      return  _buildIntro();
-                    }
-                    return Container(height: 64);
-                  },
-                  childCount: 4
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                          if (index == 0) {
+                            return buildInfo(isMe);
+                          }else if(index == 1){
+                            return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
+                          }else if(index == 2){
+                            return  _buildIntro();
+                          }
+                          return Container(height: 64);
+                        },
+                        childCount: 4
+                    )
                 )
-              )
-            ],
-          )
+              ],
+            )
         ),
         if(!isMe)
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Material(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Obx(() {
-                    return ColorfulButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10,top: 4),
-                            child: Text(
-                             controller.detailModel.value.follow==1?"UnFollow": "Follow",
-                              style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Material(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Obx(() {
+                      return ColorfulButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10,top: 4),
+                              child: Text(
+                                controller.detailModel.value.follow==1?"UnFollow": "Follow",
+                                style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      height: 50,
-                      width: 160,
-                      onTap: () async {
-                        if(controller.detailModel.value.follow==1){
-                          controller.detailModel.value.follow=0;
-                          controller.detailModel.value.fans--;
-                        }else{
-                          controller.detailModel.value.follow=1;
-                          controller.detailModel.value.fans++;
-                        }
-                        controller.detailModel.refresh();
-                        EasyLoading.show();
-                        await http.get('/peiwan/app/user/attention/${controller.detailModel.value.userId}').then((v) {}).catchError((e) {
-                          EasyLoading.showToast('Network exception');
-                            if(controller.detailModel.value.follow==1){
+                          ],
+                        ),
+                        height: 50,
+                        width: 160,
+                        onTap: () async {
+                          if(controller.detailModel.value.follow==1){
                             controller.detailModel.value.follow=0;
                             controller.detailModel.value.fans--;
                           }else{
@@ -285,55 +276,66 @@ class PlayDetail extends StatelessWidget {
                             controller.detailModel.value.fans++;
                           }
                           controller.detailModel.refresh();
-                        });
-                        EasyLoading.dismiss();
-                        flog(controller.detailModel.value.follow);
-                      },
-                    );
-                  }
-                ),
-                ColorfulButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.message,color: Colors.white,size: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10,top: 4),
-                        child: Text(
-                          "Message",
-                          style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
-                        ),
-                      ),
-                    ],
-                  ),
-                  height: 50,
-                  width: 160,
-                  onTap: () async{
-                    if(fromChat){
-                      Get.back();
-                      return;
+                          EasyLoading.show();
+                          await http.get('/peiwan/app/user/attention/${controller.detailModel.value.userId}').then((v) {}).catchError((e) {
+                            EasyLoading.showToast('Network exception');
+                            if(controller.detailModel.value.follow==1){
+                              controller.detailModel.value.follow=0;
+                              controller.detailModel.value.fans--;
+                            }else{
+                              controller.detailModel.value.follow=1;
+                              controller.detailModel.value.fans++;
+                            }
+                            controller.detailModel.refresh();
+                          });
+                          EasyLoading.dismiss();
+                          flog(controller.detailModel.value.follow);
+                        },
+                      );
                     }
-                    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-                    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
-                    if(conv.data != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                            Chat(
-                              selectedConversation: conv.data!,
-                              orderSn: controller.detailModel.value.orderSn,
+                    ),
+                    ColorfulButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.message,color: Colors.white,size: 20,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,top: 4),
+                            child: Text(
+                              "Message",
+                              style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
                             ),
-                        ));
-                    }
-                  },
+                          ),
+                        ],
+                      ),
+                      height: 50,
+                      width: 160,
+                      onTap: () async{
+                        if(fromChat){
+                          Get.back();
+                          return;
+                        }
+                        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+                        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
+                        if(conv.data != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Chat(
+                                      selectedConversation: conv.data!,
+                                      orderSn: controller.detailModel.value.orderSn,
+                                    ),
+                              ));
+                        }
+                      },
+                    )
+                  ],
                 )
-              ],
-            )
-          ),
-        )
+            ),
+          )
       ],
-    );
+    ));
   }
 
   Widget buildInfo(bool isMe) {
