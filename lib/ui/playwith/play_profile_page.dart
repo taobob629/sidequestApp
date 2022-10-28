@@ -130,12 +130,16 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     EasyLoading.show();
     http.get('/peiwan/app/user/getUserinfo').then((res) async {
       userinfoDm.object = res.data['userInfo'];
-      Location location=Location.fromStr(userinfoDm.object['location']);
+      Location location = Location.fromStr(userinfoDm.object['location']);
       city = location.city;
       country = location.country;
       state = location.state;
-      if(country!=null){
-        _curCountry=countries.firstWhereOrNull((element) => element.name==country);
+      if (country != null) {
+        _curCountry =
+            countries.firstWhereOrNull((element) => element.name == country);
+        _curState =
+            _curCountry?.state.firstWhereOrNull((item) => item.name == state);
+     //   flog('找到了state$_curState  counrty $_curCountry');
       }
       hasInited = true;
       userinfoDm.addList(res.data['initLanguage'], true, 0);
@@ -153,7 +157,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       setState(() {});
       EasyLoading.dismiss();
     }).catchError((e) {
-       EasyLoading.dismiss();
+      EasyLoading.dismiss();
       userinfoDm.toError(e.toString());
     });
     return userinfoDm.flag;
@@ -213,20 +217,26 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 'Signature cannot exceed 255 characters');
           if (backgroundImage == null)
             return EasyLoading.showToast('Please upload your background image');
-          if(country==null){
-            return EasyLoading.showToast('Please select your city');
+          if (country == null) {
+            return EasyLoading.showToast('Please select your Country');
           }
-          if(state!=null&&state!='*State'){
-            flog('state ${state!=null&&state!='*State'}');
-            if(city==null){
-              return EasyLoading.showToast('Please select your city');
-            }
-          }
-          if(_curCountry!=null){
-            if(_curCountry?.state.isNotEmpty==true){
-               if(state==null||state=='*State'||city==null||city=='*State'){
-                 return EasyLoading.showToast('Please select your city');
-               }
+          // if(state!=null&&state!='*State'){
+          //   flog('state ${state!=null&&state!='*State'}');
+          //   if(city==null){
+          //     return EasyLoading.showToast('Please select your city');
+          //   }
+          // }
+          if (_curCountry != null) {
+            if (_curCountry?.state.isNotEmpty == true) {
+              if (_curState == null) {
+                return EasyLoading.showToast('Please select your State');
+              } else {
+                //已经选择了State,看State下是否有city
+                if (_curState?.city.isNotEmpty == true) {
+                  if (city == null || city == '*City')
+                    return EasyLoading.showToast('Please select your city');
+                }
+              }
             }
           }
           var data = {
@@ -236,8 +246,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             "sex": sexList[sex!]['value'],
             "location": json.encode({
               'country': country,
-              'city': city=='*City'?null:city,
-              'state': state=='*State'?null:state,
+              'city': city == '*City' ? null : city,
+              'state': state == '*State' ? null : state,
             }),
             "language": language.join('/'),
           };
@@ -512,77 +522,86 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     if (_curCountry != null) {
       return _curCountry?.state.isNotEmpty == true;
     }
-    if (state!= null&&state!='*State') return true;
+    if (_curState == null) return false;
     return country?.isNotEmpty == true;
   }
 
   showCity() {
+    if (_curState == null) return false;
     if (_curCountry != null) {
       if (_curCountry?.state.isEmpty == true) return false;
     }
-    if (state == null||state=='*State') return false;
-    if (city != null) return true;
-    return state?.isNotEmpty == true;
+    //   if (state == null||state=='*State') return false;
+    if (_curState == null) {
+      return false;
+    }
+    return _curState?.city.isNotEmpty == true;
   }
 
   Country? _curCountry;
+  Region? _curState;
 
   cityWidget() {
-    return Obx(() =>countries.isEmpty?Container(): Visibility(
-        visible: hasInited&&countries.isNotEmpty,
-        child: CSCPicker(
-          countries: countries,
-          arrowColor: Colors.white60,
-          showStates: showState(),
-          showCities: showCity(),
-          currentCountry: country == null ? null : country,
-          currentState: state == null ? null : state,
-          currentCity: city == null ? null : city,
-          // flagState: CountryFlag.DISABLE,
-          //  disabledDropdownDecoration: BoxDecoration(
-          //      borderRadius: BorderRadius.all(Radius.circular(10)),
-          //      color: AppColor.itemBg,
-          //      border: Border.all(color: AppColor.itemBg, width: 1)),
-          dropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: AppColor.itemBg,
-              border: Border.all(color: AppColor.itemBg, width: 1)),
-          countrySearchPlaceholder: "Country",
-          stateSearchPlaceholder: "State",
-          citySearchPlaceholder: "City",
-          countryDropdownLabel: "*Country",
-          stateDropdownLabel: "*State",
-          cityDropdownLabel: "*City",
-          //  defaultCountry: DefaultCountry.United_States,
-          selectedItemStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-          ),
-          dropdownDialogRadius: 10.0,
-          searchBarRadius: 10.0,
-          onCountryChanged: (value) {
-          //  flog('onCountryChanged${value.name}');
-            country = value?.name;
-            _curCountry = value;
-          },
-          onStateChanged: (value) {
-           // flog('onStateChanged$value');
-            if (value == null && value == '*State') {
-              state = null;
-            } else {
-              state = value;
-            }
-          },
-          onCityChanged: (value) {
-         //   flog('onCityChanged$value');
-            //  if (value == null) return;
-            if (value == null && value == '*City') {
-              city = null;
-            } else {
-              city = value;
-            }
-          },
-        )));
+    return Obx(() => countries.isEmpty
+        ? Container()
+        : Visibility(
+            visible: hasInited && countries.isNotEmpty,
+            child: CSCPicker(
+              countries: countries,
+              arrowColor: Colors.white60,
+              showStates: showState(),
+              showCities: showCity(),
+              currentCountry: country == null ? null : country,
+              currentState: state == null ? null : state,
+              currentCity: city == null ? null : city,
+              // flagState: CountryFlag.DISABLE,
+              //  disabledDropdownDecoration: BoxDecoration(
+              //      borderRadius: BorderRadius.all(Radius.circular(10)),
+              //      color: AppColor.itemBg,
+              //      border: Border.all(color: AppColor.itemBg, width: 1)),
+              dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: AppColor.itemBg,
+                  border: Border.all(color: AppColor.itemBg, width: 1)),
+              countrySearchPlaceholder: "Country",
+              stateSearchPlaceholder: "State",
+              citySearchPlaceholder: "City",
+              countryDropdownLabel: "*Country",
+              stateDropdownLabel: "*State",
+              cityDropdownLabel: "*City",
+              //  defaultCountry: DefaultCountry.United_States,
+              selectedItemStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+              dropdownDialogRadius: 10.0,
+              searchBarRadius: 10.0,
+              onCountryChanged: (value) {
+                //  flog('onCountryChanged${value.name}');
+                country = value?.name;
+                _curCountry = value;
+              },
+              onStateChanged: (value) {
+                // flog('onStateChanged$value');
+                if (value == null && value == '*State') {
+                  state = null;
+                  _curState = null;
+                } else {
+                  state = value;
+                  _curState = _curCountry?.state
+                      .firstWhereOrNull((item) => item.name == state);
+                }
+              },
+              onCityChanged: (value) {
+                //   flog('onCityChanged$value');
+                //  if (value == null) return;
+                if (value == null && value == '*City') {
+                  city = null;
+                } else {
+                  city = value;
+                }
+              },
+            )));
   }
 
   RxList<Map> _gamePhotos = RxList();
@@ -740,18 +759,19 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>Get.toNamed(AppPages.Grade),
+      onTap: () => Get.toNamed(AppPages.Grade),
       child: Stack(alignment: Alignment.bottomRight, children: [
-      PWidget.image(
-        (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
-            'assets/images/play/level_1.png',
-      ),
-      if (widget.isauth == 1)
-        PWidget.container(
-          PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
-          [10, 10, Color(0xffefbd6d)],
+        PWidget.image(
+          (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
+              'assets/images/play/level_1.png',
         ),
-    ]),);
+        if (widget.isauth == 1)
+          PWidget.container(
+            PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
+            [10, 10, Color(0xffefbd6d)],
+          ),
+      ]),
+    );
   }
 }
 

@@ -48,18 +48,18 @@ class Region {
   int? id;
   String? name;
   int? countryId;
-  List<City>? city;
+  List<City> city=[];
 
-  Region({this.id, this.name, this.countryId, this.city});
+  Region({this.id, this.name, this.countryId, this.city=const []});
 
   Region.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     countryId = json['country_id'];
+    city = [];
     if (json['city'] != null) {
-      city = [];
       json['city'].forEach((v) {
-        city!.add(new City.fromJson(v));
+        city.add(new City.fromJson(v));
       });
     }
   }
@@ -69,9 +69,6 @@ class Region {
     data['id'] = this.id;
     data['name'] = this.name;
     data['country_id'] = this.countryId;
-    if (this.city != null) {
-      data['city'] = this.city!.map((v) => v.toJson()).toList();
-    }
     return data;
   }
 }
