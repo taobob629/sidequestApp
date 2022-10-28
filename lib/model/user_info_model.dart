@@ -55,6 +55,7 @@ class Location {
   location(){
     if(country==null)return 'unknown';
     if(state==null)return country;
+    if(city==null)return state;
     return city;
   }
   @override
