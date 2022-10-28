@@ -183,7 +183,20 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         headers: [
           MaterialBanner(
             backgroundColor: Colors.transparent,
-            content:PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}),actions: [IconButton(onPressed: ()=>Get.toNamed(AppPages.MoreGames), icon: Icon(Icons.arrow_forward_ios,color: Colors.white60,))],),
+            content: PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}),
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    await Get.toNamed(AppPages.MoreGames);
+                    setState(() => superlistDm.init());
+                    this.superlist(isRef: true);
+                  },
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white60,
+                  ))
+            ],
+          ),
           PlaySwitchWidget(onTap: (v) {
             gid = v['id'] ?? '';
             setState(() => superlistDm.init());
@@ -211,12 +224,12 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                         CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
                         {'crr': 8},
                       ),
-                    if (levelName != null && levelName != '')
-                      PWidget.container(
-                        PWidget.text('$levelName', [Colors.white54, 12]),
-                        [74 - 8, null, Color(0xff7C5EF4)],
-                        {'ali': PFun.lg(0, 0), 'pd': PFun.lg(2, 2, 8, 8)},
-                      ),
+                    // if (levelName != null && levelName != '')
+                    //   PWidget.container(
+                    //     PWidget.text('$levelName', [Colors.white54, 12]),
+                    //     [74 - 8, null, Color(0xff7C5EF4)],
+                    //     {'ali': PFun.lg(0, 0), 'pd': PFun.lg(2, 2, 8, 8)},
+                    //   ),
                   ]),
                   PWidget.boxw(8),
                   PWidget.column([
@@ -232,9 +245,10 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                       ),
                     ]),
                     OrdersAndStarWidget(data),
-                    if (signature != null && signature != '') PWidget.boxh(8),
-                    if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
-                    // if (levelName != null && levelName != '') PWidget.boxh(8),
+                    // if (signature != null && signature != '') PWidget.boxh(8),
+                    // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
+                    if (levelName != null && levelName != '') PWidget.boxh(8),
+                    if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
                     Builder(builder: (context) {
                       var list = (data['label'] ?? []) as List;
                       return Wrap(
@@ -326,7 +340,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
 
 ///游戏列表
@@ -356,12 +370,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
   Future<int> gamelist() async {
     await http.get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
       gamelistDm.addList(res.data, true, 0);
-      gamelistDm.addList([
-        for (var i = 0; i < 100; i++) ...gamelistDm.list,
-      ], false, 0);
-      if (gamelistDm.list.isNotEmpty) {
-        fun(0, gamelistDm.list.first);
-      }
+      // gamelistDm.addList([
+      //   for (var i = 0; i < 100; i++) ...gamelistDm.list,
+      // ], false, 0);
+      // if (gamelistDm.list.isNotEmpty) {
+      //   fun(0, gamelistDm.list.first);
+      // }
     }).catchError((e) {
       flog(e, 'gamelistDm');
       gamelistDm.toError();

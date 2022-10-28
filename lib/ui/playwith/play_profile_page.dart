@@ -797,34 +797,39 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
     // widget.data['star']=3.4;
     return PWidget.container(
       PWidget.row([
-        if (widget.data['orders'] != 0)
-          PWidget.container(
-            PWidget.text('接单数:', [Colors.white70, 12]),
-            [null, null, widget.isTran! ? Colors.transparent : Colors.white10],
-            {'pd': PFun.lg(2, 2, 8, 4)},
-          ),
-        if (widget.data['orders'] != 0) PWidget.boxw(8),
-        if (widget.data['orders'] != 0)
-          PWidget.text('${widget.data['orders']}',
-              [widget.tColor ?? Colors.white70, 12]),
-        if (widget.data['orders'] != 0) PWidget.boxw(8),
-        FFStars(
-          normalStar: Image.asset("assets/images/play/score0.png"),
-          selectedStar: Image.asset("assets/images/play/score1.png"),
-          justShow: true,
-          step: 0.01,
-          defaultStars: widget.data['star'],
-          starHeight: 10,
-          starWidth: 10,
-          starMargin: 0,
-        ),
-        if (widget.data['orders'] != 0) PWidget.boxw(8),
+        Image.asset("assets/images/play/score1.png",width: 10,height: 10),
+        PWidget.boxw(8),
+        PWidget.text('${widget.data['star']}', [Colors.white70, 12]),
+        if (widget.data['orders'] != 0) PWidget.boxw(4),
+        if (widget.data['orders'] != 0) PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),
+        // if (widget.data['orders'] != 0)
+        //   PWidget.container(
+        //     PWidget.text('接单数:', [Colors.white70, 12]),
+        //     [null, null, widget.isTran! ? Colors.transparent : Colors.white10],
+        //     {'pd': PFun.lg(2, 2, 8, 4)},
+        //   ),
+        // if (widget.data['orders'] != 0) PWidget.boxw(8),
+        // if (widget.data['orders'] != 0)
+        //   PWidget.text('${widget.data['orders']}',
+        //       [widget.tColor ?? Colors.white70, 12]),
+        // if (widget.data['orders'] != 0) PWidget.boxw(8),
+        // FFStars(
+        //   normalStar: Image.asset("assets/images/play/score0.png"),
+        //   selectedStar: Image.asset("assets/images/play/score1.png"),
+        //   justShow: true,
+        //   step: 0.01,
+        //   defaultStars: widget.data['star'],
+        //   starHeight: 10,
+        //   starWidth: 10,
+        //   starMargin: 0,
+        // ),
+        // if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
-      [null, null, widget.bgColor ?? Color(0xff444264)],
+      [null, null, Colors.black12],
       {
         'crr': 56,
         'mg': PFun.lg(8),
-        if (widget.data['orders'] == 0) 'pd': PFun.lg(4, 4, 8, 8)
+        'pd': PFun.lg(4, 4, 8, 8)
       },
     );
   }

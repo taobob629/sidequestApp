@@ -70,7 +70,6 @@ class MainPage extends GetView<MainPageController> {
                   physics: NeverScrollableScrollPhysics(),
                   controller: controller.controller,
                   itemCount: 5,
-                  preloadPagesCount: 5,
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
