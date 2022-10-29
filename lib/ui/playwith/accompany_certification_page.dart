@@ -113,10 +113,10 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
           if (front == null) return EasyLoading.showToast('Please upload ID card front photo');
           if (back == null) return EasyLoading.showToast('Please upload ID card back photo');
 
-          if (platform == null) return EasyLoading.showToast('Please select platform');
-          if (game == null) return EasyLoading.showToast('Please select game');
+          if (platform == null) return EasyLoading.showToast('Please select category');
+          if (game == null) return EasyLoading.showToast('Please select service');
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
+          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter be Good At');
         },
       ),
     );
@@ -160,11 +160,11 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   ///技能录入
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('Game materials', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Service', [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Operating platform', [Colors.white]),
+          PWidget.text('Category', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(platform == null ? 'Please select' : platform['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
@@ -176,7 +176,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
               items: List.generate(skillDm.list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
               }),
-              title: "Select Platform",
+              title: "Category",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -196,20 +196,20 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Game', [Colors.white]),
+          PWidget.text('Service', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(game == null ? 'Please select' : game['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
+          if (platformIndex == null) return EasyLoading.showToast('Please select category first');
           var list = skillDm.list[platformIndex]['skill'] as List;
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
               }),
-              title: "Select Game",
+              title: "Select service",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -227,22 +227,22 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Game LV', [Colors.white]),
+          PWidget.text('Serivce Level', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(gameLv == null ? 'Please select' : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
+          if (platformIndex == null) return EasyLoading.showToast('Please select category first');
           var list = skillDm.list[platformIndex]['skill'] as List;
-          if (gameIndex == null) return EasyLoading.showToast('Please select game first');
+          if (gameIndex == null) return EasyLoading.showToast('Please select service first');
           var levels = list[gameIndex]['level'] as List;
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(levels.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
               }),
-              title: "Select Game Lv",
+              title: "Select level",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
