@@ -216,7 +216,7 @@ class ProfilePage extends StatelessWidget {
               // ),
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
-                title: "Play Wallet",
+                title: "Wallet",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayBalancePage());
@@ -225,7 +225,7 @@ class ProfilePage extends StatelessWidget {
               ),
               IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
-                title: "Play Skills",
+                title: "Services",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlaySkillsPage());
@@ -234,7 +234,7 @@ class ProfilePage extends StatelessWidget {
               ),
               IconMenu(
                 icon: "assets/images/ic_orders_new.webp",
-                title: "Play Orders",
+                title: "Orders",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayOrdersPage());
@@ -260,7 +260,7 @@ class ProfilePage extends StatelessWidget {
               // ),
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
-                title: "Play Wallet",
+                title: "Wallet",
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayBalancePage());
