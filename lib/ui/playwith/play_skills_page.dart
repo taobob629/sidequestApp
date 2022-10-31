@@ -31,11 +31,11 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Play Skills'),
+        title: Text('My Service'),
         elevation: 0,
       ),
       btnBar: FloatingButton(
-        label: 'apply for new skill',
+        label: 'Add Service',
         onTap: () async {
           var res = await Get.to(() => AddGamePage({}));
           if (res != null) setState(() => key = UniqueKey());

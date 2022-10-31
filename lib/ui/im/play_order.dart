@@ -18,7 +18,7 @@ class PlayOrder extends StatelessWidget {
   late final PlayOrderController controller;
   late final String liveUid;
 
-  PlayOrder({required String liveUid, required SkillModel skillModel}){
+  PlayOrder({required String liveUid, required this.skillModel}){
     controller = Get.put(PlayOrderController(liveUid, skillModel));
   }
 
@@ -124,7 +124,7 @@ class PlayOrder extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 7.0,left: 5),
                   child: Text(
-                    " / Hour",
+                    " /  ${skillModel.unit}",
                     style: TextStyle(color: Colors.white54,fontSize: 14,fontFamily: "DIN"),
                   ),
                 ),

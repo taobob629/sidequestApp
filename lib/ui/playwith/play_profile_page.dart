@@ -218,7 +218,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (backgroundImage == null)
             return EasyLoading.showToast('Please upload your background image');
           if (country == null) {
-            return EasyLoading.showToast('Please select your Country');
+            return EasyLoading.showToast('Please select your country');
           }
           // if(state!=null&&state!='*State'){
           //   flog('state ${state!=null&&state!='*State'}');
@@ -229,7 +229,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           if (_curCountry != null) {
             if (_curCountry?.state.isNotEmpty == true) {
               if (_curState == null) {
-                return EasyLoading.showToast('Please select your State');
+                return EasyLoading.showToast('Please select your state');
               } else {
                 //已经选择了State,看State下是否有city
                 if (_curState?.city.isNotEmpty == true) {
@@ -260,7 +260,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             EasyLoading.showToast('Network exception');
           });
           if (gamePhotos.isEmpty)
-            return EasyLoading.showToast('Please upload you album');
+            return EasyLoading.showToast('Please upload your album');
           var gamePhotoList =
               gamePhotos.where((w) => w['isUpload'] == 1).toList();
           var jsonData =
@@ -480,7 +480,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('language', [Colors.white]),
+          PWidget.text('Language', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(
               language.isEmpty ? 'Please language' : language.join('/'),
@@ -501,12 +501,12 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         },
       ),
       PWidget.boxh(16),
-      PWidget.text('Personal profile', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Signature', [Colors.white, 18, true], {'ff': 'DIN'}),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
         buildTFView(context!,
-            hintText: 'Please enter personal profile',
+            hintText: 'Please enter Signature',
             hintColor: Colors.white24,
             textColor: Colors.white,
             con: beGoodAtCon,
@@ -615,7 +615,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      Obx(() => PWidget.text('Personal Photo(${20 - gamePhotos.length})',
+      Obx(() => PWidget.text('Album (${20 - gamePhotos.length})',
           [Colors.white, 20], {'ff': 'DIN'})),
       Obx(() => GridView.builder(
             padding: EdgeInsets.only(top: 16),

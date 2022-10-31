@@ -244,7 +244,7 @@ class PlayDetail extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            bottom: 0,
+            bottom: 10,
             child: Material(
                 color: Colors.transparent,
                 child: Row(
@@ -474,7 +474,7 @@ class PlayDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("My Skills",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          Text("My services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
             margin: const EdgeInsets.only(top: 10),
@@ -652,7 +652,7 @@ class PlayDetail extends StatelessWidget {
           // SizedBox(height: 16),
           // if(controller.detailModel.value.imageList.isNotEmpty||isMe)
             PWidget.row([
-              PWidget.text('Personal photo wall',[Colors.white,18],{'ff':'DIN','exp': true}),
+              PWidget.text('Album ',[Colors.white,18],{'ff':'DIN','exp': true}),
               if(controller.detailModel.value.imageList.isNotEmpty)
               PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':() async {
                 Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));

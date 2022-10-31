@@ -126,7 +126,7 @@ class _AddGamePageState extends State<AddGamePage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text(isEdit ? 'edit game' : 'add game', style: TextStyle(fontSize: 18)),
+        title: Text(isEdit ? 'edit service' : 'add service', style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),

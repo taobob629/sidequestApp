@@ -47,7 +47,7 @@ class _GameCommentState extends State<GameComment> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(title: Text('技能评价'),elevation: 0),
+      appBar: AppBar(title: Text('Comments'),elevation: 0),
       body: AnimatedSwitchBuilder<dynamic>(
         value: commentsDm,
         errorOnTap: () => this.comments(),
