@@ -145,6 +145,8 @@ class PlayWithChild extends StatefulWidget {
 class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveClientMixin {
   var gid = '';
 
+  var playSwitchKey = 0;
+
   @override
   void initState() {
     this.initData();
@@ -176,7 +178,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
       MyCustomScroll(
         isShuaxin: true,
         isGengduo: superlistDm.hasNext,
-        onRefresh: () => this.superlist(isRef: true),
+        onRefresh: () {
+          setState(() {});
+          playSwitchKey = getTime();
+          return this.superlist(isRef: true);
+        },
         onLoading: (p) => this.superlist(page: p),
         itemModel: superlistDm,
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
@@ -188,6 +194,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
               IconButton(
                   onPressed: () async {
                     await Get.toNamed(AppPages.MoreGames);
+                    // playSwitchKey=
                     setState(() => superlistDm.init());
                     this.superlist(isRef: true);
                   },
@@ -197,11 +204,14 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   ))
             ],
           ),
-          PlaySwitchWidget(onTap: (v) {
-            gid = v['id'] ?? '';
-            setState(() => superlistDm.init());
-            this.superlist(isRef: true);
-          }),
+          PlaySwitchWidget(
+            key: ValueKey(playSwitchKey),
+            onTap: (v) {
+              gid = v['id'] ?? '';
+              setState(() => superlistDm.init());
+              this.superlist(isRef: true);
+            },
+          ),
         ],
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
