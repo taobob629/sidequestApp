@@ -121,7 +121,7 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
                   PWidget.column([
                     PWidget.text('${skillVo['nameEn']}', [Colors.white, 16, true], {'isOf': false}),
                     PWidget.spacer(),
-                    PWidget.text('Services：${data['nums']}${skillVo['method']}\t\t\t\t\t\t', [Colors.white54]),
+                    PWidget.text('Services：${data['nums']} ${skillVo['method']}\t\t\t\t\t\t', [Colors.white54]),
                     PWidget.boxh(4),
                     PWidget.row([
                       PWidget.text('Price：', [Colors.white54]),
