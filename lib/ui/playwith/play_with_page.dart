@@ -159,7 +159,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   }
 
   ///大神列表
-  var superlistDm = DataModel();
+  var superlistDm = DataModel(flag: 2);
   Future<int> superlist({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=&gid=$gid').then((res) async {
       superlistDm.addList(res.data, true, 0);
@@ -179,8 +179,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         isShuaxin: true,
         isGengduo: superlistDm.hasNext,
         onRefresh: () {
-          setState(() {});
           playSwitchKey = getTime();
+          setState(() {});
           return this.superlist(isRef: true);
         },
         onLoading: (p) => this.superlist(page: p),
@@ -194,7 +194,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
               IconButton(
                   onPressed: () async {
                     await Get.toNamed(AppPages.MoreGames);
-                    // playSwitchKey=
+                    playSwitchKey = getTime();
                     setState(() => superlistDm.init());
                     this.superlist(isRef: true);
                   },

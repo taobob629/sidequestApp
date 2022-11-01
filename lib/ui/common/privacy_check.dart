@@ -37,40 +37,56 @@ class PrivacyCheck extends StatelessWidget {
                   Text("By checking this means you agree to our",style: TextStyle(color: Colors.white,fontSize: 14),)
                 ],
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(width: 50,),
-                  GestureDetector(
-                    onTap: ()=> Get.to(()=>WebPage(
-                      title: "Terms and Conditions",
-                      url: "https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf",
-                    )),
-                    child: Text(
-                      "Terms and Conditions",
-                      style: TextStyle(
-                        color: Color(0xFF2856FF),
-                        fontSize: 14,
-                        decoration: TextDecoration.underline
+              Padding(
+                padding: const EdgeInsets.only(left: 40,right: 40),
+                child: Wrap(
+                  // mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: ()=> Get.to(()=>WebPage(
+                        title: "Terms and Conditions",
+                        url: "https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf",
+                      )),
+                      child: Text(
+                        "Terms and Conditions",
+                        style: TextStyle(
+                          color: Color(0xFF2856FF),
+                          fontSize: 14,
+                          decoration: TextDecoration.underline
+                        ),
                       ),
                     ),
-                  ),
-                  Text(" & ",style: TextStyle(color: Colors.white,fontSize: 14),),
-                  GestureDetector(
-                    onTap: ()=> Get.to(()=>WebPage(
-                      title: "Privacy Policy",
-                      url: "https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf",
-                    )),
-                    child: Text("Privacy Policy",
-                      style: TextStyle(
-                        color: Color(0xFF2856FF),
-                        fontSize: 14,
-                        decoration: TextDecoration.underline
+                    Text(" & ",style: TextStyle(color: Colors.white,fontSize: 14),),
+                    GestureDetector(
+                      onTap: ()=> Get.to(()=>WebPage(
+                        title: "Privacy Policy",
+                        url: "https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf",
+                      )),
+                      child: Text("Privacy Policy",
+                        style: TextStyle(
+                          color: Color(0xFF2856FF),
+                          fontSize: 14,
+                          decoration: TextDecoration.underline
+                        ),
                       ),
                     ),
-                  )
-                ],
+                    Text(" & ",style: TextStyle(color: Colors.white,fontSize: 14),),
+                    GestureDetector(
+                      onTap: ()=> Get.to(()=>WebPage(
+                        title: "SideKick Policy",
+                        url: "https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf",
+                      )),
+                      child: Text("SideKick Policy",
+                        style: TextStyle(
+                          color: Color(0xFF2856FF),
+                          fontSize: 14,
+                          decoration: TextDecoration.underline
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
