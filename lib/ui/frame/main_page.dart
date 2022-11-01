@@ -144,7 +144,7 @@ class MainPage extends GetView<MainPageController> {
                           index: 2,
                           currentIndex: controller.currentIndex.value,
                           iconName: "play",
-                          title: "PlayWidth",
+                          title: "SideKick",
                           colors: [Color(0xffe7e439), Color(0xff6c6301)],
                           onTap: () {
                             controller.controller.jumpToPage(2);
