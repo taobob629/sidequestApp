@@ -238,16 +238,25 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                       PWidget.boxw(8),
                       PWidget.container(
                         PWidget.row([
-                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1),
-                          PWidget.boxw(8),
                           SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
+                          PWidget.boxw(8),
+                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1),
                         ]),
                       ),
                     ]),
-                    OrdersAndStarWidget(data),
+                    PWidget.boxh(6),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 14,),
+                          SizedBox(width: 5,),
+                          Text("${data['price']}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),),
+                          OrdersAndStarWidget(data,margin: [0],),
+                        ]),
+
                     // if (signature != null && signature != '') PWidget.boxh(8),
                     // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
-                    if (levelName != null && levelName != '') PWidget.boxh(8),
+                    if (levelName != null && levelName != '') PWidget.boxh(6),
                     if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
                     Builder(builder: (context) {
                       var list = (data['label'] ?? []) as List;

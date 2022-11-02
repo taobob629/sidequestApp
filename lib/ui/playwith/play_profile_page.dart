@@ -781,9 +781,9 @@ class OrdersAndStarWidget extends StatefulWidget {
   final Color? bgColor;
   final Color? tColor;
   final bool? isTran;
-
+  final List margin;
   const OrdersAndStarWidget(this.data,
-      {Key? key, this.bgColor, this.tColor, this.isTran = false})
+      {Key? key, this.bgColor, this.tColor, this.isTran = false,this.margin=const [8]})
       : super(key: key);
 
   @override
@@ -828,7 +828,7 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
       [null, null, Colors.black12],
       {
         'crr': 56,
-        'mg': PFun.lg(8),
+        'mg':widget.margin,
         'pd': PFun.lg(4, 4, 8, 8)
       },
     );
