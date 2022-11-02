@@ -166,7 +166,8 @@ class _ChatState extends State<Chat> {
     }
   }
 
-  _toOrderPage() async {
+  _toOrderPage()  {
+    if(widget.selectedConversation.userID=='system')return;
     Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
