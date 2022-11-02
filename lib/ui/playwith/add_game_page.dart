@@ -164,6 +164,7 @@ class _AddGamePageState extends State<AddGamePage> {
         FloatingButton(
           label: "OK",
           onTap: () async {
+            if(privacyCheckController.check()==false)return;
             if (platform == null) return EasyLoading.showToast('Please select platform');
             if (game == null) return EasyLoading.showToast('Please select game');
             if (platformIndex == null) return EasyLoading.showToast('Please select platform');
