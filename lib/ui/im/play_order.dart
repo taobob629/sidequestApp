@@ -36,7 +36,7 @@ class PlayOrder extends StatelessWidget {
                 children: [
                   _buildItem(),
                  // _buildTime(),
-                  _buildMemo(),
+                //  _buildMemo(),
                   Container(height: 120,)
                 ],
               ))
