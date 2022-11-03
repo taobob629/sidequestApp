@@ -40,14 +40,17 @@ class _PlayOrdersPageState extends State<PlayOrdersPage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(title: Text('Orders'), elevation: 0),
-      body: TabWidget(
-        indicator: null,
-        isScrollable: false,
-        tabList: isAuth ? ['我接受的', '我发起的'] : ['我发起的', '我接受的'],
-        indicatorSize: TabBarIndicatorSize.tab,
-        tabPage: isAuth ? [PlayOrdersChild(2), PlayOrdersChild(1)] : [PlayOrdersChild(1), PlayOrdersChild(2)],
-        key: key,
-      ),
+      body: isAuth
+          ? TabWidget(
+              indicator: null,
+              isScrollable: false,
+              // tabList: isAuth ? ['我接受的', '我发起的'] : ['我发起的', '我接受的'],
+              tabList: ['我接受的', '我发起的'],
+              indicatorSize: TabBarIndicatorSize.tab,
+              tabPage: [PlayOrdersChild(2), PlayOrdersChild(1)],
+              key: key,
+            )
+          : PlayOrdersChild(1),
     );
   }
 }
