@@ -40,7 +40,8 @@ class _AddGamePageState extends State<AddGamePage> {
   var gameLv;
   var gameLvIndex;
   var isWswitch = 0;
-  PrivacyCheckController privacyCheckController=new PrivacyCheckController();
+  PrivacyCheckController privacyCheckController = new PrivacyCheckController();
+
   ///是否正在上传文件
   bool isUploadFile = false;
 
@@ -160,50 +161,56 @@ class _AddGamePageState extends State<AddGamePage> {
       btnBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-        PrivacyCheck(controller:privacyCheckController,type: TYPE_ADD_GAME,),
-        FloatingButton(
-          label: "OK",
-          onTap: () async {
-            if(privacyCheckController.check()==false)return;
-            if (platform == null) return EasyLoading.showToast('Please select platform');
-            if (game == null) return EasyLoading.showToast('Please select game');
-            if (platformIndex == null) return EasyLoading.showToast('Please select platform');
-            var list = skillDm.list[platformIndex]['skill'] as List;
-            if (gameIndex == null) return EasyLoading.showToast('Please select game');
-            var levels = list[gameIndex]['level'] as List;
-            if (levels.isNotEmpty) {
-              if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
-            }
-            // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
-            if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
-            if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
-              return EasyLoading.showToast('The price cannot be less than the minimum value');
-            }
-            if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
-              return EasyLoading.showToast('The price cannot be greater than the maximum value');
-            }
-            if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
-            flog(gameLv);
-            var data = {
-              if (isEdit) "id": widget.data['id'],
-              "skillid": game['id'],
-              "thumb": gamePhotos.join(','),
-              "levelid": gameLv['id'],
-              "wswitch": isWswitch,
-              "coinid": 0,
-              "coin": priceRangeCon.text,
-              // "des": beGoodAtCon.text,
-            };
-            flog(data, 'data');
-            await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
-              EasyLoading.showToast('Submitted successfully');
-              Get.back(result: true);
-            }).catchError((e) {
-              EasyLoading.showToast('Network exception');
-            });
-          },
-        )
-      ],),
+          PrivacyCheck(
+            controller: privacyCheckController,
+            type: TYPE_ADD_GAME,
+          ),
+          FloatingButton(
+            label: "OK",
+            onTap: () async {
+              if (privacyCheckController.check() == false) return;
+              if (platform == null) return EasyLoading.showToast('Please select platform');
+              if (game == null) return EasyLoading.showToast('Please select game');
+              if (platformIndex == null) return EasyLoading.showToast('Please select platform');
+              var list = skillDm.list[platformIndex]['skill'] as List;
+              if (gameIndex == null) return EasyLoading.showToast('Please select game');
+              var levels = list[gameIndex]['level'] as List;
+              if (levels.isNotEmpty) {
+                if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
+              }
+              // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
+              if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
+              if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
+                return EasyLoading.showToast('The price cannot be less than the minimum value');
+              }
+              if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
+                return EasyLoading.showToast('The price cannot be greater than the maximum value');
+              }
+              if (levels.isNotEmpty) {
+                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
+              }
+              flog(gameLv);
+              var data = {
+                if (isEdit) "id": widget.data['id'],
+                "skillid": game['id'],
+                "thumb": gamePhotos.join(','),
+                "levelid": gameLv == null ? '' : gameLv['id'],
+                "wswitch": isWswitch,
+                "coinid": 0,
+                "coin": priceRangeCon.text,
+                // "des": beGoodAtCon.text,
+              };
+              flog(data, 'data');
+              await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
+                EasyLoading.showToast('Submitted successfully');
+                Get.back(result: true);
+              }).catchError((e) {
+                EasyLoading.showToast('Network exception');
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 
