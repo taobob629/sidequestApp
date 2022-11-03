@@ -31,7 +31,7 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('My Service'),
+        title: Text('My Services'),
         elevation: 0,
       ),
       btnBar: FloatingButton(

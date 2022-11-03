@@ -474,7 +474,7 @@ class PlayDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("My services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          Text("Services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
             margin: const EdgeInsets.only(top: 10),
