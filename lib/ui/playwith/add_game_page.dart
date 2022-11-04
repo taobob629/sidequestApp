@@ -333,7 +333,7 @@ class _AddGamePageState extends State<AddGamePage> {
         if (levels.isEmpty) return PWidget.boxh(0);
         return itemBg(
           PWidget.row([
-            PWidget.text('Game LV', [Colors.white]),
+            PWidget.text('Level', [Colors.white]),
             PWidget.boxw(8),
             PWidget.text(gameLv == null ? 'Please select' : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
             rightJtView(16, Colors.white54),
@@ -348,7 +348,7 @@ class _AddGamePageState extends State<AddGamePage> {
                 items: List.generate(levels.length, (i) {
                   return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
                 }),
-                title: "Select Game Lv",
+                title: "Select Level",
                 showInfo: true,
               ),
               barrierColor: Colors.black26,
