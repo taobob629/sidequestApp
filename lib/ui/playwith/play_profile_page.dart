@@ -212,7 +212,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             return EasyLoading.showToast('Please enter user nickname');
           if (userNameCon.text.length > 26)
             return EasyLoading.showToast(
-                'The user nick name cannot exceed 26 characters');
+                'The nick name cannot exceed 26 characters');
           if (language.isEmpty)
             return EasyLoading.showToast('Please select language');
           if (beGoodAtCon.text.isEmpty)
@@ -352,7 +352,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///背景图像
   Widget backgroundImageView() {
     return PWidget.column([
-      PWidget.text('Background image', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Background', [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -445,7 +445,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///基本信息
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('User Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
@@ -461,7 +461,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Sex', [Colors.white]),
+          PWidget.text('Gender', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'],
               [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
@@ -474,7 +474,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 return VerifyField.fromJson(
                     {'name': '$i', 'label': sexList[i]['name']});
               }),
-              title: "Select Sex",
+              title: "Select Gender",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -684,7 +684,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                   'fun': () async {
                     if (isUploadFile)
                       return EasyLoading.showToast(
-                          'Uploading files, please try again later');
+                          'Uploading failed, please try again later');
                     var url = await this.selectAvatar(context!);
                     if (url != null)
                       setState(() => gamePhotos
