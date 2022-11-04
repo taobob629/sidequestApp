@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/user_info_model.dart';
@@ -220,7 +217,6 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           var signature = data['signature'];
           var levelName = data['levelName'];
           Location location = Location.fromStr(data['location']);
-          flog('${data['location']} $location');
           city = location.location();
           return PWidget.container(
             Stack(alignment: Alignment.bottomRight, children: [
@@ -244,7 +240,18 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   PWidget.boxw(8),
                   PWidget.column([
                     PWidget.row([
-                      Flexible(child: PWidget.text('${data['name']}'.replaceAll("", "\u200B"), [Colors.white, 14, true]), fit: FlexFit.loose),
+                      Flexible(
+                          child: Container(
+                        child: Text(
+                          '${data['name']}'.replaceAll("", "\u200B"),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                            constraints: BoxConstraints(maxWidth: 100),
+                      )),
                       PWidget.boxw(8),
                       PWidget.container(
                         PWidget.row([
