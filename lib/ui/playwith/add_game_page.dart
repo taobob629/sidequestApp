@@ -169,14 +169,14 @@ class _AddGamePageState extends State<AddGamePage> {
             label: "OK",
             onTap: () async {
               if (privacyCheckController.check() == false) return;
-              if (platform == null) return EasyLoading.showToast('Please select platform');
-              if (game == null) return EasyLoading.showToast('Please select game');
-              if (platformIndex == null) return EasyLoading.showToast('Please select platform');
+              if (platform == null) return EasyLoading.showToast('Please select category');
+              if (game == null) return EasyLoading.showToast('Please select service');
+              if (platformIndex == null) return EasyLoading.showToast('Please select cagetory');
               var list = skillDm.list[platformIndex]['skill'] as List;
-              if (gameIndex == null) return EasyLoading.showToast('Please select game');
+              if (gameIndex == null) return EasyLoading.showToast('Please select service');
               var levels = list[gameIndex]['level'] as List;
               if (levels.isNotEmpty) {
-                if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
+                if (gameLv == null) return EasyLoading.showToast('Please select service level');
               }
               // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
               if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price');
@@ -187,7 +187,7 @@ class _AddGamePageState extends State<AddGamePage> {
                 return EasyLoading.showToast('The price cannot be greater than the maximum value');
               }
               if (levels.isNotEmpty) {
-                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload game photo');
+                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot');
               }
               flog(gameLv);
               var data = {
@@ -249,11 +249,11 @@ class _AddGamePageState extends State<AddGamePage> {
   ///技能录入
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('Game materials', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Service detail', [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Operating platform', [Colors.white]),
+          PWidget.text('Category', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(platform == null ? 'Please select' : platform['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
@@ -266,7 +266,7 @@ class _AddGamePageState extends State<AddGamePage> {
               items: List.generate(skillDm.list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
               }),
-              title: "Select Platform",
+              title: "Select Category",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -287,21 +287,21 @@ class _AddGamePageState extends State<AddGamePage> {
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Game', [Colors.white]),
+          PWidget.text('Service', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(game == null ? 'Please select' : game['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           if (isEdit) return;
-          if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
+          if (platformIndex == null) return EasyLoading.showToast('Please select category first');
           var list = skillDm.list[platformIndex]['skill'] as List;
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
               }),
-              title: "Select Game",
+              title: "Select Service",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -339,9 +339,9 @@ class _AddGamePageState extends State<AddGamePage> {
             rightJtView(16, Colors.white54),
           ]),
           fun: () async {
-            if (platformIndex == null) return EasyLoading.showToast('Please select platform first');
+            if (platformIndex == null) return EasyLoading.showToast('Please select category first');
             var list = skillDm.list[platformIndex]['skill'] as List;
-            if (gameIndex == null) return EasyLoading.showToast('Please select game first');
+            if (gameIndex == null) return EasyLoading.showToast('Please select service first');
             var levels = list[gameIndex]['level'] as List;
             var res = await Get.dialog(
               SelectorDialog(
@@ -446,7 +446,7 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('Game Photo(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Screenshot(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -483,7 +483,7 @@ class _AddGamePageState extends State<AddGamePage> {
               'pd': 16,
               'ali': PFun.lg(0, 0),
               'fun': () {
-                if (isUploadFile) return EasyLoading.showToast('Uploading files, please try again later');
+                if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later');
                 this.selectAvatar(context!);
               }
             },
