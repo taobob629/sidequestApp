@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,6 +18,7 @@ import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
@@ -78,16 +78,19 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   ///是否正在上传文件
   bool isUploadFile = false;
+
   @override
-  void dispose(){
+  void dispose() {
     countries.clear();
   }
+
   @override
   void initState() {
     this.initData();
     super.initState();
   }
-   RxList<Country> _countries=RxList() ;
+
+  RxList<Country> _countries = RxList();
 
   List<Country> get countries => _countries.value;
 
@@ -96,12 +99,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   }
 
   initLocation() async {
-    if(countries.isNotEmpty)return countries;
+    if (countries.isNotEmpty) return countries;
     countries.clear();
-   var res=await rootBundle
-        .loadString('assets/data/country.json');
-    countries=(jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+    var res = await rootBundle.loadString('assets/data/country.json');
+    countries = (jsonDecode(res) as List)
+        .map((json) => Country.fromJson(json))
+        .toList();
   }
+
   ///初始化函数
   Future initData() async {
     initLocation();
@@ -139,7 +144,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             countries.firstWhereOrNull((element) => element.name == country);
         _curState =
             _curCountry?.state.firstWhereOrNull((item) => item.name == state);
-     //   flog('找到了state$_curState  counrty $_curCountry');
+        //   flog('找到了state$_curState  counrty $_curCountry');
       }
       hasInited = true;
       userinfoDm.addList(res.data['initLanguage'], true, 0);
@@ -732,8 +737,10 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
 class PlayLevelWidget extends StatefulWidget {
   final String level;
   final int isauth;
+  final String userId;
 
-  const PlayLevelWidget({Key? key, this.level = '1', required this.isauth})
+  const PlayLevelWidget(
+      {Key? key, this.level = '1', required this.isauth, required this.userId})
       : super(key: key);
 
   @override
@@ -759,7 +766,7 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppPages.Grade),
+      onTap: () =>widget.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString()? Get.toNamed(AppPages.Grade):null,
       child: Stack(alignment: Alignment.bottomRight, children: [
         PWidget.image(
           (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
@@ -782,8 +789,13 @@ class OrdersAndStarWidget extends StatefulWidget {
   final Color? tColor;
   final bool? isTran;
   final List margin;
+
   const OrdersAndStarWidget(this.data,
-      {Key? key, this.bgColor, this.tColor, this.isTran = false,this.margin=const [8]})
+      {Key? key,
+      this.bgColor,
+      this.tColor,
+      this.isTran = false,
+      this.margin = const [8]})
       : super(key: key);
 
   @override
@@ -797,11 +809,12 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
     // widget.data['star']=3.4;
     return PWidget.container(
       PWidget.row([
-        Image.asset("assets/images/play/score1.png",width: 10,height: 10),
+        Image.asset("assets/images/play/score1.png", width: 10, height: 10),
         PWidget.boxw(8),
         PWidget.text('${widget.data['star']}', [Colors.white70, 12]),
         if (widget.data['orders'] != 0) PWidget.boxw(4),
-        if (widget.data['orders'] != 0) PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),
+        if (widget.data['orders'] != 0)
+          PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),
         // if (widget.data['orders'] != 0)
         //   PWidget.container(
         //     PWidget.text('接单数:', [Colors.white70, 12]),
@@ -826,11 +839,7 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
         // if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
       [null, null, Colors.black12],
-      {
-        'crr': 56,
-        'mg':widget.margin,
-        'pd': PFun.lg(4, 4, 8, 8)
-      },
+      {'crr': 56, 'mg': widget.margin, 'pd': PFun.lg(4, 4, 8, 8)},
     );
   }
 }

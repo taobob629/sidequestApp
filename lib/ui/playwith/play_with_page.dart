@@ -250,7 +250,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                         PWidget.row([
                           SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
                           PWidget.boxw(8),
-                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1),
+                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1,userId: data['id'].toString(),),
                         ]),
                       ),
                     ]),

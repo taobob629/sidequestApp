@@ -361,12 +361,11 @@ class PlayDetail extends StatelessWidget {
                       age: '${controller.detailModel.value.age}',
                       sex: '${controller.detailModel.value.sex}',
                     ),
-                    InkWell(
-                      onTap: ()=>isMe?Get.toNamed(AppPages.Grade):null,
-                        child: PlayLevelWidget(
+                    PlayLevelWidget(
+                      userId: controller.userId,
                       level: '${controller.detailModel.value.userLevel}',
                       isauth: controller.detailModel.value.isauth,
-                    ),),
+                    ),
                     PWidget.container(
                       Row(
                         mainAxisSize: MainAxisSize.min,
