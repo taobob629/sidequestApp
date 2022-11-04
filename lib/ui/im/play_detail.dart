@@ -673,6 +673,7 @@ class PlayDetail extends StatelessWidget {
                 'pd': 24,
               }
             ),
+          PWidget.boxh(16),
         ],
       ),
     );
