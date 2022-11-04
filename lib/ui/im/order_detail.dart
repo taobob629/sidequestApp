@@ -53,7 +53,7 @@ class OrderDetail extends StatelessWidget {
     items.add(Padding(
       padding: const EdgeInsets.only(left: 15, bottom: 20),
       child: Text(
-        "Skill",
+        "Service",
         style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
       ),
     ));
