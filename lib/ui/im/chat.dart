@@ -72,6 +72,7 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
+    if(widget.selectedConversation.userID=='system')return;
     Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
   }
 
