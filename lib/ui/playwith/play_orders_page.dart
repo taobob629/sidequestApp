@@ -45,7 +45,7 @@ class _PlayOrdersPageState extends State<PlayOrdersPage> {
               indicator: null,
               isScrollable: false,
               // tabList: isAuth ? ['我接受的', '我发起的'] : ['我发起的', '我接受的'],
-              tabList: ['我接受的', '我发起的'],
+              tabList: ['Received', 'Provided'],
               indicatorSize: TabBarIndicatorSize.tab,
               tabPage: [PlayOrdersChild(2), PlayOrdersChild(1)],
               key: key,
