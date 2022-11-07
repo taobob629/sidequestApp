@@ -177,11 +177,15 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         isGengduo: superlistDm.hasNext,
         onRefresh: () {
           playSwitchKey = getTime();
+          superlistDm.flag = 2;
           setState(() {});
-          return this.superlist(isRef: true);
+          return Future(() => getTime());
+          // return this.superlist(isRef: true);
         },
+        isCloseTouchBottomAnimation: true,
         onLoading: (p) => this.superlist(page: p),
         itemModel: superlistDm,
+        noDataText: superlistDm.flag == 2 ? '' : 'No more data',
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
         headers: [
           MaterialBanner(
@@ -192,8 +196,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   onPressed: () async {
                     await Get.toNamed(AppPages.MoreGames);
                     playSwitchKey = getTime();
-                    setState(() => superlistDm.init());
-                    this.superlist(isRef: true);
+                    superlistDm.flag = 2;
+                    setState(() {});
+                    // this.superlist(isRef: true);
                   },
                   icon: Icon(
                     Icons.arrow_forward_ios,
@@ -250,26 +255,40 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                            constraints: BoxConstraints(maxWidth: 100),
+                        constraints: BoxConstraints(maxWidth: 100),
                       )),
                       PWidget.boxw(8),
                       PWidget.container(
                         PWidget.row([
                           SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
                           PWidget.boxw(8),
-                          PlayLevelWidget(level: '${data['userLevel']}', isauth: 1,userId: data['id'].toString(),),
+                          PlayLevelWidget(
+                            level: '${data['userLevel']}',
+                            isauth: 1,
+                            userId: data['id'].toString(),
+                          ),
                         ]),
                       ),
                     ]),
                     PWidget.boxh(6),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 14,),
-                          SizedBox(width: 5,),
-                          Text("${data['price']}",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),),
-                          OrdersAndStarWidget(data,margin: [0],),
-                        ]),
+                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                      Image.asset(
+                        "assets/images/ic_balance_money.webp",
+                        width: 18,
+                        height: 14,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "${data['price']}",
+                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      OrdersAndStarWidget(
+                        data,
+                        margin: [0],
+                      ),
+                    ]),
 
                     // if (signature != null && signature != '') PWidget.boxh(8),
                     // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),

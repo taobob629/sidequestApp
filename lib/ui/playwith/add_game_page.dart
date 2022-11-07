@@ -71,10 +71,10 @@ class _AddGamePageState extends State<AddGamePage> {
         platform = skillDm.list[platformIndex];
         gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
         game = platform['skill'][gameIndex];
-        gameLvIndex = game['level'].indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
-        gameLv = game['level'][gameLvIndex];
+        gameLvIndex = (game['level'] ?? []).indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        if (gameLvIndex != -1) gameLv = (game['level'] ?? [])[gameLvIndex];
         priceRangeCon.text = '';
-        gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
+        if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null) gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
         flog(platform, 'platform');
         flog(platformIndex, 'platform');
         this.config();
@@ -295,7 +295,9 @@ class _AddGamePageState extends State<AddGamePage> {
         fun: () async {
           if (isEdit) return;
           if (platformIndex == null) return EasyLoading.showToast('Please select category first');
+          flog(skillDm.list[platformIndex],'platformIndex');
           var list = skillDm.list[platformIndex]['skill'] as List;
+          if (list.isEmpty) return EasyLoading.showToast('No service');
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
