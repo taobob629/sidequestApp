@@ -29,10 +29,10 @@ class _ConversationState extends State<ConversationPage> {
   void initState() {
     super.initState();
     _controller = widget.conversationController;
-    _controller.model.addListener(() async {
-      // log(_controller.model.totalUnReadCount.toString(), name:'_controller.model.addListener');
-      getTotalUnreadMessageCount();
-    });
+    // _controller.model.addListener(() async {
+    //   // log(_controller.model.totalUnReadCount.toString(), name:'_controller.model.addListener');
+    //   getTotalUnreadMessageCount();
+    // });
   }
 
   ///获取未读邮件总数
