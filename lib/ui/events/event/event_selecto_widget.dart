@@ -7,6 +7,7 @@ import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 class EventSelectoWidget extends StatefulWidget {
@@ -83,7 +84,7 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
                   builder: (_) {
                     return DateTimePickerDialog(
                       initDateTime: DateTime.now(),
-                      format: 'yyyy-MM-dd HH:mm:ss',
+                      format: 'HH:mm',
                     );
                   },
                 );
