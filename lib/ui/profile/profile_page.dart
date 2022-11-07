@@ -215,7 +215,7 @@ class ProfilePage extends StatelessWidget {
               //   },
               // ),
               IconMenu(
-                icon: "assets/images/ic_balance_new.webp",
+                icon: "assets/images/ic_wallet.webp",
                 title: "Wallet",
                 onTap: () {
                   userController.checkLogin(() {
@@ -224,7 +224,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_booking_new.webp",
+                icon: "assets/images/ic_settings.webp",
                 title: "Services",
                 onTap: () {
                   userController.checkLogin(() {
@@ -233,7 +233,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
               IconMenu(
-                icon: "assets/images/ic_orders_new.webp",
+                icon: "assets/images/ic_orders.webp",
                 title: "Orders",
                 onTap: () {
                   userController.checkLogin(() {
