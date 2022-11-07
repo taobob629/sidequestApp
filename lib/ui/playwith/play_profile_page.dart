@@ -231,7 +231,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           //     return EasyLoading.showToast('Please select your city');
           //   }
           // }
-          if (_curCountry != null) {
+         /* if (_curCountry != null) {
             if (_curCountry?.state.isNotEmpty == true) {
               if (_curState == null) {
                 return EasyLoading.showToast('Please select your state');
@@ -243,14 +243,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 }
               }
             }
-          }
+          }*/
           var data = {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
             "sex": sexList[sex!]['value'],
             "location": json.encode({
-              'country': country,
+              'country': _curCountry?.name,
               'city': city == '*City' ? null : city,
               'state': state == '*State' ? null : state,
             }),
@@ -554,9 +554,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             child: CSCPicker(
               countries: countries,
               arrowColor: Colors.white60,
-              showStates: showState(),
-              showCities: showCity(),
-              currentCountry: country == null ? null : country,
+              showStates: false,
+              showCities: false,
+              currentCountry: _curCountry == null ? null : '${_curCountry?.emoji}  ${_curCountry?.name}',
               currentState: state == null ? null : state,
               currentCity: city == null ? null : city,
               // flagState: CountryFlag.DISABLE,

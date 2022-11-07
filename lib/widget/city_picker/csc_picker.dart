@@ -460,7 +460,7 @@ class CSCPickerState extends State<CSCPicker> {
         _selectedCity = widget.cityDropdownLabel;
         this.widget.onStateChanged!(null);
         this.widget.onCityChanged!(null);
-        _selectedCountry = country?.name;
+        _selectedCountry = '${country?.emoji}  ${country?.name}';
         getStates();
       } else {
         this.widget.onStateChanged!(_selectedState);
@@ -593,7 +593,7 @@ class CSCPickerState extends State<CSCPicker> {
       dialogRadius: widget.dropdownDialogRadius,
       searchBarRadius: widget.searchBarRadius,
       label: widget.countrySearchPlaceholder,
-      items: widget.countries.map((item)=>item.name).toList(),
+      items: widget.countries.map((item)=>'${item.emoji}  ${item.name}').toList(),
       selected: _selectedCountry != null
           ? _selectedCountry
           : widget.countryDropdownLabel,
