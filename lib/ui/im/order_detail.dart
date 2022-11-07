@@ -86,7 +86,7 @@ class OrderDetail extends StatelessWidget {
       items.add(divider);
     }
     items.add(Padding(
-      padding: const EdgeInsets.only(left: 15),
+      padding: const EdgeInsets.only(left: 15,top: 10),
       child: Text(
         getCommentTitle(),
         style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
@@ -422,10 +422,10 @@ class OrderDetail extends StatelessWidget {
         ),
         builder: TimelineTileBuilder.connected(
             itemExtentBuilder: (_, index) {
-              if (index == 0) return 80;
+              if (index == 0) return 100;
               if (length <= 2) return Get.width + 140;
-              if (index == (length - 1)) return 80;
-              return Get.width - 160;
+              if (index == (length - 1)) return 100;
+              return Get.width - 200;
             },
             indicatorBuilder: (_, index) {
               return DotIndicator(
@@ -436,7 +436,7 @@ class OrderDetail extends StatelessWidget {
             contentsBuilder: (_, index) {
               return PWidget.text(
                   '${controller.playOrderDetailModel.value.statusArray[index].displayLable}',
-                  [Colors.white, 13, true]);
+                  [Colors.white, 11, true]);
             },
             connectorBuilder: (_, index, type) {
               return SolidLineConnector(
