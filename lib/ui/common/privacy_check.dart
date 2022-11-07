@@ -24,7 +24,10 @@ class PrivacyCheck extends StatelessWidget {
               'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf'),
           PrivacyInfo('', ''),
           PrivacyInfo('Privacy Policy',
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf')
+              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf'),
+          PrivacyInfo('', ''),
+          PrivacyInfo('SideKick Policy',
+              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
         ];
         break;
       case TYPE_ADD_GAME:
@@ -62,9 +65,10 @@ class PrivacyCheck extends StatelessWidget {
                   )
                 ],
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
+              Wrap(
+                // mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                alignment: WrapAlignment.center,
                 children:buildPrivacyItem(),
               )
             ],

@@ -576,7 +576,7 @@ class PayPageController extends GetxController {
       _timer.cancel();
       _onPayDone();
     }
-    if (checkCount > 60) {
+    if (checkCount > 10) {
       _timer.cancel();
       Get.dialog(
         ConfirmDialog(

@@ -90,7 +90,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 if(controller.user.value.id != 0) _buildLevelIcon(),
                 if(controller.user.value.id != 0)  PWidget.boxw(5),
-                if(controller.user.value.id != 0)  PlayLevelWidget(isauth: controller.userInfoModel.value.isauth,level: '${controller.userInfoModel.value.level}'),
+                if(controller.user.value.id != 0)  PlayLevelWidget(isauth: controller.userInfoModel.value.isauth,level: '${controller.userInfoModel.value.level}',userId: controller.userInfoModel.value.pwuserId.toString(),),
               //  _buildGradeWidget()
               ],
             ),

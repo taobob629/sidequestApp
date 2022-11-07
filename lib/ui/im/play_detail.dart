@@ -361,12 +361,11 @@ class PlayDetail extends StatelessWidget {
                       age: '${controller.detailModel.value.age}',
                       sex: '${controller.detailModel.value.sex}',
                     ),
-                    InkWell(
-                      onTap: ()=>isMe?Get.toNamed(AppPages.Grade):null,
-                        child: PlayLevelWidget(
+                    PlayLevelWidget(
+                      userId: controller.userId,
                       level: '${controller.detailModel.value.userLevel}',
                       isauth: controller.detailModel.value.isauth,
-                    ),),
+                    ),
                     PWidget.container(
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -474,7 +473,7 @@ class PlayDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("My services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
+          Text("Services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
           Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
             margin: const EdgeInsets.only(top: 10),
@@ -674,6 +673,7 @@ class PlayDetail extends StatelessWidget {
                 'pd': 24,
               }
             ),
+          PWidget.boxh(12),
         ],
       ),
     );

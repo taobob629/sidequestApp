@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,6 +18,7 @@ import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
@@ -78,16 +78,19 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
 
   ///是否正在上传文件
   bool isUploadFile = false;
+
   @override
-  void dispose(){
+  void dispose() {
     countries.clear();
   }
+
   @override
   void initState() {
     this.initData();
     super.initState();
   }
-   RxList<Country> _countries=RxList() ;
+
+  RxList<Country> _countries = RxList();
 
   List<Country> get countries => _countries.value;
 
@@ -96,12 +99,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   }
 
   initLocation() async {
-    if(countries.isNotEmpty)return countries;
+    if (countries.isNotEmpty) return countries;
     countries.clear();
-   var res=await rootBundle
-        .loadString('assets/data/country.json');
-    countries=(jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+    var res = await rootBundle.loadString('assets/data/country.json');
+    countries = (jsonDecode(res) as List)
+        .map((json) => Country.fromJson(json))
+        .toList();
   }
+
   ///初始化函数
   Future initData() async {
     initLocation();
@@ -139,7 +144,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             countries.firstWhereOrNull((element) => element.name == country);
         _curState =
             _curCountry?.state.firstWhereOrNull((item) => item.name == state);
-     //   flog('找到了state$_curState  counrty $_curCountry');
+        //   flog('找到了state$_curState  counrty $_curCountry');
       }
       hasInited = true;
       userinfoDm.addList(res.data['initLanguage'], true, 0);
@@ -207,7 +212,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             return EasyLoading.showToast('Please enter user nickname');
           if (userNameCon.text.length > 26)
             return EasyLoading.showToast(
-                'The user nick name cannot exceed 26 characters');
+                'The nick name cannot exceed 26 characters');
           if (language.isEmpty)
             return EasyLoading.showToast('Please select language');
           if (beGoodAtCon.text.isEmpty)
@@ -226,7 +231,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
           //     return EasyLoading.showToast('Please select your city');
           //   }
           // }
-          if (_curCountry != null) {
+         /* if (_curCountry != null) {
             if (_curCountry?.state.isNotEmpty == true) {
               if (_curState == null) {
                 return EasyLoading.showToast('Please select your state');
@@ -238,14 +243,14 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 }
               }
             }
-          }
+          }*/
           var data = {
             "signature": beGoodAtCon.text,
             "userNickname": userNameCon.text,
             "avatar": avatar,
             "sex": sexList[sex!]['value'],
             "location": json.encode({
-              'country': country,
+              'country': _curCountry?.name,
               'city': city == '*City' ? null : city,
               'state': state == '*State' ? null : state,
             }),
@@ -347,7 +352,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///背景图像
   Widget backgroundImageView() {
     return PWidget.column([
-      PWidget.text('Background image', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Background', [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -440,7 +445,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///基本信息
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('User Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
@@ -456,7 +461,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Sex', [Colors.white]),
+          PWidget.text('Gender', [Colors.white]),
           PWidget.boxw(8),
           PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'],
               [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
@@ -469,7 +474,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                 return VerifyField.fromJson(
                     {'name': '$i', 'label': sexList[i]['name']});
               }),
-              title: "Select Sex",
+              title: "Select Gender",
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -549,9 +554,9 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             child: CSCPicker(
               countries: countries,
               arrowColor: Colors.white60,
-              showStates: showState(),
-              showCities: showCity(),
-              currentCountry: country == null ? null : country,
+              showStates: false,
+              showCities: false,
+              currentCountry: _curCountry == null ? null : '${_curCountry?.emoji}  ${_curCountry?.name}',
               currentState: state == null ? null : state,
               currentCity: city == null ? null : city,
               // flagState: CountryFlag.DISABLE,
@@ -679,7 +684,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                   'fun': () async {
                     if (isUploadFile)
                       return EasyLoading.showToast(
-                          'Uploading files, please try again later');
+                          'Uploading failed, please try again later');
                     var url = await this.selectAvatar(context!);
                     if (url != null)
                       setState(() => gamePhotos
@@ -732,8 +737,10 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
 class PlayLevelWidget extends StatefulWidget {
   final String level;
   final int isauth;
+  final String userId;
 
-  const PlayLevelWidget({Key? key, this.level = '1', required this.isauth})
+  const PlayLevelWidget(
+      {Key? key, this.level = '1', required this.isauth, required this.userId})
       : super(key: key);
 
   @override
@@ -759,7 +766,7 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppPages.Grade),
+      onTap: () =>widget.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString()? Get.toNamed(AppPages.Grade):null,
       child: Stack(alignment: Alignment.bottomRight, children: [
         PWidget.image(
           (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
@@ -782,8 +789,13 @@ class OrdersAndStarWidget extends StatefulWidget {
   final Color? tColor;
   final bool? isTran;
   final List margin;
+
   const OrdersAndStarWidget(this.data,
-      {Key? key, this.bgColor, this.tColor, this.isTran = false,this.margin=const [8]})
+      {Key? key,
+      this.bgColor,
+      this.tColor,
+      this.isTran = false,
+      this.margin = const [8]})
       : super(key: key);
 
   @override
@@ -797,11 +809,12 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
     // widget.data['star']=3.4;
     return PWidget.container(
       PWidget.row([
-        Image.asset("assets/images/play/score1.png",width: 10,height: 10),
+        Image.asset("assets/images/play/score1.png", width: 10, height: 10),
         PWidget.boxw(8),
         PWidget.text('${widget.data['star']}', [Colors.white70, 12]),
         if (widget.data['orders'] != 0) PWidget.boxw(4),
-        if (widget.data['orders'] != 0) PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),
+        if (widget.data['orders'] != 0)
+          PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),
         // if (widget.data['orders'] != 0)
         //   PWidget.container(
         //     PWidget.text('接单数:', [Colors.white70, 12]),
@@ -826,11 +839,7 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
         // if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
       [null, null, Colors.black12],
-      {
-        'crr': 56,
-        'mg':widget.margin,
-        'pd': PFun.lg(4, 4, 8, 8)
-      },
+      {'crr': 56, 'mg': widget.margin, 'pd': PFun.lg(4, 4, 8, 8)},
     );
   }
 }
