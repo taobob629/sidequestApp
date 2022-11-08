@@ -146,7 +146,7 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
                 'pd': 12,
                 'br': 8,
                 'fun': () async {
-                  await Get.to(() => OrderDetail(orderId: int.parse(data['id'])));
+                  await Get.to(() => OrderDetail(orderId: int.parse(data['id'].toString())));
                   this.orderlist(isRef: true);
                 },
               },

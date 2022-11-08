@@ -24,10 +24,14 @@ class StatusLable {
 }
 
 class PlayOrderDetailModel {
+  String creater='';
+  String player='';//
   late String icon = "";
   late String gameName = "";
   late String unit = "";
   late int orderId = 0;
+  int liveuid = 0;
+  int uid = 0;
   late int fromUid = 0;
   late int toUid = 0;
   late int nums = 0;
@@ -51,6 +55,10 @@ class PlayOrderDetailModel {
 
   PlayOrderDetailModel.fromJson(Map<String, dynamic> json) {
     icon = json['skill']['thumb'] ?? "";
+    creater = json['order']['creater'] ?? '';
+    player = json['order']['player'] ?? '';
+    liveuid = json['order']['liveuid'] ?? 0;
+    uid = json['order']['uid'] ?? 0;
     gameName = json['skill']['nameEn'] ?? "";
     orderId = json['order']['id'] ?? 0;
     fromUid = json['order']['uid'] ?? 0;
