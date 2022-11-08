@@ -402,7 +402,7 @@ class EventPageController extends GetxController
   cancelActivity() async {
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
-    if (eventDetailModel.value.team == false) {
+    if (type == 1) {
       eventDetailModel.value = await EventsApi.getActivityDetail(id);
     } else {
       eventDetailModel.value = await EventsApi.getMatchDetail(id);
