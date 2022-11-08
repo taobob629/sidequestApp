@@ -56,8 +56,14 @@ class EventDetailModel {
     generalInfo = json['generalInfo'] == null ? "No data" : json['generalInfo'];
     rules = json['rules'] == null ? "No data" : json['rules'];
     equipment = json['equipment'] == null ? "-" : json['equipment'];
-    participants = json['participants'] == null ? [] : json['participants'].map<ParticipantModel>((item) => ParticipantModel.fromJson(item)).toList();
-    location = json['location'].map<LocationModel>((item) => LocationModel.fromJson(item)).toList();
+    participants = json['participants'] == null
+        ? []
+        : json['participants']
+            .map<ParticipantModel>((item) => ParticipantModel.fromJson(item))
+            .toList();
+    location = json['location']
+        .map<LocationModel>((item) => LocationModel.fromJson(item))
+        .toList();
   }
 
   String getLocationList() {

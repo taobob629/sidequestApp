@@ -25,7 +25,7 @@ class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "Play Order Detail",
+        title: "Order Detail",
         body: Stack(
           children: [
             Positioned(
@@ -345,6 +345,7 @@ class OrderDetail extends StatelessWidget {
           ),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number", "${palymodel.orderno}"),
+          _infoItem(userLable(palymodel), userName(palymodel)),
           _infoItem("Service Time",
               "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
           _infoItem("Service Duration", "${palymodel.nums} ${palymodel.unit}"),
@@ -376,7 +377,22 @@ class OrderDetail extends StatelessWidget {
       ),
     );
   }
-
+  userLable(PlayOrderDetailModel model){
+    UserController userController=Get.find<UserController>();
+    bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
+    if(isMe){
+      return 'From';
+    }
+    return 'To';
+  }
+  userName(PlayOrderDetailModel model){
+    UserController userController=Get.find<UserController>();
+    bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
+    if(isMe){
+      return model.creater;
+    }
+    return model.player;
+  }
   Widget _infoItem(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

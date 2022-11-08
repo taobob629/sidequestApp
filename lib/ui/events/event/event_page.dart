@@ -16,7 +16,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_selecto_widget.dart';
 import 'package:wy/ui/events/event/team_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/views.dart';
 
 import 'join_button.dart';
@@ -78,8 +77,9 @@ class EventPage extends StatelessWidget {
   }
 
   Widget _buildBtn(BuildContext context) {
-    flog('joined $joined');
-    if (!joined && !controller.eventDetailModel.value.canJoin &&!controller.eventDetailModel.value.canCancel) {
+    if (!joined &&
+        !controller.eventDetailModel.value.canJoin &&
+        !controller.eventDetailModel.value.canCancel) {
       return Container();
     }
     if (controller.type == 1) {
@@ -88,60 +88,44 @@ class EventPage extends StatelessWidget {
         child: ColorfulButton(
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
-            child: Obx(()=>Text(
-              controller.eventDetailModel.value.canCancel?'CANCEL': "JOIN",
-              style: TextStyle(
-                  color: Colors.white, fontFamily: "DIN", fontSize: 18),
-            )),
+            child: Obx(() => Text(
+                  controller.eventDetailModel.value.canCancel
+                      ? 'CANCEL'
+                      : "JOIN",
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                )),
           ),
           height: 48,
-          onTap: () => controller.eventDetailModel.value.canCancel?controller.cancelActivity():controller.joinActivity(context),
+          onTap: () => controller.eventDetailModel.value.canCancel
+              ? controller.cancelActivity()
+              : controller.joinActivity(context),
         ),
       );
     } else {
-      if (joined) {
-        if (controller.eventDetailModel.value.team != null &&
-            controller.eventDetailModel.value.team == true) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  "VIEW MY TEAM",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
-                ),
-              ),
-              height: 48,
-              onTap: () => controller.viewTeam(),
+      //代表比赛
+      if (controller.eventDetailModel.value.team == false) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: ColorfulButton(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Obx(() => Text(
+                    controller.eventDetailModel.value.canCancel
+                        ? 'CANCEL'
+                        : "JOIN",
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                  )),
             ),
-          );
-        } else {
-          return Container();
-        }
+            height: 48,
+            onTap: () => controller.eventDetailModel.value.canCancel
+                ? controller.cancelActivity()
+                : controller.joinMatch(context),
+          ),
+        );
       } else {
-        if (controller.eventDetailModel.value.team != null &&
-            controller.eventDetailModel.value.team == true) {
-          return JoinButton(
-              eventDetailModel: controller.eventDetailModel.value);
-        } else {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  "JOIN",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
-                ),
-              ),
-              height: 48,
-              onTap: () => controller.joinMatch(context),
-            ),
-          );
-        }
+        return JoinButton(eventDetailModel: controller.eventDetailModel.value);
       }
     }
   }
@@ -293,6 +277,14 @@ class EventPageController extends GetxController
     super.onClose();
   }
 
+  Future<void> refresh() async {
+    if (type == 1) {
+      eventDetailModel.value = await EventsApi.getActivityDetail(id);
+    } else {
+      eventDetailModel.value = await EventsApi.getMatchDetail(id);
+    }
+  }
+
   void initData() async {
     tabs.add("Overview");
     tabs.add("Rules");
@@ -312,12 +304,13 @@ class EventPageController extends GetxController
 
   void joinActivity(BuildContext context) async {
     userController.checkLogin(() async {
-      if(eventDetailModel.value.matchDiff == 5){
-        var res =await showSheet(builder: (_) => EventSelectoWidget(
-          'Choose a Store',
-          selectorList: eventDetailModel.value.location,
-        ));
-        if(res!=null){
+      if (eventDetailModel.value.matchDiff == 5) {
+        var res = await showSheet(
+            builder: (_) => EventSelectoWidget(
+                  'Choose a Store',
+                  selectorList: eventDetailModel.value.location,
+                ));
+        if (res != null) {
           var store = res['location'] as LocationModel;
           var time = res['time'] as DateTime;
           var timeSplit = time.toString().split(':');
@@ -326,7 +319,8 @@ class EventPageController extends GetxController
           checkFee(() async {
             EasyLoading.show();
             await EventsApi.joinActivity(eventDetailModel.value.id,
-                userController.user.value.id, store.id,cupsleeve: dateTime);
+                userController.user.value.id, store.id,
+                cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
             Get.dialog(
@@ -336,7 +330,7 @@ class EventPageController extends GetxController
                 barrierColor: Colors.black26);
           });
         }
-      }else{
+      } else {
         SelectorItem? item;
         if (eventDetailModel.value.location.length > 1) {
           item = await SelectorDialog.show(
@@ -367,11 +361,8 @@ class EventPageController extends GetxController
   cancelActivity() async {
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
-    eventDetailModel.value = await EventsApi.getActivityDetail(id);
-    Get.dialog(
-        ConfirmDialog(
-            title: "Confirm",
-            info: "Successfully Canceled!"),
+    refresh();
+    Get.dialog(ConfirmDialog(title: "Confirm", info: "Successfully Canceled!"),
         barrierColor: Colors.black26);
     EasyLoading.dismiss();
   }
@@ -392,6 +383,7 @@ class EventPageController extends GetxController
           EasyLoading.show();
           await EventsApi.joinMatch(eventDetailModel.value.id,
               userController.user.value.id, store.id);
+          eventDetailModel.value.canCancel = true;
           EasyLoading.dismiss();
           Get.dialog(
               ConfirmDialog(

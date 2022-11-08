@@ -15,7 +15,9 @@ import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/select_view.dart';
 import 'package:wy/ui/events/event/dialog_passcode.dart';
+import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/event/team_page.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../common/dialog_confirm.dart';
 
@@ -417,8 +419,16 @@ class JoinTeamPageController extends GetxController {
       Get.dialog(PasscodeDialog(passcode: code),barrierColor: Colors.black26).whenComplete(() => Get.off(()=>TeamPage(eventId: id)));
     }else{
       await EventsApi.joinTeam(id, code, role, tag);
-      Get.dialog(ConfirmDialog(title: "Tips", info: "You have successfully signed up!"),barrierColor: Colors.black26);
-      Get.back();
+      EasyLoading.dismiss();
+      Get.dialog(
+          ConfirmDialog(
+              title: "Tips", info: "You have successfully signed up!",onConfirm: (){
+                Get.back();
+                Get.back();
+                Get.find<EventPageController>().refresh();
+          },),
+          barrierColor: Colors.black26);
+      //Get.back();
     }
 
   }
