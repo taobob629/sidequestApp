@@ -417,7 +417,11 @@ class JoinTeamPageController extends GetxController {
       Get.dialog(PasscodeDialog(passcode: code),barrierColor: Colors.black26).whenComplete(() => Get.off(()=>TeamPage(eventId: id)));
     }else{
       await EventsApi.joinTeam(id, code, role, tag);
-      Get.dialog(ConfirmDialog(title: "Tips", info: "You have successfully signed up!"),barrierColor: Colors.black26);
+      EasyLoading.dismiss();
+      Get.dialog(
+          ConfirmDialog(
+              title: "Tips", info: "You have successfully signed up!"),
+          barrierColor: Colors.black26);
       Get.back();
     }
 
