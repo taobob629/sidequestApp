@@ -326,6 +326,14 @@ class EventPageController extends GetxController
     super.onClose();
   }
 
+  Future<void> refresh() async {
+    if (type == 1) {
+      eventDetailModel.value = await EventsApi.getActivityDetail(id);
+    } else {
+      eventDetailModel.value = await EventsApi.getMatchDetail(id);
+    }
+  }
+
   void initData() async {
     tabs.add("Overview");
     tabs.add("Rules");
@@ -402,11 +410,7 @@ class EventPageController extends GetxController
   cancelActivity() async {
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
-    if (type == 1) {
-      eventDetailModel.value = await EventsApi.getActivityDetail(id);
-    } else {
-      eventDetailModel.value = await EventsApi.getMatchDetail(id);
-    }
+    refresh();
     Get.dialog(ConfirmDialog(title: "Confirm", info: "Successfully Canceled!"),
         barrierColor: Colors.black26);
     EasyLoading.dismiss();

@@ -15,7 +15,9 @@ import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/select_view.dart';
 import 'package:wy/ui/events/event/dialog_passcode.dart';
+import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/event/team_page.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../common/dialog_confirm.dart';
 
@@ -420,9 +422,13 @@ class JoinTeamPageController extends GetxController {
       EasyLoading.dismiss();
       Get.dialog(
           ConfirmDialog(
-              title: "Tips", info: "You have successfully signed up!"),
+              title: "Tips", info: "You have successfully signed up!",onConfirm: (){
+                Get.back();
+                Get.back();
+                Get.find<EventPageController>().refresh();
+          },),
           barrierColor: Colors.black26);
-      Get.back();
+      //Get.back();
     }
 
   }
