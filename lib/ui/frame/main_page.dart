@@ -195,13 +195,6 @@ class MainPageBinding extends Bindings {
   }
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Handling a background message ${message.messageId}');
-}
-
 class MainPageController extends FullLifeCycleController with FullLifeCycleMixin{
   late PreloadPageController controller;
   var currentIndex = 0.obs;
@@ -239,7 +232,6 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     );
 
     FirebaseMessaging.instance.getToken().then((value) => StorageManager.setPushToken(value));
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async{
       print('Got a message whilst in the foreground!');
       showLocalNotification(message);

@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/https_overrides.dart';
+import 'package:wy/firebase_options.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
@@ -22,8 +25,17 @@ Future<void> getAppPackageInfo() async {
   flog(packageInfo!.version, 'packageInfo');
 }
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print('Handling a background message ${message.messageId}');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = HttpsOverrides();
 
   await getAppPackageInfo();
