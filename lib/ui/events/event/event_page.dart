@@ -127,55 +127,6 @@ class EventPage extends StatelessWidget {
       } else {
         return JoinButton(eventDetailModel: controller.eventDetailModel.value);
       }
-      if (controller.eventDetailModel.value.team == true) {
-        //已经报名
-        if (controller.eventDetailModel.value.team == true) {
-          //比赛
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  "VIEW MY TEAM",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
-                ),
-              ),
-              height: 48,
-              onTap: () => controller.viewTeam(),
-            ),
-          );
-        } else {
-          //个人
-          return Container();
-        }
-      } else {
-        //没有报名
-        if (controller.eventDetailModel.value.team == true) {
-          //团队
-
-        } else {
-          //个人
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: ColorfulButton(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Obx(() => Text(
-                      controller.eventDetailModel.value.canCancel
-                          ? 'CANCEL'
-                          : "JOIN",
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: "DIN", fontSize: 18),
-                    )),
-              ),
-              height: 48,
-              onTap: () => controller.joinMatch(context),
-            ),
-          );
-        }
-      }
     }
   }
 
