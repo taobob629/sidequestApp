@@ -25,7 +25,7 @@ class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "Play Order Detail",
+        title: "Order Detail",
         body: Stack(
           children: [
             Positioned(
