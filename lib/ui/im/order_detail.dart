@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:timelines/timelines.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 import '../../api/im_api.dart';
@@ -345,7 +347,7 @@ class OrderDetail extends StatelessWidget {
           ),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number", "${palymodel.orderno}"),
-          _infoItem(userLable(palymodel), userName(palymodel)),
+          _infoItem(userLable(palymodel), userName(palymodel),isClickable: true),
           _infoItem("Service Time",
               "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
           _infoItem("Service Duration", "${palymodel.nums} ${palymodel.unit}"),
@@ -393,7 +395,7 @@ class OrderDetail extends StatelessWidget {
     }
     return model.player;
   }
-  Widget _infoItem(String title, String value) {
+  Widget _infoItem(String title, String value,{bool isClickable=false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
@@ -403,9 +405,21 @@ class OrderDetail extends StatelessWidget {
             style: TextStyle(fontSize: 12, color: Colors.white54),
           ),
           Spacer(),
-          Text(
-            "$value",
-            style: TextStyle(fontSize: 14, color: Colors.white),
+          GestureDetector(
+            onTap: () async {
+              if(!isClickable)return;
+              var model = controller.playOrderDetailModel.value;
+              bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
+              if(isMe){
+                Get.to(() => PlayDetail(userId:'${model.uid}'));
+              }else{
+                Get.to(() => PlayDetail(userId:'${model.liveuid}'));
+              }
+            },
+            child: Text(
+              "$value",
+              style: TextStyle(fontSize: 14, color: Colors.white),
+            ),
           ),
         ],
       ),

@@ -10,6 +10,7 @@ import 'package:tim_ui_kit/ui/utils/color.dart';
 import 'package:tim_ui_kit/ui/views/TIMUIKitSearch/tim_uikit_search.dart';
 import 'package:provider/provider.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/widget/tim_ui/my_tim_uikit_conversation.dart' as mytui;
 
 import 'chat.dart';
 
@@ -36,12 +37,12 @@ class _ConversationState extends State<ConversationPage> {
   }
 
   ///获取未读邮件总数
-  Future<void> getTotalUnreadMessageCount() async {
-    var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
-    if(v2timValueCallback.code == 0){
-      Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
-    }
-  }
+  // Future<void> getTotalUnreadMessageCount() async {
+  //   var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+  //   if(v2timValueCallback.code == 0){
+  //     Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
+  //   }
+  // }
 
   void _handleOnConvItemTaped(V2TimConversation? selectedConv) async {
     await Navigator.push(
@@ -51,16 +52,16 @@ class _ConversationState extends State<ConversationPage> {
             selectedConversation: selectedConv!,
           ),
         ));
-    _controller.reloadData();
-    var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
-    if(v2timValueCallback.code == 0){
-      Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
-    }
+    // _controller.reloadData();
+    // var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+    // if(v2timValueCallback.code == 0){
+    //   Get.find<UserController>().unreadMsgCount.value = v2timValueCallback.data!;
+    // }
   }
 
   _clearHistory(V2TimConversation conversationItem) {
     _controller.clearHistoryMessage(conversation: conversationItem);
-    getTotalUnreadMessageCount();
+    // getTotalUnreadMessageCount();
   }
 
   _pinConversation(V2TimConversation conversation) {
@@ -71,14 +72,14 @@ class _ConversationState extends State<ConversationPage> {
 
   _deleteConversation(V2TimConversation conversation) {
     _controller.deleteConversation(conversationID: conversation.conversationID);
-    getTotalUnreadMessageCount();
+    // getTotalUnreadMessageCount();
   }
 
 
-  List<ConversationItemSlidablePanel> _itemSlidableBuilder(
+  List<mytui.ConversationItemSlidablePanel> _itemSlidableBuilder(
       V2TimConversation conversationItem) {
     return [
-      ConversationItemSlidablePanel(
+      mytui.ConversationItemSlidablePanel(
         onPressed: (context) {
           _clearHistory(conversationItem);
         },
@@ -87,7 +88,7 @@ class _ConversationState extends State<ConversationPage> {
         label: "Clear",
         autoClose: true,
       ),
-      ConversationItemSlidablePanel(
+      mytui.ConversationItemSlidablePanel(
         onPressed: (context) {
           _pinConversation(conversationItem);
         },
@@ -95,7 +96,7 @@ class _ConversationState extends State<ConversationPage> {
         foregroundColor: Colors.white,
         label: conversationItem.isPinned! ? "UnTop" : "Top",
       ),
-      ConversationItemSlidablePanel(
+      mytui.ConversationItemSlidablePanel(
         onPressed: (context) {
           _deleteConversation(conversationItem);
         },
@@ -121,7 +122,7 @@ class _ConversationState extends State<ConversationPage> {
           height: MediaQuery.of(context).padding.top+60,
         ),
         Expanded(
-          child: TIMUIKitConversation(
+          child: mytui.TIMUIKitConversation(
             onTapItem: _handleOnConvItemTaped,
             itemSlidableBuilder: _itemSlidableBuilder,
             controller: _controller,
