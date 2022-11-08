@@ -343,7 +343,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 city,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(color: Colors.white60, fontSize: 11),
+                style: TextStyle(color: Colors.white, fontSize: 11),
               ),
             )
           ],

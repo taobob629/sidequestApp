@@ -379,11 +379,10 @@ class PlayDetail extends StatelessWidget {
                             constraints: BoxConstraints(maxWidth: 100),
                             child: Text(
                               '${controller.detailModel.value.location.location()}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style:
-                              TextStyle(color: Colors.white60, fontSize: 11),
-                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(color: Colors.white, fontSize: 11),
+                          ),
                           ),
                         ],
                       ),

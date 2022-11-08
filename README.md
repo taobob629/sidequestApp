@@ -10,18 +10,14 @@ Google:
 app: https://play.google.com/console/u/2/developers/7175830082965967924/app-list
 Merchant ID: 5325-8726-5182
 
-merchant@sidequestmeta.com
-woaiwangyu777
-
-
+merchant@sidequestmeta.com woaiwangyu777
 
 Apple:
 developer: https://developer.apple.com/account/#!/overview/3H47842M9N
 app: https://appstoreconnect.apple.com/
+Appstore： 账号：merchant@wanyoo.co.uk 密码：Tbbaggio!12345678
 
-
-merchant@wanyoo.co.uk
-Woaiwangyu88
+merchant@wanyoo.co.uk Woaiwangyu88
 
 
 
