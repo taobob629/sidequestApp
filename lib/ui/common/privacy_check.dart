@@ -22,17 +22,14 @@ class PrivacyCheck extends StatelessWidget {
         privacyList = [
           PrivacyInfo('Terms and Conditions'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf'),
           PrivacyInfo('', ''),
-          PrivacyInfo('Privacy Policy',
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf'),
+          PrivacyInfo('Privacy Policy'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf'),
           PrivacyInfo('', ''),
-          PrivacyInfo('SideKick Policy',
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
+          PrivacyInfo('SideKick Policy'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
         ];
         break;
       case TYPE_ADD_GAME:
         privacyList = [
-          PrivacyInfo('User Agreement',
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/User_Agreement.pdf'),
+          PrivacyInfo('User Agreement'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/User_Agreement.pdf'),
         ];
         break;
     }
@@ -59,7 +56,7 @@ class PrivacyCheck extends StatelessWidget {
                         onChanged: (v) => _controller.check.value = v!)),
                   ),
                   Text(
-                    "By checking this means you agree to our",
+                    "By checking this means you agree to our".tr,
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   )
                 ],

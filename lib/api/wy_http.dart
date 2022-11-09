@@ -2,6 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as Get;
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
+import 'package:wy/utils/utils.dart';
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
@@ -30,6 +31,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
       options.headers['X-Wanyoo-Token'] = StorageManager.getToken();
     }
     options.headers['platform'] = Platform.operatingSystem;
+    options.headers['language'] = Get.Get.deviceLocale;
     handler.next(options);
   }
 }

@@ -64,5 +64,5 @@ const Map<String, String> en_US = {
   '* Only 6 numbers accepted as your payment pin': '* Only 6 numbers accepted as your payment pin',
   'Your': 'Your',
   'has been successfully reset!': 'has been successfully reset!',
-  'Select Birthday': 'Select Birthday'
+  'Select Birthday': 'Select Birthday',
 };
