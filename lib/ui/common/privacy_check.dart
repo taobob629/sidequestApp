@@ -20,8 +20,7 @@ class PrivacyCheck extends StatelessWidget {
     switch (type) {
       case TYPE_LOGIN:
         privacyList = [
-          PrivacyInfo('Terms and Conditions',
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf'),
+          PrivacyInfo('Terms and Conditions'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf'),
           PrivacyInfo('', ''),
           PrivacyInfo('Privacy Policy',
               'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf'),

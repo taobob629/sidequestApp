@@ -22,20 +22,24 @@ class QrLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Authorization",
+      title: "Authorization".tr,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20,bottom: 20),
-            child: Icon(IconFonts.pc, size: 110, color: Colors.white38,),
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            child: Icon(
+              IconFonts.pc,
+              size: 110,
+              color: Colors.white38,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right:15, top: 10,bottom: 50),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 50),
             child: Text(
-              "You are signing in to a PC client with account below, do you want to continue?",
+              "You are signing in to a PC client with account below, do you want to continue?".tr,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey,fontSize: 16),
+              style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
           Container(
@@ -83,17 +87,22 @@ class QrLoginPage extends StatelessWidget {
                     _buildLevelIcon()
                   ],
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
                 Text(
                   "${userController.userInfoModel.value.email}",
-                  style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 )
               ],
             ),
           )
         ],
       ),
-      floatingActionButton: FloatingButton(label: "CONFIRM",onTap: () => controller.login(),),
+      floatingActionButton: FloatingButton(
+        label: "CONFIRM".tr,
+        onTap: () => controller.login(),
+      ),
     );
   }
 
@@ -114,6 +123,6 @@ class QrLoginPageController extends GetxController{
   void login() async{
     EasyLoading.show();
     await AuthApi.qrCodeLogin(code);
-    EasyLoading.showSuccess("Success",duration: Duration(seconds: 3)).then((value) => Get.back());
+    EasyLoading.showSuccess("Success".tr, duration: Duration(seconds: 3)).then((value) => Get.back());
   }
 }

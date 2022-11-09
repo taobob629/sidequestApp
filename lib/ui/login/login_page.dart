@@ -22,18 +22,18 @@ class LoginPage extends StatelessWidget {
     return KeyboardVisibilityScaffold(
       builder: (context, keyboardShow){
         return BaseScaffold(
-          title: keyboardShow ? "Sign In" : "",
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Offstage(
-                      offstage: keyboardShow,
-                      child: Container(
-                        height: 56,
+          title: keyboardShow ? "Sign In".tr : "",
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Offstage(
+                    offstage: keyboardShow,
+                    child: Container(
+                      height: 56,
                         margin: const EdgeInsets.only(bottom: 80),
                         child: Image.asset("assets/images/logo.webp", fit: BoxFit.contain,),
                       ),
@@ -46,29 +46,29 @@ class LoginPage extends StatelessWidget {
                         children: [
                           Offstage(
                             offstage: keyboardShow,
-                            child: Text("SIGN IN", style: TextStyle(color: Colors.white, fontFamily: "DIN",fontSize: 28),)
-                          ),
+                              child: Text(
+                              "SIGN IN".tr,
+                              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                            )),
                           SizedBox(height: 10,),
                           AuthInputView(
-                            tips: "Account Email / Member ID",
-                            editingController: controller.emailEditingController,
-                            textInputAction: TextInputAction.next,
-                            focusNode: controller.emailFocusNode,
-                          ),
+                            tips: "Account Email / Member ID".tr,
+                          editingController: controller.emailEditingController,
+                          textInputAction: TextInputAction.next,
+                          focusNode: controller.emailFocusNode,
+                        ),
                           SizedBox(height: 20,),
                           AuthInputView(
-                            tips: "Password",
-                            password: true,
-                            editingController: controller.passwordEditingController,
-                            textInputAction: TextInputAction.go,
-                            focusNode: controller.passwordFocusNode
-                          ),
+                              tips: "Password".tr, password: true, editingController: controller.passwordEditingController, textInputAction: TextInputAction.go, focusNode: controller.passwordFocusNode),
                           SizedBox(height: 20,),
                           ColorfulButton(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 4),
-                              child: Text("SIGN IN",style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
+                            child: Text(
+                              "SIGN IN".tr,
+                              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
                             ),
+                          ),
                             height: 48,
                             onTap: ()=>controller.login(),
                           ),
@@ -82,9 +82,9 @@ class LoginPage extends StatelessWidget {
                                   color: Colors.transparent,
                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
-                                    "Sign Up",
-                                    style: TextStyle(color: Colors.white,fontSize: 14),
-                                  ),
+                                    "Sign Up".tr,
+                                  style: TextStyle(color: Colors.white, fontSize: 14),
+                                ),
                                 ),
                               ),
                               GestureDetector(
@@ -93,9 +93,12 @@ class LoginPage extends StatelessWidget {
                                   color: Colors.transparent,
                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
-                                    "Forgotten your password?",
-                                    style: TextStyle(color: Colors.white,fontSize: 14,),
+                                    "Forgotten your password?".tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
                                   ),
+                                ),
                                 ),
                               ),
                             ],
@@ -166,12 +169,12 @@ class LoginPageController extends GetxController with GetSingleTickerProviderSta
     String password = passwordEditingController.text;
 
     if(email.isEmpty){
-      EasyLoading.showToast("Please input your email");
+      EasyLoading.showToast("Please input your email".tr);
       return;
     }
 
     if(password.isEmpty){
-      EasyLoading.showToast("Please input your password");
+      EasyLoading.showToast("Please input your password".tr);
       return;
     }
 

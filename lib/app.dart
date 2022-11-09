@@ -13,6 +13,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 
 import 'api/index_api.dart';
 import 'config/app_config.dart';
+import 'config/lang/translations.dart';
 
 class App extends StatelessWidget {
 
@@ -49,17 +50,20 @@ class App extends StatelessWidget {
             secondary: AppColor.accent,
             secondaryVariant: AppColor.accent,
             onSecondary: AppColor.accent,
-          )
-        ),
+          )),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
-          const Locale('en', 'UK'),
+          const Locale('en', 'US'),
           const Locale('zh', 'CN'),
         ],
+        locale: Get.deviceLocale,
+        translations: Messages(),
+        //跟随系统语言
+        fallbackLocale: const Locale('en', 'US'),
         getPages: AppPages.routes,
         initialRoute: AppPages.Main,
         builder: EasyLoading.init(),
