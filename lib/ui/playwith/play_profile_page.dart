@@ -140,8 +140,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       country = location.country;
       state = location.state;
       if (country != null) {
-        _curCountry =
-            countries.firstWhereOrNull((element) => element.name == country);
+        _curCountry = countries.firstWhereOrNull(
+            (element) => '${element.emoji}${element.name}' == country);
         _curState =
             _curCountry?.state.firstWhereOrNull((item) => item.name == state);
         //   flog('找到了state$_curState  counrty $_curCountry');
