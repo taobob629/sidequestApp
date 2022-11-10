@@ -30,11 +30,15 @@ class BalancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Top Up",
+      title: "Top Up".tr,
       actions: [
         ActionButton(
-          icon: Icon(Icons.list, size: 26,color: Colors.white,),
-          onTap: ()=>Get.to(()=>MyConsumePage()),
+          icon: Icon(
+            Icons.list,
+            size: 26,
+            color: Colors.white,
+          ),
+          onTap: () => Get.to(() => MyConsumePage()),
         )
       ],
       body: SingleChildScrollView(
@@ -42,20 +46,20 @@ class BalancePage extends StatelessWidget {
         children: [
           TopBanner(),
           ItemTitle(
-            title: "Top Up",
+            title: "Top Up".tr,
             subTitle: "",
           ),
           Obx(() => _buildChargeItems(context)),
           ItemTitle(
-              title: "Other Top Up Amount",
+              title: "Other Top Up Amount".tr,
               subTitle: '',
               actions: Text(
-                'Min:£1',
+                '${'Min'.tr}:£1',
                 style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
               )),
           _buildCustomInput(),
           ItemTitle(
-            title: "Top Up Account",
+            title: "Top Up Account".tr,
             subTitle: "",
           ),
           _buildAccountSelect(context),
@@ -64,7 +68,7 @@ class BalancePage extends StatelessWidget {
           )
         ],
       )),
-      floatingActionButton: FloatingButton(label: "CONFIRM", onTap: () => controller.pay()),
+      floatingActionButton: FloatingButton(label: "CONFIRM".tr, onTap: () => controller.pay()),
     );
   }
 

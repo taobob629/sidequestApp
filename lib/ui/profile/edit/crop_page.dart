@@ -19,18 +19,20 @@ class CropPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Edit photo",
-      backgroundColor: Colors.black,
-      actions: [
-        GestureDetector(
-          onTap: ()=>controller.crop((image)=>Get.back(result: image)),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 18),
-            color: Colors.transparent,
-            child: Text("Done",style: TextStyle(fontSize: 16,color: Colors.white),)
+      title: "Edit photo".tr,
+        backgroundColor: Colors.black,
+        actions: [
+          GestureDetector(
+            onTap: () => controller.crop((image) => Get.back(result: image)),
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                color: Colors.transparent,
+                child: Text(
+                  "Done".tr,
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                )),
           ),
-        ),
-      ],
+        ],
       body: Container(
         color: Colors.black,
         child: ExtendedImage.file(
@@ -96,7 +98,6 @@ class CropPageController extends GetxController {
   }
 
   Future<Uint8List?> cropImageDataWithNativeLibrary({required ExtendedImageEditorState state}) async {
-    print("native library start cropping");
 
     final cropRect = state.getCropRect()??Rect.zero;
     final action = state.editAction??EditActionDetails();
@@ -121,8 +122,6 @@ class CropPageController extends GetxController {
       image: img,
       imageEditorOption: option,
     );
-
-    print("${DateTime.now().difference(start)} ：total time");
     return result;
   }
 }

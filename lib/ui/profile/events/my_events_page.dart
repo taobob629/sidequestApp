@@ -20,7 +20,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Activities",
+      title: "My Activities".tr,
       body: AnimatedSwitchBuilder<dynamic>(
         value: eventTabDm,
         errorOnTap: () => eventTab(() => setState(() {})),
@@ -81,10 +81,10 @@ class _MyEventsPageState extends State<MyEventsPage> {
   List<Widget> createTabs() {
     List<Widget> tabs = [];
     tabs.add(Text(
-      "Events",
+      "Events".tr,
     ));
     tabs.add(Text(
-      "Tournaments",
+      "Tournaments".tr,
     ));
     return tabs;
   }

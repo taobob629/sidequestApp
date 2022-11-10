@@ -144,9 +144,9 @@ class VipPage extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 6.0),
                                     child: Text(
-                                      "Invite Only",
-                                      style: TextStyle(color: Colors.black,fontSize: 24,fontFamily: "DIN"),
-                                    ),
+                                      "Invite Only".tr,
+                                          style: TextStyle(color: Colors.black, fontSize: 24, fontFamily: "DIN"),
+                                        ),
                                   ),
                                 ),
                               );
@@ -166,9 +166,7 @@ class VipPage extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 6),
                                     child: Text(
-                                      userController.userInfoModel.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level?
-                                      "Subscribed"  :
-                                      "£ ${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
+                                      userController.userInfoModel.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level ? "Subscribed".tr : "£ ${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
                                       style: TextStyle(color: Colors.black,fontSize: 30,fontFamily: "DIN"),
                                     ),
                                   ),
@@ -261,7 +259,10 @@ class VipPage extends StatelessWidget {
           _buildWing(true),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("VIP Benefits", style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),),
+            child: Text(
+              "VIP Benefits".tr,
+              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
+            ),
           ),
           _buildWing(false)
         ],
@@ -419,7 +420,7 @@ class VipPageController extends GetxController {
   void showConfirm(PayOrderModel model){
     var userController = Get.find<UserController>();
     if(userController.user.value.getAge() < 16){
-      EasyLoading.showInfo("Subscription members must be at least 16 years old.",duration: Duration(seconds: 3));
+      EasyLoading.showInfo("Subscription members must be at least 16 years old.".tr, duration: Duration(seconds: 3));
       return;
     }
     Get.dialog(VipInfoDialog(),barrierColor: Colors.black26).then((value) {

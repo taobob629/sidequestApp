@@ -16,18 +16,12 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Orders",
-      body: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 40,
-            child: _buildTabs()
-          ),
-          Positioned(
-            left: 0,
+      title: "My Orders".tr,
+        body: Stack(
+          children: [
+            Positioned(left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
+            Positioned(
+              left: 0,
             right: 0,
             bottom: 0,
             top: 40,
@@ -60,9 +54,15 @@ class OrdersPage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text("Pending",));
-    tabs.add(Text("Paid",));
-    tabs.add(Text("Delivered",));
+    tabs.add(Text(
+      "Pending".tr,
+    ));
+    tabs.add(Text(
+      "Paid".tr,
+    ));
+    tabs.add(Text(
+      "Delivered".tr,
+    ));
     return tabs;
   }
 

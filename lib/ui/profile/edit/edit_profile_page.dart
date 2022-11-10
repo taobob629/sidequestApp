@@ -34,11 +34,14 @@ class EditProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Profile",
+      title: "Profile".tr,
       actions: [
         ActionButton(
-          icon: Icon(Icons.delete,color: Colors.white,),
-          onTap: ()=>controller.deleteAccount(),
+          icon: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+          onTap: () => controller.deleteAccount(),
         )
       ],
       body: SingleChildScrollView(
@@ -48,30 +51,13 @@ class EditProfilePage extends StatelessWidget {
             _buildAvatarEdit(context),
             SizedBox(height: 10,),
             InputView(
-              controller: controller.nickController,
-              label: "Nickname",
-              maxLength: 20,
-              tips: "${userController.userInfoModel.value.nick}"
-            ),
+                controller: controller.nickController, label: "Nickname".tr, maxLength: 20, tips: "${userController.userInfoModel.value.nick}"),
             InputView(
-              controller: controller.fistController,
-              label: "First Name",
-              maxLength: 20,
-              tips: "${userController.user.value.firstName}"
-            ),
+                controller: controller.fistController, label: "First Name".tr, maxLength: 20, tips: "${userController.user.value.firstName}"),
             InputView(
-              controller: controller.lastController,
-              label: "Last Name",
-              maxLength: 20,
-              tips: "${userController.user.value.lastName}"
-            ),
+                controller: controller.lastController, label: "Last Name".tr, maxLength: 20, tips: "${userController.user.value.lastName}"),
             InputView(
-              controller: controller.phoneController,
-              label: "Phone",
-              maxLength: 20,
-              textInputType: TextInputType.phone,
-              tips: "${userController.user.value.phone}"
-            ),
+                controller: controller.phoneController, label: "Phone".tr, maxLength: 20, textInputType: TextInputType.phone, tips: "${userController.user.value.phone}"),
             /*
             Obx(()=>BirthdayEditor(
               label: "Birthday",
@@ -90,16 +76,18 @@ class EditProfilePage extends StatelessWidget {
               height: 10,
               color: Color(0xFF0F0D1A),
             ),
-            InfoItem(title: "Birthday", detail: "${userController.user.value.birth}"),
-            InfoItem(title: "Account Email", detail: "${userController.user.value.email}"),
-            InfoItem(title: "Registered Date", detail: "${userController.user.value.createTime}"),
-            SizedBox(height: 50,)
+            InfoItem(title: "Birthday".tr, detail: "${userController.user.value.birth}"),
+            InfoItem(title: "Account Email".tr, detail: "${userController.user.value.email}"),
+            InfoItem(title: "Registered Date".tr, detail: "${userController.user.value.createTime}"),
+            SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingButton(
-        label: "CONFIRM",
-        onTap: ()=>controller.updateInfo(),
+        label: "CONFIRM".tr,
+        onTap: () => controller.updateInfo(),
       ),
     );
   }
@@ -165,7 +153,6 @@ class EditProfilePage extends StatelessWidget {
           controller.setAvatar(value);
         });
     } else {
-      print('No image selected.');
     }
   }
 }
@@ -240,31 +227,28 @@ class EditProfilePageController extends GetxController {
     String lastName = lastController.text.isEmpty ? userController.user.value.lastName : lastController.text;
     String phone = phoneController.text.isEmpty ? userController.user.value.phone : phoneController.text;
 
-    await UserApi.updateProfile(nick, birth,firstName,lastName,phone);
-    EasyLoading.showSuccess("Success");
+    await UserApi.updateProfile(nick, birth, firstName, lastName, phone);
+    EasyLoading.showSuccess("Success".tr);
     Get.back(result: true);
-
   }
 
   void deleteAccount() async {
-    var info = '''
-Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you. 
-
-This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?''';
-    Get.dialog(ConfirmDialog(
-      title: "Delete Account",
-      info: info,
-      confirmBtn: "CONFIRM",
-      onConfirm: () async {
-        Get.back();
-        EasyLoading.show();
-        await UserApi.deleteAccount();
-        await AuthApi.signOut();
-        await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
-        EasyLoading.dismiss();
-        UserController userController = Get.find<UserController>();
-        userController.logout(done: ()=>Get.back());
-      },
-    ),barrierColor: Colors.black26);
+    var info = "Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you.This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?".tr;
+    Get.dialog(
+        ConfirmDialog(
+          title: "Delete Account".tr,
+          info: info,
+          confirmBtn: "CONFIRM".tr,
+          onConfirm: () async {
+            Get.back();
+            EasyLoading.show();
+            await UserApi.deleteAccount();
+            await AuthApi.signOut();
+            await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
+            EasyLoading.dismiss();
+            UserController userController = Get.find<UserController>();
+            userController.logout(done: () => Get.back());
+          },
+        ),barrierColor: Colors.black26);
   }
 }

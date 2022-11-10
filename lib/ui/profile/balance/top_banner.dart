@@ -61,9 +61,17 @@ class TopBanner extends StatelessWidget {
             Obx(()=>Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CountView(icon: "money",title: "Credits Balance",count: "${userController.userInfoModel.value.balance}",),
-                CountView(icon: "time",title: "Free Gaming Time",count: "${userController.userInfoModel.value.freeMins}",)
-              ],
+                    CountView(
+                      icon: "money",
+                      title: "Credits Balance".tr,
+                      count: "${userController.userInfoModel.value.balance}",
+                    ),
+                    CountView(
+                      icon: "time",
+                      title: "Free Gaming Time".tr,
+                      count: "${userController.userInfoModel.value.freeMins}",
+                    )
+                  ],
             ))
           ],
         ),

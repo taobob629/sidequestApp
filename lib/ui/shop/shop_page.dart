@@ -51,10 +51,10 @@ class ShopPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              "Search anything you want to buy",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(fontSize: 14, color: Colors.white30),
-                            )
+                              "Search anything you want to buy".tr,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 14, color: Colors.white30),
+                          )
                           )
                         ],
                       ),

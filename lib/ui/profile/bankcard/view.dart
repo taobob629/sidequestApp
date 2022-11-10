@@ -20,10 +20,9 @@ import 'package:wy/widget/scaffold_widget.dart';
 class BindBankCardPage extends GetView<BindBankCardController> {
   @override
   Widget build(BuildContext context) {
-    flog('controller $controller');
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Bind bank card', style: TextStyle(fontSize: 18)),
+        title: Text('Bind bank card'.tr, style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -34,7 +33,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             PWidget.boxw(8),
             Expanded(
               child: Text(
-                'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use',
+                'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'.tr,
                 style: TextStyle(color: Color(0xff4488FF)),
               ),
             ),
@@ -43,7 +42,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           {'pd': 8},
         ),
         PWidget.text(
-          'Bank card information',
+          'Bank card information'.tr,
           [Colors.white, 18, true],
           {'ff': 'DIN', 'pd': PFun.lg(16, 16, 26, 16)},
         ),
@@ -63,16 +62,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
                   onChanged: (check) {}),
               Text.rich(TextSpan(children: [
                 TextSpan(
-                  text:
-                      'By signing up to Wanyoo\'s tournament, you agree to \n our',
+                  text: 'By signing up to Wanyoo\'s tournament, you agree to \n our'.tr,
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
                 TextSpan(
-                    text: 'Tournament RulesPrivacy',
-                    style: TextStyle(
-                        color: Color.fromRGBO(40, 86, 255, 1),
-                        fontSize: 12,
-                        decoration: TextDecoration.underline),
+                    text: 'Tournament RulesPrivacy'.tr,
+                    style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         // 查看 服务条款
@@ -82,11 +77,8 @@ class BindBankCardPage extends GetView<BindBankCardController> {
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
                 TextSpan(
-                    text: 'Cookies Policy',
-                    style: TextStyle(
-                        color: Color.fromRGBO(40, 86, 255, 1),
-                        fontSize: 12,
-                        decoration: TextDecoration.underline),
+                    text: 'Cookies Policy'.tr,
+                    style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         // 查看 服务条款
@@ -95,7 +87,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             ],
           ),
           FloatingButton(
-            label: "Next",
+            label: "Next".tr,
             onTap: () {
               controller.save();
             },
@@ -134,49 +126,31 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             isExp: true),
       ])),
       itemBg(PWidget.row([
-        PWidget.text('Bank name', [
+        PWidget.text('Bank name'.tr, [
           Colors.white,
         ], {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'please input',
-            con: controller.bankNameTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
+        buildTFView(context!, hintText: 'please input'.tr, con: controller.bankNameTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
       ])),
       itemBg(PWidget.row([
-        PWidget.text('Account number', [
+        PWidget.text('Account number'.tr, [
           Colors.white,
         ], {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'please input',
-            con: controller.accountNumTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
+        buildTFView(context!, hintText: 'please input'.tr, con: controller.accountNumTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
       ])),
       itemBg(PWidget.row([
-        PWidget.text('Name on account', [
+        PWidget.text('Name on account'.tr, [
           Colors.white,
         ], {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'please input',
-            con: controller.nameOnAccountNumTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
+        buildTFView(context!, hintText: 'please input'.tr, con: controller.nameOnAccountNumTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
       ])),
     ];
   }

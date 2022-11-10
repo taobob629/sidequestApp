@@ -78,7 +78,10 @@ class ProductItem extends StatelessWidget {
                 width: 68,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text("+ Cart",style: TextStyle(fontSize: 12,color: Colors.white),),
+                  child: Text(
+                    "+ ${'Cart'.tr}",
+                    style: TextStyle(fontSize: 12, color: Colors.white),
+                  ),
                 ),
                 onTap: () {
                   controller.addProduct(product);

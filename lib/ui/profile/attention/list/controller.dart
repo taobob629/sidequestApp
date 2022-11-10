@@ -38,7 +38,6 @@ class AttentionListPageController extends GetxRefreshController {
         list = await UserApi.attentionList(pageNum, pageSize);
         break;
     }
-    flog('user $list');
     return list;
   }
 

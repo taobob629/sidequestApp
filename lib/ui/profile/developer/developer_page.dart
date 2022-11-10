@@ -21,36 +21,48 @@ class DeveloperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Developer",
-      body: Obx(()=>Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            Text("Push Token",style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            GestureDetector(
-              onTap: (){
-                Clipboard.setData(ClipboardData(text: controller.pushToken.value));
-                EasyLoading.showToast("The push token has been copied to your clipboard");
-              },
-              child: Text(
-                "${controller.pushToken.value}",
-                style: TextStyle(fontSize: 14,color: Colors.white,)
-              ),
-            ),
-            SizedBox(height: 20,),
-            Text("Environment",style: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Row(
-              children: [
-                Radio<String>(
-                  activeColor: AppColor.accent,
-                  value: "dev220",
-                  groupValue: controller.env.value,
-                  onChanged: (value) {
-                    controller.env.value = value!;
-                  }
-                ),
+      title: "Developer".tr,
+        body: Obx(() => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                children: [
+                  Text(
+                    "Push Token".tr,
+                    style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: controller.pushToken.value));
+                      EasyLoading.showToast("The push token has been copied to your clipboard".tr);
+                    },
+                    child: Text("${controller.pushToken.value}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        )),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Environment".tr,
+                    style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Radio<String>(
+                          activeColor: AppColor.accent,
+                          value: "dev220",
+                          groupValue: controller.env.value,
+                          onChanged: (value) {
+                            controller.env.value = value!;
+                          }),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Text("dev220", style: TextStyle(fontSize: 14, color: Colors.white),),

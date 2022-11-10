@@ -48,10 +48,10 @@ class CombItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "price: £ ${productItemModel.price}",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(color: Colors.white54,fontSize: 12),
-                        )
+                          "${'price'.tr}: £ ${productItemModel.price}",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(color: Colors.white54, fontSize: 12),
+                      )
                       ),
                     ],
                   )

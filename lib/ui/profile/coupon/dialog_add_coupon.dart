@@ -18,33 +18,32 @@ class AddCouponDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Add Voucher",style: TextStyle(fontSize: 16, color: Colors.white),),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 30),
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.white10
-            ),
-            child: TextField(
-              maxLines: 1,
-              controller: controller.codeController,
-              cursorColor: Colors.white70,
+        Text(
+          "Add Voucher".tr,
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: Colors.white10),
+          child: TextField(
+            maxLines: 1,
+            controller: controller.codeController,
+            cursorColor: Colors.white70,
               textAlign: TextAlign.start,
               style: const TextStyle(color: Colors.white, fontSize: 16),
               onSubmitted: (text) => {},
               decoration: InputDecoration(
-                hintText: "Input your voucher code",
-                hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(bottom: 0)
-              ),
+                  hintText: "Input your voucher code".tr, hintStyle: TextStyle(fontSize: 14, color: Colors.white24), border: InputBorder.none, contentPadding: EdgeInsets.only(bottom: 0)),
             ),
           ),
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("CONFIRM", style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),),
+              child: Text(
+                "CONFIRM".tr,
+                style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+              ),
             ),
             height: 40,
             onTap: () => controller.add()
@@ -133,7 +132,7 @@ class AddCouponDialogController extends GetxController{
   void add() async{
     String code = codeController.text;
     if(code.isEmpty){
-      EasyLoading.showInfo("Please input your voucher code");
+      EasyLoading.showInfo("Please input your voucher code".tr);
       return;
     }
     EasyLoading.show();

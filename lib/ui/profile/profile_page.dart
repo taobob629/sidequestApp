@@ -198,7 +198,7 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 15),
             child: Text(
-              "Play Function",
+              "Play Function".tr,
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
@@ -216,7 +216,7 @@ class ProfilePage extends StatelessWidget {
               // ),
               IconMenu(
                 icon: "assets/images/ic_wallet.webp",
-                title: "Wallet",
+                title: "Wallet".tr,
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayBalancePage());
@@ -225,7 +225,7 @@ class ProfilePage extends StatelessWidget {
               ),
               IconMenu(
                 icon: "assets/images/ic_settings.webp",
-                title: "Services",
+                title: "Services".tr,
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlaySkillsPage());
@@ -234,7 +234,7 @@ class ProfilePage extends StatelessWidget {
               ),
               IconMenu(
                 icon: "assets/images/ic_orders.webp",
-                title: "Orders",
+                title: "Orders".tr,
                 onTap: () {
                   userController.checkLogin(() {
                     Get.to(() => PlayOrdersPage());
@@ -260,13 +260,13 @@ class ProfilePage extends StatelessWidget {
               // ),
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
-                title: "Wallet",
-                onTap: () {
-                  userController.checkLogin(() {
-                    Get.to(() => PlayBalancePage());
-                  });
-                },
-              ),
+                  title: "Wallet".tr,
+                  onTap: () {
+                    userController.checkLogin(() {
+                      Get.to(() => PlayBalancePage());
+                    });
+                  },
+                ),
               IconMenu(icon: "", title: ""),
               IconMenu(icon: "", title: ""),
             ],
@@ -285,7 +285,7 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 15),
             child: Text(
-              "Store Function",
+              "Store Function".tr,
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
@@ -294,21 +294,21 @@ class ProfilePage extends StatelessWidget {
             children: [
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
-                title: "My Balance",
+                title: "My Balance".tr,
                 onTap: () {
                   userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
-                title: "My Bookings",
+                title: "My Bookings".tr,
                 onTap: () {
                   userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
                   icon: "assets/images/ic_orders_new.webp",
-                  title: "My Orders",
+                  title: "My Orders".tr,
                   onTap: () {
                     userController.checkLogin(() => Get.to(() => OrdersPage()));
                   }),
@@ -322,13 +322,13 @@ class ProfilePage extends StatelessWidget {
             children: [
               IconMenu(
                   icon: "assets/images/ic_tab_events_new.webp",
-                  title: "My Activities",
+                  title: "My Activities".tr,
                   onTap: () {
                     userController.checkLogin(() => Get.to(() => MyEventsPage()));
                   }),
               IconMenu(
                   icon: "assets/images/ic_address_new.webp",
-                  title: "My Address",
+                  title: "My Address".tr,
                   onTap: () {
                     userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
                   }),

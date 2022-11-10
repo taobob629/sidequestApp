@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/coupon_model.dart';
 
@@ -106,7 +107,10 @@ class CouponItem extends StatelessWidget {
                             )
                           ],
                         ),
-                        Text("Expire Date: ${model.expireTime}", style: TextStyle(fontSize: 12,color: Colors.white60),)
+                        Text(
+                          "${'Expire Date'.tr}: ${model.expireTime}",
+                          style: TextStyle(fontSize: 12, color: Colors.white60),
+                        )
                       ],
                     ),
                   )
@@ -124,9 +128,15 @@ class CouponItem extends StatelessWidget {
     //   return Text("${model.couponCode}",style: TextStyle(color: Colors.white,fontSize: 16),);
     // }
     if(model.type == 0 || model.type == 3){
-      return Text("${model.discount} % off",style: TextStyle(color: Colors.white,fontSize: 16),);
+      return Text(
+        "${model.discount} % ${'off'.tr}",
+        style: TextStyle(color: Colors.white, fontSize: 16),
+      );
     }else if(model.type == 2){
-      return Text("${model.freeTime} mins",style: TextStyle(color: Colors.white,fontSize: 16),);
+      return Text(
+        "${model.freeTime} ${'mins'.tr}",
+        style: TextStyle(color: Colors.white, fontSize: 16),
+      );
     }
     return Container(
       child: SizedBox(height: 18,),

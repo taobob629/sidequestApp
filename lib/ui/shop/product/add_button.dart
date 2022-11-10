@@ -71,9 +71,9 @@ class AddButton extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
-                            "ADD TO CART",
-                            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
-                          ),
+                            "ADD TO CART".tr,
+                                style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
+                              ),
                         ),
                         SizedBox(width: 20, height: 10,),
                         Obx(() {

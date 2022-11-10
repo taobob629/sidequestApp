@@ -18,18 +18,24 @@ class BookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Bookings",
+      title: "My Bookings".tr,
       body: Stack(
         children: [
           Positioned(
-            left: 0,right: 0,top: 0,bottom: 0,
-            child: Obx(()=>controller.initializing.value ? Container() : controller.list.length == 0 ? EmptyView():
-              ListView.separated(
-              controller: controller.scrollController,
-              itemBuilder: (context, index){
-                BookingModel model = controller.list[index];
-                return BookingItem(
-                  model: model,
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Obx(() => controller.initializing.value
+                  ? Container()
+                  : controller.list.length == 0
+                      ? EmptyView()
+                      : ListView.separated(
+                          controller: controller.scrollController,
+                          itemBuilder: (context, index) {
+                            BookingModel model = controller.list[index];
+                            return BookingItem(
+                              model: model,
                   onCancel: (id)=>controller.cancelBook(id),
                 );
               },
@@ -42,8 +48,12 @@ class BookingPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: Obx(
-          ()=>controller.floatingActionButtonShow.value ? FloatingButton(label: "MAKE A NEW BOOKING",onTap: () => gotoAddPage(),) : Container()
-      ),
+              () => controller.floatingActionButtonShow.value
+          ? FloatingButton(
+              label: "MAKE A NEW BOOKING".tr,
+              onTap: () => gotoAddPage(),
+            )
+          : Container()),
     );
   }
 
@@ -99,8 +109,7 @@ class BookingPageController extends GetxListController<BookingModel> {
   }
 
   Future <void> cancelBook(int id)async{
-    Get.dialog(ConfirmDialog(title: "Cancel Booking", info: "Do you confirm to cancel this booking?"),barrierColor: Colors.black26)
-      .then((value) async{
+    Get.dialog(ConfirmDialog(title: "Cancel Booking".tr, info: "Do you confirm to cancel this booking?".tr), barrierColor: Colors.black26).then((value) async{
         if(value != null && value == true){
           EasyLoading.show();
           await BookingApi.cancel(id);

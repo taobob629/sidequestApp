@@ -26,20 +26,13 @@ class ReservePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Book A Room",
+      title: "Book A Room".tr,
       body: Stack(
-        children: [
-          _buildMouth(),
-          _buildShadow(),
-          _buildContent(context),
-          _buildDashLine(),
-          _buildHoleShadow(),
-          _buildHole()
-        ],
+        children: [_buildMouth(), _buildShadow(), _buildContent(context), _buildDashLine(), _buildHoleShadow(), _buildHole()],
       ),
       floatingActionButton: FloatingButton(
-        label: "BOOK",
-        onTap: ()=>controller.book(),
+        label: "BOOK".tr,
+        onTap: () => controller.book(),
       ),
     );
   }
@@ -127,25 +120,25 @@ class ReservePage extends StatelessWidget {
             ),
           ),
           SelectView(
-            label: "Store",
-            tips: "Select One Store",
-            value: controller.store.value.name,
-            onTap: () async {
-              controller.showSelectLocation();
-            },
-          ),
+                label: "Store".tr,
+                tips: "Select One Store".tr,
+                value: controller.store.value.name,
+                onTap: () async {
+                  controller.showSelectLocation();
+                },
+              ),
           SelectView(
-            label: "Area",
-            tips: "Select One Area",
-            value: controller.area.value.name,
-            onTap: () async {
-              if(controller.store.value.id == 0){
-                controller.showSelectLocation();
-              }else {
-                controller.showSelectArea();
-              }
-            },
-          ),
+                label: "Area".tr,
+                tips: "Select One Area".tr,
+                value: controller.area.value.name,
+                onTap: () async {
+                  if (controller.store.value.id == 0) {
+                    controller.showSelectLocation();
+                  } else {
+                    controller.showSelectArea();
+                  }
+                },
+              ),
           // SelectView(
           //   label: "Number of People",
           //   tips: "Number of people",
@@ -155,55 +148,55 @@ class ReservePage extends StatelessWidget {
           //   },
           // ),
           SelectView(
-            label: "What Time",
-            tips: "What Time",
-            value: controller.timeSelect.value ? formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]):"",
-            onTap: (){
-              controller.showSelectTime();
-            },
-          ),
+                label: "What Time".tr,
+                tips: "What Time".tr,
+                value: controller.timeSelect.value ? formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]) : "",
+                onTap: () {
+                  controller.showSelectTime();
+                },
+              ),
           SelectView(
-            label: "How Long",
-            tips: "How Long",
-            value: controller.duration.value.name,
-            onTap: () async {
-              controller.showSelectDuration();
-            },
-          ),
+                label: "How Long".tr,
+                tips: "How Long".tr,
+                value: controller.duration.value.name,
+                onTap: () async {
+                  controller.showSelectDuration();
+                },
+              ),
           InputView(
-            label: "Phone",
-            tips: "Contact Phone",
-            textInputType: TextInputType.phone,
-            controller: controller.phoneController,
-            focusNode: controller.focusNode,
+                label: "Phone".tr,
+                tips: "Contact Phone".tr,
+                textInputType: TextInputType.phone,
+                controller: controller.phoneController,
+                focusNode: controller.focusNode,
+              ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
+            child: Text(
+              "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly.".tr,
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
             child: Text(
-              "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly. ",
-              style: TextStyle(color: Colors.white54,fontSize: 12),
-            ),
+              "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms.".tr,
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
             child: Text(
-              "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms.",
-              style: TextStyle(color: Colors.white54,fontSize: 12),
-            ),
+              "* If you arrive more than half an hour after your booking time, your reservation will be invalidated.".tr,
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
             child: Text(
-              "* If you arrive more than half an hour after your booking time, your reservation will be invalidated. ",
-              style: TextStyle(color: Colors.white54,fontSize: 12),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15, top: 5),
-            child: Text(
-              "* Please note that if you don't meet the above criteria, the deposit will not be refundable.",
-              style: TextStyle(color: Colors.white54,fontSize: 12),
-            ),
+              "* Please note that if you don't meet the above criteria, the deposit will not be refundable.".tr,
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
           )
         ],
       ),
@@ -394,7 +387,14 @@ class ReservePageController extends GetxController {
   }
 
   void showSelectLocation(){
-    Get.dialog(SelectorDialog(items:this.stores,title: "Select Store", showInfo: true,),barrierColor: Colors.black26).then((value) {
+    Get.dialog(
+            SelectorDialog(
+              items: this.stores,
+              title: "Select Store".tr,
+              showInfo: true,
+            ),
+            barrierColor: Colors.black26)
+        .then((value) {
       if (value != null) {
         BookingSelectModel store = value as BookingSelectModel;
         storeSelect(store);
@@ -412,11 +412,18 @@ class ReservePageController extends GetxController {
   }
 
   void showSelectArea(){
-    Get.dialog(SelectorDialog(items:this.areas,title: "Select Area",showInfo: true,),barrierColor: Colors.black26).then((value) {
+    Get.dialog(
+            SelectorDialog(
+              items: this.areas,
+              title: "Select Area".tr,
+              showInfo: true,
+            ),
+            barrierColor: Colors.black26)
+        .then((value) {
       if (value != null) {
         BookingSelectModel area = value as BookingSelectModel;
         this.area.value = area;
-        if(timeSelect.value == false) {
+        if (timeSelect.value == false) {
           showSelectTime();
         }
       }
@@ -462,15 +469,14 @@ class ReservePageController extends GetxController {
           DateTime end = storeModel.getEnd();
           DateTime start = storeModel.getStart();
           if(value.hour > end.hour - 1){
-            EasyLoading.showError("${storeModel.name} closed at this time, please choose another time.");
-            this.time.value = tomorrow.add(Duration(hours: (end.hour-start.hour-1)));
-            return;
-          }else if(value.hour < start.hour){
-            EasyLoading.showError("${storeModel.name} not open at this time, please choose another time.");
-            this.time.value = tomorrow;
-            return;
-          }else{
-            print(value);
+            EasyLoading.showError("${storeModel.name} ${'closed at this time, please choose another time.'.tr}");
+          this.time.value = tomorrow.add(Duration(hours: (end.hour - start.hour - 1)));
+          return;
+        }else if(value.hour < start.hour){
+            EasyLoading.showError("${storeModel.name} ${'not open at this time, please choose another time.'.tr}");
+          this.time.value = tomorrow;
+          return;
+        }else{
             this.time.value = value;
           }
 
@@ -489,7 +495,7 @@ class ReservePageController extends GetxController {
   }
 
   void showSelectDuration(){
-    if(this.timeSelect.value == false){
+    if (this.timeSelect.value == false) {
       showSelectTime();
       return;
     }
@@ -498,17 +504,17 @@ class ReservePageController extends GetxController {
     DateTime end = storeModel.getEnd();
     BookingSelectModel model = BookingSelectModel();
     model.id = 1;
-    model.name = "1 hour";
+    model.name = "1 hour".tr;
     durationList.add(model);
     int j = 2;
-    for(int i = time.value.hour+1; i<end.hour; i++){
+    for (int i = time.value.hour + 1; i < end.hour; i++) {
       BookingSelectModel model = BookingSelectModel();
       model.id = j;
-      model.name = "$j hours";
+      model.name = "$j ${'hours'.tr}";
       durationList.add(model);
       j++;
     }
-    Get.dialog(SelectorDialog(items:this.durationList,title: "How Long"),barrierColor: Colors.black26).then((value) {
+    Get.dialog(SelectorDialog(items: this.durationList, title: "How Long".tr), barrierColor: Colors.black26).then((value) {
       if (value != null) {
         BookingSelectModel duration = value as BookingSelectModel;
         this.duration.value = duration;
@@ -527,17 +533,17 @@ class ReservePageController extends GetxController {
 
 
     if(model.storeId == 0){
-      EasyLoading.showInfo("Please select store location");
+      EasyLoading.showInfo("Please select store location".tr);
       return;
     }
 
     if(model.areaId == 0){
-      EasyLoading.showInfo("Please select one area");
+      EasyLoading.showInfo("Please select one area".tr);
       return;
     }
 
     if(model.duration == 0){
-      EasyLoading.showInfo("Please select how long");
+      EasyLoading.showInfo("Please select how long".tr);
       return;
     }
 
@@ -546,12 +552,12 @@ class ReservePageController extends GetxController {
     //   return;
     // }
     if(time.value == bookingTime){
-      EasyLoading.showInfo("Please select what time");
+      EasyLoading.showInfo("Please select what time".tr);
       return;
     }
 
     if(model.phone.isEmpty){
-      EasyLoading.showInfo("Please input your phone");
+      EasyLoading.showInfo("Please input your phone".tr);
       return;
     }
 
@@ -562,10 +568,10 @@ class ReservePageController extends GetxController {
 
       Get.dialog(
         ConfirmDialog(
-          title:"Congratulations!",
-          info:"Your room is reserved. An confirmation email will send to you shortly.",
-          cancelable: false,
-        ),barrierColor: Colors.black26).whenComplete(() => Get.back(result: true));
+                title: "Congratulations!".tr,
+                info: "Your room is reserved. An confirmation email will send to you shortly.".tr,
+                cancelable: false,
+              ),barrierColor: Colors.black26).whenComplete(() => Get.back(result: true));
     });
   }
 
@@ -576,16 +582,18 @@ class ReservePageController extends GetxController {
       StoreAreaModel storeAreaModel = area.value.model as StoreAreaModel;
       price = storeAreaModel.bookingPrice;
     }
-    if(price > 0){
-      String tips = "We will charge a deposit of £ ${price.toStringAsFixed(2)} from your balance for booking this area, Please make sure that you have enough balance.";
-      Get.dialog(ConfirmDialog(title: "Deposit Required", info: tips),barrierColor: Colors.black26).then((value){
-        if(value == true){
+    if(price > 0) {
+      String tips = "${'We will charge a deposit of'.tr} £ ${price.toStringAsFixed(2)} ${'from your balance for booking this area, Please make sure that you have enough balance.'.tr}";
+      Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips), barrierColor: Colors.black26).then((value) {
+        if (value == true) {
           UserController userController = Get.find<UserController>();
           double userBalance = double.parse(userController.userInfoModel.value.balance);
-          if(userBalance >= price){
+          if (userBalance >= price) {
             checkDone.call();
-          }else{
-            Get.to(()=>BalancePage(amount: price,));
+          } else {
+            Get.to(() => BalancePage(
+                  amount: price,
+                ));
           }
         }
       });

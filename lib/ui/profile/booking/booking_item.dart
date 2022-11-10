@@ -62,10 +62,7 @@ class BookingItem extends StatelessWidget {
             child: GestureDetector(
               onTap: (){
                 Get.dialog(
-                  ConfirmDialog(
-                    title: "Cancel Confirm",
-                    info: "Do you confirm to cancel this booking?"
-                  ),barrierColor: Colors.black26).then(
+                  ConfirmDialog(title: "Cancel Confirm".tr, info: "Do you confirm to cancel this booking?".tr),barrierColor: Colors.black26).then(
                     (value) {
                       if(value != null && value == true){
 

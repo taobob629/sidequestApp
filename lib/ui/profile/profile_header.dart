@@ -122,22 +122,22 @@ class ProfileHeader extends StatelessWidget {
               ),
               CountInfo(
                 icon: "times",
-                label: "${controller.userInfoModel.value.freeMins}",
-                info: "Free Time",
-                onTap: ()=>controller.checkLogin(
-                    ()=>profilePageController.online.value ? Get.to(
-                        ()=>VipPage(vipLevel: 1, vipIndex: 0,list: profilePageController.vipInfoList,)
-                    ):null
-                ),
-              ),
+                      label: "${controller.userInfoModel.value.freeMins}",
+                      info: "Free Time".tr,
+                      onTap: () => controller.checkLogin(() => profilePageController.online.value
+                          ? Get.to(() => VipPage(
+                                vipLevel: 1,
+                                vipIndex: 0,
+                                list: profilePageController.vipInfoList,
+                              ))
+                          : null),
+                    ),
               CountInfo(
                 icon: "coupons",
-                label: "${controller.userInfoModel.value.coupons}",
-                info: "Vouchers",
-                onTap: ()=>controller.checkLogin(()=>NavigatorHelper.gotoCouponPage(
-                  whenComplete: () => controller.updateInfo()
-                )),
-              ),
+                      label: "${controller.userInfoModel.value.coupons}",
+                      info: "Vouchers".tr,
+                      onTap: () => controller.checkLogin(() => NavigatorHelper.gotoCouponPage(whenComplete: () => controller.updateInfo())),
+                    ),
             ],
           )
         ),

@@ -27,10 +27,20 @@ class CouponDialog extends StatelessWidget {
               initialValue: model.qrcode,
             ),
           ),
-          SizedBox(height: 15,),
-          Text("${model.couponCode}",style: TextStyle(fontSize: 18, color: Colors.white),),
-          SizedBox(height: 15,),
-          Text("Expire date : ${model.expireTime}",style: TextStyle(fontSize: 14, color: Colors.white),),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            "${model.couponCode}",
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            "${'Expire date'.tr} : ${model.expireTime}",
+            style: TextStyle(fontSize: 14, color: Colors.white),
+          ),
         ],
       ),
     );

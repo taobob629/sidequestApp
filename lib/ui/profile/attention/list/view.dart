@@ -72,7 +72,6 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
     return ListTile(
       leading: GestureDetector(
         onTap: (){
-          flog('user.id ${user.id}');
           Get.to(() => PlayDetail(userId:'${user.id}'));
         },
         child: CircleAvatar(
@@ -99,8 +98,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
               ))),),
       title: Row(
         children: [
-          Text(user.name ?? 'Unkown',
-              style: TextStyle(color: Colors.white, fontSize: 15)),
+          Text(user.name ?? 'Unknown'.tr, style: TextStyle(color: Colors.white, fontSize: 15)),
           PWidget.boxw(5),
           user.sex==0?Icon(Icons.male,color: Colors.white,size: 16,):   CircleAvatar(
               radius: 8,
@@ -129,7 +127,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
         color: Color.fromRGBO(40, 62, 90, 1),
         textColor: Color.fromRGBO(130, 145, 180, 1),
         child: Text(
-          'Unfollow',
+          'Unfollow'.tr,
         ),
         onPressed: () {
           controller.unfollow(index, user.id);
@@ -168,7 +166,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
                     ),
                   )
                 : Text(
-                    'Follow',
+              'Follow'.tr,
                   ),
             onPressed: () {
               controller.fanceFollow(index, user);

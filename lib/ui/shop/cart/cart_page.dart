@@ -25,24 +25,28 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Shopping Cart",
-      body: Stack(
-        children: [
-          Positioned(
-            left: 0,right: 0,top: 0,bottom: 0,
-            child: SingleChildScrollView(
-              child: Obx(()=>Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _buildAddress(context),
-                  _buildItems(),
-                  _buildCoupon(),
-                  _buildFee("Subtotal", controller.totalAmount.value - controller.totalTax.value),
-                  _buildFee("VAT", controller.totalTax.value),
-                  _buildFee("Delivery", controller.shippingFee.value,
-                    decoration :controller.shippingFee.value > 0? TextDecoration.lineThrough:TextDecoration.none),
-                  Container(height: 120,)
-                ],
+      title: "Shopping Cart".tr,
+        body: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: SingleChildScrollView(
+                  child: Obx(() => Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          _buildAddress(context),
+                          _buildItems(),
+                          _buildCoupon(),
+                          _buildFee("Subtotal".tr, controller.totalAmount.value - controller.totalTax.value),
+                          _buildFee("VAT".tr, controller.totalTax.value),
+                          _buildFee("Delivery".tr, controller.shippingFee.value, decoration: controller.shippingFee.value > 0 ? TextDecoration.lineThrough : TextDecoration.none),
+                          Container(
+                            height: 120,
+                          )
+                        ],
               ))
             ),
           ),
@@ -92,8 +96,15 @@ class CartPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Vouchers",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "DIN"),),
-                Icon(Icons.arrow_forward_ios_rounded,color: Colors.white,size: 20,),
+                Text(
+                  "Vouchers".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ],
             ),
           ),

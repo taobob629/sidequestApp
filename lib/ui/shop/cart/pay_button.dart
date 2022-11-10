@@ -28,8 +28,8 @@ class PayButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total",
-                style: TextStyle(color: Colors.white38,fontSize: 18,fontFamily: "DIN"),
+                "Total".tr,
+                style: TextStyle(color: Colors.white38, fontSize: 18, fontFamily: "DIN"),
               ),
               Obx(()=>Text(
                 "£ ${controller.totalAmount.value.toStringAsFixed(2)}",
@@ -43,8 +43,8 @@ class PayButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Pay",
-                  style: TextStyle(color: Colors.white,fontSize: 26,fontFamily: "DIN"),
+                  "Pay".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
                 ),
               ),
               height: 56,

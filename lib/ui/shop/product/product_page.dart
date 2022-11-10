@@ -98,13 +98,9 @@ class ProductPage extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              "PRODUCT DETAILS",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: "DIN"
-                              ),
-                            ),
+                              "PRODUCT DETAILS".tr,
+                                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                                  ),
                           ),
                         )
                       )
@@ -173,7 +169,10 @@ class ProductPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
-          child: Text("Specification:", style: TextStyle(color: Colors.white, fontSize: 14),),
+          child: Text(
+            "${'Specification'.tr}:",
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -184,7 +183,7 @@ class ProductPage extends StatelessWidget {
                 children: [
                   SpecItem(
                     index: 0,
-                    content: "No numeric keypad",
+                    content: "No numeric keypad".tr,
                     selected: controller.selectedSpec.value,
                     onTap: (index) {
                       controller.changeSpecIndex(index);
@@ -192,7 +191,7 @@ class ProductPage extends StatelessWidget {
                   ),
                   SpecItem(
                     index: 1,
-                    content: "Numeric keypad",
+                    content: "Numeric keypad".tr,
                     selected: controller.selectedSpec.value,
                     onTap: (index) {
                       controller.changeSpecIndex(index);
@@ -200,7 +199,7 @@ class ProductPage extends StatelessWidget {
                   ),
                   SpecItem(
                     index: 2,
-                    content: "Wireless keypad",
+                    content: "Wireless keypad".tr,
                     selected: controller.selectedSpec.value,
                     onTap: (index) {
                       controller.changeSpecIndex(index);
@@ -222,7 +221,10 @@ class ProductPage extends StatelessWidget {
     List<Widget> list = [];
     list.add(Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
-      child: Text("Combination:", style: TextStyle(color: Colors.white, fontSize: 14),),
+      child: Text(
+        "${'Combination'.tr}:",
+        style: TextStyle(color: Colors.white, fontSize: 14),
+      ),
     ));
     for(ProductItemModel productItemModel in controller.productDetailModel.value.combos){
       list.add(CombItem(productItemModel: productItemModel,));
@@ -243,8 +245,11 @@ class ProductPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
-          child: Text("Quantity:", style: TextStyle(color: Colors.white, fontSize: 14),),
+        child: Text(
+          "${'Quantity'.tr}:",
+          style: TextStyle(color: Colors.white, fontSize: 14),
         ),
+      ),
         Container(
           height: 38,
           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -295,12 +300,8 @@ class ProductPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "RECOMMEND",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontFamily: "DIN"
-            ),
+            "RECOMMEND".tr,
+            style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
           ),
           SizedBox(height: 10,),
           SingleChildScrollView(

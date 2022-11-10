@@ -111,17 +111,20 @@ class OrdersItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
-                "Total : £ ${orderModel.totalAmount}",
-                style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),
-              ),
+                "${'Total'.tr} : £ ${orderModel.totalAmount}",
+              style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+            ),
             ),
             Spacer(),
             Offstage(
               offstage: true,
               child: ColorfulButton(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
-                  child: Text("Repay",style: TextStyle(color: Colors.white,fontSize: 14),),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
+                    "Repay".tr,
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
                 ),
                 height: 26
               ),

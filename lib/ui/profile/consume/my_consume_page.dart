@@ -11,18 +11,12 @@ class MyConsumePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Bill",
-      body: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 40,
-            child: _buildTabs()
-          ),
-          Positioned(
-            left: 0,
+      title: "My Bill".tr,
+        body: Stack(
+          children: [
+            Positioned(left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
+            Positioned(
+              left: 0,
             right: 0,
             bottom: 0,
             top: 40,
@@ -55,9 +49,15 @@ class MyConsumePage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text("Top Up",));
-    tabs.add(Text("Gaming",));
-    tabs.add(Text("Product",));
+    tabs.add(Text(
+      "Top Up".tr,
+    ));
+    tabs.add(Text(
+      "Gaming".tr,
+    ));
+    tabs.add(Text(
+      "Product".tr,
+    ));
     return tabs;
   }
 

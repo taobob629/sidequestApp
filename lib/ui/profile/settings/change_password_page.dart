@@ -29,38 +29,43 @@ class ChangePasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: type == 1?"Account Password":"Payment Pin",
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(()=>controller.have.isTrue?
-            InputView(
-              controller: controller.oldController,
-              textInputType: type == 1? TextInputType.visiblePassword:TextInputType.number,
-              inputFormatters: type == 1? null : [
-                LengthLimitingTextInputFormatter(6),
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
-              ],
-              label: type == 1?"Old Password":"Old Pin" ,
-              tips: type == 1?"Input your old password":"Input your old pin"
-            ):Container()
+      title: type == 1 ? "Account Password".tr : "Payment Pin".tr,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Obx(() => controller.have.isTrue
+                ? InputView(
+                    controller: controller.oldController,
+                    textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
+                    inputFormatters: type == 1
+                        ? null
+                        : [
+                            LengthLimitingTextInputFormatter(6),
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
+                          ],
+                    label: type == 1 ? "Old Password".tr : "Old Pin".tr,
+                    tips: type == 1 ? "Input your old password".tr : "Input your old pin".tr):Container()
           ),
           InputView(
-            controller: controller.newController,
-            textInputType: type == 1? TextInputType.visiblePassword:TextInputType.number,
-            inputFormatters: type == 1? null : [
-              LengthLimitingTextInputFormatter(6),
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
-            ],
-            label: type == 1?"New Password":"New Pin" ,
-            tips: type == 1?"Input your new password":"Input your new pin"
-          ),
+              controller: controller.newController,
+                textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
+                inputFormatters: type == 1
+                    ? null
+                    : [
+                        LengthLimitingTextInputFormatter(6),
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
+                      ],
+                label: type == 1 ? "New Password".tr : "New Pin".tr,
+                tips: type == 1 ? "Input your new password".tr : "Input your new pin".tr),
           Offstage(
             offstage: type == 1,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15,top: 10),
-              child: Text("* Only 6 numbers accepted as your payment pin",style: TextStyle(color: Colors.white54,fontSize: 12),),
-            ),
+              padding: const EdgeInsets.only(left: 15, top: 10),
+                child: Text(
+                  "* Only 6 numbers accepted as your payment pin".tr,
+                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                ),
+              ),
           ),
         ],
       ),
@@ -76,17 +81,20 @@ class ChangePasswordPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Center(
                   child: Text(
-                    "Forgotten?",
-                    style: TextStyle(color: Colors.white,fontSize: 14,),
-                  ),
+                    "Forgotten?".tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                 ),
               ),
             ),
           ),
           FloatingButton(
-            label: "CONFIRM",
-            onTap: () => controller.updatePassword(),
-          )
+            label: "CONFIRM".tr,
+              onTap: () => controller.updatePassword(),
+            )
         ],
       )
     );
@@ -133,21 +141,21 @@ class ChangePasswordPageController extends GetxController{
     var newPwd = newController.text;
     
     if(newPwd.length < 6) {
-      EasyLoading.showToast("Password can not less than 6 characters");
+      EasyLoading.showToast("Password can not less than 6 characters".tr);
       return;
     }
     EasyLoading.show();
     if(type == 1) {
       bool ret = await UserApi.updateLoginPassword(oldPwd, newPwd);
       if(ret){
-        EasyLoading.showSuccess("Success");
+        EasyLoading.showSuccess("Success".tr);
         StorageManager.setPassword(newPwd);
         Get.back();
       }
     }else{
       bool ret = await UserApi.updatePayPassword(oldPwd, newPwd);
       if(ret){
-        EasyLoading.showSuccess("Success");
+        EasyLoading.showSuccess("Success".tr);
         Get.back();
       }
     }
