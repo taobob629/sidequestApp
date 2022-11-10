@@ -22,16 +22,16 @@ class CommentDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title="Comment";
-    var hintText="Input your comment";
-    if(isRehect){
-      hintText="Input your reasons for refusal";
-      title="Reject Order";
-    } 
-    if(isRefund){
-      title="Refund";
-      hintText="Input your refund reason";
-    } 
+    var title = "Comment".tr;
+    var hintText = "Input your comment".tr;
+    if (isRehect) {
+      hintText = "Input your reasons for refusal".tr;
+      title = "Reject Order".tr;
+    }
+    if (isRefund) {
+      title = "Refund".tr;
+      hintText = "Input your refund reason".tr;
+    }
     return WyDialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -40,19 +40,22 @@ class CommentDialog extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if(title=='Comment') SizedBox(height: 20,),
-              if(title=='Comment')
-              FFStars(
-                normalStar: Image.asset("assets/images/play/score0.png"),
-                selectedStar: Image.asset("assets/images/play/score1.png"),
-                starsChanged: (realStars, selectedStars) {
-                  controller.star = realStars;
-                },
-                step: 0.01,
-                defaultStars: 5,
-                miniStars: 1,
-                starHeight: 20,
-                starWidth: 20,
+              if (title == 'Comment'.tr)
+                SizedBox(
+                  height: 20,
+                ),
+              if (title == 'Comment'.tr)
+                FFStars(
+                  normalStar: Image.asset("assets/images/play/score0.png"),
+                  selectedStar: Image.asset("assets/images/play/score1.png"),
+                  starsChanged: (realStars, selectedStars) {
+                    controller.star = realStars;
+                  },
+                  step: 0.01,
+                  defaultStars: 5,
+                  miniStars: 1,
+                  starHeight: 20,
+                  starWidth: 20,
                 starMargin: 16,
                 followChange: true,
               ),
@@ -83,8 +86,11 @@ class CommentDialog extends StatelessWidget {
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("COMMIT", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "COMMIT".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () => controller.comment()
           )

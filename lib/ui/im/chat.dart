@@ -315,7 +315,7 @@ class _ChatState extends State<Chat> {
             extraAction: [
               MorePanelItem(
                   id: "order",
-                  title: "Order",
+                  title: "Order".tr,
                   onTap: (c) {
                     _toOrderPage();
                   },
@@ -400,8 +400,11 @@ class _ChatState extends State<Chat> {
                           backgroundColor: Colors.green,
                           radius: 6,
                         ),
-                        Text("Paid",style: TextStyle(color: Colors.white,fontSize: 12),)
-                      ],
+                        Text(
+                            "Paid".tr,
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )
+                        ],
                     ),
                   ),
                   Container(
@@ -412,8 +415,11 @@ class _ChatState extends State<Chat> {
                           backgroundColor: playOrderDetailModel!.status ==2 ? Colors.green : Colors.blue,
                           radius: 6,
                         ),
-                        Text("${playOrderDetailModel!.status ==2 ? 'Serving' : 'Waiting'}",style: TextStyle(color: Colors.white,fontSize: 12),)
-                      ],
+                        Text(
+                            "${playOrderDetailModel!.status == 2 ? 'Serving'.tr : 'Waiting'.tr}",
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )
+                        ],
                     ),
                   ),
                   Container(
@@ -424,8 +430,11 @@ class _ChatState extends State<Chat> {
                           backgroundColor: Colors.blue,
                           radius: 6,
                         ),
-                        Text("Comment",style: TextStyle(color: Colors.white,fontSize: 12),)
-                      ],
+                        Text(
+                            "Comment".tr,
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          )
+                        ],
                     ),
                   )
                 ],

@@ -68,7 +68,9 @@ class PlayPage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text("Messages",));
+    tabs.add(Text(
+      "Messages".tr,
+    ));
     return tabs;
   }
 }

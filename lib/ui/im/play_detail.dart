@@ -90,31 +90,34 @@ class PlayDetail extends StatelessWidget {
                               return;
                             }
                             Get.dialog(ConfirmDialog(
-                              title: "Add Block List",
-                              info: "Do you want to add this person to black list?",
-                              confirmBtn: "CONFIRM",
-                              onConfirm: () async {
-                                EasyLoading.show();
-                                var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
-                                List<String> userIDList = [];
-                                userIDList.add(userId);
-                                await friendshipManager.addToBlackList(userIDList: userIDList);
-                                EasyLoading.dismiss();
-                                Get.back();
-                              },
-                            ),barrierColor: Colors.black26);
+                                      title: "Add Block List".tr,
+                                      info: "Do you want to add this person to black list?".tr,
+                                      confirmBtn: "CONFIRM".tr,
+                                      onConfirm: () async {
+                                        EasyLoading.show();
+                                        var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
+                                        List<String> userIDList = [];
+                                        userIDList.add(userId);
+                                        await friendshipManager.addToBlackList(userIDList: userIDList);
+                                        EasyLoading.dismiss();
+                                        Get.back();
+                                      },
+                                    ),barrierColor: Colors.black26);
                           },
                           child: Container(
                             height: 32,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            margin: EdgeInsets.symmetric(horizontal: 16),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(56),
-                            ),
-                            child: Text(isMe?"Edit": "Block",style: TextStyle(color: Colors.white, fontSize: 16),),
-                          ),
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(56),
+                                ),
+                                child: Text(
+                                  isMe ? "Edit".tr : "Block".tr,
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                ),
+                              ),
                         ),
                       )
                   ],
@@ -204,11 +207,11 @@ class PlayDetail extends StatelessWidget {
                                                 ///controller.detailModel.value
                                                 Obx(() {
                                                   var isOnline = controller.detailModel.value.online==1;
-                                                  return PWidget.container(PWidget.text(isOnline? 'Online':'OffLine', [Colors.white, 10]), {
-                                                    'gd':isOnline? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)):PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                                                    'pd': PFun.lg(1, 1, 12, 12),
-                                                  });
-                                                }
+                                                  return PWidget.container(PWidget.text(isOnline ? 'Online'.tr : 'OffLine'.tr, [Colors.white, 10]), {
+                                                        'gd': isOnline ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                                                        'pd': PFun.lg(1, 1, 12, 12),
+                                                      });
+                                                    }
                                                 ),
                                               ],
                                             )
@@ -259,9 +262,9 @@ class PlayDetail extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 10,top: 4),
                               child: Text(
-                                controller.detailModel.value.follow==1?"UnFollow": "Follow",
-                                style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
-                              ),
+                                controller.detailModel.value.follow == 1 ? "UnFollow".tr : "Follow".tr,
+                                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
+                                  ),
                             ),
                           ],
                         ),
@@ -411,9 +414,9 @@ class PlayDetail extends StatelessWidget {
                             arguments: Map()..['index'] = 0)
                         : null,
                     child: Text(
-                      "Follows: ",
-                      style: TextStyle(fontSize: 12, color: Colors.white54),
-                    ),
+                      "${'Follows'.tr}: ".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
                   ),
                   Text(
                     "${controller.detailModel.value.follows}",
@@ -428,9 +431,9 @@ class PlayDetail extends StatelessWidget {
                             arguments: Map()..['index'] = 1)
                         : null,
                     child: Text(
-                      "Fans: ",
-                      style: TextStyle(fontSize: 12, color: Colors.white54),
-                    ),
+                      "${'Fans'.tr}: ",
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
                   ),
                  InkWell(
                    onTap: () => isMe
@@ -472,18 +475,16 @@ class PlayDetail extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Services",style: TextStyle(fontSize: 18,color: Colors.white, fontFamily: "DIN"),),
-          Container(
-            padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
-            margin: const EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.white12
+            Text(
+              "Services".tr,
+              style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
             ),
-            child: Column(
-              children: items
+            Container(
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+              margin: const EdgeInsets.only(top: 10),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white12),
+              child: Column(children: items),
             ),
-          ),
           SizedBox(height: 8),
           if(controller.detailModel.value.skills.length>2)
           PWidget.container(
@@ -597,9 +598,9 @@ class PlayDetail extends StatelessWidget {
                              child: Padding(
                                padding: const EdgeInsets.only(left: 20,right: 20,top: 2),
                                child: Text(
-                               isMe?"Edit": "Order",
-                                 style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
-                               ),
+                                 isMe ? "Edit".tr : "Order".tr,
+                                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
+                                ),
                              ),
                              height: 30,
                            ),
@@ -650,11 +651,18 @@ class PlayDetail extends StatelessWidget {
           // SizedBox(height: 16),
           // if(controller.detailModel.value.imageList.isNotEmpty||isMe)
             PWidget.row([
-              PWidget.text('Album ',[Colors.white,18],{'ff':'DIN','exp': true}),
-              if(controller.detailModel.value.imageList.isNotEmpty)
-              PWidget.text('More',[Colors.white,16],{'ff':'DIN','pd': 8,'fun':() async {
-                Get.to(()=>PhotoWallWidget(controller.detailModel.value.imageList,isPage: true));
-              }}),
+              PWidget.text('${'Album'.tr} ', [Colors.white, 18], {'ff': 'DIN', 'exp': true}),
+              if (controller.detailModel.value.imageList.isNotEmpty)
+                PWidget.text('More'.tr, [
+                  Colors.white,
+                  16
+                ], {
+                  'ff': 'DIN',
+                  'pd': 8,
+                  'fun': () async {
+                    Get.to(() => PhotoWallWidget(controller.detailModel.value.imageList, isPage: true));
+                  }
+                }),
             ]),
           if(controller.detailModel.value.imageList.isNotEmpty)
             PhotoWallWidget(controller.detailModel.value.imageList,key: UniqueKey()),

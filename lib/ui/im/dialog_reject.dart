@@ -15,14 +15,14 @@ class RejectDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Reject Order",style: TextStyle(fontSize: 16, color: Colors.white),),
+          Text(
+            "Reject Order".tr,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 30),
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.white10
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: Colors.white10),
             child: TextField(
               maxLines: 1,
               controller: controller.codeController,
@@ -31,18 +31,17 @@ class RejectDialog extends StatelessWidget {
               style: const TextStyle(color: Colors.white, fontSize: 16),
               onSubmitted: (text) => {},
               decoration: InputDecoration(
-                hintText: "Input your reject reason",
-                hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(bottom: 0)
-              ),
+                  hintText: "Input your reject reason".tr, hintStyle: TextStyle(fontSize: 14, color: Colors.white24), border: InputBorder.none, contentPadding: EdgeInsets.only(bottom: 0)),
             ),
           ),
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("CONFIRM", style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "CONFIRM".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () => Get.back(result: controller.codeController.text)
           )
