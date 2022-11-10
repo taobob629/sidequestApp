@@ -37,8 +37,10 @@ class TabParticipantsPage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text("Participants", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),)
-            ),
+              child: Text(
+                "Participants".tr,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+              )),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -78,8 +80,10 @@ class TabParticipantsPage extends StatelessWidget {
         children: [
           Offstage(
             offstage: controller.type == 1,
-            child: Text("Ranking:${model.getRank()}", style: TextStyle(color: Colors.white, fontSize: 12),)
-          ),
+              child: Text(
+                "${'Ranking'.tr}:${model.getRank()}",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              )),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10,top: 5),
             child: AspectRatio(

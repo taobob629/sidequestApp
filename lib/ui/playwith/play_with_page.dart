@@ -35,7 +35,7 @@ class PlayWithPage extends StatefulWidget {
 }
 
 class _PlayWithPageState extends State<PlayWithPage> {
-  var tabList = ['Play with', 'Message'];
+  var tabList = ['Play with'.tr, 'Message'.tr];
 
   ScrollController scrollController = ScrollController();
 
@@ -100,13 +100,13 @@ class _PlayWithPageState extends State<PlayWithPage> {
             'pd': 8,
             'fun': () {
               var page = SuccessPage(
-                title: 'Game support',
-                content: ['Recharge successfully', 'Play with order has been placed, please wait for play with\nOr contact can contact play with'],
+                title: 'Game support'.tr,
+                content: ['Recharge successfully'.tr, 'Play with order has been placed, please wait for play with\nOr contact can contact play with'.tr],
                 child: PWidget.ccolumn([
                   PWidget.boxh(16),
                   PWidget.container(CachedNetworkImage(imageUrl: 'imageUrl', width: 48, height: 48), {'crr': 48}),
                   PWidget.boxh(20),
-                  PWidget.row([buttonView('Sent Message', fontSize: 16, width: 130)], '221'),
+                  PWidget.row([buttonView('Sent Message'.tr, fontSize: 16, width: 130)], '221'),
                 ]),
               );
               jumpPage(page);
@@ -185,12 +185,12 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         isCloseTouchBottomAnimation: true,
         onLoading: (p) => this.superlist(page: p),
         itemModel: superlistDm,
-        noDataText: superlistDm.flag == 2 ? '' : 'No more data',
+        noDataText: superlistDm.flag == 2 ? '' : 'No more data'.tr,
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
         headers: [
           MaterialBanner(
             backgroundColor: Colors.transparent,
-            content: PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}),
+            content: PWidget.text('Services'.tr, [Colors.white, 20], {'ff': 'DIN'}),
             actions: [
               IconButton(
                   onPressed: () async {
@@ -322,7 +322,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
               locationWidget(city),
               // if (data['online'] == 1)
               PWidget.container(
-                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
+                PWidget.text(data['online'] == 1 ? 'Online'.tr : 'OffLine'.tr, [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
                 [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
                 {
                   // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
@@ -422,10 +422,8 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
       //   fun(0, gamelistDm.list.first);
       // }
     }).catchError((e) {
-      flog(e, 'gamelistDm');
       gamelistDm.toError();
     });
-    flog(gamelistDm.toJson());
     setState(() {});
     if (gamelistDm.list.isNotEmpty) {
       fun(0, gamelistDm.list.isEmpty ? {} : gamelistDm.list.first);

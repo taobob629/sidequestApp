@@ -1,5 +1,6 @@
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/play_detail_model.dart';
@@ -47,7 +48,7 @@ class _GameCommentState extends State<GameComment> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(title: Text('Comments'),elevation: 0),
+      appBar: AppBar(title: Text('Comments'.tr), elevation: 0),
       body: AnimatedSwitchBuilder<dynamic>(
         value: commentsDm,
         errorOnTap: () => this.comments(),

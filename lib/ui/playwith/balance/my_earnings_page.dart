@@ -54,7 +54,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           PWidget.row([
             PWidget.image('assets/images/ic_balance_votes.webp'),
             PWidget.boxw(4),
-            PWidget.text('Withdrawal income amount', [Color(0xffEEF3FF)], {'exp': true}),
+            PWidget.text('Withdrawal income amount'.tr, [Color(0xffEEF3FF)], {'exp': true}),
           ]),
           PWidget.boxh(10),
           Obx(() => PWidget.text('${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
@@ -62,17 +62,21 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         [null, null, Color(0xff282640)],
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
-      ItemTitle(title: "Enter withdrawal amount", subTitle: "",actions: Text('Min:1000', style:TextStyle(
-          color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-      )),
+      ItemTitle(
+          title: "Enter withdrawal amount".tr,
+          subTitle: "",
+          actions: Text(
+            '${'Min'.tr}:1000',
+            style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+          )),
       _buildCustomInput(),
       ItemTitle(
-        title: "Withdrawal Account",
+        title: "Withdrawal Account".tr,
         subTitle: "",
         actions: TextButton(
           onPressed: () {
             if (controller.bankList.length >= 4) {
-              EasyLoading.showToast('only 4 bankcards allowed!');
+              EasyLoading.showToast('Only 4 bankcards allowed!'.tr);
               return;
             }
             Get.toNamed(AppPages.BindBankCard);
@@ -82,7 +86,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
               PWidget.image('assets/images/ic_add.webp', [16, 16, null, BoxFit.cover]),
               PWidget.boxw(3),
               Text(
-                'Add Account',
+                'Add Account'.tr,
                 style: TextStyle(
                   color: Colors.white,
                   decoration: TextDecoration.underline,
@@ -96,18 +100,18 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       BankListWidget(),
       PWidget.boxh(8),
       FloatingButton(
-        label: "Withdrawal",
+        label: "Withdrawal".tr,
         onTap: () => controller.withDraw('withDraw'),
       ),
       FloatingButton(
-        label: "Exchange To Coin",
+        label: "Exchange To Coin".tr,
         onTap: () => controller.withDraw('exchange'),
       ),
       PWidget.container(
         PWidget.column([
-          PWidget.text('Withdrawal and exchange instructions:', [Color(0xffEEF3FF)]),
+          PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
           Text(
-            '''1.If you withdraw cash from us, you’ll be charged a handling fee of 15%.\n2. Withdrawals typically take three to five bank working days.''',
+            '''1.${'If you withdraw cash from us, you’ll be charged a handling fee of 15%.'.tr}\n2. ${'Withdrawals typically take three to five bank working days.'.tr}''',
             style: TextStyle(color: Color(0xff8291B4)),
           ),
         ]),

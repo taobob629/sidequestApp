@@ -58,8 +58,11 @@ class PasswordDialog extends StatelessWidget {
                 color: Colors.transparent,
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  "Forgotten?",
-                  style: TextStyle(color: Colors.white,fontSize: 14,),
+                  "Forgotten?".tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),
@@ -67,8 +70,11 @@ class PasswordDialog extends StatelessWidget {
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("CONFIRM", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "CONFIRM".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () => controller.check()
           )
@@ -165,7 +171,7 @@ class PasswordDialogController extends GetxController{
   void check() async{
     String code = codeController.text;
     if(code.isEmpty){
-      EasyLoading.showToast("Please input your payment pin");
+      EasyLoading.showToast("Please input your payment pin".tr);
       return;
     }
     EasyLoading.show();
@@ -175,7 +181,7 @@ class PasswordDialogController extends GetxController{
       codeController.text = "";
       Get.back(result: check);
     }else{
-      EasyLoading.showToast("Wrong payment pin");
+      EasyLoading.showToast("Wrong payment pin".tr);
     }
   }
 }

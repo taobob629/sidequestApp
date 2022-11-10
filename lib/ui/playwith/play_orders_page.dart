@@ -39,13 +39,13 @@ class _PlayOrdersPageState extends State<PlayOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
-      appBar: AppBar(title: Text('Orders'), elevation: 0),
+      appBar: AppBar(title: Text('Orders'.tr), elevation: 0),
       body: isAuth
           ? TabWidget(
               indicator: null,
               isScrollable: false,
               // tabList: isAuth ? ['我接受的', '我发起的'] : ['我发起的', '我接受的'],
-              tabList: ['Received', 'Provided'],
+              tabList: ['Received'.tr, 'Provided'.tr],
               indicatorSize: TabBarIndicatorSize.tab,
               tabPage: [PlayOrdersChild(2), PlayOrdersChild(1)],
               key: key,
@@ -85,7 +85,6 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
     }).catchError((e) {
       orderlistDm.toError(e.toString());
     });
-    flog(orderlistDm.toJson(), 'skillDm');
     setState(() {});
     return orderlistDm.flag;
   }
@@ -105,7 +104,7 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
           isGengduo: h,
           itemModel: orderlistDm,
           touchBottomAnimationValue: 0.1,
-          btmWidget: PWidget.text('No more', [Colors.white54], {'ct': true, 'pd': 8}),
+          btmWidget: PWidget.text('No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
           onRefresh: () => this.orderlist(isRef: true),
           onLoading: (p) => this.orderlist(page: p),
           itemPadding: EdgeInsets.all(12),
@@ -114,7 +113,6 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
           mainAxisSpacing: 8,
           // divider: Divider(height: 12, color: Colors.transparent),
           itemModelBuilder: (i, data) {
-            flog(data, 'ordersFlog');
             var skillVo = data['skillVo'];
             return PWidget.container(
               PWidget.row(
@@ -124,10 +122,10 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
                   PWidget.column([
                     PWidget.text('${skillVo['nameEn']}', [Colors.white, 16, true], {'isOf': false}),
                     PWidget.spacer(),
-                    PWidget.text('Services：${data['nums']} ${skillVo['method']}\t\t\t\t\t\t', [Colors.white54]),
+                    PWidget.text('${'Services'.tr}：${data['nums']} ${skillVo['method']}\t\t\t\t\t\t', [Colors.white54]),
                     PWidget.boxh(4),
                     PWidget.row([
-                      PWidget.text('Price：', [Colors.white54]),
+                      PWidget.text('${'Price'.tr}：', [Colors.white54]),
                       PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
                       PWidget.text('\t${data['total']}', [Colors.white54]),
                     ]),

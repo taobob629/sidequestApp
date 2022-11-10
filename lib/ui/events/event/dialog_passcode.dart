@@ -18,11 +18,14 @@ class PasscodeDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("Team Passcode", style: TextStyle(fontSize: 16, color: Colors.white),),
+          Text(
+            "Team Passcode".tr,
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Text(
-              "Please remember your team passcode and send it to your team members.",
+              "Please remember your team passcode and send it to your team members.".tr,
               textAlign: TextAlign.left,
               style: TextStyle(fontSize: 14, color: Colors.white),
             ),
@@ -34,8 +37,11 @@ class PasscodeDialog extends StatelessWidget {
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("COPY", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "COPY".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () {
               Clipboard.setData(ClipboardData(text: passcode.toString()));

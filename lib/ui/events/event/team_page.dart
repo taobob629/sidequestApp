@@ -19,41 +19,49 @@ class TeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Team",
-      body: Obx(()=>Stack(
-        children: [
-          Positioned(
-            left: 0,right: 0,top: 0,bottom: 0,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildTeamHeader(),
-                  SizedBox(height: 30,),
-                  _buildMembers(),
-                  SizedBox(height: 30,),
+      title: "My Team".tr,
+        body: Obx(() => Stack(
+              children: [
+                Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _buildTeamHeader(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          _buildMembers(),
+                          SizedBox(height: 30,),
                   Container(
                     width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("TEAM PASSCODE",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "DIN"),),
-                        SizedBox(height: 10,),
-                        Obx(()=>Text(
-                          controller.matchTeamModel.value.passCode,
-                          style: TextStyle(color: Colors.white,fontSize: 26)
-                        )),
-                        SizedBox(height: 10,),
-                        GestureDetector(
-                          onTap: ()=> controller.copy(),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: Colors.white38),
-                              color: Colors.white10
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 8),
-                            child: Text("Copy",style: TextStyle(color: Colors.white38,fontSize: 12),),
-                          ),
+                                Text(
+                                  "TEAM PASSCODE".tr,
+                                  style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Obx(() => Text(controller.matchTeamModel.value.passCode, style: TextStyle(color: Colors.white, fontSize: 26))),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () => controller.copy(),
+                                  child: Container(
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), border: Border.all(color: Colors.white38), color: Colors.white10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                                    child: Text(
+                                      "Copy".tr,
+                                      style: TextStyle(color: Colors.white38, fontSize: 12),
+                                    ),
+                                  ),
                         )
                       ],
                     ),
@@ -91,8 +99,8 @@ class TeamPage extends StatelessWidget {
         Text("${controller.matchTeamModel.value.name}", style: TextStyle(color: Colors.white,fontSize: 14),),
         SizedBox(height: 30,),
         Text(
-          "Ranking : ${controller.matchTeamModel.value.ranking == 0?'-':controller.matchTeamModel.value.ranking}",
-          style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+          "${'Ranking'.tr} : ${controller.matchTeamModel.value.ranking == 0 ? '-' : controller.matchTeamModel.value.ranking}",
+          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -171,7 +179,7 @@ class TeamPageController extends GetxController {
 
   void copy(){
     Clipboard.setData(ClipboardData(text: matchTeamModel.value.passCode));
-    EasyLoading.showToast("The team passcode has been copied to your clipboard");
+    EasyLoading.showToast("The team passcode has been copied to your clipboard".tr);
   }
 
 }

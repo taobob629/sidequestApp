@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/address_model.dart';
 
@@ -51,12 +52,12 @@ class AddressItem extends StatelessWidget {
                     offstage: !address.useDefault,
                     child: Container(
                       height: 17,
-                      decoration: BoxDecoration(
-                        color: AppColor.accent,
-                        borderRadius: BorderRadius.circular(4)
+                      decoration: BoxDecoration(color: AppColor.accent, borderRadius: BorderRadius.circular(4)),
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 1),
+                      child: Text(
+                        "Default".tr,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
-                      padding: const EdgeInsets.only(left: 10,right: 10,top: 1),
-                      child: Text("Default",style: TextStyle(color: Colors.white,fontSize: 11),),
                     ),
                   ),
                   Spacer(),

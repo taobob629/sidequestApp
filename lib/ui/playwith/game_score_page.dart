@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/view/views.dart';
@@ -21,7 +22,7 @@ class _GameScorePageState extends State<GameScorePage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       btnBar: FloatingButton(
-        label: "￡10.99/30min",
+        label: "￡10.99/30min".tr,
         onTap: () {},
       ),
       body: Stack(
@@ -29,7 +30,7 @@ class _GameScorePageState extends State<GameScorePage> {
           gradientBgView(),
           PWidget.column([
             AppBar(
-              title: Text('game', style: TextStyle(fontSize: 18)),
+              title: Text('game'.tr, style: TextStyle(fontSize: 18)),
               centerTitle: true,
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -57,7 +58,7 @@ class _GameScorePageState extends State<GameScorePage> {
         ),
         {'wali': PFun.lg(0, 0), 'br': 84, 'crr': 84, 'bd': PFun.bdAllLg(Colors.white, 2)},
       ),
-      PWidget.text('Nick Name', [Colors.white, 20, true], {'ct': true, 'pd': PFun.lg(8, 8)}),
+      PWidget.text('Nick Name'.tr, [Colors.white, 20, true], {'ct': true, 'pd': PFun.lg(8, 8)}),
       PWidget.row([
         PWidget.container(PWidget.text(score, [Colors.white, 30, true], {'ff': 'DIN', 'pd': PFun.lg(4)}), [56], {'ali': PFun.lg(0, 0)}),
         FFStars(
@@ -65,7 +66,6 @@ class _GameScorePageState extends State<GameScorePage> {
           selectedStar: Image.asset("assets/images/play/score1.png"),
           starsChanged: (realStars, selectedStars) {
             setState(() => score = realStars);
-            print("real: $selectedStars, final: $realStars");
           },
           step: 0.01,
           // defaultStars: 4.3,
@@ -75,8 +75,8 @@ class _GameScorePageState extends State<GameScorePage> {
           followChange: true,
         ),
       ], '221'),
-      PWidget.text('“Very Good”', [Colors.white, 20, true], {'ct': true, 'pd': PFun.lg(8, 8)}),
-      PWidget.text('Leaving a message：', [Colors.white, 20, true], {'ff': 'DIN', 'pd': 16}),
+      PWidget.text('Very Good'.tr, [Colors.white, 20, true], {'ct': true, 'pd': PFun.lg(8, 8)}),
+      PWidget.text('${'Leaving a message'.tr}：', [Colors.white, 20, true], {'ff': 'DIN', 'pd': 16}),
       TextEnterWidget(),
     ];
   }
@@ -115,7 +115,7 @@ class _TextEnterWidgetState extends State<TextEnterWidget> {
       PWidget.column([
         buildTFView(
           context,
-          hintText: 'If you have any comments on this order, or want to say any questions and comments, you can mention them here',
+          hintText: 'If you have any comments on this order, or want to say any questions and comments, you can mention them here'.tr,
           maxLines: 10,
           maxLength: 150,
           height: 146,

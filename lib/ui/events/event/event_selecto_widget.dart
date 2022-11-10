@@ -44,13 +44,13 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
       PWidget.column([
         PWidget.text(widget.title, [Colors.white, 20, true], {'ff': 'DIN'}),
         PWidget.boxh(16),
-        PWidget.text('Location : ', [Colors.white, 16], {'ff': 'DIN'}),
+        PWidget.text('${'Location'.tr} : ', [Colors.white, 16], {'ff': 'DIN'}),
         PWidget.boxh(8),
         PWidget.row([
           Expanded(
             child: GestureDetector(
               onTap: () async {
-                item = await SelectorDialog.show(context, widget.selectorList, title: "Select Location");
+                item = await SelectorDialog.show(context, widget.selectorList, title: "Select Location".tr);
                 if (item != null) {
                   store = item as LocationModel;
                   setState(() {});
@@ -59,7 +59,7 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
               child: PWidget.container(
                 PWidget.row([
                   PWidget.text(
-                    item == null ? 'Please select location' : store?.name,
+                    item == null ? 'Please select location'.tr : store?.name,
                     [Colors.white.withOpacity(item == null ? 0.5 : 1), 16],
                     {'ff': 'DIN', 'exp': true},
                   ),
@@ -73,7 +73,7 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
           ),
         ]),
         PWidget.boxh(24),
-        PWidget.text('Cup Sleeve : ', [Colors.white, 16], {'ff': 'DIN'}),
+        PWidget.text('${'Cup Sleeve'.tr} : ', [Colors.white, 16], {'ff': 'DIN'}),
         PWidget.boxh(8),
         PWidget.row([
           Expanded(
@@ -100,7 +100,7 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
                   PWidget.icon(Icons.alarm_rounded, [Colors.white70, 20]),
                   PWidget.boxw(8),
                   PWidget.text(
-                    dateTime1 == null ? 'cup sleeve required' : (dateTime1.toString().split(' ').last.split(':')).sublist(0, 2).join(':'),
+                    dateTime1 == null ? 'cup sleeve required'.tr : (dateTime1.toString().split(' ').last.split(':')).sublist(0, 2).join(':'),
                     [Colors.white.withOpacity(dateTime1 == null ? 0.5 : 1), 16],
                     {'ff': 'DIN', 'exp': true},
                   ),
@@ -117,7 +117,7 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
                 PWidget.icon(Icons.alarm_rounded, [Colors.white70, 20]),
                 PWidget.boxw(8),
                 PWidget.text(
-                  dateTime2 == null ? 'cup sleeve required' : (dateTime2.toString().split(' ').last.split(':')).sublist(0, 2).join(':'),
+                  dateTime2 == null ? 'cup sleeve required'.tr : (dateTime2.toString().split(' ').last.split(':')).sublist(0, 2).join(':'),
                   [Colors.white.withOpacity(0.5), 16],
                   {'ff': 'DIN', 'exp': true},
                 ),
@@ -133,12 +133,12 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
           child: ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text('confirm', style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18)),
+              child: Text('confirm'.tr, style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18)),
             ),
             height: 48,
             onTap: () {
-              if (item == null) return EasyLoading.showToast('Please select location');
-              if (dateTime1 == null) return EasyLoading.showToast('cup sleeve required');
+              if (item == null) return EasyLoading.showToast('Please select location'.tr);
+              if (dateTime1 == null) return EasyLoading.showToast('cup sleeve required'.tr);
               Get.back(result: {'location': store, 'time': dateTime1});
             },
           ),

@@ -89,11 +89,8 @@ class EventPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Obx(() => Text(
-                  controller.eventDetailModel.value.canCancel
-                      ? 'CANCEL'
-                      : "JOIN",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                  controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
                 )),
           ),
           height: 48,
@@ -111,11 +108,8 @@ class EventPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Obx(() => Text(
-                    controller.eventDetailModel.value.canCancel
-                        ? 'CANCEL'
-                        : "JOIN",
-                    style: TextStyle(
-                        color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
+                    style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
                   )),
             ),
             height: 48,
@@ -286,15 +280,15 @@ class EventPageController extends GetxController
   }
 
   void initData() async {
-    tabs.add("Overview");
-    tabs.add("Rules");
-    tabs.add("Participants");
+    tabs.add("Overview".tr);
+    tabs.add("Rules".tr);
+    tabs.add("Participants".tr);
     EventDetailModel model;
     EasyLoading.show();
     if (type == 1) {
       model = await EventsApi.getActivityDetail(id);
     } else {
-      tabs.add("Prizes");
+      tabs.add("Prizes".tr);
       model = await EventsApi.getMatchDetail(id);
     }
     EasyLoading.dismiss();
@@ -307,7 +301,7 @@ class EventPageController extends GetxController
       if (eventDetailModel.value.matchDiff == 5) {
         var res = await showSheet(
             builder: (_) => EventSelectoWidget(
-                  'Choose a Store',
+              'Choose a Store'.tr,
                   selectorList: eventDetailModel.value.location,
                 ));
         if (res != null) {
@@ -324,18 +318,13 @@ class EventPageController extends GetxController
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
             Get.dialog(
-                ConfirmDialog(
-                    title: "Congratulations",
-                    info: "You have successfully signed up!"),
-                barrierColor: Colors.black26);
+                ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
           });
         }
       } else {
         SelectorItem? item;
         if (eventDetailModel.value.location.length > 1) {
-          item = await SelectorDialog.show(
-              context, eventDetailModel.value.location,
-              title: "Select Location");
+          item = await SelectorDialog.show(context, eventDetailModel.value.location, title: "Select Location".tr);
         } else {
           item = eventDetailModel.value.location[0];
         }
@@ -348,10 +337,7 @@ class EventPageController extends GetxController
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
             Get.dialog(
-                ConfirmDialog(
-                    title: "Congratulations",
-                    info: "You have successfully signed up!"),
-                barrierColor: Colors.black26);
+                ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
           });
         }
       }
@@ -362,8 +348,7 @@ class EventPageController extends GetxController
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
     refresh();
-    Get.dialog(ConfirmDialog(title: "Confirm", info: "Successfully Canceled!"),
-        barrierColor: Colors.black26);
+    Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr), barrierColor: Colors.black26);
     EasyLoading.dismiss();
   }
 
@@ -371,9 +356,7 @@ class EventPageController extends GetxController
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
-        item = await SelectorDialog.show(
-            context, eventDetailModel.value.location,
-            title: "Select Location");
+        item = await SelectorDialog.show(context, eventDetailModel.value.location, title: "Select Location".tr);
       } else {
         item = eventDetailModel.value.location[0];
       }
@@ -386,10 +369,7 @@ class EventPageController extends GetxController
           eventDetailModel.value.canCancel = true;
           EasyLoading.dismiss();
           Get.dialog(
-              ConfirmDialog(
-                  title: "Congratulations",
-                  info: "You have successfully signed up!"),
-              barrierColor: Colors.black26);
+              ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
         });
       }
     });
@@ -403,15 +383,11 @@ class EventPageController extends GetxController
 
   void checkFee(Function checkDone) {
     if (eventDetailModel.value.fee > 0) {
-      String tips =
-          "We will charge a deposit of £ ${eventDetailModel.value.fee} from your balance for this sign up, Please make sure that you have enough balance.";
-      Get.dialog(ConfirmDialog(title: "Deposit Required", info: tips),
-              barrierColor: Colors.black26)
-          .then((value) {
+      String tips = "${'We will charge a deposit of £'.tr}${eventDetailModel.value.fee} ${'from your balance for this sign up, Please make sure that you have enough balance.'.tr}";
+      Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips), barrierColor: Colors.black26).then((value) {
         if (value == true) {
           UserController userController = Get.find<UserController>();
-          double userBalance =
-              double.parse(userController.userInfoModel.value.balance);
+          double userBalance = double.parse(userController.userInfoModel.value.balance);
           if (userBalance >= eventDetailModel.value.fee) {
             checkDone.call();
           } else {

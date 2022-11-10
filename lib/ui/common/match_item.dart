@@ -118,8 +118,11 @@ class MatchItem extends StatelessWidget {
                   children: [
                     SvgPicture.asset("assets/images/ic_match_time.svg",color: Color(0xFF7D8AAC)),
                     SizedBox(width: 10,height: 8,),
-                    Text("Time: ${model.time}", style: TextStyle(color: Color(0xFF7C8AAD),fontSize: 12),)
-                  ],
+                    Text(
+                        "${'Time'.tr}: ${model.time}",
+                        style: TextStyle(color: Color(0xFF7C8AAD), fontSize: 12),
+                      )
+                    ],
                 ),
                 // SizedBox(width: 10,height: 8,),
                 // Row(
@@ -134,16 +137,22 @@ class MatchItem extends StatelessWidget {
                   children: [
                     SvgPicture.asset("assets/images/ic_match_location.svg",color: Color(0xFF7D8AAC)),
                     SizedBox(width: 10,height: 8,),
-                    Text("Location: ${model.location}", style: TextStyle(color: Color(0xFF7C8AAD),fontSize: 12),)
-                  ],
+                    Text(
+                        "${'Location'.tr}: ${model.location}",
+                        style: TextStyle(color: Color(0xFF7C8AAD), fontSize: 12),
+                      )
+                    ],
                 ),
                 SizedBox(width: 10,height: 8,),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/ic_match_o_people.svg",width:16,color: Color(0xFF7D8AAC)),
                     SizedBox(width: 10,height: 8,),
-                    Text("Quota: ${model.totalMembers}", style: TextStyle(color: Color(0xFF7C8AAD),fontSize: 12),)
-                  ],
+                    Text(
+                        "${'Quota'.tr}: ${model.totalMembers}",
+                        style: TextStyle(color: Color(0xFF7C8AAD), fontSize: 12),
+                      )
+                    ],
                 ),
               ],
             ),

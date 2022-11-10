@@ -35,8 +35,11 @@ class DateTimePickerDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 10,bottom: 10),
-            child: Text("Select Time",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16, color: Colors.white),),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Text(
+              "Select Time".tr,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+            ),
           ),
           _buildItems(context),
           _buildActions()
@@ -80,8 +83,10 @@ class DateTimePickerDialog extends StatelessWidget {
               height: 40,
               child: Padding(
                 padding: const EdgeInsets.only(top: 4),
-                child: Text("CONFIRM", style: TextStyle(color: Colors.white, fontSize: 18,fontFamily: "DIN"),)
-              ),
+                  child: Text(
+                  "CONFIRM".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                )),
             )
           )
         ],

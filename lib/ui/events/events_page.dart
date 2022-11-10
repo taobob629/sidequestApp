@@ -115,10 +115,10 @@ class _EventsPageState extends State<EventsPage> {
   List<Widget> createTabs() {
     List<Widget> tabs = [];
     tabs.add(Text(
-      "Events",
+      "Events".tr,
     ));
     tabs.add(Text(
-      "Tournaments",
+      "Tournaments".tr,
     ));
 
     return tabs;

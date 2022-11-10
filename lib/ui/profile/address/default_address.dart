@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/model/address_model.dart';
 
 import '../../common/dash_separator.dart';
@@ -68,7 +69,7 @@ class DefaultAddress extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.only(top: 2),
         child: Text(
-          "Please add your shipping address",
+          "Please add your shipping address".tr,
           style: TextStyle(
             color: Color(0xFFEC5D00),
             fontSize: 18,

@@ -19,7 +19,7 @@ class MoreGamesPage extends GetView<MoreGamesPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('All Services'),
+          title: Text('All Services'.tr),
           centerTitle: true,
           elevation: 0,
           bottom: _buildTabs(),

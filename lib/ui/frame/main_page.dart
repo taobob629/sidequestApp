@@ -46,7 +46,7 @@ class MainPage extends GetView<MainPageController> {
         }
         if(controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)){
           controller.lastPopTime = DateTime.now();
-          EasyLoading.showInfo("Press again to exit", duration: Duration(seconds: 2));
+          EasyLoading.showInfo("Press again to exit".tr, duration: Duration(seconds: 2));
         }else{
           controller.lastPopTime = DateTime.now();
           // 退出app
@@ -110,27 +110,25 @@ class MainPage extends GetView<MainPageController> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       TabButton(
-                        index: 0,
-                        currentIndex: controller.currentIndex.value,
-                        iconName: "game",
-                        title: "Home",
-                        colors: [Color(0xffb991ff), Color(0xff1817FF)],
-                        onTap: () {
-                          controller.controller.jumpToPage(0);
-                          controller.updateCurrentIndex(0);
-                        }
-                      ),
+                          index: 0,
+                                currentIndex: controller.currentIndex.value,
+                                iconName: "game",
+                                title: "Home".tr,
+                                colors: [Color(0xffb991ff), Color(0xff1817FF)],
+                                onTap: () {
+                                  controller.controller.jumpToPage(0);
+                                  controller.updateCurrentIndex(0);
+                                }),
                       TabButton(
-                        index: 1,
-                        currentIndex: controller.currentIndex.value,
-                        iconName: "events",
-                        title: "Activities",
-                        colors: [Color(0xffFFD189), Color(0xffFF3617)],
-                        onTap: () {
-                          controller.controller.jumpToPage(1);
-                          controller.updateCurrentIndex(1);
-                        }
-                      ),
+                          index: 1,
+                                currentIndex: controller.currentIndex.value,
+                                iconName: "events",
+                                title: "Activities".tr,
+                                colors: [Color(0xffFFD189), Color(0xffFF3617)],
+                                onTap: () {
+                                  controller.controller.jumpToPage(1);
+                                  controller.updateCurrentIndex(1);
+                                }),
                       Badge(
                         shape: BadgeShape.circle,
                         badgeColor: Colors.red,
@@ -141,41 +139,38 @@ class MainPage extends GetView<MainPageController> {
                         badgeContent: Text("${userController.unreadMsgCount.value}",style: TextStyle(fontSize: 12, color: Colors.white),),
                         ignorePointer: true,
                         child: TabButton(
-                          index: 2,
-                          currentIndex: controller.currentIndex.value,
-                          iconName: "play",
-                          title: "SideKick",
-                          colors: [Color(0xffe7e439), Color(0xff6c6301)],
-                          onTap: () {
-                            controller.controller.jumpToPage(2);
-                            controller.updateCurrentIndex(2);
-                          }
-                        ),
+                            index: 2,
+                                  currentIndex: controller.currentIndex.value,
+                                  iconName: "play",
+                                  title: "SideKick".tr,
+                                  colors: [Color(0xffe7e439), Color(0xff6c6301)],
+                                  onTap: () {
+                                    controller.controller.jumpToPage(2);
+                                    controller.updateCurrentIndex(2);
+                                  }),
                       ),
                       TabButton(
-                        index: 3,
-                        currentIndex: controller.currentIndex.value,
-                        iconName: "shop",
-                        title: "Shop",
-                        //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                        colors: [Color(0xfffa7f85), Color(0xffb6262c)],
-                        onTap: () {
-                          controller.controller.jumpToPage(3);
-                          controller.updateCurrentIndex(3);
-                        }
-                      ),
+                          index: 3,
+                                currentIndex: controller.currentIndex.value,
+                                iconName: "shop",
+                                title: "Shop".tr,
+                                //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
+                                colors: [Color(0xfffa7f85), Color(0xffb6262c)],
+                                onTap: () {
+                                  controller.controller.jumpToPage(3);
+                                  controller.updateCurrentIndex(3);
+                                }),
                       TabButton(
-                        index: 4,
-                        currentIndex: controller.currentIndex.value,
-                        iconName: "user",
-                        title: "Profile",
-                        colors: [Color(0xff99c6fa), Color(0xff727DFF)],
-                        onTap: () {
-                          userController.updateInfo();
-                          controller.controller.jumpToPage(4);
-                          controller.updateCurrentIndex(4);
-                        }
-                      ),
+                          index: 4,
+                                currentIndex: controller.currentIndex.value,
+                                iconName: "user",
+                                title: "Profile".tr,
+                                colors: [Color(0xff99c6fa), Color(0xff727DFF)],
+                                onTap: () {
+                                  userController.updateInfo();
+                                  controller.controller.jumpToPage(4);
+                                  controller.updateCurrentIndex(4);
+                                }),
                     ],
                   );
                 })
@@ -349,16 +344,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
             hideExpandedLargeIcon: true,);
       }
 
-      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'system',
-        'System Notification',
-        channelDescription: 'system notification',
-        importance: Importance.max,
-        priority: Priority.high,
-        largeIcon: largeIcon,
-        styleInformation: bigPictureStyleInformation,
-        ticker: 'ticker'
-      );
+      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails('system'.tr, 'System Notification'.tr, channelDescription: 'system notification'.tr, importance: Importance.max, priority: Priority.high, largeIcon: largeIcon, styleInformation: bigPictureStyleInformation, ticker: 'ticker'.tr);
       IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(
         presentAlert: true,
         presentBadge: true,
