@@ -46,7 +46,7 @@ const Map<String, String> en_US = {
   'Password no less than 6 characters': 'Password no less than 6 characters',
   'Please input your first name': 'Please input your first name',
   'Please input your last name': 'Please input your last name',
-  'Please input your nick nam': 'Please input your nick nam',
+  'Please input your nick name': 'Please input your nick nam',
   'Please input your phone number': 'Please input your phone number',
   'Only 6 numbers accepted as your payment pin': 'Only 6 numbers accepted as your payment pin',
   'Congratulations and welcome, please sign in with your new account!': 'Congratulations and welcome, please sign in with your new account!',
