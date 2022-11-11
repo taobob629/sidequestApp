@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CountView extends StatelessWidget {
 
@@ -29,9 +30,12 @@ class CountView extends StatelessWidget {
               ),
               icon == "time"?
               Padding(
-                padding: const EdgeInsets.only(top:10.0,left: 5),
-                child: Text("mins", style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 22),),
-              )
+                padding: const EdgeInsets.only(top: 10.0, left: 5),
+                      child: Text(
+                        "mins".tr,
+                        style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
+                      ),
+                    )
                 :Container()
             ],
           )

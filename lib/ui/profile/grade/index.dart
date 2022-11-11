@@ -18,7 +18,7 @@ class GradePage extends GetView<GradeController> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Medal', style: TextStyle(fontSize: 18)),
+          title: Text('Medal'.tr, style: TextStyle(fontSize: 18)),
           centerTitle: true,
           elevation: 0,
         ),
@@ -90,9 +90,7 @@ class GradePage extends GetView<GradeController> {
                                       visible: controller.isauth == TYPE_VIP,
                                       child: Center(
                                         child: PWidget.text(
-                                            'LEVEL${controller.model.userLevel}',
-                                            [Colors.white, 18, true],
-                                            {'ff': 'DIN'}),
+                                            '${'LEVEL'.tr}${controller.model.userLevel}', [Colors.white, 18, true], {'ff': 'DIN'}),
                                       )),
                                 ),
                               ],
@@ -103,23 +101,13 @@ class GradePage extends GetView<GradeController> {
                     ],
                   ),
                   PWidget.boxh(40),
-                  PWidget.text(
-                       '${controller.isTopLevel()?'Top level':'Current level'}', [Colors.white, 18, true], {'ff': 'DIN'}),
+                  PWidget.text('${controller.isTopLevel() ? 'Top level'.tr : 'Current level'.tr}', [Colors.white, 18, true], {'ff': 'DIN'}),
                   Offstage(
                       offstage: controller.isTopLevel() && controller.isVip(),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
-                        children: controller.isVip()
-                            ? [
-                                buildScoreItem(
-                                    'Order Quantity', controller.model.levelNum)
-                              ]
-                            : [
-                                buildScoreItem('Monthly recharge',
-                                    controller.model.levelNum),
-                                buildScoreItem('Monthly consumption',
-                                    controller.model.levelNum)
-                              ],
+                        children: controller.isVip() ? [buildScoreItem('Order Quantity'.tr, controller.model.levelNum)] : [buildScoreItem('Monthly recharge'.tr, controller.model.levelNum),
+                          buildScoreItem('Monthly consumption'.tr, controller.model.levelNum)],
                       )),
                   Offstage(
                     offstage: controller.isTopLevel() && controller.isVip(),
@@ -131,15 +119,10 @@ class GradePage extends GetView<GradeController> {
                         mainAxisSize: MainAxisSize.max,
                         children: controller.isVip()
                             ? [
-                                buildScoreItem('Order Quantity',
-                                    controller.model.nextLevelNum)
-                              ]
+                          buildScoreItem('Order Quantity'.tr, controller.model.nextLevelNum)]
                             : [
-                                buildScoreItem('Monthly recharge',
-                                    controller.model.nextLevelNum),
-                                buildScoreItem('Monthly consumption',
-                                    controller.model.nextLevelNum)
-                              ],
+                          buildScoreItem('Monthly recharge'.tr, controller.model.nextLevelNum),
+                          buildScoreItem('Monthly consumption'.tr, controller.model.nextLevelNum)],
                       ))
                 ],
               )),
@@ -169,7 +152,7 @@ class GradePage extends GetView<GradeController> {
               height: 22,
             ),
             PWidget.boxh(22),
-            PWidget.text('Next Level', [Colors.white, 18, true], {'ff': 'DIN'})
+            PWidget.text('Next Level'.tr, [Colors.white, 18, true], {'ff': 'DIN'})
           ],
         ));
   }

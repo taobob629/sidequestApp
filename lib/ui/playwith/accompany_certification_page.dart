@@ -73,7 +73,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Accompany Certification', style: TextStyle(fontSize: 18)),
+        title: Text('Accompany Certification'.tr, style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -84,7 +84,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
             PWidget.boxw(8),
             Expanded(
               child: TextScroll(
-                'The following items are required. To ensure your interests, please fill them out truthfully',
+                'The following items are required. To ensure your interests, please fill them out truthfully'.tr,
                 style: TextStyle(color: Color(0xff4488FF)),
               ),
             ),
@@ -104,19 +104,19 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
         ),
       ]),
       btnBar: FloatingButton(
-        label: "Reserve",
+        label: "Reserve".tr,
         onTap: () {
-          if (nameCon.text.isEmpty) return EasyLoading.showToast('Please enter realName');
-          if (idNumberCon.text.isEmpty) return EasyLoading.showToast('Please enter idNumber');
-          if (phoneCon.text.isEmpty) return EasyLoading.showToast('Please enter phoneCon');
-          if (codeCon.text.isEmpty) return EasyLoading.showToast('Please enter verification code');
-          if (front == null) return EasyLoading.showToast('Please upload ID card front photo');
-          if (back == null) return EasyLoading.showToast('Please upload ID card back photo');
+          if (nameCon.text.isEmpty) return EasyLoading.showToast('Please enter realName'.tr);
+          if (idNumberCon.text.isEmpty) return EasyLoading.showToast('Please enter idNumber'.tr);
+          if (phoneCon.text.isEmpty) return EasyLoading.showToast('Please enter phoneCon'.tr);
+          if (codeCon.text.isEmpty) return EasyLoading.showToast('Please enter verification code'.tr);
+          if (front == null) return EasyLoading.showToast('Please upload ID card front photo'.tr);
+          if (back == null) return EasyLoading.showToast('Please upload ID card back photo'.tr);
 
-          if (platform == null) return EasyLoading.showToast('Please select category');
-          if (game == null) return EasyLoading.showToast('Please select service');
+          if (platform == null) return EasyLoading.showToast('Please select category'.tr);
+          if (game == null) return EasyLoading.showToast('Please select service'.tr);
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter be Good At');
+          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter be Good At'.tr);
         },
       ),
     );
@@ -160,23 +160,23 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   ///技能录入
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('Service', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Service'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Category', [Colors.white]),
+          PWidget.text('Category'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(platform == null ? 'Please select' : platform['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(platform == null ? 'Please select'.tr : platform['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (skillDm.list.isEmpty) return EasyLoading.showToast('Please check the network settings');
+          if (skillDm.list.isEmpty) return EasyLoading.showToast('Please check the network settings'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(skillDm.list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
               }),
-              title: "Category",
+              title: "Category".tr,
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -196,20 +196,20 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Service', [Colors.white]),
+          PWidget.text('Service'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select' : game['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(game == null ? 'Please select'.tr : game['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select category first');
+          if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
           var list = skillDm.list[platformIndex]['skill'] as List;
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
               }),
-              title: "Select service",
+              title: "Select service".tr,
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -227,22 +227,22 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Serivce Level', [Colors.white]),
+          PWidget.text('Service Level'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(gameLv == null ? 'Please select' : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select category first');
+          if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
           var list = skillDm.list[platformIndex]['skill'] as List;
-          if (gameIndex == null) return EasyLoading.showToast('Please select service first');
+          if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
           var levels = list[gameIndex]['level'] as List;
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(levels.length, (i) {
                 return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
               }),
-              title: "Select level",
+              title: "Select level".tr,
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -257,9 +257,9 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       ),
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        PWidget.text('Be good at', [Colors.white]),
+        PWidget.text('Be good at'.tr, [Colors.white]),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Be good at', hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
+        buildTFView(context!, hintText: 'Be good at'.tr, hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
       ])),
     ]);
   }
@@ -271,7 +271,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   iDPhotoView() {
     flog(back, 'back');
     return PWidget.column([
-      PWidget.text('ID Photo', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('ID Photo'.tr, [Colors.white, 20], {'ff': 'DIN'}),
       PWidget.boxh(16),
       PWidget.row([
         if (front != null) previewImage(front, () => setState(() => front = null)) else addImageBefore('front'),
@@ -300,7 +300,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
             PWidget.spacer(),
             PWidget.image('assets/images/paly_add.png', [32, 32]),
             PWidget.spacer(),
-            PWidget.text('Upload ID photo $text', [Colors.white, 12]),
+            PWidget.text('${'Upload ID photo'.tr} $text', [Colors.white, 12]),
             PWidget.spacer(),
           ]),
           [null, 112, Color(0xff282640)],
@@ -333,33 +333,33 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
   ///基本信息录入
   basicInformationView() {
     return PWidget.column([
-      PWidget.text('Basic information', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Basic information'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        PWidget.text('Real name', [Colors.white]),
+        PWidget.text('Real name'.tr, [Colors.white]),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'Real name', hintColor: Colors.white24, textColor: Colors.white, con: nameCon, isExp: true),
+        buildTFView(context!, hintText: 'Real name'.tr, hintColor: Colors.white24, textColor: Colors.white, con: nameCon, isExp: true),
       ])),
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        PWidget.text('ID number', [Colors.white]),
+        PWidget.text('ID number'.tr, [Colors.white]),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'ID number', hintColor: Colors.white24, textColor: Colors.white, con: idNumberCon, isExp: true),
+        buildTFView(context!, hintText: 'ID number'.tr, hintColor: Colors.white24, textColor: Colors.white, con: idNumberCon, isExp: true),
       ])),
       PWidget.boxh(16),
-      itemBg(buildTFView(context!, con: phoneCon, hintText: 'your phone number', hintColor: Colors.white24, textColor: Colors.white)),
+      itemBg(buildTFView(context!, con: phoneCon, hintText: 'your phone number'.tr, hintColor: Colors.white24, textColor: Colors.white)),
       PWidget.boxh(16),
       itemBg(PWidget.row([
         buildTFView(
           context!,
-          hintText: 'verification code',
+          hintText: 'verification code'.tr,
           hintColor: Colors.white24,
           textColor: Colors.white,
           con: codeCon,
           isExp: true,
         ),
         CodeWidget(
-          text: 'Get code',
+          text: 'Get code'.tr,
           phoneCon: phoneCon,
           successColor: const Color(0xff59C4FA),
           errorColor: const Color(0xff59C4FA),

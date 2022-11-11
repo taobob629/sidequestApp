@@ -17,18 +17,17 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Notifications",
-      body: Obx(()=>SmartRefresher(
-        controller: controller.refreshController,
-        onRefresh: controller.refresh,
-        onLoading: controller.loadMore,
-        enablePullUp: true,
-        child: controller.initializing.value ? Container() : controller.list.length == 0?
-        Stack(
-          children: [
-            Positioned(
-              left: 0,right: 0,top: 0,bottom: 0,
-              child: EmptyView()
+      title: "Notifications".tr,
+        body: Obx(() => SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: controller.refresh,
+              onLoading: controller.loadMore,
+              enablePullUp: true,
+              child: controller.initializing.value
+                  ? Container()
+                  : controller.list.length == 0
+                      ? Stack(
+                          children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView()
             )
           ],
         ) :ListView.separated(

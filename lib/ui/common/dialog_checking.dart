@@ -27,8 +27,11 @@ class CheckingDialog extends StatelessWidget {
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("CANCEL", style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "CANCEL".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () => Get.back(result: true)
           )

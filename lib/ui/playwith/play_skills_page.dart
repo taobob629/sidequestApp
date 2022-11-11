@@ -31,11 +31,11 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('My Services'),
+        title: Text('My Services'.tr),
         elevation: 0,
       ),
       btnBar: FloatingButton(
-        label: 'Add Service',
+        label: 'Add Service'.tr,
         onTap: () async {
           var res = await Get.to(() => AddGamePage({}));
           if (res != null) setState(() => key = UniqueKey());
@@ -82,7 +82,6 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
     }).catchError((e) {
       authlistDm.toError(e.toString());
     });
-    flog(authlistDm.toJson(), 'skillDm');
     setState(() {});
     return authlistDm.flag;
   }
@@ -98,7 +97,7 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
           isShuaxin: false,
           isGengduo: false,
           itemModel: authlistDm,
-          btmWidget: PWidget.text('No more', [Colors.white54], {'ct': true, 'pd': 8}),
+          btmWidget: PWidget.text('No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
           touchBottomAnimationValue: 0.1,
           // onRefresh: () => this.authlist(isRef: true),
           // onLoading: (p) => this.authlist(page: p),
@@ -108,7 +107,6 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
           mainAxisSpacing: 12,
           // divider: Divider(height: 12, color: Colors.transparent),
           itemModelBuilder: (i, data) {
-            flog(data, 'skillsFlog');
             return PWidget.row([
               CachedNetworkImage(imageUrl: data['skillThumb'], fit: BoxFit.cover, width: 64, height: 64),
               PWidget.boxw(8),
@@ -122,7 +120,7 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
                 'exp': 1
               }),
               PWidget.container(
-                PWidget.text({'2': 'eidt', '0': 'under review', '1': 'edit'}['${data['status']}'], [
+                PWidget.text({'2': 'eidt'.tr, '0': 'under review'.tr, '1': 'edit'.tr}['${data['status']}'], [
                   {'2': Colors.black.withOpacity(0.75), '0': Colors.white24, '1': Colors.black.withOpacity(0.75)}['${data['status']}'],
                   16,
                 ], {

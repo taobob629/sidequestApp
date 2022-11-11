@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
@@ -123,7 +124,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
             PWidget.container(
               PWidget.row([
                 PWidget.container(
-                  PWidget.text('Services:', [Colors.white70, 12]),
+                  PWidget.text('${'Services'.tr}:', [Colors.white70, 12]),
                   [null, null, Color(0xff63608C)],
                   {'pd': PFun.lg(2, 2, 8, 4)},
                 ),
@@ -142,12 +143,12 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
           PWidget.boxh(8),
           PWidget.row([
             PWidget.text('', [], {}, [
-              PWidget.textIs('Follow：', [Color(0xff8291B4), 12]),
+              PWidget.textIs('${'Follow'.tr}：', [Color(0xff8291B4), 12]),
               PWidget.textIs('232', [Color(0xffEEF3FF), 16]),
             ]),
             PWidget.boxw(16),
             PWidget.text('', [], {}, [
-              PWidget.textIs('Fans：', [Color(0xff8291B4), 12]),
+              PWidget.textIs('${'Fans'.tr}：', [Color(0xff8291B4), 12]),
               PWidget.textIs('232W', [Color(0xffEEF3FF), 16]),
             ]),
           ]),
@@ -155,19 +156,19 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
           gamesView(),
           Divider(color: Colors.white24, height: 24),
           PWidget.text(
-            "I'm good at League of heroes and eternity. Please come to me~",
+            "I'm good at League of heroes and eternity. Please come to me~".tr,
             [Color(0xff8291B4), 12],
             {'isOf': false},
           ),
           Divider(color: Colors.white24, height: 24),
           PWidget.container(
             PWidget.column([
-              PWidget.text("Accompanying materials", [Colors.white, 16, true]),
+              PWidget.text("Accompanying materials".tr, [Colors.white, 16, true]),
               PWidget.boxh(4),
               PWidget.container(PWidget.boxh(0), [24, 4, Colors.white], {'br': 4}),
             ]),
           ),
-          PWidget.text('Personal information', [Colors.white, 14], {'pd': PFun.lg(16, 16)}),
+          PWidget.text('Personal information'.tr, [Colors.white, 14], {'pd': PFun.lg(16, 16)}),
           PWidget.row([
             PWidget.container(
               PWidget.text('ID：', [Color(0xff8291B4), 12]),
@@ -185,7 +186,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
   ///游戏列表
   Widget gamesView() {
     return PWidget.column([
-      PWidget.text('Good games:：', [Colors.white, 21], {'ff': 'DIN'}),
+      PWidget.text('${'Good games'.tr}:：', [Colors.white, 21], {'ff': 'DIN'}),
       PWidget.boxh(8),
       if (games.isEmpty)
         Stack(alignment: Alignment.center, children: [
@@ -215,8 +216,8 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
                     ),
                     PWidget.boxw(8),
                     PWidget.column([
-                      PWidget.text('LEAGUE OF LEGENDS', [Colors.white, 14, true]),
-                      PWidget.text('King 120star', [Colors.white54, 12]),
+                      PWidget.text('LEAGUE OF LEGENDS'.tr, [Colors.white, 14, true]),
+                      PWidget.text('King 120star'.tr, [Colors.white54, 12]),
                       PWidget.text('', [], {}, [
                         PWidget.textIs('£ 10.99', [Colors.white, 18, true]),
                         PWidget.textIs('\t\t/30min', [Colors.white54, 12]),
@@ -225,7 +226,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
                       'exp': 1
                     }),
                     PWidget.boxw(8),
-                    buttonView("Place an order", onTap: () {}),
+                    buttonView("Place an order".tr, onTap: () {}),
                     PWidget.boxw(8),
                   ]),
                 ]),
@@ -257,7 +258,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
               ),
             ),
             PWidget.spacer(),
-            PWidget.text('Edit', [Colors.white, 16], {'pd': 4}),
+            PWidget.text('Edit'.tr, [Colors.white, 16], {'pd': 4}),
           ]),
           [null, 48],
           {'pd': PFun.lg(0, 0, 8, 8)},

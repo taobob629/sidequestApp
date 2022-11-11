@@ -60,31 +60,36 @@ class PayPage extends StatelessWidget {
             if(controller.payOrderModel.type > 0 || controller.payOrderModel.type == -2){
               return Container();
             }else {
-              return Obx(() => _buildPayView("Alipay", "alipay", 4, controller.payType.value));
-              //return Container();
+              return Obx(() => _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+                //return Container();
             }
           }else if(index == 4){
             if(controller.payOrderModel.type == -2){
               return Obx(()=>
                 _buildPayView(
-                  "Gold Coins",
-                  "balance_money",
-                  2,
-                  controller.payType.value,
-                  subTitle: Row(
-                    children: [
-                      Image.asset("assets/images/ic_balance_money.webp",width: 14,height: 14,),
-                      SizedBox(width: 5,),
-                      Text("${controller.coin.value}",style: TextStyle(color: Colors.white,fontSize: 14),)
-                    ],
-                  )
-                )
+                    "Gold Coins".tr, "balance_money", 2, controller.payType.value,
+                    subTitle: Row(
+                      children: [
+                        Image.asset(
+                          "assets/images/ic_balance_money.webp",
+                          width: 14,
+                          height: 14,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${controller.coin.value}",
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        )
+                      ],
+                    ))
               );
             }else if(controller.payOrderModel.type > -2){
               return Container();
             }else {
-              return Obx(()=>_buildPayView("Balance", "balance_money",2,controller.payType.value));
-            }
+              return Obx(() => _buildPayView("Balance".tr, "balance_money", 2, controller.payType.value));
+              }
           }
           return Container(height: 70,);
         },
@@ -104,7 +109,10 @@ class PayPage extends StatelessWidget {
         height: 50,
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text("CONFIRM",style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),),
+          child: Text(
+            "CONFIRM".tr,
+            style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+          ),
         ),
         onTap: ()=>userController.checkLogin(()=>controller.pay()),
       ),
@@ -147,7 +155,10 @@ class PayPage extends StatelessWidget {
           Positioned(
             left: 0,
             top: 0,
-            child: Text("Amount",style: TextStyle(fontSize: 16,color: Colors.white),),
+            child: Text(
+              "Amount".tr,
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
           )
         ],
       ),
@@ -155,8 +166,12 @@ class PayPage extends StatelessWidget {
   }
 
   Widget _buildBillAddress(){
-    Widget text = Expanded(child:Text("Please select your billing address",style: TextStyle(fontSize: 14,color: Colors.white38),));
-    if(controller.address.value.id != 0){
+    Widget text = Expanded(
+        child: Text(
+      "Please select your billing address".tr,
+      style: TextStyle(fontSize: 14, color: Colors.white38),
+    ));
+    if (controller.address.value.id != 0) {
       var addressModel = controller.address.value;
       text = Expanded(
         child: Column(
@@ -165,7 +180,7 @@ class PayPage extends StatelessWidget {
             Text(
               "${addressModel.firstName} ${addressModel.lastName} ${addressModel.phone}",
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14,color: Colors.white),
+              style: TextStyle(fontSize: 14, color: Colors.white),
             ),
             Text(
               "${addressModel.line1} ${addressModel.line2}",
@@ -187,7 +202,10 @@ class PayPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 15),
-            child: Text("Billing Address",style: TextStyle(fontSize: 16,color: Colors.white),),
+            child: Text(
+              "Billing Address".tr,
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
           ),
           SizedBox(height: 15,),
           GestureDetector(
@@ -249,9 +267,9 @@ class PayPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "Credit Card  &  $payMethod",
-                      style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),
-                    ),
+                      "${'Credit Card'.tr}  &  $payMethod",
+                        style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                      ),
                   ),
                   Spacer(),
                   // Image.asset("assets/images/ic_visa.webp",height: 32,),
@@ -385,7 +403,7 @@ class PayPageController extends GetxController {
 
   void pay() async {
     if(address.value.id == 0){
-      EasyLoading.showInfo("Please select your billing address");
+      EasyLoading.showInfo("Please select your billing address".tr);
       return;
     }
     payOrderModel.addressId = address.value.id;
@@ -421,10 +439,10 @@ class PayPageController extends GetxController {
         final Map params = <String, dynamic>{'info': payInfoModel.result!.appData};
         await _channel.invokeMethod('getAlipay', params);
       }else{
-        EasyLoading.showError("Server response error!");
+        EasyLoading.showError("Server response error!".tr);
         return;
       }
-      Get.dialog(CheckingDialog(tips: "Checking payment result ..."),barrierColor: Colors.black26).whenComplete(() {
+      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr), barrierColor: Colors.black26).whenComplete(() {
         _timer.cancel();
       });
       _timer = Timer.periodic(Duration(seconds: 2), (timer) {
@@ -495,7 +513,7 @@ class PayPageController extends GetxController {
         // Get.dialog(
         //   ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
         // ).then((value) => Get.back(result: true));
-        Get.dialog(CheckingDialog(tips: "Checking payment status ..."),barrierColor: Colors.black26).whenComplete(() {
+        Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr), barrierColor: Colors.black26).whenComplete(() {
           _timer.cancel();
         });
         _timer = Timer.periodic(Duration(seconds: 2), (timer) {
@@ -503,7 +521,7 @@ class PayPageController extends GetxController {
         });
       }on Exception catch (e){
         if (e is StripeException) {
-          EasyLoading.showInfo(e.error.localizedMessage == null ? "Payment Failed!" : e.error.localizedMessage!);
+          EasyLoading.showInfo(e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
         }
       }
     }
@@ -515,9 +533,9 @@ class PayPageController extends GetxController {
           if (payInfoModel.insufficient) {
             Get.dialog(
               ConfirmDialog(
-                title: "Payment Result",
-                info: "Insufficient coin, Please recharge first!",
-                onConfirm: (){
+                title: "Payment Result".tr,
+                info: "Insufficient coin, Please recharge first!".tr,
+                onConfirm: () {
                   Get.back();
                   Get.back();
                   Get.to(() => PlayBalancePage());
@@ -526,22 +544,20 @@ class PayPageController extends GetxController {
               barrierColor: Colors.black26,
             );
           }else{
-            Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
-              .whenComplete(() {
+            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
                 Get.back();
                 Get.back(result: payInfoModel.orderNo);
               });
           }
         } else {
           if (payInfoModel.orderNo.isEmpty) {
-            EasyLoading.showError("Server response error!");
+            EasyLoading.showError("Server response error!".tr);
           } else {
             if (payOrderModel.type == -1) {
               var cartController = Get.find<CartController>();
               cartController.clearCart();
             }
-            Get.dialog(ConfirmDialog(title: "Payment Result", info: "Payment Successful!"), barrierColor: Colors.black26)
-              .whenComplete(() => Get.back());
+            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() => Get.back());
           }
         }
       });
@@ -581,10 +597,10 @@ class PayPageController extends GetxController {
       Get.dialog(
         ConfirmDialog(
           cancelable: true,
-          title: "Payment Result",
-          info: "The payment result can not be confirmed, do you have finished it?",
-          onConfirm: ()=>manualCheckPay(orderId),
-        ),barrierColor: Colors.black26
+            title: "Payment Result".tr,
+            info: "The payment result can not be confirmed, do you have finished it?".tr,
+            onConfirm: () => manualCheckPay(orderId),
+          ),barrierColor: Colors.black26
       );
     }
   }
@@ -598,10 +614,10 @@ class PayPageController extends GetxController {
       Get.dialog(
         ConfirmDialog(
           cancelable: true,
-          title: "Payment Result",
-          info: "The payment result still can not be confirmed, please contact our customer service.",
-          onConfirm: ()=>Get.back(),
-        ),barrierColor: Colors.black26
+            title: "Payment Result".tr,
+            info: "The payment result still can not be confirmed, please contact our customer service.".tr,
+            onConfirm: () => Get.back(),
+          ),barrierColor: Colors.black26
       );
     }
   }
@@ -613,8 +629,7 @@ class PayPageController extends GetxController {
     }
     Get.back();
     Get.dialog(
-      ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
-    ).then((value) => Get.back(result: true));
+        ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
   }
 
   //原生返回事件调用
@@ -624,13 +639,13 @@ class PayPageController extends GetxController {
         EasyLoading.dismiss();
         _timer.cancel();
         Get.back(result: true);
-        Get.dialog(ConfirmDialog(title: "Payment Result", info: "The payment has been canceled."),barrierColor: Colors.black26);
+        Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "The payment has been canceled.".tr), barrierColor: Colors.black26);
       }
     }else if(payType.value == 1){
       var result = content as Map;
       String code = result["code"];
       if(code == "0"){
-        EasyLoading.showError("Payment failed");
+        EasyLoading.showError("Payment failed".tr);
         return;
       }
       String transactionId = result["data"];
@@ -653,8 +668,7 @@ class PayPageController extends GetxController {
       }
       EasyLoading.dismiss();
       Get.dialog(
-        ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
-      ).then((value) => Get.back(result: true));
+          ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
     }
   }
 

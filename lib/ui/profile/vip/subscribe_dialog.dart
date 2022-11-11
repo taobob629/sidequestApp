@@ -15,16 +15,17 @@ class SubscribeDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("VIP Subscription",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white),),
-          SizedBox(height: 10,),
+          Text(
+            "VIP Subscription".tr,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white54,
-              borderRadius: BorderRadius.circular(5)
-            ),
+            decoration: BoxDecoration(color: Colors.white54, borderRadius: BorderRadius.circular(5)),
             child: CardField(
-
               onCardChanged: (card) {
                 subscribeDialogController.card = card;
               },
@@ -34,8 +35,11 @@ class SubscribeDialog extends StatelessWidget {
           ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
-              child: Text("CONFIRM", style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "DIN"),),
-            ),
+                child: Text(
+                  "CONFIRM".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                ),
+              ),
             height: 40,
             onTap: () {
               Get.back(result: true);

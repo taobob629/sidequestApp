@@ -36,9 +36,11 @@ class TabGamesPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      "Popular Games", style: TextStyle(fontSize: 18, fontFamily: "din", color: Colors.white),),
+                  child: Text(
+                    "Popular Games".tr,
+                    style: TextStyle(fontSize: 18, fontFamily: "din", color: Colors.white),
                   ),
+                ),
                   Image.asset("assets/images/ic_fire.webp", height: 20,)
                 ],
               )
@@ -68,9 +70,11 @@ class TabGamesPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(
-                      "Supported Games", style: TextStyle(fontSize: 18, fontFamily: "din", color: Colors.white),),
+                  child: Text(
+                    "Supported Games".tr,
+                    style: TextStyle(fontSize: 18, fontFamily: "din", color: Colors.white),
                   ),
+                ),
                 ],
               )
             ),

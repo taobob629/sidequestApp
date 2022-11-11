@@ -85,7 +85,7 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
         },
         backgroundColor: hexToColor("006EFF"),
         foregroundColor: Colors.white,
-        label: "Clear",
+        label: "Clear".tr,
         autoClose: true,
       ),
       mytui.ConversationItemSlidablePanel(
@@ -94,7 +94,7 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
         },
         backgroundColor: hexToColor("FF9C19"),
         foregroundColor: Colors.white,
-        label: conversationItem.isPinned! ? "UnTop" : "Top",
+        label: conversationItem.isPinned! ? "UnTop".tr : "Top".tr,
       ),
       mytui.ConversationItemSlidablePanel(
         onPressed: (context) {
@@ -102,7 +102,7 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
         },
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
-        label: "Delete",
+        label: "Delete".tr,
       )
     ];
   }
@@ -128,11 +128,14 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
             controller: _controller,
             emptyBuilder: () {
               return Container(
-                padding: const EdgeInsets.only(top:100),
-                child:const Center(
-                  child: Text("No Conversation", style: TextStyle(color: Colors.white54),),
+                padding: const EdgeInsets.only(top: 100),
+              child: Center(
+                child: Text(
+                  'No Conversation'.tr,
+                  style: TextStyle(color: Colors.white54),
                 ),
-              );
+              ),
+            );
             },
           ))
       ],

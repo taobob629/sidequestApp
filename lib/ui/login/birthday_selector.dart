@@ -1,5 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BirthdaySelector extends StatelessWidget {
 
@@ -25,13 +26,9 @@ class BirthdaySelector extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                value.year == DateTime.now().year && value.month == DateTime.now().month && value.day == DateTime.now().day
-                  ? "Select Birthday" : formatDate(value, [dd, '/', mm, '/', yyyy]),
-                style: TextStyle(
-                  color: value.year == DateTime.now().year ? Colors.white24 : Colors.white,
-                  fontSize: 14
-                ),
-              )
+                value.year == DateTime.now().year && value.month == DateTime.now().month && value.day == DateTime.now().day ? "Select Birthday".tr : formatDate(value, [dd, '/', mm, '/', yyyy]),
+              style: TextStyle(color: value.year == DateTime.now().year ? Colors.white24 : Colors.white, fontSize: 14),
+            )
             ),
             Icon(Icons.arrow_forward_ios_rounded,color: Colors.white, size: 20,)
           ],

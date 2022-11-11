@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/expansion_tile.dart';
@@ -49,7 +50,7 @@ class PrivilegeView extends StatelessWidget {
         expandViewBuilder: (anima) {
           flog(anima.status);
           return PWidget.row([
-            PWidget.text(anima.isCompleted ? 'Up' : 'More', [Colors.white, 12]),
+            PWidget.text(anima.isCompleted ? 'Up'.tr : 'More'.tr, [Colors.white, 12]),
             PWidget.boxw(8),
             PWidget.container(
               RotationTransition(

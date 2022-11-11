@@ -10,18 +10,18 @@ class ScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Scan QR code",
+      title: "Scan QR code".tr,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0),
-        child: Container(
-          child: ScanView(
-            controller: controller.controller,
-            scanAreaScale: .7,
-            scanLineColor: Colors.green.shade400,
-            onCapture: (data) {
-              Get.back(result: data);
-            },
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: Container(
+            child: ScanView(
+              controller: controller.controller,
+              scanAreaScale: .7,
+              scanLineColor: Colors.green.shade400,
+              onCapture: (data) {
+                Get.back(result: data);
+              },
+            ),
         )
       ),
     );

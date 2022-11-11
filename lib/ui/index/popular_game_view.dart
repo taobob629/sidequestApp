@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/model/game_model.dart';
 
 class PopularGameView extends StatelessWidget {
@@ -63,7 +64,10 @@ class PopularGameView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10,left: 6),
                 child: Transform.rotate(
                   angle: pi / 4,
-                  child: Text("Top$index",style: TextStyle(color: Colors.white,fontSize: 10,fontWeight: FontWeight.bold),),
+                  child: Text(
+                    "${'Top'.tr}$index",
+                    style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),

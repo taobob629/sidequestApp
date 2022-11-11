@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as Get;
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
+import 'package:wy/utils/utils.dart';
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
@@ -17,9 +20,7 @@ class Http extends BaseHttp {
   @override
   void init() async {
     options.baseUrl = AppConfig.getBaseServer();
-    interceptors
-      ..add(ApiInterceptor())
-      ..add(HeaderInterceptor());
+    interceptors..add(ApiInterceptor())..add(HeaderInterceptor());
   }
 }
 
@@ -30,7 +31,20 @@ class HeaderInterceptor extends InterceptorsWrapper {
       options.headers['X-Wanyoo-Token'] = StorageManager.getToken();
     }
     options.headers['platform'] = Platform.operatingSystem;
+    options.headers['language'] = language();
     handler.next(options);
+  }
+}
+
+//语言 0中文
+language() {
+  Locale? locale = Get.Get.deviceLocale;
+  var code = locale?.countryCode;
+  switch (code) {
+    case 'CN':
+      return 0;
+    default:
+      return 1;
   }
 }
 

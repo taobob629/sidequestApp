@@ -36,22 +36,14 @@ class JoinTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: create ? "Make a team":"Join a team",
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            _buildShadow(),
-            _buildContent(context),
-            _buildDashLine(),
-            _buildHoleShadow(),
-            _buildHole()
-          ],
+      title: create ? "Make a team".tr : "Join a team".tr,
+        body: SingleChildScrollView(
+          child: Stack(
+            children: [_buildShadow(), _buildContent(context), _buildDashLine(), _buildHoleShadow(), _buildHole()],
+          ),
         ),
-      ),
       floatingActionButton: FloatingButton(
-        label: "CONFIRM",
-        onTap: ()=> controller.join()
-      )
+          label: "CONFIRM".tr, onTap: () => controller.join())
     );
   }
 
@@ -108,8 +100,8 @@ class JoinTeamPage extends StatelessWidget {
           Offstage(
             offstage: create == false,
             child: InputView(
-              label: "TEAM NAME",
-              tips: "input your team name",
+              label: "TEAM NAME".tr,
+              tips: "input your team name".tr,
               maxLength: 20,
               controller: controller.nameController,
             ),
@@ -117,21 +109,21 @@ class JoinTeamPage extends StatelessWidget {
           Offstage(
             offstage: create == true,
             child: InputView(
-              label: "TEAM PASSCODE",
-              tips: "input your team passcode",
+              label: "TEAM PASSCODE".tr,
+              tips: "input your team passcode".tr,
               maxLength: 20,
               controller: controller.codeController,
             ),
           ),
           InputView(
-            label: "PLAYING ROLE",
-            tips: "input your playing role",
+            label: "PLAYING ROLE".tr,
+            tips: "input your playing role".tr,
             maxLength: 20,
             controller: controller.roleController,
           ),
           InputView(
-            label: "DISCORD TAG",
-            tips: "input your discord tag",
+            label: "DISCORD TAG".tr,
+            tips: "input your discord tag".tr,
             maxLength: 20,
             controller: controller.tagController,
           ),
@@ -139,11 +131,11 @@ class JoinTeamPage extends StatelessWidget {
               ()=>Offstage(
                 offstage: controller.location.length == 0,
                 child: SelectView(
-                  label: "LOCATION",
+                  label: "LOCATION".tr,
                   tips: controller.selectLocation.value.name,
                   value: controller.selectLocation.value.name,
                   onTap: () async {
-                    SelectorItem? item = await SelectorDialog.show(context, controller.location,title: "Select Location");
+                    SelectorItem? item = await SelectorDialog.show(context, controller.location, title: "Select Location".tr);
                     if (item != null) {
                       LocationModel store = item as LocationModel;
                       controller.selectLocation.value = store;
@@ -161,25 +153,24 @@ class JoinTeamPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("TEAM PASSCODE",style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "DIN"),),
+                  Text(
+                    "TEAM PASSCODE".tr,
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),
+                  ),
                   SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(()=>Text(
-                        controller.genPasscode.value,
-                        style: TextStyle(color: Colors.white,fontSize: 26)
-                      )),
+                      Obx(() => Text(controller.genPasscode.value, style: TextStyle(color: Colors.white, fontSize: 26))),
                       GestureDetector(
-                        onTap: ()=> controller.copy(),
+                        onTap: () => controller.copy(),
                         child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Colors.white38),
-                            color: Colors.white10
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), border: Border.all(color: Colors.white38), color: Colors.white10),
+                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                          child: Text(
+                            "Copy".tr,
+                            style: TextStyle(color: Colors.white38, fontSize: 12),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 8),
-                          child: Text("Copy",style: TextStyle(color: Colors.white38,fontSize: 12),),
                         ),
                       )
                     ],
@@ -381,8 +372,8 @@ class JoinTeamPageController extends GetxController {
   }
     
   void copy(){
-      Clipboard.setData(ClipboardData(text: genPasscode.value));
-      EasyLoading.showToast("The team passcode copied, you can send it to your team members.");
+    Clipboard.setData(ClipboardData(text: genPasscode.value));
+    EasyLoading.showToast("The team passcode copied, you can send it to your team members.".tr);
   }
 
   void join() async{
@@ -391,25 +382,25 @@ class JoinTeamPageController extends GetxController {
 
     if(create) {
       if (name.isEmpty) {
-        EasyLoading.showToast("Please input your team name");
+        EasyLoading.showToast("Please input your team name".tr);
         return;
       }
     }else{
       if (code.length != 4) {
-        EasyLoading.showToast("Please input correct team passcode");
+        EasyLoading.showToast("Please input correct team passcode".tr);
         return;
       }
     }
 
     String role = roleController.text;
     if(role.isEmpty){
-      EasyLoading.showToast("Please input your playing role");
+      EasyLoading.showToast("Please input your playing role".tr);
       return;
     }
 
     String tag = tagController.text;
     if(tag.isEmpty){
-      EasyLoading.showToast("Please input your discord tag");
+      EasyLoading.showToast("Please input your discord tag".tr);
       return;
     }
     EasyLoading.show();
@@ -422,11 +413,14 @@ class JoinTeamPageController extends GetxController {
       EasyLoading.dismiss();
       Get.dialog(
           ConfirmDialog(
-              title: "Tips", info: "You have successfully signed up!",onConfirm: (){
-                Get.back();
-                Get.back();
-                Get.find<EventPageController>().refresh();
-          },),
+            title: "Tips".tr,
+            info: "You have successfully signed up!".tr,
+            onConfirm: () {
+              Get.back();
+              Get.back();
+              Get.find<EventPageController>().refresh();
+            },
+          ),
           barrierColor: Colors.black26);
       //Get.back();
     }

@@ -105,9 +105,15 @@ class IndexPage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text("All",));
-    tabs.add(Text("News",));
-    tabs.add(Text("Games",));
+    tabs.add(Text(
+      "All".tr,
+    ));
+    tabs.add(Text(
+      "News".tr,
+    ));
+    tabs.add(Text(
+      "Games".tr,
+    ));
 
     return tabs;
   }

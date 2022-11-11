@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../utils/navigator_helper.dart';
 
@@ -11,7 +12,7 @@ class EnergyView extends StatelessWidget {
     if(remaining >= 60){
       remainingText = "${(remaining/60).toStringAsFixed(2)} H";
     }else{
-      remainingText = "$remaining Mins";
+      remainingText = "$remaining ${'Mins'.tr}";
     }
   }
 
@@ -32,13 +33,13 @@ class EnergyView extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 4),
-                  child: Text("Free Gaming Time", style: TextStyle(fontSize: 14,color: Colors.white,fontFamily: "DIN")),
-                ),
+                    child: Text("Free Gaming Time".tr, style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
+                  ),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: Text("Remaining: $remainingText", style: TextStyle(fontSize: 14,color: Colors.white,fontFamily: "DIN")),
-                ),
+                    child: Text("${'Remaining'.tr}: $remainingText", style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
+                  ),
               ],
             ),
             Row(

@@ -20,18 +20,16 @@ class WithDrawMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "Wallet Records",
+        title: "Wallet Records".tr,
         body: Stack(
           children: [
-            Positioned(
-                left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
+            Positioned(left: 0, right: 0, top: 0, height: 40, child: _buildTabs()),
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               top: 40,
-              child: TabBarView(
-                  controller: controller.tabController,
+              child: TabBarView(controller: controller.tabController,
                   children: createPages()),
             )
           ],
@@ -60,19 +58,19 @@ class WithDrawMainPage extends StatelessWidget {
     if (userType == TYPE_VIP) {
       return [
         Text(
-          "WithDraw",
+          "WithDraw".tr,
         ),
         Text(
-          "Coin",
+          "Coin".tr,
         ),
         Text(
-          "Diamonds",
+          "Diamonds".tr,
         )
       ];
     }
     return [
       Text(
-        "Coin",
+        "Coin".tr,
       )
     ];
   }

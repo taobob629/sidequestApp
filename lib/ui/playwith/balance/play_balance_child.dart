@@ -52,7 +52,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
         itemCount: item.length,
       ),
       btnBar: FloatingButton(
-        label: "CONFIRM",
+        label: "CONFIRM".tr,
         onTap: () => controller.pay(),
       ),
     );
@@ -61,7 +61,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
   List<Widget> get item {
     return [
       cardView(),
-      ItemTitle(title: "Recharge", subTitle: ""),
+      ItemTitle(title: "Recharge".tr, subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
       Obx(
@@ -70,10 +70,11 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
             subTitle: '',
             customSubTitle: Padding(
               padding: EdgeInsets.only(left: 10),
-              child:controller.iconByChargeRatio==0?Text(
-                "Other recharge amount",
-                style: TextStyle(color: Colors.white,fontSize: 18),
-              ): Row(
+              child: controller.iconByChargeRatio == 0
+                  ? Text(
+                      "Other recharge amount".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ): Row(
                 children: [
                   PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
                   Text(
@@ -84,7 +85,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
               ),
             ),
             actions: Text(
-              'Min:£1',
+              '${'Min'.tr}:£1',
               style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
             )),
       ),
@@ -145,8 +146,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CountView(icon: "money", title: "Coin", count: "${controller.coin}"),
-                  CountView(icon: "votes", title: "Diamond", count: "${controller.diamonds}"),
+                  CountView(icon: "money", title: "Coin".tr, count: "${controller.coin}"),
+                  CountView(icon: "votes", title: "Diamond".tr, count: "${controller.diamonds}"),
                 ],
               )),
         ]),
@@ -406,7 +407,7 @@ class WalletBalancePageController extends GetxListController {
     if (amountStr.isNotEmpty) {
       amount = double.parse(amountStr);
       if (!isValidateAmount(amountStr, 1)) {
-        EasyLoading.showInfo('Please enter an valid number greater than 1');
+        EasyLoading.showInfo('Please enter an valid number greater than 1'.tr);
         return;
       }
     }
@@ -460,17 +461,17 @@ class WalletBalancePageController extends GetxListController {
     UserController userController = Get.find<UserController>();
     var votes = amountController.text;
     if (votes.isEmpty) {
-      EasyLoading.showInfo('Please Enter withdraw amount!');
+      EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
     if (!isValidateAmount(votes, 1000)) {
-      EasyLoading.showInfo('Please enter an valid number greater than 1000');
+      EasyLoading.showInfo('Please enter an valid number greater than 1000'.tr);
       return;
     }
     double votesDouble = double.parse(votes);
     double votesSum = double.parse(userController.userInfoModel.value.votes);
     if (votesDouble.isGreaterThan(votesSum)) {
-      EasyLoading.showInfo('Please enter an valid number smaller than $votesSum!');
+      EasyLoading.showInfo('${'Please enter an valid number smaller than'.tr} $votesSum!');
       return;
     }
     Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
@@ -485,7 +486,7 @@ class WalletBalancePageController extends GetxListController {
     var response;
     if (type == 'withDraw') {
       if (selectedBank == null) {
-        EasyLoading.showInfo('Please Add withdraw account First!');
+        EasyLoading.showInfo('Please Add withdraw account First!'.tr);
         return;
       }
       response = await BalanceApi.withDraw(Map<String, dynamic>()

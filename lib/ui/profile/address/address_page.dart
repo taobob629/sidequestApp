@@ -21,18 +21,14 @@ class AddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Address",
+      title: "My Address".tr,
       body: Obx(() {
-        if(controller.initializing.value){
+        if (controller.initializing.value) {
           return Container();
         }
-        if(controller.list.length == 0){
+        if (controller.list.length == 0) {
           return Stack(
-            children: [
-              Positioned(
-                left: 0,right: 0,top: 0,bottom: 0,
-                child: EmptyView()
-              )
+            children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
             ],
           );
         }
@@ -58,9 +54,8 @@ class AddressPage extends StatelessWidget {
           itemCount: controller.list.length + 1
         );
       }),
-      floatingActionButton: Obx(()=>controller.floatingActionButtonShow.value ?
-        FloatingButton(label: "NEW ADDRESS", onTap: () => gotoEditPage(false)) : Container()
-      ),
+      floatingActionButton: Obx(()=>
+      controller.floatingActionButtonShow.value ? FloatingButton(label: "NEW ADDRESS".tr, onTap: () => gotoEditPage(false)) : Container()),
     );
   }
 

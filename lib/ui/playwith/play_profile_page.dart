@@ -43,8 +43,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   List language = [];
   var sexList = [
     // {'name': '保密', 'value': 0},
-    {'name': 'Male', 'value': 0},
-    {'name': 'Female', 'value': 1},
+    {'name': 'Male'.tr, 'value': 0},
+    {'name': 'Female'.tr, 'value': 1},
   ];
   var avatar;
   Rxn<String?> _country = Rxn();
@@ -172,7 +172,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Play Profile', style: TextStyle(fontSize: 18)),
+        title: Text('Play Profile'.tr, style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -184,7 +184,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               PWidget.boxw(8),
               Expanded(
                 child: TextScroll(
-                  'The following items are required. To ensure your interests, please fill them out truthfully',
+                  'The following items are required. To ensure your interests, please fill them out truthfully'.tr,
                   style: TextStyle(color: Color(0xff4488FF)),
                 ),
               ),
@@ -204,26 +204,20 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         ),
       ]),
       btnBar: FloatingButton(
-        label: "OK",
+        label: "OK".tr,
         onTap: () async {
-          if (avatar == null)
-            return EasyLoading.showToast('Please upload your avatar');
-          if (userNameCon.text.isEmpty)
-            return EasyLoading.showToast('Please enter user nickname');
-          if (userNameCon.text.length > 26)
-            return EasyLoading.showToast(
-                'The nick name cannot exceed 26 characters');
-          if (language.isEmpty)
-            return EasyLoading.showToast('Please select language');
+          if (avatar == null) return EasyLoading.showToast('Please upload your avatar'.tr);
+          if (userNameCon.text.isEmpty) return EasyLoading.showToast('Please enter user nickname'.tr);
+          if (userNameCon.text.length > 26) return EasyLoading.showToast('The nick name cannot exceed 26 characters'.tr);
+          if (language.isEmpty) return EasyLoading.showToast('Please select language'.tr);
           if (beGoodAtCon.text.isEmpty)
-            return EasyLoading.showToast('Please enter your signature');
+            return EasyLoading.showToast('Please enter your signature'.tr);
           if (beGoodAtCon.text.length > 255)
-            return EasyLoading.showToast(
-                'Signature cannot exceed 255 characters');
+            return EasyLoading.showToast('Signature cannot exceed 255 characters'.tr);
           if (backgroundImage == null)
-            return EasyLoading.showToast('Please upload your background image');
+            return EasyLoading.showToast('Please upload your background image'.tr);
           if (country == null) {
-            return EasyLoading.showToast('Please select your country');
+            return EasyLoading.showToast('Please select your country'.tr);
           }
           // if(state!=null&&state!='*State'){
           //   flog('state ${state!=null&&state!='*State'}');
@@ -262,10 +256,10 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             EasyLoading.dismiss();
           }).catchError((e) {
             EasyLoading.dismiss();
-            EasyLoading.showToast('Network exception');
+            EasyLoading.showToast('Network exception'.tr);
           });
           if (gamePhotos.isEmpty)
-            return EasyLoading.showToast('Please upload your album');
+            return EasyLoading.showToast('Please upload your album'.tr);
           var gamePhotoList =
               gamePhotos.where((w) => w['isUpload'] == 1).toList();
           var jsonData =
@@ -281,7 +275,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               Get.back();
             }).catchError((e) {
               EasyLoading.dismiss();
-              EasyLoading.showToast('Network exception');
+              EasyLoading.showToast('Network exception'.tr);
             });
           }
         },
@@ -352,7 +346,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///背景图像
   Widget backgroundImageView() {
     return PWidget.column([
-      PWidget.text('Background', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('Background'.tr, [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -405,7 +399,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                     EasyLoading.dismiss();
                   }).catchError((e) {
                     EasyLoading.dismiss();
-                    EasyLoading.showToast('Network exception');
+                    EasyLoading.showToast('Network exception'.tr);
                   });
                 }
               }
@@ -437,7 +431,6 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         // controller.setAvatar(value);
       });
     } else {
-      print('No image selected.');
     }
     return url;
   }
@@ -445,36 +438,28 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///基本信息
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('Nickname', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Nickname'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'Please enter user nickname',
-            hintColor: Colors.white24,
-            textColor: Colors.white,
-            con: userNameCon,
-            isExp: true,
-            maxLength: 26),
+        buildTFView(context!, hintText: 'Please enter user nickname'.tr, hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true, maxLength: 26),
       ])),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Gender', [Colors.white]),
+          PWidget.text('Gender'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(sex == null ? 'Please select' : sexList[sex!]['name'],
-              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(sex == null ? 'Please select'.tr : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(sexList.length, (i) {
-                return VerifyField.fromJson(
-                    {'name': '$i', 'label': sexList[i]['name']});
+                return VerifyField.fromJson({'name': '$i', 'label': sexList[i]['name']});
               }),
-              title: "Select Gender",
+              title: "Select Gender".tr,
               showInfo: true,
             ),
             barrierColor: Colors.black26,
@@ -485,40 +470,31 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
-          PWidget.text('Language', [Colors.white]),
+          PWidget.text('Language'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(
-              language.isEmpty ? 'Please language' : language.join('/'),
-              [Color(0xff8291B4), 16],
-              {'ali': 1, 'exp': true}),
+          PWidget.text(language.isEmpty ? 'Please language'.tr : language.join('/'), [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           var languageList = userinfoDm.list;
-          if (languageList.isEmpty)
-            return EasyLoading.showToast('No language to choose');
+          if (languageList.isEmpty) return EasyLoading.showToast('No language to choose'.tr);
           FilterWidget.show(
             list: languageList,
             seleList: language,
-            title: 'Select Language',
+            title: 'Select Language'.tr,
             fun: (v) => setState(() => language = v),
           );
         },
       ),
       PWidget.boxh(16),
-      PWidget.text('Signature', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Signature'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       itemBg(PWidget.row([
         // PWidget.text('Be good at', [Colors.white]),
         // PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'Please enter Signature',
-            hintColor: Colors.white24,
-            textColor: Colors.white,
-            con: beGoodAtCon,
-            isExp: true),
+        buildTFView(context!, hintText: 'Please enter Signature'.tr, hintColor: Colors.white24, textColor: Colors.white, con: beGoodAtCon, isExp: true),
       ])),
       PWidget.boxh(16),
-      PWidget.text('Location', [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text('Location'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       cityWidget(),
     ]);
   }
@@ -564,16 +540,13 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               //      borderRadius: BorderRadius.all(Radius.circular(10)),
               //      color: AppColor.itemBg,
               //      border: Border.all(color: AppColor.itemBg, width: 1)),
-              dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: AppColor.itemBg,
-                  border: Border.all(color: AppColor.itemBg, width: 1)),
-              countrySearchPlaceholder: "Country",
-              stateSearchPlaceholder: "State",
-              citySearchPlaceholder: "City",
-              countryDropdownLabel: "*Country",
-              stateDropdownLabel: "*State",
-              cityDropdownLabel: "*City",
+              dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: AppColor.itemBg, border: Border.all(color: AppColor.itemBg, width: 1)),
+              countrySearchPlaceholder: "Country".tr,
+              stateSearchPlaceholder: "State".tr,
+              citySearchPlaceholder: "City".tr,
+              countryDropdownLabel: "*${'Country'.tr}",
+              stateDropdownLabel: "*${'State'.tr}",
+              cityDropdownLabel: "*${'City'.tr}",
               //  defaultCountry: DefaultCountry.United_States,
               selectedItemStyle: TextStyle(
                 color: Colors.white,
@@ -588,19 +561,18 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
               },
               onStateChanged: (value) {
                 // flog('onStateChanged$value');
-                if (value == null && value == '*State') {
+                if (value == null && value == '*${'State'.tr}') {
                   state = null;
                   _curState = null;
                 } else {
                   state = value;
-                  _curState = _curCountry?.state
-                      .firstWhereOrNull((item) => item.name == state);
+                  _curState = _curCountry?.state.firstWhereOrNull((item) => item.name == state);
                 }
               },
               onCityChanged: (value) {
                 //   flog('onCityChanged$value');
                 //  if (value == null) return;
-                if (value == null && value == '*City') {
+                if (value == null && value == '*${'City'.tr}') {
                   city = null;
                 } else {
                   city = value;
@@ -620,8 +592,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      Obx(() => PWidget.text('Album (${20 - gamePhotos.length})',
-          [Colors.white, 20], {'ff': 'DIN'})),
+      Obx(() => PWidget.text('${'Album'.tr} (${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'})),
       Obx(() => GridView.builder(
             padding: EdgeInsets.only(top: 16),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -661,7 +632,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                                   .then((v) {
                                 setState(() => gamePhotos.removeAt(i));
                               }).catchError((e) {
-                                EasyLoading.showToast('Network exception');
+                                EasyLoading.showToast('Network exception'.tr);
                               });
                               EasyLoading.dismiss();
                             }
@@ -683,8 +654,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
                   'ali': PFun.lg(0, 0),
                   'fun': () async {
                     if (isUploadFile)
-                      return EasyLoading.showToast(
-                          'Uploading failed, please try again later');
+                      return EasyLoading.showToast('Uploading failed, please try again later'.tr);
                     var url = await this.selectAvatar(context!);
                     if (url != null)
                       setState(() => gamePhotos

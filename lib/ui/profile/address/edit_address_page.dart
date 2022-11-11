@@ -27,15 +27,17 @@ class EditAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "${edit ? "Edit" : "New"} Address",
+      title: "${edit ? "Edit".tr : "New".tr} ${'Address'.tr}",
       actions: [
         Offstage(
-          offstage: !edit,
-          child: ActionButton(
-            icon: Icon(Icons.delete,color: Colors.white,),
-            onTap: ()=>controller.delete(),
-          )
-        )
+            offstage: !edit,
+            child: ActionButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onTap: () => controller.delete(),
+            ))
       ],
       body: SingleChildScrollView(
         child: Padding(
@@ -53,8 +55,8 @@ class EditAddressPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingButton(
-        label: "CONFIRM",
-        onTap: ()=> controller.save(),
+        label: "CONFIRM".tr,
+        onTap: () => controller.save(),
       ),
     );
   }
@@ -72,37 +74,20 @@ class EditAddressPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Text("Contact Info", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),),
+            child: Text(
+              "Contact Info".tr,
+              style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+            ),
           ),
           Container(
             color: Color(0x08ffffff),
             padding: const EdgeInsets.only(bottom: 15),
             child: Column(
               children: [
-                InputView(
-                  label: "First Name",
-                  tips: "Input your first name",
-                  textInputType: TextInputType.name,
-                  controller: controller.firstNameController
-                ),
-                InputView(
-                  label: "Last Name",
-                  tips: "Input your last name",
-                  textInputType: TextInputType.name,
-                  controller: controller.lastNameController
-                ),
-                InputView(
-                  label: "Email",
-                  tips: "Input your email address",
-                  textInputType: TextInputType.emailAddress,
-                  controller: controller.emailController
-                ),
-                InputView(
-                  label: "Phone",
-                  tips: "Input your mobile phone number",
-                  textInputType: TextInputType.phone,
-                  controller: controller.phoneController
-                ),
+                InputView(label: "First Name".tr, tips: "Input your first name".tr, textInputType: TextInputType.name, controller: controller.firstNameController),
+                InputView(label: "Last Name".tr, tips: "Input your last name".tr, textInputType: TextInputType.name, controller: controller.lastNameController),
+                InputView(label: "Email".tr, tips: "Input your email address".tr, textInputType: TextInputType.emailAddress, controller: controller.emailController),
+                InputView(label: "Phone".tr, tips: "Input your mobile phone number".tr, textInputType: TextInputType.phone, controller: controller.phoneController),
               ],
             ),
           )
@@ -124,37 +109,20 @@ class EditAddressPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Text("Shipping Address", style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),),
+            child: Text(
+              "Shipping Address".tr,
+              style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+            ),
           ),
           Container(
             color: Color(0x08ffffff),
             padding: const EdgeInsets.only(bottom: 15),
             child: Column(
               children: [
-                InputView(
-                  label: "Address Line 1",
-                  tips: "Input your detailed address",
-                  textInputType: TextInputType.streetAddress,
-                  controller: controller.line1Controller
-                ),
-                InputView(
-                  label: "Address Line 2 (Optional)",
-                  tips: "Input your detailed address",
-                  textInputType: TextInputType.streetAddress,
-                  controller: controller.line2Controller
-                ),
-                InputView(
-                  label: "Post Code",
-                  tips: "Input your post code",
-                  textInputType: TextInputType.text,
-                  controller: controller.codeController
-                ),
-                InputView(
-                  label: "City",
-                  tips: "Input your city",
-                  textInputType: TextInputType.text,
-                  controller: controller.cityController
-                ),
+                InputView(label: "Address Line 1".tr, tips: "Input your detailed address".tr, textInputType: TextInputType.streetAddress, controller: controller.line1Controller),
+                InputView(label: "Address Line 2 (Optional)".tr, tips: "Input your detailed address".tr, textInputType: TextInputType.streetAddress, controller: controller.line2Controller),
+                InputView(label: "Post Code".tr, tips: "Input your post code".tr, textInputType: TextInputType.text, controller: controller.codeController),
+                InputView(label: "City".tr, tips: "Input your city".tr, textInputType: TextInputType.text, controller: controller.cityController),
               ],
             ),
           )
@@ -169,12 +137,11 @@ class EditAddressPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Use this as default", style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),),
-          Switch(
-            activeColor: AppColor.accent,
-            value: controller.useAsDefault.value,
-            onChanged: (value) => controller.useAsDefault.value = value
-          )
+          Text(
+            "Use this as default".tr,
+            style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),
+          ),
+          Switch(activeColor: AppColor.accent, value: controller.useAsDefault.value, onChanged: (value) => controller.useAsDefault.value = value)
         ],
       ),
     );
@@ -244,43 +211,42 @@ class EditAddressPageController extends GetxListController<Shire> {
   void save() async{
     String firstName = firstNameController.text;
     if(firstName.isEmpty){
-      EasyLoading.showToast("Please input a first name");
+      EasyLoading.showToast("Please input a first name".tr);
       return;
     }
     String lastName = lastNameController.text;
     if(lastName.isEmpty){
-      EasyLoading.showToast("Please input a last name");
+      EasyLoading.showToast("Please input a last name".tr);
       return;
     }
     String email = emailController.text;
     if(email.isEmpty){
-      EasyLoading.showToast("Please input a email");
+      EasyLoading.showToast("Please input a email".tr);
       return;
     }
     String phone = phoneController.text;
     if(phone.isEmpty){
-      EasyLoading.showToast("Please input a phone number");
+      EasyLoading.showToast("Please input a phone number".tr);
       return;
     }
     String line1 = line1Controller.text;
     if(line1.isEmpty){
-      EasyLoading.showToast("Please input a detail address");
+      EasyLoading.showToast("Please input a detail address".tr);
       return;
     }
     String line2 = line2Controller.text;
 
     String code = codeController.text;
     if(code.isEmpty){
-      EasyLoading.showToast("Please input a post code");
+      EasyLoading.showToast("Please input a post code".tr);
       return;
     }
 
     String city = cityController.text;
     if(city.isEmpty){
-      EasyLoading.showToast("Please input your city");
+      EasyLoading.showToast("Please input your city".tr);
       return;
     }
-    print("useAsDefault.value=${useAsDefault.value}");
     AddressModel model = AddressModel();
     model.id = id;
     model.firstName = firstName;

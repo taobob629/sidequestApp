@@ -30,18 +30,25 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: type == 1 ? "Sign Up" : "Update Profile",
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20,),
-              Text("Profile Information", style: TextStyle(color: Colors.white, fontFamily: "DIN",fontSize: 28),),
-              SizedBox(height: 10,),
-              Obx((){
-                return Column(
+      title: type == 1 ? "Sign Up".tr : "Update Profile".tr,
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Profile Information",
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Obx(() {
+                  return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: controller.step.value == 1 ? createStep1() : createStep2(),
                 );
@@ -84,19 +91,19 @@ class RegisterPage extends StatelessWidget {
           children: [
             SizedBox(height: 20,),
             AuthInputView(
-              tips: "Guardian Email",
-              editingController: controller.guardianEditingController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.go,
-              onSubmitted: (value)=>controller.gotoStep2(),
-            ),
+              tips: "Guardian Email".tr,
+                editingController: controller.guardianEditingController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.go,
+                onSubmitted: (value) => controller.gotoStep2(),
+              ),
             SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                "Players under the age of 16 must provide an emergency contact in order to use our services and sign up.",
-                style: TextStyle(fontSize: 12,color: Colors.white54),
-              ),
+                "Players under the age of 16 must provide an emergency contact in order to use our services and sign up.".tr,
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                ),
             ),
           ],
         ),
@@ -106,8 +113,11 @@ class RegisterPage extends StatelessWidget {
     list.add(ColorfulButton(
       child: Padding(
         padding: const EdgeInsets.only(top: 4),
-        child: Text("SEND VERIFICATION CODE",style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
-      ),
+          child: Text(
+            "SEND VERIFICATION CODE".tr,
+            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+          ),
+        ),
       height: 48,
       onTap: ()=>controller.gotoStep2(),
     ),);
@@ -117,7 +127,7 @@ class RegisterPage extends StatelessWidget {
   List<Widget> createStep2(){
     List<Widget> list = [];
     list.add(AuthInputView(
-      tips: "Verification code from your email",
+      tips: "Verification code from your email".tr,
       editingController: controller.codeEditingController,
       focusNode: controller.codeFocusNode,
       keyboardType: TextInputType.number,
@@ -128,7 +138,7 @@ class RegisterPage extends StatelessWidget {
         Expanded(
           flex: 1,
           child: AuthInputView(
-            tips: "First Name",
+            tips: "First Name".tr,
             editingController: controller.firstEditingController,
             keyboardType: TextInputType.name,
           ),
@@ -137,7 +147,7 @@ class RegisterPage extends StatelessWidget {
         Expanded(
           flex: 1,
           child: AuthInputView(
-            tips: "Last Name",
+            tips: "Last Name".tr,
             editingController: controller.lastEditingController,
             keyboardType: TextInputType.name,
           ),
@@ -146,33 +156,36 @@ class RegisterPage extends StatelessWidget {
     ));
     list.add(SizedBox(height: 20,));
     list.add(AuthInputView(
-      tips: "Nick Name",
+      tips: "Nick Name".tr,
       editingController: controller.nickEditingController,
       keyboardType: TextInputType.name,
     ));
     list.add(SizedBox(height: 10,));
     list.add(Row(
       children: [
-        Radio<int>(value: 0, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
-        Text("Male",style: TextStyle(color: Colors.white,fontSize: 14),),
-        Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
-        Text("Female",style: TextStyle(color: Colors.white,fontSize: 14),),
+        Radio<int>(value: 0, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
+        Text(
+          "Male".tr,
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
+        Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
+        Text(
+          "Female".tr,
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
         // Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
         // Text("Others",style: TextStyle(color: Colors.white,fontSize: 14),),
       ],
     ));
     list.add(SizedBox(height: 10,));
     list.add(AuthInputView(
-      tips: "Phone Number",
+      tips: "Phone Number".tr,
       editingController: controller.phoneEditingController,
       keyboardType: TextInputType.phone,
     ));
     list.add(SizedBox(height: 20,));
     list.add(AuthInputView(
-      tips: "Login Password",
-      editingController: controller.passwordEditingController,
-      keyboardType: TextInputType.visiblePassword
-    ));
+        tips: "Login Password".tr, editingController: controller.passwordEditingController, keyboardType: TextInputType.visiblePassword));
     list.add(SizedBox(height: 20,));
     list.add(AuthInputView(
       editingController: controller.pinEditingController,
@@ -181,15 +194,11 @@ class RegisterPage extends StatelessWidget {
         LengthLimitingTextInputFormatter(6),
         FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
       ],
-      tips: "Payment Pin"
-    ),);
+        tips: "Payment Pin".tr),);
     if(type == 1) {
       list.add(SizedBox(height: 20,));
       list.add(AuthInputView(
-        tips: "Invite Code (Optional)",
-        editingController: controller.inviteEditingController,
-        keyboardType: TextInputType.text
-      ));
+          tips: "Invite Code (Optional)".tr, editingController: controller.inviteEditingController, keyboardType: TextInputType.text));
     }
     list.add(SizedBox(height: 40,));
     list.add(ColorfulButton(
@@ -306,40 +315,40 @@ class RegisterPageController extends GetxController {
     String email = emailEditingController.text.trim();
     if(email.isEmpty){
       emailFocusNode.requestFocus();
-      EasyLoading.showInfo("Please input a email as your account");
+      EasyLoading.showInfo("Please input a email as your account".tr);
       return;
     }
 
     if(!email.contains("@")){
       emailFocusNode.requestFocus();
-      EasyLoading.showInfo("Please input a valid email");
+      EasyLoading.showInfo("Please input a valid email".tr);
       return;
     }
 
     if(DatetimeUtils.getAge(birthday.value) < 13){
-      EasyLoading.showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.");
+      EasyLoading.showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr);
       return;
     }
 
     String guardian = guardianEditingController.text.trim();
     if(DatetimeUtils.getAge(birthday.value) < 16){
       if(guardian.isEmpty){
-        EasyLoading.showInfo("Please input your guardian email");
+        EasyLoading.showInfo("Please input your guardian email".tr);
         return;
       }
       if(!guardian.contains("@")){
-        EasyLoading.showInfo("Please input a valid guardian email");
+        EasyLoading.showInfo("Please input a valid guardian email".tr);
         return;
       }
       if(guardian == email){
-        EasyLoading.showError("Guardian email cannot be the same as your account");
+        EasyLoading.showError("Guardian email cannot be the same as your account".tr);
         return;
       }
     }
     EasyLoading.show();
     uid = await AuthApi.sendEmail(email,guardian, type);
     if(uid.isNotEmpty) {
-      await EasyLoading.showSuccess("Verification code sent", duration: Duration(seconds: 2));
+      await EasyLoading.showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
       codeFocusNode.requestFocus();
       step.value = 2;
     }
@@ -349,9 +358,7 @@ class RegisterPageController extends GetxController {
     if(date != null){
       if(DatetimeUtils.getAge(date) < 13) {
         EasyLoading.showError(
-          "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.",
-          duration: Duration(seconds: 4)
-        );
+            "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr, duration: Duration(seconds: 4));
         return;
       }
       this.birthday.value = date;
@@ -370,37 +377,37 @@ class RegisterPageController extends GetxController {
     pin = pinEditingController.text.trim();
 
     if(code.isEmpty){
-      EasyLoading.showInfo("Please input your verification code");
+      EasyLoading.showInfo("Please input your verification code".tr);
       return;
     }
 
     if (password.length < 6) {
-      EasyLoading.showInfo("Password no less than 6 characters");
+      EasyLoading.showInfo("Password no less than 6 characters".tr);
       return;
     }
 
     if(firstName.isEmpty){
-      EasyLoading.showInfo("Please input your first name");
+      EasyLoading.showInfo("Please input your first name".tr);
       return;
     }
 
     if(lastName.isEmpty){
-      EasyLoading.showInfo("Please input your last name");
+      EasyLoading.showInfo("Please input your last name".tr);
       return;
     }
 
     if(nick.isEmpty){
-      EasyLoading.showInfo("Please input your nick name");
+      EasyLoading.showInfo("Please input your nick name".tr);
       return;
     }
 
     if(phone.isEmpty){
-      EasyLoading.showInfo("Please input your phone number");
+      EasyLoading.showInfo("Please input your phone number".tr);
       return;
     }
 
     if(pin.length < 6) {
-      EasyLoading.showInfo("Only 6 numbers accepted as your payment pin");
+      EasyLoading.showInfo("Only 6 numbers accepted as your payment pin".tr);
       return;
     }
 
@@ -409,18 +416,8 @@ class RegisterPageController extends GetxController {
       await AuthApi.signUp(
         firstName,
         lastName,
-        nick,
-        phone,
-        email,
-        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-        password,
-        code,
-        uid,
-        pin,
-        invite,
-        sex.value);
-      await EasyLoading.showSuccess(
-        "Congratulations and welcome, please sign in with your new account!", duration: Duration(seconds: 3));
+        nick, phone, email, formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), password, code, uid, pin, invite, sex.value);
+      await EasyLoading.showSuccess("Congratulations and welcome, please sign in with your new account!".tr, duration: Duration(seconds: 3));
     }else{
       await AuthApi.updateProfile(
         password,
@@ -429,18 +426,12 @@ class RegisterPageController extends GetxController {
         nick,
         phone,
         email,
-        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-        code,
-        uid,
-        pin,
-        loginModel!.token
-      );
+        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), code, uid, pin, loginModel!.token);
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
       UserController userController = Get.find<UserController>();
       await userController.login();
-      await EasyLoading.showSuccess(
-        "Congratulations and welcome, your profile has been updated!", duration: Duration(seconds: 3));
+      await EasyLoading.showSuccess("Congratulations and welcome, your profile has been updated!".tr, duration: Duration(seconds: 3));
     }
     Get.back();
   }

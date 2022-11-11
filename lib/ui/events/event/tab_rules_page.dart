@@ -38,8 +38,10 @@ class TabRulesPage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text("Rules", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),)
-            ),
+              child: Text(
+                "Rules".tr,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+              )),
           ],
         ),
       )

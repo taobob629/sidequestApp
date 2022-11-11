@@ -38,8 +38,10 @@ class TabPrizePage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Text("Prizes", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),)
-            ),
+              child: Text(
+                "Prizes".tr,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+              )),
           ],
         ),
       )

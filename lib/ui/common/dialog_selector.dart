@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 
@@ -98,8 +99,12 @@ class SelectorDialog extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.transparent,
-                child: Center(child: Text("Cancel", style: TextStyle(color: Colors.grey, fontSize: 16),)),
-              )
+              child: Center(
+                  child: Text(
+                "Cancel".tr,
+                style: TextStyle(color: Colors.grey, fontSize: 16),
+              )),
+            )
             ),
             Container(
               decoration: BoxDecoration(
@@ -109,8 +114,12 @@ class SelectorDialog extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.transparent,
-                child: Center(child: Text("Confirm", style: TextStyle(color: Colors.black, fontSize: 16),)),
-              )
+              child: Center(
+                  child: Text(
+                "Confirm".tr,
+                style: TextStyle(color: Colors.black, fontSize: 16),
+              )),
+            )
             )
           ],
         ),

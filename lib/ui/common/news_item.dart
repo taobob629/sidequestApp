@@ -25,17 +25,20 @@ class NewsItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(model.time, style: TextStyle(fontSize: 12,color: Colors.white),),
+                Text(
+                  model.time,
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
                 Spacer(),
-                Text("News", style: TextStyle(fontSize: 12,color: Colors.white),),
+                Text(
+                  "News".tr,
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
                 Container(
                   width: 2,
                   height: 12,
                   margin: const EdgeInsets.only(left: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(1),
-                    color: Colors.white
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(1), color: Colors.white),
                 )
               ],
             ),

@@ -33,7 +33,7 @@ class _PhotoWallWidgetState extends State<PhotoWallWidget> {
   Widget build(BuildContext context) {
     if (widget.isPage) {
       return ScaffoldWidget(
-        appBar: AppBar(title: Text('Album'), elevation: 0),
+        appBar: AppBar(title: Text('Album'.tr), elevation: 0),
         body: MasonryGridView.count(
           crossAxisCount: 3,
           mainAxisSpacing: 2,

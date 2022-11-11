@@ -35,10 +35,10 @@ class UpgradeDialog extends StatelessWidget {
           SizedBox(height: 20,),
           Center(
             child: Text(
-              "New Version Available",
-              textAlign: TextAlign.left,
-              style: TextStyle(color: Colors.white,fontSize: 16),
-            ),
+              "New Version Available".tr,
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
           ),
           SizedBox(height: 10,),
           Center(
@@ -136,20 +136,17 @@ class UpgradeDialogController extends GetxController {
         if(event.status == OtaStatus.DOWNLOADING) {
           progress.value = int.parse(event.value??"0");
         }else if(event.status == OtaStatus.ALREADY_RUNNING_ERROR){
-          EasyLoading.showToast("Upgrade already started");
+          EasyLoading.showToast("Upgrade already started".tr);
         }else if(event.status == OtaStatus.PERMISSION_NOT_GRANTED_ERROR){
           Get.dialog(
-            ConfirmDialog(
-              title: "Permission required",
-              info: "File access denied, please click the button below to change current setting."
-            ),barrierColor: Colors.black26
+            ConfirmDialog(title: "Permission required".tr, info: "File access denied, please click the button below to change current setting.".tr),barrierColor: Colors.black26
           ).then((value) async{
             if (value != null && value == true) {
               await openAppSettings();
             }
           });
         }else if(event.status == OtaStatus.INTERNAL_ERROR || event.status == OtaStatus.DOWNLOAD_ERROR){
-          EasyLoading.showError("Upgrade failed :${event.value}");
+          EasyLoading.showError("${'Upgrade failed'.tr} :${event.value}");
           showProgress.value = false;
           progress.value = 0;
         }else if(event.status == OtaStatus.INSTALLING){

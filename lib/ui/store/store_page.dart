@@ -15,18 +15,24 @@ class StorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Stores",
+      title: "Stores".tr,
       body: Stack(
         children: [
           Positioned(
-            left: 0,right: 0,top: 0,bottom: 0,
-            child: Obx(()=> controller.initializing.value ? Container() : controller.list.length == 0? EmptyView():
-            ListView.separated(
-              controller: controller.scrollController,
-              itemBuilder: (context, index){
-                StoreModel model = controller.list[index];
-                return StoreItem(
-                  model: model,
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Obx(() => controller.initializing.value
+                  ? Container()
+                  : controller.list.length == 0
+                      ? EmptyView()
+                      : ListView.separated(
+                          controller: controller.scrollController,
+                          itemBuilder: (context, index) {
+                            StoreModel model = controller.list[index];
+                            return StoreItem(
+                              model: model,
                 );
               },
               separatorBuilder: (context, index){

@@ -27,7 +27,7 @@ class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "Order Detail",
+        title: "Order Detail".tr,
         body: Stack(
           children: [
             Positioned(
@@ -55,7 +55,7 @@ class OrderDetail extends StatelessWidget {
     items.add(Padding(
       padding: const EdgeInsets.only(left: 15, bottom: 20),
       child: Text(
-        "Service",
+        "Service".tr,
         style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
       ),
     ));
@@ -67,9 +67,8 @@ class OrderDetail extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
-          "Status",
-          style:
-              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+          "Status".tr,
+          style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
         ),
       ),
     );
@@ -79,9 +78,8 @@ class OrderDetail extends StatelessWidget {
       items.add(Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
-          "Score",
-          style:
-              TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+          "Score".tr,
+          style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
         ),
       ));
       items.add(_buildScore(context));
@@ -109,18 +107,17 @@ class OrderDetail extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                "CANCEL",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                "CANCEL".tr,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
               ),
             ),
             height: 48,
             onTap: () {
               Get.dialog(
                   ConfirmDialog(
-                    title: "Cancel Order",
-                    info: "Do you want to cancel this order?",
-                    confirmBtn: "CONFIRM",
+                    title: "Cancel Order".tr,
+                    info: "Do you want to cancel this order?".tr,
+                    confirmBtn: "CONFIRM".tr,
                     onConfirm: () async {
                       controller.cancelOrder();
                     },
@@ -137,9 +134,8 @@ class OrderDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "ACCEPT",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      "ACCEPT".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                     ),
                   ),
                   height: 48,
@@ -175,11 +171,8 @@ class OrderDetail extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
-                            "REJECT",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: "DIN"),
+                            "REJECT".tr,
+                            style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                           ),
                         ),
                       ),
@@ -199,9 +192,8 @@ class OrderDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "FINISHED",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      "FINISHED".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                     ),
                   ),
                   height: 48,
@@ -221,9 +213,8 @@ class OrderDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "REFUND",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      "REFUND".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                     ),
                   ),
                   height: 48,
@@ -247,9 +238,8 @@ class OrderDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "REJECT",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      "REJECT".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                     ),
                   ),
                   height: 48,
@@ -262,9 +252,8 @@ class OrderDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      "REFUND",
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      "REFUND".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
                     ),
                   ),
                   height: 48,
@@ -341,22 +330,20 @@ class OrderDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Information",
-            style:
-                TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
+            "Information".tr,
+            style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
           ),
           //_infoItem("Order Time","2022-09-12 23:00:00"),
-          _infoItem("Order Number", "${palymodel.orderno}"),
-          _infoItem(userLable(palymodel), userName(palymodel),isClickable: true),
-          _infoItem("Service Time",
-              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
-          _infoItem("Service Duration", "${palymodel.nums} ${palymodel.unit}"),
+          _infoItem("Order Number".tr, "${palymodel.orderno}"),
+          _infoItem(userLable(palymodel), userName(palymodel), isClickable: true),
+          _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
+          _infoItem("Service Duration".tr, "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
               children: [
                 Text(
-                  "Total Price",
+                  "Total Price".tr,
                   style: TextStyle(fontSize: 12, color: Colors.white54),
                 ),
                 Spacer(),
@@ -383,9 +370,9 @@ class OrderDetail extends StatelessWidget {
     UserController userController=Get.find<UserController>();
     bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
     if(isMe){
-      return 'From';
+      return 'From'.tr;
     }
-    return 'To';
+    return 'To'.tr;
   }
   userName(PlayOrderDetailModel model){
     UserController userController=Get.find<UserController>();
@@ -547,11 +534,11 @@ class OrderDetail extends StatelessWidget {
     int status = model.status;
     switch (status) {
       case -3:
-        return 'RejectReason';
+        return 'RejectReason'.tr;
       case 3:
-        return 'Reason';
+        return 'Reason'.tr;
       default:
-        return 'Comments';
+        return 'Comments'.tr;
     }
   }
 

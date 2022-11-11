@@ -26,18 +26,22 @@ class CouponPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "My Vouchers",
+      title: "My Vouchers".tr,
       body: Stack(
         children: [
           Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: 0,
-            child: Obx(()=>controller.initializing.value ? Container() : controller.list.length == 0 ? EmptyView() : Padding(
-              padding: const EdgeInsets.only(left: 15,right: 15),
-              child: GridView.builder(
-                controller: controller.scrollController,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: Obx(() => controller.initializing.value
+                  ? Container()
+                  : controller.list.length == 0
+                      ? EmptyView()
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: GridView.builder(
+                            controller: controller.scrollController,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10.0,
@@ -57,14 +61,13 @@ class CouponPage extends StatelessWidget {
       floatingActionButton: Obx(
           ()=>controller.floatingActionButtonShow.value ?
         FloatingButton(
-          label: "ADD",
-          onTap: ()=>Get.dialog(AddCouponDialog(),barrierColor: Colors.black26).then((value) {
-            if(value != null){
-                controller.reload();
-                Get.dialog(ConfirmDialog(title: "Voucher Added", info: value),barrierColor: Colors.black26);
-            }
-          })
-        )
+            label: "ADD".tr,
+              onTap: () => Get.dialog(AddCouponDialog(), barrierColor: Colors.black26).then((value) {
+                    if (value != null) {
+                      controller.reload();
+                      Get.dialog(ConfirmDialog(title: "Voucher Added".tr, info: value), barrierColor: Colors.black26);
+                    }
+                  }))
           : Container()
       ),
     );

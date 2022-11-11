@@ -25,46 +25,60 @@ class SecondaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Account Validation",
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20,),
-              Text("Validate Information", style: TextStyle(color: Colors.white, fontFamily: "DIN",fontSize: 28),),
-              SizedBox(height: 10,),
-              Obx((){
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SelectView(
-                      label: "Validate by",
-                      tips: "",
-                      value: "${controller.way.value}",
-                      onTap: (){
-                        Get.dialog(SelectorDialog(items: controller.loginModel.verifyFieldList, title: "Validate By",),barrierColor: Colors.black26).then(
-                            (value){
-                              if(value != null){
-                                controller.selectWay(value);
-                              }
+      title: "Account Validation".tr,
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Validate Information".tr,
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Obx(() {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectView(
+                        label: "Validate by".tr,
+                        tips: "",
+                        value: "${controller.way.value}",
+                        onTap: () {
+                          Get.dialog(
+                                  SelectorDialog(
+                                    items: controller.loginModel.verifyFieldList,
+                                    title: "Validate By".tr,
+                                  ),
+                                  barrierColor: Colors.black26)
+                              .then((value) {
+                            if (value != null) {
+                              controller.selectWay(value);
                             }
-                        );
-                      },
+                          });
+                        },
                     ),
                     SizedBox(height: 20,),
                     InputView(
-                      label: "Validate information",
-                      tips: "Please input your ${controller.way.value}",
-                      controller: controller.validateEditingController,
-                    ),
+                        label: "Validate information".tr,
+                        tips: 'Please input your'.tr + "${controller.way.value}",
+                        controller: controller.validateEditingController,
+                      ),
                     SizedBox(height: 100,),
                     ColorfulButton(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4),
-                        child: Text("CONFIRM",style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
-                      ),
+                          child: Text(
+                            "CONFIRM".tr,
+                            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                          ),
+                        ),
                       height: 48,
                       onTap: ()=>controller.validate(),
                     )
@@ -113,7 +127,7 @@ class SecondaryPageController extends GetxController{
   void validate() async{
     String data = validateEditingController.text;
     if(data.isEmpty){
-      EasyLoading.showInfo("Please input your $way");
+      EasyLoading.showInfo('Please input your'.tr + " $way");
       return;
     }
     EasyLoading.show();

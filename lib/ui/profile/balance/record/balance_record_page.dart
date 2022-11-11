@@ -14,18 +14,26 @@ class BalanceRecordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Balance Records",
+      title: "Balance Records".tr,
       body: Stack(
         children: [
           Positioned(
-            left: 0,right: 0,top: 0,bottom: 0,
-            child: Obx(()=>controller.initializing.value ? Container() : controller.list.length == 0? EmptyView():
-            ListView.separated(
-              itemBuilder: (context, index){
-                BalanceRecordModel model = controller.list[index];
-                return BalanceRecordItem(model: model,);
-              },
-              separatorBuilder: (context, index){
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Obx(() => controller.initializing.value
+                  ? Container()
+                  : controller.list.length == 0
+                      ? EmptyView()
+                      : ListView.separated(
+                          itemBuilder: (context, index) {
+                            BalanceRecordModel model = controller.list[index];
+                            return BalanceRecordItem(
+                              model: model,
+                            );
+                          },
+                          separatorBuilder: (context, index){
                 return Container(height: 15,);
               },
               itemCount: controller.list.length

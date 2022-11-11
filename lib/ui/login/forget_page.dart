@@ -22,18 +22,20 @@ class ForgetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Retrieve",
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 50,),
-              Text(
-                "RETRIEVE ${type == 1 ? 'PASSWORD' : 'PIN'}",
-                style: TextStyle(color: Colors.white, fontFamily: "DIN",fontSize: 28),
-              ),
+      title: "Retrieve".tr,
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  "${'RETRIEVE'.tr} ${type == 1 ? '${'PASSWORD'.tr}' : '${'PIN'.tr}'}",
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                ),
               SizedBox(height: 10,),
               Obx((){
                 return Column(
@@ -51,19 +53,22 @@ class ForgetPage extends StatelessWidget {
   List<Widget> createStep1(){
     List<Widget> list = [];
     list.add(AuthInputView(
-      tips: "Your sign in account email",
+      tips: "Your sign in account email".tr,
       editingController: controller.emailEditingController,
       focusNode: controller.emailFocusNode,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.go,
-      onSubmitted: (value)=>controller.gotoStep2(),
+      onSubmitted: (value) => controller.gotoStep2(),
     ));
     list.add(SizedBox(height: 100,));
     list.add(ColorfulButton(
       child: Padding(
         padding: const EdgeInsets.only(top: 4),
-        child: Text("SEND VERIFICATION CODE",style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
-      ),
+          child: Text(
+            "SEND VERIFICATION CODE".tr,
+            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+          ),
+        ),
       height: 48,
       onTap: ()=>controller.gotoStep2(),
     ),);
@@ -73,34 +78,42 @@ class ForgetPage extends StatelessWidget {
   List<Widget> createStep2(){
     List<Widget> list = [];
     list.add(AuthInputView(
-      tips: "Verification code from your email",
+      tips: "Verification code from your email".tr,
       editingController: controller.codeEditingController,
       focusNode: controller.codeFocusNode,
       keyboardType: TextInputType.number,
     ));
     list.add(SizedBox(height: 20,));
     list.add(AuthInputView(
-      tips: "New ${type == 1 ? 'password':'pin'}",
+      tips: "${'New'.tr} ${type == 1 ? 'password'.tr : 'pin'.tr}",
       editingController: controller.passwordEditingController,
       keyboardType: TextInputType.number,
-      inputFormatters: type == 1 ? null : [
-        LengthLimitingTextInputFormatter(6),
-        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))//设置只允许输入数字
-      ],
+      inputFormatters: type == 1
+          ? null
+          : [
+              LengthLimitingTextInputFormatter(6),
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
+            ],
     ));
     list.add(Offstage(
       offstage: type == 1,
       child: Padding(
-        padding: const EdgeInsets.only(left: 15,top: 10),
-        child: Text("* Only 6 numbers accepted as your payment pin",style: TextStyle(color: Colors.white54,fontSize: 12),),
+        padding: const EdgeInsets.only(left: 15, top: 10),
+        child: Text(
+          "* Only 6 numbers accepted as your payment pin".tr,
+          style: TextStyle(color: Colors.white54, fontSize: 12),
+        ),
       ),
     ));
     list.add(SizedBox(height: 100,));
     list.add(ColorfulButton(
       child: Padding(
         padding: const EdgeInsets.only(top: 4),
-        child: Text("CONFIRM",style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
-      ),
+          child: Text(
+            "CONFIRM".tr,
+            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+          ),
+        ),
       height: 48,
       onTap: ()=>controller.savePassword(),
     ),);
@@ -162,16 +175,16 @@ class ForgetPageController extends GetxController {
     String email = emailEditingController.text;
     if(email.isEmpty){
       emailFocusNode.requestFocus();
-      EasyLoading.showToast("Please input a email as your account");
+      EasyLoading.showToast("Please input a email as your account".tr);
       return;
     }
     EasyLoading.show();
-    if(type == 1) {
+    if (type == 1) {
       uid = await AuthApi.resendEmail(email);
-    }else{
+    } else {
       uid = await AuthApi.resendPinEmail(email);
     }
-    await EasyLoading.showSuccess("Verification code sent", duration: Duration(seconds: 2));
+    await EasyLoading.showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
     codeFocusNode.requestFocus();
     step.value = 2;
   }
@@ -182,28 +195,27 @@ class ForgetPageController extends GetxController {
     password = passwordEditingController.text;
 
     if(code.isEmpty){
-      EasyLoading.showToast("Please input your verification code");
+      EasyLoading.showToast("Please input your verification code".tr);
       return;
     }
 
     if(password.length < 6) {
       if(type == 1) {
-        EasyLoading.showToast("Password no less than 6 characters");
+        EasyLoading.showToast("Password no less than 6 characters".tr);
         return;
       }else{
-        EasyLoading.showInfo("Only 6 numbers accepted as your payment pin");
+        EasyLoading.showInfo("Only 6 numbers accepted as your payment pin".tr);
         return;
       }
     }
 
-
     EasyLoading.show();
-    if(type == 1) {
+    if (type == 1) {
       await AuthApi.reset(email, password, code, uid);
-    }else{
+    } else {
       await AuthApi.resetPin(email, password, code, uid);
     }
-    await EasyLoading.showSuccess("Your ${type == 1?'password':'pin'} has been successfully reset!", duration: Duration(seconds: 2));
+    await EasyLoading.showSuccess("${'Your'.tr} ${type == 1 ? 'password'.tr : 'pin'.tr} ${'has been successfully reset!'.tr}", duration: Duration(seconds: 2));
     Get.back();
   }
 }

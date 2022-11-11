@@ -44,7 +44,7 @@ class ActivityItem extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  "Events",
+                  "Events".tr,
                   style: TextStyle(fontSize: 12, color: Colors.white),
                 ),
                 Container(

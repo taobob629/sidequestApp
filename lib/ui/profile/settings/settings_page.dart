@@ -33,42 +33,48 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Settings",
-      body: Column(
-        children: [
-          SettingItem(
-            title: "Account Password",
-            onTap: ()=>Get.to(()=>ChangePasswordPage(type: 1, have: true,)),
-          ),
-          SettingItem(
-            title: "Payment Pin",
-            onTap: ()=>Get.to(()=>ChangePasswordPage(type: 2, check: true,)),
-          ),
-          SettingItem(
-            title: "About Us",
-            onTap: ()=> gotoAboutPage(context),
-          ),
+      title: "Settings".tr,
+        body: Column(
+          children: [
+            SettingItem(
+              title: "Account Password".tr,
+              onTap: () => Get.to(() => ChangePasswordPage(
+                    type: 1,
+                    have: true,
+                  )),
+            ),
+            SettingItem(
+              title: "Payment Pin".tr,
+              onTap: () => Get.to(() => ChangePasswordPage(
+                    type: 2,
+                    check: true,
+                  )),
+            ),
+            SettingItem(
+            title: "About Us".tr,
+              onTap: () => gotoAboutPage(context),
+            ),
           Obx(()=>controller.online.value && userController.userInfoModel.value.vipLevel > 0?SettingItem(
-            title: "Cancel Subscription",
-            info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
-            onTap: ()=>controller.cancelVip(userController.userInfoModel.value.vipLevel),
-          ):Container()),
+            title: "Cancel Subscription".tr,
+                    info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
+                    onTap: () => controller.cancelVip(userController.userInfoModel.value.vipLevel),
+                  ):Container()),
           Obx(()=>SettingItem(
-            title: "Version",
-            info: "${controller.version.value}",
-            onTap: ()=> controller.checkVersion(),
-          )),
+            title: "Version".tr,
+                  info: "${controller.version.value}",
+                  onTap: () => controller.checkVersion(),
+                )),
           SettingItem(
-            title: "Delete Account",
-            info: "${userController.user.value.email}",
-            onTap: ()=>controller.deleteAccount(),
-          ),
+            title: "Delete Account".tr,
+              info: "${userController.user.value.email}",
+              onTap: () => controller.deleteAccount(),
+            ),
         ],
       ),
       floatingActionButton: FloatingButton(
-        label: "SIGN OUT",
-        onTap: () => controller.logout(),
-      )
+        label: "SIGN OUT".tr,
+          onTap: () => controller.logout(),
+        )
     );
   }
 
@@ -107,7 +113,7 @@ class SettingsPageController extends GetxController {
     EasyLoading.show();
     VersionModel model = await IndexApi.checkVersion();
     if(!model.upgrade){
-      EasyLoading.showInfo("You are using the latest version");
+      EasyLoading.showInfo("You are using the latest version".tr);
     }else{
       EasyLoading.dismiss();
       Get.dialog(UpgradeDialog(model:model),barrierColor: Colors.black26);
@@ -116,20 +122,20 @@ class SettingsPageController extends GetxController {
 
   void deleteAccount() async {
     var info = '''
-Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you. 
-
-This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?''';
-    Get.dialog(ConfirmDialog(
-      title: "Delete Account",
-      info: info,
-      confirmBtn: "CONFIRM",
-      onConfirm: () async {
-        Get.back();
-        EasyLoading.show();
-        await UserApi.deleteAccount();
-        await logout();
-      },
-    ),barrierColor: Colors.black26);
+Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you. This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?'''
+        .tr;
+    Get.dialog(
+        ConfirmDialog(
+          title: "Delete Account".tr,
+          info: info,
+          confirmBtn: "CONFIRM".tr,
+          onConfirm: () async {
+            Get.back();
+            EasyLoading.show();
+            await UserApi.deleteAccount();
+            await logout();
+          },
+        ),barrierColor: Colors.black26);
   }
 
   String getVipName(int level){
@@ -148,22 +154,22 @@ This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?''';
     String info = await VipApi.cancelInfo();
     EasyLoading.dismiss();
     Get.dialog(ConfirmDialog(
-      title: "Cancel Subscription",
-      info: info,
-      confirmBtn: "CONFIRM",
-      onConfirm: () async {
-        Get.back();
-        EasyLoading.show();
-        String info = await VipApi.cancel();
-        EasyLoading.dismiss();
-        Get.dialog(ConfirmDialog(
-          title: "Subscription Canceled",
+      title: "Cancel Subscription".tr,
           info: info,
-          confirmBtn: "CONFIRM",
-          onConfirm: (){
+          confirmBtn: "CONFIRM".tr,
+          onConfirm: () async {
             Get.back();
-          }
-        ),barrierColor: Colors.black26);
+            EasyLoading.show();
+            String info = await VipApi.cancel();
+            EasyLoading.dismiss();
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Subscription Canceled".tr,
+                    info: info,
+                    confirmBtn: "CONFIRM".tr,
+                    onConfirm: () {
+                      Get.back();
+                    }),barrierColor: Colors.black26);
         },
     ),barrierColor: Colors.black26);
   }

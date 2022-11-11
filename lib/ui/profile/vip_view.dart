@@ -55,19 +55,23 @@ class VipView extends StatelessWidget {
               ColorfulButton(
                 height: 26,
                 child: Container(
-                  padding: const EdgeInsets.only(left: 10,right: 10,bottom: 0),
-                  child: Text(fee == 0 ? "Invite Only":"£$fee",style: TextStyle(fontSize: 10,color: Colors.white),),
-                ),
+                  padding: const EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                        child: Text(
+                          fee == 0 ? "Invite Only".tr : "£$fee",
+                          style: TextStyle(fontSize: 10, color: Colors.white),
+                        ),
+                      ),
                 onTap: ()=>Get.to(()=>VipPage(vipLevel: level, vipIndex: index,list: profilePageController.vipInfoList)),
               ):Container(
                 height: 26,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
-                  color: Colors.white12
-                ),
-                padding: const EdgeInsets.only(left: 10,right: 10,bottom: 0),
-                child: Center(child: Text("Subscribed",style: TextStyle(fontSize: 10,color: Colors.white54),)),
-              )
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(13), color: Colors.white12),
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 0),
+                      child: Center(
+                          child: Text(
+                        "Subscribed".tr,
+                        style: TextStyle(fontSize: 10, color: Colors.white54),
+                      )),
+                    )
             ],
           ),
         ),
