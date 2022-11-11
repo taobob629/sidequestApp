@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -20,6 +22,7 @@ import 'package:wy/view/views.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 import 'package:wy/widget/my_custom_scroll.dart';
+import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -28,6 +31,42 @@ import 'package:wy/widget/views.dart';
 import '../controller/user_controller.dart';
 import '../im/conversation.dart';
 
+class FilterValue extends ValueNotifier {
+  FilterValue() : super(null);
+  var filterObj;
+  bool isShowMask = false;
+  var filterValue = {};
+  changeFilterObj(v) {
+    filterObj = filterObj == v ? null : v;
+    Future(() => notifyListeners());
+  }
+
+  void changeShowMaskState(v) {
+    isShowMask = v;
+    Future(() => notifyListeners());
+  }
+
+  changeFilterValue(k, v) {
+    if (filterValue[k] == v) {
+      filterValue.remove(k);
+    } else {
+      filterValue[k] = v;
+    }
+    flog(filterValue, 'filterValue');
+    Future(() => notifyListeners());
+  }
+
+  ///初始化
+  void init({bool isClearValue = true}) {
+    filterObj = null;
+    isShowMask = false;
+    if (isClearValue) filterValue = {};
+    Future(() => notifyListeners());
+  }
+}
+
+FilterValue filterValue = FilterValue();
+
 ///陪玩
 class PlayWithPage extends StatefulWidget {
   @override
@@ -35,7 +74,7 @@ class PlayWithPage extends StatefulWidget {
 }
 
 class _PlayWithPageState extends State<PlayWithPage> {
-  var tabList = ['Play with', 'Message'];
+  var tabList = ['SideKick', 'Message'];
 
   ScrollController scrollController = ScrollController();
 
@@ -155,10 +194,45 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
     // await this.superlist(isRef: true);
   }
 
+  ///过滤
+  var filterDm = DataModel<Map>(flag: 2, object: {});
+  Future<int> filter() async {
+    await http.get('/peiwan/app/home/filter?gameId=$gid').then((res) async {
+      filterDm.addObject(res.data);
+    }).catchError((e) {
+      filterDm.toError(e.toString());
+    });
+    setState(() {});
+    return filterDm.flag;
+  }
+
   ///大神列表
   var superlistDm = DataModel(flag: 2);
   Future<int> superlist({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=&gid=$gid').then((res) async {
+    var language = filterValue.filterValue[filterName('语言')] ?? '';
+    if (language != '') {
+      language = '$language'.split(':').last;
+    }
+    var gender = filterValue.filterValue[filterName('性别')] ?? '';
+    if (gender != '') {
+      gender = '$gender'.split(':').last;
+    }
+    var level = filterValue.filterValue[filterName('等级')] ?? '';
+    if (level != '') {
+      level = '$level'.split(':').last;
+    }
+    var gamelevel = filterValue.filterValue[filterName('段位')] ?? '';
+    if (gamelevel != '') {
+      gamelevel = '$gamelevel'.split(':').last;
+    }
+    // var searchParams = 'language:$language,gender:$gender,level:$level,gamelevel:$gamelevel';
+    var searchParams = {
+      if (language != '') "language": "$language",
+      if (gender != '') "gender": "$gender",
+      if (level != '') "level": "$level",
+      if (gamelevel != '') "gamelevel": "$gamelevel",
+    };
+    await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=${searchParams.isEmpty ? '' : jsonEncode(searchParams)}&gid=$gid').then((res) async {
       superlistDm.addList(res.data, true, 0);
     }).catchError((e) {
       superlistDm.toError(e.toString());
@@ -178,6 +252,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         onRefresh: () {
           playSwitchKey = getTime();
           superlistDm.flag = 2;
+          filterDm.flag = 2;
           setState(() {});
           return Future(() => getTime());
           // return this.superlist(isRef: true);
@@ -186,35 +261,55 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         onLoading: (p) => this.superlist(page: p),
         itemModel: superlistDm,
         noDataText: superlistDm.flag == 2 ? '' : 'No more data',
-        headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 16),
+        headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 8),
         headers: [
-          MaterialBanner(
-            backgroundColor: Colors.transparent,
-            content: PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}),
-            actions: [
+          Listener(
+            onPointerDown: (_) => filterValue.init(isClearValue: false),
+            child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('Services', [Colors.white, 20], {'ff': 'DIN'}), actions: [
               IconButton(
-                  onPressed: () async {
-                    await Get.toNamed(AppPages.MoreGames);
-                    playSwitchKey = getTime();
-                    superlistDm.flag = 2;
-                    setState(() {});
-                    // this.superlist(isRef: true);
-                  },
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white60,
-                  ))
-            ],
+                onPressed: () async {
+                  await Get.toNamed(AppPages.MoreGames);
+                  playSwitchKey = getTime();
+                  filterDm.flag = 2;
+                  superlistDm.flag = 2;
+                  setState(() {});
+                  // this.superlist(isRef: true);
+                },
+                icon: Icon(Icons.arrow_forward_ios, color: Colors.white60),
+              )
+            ]),
           ),
-          PlaySwitchWidget(
-            key: ValueKey(playSwitchKey),
-            onTap: (v) {
-              gid = v['id'] ?? '';
-              setState(() => superlistDm.init());
-              this.superlist(isRef: true);
-            },
+          Listener(
+            onPointerDown: (_) => filterValue.init(isClearValue: false),
+            child: PlaySwitchWidget(
+              key: ValueKey(playSwitchKey),
+              onTap: (v) async {
+                gid = v['id'] ?? '';
+                filterValue.init();
+                filterDm.init();
+                setState(() => superlistDm.init());
+                await this.filter();
+                await this.superlist(isRef: true);
+              },
+            ),
           ),
+          PWidget.boxh(16),
+          filterView(false),
         ],
+        // onScrollToList: (b, v) => filterValue.changeShowMaskState(b),
+        onScrollToList: (b, v) {},
+        // maskHeight: pmPadd.top + 56 + 56,
+        // maskWidget: () {
+        //   return ValueListenableBuilder(
+        //     valueListenable: filterValue,
+        //     builder: (_, v, w) {
+        //       return PWidget.positioned(
+        //         Opacity(opacity: filterValue.isShowMask ? 1 : 0, child: filterView(true)),
+        //         [pmPadd.top + 56, null, 0, 0],
+        //       );
+        //     },
+        //   );
+        // },
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
@@ -223,126 +318,235 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           var levelName = data['levelName'];
           Location location = Location.fromStr(data['location']);
           city = location.location();
-          return PWidget.container(
-            Stack(alignment: Alignment.bottomRight, children: [
-              PWidget.container(
-                PWidget.row([
-                  Stack(alignment: Alignment.topCenter, children: [
-                    if (data['thumb'] == null || data['thumb'] == '')
-                      defaultAvatar()
-                    else
-                      PWidget.container(
-                        CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
-                        {'crr': 8},
-                      ),
-                    // if (levelName != null && levelName != '')
-                    //   PWidget.container(
-                    //     PWidget.text('$levelName', [Colors.white54, 12]),
-                    //     [74 - 8, null, Color(0xff7C5EF4)],
-                    //     {'ali': PFun.lg(0, 0), 'pd': PFun.lg(2, 2, 8, 8)},
-                    //   ),
-                  ]),
-                  PWidget.boxw(8),
-                  PWidget.column([
-                    PWidget.row([
-                      Flexible(
-                          child: Container(
-                        child: Text(
-                          '${data['name']}'.replaceAll("", "\u200B"),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+          return Listener(
+            onPointerDown: (_) => filterValue.init(isClearValue: false),
+            child: PWidget.container(
+              Stack(alignment: Alignment.bottomRight, children: [
+                PWidget.container(
+                  PWidget.row([
+                    Stack(alignment: Alignment.topCenter, children: [
+                      if (data['thumb'] == null || data['thumb'] == '')
+                        defaultAvatar()
+                      else
+                        PWidget.container(
+                          CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
+                          {'crr': 8},
                         ),
-                        constraints: BoxConstraints(maxWidth: 100),
-                      )),
-                      PWidget.boxw(8),
-                      PWidget.container(
-                        PWidget.row([
-                          SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
-                          PWidget.boxw(8),
-                          PlayLevelWidget(
-                            level: '${data['userLevel']}',
-                            isauth: 1,
-                            userId: data['id'].toString(),
+                      // if (levelName != null && levelName != '')
+                      //   PWidget.container(
+                      //     PWidget.text('$levelName', [Colors.white54, 12]),
+                      //     [74 - 8, null, Color(0xff7C5EF4)],
+                      //     {'ali': PFun.lg(0, 0), 'pd': PFun.lg(2, 2, 8, 8)},
+                      //   ),
+                    ]),
+                    PWidget.boxw(8),
+                    PWidget.column([
+                      PWidget.row([
+                        Flexible(
+                            child: Container(
+                          child: Text(
+                            '${data['name']}'.replaceAll("", "\u200B"),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ]),
-                      ),
-                    ]),
-                    PWidget.boxh(6),
-                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                      Image.asset(
-                        "assets/images/ic_balance_money.webp",
-                        width: 18,
-                        height: 14,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "${data['price']}",
-                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      OrdersAndStarWidget(
-                        data,
-                        margin: [0],
-                      ),
-                    ]),
+                          constraints: BoxConstraints(maxWidth: 100),
+                        )),
+                        PWidget.boxw(8),
+                        PWidget.container(
+                          PWidget.row([
+                            SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
+                            PWidget.boxw(8),
+                            PlayLevelWidget(
+                              level: '${data['userLevel']}',
+                              isauth: 1,
+                              userId: data['id'].toString(),
+                            ),
+                          ]),
+                        ),
+                      ]),
+                      PWidget.boxh(6),
+                      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                        Image.asset(
+                          "assets/images/ic_balance_money.webp",
+                          width: 18,
+                          height: 14,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${data['price']}",
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        OrdersAndStarWidget(
+                          data,
+                          margin: [0],
+                        ),
+                      ]),
 
-                    // if (signature != null && signature != '') PWidget.boxh(8),
-                    // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
-                    if (levelName != null && levelName != '') PWidget.boxh(6),
-                    if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
-                    Builder(builder: (context) {
-                      var list = (data['label'] ?? []) as List;
-                      return Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: List.generate(list.length, (i) {
-                          var item = list[i];
-                          // return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
-                          return PWidget.container(
-                            PWidget.text(item, [Colors.white]),
-                            [null, null, pColor],
-                            {
-                              'crr': 56,
-                              'pd': [2, 2, 8, 8],
-                            },
-                          );
-                        }),
-                      );
+                      // if (signature != null && signature != '') PWidget.boxh(8),
+                      // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
+                      if (levelName != null && levelName != '') PWidget.boxh(6),
+                      if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
+                      Builder(builder: (context) {
+                        var list = (data['label'] ?? []) as List;
+                        return Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: List.generate(list.length, (i) {
+                            var item = list[i];
+                            // return PWidget.image('assets/images/play_item_tag.png', [72, 19]);
+                            return PWidget.container(
+                              PWidget.text(item, [Colors.white]),
+                              [null, null, pColor],
+                              {
+                                'crr': 56,
+                                'pd': [2, 2, 8, 8],
+                              },
+                            );
+                          }),
+                        );
+                      }),
+                    ], {
+                      'exp': 1,
                     }),
-                  ], {
-                    'exp': 1,
-                  }),
-                ], '001'),
-                {'pd': 8},
-              ),
-              locationWidget(city),
-              // if (data['online'] == 1)
-              PWidget.container(
-                PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
-                [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
-                {
-                  // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                  'pd': PFun.lg(2, 2, 12, 12),
-                  'br': PFun.lg(12),
-                },
-              ),
-            ]),
-            [null, null, Color(0xff282640)],
-            {
-              'mg': PFun.lg(0, 0, 16, 16),
-              'crr': 12,
-              'fun': () {
-                return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
-              }
-            },
+                  ], '001'),
+                  {'pd': 8},
+                ),
+                locationWidget(city),
+                // if (data['online'] == 1)
+                PWidget.container(
+                  PWidget.text(data['online'] == 1 ? 'Online' : 'OffLine', [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
+                  [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
+                  {
+                    // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                    'pd': PFun.lg(2, 2, 12, 12),
+                    'br': PFun.lg(12),
+                  },
+                ),
+              ]),
+              [null, null, Color(0xff282640)],
+              {
+                'mg': PFun.lg(0, 0, 16, 16),
+                'crr': 12,
+                'fun': () {
+                  return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
+                }
+              },
+            ),
           );
         },
       ),
     ]);
+  }
+
+  ///过滤器组件
+  Widget filterView(bool isMask) {
+    return AnimatedSwitchBuilder<Map>(
+      value: filterDm,
+      errorOnTap: () => this.filter(),
+      noDataText: filterDm.flag == 2 ? '' : 'no filter',
+      isAnimatedSize: true,
+      initialState: PWidget.boxh(0),
+      animatedSizeAlignment: Alignment.topCenter,
+      objectBuilder: (data) {
+        return ValueListenableBuilder(
+          valueListenable: filterValue,
+          builder: (_, v, w) {
+            var list = [];
+            var isStow = filterValue.filterObj == null;
+            if (!isStow) {
+              if (filterValue.filterObj == filterName('语言')) {
+                list = filterDm.object?['language'] ?? [];
+              } else if (filterValue.filterObj == filterName('性别')) {
+                list = filterDm.object?['genders'] ?? [];
+              } else if (filterValue.filterObj == filterName('等级')) {
+                list = filterDm.object?['levels'] ?? [];
+              } else {
+                list = filterDm.object?['gameLevel'] ?? [];
+              }
+            }
+            return PWidget.container(
+              PWidget.column([
+                PWidget.row([filterTag('语言'), PWidget.boxw(8), filterTag('性别'), PWidget.boxw(8), filterTag('等级'), PWidget.boxw(8), filterTag('段位')]),
+                PWidget.container(
+                  list.isEmpty
+                      ? PWidget.text(isStow ? '' : '暂无${filterValue.filterObj}', [Colors.white54], {'ct': true})
+                      : MyListView(
+                          isShuaxin: false,
+                          flag: false,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: list.length,
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          item: (i) {
+                            var item = list[i];
+                            var key = '$item'.split(':').first;
+                            // var value = '$item'.split(':').last;
+                            var isSelecto = filterValue.filterValue[filterValue.filterObj] == item;
+                            return PWidget.container(
+                              PWidget.row([
+                                PWidget.text(key, [isSelecto ? Color(0xfff4d26b) : Colors.white70], {'exp': true}),
+                                PWidget.icon(Icons.check_rounded, [isSelecto ? Color(0xfff4d26b) : Colors.transparent, 16]),
+                              ]),
+                              [null, null, Colors.white.withOpacity(isSelecto ? 0.05 : 0)],
+                              {
+                                'pd': PFun.lg(12, 12, 16, 16),
+                                'fun': () async {
+                                  filterValue.changeFilterValue(filterValue.filterObj, item);
+                                  setState(() => superlistDm.init());
+                                  await this.superlist(isRef: true);
+                                },
+                              },
+                            );
+                          },
+                        ),
+                  [null, isStow ? 0 : (list.isEmpty ? 80 : (list.length) * 44 + 16), Colors.white.withOpacity(isStow ? 0 : 0.05)],
+                  {
+                    'br': 8,
+                    'mg': PFun.lg(8),
+                    'bd': PFun.bdAllLg(Colors.white.withOpacity(isStow ? 0 : 0.1)),
+                  },
+                ),
+              ], '220'),
+              {'pd': PFun.lg(0, 0, 16, 16)},
+            );
+          },
+        );
+      },
+    );
+  }
+
+  String? filterName(String name) {
+    return {
+      '语言': '语言',
+      '性别': '性别',
+      '等级': '等级',
+      '段位': '段位',
+    }[name];
+  }
+
+  Widget filterTag(name) {
+    var isSelecto = filterValue.filterObj == name;
+    var key;
+    var value = filterValue.filterValue[name];
+    if (value != null) {
+      key = '$value'.split(':').first;
+    }
+    return PWidget.container(
+      PWidget.row([
+        PWidget.text(
+          key == null ? filterName(name) : '$key',
+          [key == null ? Colors.white70 : Color(0xfff4d26b), 12],
+          {'exp': true},
+        ),
+        PWidget.icon(isSelecto ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined, [key == null ? Colors.white.withOpacity(isSelecto ? 0.7 : 0.4) : Color(0xfff4d26b), 16]),
+      ]),
+      [null, null, Colors.white.withOpacity(isSelecto ? 0.1 : 0.05)],
+      {'bd': PFun.bdAllLg(Colors.white24.withOpacity(isSelecto ? 0.2 : 0)), 'fun': () => filterValue.changeFilterObj(filterName(name)), 'pd': 8, 'ali': PFun.lg(0, 0), 'exp': true, 'br': 8},
+    );
   }
 
   Positioned locationWidget(String city) {
@@ -397,7 +601,7 @@ class PlaySwitchWidget extends StatefulWidget {
   _PlaySwitchWidgetState createState() => _PlaySwitchWidgetState();
 }
 
-class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
+class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepAliveClientMixin {
   int? seleIndex;
 
   @override
@@ -435,9 +639,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AnimatedSwitchBuilder<dynamic>(
       value: gamelistDm,
       errorOnTap: () => this.gamelist(),
+      isAnimatedSize: true,
+      animatedSizeAlignment: Alignment.topCenter,
       listBuilder: (list, p, h) {
         return PWidget.container(
           ListView.separated(
@@ -481,4 +688,7 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> {
       setState(() => seleIndex = i);
     }
   }
+
+  @override
+  bool get wantKeepAlive => !true;
 }

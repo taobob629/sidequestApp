@@ -23,7 +23,7 @@ class ConversationPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ConversationState();
 }
 
-class _ConversationState extends State<ConversationPage> {
+class _ConversationState extends State<ConversationPage> with AutomaticKeepAliveClientMixin {
   late TIMUIKitConversationController _controller;
 
   @override
@@ -110,12 +110,12 @@ class _ConversationState extends State<ConversationPage> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    // _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Column(
       children: [
         Container(
@@ -138,4 +138,7 @@ class _ConversationState extends State<ConversationPage> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => false;
 }

@@ -45,6 +45,8 @@ class _AddGamePageState extends State<AddGamePage> {
   ///是否正在上传文件
   bool isUploadFile = false;
 
+  bool isSending = false;
+
   @override
   void initState() {
     this.initData();
@@ -168,6 +170,7 @@ class _AddGamePageState extends State<AddGamePage> {
           FloatingButton(
             label: "OK",
             onTap: () async {
+              if (isSending) return EasyLoading.showToast('Submitting');
               if (privacyCheckController.check() == false) return;
               if (platform == null) return EasyLoading.showToast('Please select category');
               if (game == null) return EasyLoading.showToast('Please select service');
@@ -201,10 +204,13 @@ class _AddGamePageState extends State<AddGamePage> {
                 // "des": beGoodAtCon.text,
               };
               flog(data, 'data');
+              isSending = true;
               await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
+                isSending = false;
                 EasyLoading.showToast('Submitted successfully');
                 Get.back(result: true);
               }).catchError((e) {
+                isSending = false;
                 EasyLoading.showToast('Network exception');
               });
             },
@@ -295,7 +301,7 @@ class _AddGamePageState extends State<AddGamePage> {
         fun: () async {
           if (isEdit) return;
           if (platformIndex == null) return EasyLoading.showToast('Please select category first');
-          flog(skillDm.list[platformIndex],'platformIndex');
+          flog(skillDm.list[platformIndex], 'platformIndex');
           var list = skillDm.list[platformIndex]['skill'] as List;
           if (list.isEmpty) return EasyLoading.showToast('No service');
           var res = await Get.dialog(

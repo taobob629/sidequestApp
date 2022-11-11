@@ -116,12 +116,14 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
                 PWidget.text('${data['skillName']}', [Colors.white, 16, true]),
                 PWidget.boxh(4),
                 PWidget.text('${data['levelName']}', [Colors.white54, 12]),
+                if (data['status'] == 2) PWidget.boxh(4),
+                if (data['status'] == 2) PWidget.text('${data['reason']}', [Colors.red, 12]),
               ], {
                 'exp': 1
               }),
               PWidget.container(
-                PWidget.text({'2': 'reject', '0': 'under review', '1': 'edit'}['${data['status']}'], [
-                  {'2': Colors.white24, '0': Colors.white24, '1': Colors.black.withOpacity(0.75)}['${data['status']}'],
+                PWidget.text({'2': 'eidt', '0': 'under review', '1': 'edit'}['${data['status']}'], [
+                  {'2': Colors.black.withOpacity(0.75), '0': Colors.white24, '1': Colors.black.withOpacity(0.75)}['${data['status']}'],
                   16,
                 ], {
                   'pd': PFun.lg(4, 4, 12, 12),
@@ -135,7 +137,7 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
                 [
                   null,
                   null,
-                  {'2': Colors.white.withOpacity(0.1), '0': Colors.white.withOpacity(0.1), '1': Colors.white}['${data['status']}']
+                  {'2': Colors.white, '0': Colors.white.withOpacity(0.1), '1': Colors.white}['${data['status']}']
                 ],
                 {'br': 56},
               ),
