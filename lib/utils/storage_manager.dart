@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wy/main.dart';
@@ -140,15 +141,14 @@ class StorageManager {
   }
 
   static bool getOnline(){
-    String? value = sharedPreferences.getString(kOnline);
-    if(value == null || value != "1"){
-      return false;
+    if(Platform.isAndroid){
+      return true;
     }
-    return true;
+    return sharedPreferences.getBool(kOnline)??false;
   }
 
-  static void setOnline(String value){
-    sharedPreferences.setString(kOnline, value);
+  static Future<void> setOnline(bool value) async {
+   await sharedPreferences.setBool(kOnline, value);
   }
 
   static String getEnv(){

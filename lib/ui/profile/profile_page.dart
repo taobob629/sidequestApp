@@ -351,9 +351,9 @@ class ProfilePageController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    online.value = StorageManager.getOnline();
     vipInfoList.clear();
     vipInfoList.addAll(await VipApi.info());
+    online.value = StorageManager.getOnline();
   }
 
   void goDev() {

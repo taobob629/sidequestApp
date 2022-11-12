@@ -289,13 +289,9 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
       IndexApi.checkVersion().then((value) {
         final profilePageController = Get.find<ProfilePageController>();
         if(Platform.isIOS){
-          if(value.status == true){//apple 审核隐藏功能开关
-            StorageManager.setOnline("1");
-          }else{
-            StorageManager.setOnline("0");
-          }
+          StorageManager.setOnline(value.status);
         }else{
-          StorageManager.setOnline("1");
+          StorageManager.setOnline(true);
         }
         profilePageController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
