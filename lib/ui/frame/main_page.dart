@@ -253,10 +253,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   @override
   void onReady() {
     super.onReady();
-    if(Get.context != null) {
-      checkVersion(Get.context!);
-    }
-
+      checkVersion();
     _timer = Timer.periodic(Duration(minutes: 5), (timer) {
       IndexApi.checkVersion().then((value) {
         if (value.upgrade && value.force) {
@@ -286,7 +283,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   }
 
 
-  void checkVersion(BuildContext context){
+  void checkVersion(){
     if(checking == false) {
       checking = true;
       IndexApi.checkVersion().then((value) {
@@ -302,9 +299,14 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
         }
         profilePageController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
-          UpgradeDialog.show(context, value, cancelable: !value.force).whenComplete(() => checkAd(context));
+          if(Get.context!=null) {
+            UpgradeDialog.show(Get.context!, value, cancelable: !value.force)
+                .whenComplete(() => checkAd(Get.context!));
+          }
         } else {
-          checkAd(context);
+          if(Get.context!=null) {
+            checkAd(Get.context!);
+          }
         }
       });
     }
