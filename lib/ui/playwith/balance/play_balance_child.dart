@@ -270,7 +270,7 @@ class WalletBalancePageController extends GetxListController {
     try {
       chargeRatio = double.parse(chargeRule.chargeRatio ?? '0');
       double doubleResult = chargeRatio * amount;
-      iconByChargeRatio = doubleResult.ceil();
+      iconByChargeRatio = doubleResult.floor();
     } catch (e) {
       iconByChargeRatio = 0;
     }
