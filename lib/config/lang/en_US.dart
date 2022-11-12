@@ -547,4 +547,5 @@ const Map<String, String> en_US = {
   'RECOMMEND': 'RECOMMEND',
   'Cart': 'Cart',
   'Stores': 'Stores',
+  'Withdrawal':'Withdrawal'
 };

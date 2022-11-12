@@ -547,4 +547,5 @@ const Map<String, String> zh_CN = {
   'RECOMMEND': '推荐',
   'Cart': '购物车',
   'Stores': '门店',
+  'Withdrawal':'提现'
 };
