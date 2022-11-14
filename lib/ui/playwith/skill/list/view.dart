@@ -18,6 +18,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
 
@@ -35,13 +36,15 @@ class SkillListPage extends GetView<SkillListPageController> {
           },
           label: 'Add Service'.tr,
         ),
-        body: Obx(() => controller.list.isEmpty
-            ? PWidget.text(
-                'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8})
-            : ListView.builder(
-                itemBuilder: (context, index) => item(index),
-                itemCount: controller.list.length,
-              )));
+        body: Obx(() => controller.pageState == SkillListPageController.INIT
+            ? buildLoad()
+            : controller.list.isEmpty
+                ? PWidget.text(
+                    'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8})
+                : ListView.builder(
+                    itemBuilder: (context, index) => item(index),
+                    itemCount: controller.list.length,
+                  )));
   }
 
   Widget item(int index) {
@@ -111,7 +114,7 @@ class SkillListPage extends GetView<SkillListPageController> {
           ? MainAxisAlignment.spaceBetween
           : MainAxisAlignment.end,
       children: [
-        if (skillItems.isNotEmpty) skill_item(data,skillItems.first),
+        if (skillItems.isNotEmpty) skill_item(data, skillItems.first),
         Row(
           children: [
             // IconButton(
@@ -133,10 +136,10 @@ class SkillListPage extends GetView<SkillListPageController> {
     ));
     if (skillItems.isEmpty) return items;
     var skillItemWidgets = skillItems
-        .getRange(0, skillItems.length)
+        .getRange(1, skillItems.length)
         .map(
           (item) => Row(
-            children: [skill_item(data,item)],
+            children: [skill_item(data, item)],
           ),
         )
         .toList();
@@ -163,13 +166,14 @@ class SkillListPage extends GetView<SkillListPageController> {
     return items;
   }
 
-  Widget skill_item(SkillModel data,SkillItemModel item) {
+  Widget skill_item(SkillModel data, SkillItemModel item) {
     return Padding(
       padding: EdgeInsets.only(top: 10),
-      child:
-         InkWell(
-           onTap: ()=>controller.addSkillItem(data,skillItemModel: item),
-           child:  PWidget.text('${item.name}:${item.price}', [Colors.white, 14, true]),),
+      child: InkWell(
+        onTap: () => controller.addSkillItem(data, skillItemModel: item),
+        child: PWidget.text(
+            '${item.name}:${item.price}', [Colors.white, 14, true]),
+      ),
     );
   }
 }

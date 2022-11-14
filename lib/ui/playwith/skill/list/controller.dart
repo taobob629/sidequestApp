@@ -19,6 +19,16 @@ import 'package:wy/utils/utils.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class SkillListPageController extends GetxController {
+  static const int INIT = 0;
+  static const int FINISH = 1;
+  RxInt _pageState = RxInt(INIT);
+
+  int get pageState => _pageState.value;
+
+  set pageState(int value) {
+    _pageState.value = value;
+  }
+
   RxList<SkillModel> _list = RxList();
 
   List<SkillModel> get list => _list.value;
@@ -35,12 +45,13 @@ class SkillListPageController extends GetxController {
 
   initData() async {
     list = await UserApi.myauthlist();
+    pageState = FINISH;
   }
 
   refresh() async {
-    EasyLoading.show();
+    pageState = INIT;
     list = await UserApi.myauthlist();
-    EasyLoading.dismiss();
+    pageState = FINISH;
   }
 
   addSkillItem(SkillModel data, {SkillItemModel? skillItemModel}) async {

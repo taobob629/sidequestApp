@@ -50,7 +50,6 @@ class SkillItemPageController extends GetxController {
   }
   initData() async {
     skillModel = await UserApi.skillItemConfig(Get.arguments['skillid']);
-    flog(skillModel);
   }
 
   @override
