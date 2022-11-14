@@ -3,6 +3,8 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/service/bindings.dart';
 import 'package:wy/ui/playwith/service/view.dart';
+import 'package:wy/ui/playwith/skill/skill_item/bindings.dart';
+import 'package:wy/ui/playwith/skill/skill_item/view.dart';
 import 'package:wy/ui/profile/attention/bindings.dart';
 import 'package:wy/ui/profile/attention/tab_view.dart';
 import 'package:wy/ui/profile/bankcard/bindings.dart';
@@ -17,6 +19,7 @@ class AppPages {
   static const AttentionTab = '/attentionTabPage';
   static const Grade = '/gradePage';
   static const MoreGames = '/moreGames';
+  static const SkillItem = '/skillItem';
   static final routes = [
     GetPage(
       name: Main,
@@ -47,5 +50,9 @@ class AppPages {
       page: () => MoreGamesPage(),
       binding: MoreGamesTabBinding(),
     ),
+    GetPage(
+        name: SkillItem,
+        page: () => SkillItemPage(),
+        binding: SkillItemBinding()),
   ];
 }
