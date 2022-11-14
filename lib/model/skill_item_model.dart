@@ -19,6 +19,19 @@ class SkillItemModel {
     this.enabled,
   });
 
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    json['id'] = id;
+    json['name'] = name;
+    json['uid'] = uid;
+    json['skillName'] = skillName;
+    json['skillid'] = skillid;
+    json['price'] = price;
+    json['unit'] = unit;
+    json['enabled'] = enabled;
+    return json;
+  }
+
   SkillItemModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];

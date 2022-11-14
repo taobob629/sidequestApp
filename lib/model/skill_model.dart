@@ -33,7 +33,7 @@ import 'package:wy/model/skill_item_model.dart';
 class SkillModel {
   static const int ONGOING = 0;
   static const int PASS = 1;
-  static const int DEDIED = 2;
+  static const int DENIED = 2;
 
   SkillModel({
     this.id,
@@ -65,7 +65,40 @@ class SkillModel {
     this.childItemVoList = const [],
     this.uname,
   });
-
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['uid'] = uid;
+    map['sex'] = sex;
+    map['skillid'] = skillid;
+    map['skillName'] = skillName;
+    map['skillThumb'] = skillThumb;
+    map['thumb'] = thumb;
+    map['levelid'] = levelid;
+    map['levelName'] = levelName;
+    map['status'] = status;
+    map['reason'] = reason;
+    map['addtime'] = addtime;
+    map['uptime'] = uptime;
+    map['wswitch'] = wswitch;
+    map['coinid'] = coinid;
+    map['coin'] = coin;
+    map['label'] = label;
+    map['voice'] = voice;
+    map['voiceL'] = voiceL;
+    map['des'] = des;
+    map['star'] = star;
+    map['comments'] = comments;
+    map['orders'] = orders;
+    map['stars'] = stars;
+    map['edit'] = edit;
+    map['backGround'] = backGround;
+    if (childItemVoList != null) {
+      map['childItemVoList'] = childItemVoList?.map((v) => v.toJson()).toList();
+    }
+    map['uname'] = uname;
+    return map;
+  }
   SkillModel.fromJson(dynamic json) {
     id = json['id'];
     uid = json['uid'];

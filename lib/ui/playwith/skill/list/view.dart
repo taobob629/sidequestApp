@@ -15,8 +15,10 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/skill_item_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
@@ -62,8 +64,8 @@ class SkillListPage extends GetView<SkillListPageController> {
           PWidget.text('${data.skillName}', [Colors.white, 16, true]),
           PWidget.boxh(4),
           PWidget.text('${data.levelName}', [Colors.white54, 12]),
-          if (data.status == 2) PWidget.boxh(4),
-          if (data.status == 2)
+          if (data.status == SkillModel.DENIED) PWidget.boxh(4),
+          if (data.status == SkillModel.DENIED)
             PWidget.text('${data.reason}', [Colors.red, 12]),
         ], {
           'exp': 1
@@ -86,7 +88,12 @@ class SkillListPage extends GetView<SkillListPageController> {
               {
                 'pd': PFun.lg(4, 4, 12, 12),
                 'fun': () {
-                  if ([1, 2].contains(data.status)) return; //todo
+                  if ([SkillModel.DENIED, SkillModel.PASS]
+                      .contains(data.status))
+                    return jumpPage(AddGamePage(data.toJson()), callback: (res) {
+                      if (res != null)controller.refresh();
+                    });
+                  ; //todo
                 }
               }),
           [
