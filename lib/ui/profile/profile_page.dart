@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/vip_api.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -227,7 +228,7 @@ class ProfilePage extends StatelessWidget {
                 title: "Services".tr,
                 onTap: () {
                   userController.checkLogin(() {
-                    Get.to(() => PlaySkillsPage());
+                    Get.toNamed(AppPages.SkillList);
                   });
                 },
               ),

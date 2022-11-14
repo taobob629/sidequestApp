@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
+import 'package:wy/api/user_api.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_service_model.dart';
+import 'package:wy/model/skill_item_model.dart';
+import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 
 /*
@@ -14,29 +19,51 @@ import 'package:wy/utils/utils.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class SkillListPageController extends GetxController {
-  RxList list = RxList();
+  RxList<SkillModel> _list = RxList();
+
+  List<SkillModel> get list => _list.value;
+
+  set list(List<SkillModel> value) {
+    _list.value = value;
+  }
 
   @override
   void onInit() {
     super.onInit();
-    flog('onInit.....${Get.arguments}');
     initData();
   }
 
-  initData() {}
-
-  @override
-  void onClose() {
-    super.onClose();
+  initData() async {
+    list = await UserApi.myauthlist();
   }
 
-  addSkillItem(GameInfo gameInfo) async {
+  refresh() async {
     EasyLoading.show();
-    var response = await IndexApi.focusGame(gameid: gameInfo.gameid);
-    EasyLoading.showToast(response.statusMessage ?? '');
-    if (response.statusCode == 200) {
-      gameInfo.changeFocus();
-    }
+    list = await UserApi.myauthlist();
     EasyLoading.dismiss();
+  }
+
+  addSkillItem(SkillModel data, {SkillItemModel? skillItemModel}) async {
+    if (data.status != SkillModel.PASS) {
+      return;
+    }
+    Get.toNamed(AppPages.SkillItem,
+            arguments: Map()
+              ..['id'] = skillItemModel?.id
+              ..['price'] = skillItemModel?.price
+              ..['enabled'] = skillItemModel?.enabled
+              ..['name'] = skillItemModel?.name
+              ..['skillid'] = data.skillid
+              ..['skillName'] = data.skillName)
+        ?.then((res) {
+      if (res) refresh();
+    });
+  }
+
+  void addGame() {
+    Get.to(() => AddGamePage({}))?.then((res) {
+      flog('res$res');
+      if (res != null) refresh();
+    });
   }
 }

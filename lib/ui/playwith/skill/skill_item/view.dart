@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
 
@@ -18,33 +21,59 @@ class SkillItemPage extends GetView<SkillItemPageController> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('${Get.arguments}'),
+        title: Text('${Get.arguments['skillName']}'),
         actions: [
-          PWidget.text('Edit'.tr, [Colors.white, 14, true])
+          //  TextButton(onPressed: null, child:  PWidget.text('Edit'.tr, [Colors.white, 14, true]))
         ],
       ),
-      body: PWidget.column(items(context)),
+      body: Padding(
+          padding: EdgeInsets.all(16),
+          child: Obx(
+            () => controller.skillModel == null
+                ? buildLoad()
+                : PWidget.column(items()),
+          )),
       btnBar: FloatingButton(
+        onTap: ()=>controller.addGame(),
         label: "CONFIRM".tr,
       ),
     );
   }
 
-  items(context) {
+  items() {
     return [
-      PWidget.text('Nickname'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        // PWidget.text('Be good at', [Colors.white]),
-        // PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'Please enter user nickname'.tr,
+        PWidget.text('Name'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
+        PWidget.boxw(16),
+        buildTFView(Get.context!,
+            hintText: 'Please enter name'.tr,
             hintColor: Colors.white24,
             textColor: Colors.white,
             con: controller.teContent,
             isExp: true,
             maxLength: 26),
-      ]))
+      ])),
+      PWidget.boxh(10),
+      itemBg(PWidget.row([
+        PWidget.text('Price range'.tr, [Colors.white]),
+        PriceSlider(
+            min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
+            max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
+            value: controller.price,
+            fun: (v) => controller.price = v),
+      ])),
+      PWidget.boxh(10),
+      itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        PWidget.text('Status'.tr, [Colors.white]),
+        Switch(
+          value: controller.status,
+          onChanged: (bool value) {
+            controller.status = value;
+          },
+        )
+        //  fun: (v) => priceRangeCon.text = '${v.toInt()}',
+      ])),
     ];
   }
 

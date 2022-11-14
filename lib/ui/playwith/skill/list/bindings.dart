@@ -12,7 +12,7 @@ import 'controller.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  */
 
-class SkillItemBinding extends Bindings {
+class SkillListBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(SkillListPageController());

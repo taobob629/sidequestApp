@@ -11,50 +11,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_pages.dart';
+import 'package:wy/model/skill_item_model.dart';
+import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 import 'controller.dart';
 
-class PlaySkillsPage extends GetView<SkillListPageController> {
+class SkillListPage extends GetView<SkillListPageController> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
         appBar: AppBar(
-          title: Text('${Get.arguments}'.tr),
+          title: Text('My Services'.tr),
           elevation: 0,
         ),
         btnBar: FloatingButton(
-          label: "CONFIRM".tr,
+          onTap: () async {
+            controller.addGame();
+          },
+          label: 'Add Service'.tr,
         ),
         body: Obx(() => controller.list.isEmpty
             ? PWidget.text(
                 'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8})
-            : SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                return item(index, controller.list[index]);
-              }, childCount: controller.list.length))));
+            : ListView.builder(
+                itemBuilder: (context, index) => item(index),
+                itemCount: controller.list.length,
+              )));
   }
 
-  Widget item(int index, var data) {
-    var data;
+  Widget item(int index) {
+    flog('index$index');
+    var data = controller.list[index];
     return ListTile(
       title: PWidget.row([
         CachedNetworkImage(
-            imageUrl: data['skillThumb'],
+            imageUrl: data.skillThumb ?? '',
             fit: BoxFit.cover,
             width: 64,
             height: 64),
         PWidget.boxw(8),
         PWidget.column([
-          PWidget.text('${data['skillName']}', [Colors.white, 16, true]),
+          PWidget.text('${data.skillName}', [Colors.white, 16, true]),
           PWidget.boxh(4),
-          PWidget.text('${data['levelName']}', [Colors.white54, 12]),
-          if (data['status'] == 2) PWidget.boxh(4),
-          if (data['status'] == 2)
-            PWidget.text('${data['reason']}', [Colors.red, 12]),
+          PWidget.text('${data.levelName}', [Colors.white54, 12]),
+          if (data.status == 2) PWidget.boxh(4),
+          if (data.status == 2)
+            PWidget.text('${data.reason}', [Colors.red, 12]),
         ], {
           'exp': 1
         }),
@@ -64,19 +71,19 @@ class PlaySkillsPage extends GetView<SkillListPageController> {
                 '2': 'eidt'.tr,
                 '0': 'under review'.tr,
                 '1': 'edit'.tr
-              }['${data['status']}'],
+              }['${data.status}'],
               [
                 {
                   '2': Colors.black.withOpacity(0.75),
                   '0': Colors.white24,
                   '1': Colors.black.withOpacity(0.75)
-                }['${data['status']}'],
+                }['${data.status}'],
                 16,
               ],
               {
                 'pd': PFun.lg(4, 4, 12, 12),
                 'fun': () {
-                  if ([1, 2].contains(data['status'])) return; //todo
+                  if ([1, 2].contains(data.status)) return; //todo
                 }
               }),
           [
@@ -86,44 +93,83 @@ class PlaySkillsPage extends GetView<SkillListPageController> {
               '2': Colors.white,
               '0': Colors.white.withOpacity(0.1),
               '1': Colors.white
-            }['${data['status']}']
+            }['${data.status}']
           ],
           {'br': 56},
         ),
       ]),
-      subtitle: Column(
-        children: [
-          PWidget.boxh(6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PWidget.text('铂金：50/小时', [Colors.white, 14, true]),
-              Row(
-                children: [
-                  Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                  PWidget.boxw(4),
-                  Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  )
-                ],
-              )
-            ],
+      subtitle: Column(children: _buildBottom(data)),
+    );
+  }
+
+  _buildBottom(SkillModel data) {
+    List<Widget> items = [];
+    // flog('data.childItemVoList ${data.childItemVoList}');
+    var skillItems = data.childItemVoList;
+    items.add(Row(
+      mainAxisAlignment: skillItems.isNotEmpty
+          ? MainAxisAlignment.spaceBetween
+          : MainAxisAlignment.end,
+      children: [
+        if (skillItems.isNotEmpty) skill_item(data,skillItems.first),
+        Row(
+          children: [
+            // IconButton(
+            //     onPressed: () => controller.addSkillItem(data,skillItemModel: ),
+            //     icon: Icon(
+            //       Icons.edit,
+            //       color: Colors.white,
+            //     )),
+            PWidget.boxw(4),
+            IconButton(
+                onPressed: () => controller.addSkillItem(data),
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                )),
+          ],
+        )
+      ],
+    ));
+    if (skillItems.isEmpty) return items;
+    var skillItemWidgets = skillItems
+        .getRange(0, skillItems.length)
+        .map(
+          (item) => Row(
+            children: [skill_item(data,item)],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.expand_more_outlined,
-                color: Colors.white,
-              )
-            ],
-          )
+        )
+        .toList();
+    items.add(Obx(() => Visibility(
+        visible: data.expanded,
+        child: Column(
+          children: skillItemWidgets,
+        ))));
+    if (skillItems.length > 1) {
+      items.add(Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () => data.changeExpanded(),
+              icon: Obx(() => Icon(
+                    data.expanded
+                        ? Icons.expand_less_outlined
+                        : Icons.expand_more_outlined,
+                    color: Colors.white,
+                  )))
         ],
-      ),
+      ));
+    }
+    return items;
+  }
+
+  Widget skill_item(SkillModel data,SkillItemModel item) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
+      child:
+         InkWell(
+           onTap: ()=>controller.addSkillItem(data,skillItemModel: item),
+           child:  PWidget.text('${item.name}:${item.price}', [Colors.white, 14, true]),),
     );
   }
 }

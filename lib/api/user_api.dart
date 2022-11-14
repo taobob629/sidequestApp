@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/model/level_model.dart';
+import 'package:wy/model/skill_config_model.dart';
+import 'package:wy/model/skill_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/utils/utils.dart';
 
@@ -95,6 +97,27 @@ class UserApi {
     return list;
   }
 
+  static Future<List<SkillModel>> myauthlist() async {
+    List<SkillModel> list = [];
+    var response = await http.get('/peiwan/app/user/myauthlist');
+    if (response.data == null) {
+      return list;
+    }
+    list = response.data
+        .map<SkillModel>((item) => SkillModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<SkillItemConfigModel?> skillItemConfig(var id) async {
+    var response = await http.get('/peiwan/app/skillItem/getItems/$id');
+    return SkillItemConfigModel.fromJson(response.data);
+  }
+  static Future<Response> addSkillItem(Map<String,dynamic> params) async {
+    var response = await http.post('/peiwan/app/skillItem/addItem',queryParameters: params);
+    return response;
+  }
+
   static Future<List<AttentionModel>> fansList(
       int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
@@ -118,8 +141,11 @@ class UserApi {
   /**
    * 玩家爵位查询
    */
-  static Future<LevelModel>  level(var type) async {
-    var response = await http.get(type==TYPE_VIP?'/peiwan/app/order/live/level':'/peiwan/app/order/user/level',
+  static Future<LevelModel> level(var type) async {
+    var response = await http.get(
+        type == TYPE_VIP
+            ? '/peiwan/app/order/live/level'
+            : '/peiwan/app/order/user/level',
         queryParameters: ({}));
     return LevelModel.fromJson(response.data);
   }
