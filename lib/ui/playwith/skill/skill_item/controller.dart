@@ -75,6 +75,7 @@ class SkillItemPageController extends GetxController {
       ..['skillName'] = Get.arguments['skillName']
       ..['price'] = price
       ..['levelId'] = Get.arguments['levelid']
+      ..['skillAuthid'] = Get.arguments['skillAuthid']
       ..['enabled'] = status ? 1 : 0);
     EasyLoading.dismiss();
     if (response.statusCode == 200) {
