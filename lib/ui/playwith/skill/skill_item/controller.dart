@@ -23,7 +23,7 @@ class SkillItemPageController extends GetxController {
     _skillModel?.value = value;
   }
 
-  RxBool _status = RxBool(false);
+  RxBool _status = RxBool(true);
 
   bool get status => _status.value;
 
@@ -41,14 +41,18 @@ class SkillItemPageController extends GetxController {
   }
 
   void initParams() {
-    teContent.text = Get.arguments['name'] ?? '';
-    price = Get.arguments['price'] ?? 0;
-    status = Get.arguments['enabled'] == 1 ? true : false;
-    id = Get.arguments['id'];
+    id = Get.arguments['id']; //id不为空表示是编辑
   }
 
   initData() async {
-    skillModel = await UserApi.skillItemConfig(Get.arguments['skillid']);
+    if (id == null) {
+      skillModel = await UserApi.skillItemConfig(Get.arguments['skillAuthid']);
+    } else {
+      skillModel = await UserApi.skillItemDetail(id);
+    }
+    price = skillModel?.price ?? 0;
+    status = skillModel?.enabled == 1 ? true : false;
+    teContent.text = skillModel?.name ?? '';
   }
 
   @override
@@ -71,7 +75,7 @@ class SkillItemPageController extends GetxController {
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = name
       ..['skillId'] = Get.arguments['skillid']
-      ..['id'] = Get.arguments['id']
+      ..['id'] = id
       ..['skillName'] = Get.arguments['skillName']
       ..['price'] = price
       ..['levelId'] = Get.arguments['levelid']

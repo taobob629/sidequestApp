@@ -13,10 +13,18 @@ class SkillItemConfigModel {
     priceRangeMin = json['priceRangeMin'];
     level = json['level'];
     priceRangeMax = json['priceRangeMax'];
+    if(json['price']!=null){
+      price = double.parse(json['price'].toString());
+    }
+    name = json['name'];
+    enabled = json['enabled']??1;
   }
 
   int? priceRangeMin;
   String? level;
+  double? price;
+  String? name;
+  int? enabled;
   int? priceRangeMax;
   SkillItemConfigModel copyWith({
     int? priceRangeMin,

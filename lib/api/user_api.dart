@@ -114,6 +114,11 @@ class UserApi {
     return SkillItemConfigModel.fromJson(response.data);
   }
 
+  static Future<SkillItemConfigModel?> skillItemDetail(var id) async {
+    var response = await http.get('/peiwan/app/skillItem/$id');
+    return SkillItemConfigModel.fromJson(response.data);
+  }
+
   static Future<Response> addSkillItem(Map<String, dynamic> params) async {
     var response = await http.post('/peiwan/app/skillItem/addItem',
         queryParameters: params);

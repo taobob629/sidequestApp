@@ -548,5 +548,6 @@ const Map<String, String> zh_CN = {
   'Cart': '购物车',
   'Stores': '门店',
   'Withdrawal': '提现',
-  'Are you sure to delete this?': '确定要删除吗?'
+  'Are you sure to delete this?': '确定要删除吗?',
+  'Service Name':'服务项目'
 };

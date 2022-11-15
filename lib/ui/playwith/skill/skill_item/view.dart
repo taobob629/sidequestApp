@@ -46,7 +46,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
     return [
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        PWidget.text('Name'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
+        PWidget.text('Service Name'.tr, [Colors.white]),
         PWidget.boxw(16),
         buildTFView(Get.context!,
             hintText: 'Please enter name'.tr,
@@ -55,6 +55,12 @@ class SkillItemPage extends GetView<SkillItemPageController> {
             con: controller.teContent,
             isExp: true,
             maxLength: 20),
+      ])),
+      PWidget.boxh(10),
+      itemBg(PWidget.row([
+        PWidget.text('Level'.tr, [Colors.white]),
+        PWidget.boxw(16),
+        PWidget.text('${controller.skillModel?.level}'.tr, [Colors.white]),
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([

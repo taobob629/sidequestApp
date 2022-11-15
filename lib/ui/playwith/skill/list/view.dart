@@ -61,23 +61,16 @@ class SkillListPage extends GetView<SkillListPageController> {
                 image: AssetImage('assets/images/skill_rect_bg.webp'),
                 fit: BoxFit.fill)),
         child: PWidget.row([
-          Container(
-            width: 70,
-            height: 70,
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/skill_cicle_bg.webp'),
-                    fit: BoxFit.fill)),
-            child: CircleAvatar(
-              radius: 32,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                    imageUrl: data.skillThumb ?? '',
-                    fit: BoxFit.cover,
-                    width: 64,
-                    height: 64),
-              ),
+          CircleAvatar(
+            backgroundImage:
+                ExactAssetImage('assets/images/skill_circle_bg.png'),
+            radius: 32,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                  imageUrl: data.skillThumb ?? '',
+                  fit: BoxFit.cover,
+                  width: 64,
+                  height: 64),
             ),
           ),
           PWidget.boxw(8),
@@ -87,51 +80,76 @@ class SkillListPage extends GetView<SkillListPageController> {
               children: [
                 PWidget.text('${data.skillName}', [Colors.yellow, 18, true],
                     {'ff': 'DIN'}),
-                PWidget.container(
-                  PWidget.text(
-                      {
-                        '2': 'eidt'.tr,
-                        '0': 'under review'.tr,
-                        '1': 'edit'.tr
-                      }['${data.status}'],
-                      [
-                        {
-                          '2': Colors.black.withOpacity(0.75),
-                          '0': Colors.white24,
-                          '1': Colors.black
-                        }['${data.status}'],
-                        14,
-                      ],
-                      {
-                        'pd': PFun.lg(2, 2, 8, 8),
-                        'fun': () {
-                          if ([SkillModel.DENIED, SkillModel.PASS]
-                              .contains(data.status))
-                            return jumpPage(AddGamePage(data.toJson()),
-                                callback: (res) {
-                              if (res != null) controller.refresh();
-                            });
-                          ; //todo
-                        }
-                      }),
-                  [
-                    null,
-                    null,
-                    {
-                      '2': Colors.white,
-                      '0': Colors.white.withOpacity(0.1),
-                      '1': Colors.white.withOpacity(0.5)
-                    }['${data.status}']
+                Row(
+                  children: [
+                    if (data.status != SkillModel.PASS)
+                      PWidget.container(
+                        PWidget.text(
+                            {
+                              '2': 'edit'.tr,
+                              '0': 'under review'.tr,
+                              '1': 'edit'.tr
+                            }['${data.status}'],
+                            [
+                              {
+                                '2': Colors.black.withOpacity(0.75),
+                                '0': Colors.white24,
+                                '1': Colors.black
+                              }['${data.status}'],
+                              14,
+                            ],
+                            {
+                              'pd': PFun.lg(2, 2, 8, 8),
+                              'fun': () {
+                                if ([SkillModel.DENIED, SkillModel.PASS]
+                                    .contains(data.status))
+                                  return jumpPage(AddGamePage(data.toJson()),
+                                      callback: (res) {
+                                    if (res != null) controller.refresh();
+                                  });
+                                ; //todo
+                              }
+                            }),
+                        [
+                          null,
+                          null,
+                          {
+                            '2': Colors.white,
+                            '0': Colors.white.withOpacity(0.1),
+                            '1': Colors.white.withOpacity(0.5)
+                          }['${data.status}']
+                        ],
+                        {'br': 56},
+                      ),
+                    if (data.status == SkillModel.PASS)
+                      GestureDetector(
+                          onTap: () => jumpPage(AddGamePage(data.toJson()),
+                                  callback: (res) {
+                                if (res != null) controller.refresh();
+                              }),
+                          child: Icon(
+                            Icons.edit_note_rounded,
+                            size: 24,
+                            color: Colors.white,
+                          )),
+                    if (data.status == SkillModel.PASS) PWidget.boxw(4),
+                    if (data.status == SkillModel.PASS)
+                      GestureDetector(
+                          onTap: () => controller.addSkillItem(data),
+                          child: Icon(
+                            Icons.add,
+                            size: 24,
+                            color: Colors.green,
+                          )),
                   ],
-                  {'br': 56},
                 )
               ],
             ),
             PWidget.boxh(4),
             PWidget.text('${data.levelName}', [Colors.white, 12]),
-            if (data.status == SkillModel.DENIED) PWidget.boxh(4),
-            if (data.status == SkillModel.DENIED)
-              PWidget.text('${data.reason}', [Colors.red, 12]),
+            // if (data.status == SkillModel.DENIED) PWidget.boxh(4),
+            // if (data.status == SkillModel.DENIED)
+            //   PWidget.text('${data.reason}', [Colors.red, 12]),
           ], {
             'exp': 1
           }),
@@ -147,6 +165,13 @@ class SkillListPage extends GetView<SkillListPageController> {
     var skillItems = data.childItemVoList;
     items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first,
         showAdd: true));
+    if (data.status == SkillModel.DENIED) items.add(PWidget.boxh(4));
+    if (data.status == SkillModel.DENIED)
+      items.add(Row(
+        children: [
+          PWidget.text('${'REJECT'.tr}: ${data.reason}', [Colors.red, 12])
+        ],
+      ));
     if (skillItems.isEmpty) return items;
     var skillItemWidgets = skillItems
         .getRange(1, skillItems.length)
@@ -180,8 +205,16 @@ class SkillListPage extends GetView<SkillListPageController> {
   Widget skill_item(SkillModel data, SkillItemModel? item,
       {bool showAdd = false}) {
     double icon_size = 20;
-    return Padding(
-      padding: EdgeInsets.only(top: 10),
+    return Container(
+      padding: EdgeInsets.only(top: 8, bottom: 8),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 0.6,
+            color: Colors.yellow.withOpacity(0.6),
+          ),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,7 +244,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                     ),
                     PWidget.boxw(2),
                     Text(
-                      '${item?.price}',
+                      '${item?.price}/${item?.unit ?? ''}',
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     )
                   ],
@@ -235,15 +268,15 @@ class SkillListPage extends GetView<SkillListPageController> {
                       color: Colors.white,
                     )),
               PWidget.boxw(3),
-              if (showAdd)
-                GestureDetector(
-                    onTap: () => controller.addSkillItem(data),
-                    child: Icon(
-                      Icons.add,
-                      size: icon_size,
-                      color: Colors.green,
-                    )),
-              if (!showAdd) PWidget.boxw(icon_size),
+              // if (showAdd)
+              //   GestureDetector(
+              //       onTap: () => controller.addSkillItem(data),
+              //       child: Icon(
+              //         Icons.add,
+              //         size: icon_size,
+              //         color: Colors.green,
+              //       )),
+              // if (!showAdd) PWidget.boxw(icon_size),
               PWidget.boxw(icon_size),
             ],
           ),
