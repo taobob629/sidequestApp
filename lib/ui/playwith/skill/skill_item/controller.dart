@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:wy/api/index_api.dart';
 import 'package:wy/api/user_api.dart';
-import 'package:wy/model/game_service_model.dart';
-import 'package:wy/model/play_detail_model.dart';
 import 'package:wy/model/skill_config_model.dart';
-import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/playwith/skill/skill_item/bindings.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 
 /*
     controller
@@ -20,6 +15,7 @@ import 'package:wy/utils/utils.dart';
 class SkillItemPageController extends GetxController {
   TextEditingController teContent = TextEditingController();
   Rxn<SkillItemConfigModel>? _skillModel = Rxn();
+  var id;
 
   SkillItemConfigModel? get skillModel => _skillModel?.value;
 
@@ -43,11 +39,14 @@ class SkillItemPageController extends GetxController {
     initParams();
     initData();
   }
+
   void initParams() {
-    teContent.text=Get.arguments['name']??'';
-    price=Get.arguments['price']??0;
-    status=Get.arguments['enabled']==1?true:false;
+    teContent.text = Get.arguments['name'] ?? '';
+    price = Get.arguments['price'] ?? 0;
+    status = Get.arguments['enabled'] == 1 ? true : false;
+    id = Get.arguments['id'];
   }
+
   initData() async {
     skillModel = await UserApi.skillItemConfig(Get.arguments['skillid']);
   }
@@ -58,27 +57,45 @@ class SkillItemPageController extends GetxController {
     super.onClose();
   }
 
-  addGame() {
+  addGame() async {
     var name = teContent.text;
-    if(name.isEmpty){
+    if (name.isEmpty) {
       EasyLoading.showToast('please input'.tr);
       return;
     }
-    if(price==0){
+    if (price == 0) {
       EasyLoading.showToast('Please enter the price'.tr);
       return;
     }
     EasyLoading.show();
-    UserApi.addSkillItem(Map<String, dynamic>()
+    var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = name
       ..['skillid'] = Get.arguments['skillid']
       ..['id'] = Get.arguments['id']
-      ..['skillName'] = Get.arguments['name']
+      ..['skillName'] = Get.arguments['skillName']
       ..['price'] = price
+      ..['levelId'] = Get.arguments['levelid']
       ..['enabled'] = status ? 1 : 0);
-    Get.back(result: true);
     EasyLoading.dismiss();
+    if (response.statusCode == 200) {
+      Get.back(result: true);
+    }
   }
 
-
+  delete() {
+    Get.dialog(
+        ConfirmDialog(
+          title: "Confirm".tr,
+          info: "Are you sure to delete this ?".tr,
+          onConfirm: () async {
+            EasyLoading.show();
+            await UserApi.deleteSkillItem(id);
+            EasyLoading.dismiss();
+            Get.back();
+            Get.back(result: true);
+          },
+          concelBtn: 'CANCEL'.tr,
+        ),
+        barrierColor: Colors.black26);
+  }
 }

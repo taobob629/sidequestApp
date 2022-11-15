@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -23,7 +22,10 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       appBar: AppBar(
         title: Text('${Get.arguments['skillName']}'),
         actions: [
-          //  TextButton(onPressed: null, child:  PWidget.text('Edit'.tr, [Colors.white, 14, true]))
+          if (Get.arguments['id'] != null)
+            TextButton(
+                onPressed: () => controller.delete(),
+                child: PWidget.text('Delete'.tr, [Colors.white, 14, true]))
         ],
       ),
       body: Padding(
@@ -34,7 +36,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                 : PWidget.column(items()),
           )),
       btnBar: FloatingButton(
-        onTap: ()=>controller.addGame(),
+        onTap: () => controller.addGame(),
         label: "CONFIRM".tr,
       ),
     );
@@ -52,7 +54,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
             textColor: Colors.white,
             con: controller.teContent,
             isExp: true,
-            maxLength: 26),
+            maxLength: 20),
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([

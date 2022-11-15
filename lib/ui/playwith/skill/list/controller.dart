@@ -65,6 +65,7 @@ class SkillListPageController extends GetxController {
               ..['enabled'] = skillItemModel?.enabled
               ..['name'] = skillItemModel?.name
               ..['skillid'] = data.skillid
+              ..['levelid'] = data.levelid
               ..['skillName'] = data.skillName)
         ?.then((res) {
       if (res) refresh();
