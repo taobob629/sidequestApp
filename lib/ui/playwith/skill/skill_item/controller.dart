@@ -87,7 +87,7 @@ class SkillItemPageController extends GetxController {
     Get.dialog(
         ConfirmDialog(
           title: "Confirm".tr,
-          info: "Are you sure to delete this ?".tr,
+          info: "Are you sure to delete this?".tr,
           onConfirm: () async {
             EasyLoading.show();
             await UserApi.deleteSkillItem(id);
