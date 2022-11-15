@@ -163,8 +163,7 @@ class SkillListPage extends GetView<SkillListPageController> {
   _buildBottom(SkillModel data) {
     List<Widget> items = [];
     var skillItems = data.childItemVoList;
-    items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first,
-        showAdd: true));
+    items.add(PWidget.boxh(6));
     if (data.status == SkillModel.DENIED) items.add(PWidget.boxh(4));
     if (data.status == SkillModel.DENIED)
       items.add(Row(
@@ -172,6 +171,9 @@ class SkillListPage extends GetView<SkillListPageController> {
           PWidget.text('${'REJECT'.tr}: ${data.reason}', [Colors.red, 12])
         ],
       ));
+    if (skillItems.isEmpty == false)
+      items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first,
+          showAdd: true));
     if (skillItems.isEmpty) return items;
     var skillItemWidgets = skillItems
         .getRange(1, skillItems.length)
