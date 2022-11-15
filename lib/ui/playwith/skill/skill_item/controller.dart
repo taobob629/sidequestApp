@@ -70,7 +70,7 @@ class SkillItemPageController extends GetxController {
     EasyLoading.show();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = name
-      ..['skillid'] = Get.arguments['skillid']
+      ..['skillId'] = Get.arguments['skillid']
       ..['id'] = Get.arguments['id']
       ..['skillName'] = Get.arguments['skillName']
       ..['price'] = price
