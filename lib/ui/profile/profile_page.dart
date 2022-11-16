@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/vip_api.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -9,8 +10,7 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/play_orders_page.dart';
-import 'package:wy/ui/playwith/play_profile_page.dart';
-import 'package:wy/ui/playwith/play_skills_page.dart';
+import 'package:wy/ui/playwith/skill/list/view.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/icon_menu.dart';
@@ -228,7 +228,7 @@ class ProfilePage extends StatelessWidget {
                 title: "Services".tr,
                 onTap: () {
                   userController.checkLogin(() {
-                    Get.to(() => PlaySkillsPage());
+                    Get.toNamed(AppPages.SkillList);
                   });
                 },
               ),

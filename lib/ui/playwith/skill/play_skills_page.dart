@@ -1,23 +1,19 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_custom_scroll.dart';
-import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
-import 'package:wy/widget/tab_widget.dart';
 
 class PlaySkillsPage extends StatefulWidget {
   @override
@@ -58,11 +54,13 @@ class _PlaySkillsPageState extends State<PlaySkillsPage> {
 
 class PlaySkillsChild extends StatefulWidget {
   const PlaySkillsChild({Key? key}) : super(key: key);
+
   @override
   _PlaySkillsChildState createState() => _PlaySkillsChildState();
 }
 
-class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAliveClientMixin {
+class _PlaySkillsChildState extends State<PlaySkillsChild>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     this.initData();
@@ -76,6 +74,7 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
 
   ///技能列表
   var authlistDm = DataModel();
+
   Future<int> authlist({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/user/myauthlist').then((res) async {
       authlistDm.addList(res.data, isRef, 0);
@@ -97,7 +96,8 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
           isShuaxin: false,
           isGengduo: false,
           itemModel: authlistDm,
-          btmWidget: PWidget.text('No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
+          btmWidget: PWidget.text(
+              'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
           touchBottomAnimationValue: 0.1,
           // onRefresh: () => this.authlist(isRef: true),
           // onLoading: (p) => this.authlist(page: p),
