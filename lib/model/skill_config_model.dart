@@ -10,26 +10,31 @@ class SkillItemConfigModel {
   });
 
   SkillItemConfigModel.fromJson(dynamic json) {
-    priceRangeMin = json['priceRangeMin'];
     level = json['level'];
-    priceRangeMax = json['priceRangeMax'];
-    if(json['price']!=null){
+    if (json['priceRangeMin'] != null) {
+      priceRangeMin = double.parse(json['priceRangeMin'].toString());
+    }
+    if (json['priceRangeMax'] != null) {
+      priceRangeMax = double.parse(json['priceRangeMax'].toString());
+    }
+    if (json['price'] != null) {
       price = double.parse(json['price'].toString());
     }
     name = json['name'];
-    enabled = json['enabled']??1;
+    enabled = json['enabled'] ?? 1;
   }
 
-  int? priceRangeMin;
+  double? priceRangeMin;
   String? level;
   double? price;
   String? name;
   int? enabled;
-  int? priceRangeMax;
+  double? priceRangeMax;
+
   SkillItemConfigModel copyWith({
-    int? priceRangeMin,
+    double? priceRangeMin,
     String? level,
-    int? priceRangeMax,
+    double? priceRangeMax,
   }) =>
       SkillItemConfigModel(
         priceRangeMin: priceRangeMin ?? this.priceRangeMin,

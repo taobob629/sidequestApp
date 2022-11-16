@@ -555,4 +555,5 @@ const Map<String, String> zh_CN = {
   '等级': '等级',
   '段位': '段位',
   '暂无': '暂无',
+  'the service price not in the price range': '服务价格不在价格区间内'
 };

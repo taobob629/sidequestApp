@@ -556,4 +556,6 @@ const Map<String, String> en_US = {
   '等级': 'Grade',
   '段位': 'Rank',
   '暂无': 'None',
+  'the service price not in the price range':
+      'the service price not in the price range'
 };

@@ -71,6 +71,12 @@ class SkillItemPageController extends GetxController {
       EasyLoading.showToast('Please enter the price'.tr);
       return;
     }
+    double priceRangeMax = skillModel?.priceRangeMax ?? 0;
+    double priceRangeMin = skillModel?.priceRangeMin ?? 0;
+    if (price < priceRangeMin || price > priceRangeMax) {
+      EasyLoading.showError('the service price not in the price range');
+      return;
+    }
     EasyLoading.show();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = name
