@@ -485,7 +485,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 PWidget.row([filterTag('语言'), PWidget.boxw(8), filterTag('性别'), PWidget.boxw(8), filterTag('等级'), PWidget.boxw(8), filterTag('段位')]),
                 PWidget.container(
                   list.isEmpty
-                      ? PWidget.text(isStow ? '' : '暂无${filterValue.filterObj}', [Colors.white54], {'ct': true})
+                      ? PWidget.text(isStow ? '' : '暂无'.tr + '${filterValue.filterObj}', [Colors.white54], {'ct': true})
                       : MyListView(
                           isShuaxin: false,
                           flag: false,
@@ -532,10 +532,10 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 
   String? filterName(String name) {
     return {
-      '语言': '语言',
-      '性别': '性别',
-      '等级': '等级',
-      '段位': '段位',
+      '语言': '语言'.tr,
+      '性别': '性别'.tr,
+      '等级': '等级'.tr,
+      '段位': '段位'.tr,
     }[name];
   }
 
