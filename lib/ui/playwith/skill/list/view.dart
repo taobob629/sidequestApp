@@ -61,16 +61,21 @@ class SkillListPage extends GetView<SkillListPageController> {
                 image: AssetImage('assets/images/skill_rect_bg.webp'),
                 fit: BoxFit.fill)),
         child: PWidget.row([
-          CircleAvatar(
-            backgroundImage:
-                ExactAssetImage('assets/images/skill_circle_bg.png'),
-            radius: 32,
-            child: ClipOval(
-              child: CachedNetworkImage(
-                  imageUrl: data.skillThumb ?? '',
-                  fit: BoxFit.cover,
-                  width: 64,
-                  height: 64),
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/skill_circle_bg.webp'),
+                    fit: BoxFit.fill)),
+            child: CircleAvatar(
+              radius: 32,
+              child: ClipOval(
+                child: CachedNetworkImage(
+                    imageUrl: data.skillThumb ?? '',
+                    fit: BoxFit.cover,
+                    width: 64,
+                    height: 64),
+              ),
             ),
           ),
           PWidget.boxw(8),
@@ -171,9 +176,10 @@ class SkillListPage extends GetView<SkillListPageController> {
           PWidget.text('${'REJECT'.tr}: ${data.reason}', [Colors.red, 12])
         ],
       ));
-    if (skillItems.isEmpty == false)
-      items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first,
-          showAdd: true));
+    if (data.status == SkillModel.DENIED) if (skillItems.isEmpty == false)
+      items.add(PWidget.boxh(4));
+    items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first,
+        showAdd: true));
     if (skillItems.isEmpty) return items;
     var skillItemWidgets = skillItems
         .getRange(1, skillItems.length)
@@ -211,7 +217,7 @@ class SkillListPage extends GetView<SkillListPageController> {
       padding: EdgeInsets.only(top: 8, bottom: 8),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
+          top: BorderSide(
             width: 0.6,
             color: Colors.yellow.withOpacity(0.6),
           ),
