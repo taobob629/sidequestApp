@@ -549,6 +549,7 @@ const Map<String, String> en_US = {
   'Stores': 'Stores',
   'Withdrawal': 'Withdrawal',
   'Are you sure to delete this?': 'Are you sure to delete this?',
-  'Service Name':'Service Name'
-
+  'Service Name': 'Service Name',
+  'the service price not in the price range':
+      'the service price not in the price range'
 };

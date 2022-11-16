@@ -6,8 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -43,6 +45,12 @@ class SkillItemPage extends GetView<SkillItemPageController> {
   }
 
   items() {
+    double priceRangeMax = controller.skillModel?.priceRangeMax ?? 0;
+    double priceRangeMin = controller.skillModel?.priceRangeMin ?? 0;
+    var value =
+        (controller.price > priceRangeMax || controller.price < priceRangeMin)
+            ? 0
+            : controller.price;
     return [
       PWidget.boxh(16),
       itemBg(PWidget.row([
@@ -68,13 +76,17 @@ class SkillItemPage extends GetView<SkillItemPageController> {
         PriceSlider(
             min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
             max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
-            value: controller.price,
+            value: (controller.price > priceRangeMax ||
+                    controller.price < priceRangeMin)
+                ? priceRangeMin
+                : controller.price,
             fun: (v) => controller.price = v),
       ])),
       PWidget.boxh(10),
       itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         PWidget.text('Status'.tr, [Colors.white]),
         Switch(
+          activeColor: AppColor.accent,
           value: controller.status,
           onChanged: (bool value) {
             controller.status = value;

@@ -549,5 +549,6 @@ const Map<String, String> zh_CN = {
   'Stores': '门店',
   'Withdrawal': '提现',
   'Are you sure to delete this?': '确定要删除吗?',
-  'Service Name':'服务项目'
+  'Service Name': '服务项目',
+  'the service price not in the price range': '服务价格不在价格区间内'
 };
