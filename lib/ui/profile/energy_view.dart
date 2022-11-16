@@ -25,7 +25,7 @@ class EnergyView extends StatelessWidget {
         NavigatorHelper.gotoCouponPage(couponType: 5);
       },
       child: Container(
-        height: 42,
+        // height: 42,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [

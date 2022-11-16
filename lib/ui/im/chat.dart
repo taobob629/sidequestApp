@@ -312,6 +312,7 @@ class _ChatState extends State<Chat> {
           }),
           morePanelConfig: MorePanelConfig(
             showFilePickAction: false,
+            showCameraAction: false,
             extraAction: [
               MorePanelItem(
                   id: "order",

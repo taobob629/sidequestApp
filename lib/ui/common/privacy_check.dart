@@ -11,10 +11,7 @@ class PrivacyCheck extends StatelessWidget {
   List<PrivacyInfo> privacyList = [];
   late final PrivacyCheckController controller;
 
-  PrivacyCheck(
-      {required PrivacyCheckController controller,
-      int type = TYPE_LOGIN,
-      this.privacyList = const []}) {
+  PrivacyCheck({required PrivacyCheckController controller, int type = TYPE_LOGIN, this.privacyList = const []}) {
     this.controller = controller;
     this.controller._c = _controller;
     switch (type) {
@@ -45,27 +42,43 @@ class PrivacyCheck extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Row(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     SizedBox(
+              //       width: 50,
+              //       child: Obx(() => Checkbox(
+              //           activeColor: AppColor.accent,
+              //           value: _controller.check.value,
+              //           onChanged: (v) => _controller.check.value = v!)),
+              //     ),
+              //     Text(
+              //       "By checking this means you agree to our".tr,
+              //       style: TextStyle(color: Colors.white, fontSize: 14),
+              //     )
+              //   ],
+              // ),
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: 50,
-                    child: Obx(() => Checkbox(
-                        activeColor: AppColor.accent,
-                        value: _controller.check.value,
-                        onChanged: (v) => _controller.check.value = v!)),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: SizedBox(
+                      width: 24,
+                      child: Obx(() => Checkbox(activeColor: AppColor.accent, value: _controller.check.value, onChanged: (v) => _controller.check.value = v!)),
+                    ),
                   ),
-                  Text(
-                    "By checking this means you agree to our".tr,
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  )
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        // mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        alignment: WrapAlignment.start,
+                        children: buildPrivacyItem(),
+                      ),
+                    ),
+                  ),
                 ],
-              ),
-              Wrap(
-                // mainAxisSize: MainAxisSize.min,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                alignment: WrapAlignment.center,
-                children:buildPrivacyItem(),
               )
             ],
           ),
@@ -76,7 +89,10 @@ class PrivacyCheck extends StatelessWidget {
 
   List<Widget> buildPrivacyItem() {
     List<Widget> items = [];
-    items.add(SizedBox(width: 50));
+    items.add(Text(
+      "By checking this means you agree to our".tr,
+      style: TextStyle(color: Colors.white, fontSize: 14),
+    ));
     var privacyItems = privacyList.map((item) {
       if (item.url.isEmpty) {
         return Text(
@@ -92,10 +108,7 @@ class PrivacyCheck extends StatelessWidget {
           child: Text(
             item.title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Color(0xFF2856FF),
-                fontSize: 14,
-                decoration: TextDecoration.underline),
+            style: TextStyle(color: Color(0xFF2856FF), fontSize: 14, decoration: TextDecoration.underline),
           ),
         );
       }
@@ -130,8 +143,7 @@ class PrivacyCheckController {
   }
 }
 
-class _PrivacyCheckController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class _PrivacyCheckController extends GetxController with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> offsetAnim;
   var check = false.obs;
@@ -139,8 +151,7 @@ class _PrivacyCheckController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    animationController =
-        AnimationController(duration: Duration(milliseconds: 250), vsync: this);
+    animationController = AnimationController(duration: Duration(milliseconds: 250), vsync: this);
 
     offsetAnim = TweenSequence<double>([
       TweenSequenceItem(tween: Tween(begin: 0.0, end: 10.0), weight: 1),

@@ -31,6 +31,17 @@ import 'package:wy/widget/views.dart';
 import '../controller/user_controller.dart';
 import '../im/conversation.dart';
 
+class PlayWithValue extends ValueNotifier {
+  PlayWithValue() : super(null);
+  int playwithSeleIndex = 0;
+  void changePlaywithSeleIndex(int v) {
+    playwithSeleIndex = v;
+    Future(() => notifyListeners());
+  }
+}
+
+PlayWithValue playWithValue = PlayWithValue();
+
 class FilterValue extends ValueNotifier {
   FilterValue() : super(null);
   var filterObj;
@@ -602,8 +613,6 @@ class PlaySwitchWidget extends StatefulWidget {
 }
 
 class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepAliveClientMixin {
-  int? seleIndex;
-
   @override
   void initState() {
     this.initData();
@@ -630,7 +639,7 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
     });
     setState(() {});
     if (gamelistDm.list.isNotEmpty) {
-      fun(0, gamelistDm.list.isEmpty ? {} : gamelistDm.list.first);
+      fun(playWithValue.playwithSeleIndex, gamelistDm.list.isEmpty ? {} : gamelistDm.list[playWithValue.playwithSeleIndex]);
     }
     return gamelistDm.flag;
   }
@@ -652,7 +661,7 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
             separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 12),
             itemCount: list.length,
             itemBuilder: (_, i) {
-              var isDy = seleIndex == i;
+              var isDy = playWithValue.playwithSeleIndex == i;
               var data = list[i];
               return PWidget.container(
                 PWidget.ccolumn([
@@ -680,10 +689,11 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
   void fun(i, data) {
     if (1 != 1) {
       widget.onTap!({'id': ''});
-      setState(() => seleIndex = null);
+      // setState(() => seleIndex = null);
     } else {
       widget.onTap!(data);
-      setState(() => seleIndex = i);
+      playWithValue.changePlaywithSeleIndex(i);
+      setState(() {});
     }
   }
 
