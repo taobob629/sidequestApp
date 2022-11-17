@@ -25,8 +25,8 @@ class EnergyView extends StatelessWidget {
         NavigatorHelper.gotoCouponPage(couponType: 5);
       },
       child: Container(
-        height: 42,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+       // height: 42,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
             Row(
@@ -37,8 +37,12 @@ class EnergyView extends StatelessWidget {
                   ),
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                    child: Text("${'Remaining'.tr}: $remainingText", style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
+                  padding: const EdgeInsets.only(top: 5, right: 10),
+                    child: Text("${'Remaining'.tr}: $remainingText",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontFamily: "DIN")),
                   ),
               ],
             ),
