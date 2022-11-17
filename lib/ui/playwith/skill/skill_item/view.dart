@@ -86,7 +86,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         PWidget.text('Status'.tr, [Colors.white]),
         Switch(
-          activeColor: AppColor.accent,
+          activeColor: Colors.green,
           value: controller.status,
           onChanged: (bool value) {
             controller.status = value;
