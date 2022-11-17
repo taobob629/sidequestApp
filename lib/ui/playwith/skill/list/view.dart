@@ -143,9 +143,8 @@ class SkillListPage extends GetView<SkillListPageController> {
                                     size: 30,
                                     color: Colors.white,
                                   )),
-                            if (data.status != SkillModel.ONGOING)
-                              PWidget.boxw(4),
-                            if (data.status != SkillModel.ONGOING)
+                            if (data.status == SkillModel.PASS) PWidget.boxw(2),
+                            if (data.status == SkillModel.PASS)
                               GestureDetector(
                                   onTap: () => controller.addSkillItem(data),
                                   child: Icon(
@@ -153,7 +152,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                                     size: 24,
                                     color: Colors.white,
                                   )),
-                            PWidget.boxw(4),
+                            PWidget.boxw(16),
                           ],
                         )
                       ],
