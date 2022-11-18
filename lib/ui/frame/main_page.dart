@@ -209,9 +209,10 @@ class MainPageController extends FullLifeCycleController
   void onInit() async {
     super.onInit();
     controller = PreloadPageController();
-
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_push');
+    LocationService().init();
+    var initializationSettingsAndroid = AndroidInitializationSettings(
+      '@mipmap/ic_push'
+    );
     var initializationSettingsIOS = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 

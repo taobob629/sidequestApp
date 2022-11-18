@@ -85,7 +85,7 @@ dependencies:
   timelines: ^0.1.0
   photo_view: 0.14.0
   tim_ui_kit: 0.1.8
-  location: 4.4.0
+  geolocator: 9.0.2
     # path: ../TIMSDK/Flutter/IMSDK/tim_ui_kit/
     # git:
     #   url: https://github.com/rainver/TIMSDK.git

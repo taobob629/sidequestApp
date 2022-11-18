@@ -3,6 +3,7 @@
     创建日期:2022/9/22
     描述:
  */
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -54,7 +55,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
     return [
       PWidget.boxh(16),
       itemBg(PWidget.row([
-        PWidget.text('Service Name'.tr, [Colors.white]),
+        PWidget.text('${'Service Name'.tr} :', [Colors.white]),
         PWidget.boxw(16),
         buildTFView(Get.context!,
             hintText: 'Please enter name'.tr,
@@ -66,13 +67,13 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([
-        PWidget.text('Level'.tr, [Colors.white]),
+        PWidget.text('${'Level'.tr} :', [Colors.white]),
         PWidget.boxw(16),
         PWidget.text('${controller.skillModel?.level}'.tr, [Colors.white]),
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([
-        PWidget.text('Price range'.tr, [Colors.white]),
+        PWidget.text('${'Price range'.tr} :', [Colors.white]),
         PriceSlider(
             min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
             max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
@@ -84,8 +85,8 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       ])),
       PWidget.boxh(10),
       itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        PWidget.text('Status'.tr, [Colors.white]),
-        Switch(
+        PWidget.text('${'Status'.tr} :', [Colors.white]),
+        CupertinoSwitch(
           activeColor: Colors.green,
           value: controller.status,
           onChanged: (bool value) {

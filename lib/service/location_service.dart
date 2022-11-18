@@ -5,9 +5,9 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
-import 'package:get/get.dart';
-import 'package:location/location.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
+import 'dart:async';
+
+import 'package:geolocator/geolocator.dart';
 import 'package:wy/utils/utils.dart';
 
 class LocationService {
@@ -28,49 +28,42 @@ class LocationService {
 
   //初始化...
   LocationService._internal() {}
-
-  LocationData? _locationData;
-  Location location = Location();
+  Position? position;
+  StreamSubscription<Position>? positionStream;
 
   init() async {
-    try {
-      locationData = await location.getLocation();
-    } catch (e) {
-      flog('getLocation err--$e');
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
     }
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      flog('onLocationChanged--$currentLocation');
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    position = await Geolocator.getCurrentPosition();
+    final LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+    positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? pos) {
+      position = pos;
     });
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        flog('_serviceEnabled--$_serviceEnabled');
-        return;
-      }
-    }
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      flog('_permissionGranted--$_permissionGranted');
-      if (_permissionGranted != PermissionStatus.granted) {
-        ConfirmDialog.show(
-            Get.context!,
-            "Permission required",
-            "Your Location is not available, please click the button below to change current setting."
-                .tr);
-        return;
-      }
-    }
-    locationData = await location.getLocation();
-    flog('locationData ${locationData?.longitude}');
+ //   flog('position${position}');
   }
 
-  LocationData? get locationData => _locationData;
-
-  set locationData(LocationData? value) {
-    _locationData = value;
+  dispose() {
+    positionStream?.cancel();
   }
 }

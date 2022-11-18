@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -6,12 +7,11 @@ import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/utils.dart';
+
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
 import 'base_http.dart';
-import 'dart:developer';
-import 'package:location/location.dart';
 
 ///是否正在登录
 bool isSigningIn = false;
@@ -34,9 +34,10 @@ class HeaderInterceptor extends InterceptorsWrapper {
     }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
-    options.headers['latitude'] = LocationService().locationData?.latitude;
-    options.headers['longitude'] = LocationService().locationData?.longitude;
-//    flog('LocationService().locationData?.longitude ${ LocationService().init()}');
+    options.headers['language'] = language();
+    options.headers['longitude'] = LocationService().position?.longitude??0;
+    options.headers['latitude'] = LocationService().position?.latitude??0;
+   // flog('position--${ LocationService().position}');
     handler.next(options);
   }
 }
