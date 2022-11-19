@@ -23,6 +23,7 @@ import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../api/address_api.dart';
 import '../../config/app_config.dart';
@@ -401,14 +402,16 @@ class PayPageController extends GetxController {
     payType.value = value;
   }
 
-  void pay() async {
-    if(address.value.id == 0){
-      EasyLoading.showInfo("Please select your billing address".tr);
-      return;
+  void pay({bool isPlay = false}) async {
+    if(!isPlay){
+      if(address.value.id == 0){
+        EasyLoading.showInfo("Please select your billing address".tr);
+        return;
+      }
     }
     payOrderModel.addressId = address.value.id;
 
-    confirmPay();
+    confirmPay(isPlay: isPlay);
     /*
     if(havePayPassword.value == false){
       Get.to(()=>ChangePasswordPage(type: 2, check: false, have: false,))?.whenComplete(() async=> await havePassword());
@@ -431,7 +434,7 @@ class PayPageController extends GetxController {
 
   }
 
-  Future<void> confirmPay() async{
+  Future<void> confirmPay({bool isPlay = false}) async{
     payOrderModel.payType = payType.value;
     if(payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
@@ -527,8 +530,9 @@ class PayPageController extends GetxController {
     }
     else if(payType.value == 2) { //余额支付
       checkPayPin(()async{
+        flog(payOrderModel.code,'payOrderModel.code');
         PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-
+        flog(payOrderModel.type,'payOrderModel.type');
         if (payOrderModel.type == -2) {
           if (payInfoModel.insufficient) {
             Get.dialog(
@@ -545,7 +549,7 @@ class PayPageController extends GetxController {
             );
           }else{
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
-                Get.back();
+                if(!isPlay) Get.back();
                 Get.back(result: payInfoModel.orderNo);
               });
           }

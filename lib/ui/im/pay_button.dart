@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
+import 'package:wy/ui/pay/pay_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 
 import '../../model/pay_order_model.dart';
 
-
 class PayButton extends StatelessWidget {
-
   final playOrderController = Get.find<PlayOrderController>();
 
   @override
@@ -16,33 +15,45 @@ class PayButton extends StatelessWidget {
     return Container(
       height: 100,
       color: Colors.black,
-      padding: const EdgeInsets.all(15,),
+      padding: const EdgeInsets.all(
+        15,
+      ),
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total".tr,
+                "Balance".tr,
                 style: TextStyle(color: Colors.white38, fontSize: 18, fontFamily: "DIN"),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset("assets/images/ic_balance_money.webp",width: 28,height: 28,),
-                  SizedBox(width: 5,),
-                  Obx(()=>Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      "${playOrderController.totalAmount.value.toStringAsFixed(2)}",
-                      style: TextStyle(color: Colors.white,fontSize: 30,fontFamily: "DIN"),
+                  Image.asset(
+                    "assets/images/ic_balance_money.webp",
+                    width: 28,
+                    height: 28,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        (playOrderController.preOrderDm.value.object?.isEmpty ?? true) ? '0.0' : "${playOrderController.preOrderDm.value.object?['coin'].toStringAsFixed(2)}",
+                        style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "DIN"),
+                      ),
                     ),
-                  ),)
+                  )
                 ],
               )
             ],
           ),
-          SizedBox(width: 20,),
+          SizedBox(
+            width: 20,
+          ),
           Expanded(
             child: ColorfulButton(
               child: Padding(
@@ -53,12 +64,16 @@ class PayButton extends StatelessWidget {
                 ),
               ),
               height: 56,
-              onTap: () {
+              onTap: () async {
+                FocusScope.of(context).requestFocus(FocusNode());
                 PayOrderModel model = playOrderController.getPayOrderModel();
-                NavigatorHelper.gotoPayPage(
-                  model,
-                  // offPage: true,
-                );
+                var controller = Get.put(PayPageController(payOrderModel: model));
+                await controller.havePassword();
+                controller.pay(isPlay: true);
+                // NavigatorHelper.gotoPayPage(
+                //   model,
+                //   // offPage: true,
+                // );
               },
             ),
           )

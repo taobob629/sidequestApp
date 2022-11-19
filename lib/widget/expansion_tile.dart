@@ -145,7 +145,7 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> with SingleTi
             behavior: HitTestBehavior.translucent,
             child: Row(
               children: [
-                Expanded(child: widget.title!),
+                if (widget.title != null) Expanded(child: widget.title!),
                 if (widget.expandView != null)
                   RotationTransition(
                     turns: _iconTurns,

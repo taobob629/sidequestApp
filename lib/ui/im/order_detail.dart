@@ -293,9 +293,10 @@ class OrderDetail extends StatelessWidget {
                 "${controller.playOrderDetailModel.value.gameName}",
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
+              PWidget.boxh(8),
               Text(
-                "",
-                style: TextStyle(color: Colors.white54, fontSize: 12),
+                "${controller.playOrderDetailModel.value.serviceItem['name']??''}",
+                style: TextStyle(color: Colors.white),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,

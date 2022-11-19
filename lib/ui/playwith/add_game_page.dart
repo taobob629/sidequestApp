@@ -163,6 +163,7 @@ class _AddGamePageState extends State<AddGamePage> {
           FloatingButton(
             label: "OK",
             onTap: () async {
+              if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
               if (isSending) return EasyLoading.showToast('Submitting');
               if (privacyCheckController.check() == false) return;
               if (platform == null) return EasyLoading.showToast('Please select category'.tr);

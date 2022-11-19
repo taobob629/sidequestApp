@@ -28,6 +28,7 @@ class PlayOrderDetailModel {
   String player='';//
   late String icon = "";
   late String gameName = "";
+  late Map serviceItem = {};
   late String unit = "";
   late int orderId = 0;
   int liveuid = 0;
@@ -60,6 +61,7 @@ class PlayOrderDetailModel {
     liveuid = json['order']['liveuid'] ?? 0;
     uid = json['order']['uid'] ?? 0;
     gameName = json['skill']['nameEn'] ?? "";
+    serviceItem = json['serviceItem']?? {};
     orderId = json['order']['id'] ?? 0;
     fromUid = json['order']['uid'] ?? 0;
     toUid = json['order']['liveuid'] ?? 0;

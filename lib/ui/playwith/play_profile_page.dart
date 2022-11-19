@@ -779,9 +779,9 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
     // widget.data['star']=3.4;
     return PWidget.container(
       PWidget.row([
-        Image.asset("assets/images/play/score1.png", width: 10, height: 10),
-        PWidget.boxw(8),
-        PWidget.text('${widget.data['star']}', [Colors.white70, 12]),
+        if (widget.data['star'] != 0) Image.asset("assets/images/play/score1.png", width: 10, height: 10),
+        if (widget.data['star'] != 0) PWidget.boxw(8),
+        if (widget.data['star'] != 0) PWidget.text('${widget.data['star']}', [Colors.white70, 12]),
         if (widget.data['orders'] != 0) PWidget.boxw(4),
         if (widget.data['orders'] != 0)
           PWidget.text('(${widget.data['orders']})', [Colors.white54, 12]),

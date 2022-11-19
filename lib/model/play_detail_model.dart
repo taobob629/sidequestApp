@@ -72,10 +72,12 @@ class SkillModel{
   late int wswitch = 0;
   late double star = 0;
   late int orders = 0;
+  late List serviceItem;
   SkillModel();
 
   SkillModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
+    serviceItem = json['serviceItem'] ?? [];
     coinType = json['coinType'] ?? 0;
     thumb = json['thumb'] ??"";
     background = json['background'] ??"";

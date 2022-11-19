@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:ui';
 
@@ -8,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:tim_ui_kit/ui/widgets/toast.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -15,13 +17,16 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_game_widget.dart';
 import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/ui/playwith/game_comment.dart';
 import 'package:wy/ui/playwith/photo_wall_widget.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/view/views.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
+import 'package:wy/widget/expansion_tile.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 import 'package:wy/widget/my_custom_scroll.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -33,20 +38,61 @@ import '../../model/play_detail_model.dart';
 import '../common/dialog_confirm.dart';
 import 'chat.dart';
 
-class PlayDetail extends StatelessWidget {
+class PlayDetailValue extends ValueNotifier{
+  PlayDetailValue() : super(null);
+  List<AnimationController> animationController = [];
+}
+
+PlayDetailValue playDetailValue = PlayDetailValue();
+
+class PlayDetail extends StatefulWidget {
 
   final String userId;
+  final String gId;
   final bool fromChat;
   final bool isMemberCode;
   late final PlayDetailController controller;
 
-  PlayDetail({required this.userId, this.fromChat = false, this.isMemberCode = false}){
-    controller = Get.put(PlayDetailController(userId:userId, isMemberCode: isMemberCode),tag: userId);
+  PlayDetail({required this.userId, this.fromChat = false, this.isMemberCode = false,this.gId=''}){
+    controller = Get.put(PlayDetailController(userId:userId,gId: gId, isMemberCode: isMemberCode),tag: userId);
   }
 
+  @override
+  State<PlayDetail> createState() => _PlayDetailState();
+}
+
+class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
+
+  StreamSubscription<PlayDetailModel>? listen;
+  
   ///自己视角
   bool isMe=false;
 
+  @override
+  void initState() {
+  this.initData();
+  super.initState();
+  }
+  
+  ///初始化函数
+  Future initData() async {
+    playDetailValue.animationController.clear();
+    listen= widget.controller.detailModel.listenAndPump((event) {
+      if(event.skills.isNotEmpty && playDetailValue.animationController.isEmpty){
+        flog(event.skills.length,'event.skills.length');
+        var list = List.generate(event.skills.length, (i) {
+          return AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+        });
+        playDetailValue.animationController=list;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    listen?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +100,8 @@ class PlayDetail extends StatelessWidget {
       .of(context)
       .size
       .width * 0.75;
-    controller.initData(width);
-    isMe = controller.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString();
+    widget.controller.initData(width);
+    isMe = widget.controller.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString();
     return SafeArea(
         top: false,
         child: Stack(
@@ -63,7 +109,7 @@ class PlayDetail extends StatelessWidget {
         Scaffold(
             backgroundColor: AppColor.background,
             body: CustomScrollView(
-              controller: controller.scrollController,
+              controller: widget.controller.scrollController,
               physics: MyBouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
@@ -73,10 +119,10 @@ class PlayDetail extends StatelessWidget {
                   expandedHeight: width,
                   title: Obx(() {
                     return Text(
-                      controller.detailModel.value.name,
+                      widget.controller.detailModel.value.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: controller.titleColor.value, fontSize: 16),
+                      style: TextStyle(color: widget.controller.titleColor.value, fontSize: 16),
                     );
                   }),
                   actions: [
@@ -86,7 +132,7 @@ class PlayDetail extends StatelessWidget {
                           onTap: () async {
                             if(isMe){
                               await Get.to(()=>PlayProfilePage());
-                              controller.onReady();
+                              widget.controller.onReady();
                               return;
                             }
                             Get.dialog(ConfirmDialog(
@@ -97,7 +143,7 @@ class PlayDetail extends StatelessWidget {
                                         EasyLoading.show();
                                         var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
                                         List<String> userIDList = [];
-                                        userIDList.add(userId);
+                                        userIDList.add(widget.userId);
                                         await friendshipManager.addToBlackList(userIDList: userIDList);
                                         EasyLoading.dismiss();
                                         Get.back();
@@ -130,11 +176,11 @@ class PlayDetail extends StatelessWidget {
                             right: 0,
                             bottom: 0,
                             top: 0,
-                            child: Obx(()=>controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
+                            child: Obx(()=>widget.controller.detailModel.value.avatarThumb=='' ? Container(): Swiper(
                               autoplayDelay: 5000,
                               duration: 500,
                               itemBuilder: (BuildContext context, int index) {
-                                String url = controller.detailModel.value.avatarThumb;
+                                String url = widget.controller.detailModel.value.avatarThumb;
                                 return GestureDetector(
                                   onTap: ()=> Get.to(()=>PhotoView(images: [url],index: 0)),
                                   child: CachedNetworkImage(
@@ -184,9 +230,9 @@ class PlayDetail extends StatelessWidget {
                                               children: [
                                                 Padding(
                                                     padding: const EdgeInsets.all(2.0),
-                                                    child: Obx(()=>controller.detailModel.value.avatar == "" ? Container():
+                                                    child: Obx(()=>widget.controller.detailModel.value.avatar == "" ? Container():
                                                     CachedNetworkImage(
-                                                      imageUrl: controller.detailModel.value.avatar,
+                                                      imageUrl: widget.controller.detailModel.value.avatar,
                                                       fit: BoxFit.cover,
                                                       imageBuilder: (context,provider){
                                                         return Container(
@@ -206,7 +252,7 @@ class PlayDetail extends StatelessWidget {
                                                 ),
                                                 ///controller.detailModel.value
                                                 Obx(() {
-                                                  var isOnline = controller.detailModel.value.online==1;
+                                                  var isOnline = widget.controller.detailModel.value.online==1;
                                                   return PWidget.container(PWidget.text(isOnline ? 'Online'.tr : 'OffLine'.tr, [Colors.white, 10]), {
                                                         'gd': isOnline ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
                                                         'pd': PFun.lg(1, 1, 12, 12),
@@ -231,7 +277,7 @@ class PlayDetail extends StatelessWidget {
                           if (index == 0) {
                             return buildInfo(isMe);
                           }else if(index == 1){
-                            return Obx(()=> controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
+                            return Obx(()=> widget.controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
                           }else if(index == 2){
                             return  _buildIntro();
                           }
@@ -258,11 +304,11 @@ class PlayDetail extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
+                            Icon(widget.controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left: 10,top: 4),
                               child: Text(
-                                controller.detailModel.value.follow == 1 ? "UnFollow".tr : "Follow".tr,
+                                widget.controller.detailModel.value.follow == 1 ? "UnFollow".tr : "Follow".tr,
                                     style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
                                   ),
                             ),
@@ -271,28 +317,28 @@ class PlayDetail extends StatelessWidget {
                         height: 50,
                         width: 160,
                         onTap: () async {
-                          if(controller.detailModel.value.follow==1){
-                            controller.detailModel.value.follow=0;
-                            controller.detailModel.value.fans--;
+                          if(widget.controller.detailModel.value.follow==1){
+                            widget.controller.detailModel.value.follow=0;
+                            widget.controller.detailModel.value.fans--;
                           }else{
-                            controller.detailModel.value.follow=1;
-                            controller.detailModel.value.fans++;
+                            widget.controller.detailModel.value.follow=1;
+                            widget.controller.detailModel.value.fans++;
                           }
-                          controller.detailModel.refresh();
+                          widget.controller.detailModel.refresh();
                           EasyLoading.show();
-                          await http.get('/peiwan/app/user/attention/${controller.detailModel.value.userId}').then((v) {}).catchError((e) {
+                          await http.get('/peiwan/app/user/attention/${widget.controller.detailModel.value.userId}').then((v) {}).catchError((e) {
                             EasyLoading.showToast('Network exception');
-                            if(controller.detailModel.value.follow==1){
-                              controller.detailModel.value.follow=0;
-                              controller.detailModel.value.fans--;
+                            if(widget.controller.detailModel.value.follow==1){
+                              widget.controller.detailModel.value.follow=0;
+                              widget.controller.detailModel.value.fans--;
                             }else{
-                              controller.detailModel.value.follow=1;
-                              controller.detailModel.value.fans++;
+                              widget.controller.detailModel.value.follow=1;
+                              widget.controller.detailModel.value.fans++;
                             }
-                            controller.detailModel.refresh();
+                            widget.controller.detailModel.refresh();
                           });
                           EasyLoading.dismiss();
-                          flog(controller.detailModel.value.follow);
+                          flog(widget.controller.detailModel.value.follow);
                         },
                       );
                     }
@@ -314,12 +360,12 @@ class PlayDetail extends StatelessWidget {
                       height: 50,
                       width: 160,
                       onTap: () async{
-                        if(fromChat){
+                        if(widget.fromChat){
                           Get.back();
                           return;
                         }
                         var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-                        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
+                        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${widget.controller.detailModel.value.memberId}");
                         if(conv.data != null) {
                           Navigator.push(
                               context,
@@ -327,7 +373,7 @@ class PlayDetail extends StatelessWidget {
                                 builder: (context) =>
                                     Chat(
                                       selectedConversation: conv.data!,
-                                      orderSn: controller.detailModel.value.orderSn,
+                                      orderSn: widget.controller.detailModel.value.orderSn,
                                     ),
                               ));
                         }
@@ -343,7 +389,7 @@ class PlayDetail extends StatelessWidget {
 
   Widget buildInfo(bool isMe) {
     return Obx(() {
-      var signature = controller.detailModel.value.signature;
+      var signature = widget.controller.detailModel.value.signature;
       return Container(
           // height: 80,
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: signature != '' ? 0 : 20),
@@ -358,16 +404,16 @@ class PlayDetail extends StatelessWidget {
                   spacing: 12,
                   runSpacing: 8,
                   children: [
-                    Text("${controller.detailModel.value.name}",
+                    Text("${widget.controller.detailModel.value.name}",
                         style: TextStyle(fontSize: 24, color: Colors.white)),
                     SexAndAgeWidget(
-                      age: '${controller.detailModel.value.age}',
-                      sex: '${controller.detailModel.value.sex}',
+                      age: '${widget.controller.detailModel.value.age}',
+                      sex: '${widget.controller.detailModel.value.sex}',
                     ),
                     PlayLevelWidget(
-                      userId: controller.userId,
-                      level: '${controller.detailModel.value.userLevel}',
-                      isauth: controller.detailModel.value.isauth,
+                      userId: widget.controller.userId,
+                      level: '${widget.controller.detailModel.value.userLevel}',
+                      isauth: widget.controller.detailModel.value.isauth,
                     ),
                     PWidget.container(
                       Row(
@@ -381,7 +427,7 @@ class PlayDetail extends StatelessWidget {
                           Container(
                             constraints: BoxConstraints(maxWidth: 100),
                             child: Text(
-                              '${controller.detailModel.value.location.location()}',
+                              '${widget.controller.detailModel.value.location.location()}',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(color: Colors.white, fontSize: 11),
@@ -394,7 +440,7 @@ class PlayDetail extends StatelessWidget {
                     ),
                     Builder(
                       builder: (context) {
-                        var language = controller.detailModel.value.language;
+                        var language = widget.controller.detailModel.value.language;
                         if(language=='')return SizedBox();
                         return PWidget.container(
                           PWidget.text('$language',[Colors.white,12]),
@@ -419,7 +465,7 @@ class PlayDetail extends StatelessWidget {
                   ),
                   ),
                   Text(
-                    "${controller.detailModel.value.follows}",
+                    "${widget.controller.detailModel.value.follows}",
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                   SizedBox(
@@ -441,14 +487,14 @@ class PlayDetail extends StatelessWidget {
                        arguments: Map()..['index'] = 1)
                        : null,
                    child:  Text(
-                   "${controller.detailModel.value.fans}",
+                   "${widget.controller.detailModel.value.fans}",
                    style: TextStyle(fontSize: 16, color: Colors.white),
                  ),)
                 ],
               ),
               if(signature!='')
               Divider(color: Colors.white10,height: 24),
-              if(signature!='') PWidget.text('${controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
+              if(signature!='') PWidget.text('${widget.controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
               if(signature!='') Divider(color: Colors.white10,height: 24),
             ],
           ),
@@ -459,12 +505,11 @@ class PlayDetail extends StatelessWidget {
   Widget _buildGames(BuildContext context){
     return Obx((){
       List<Widget> items = [];
-      for (var i = 0; i < controller.detailModel.value.skills.length; i++) {
-      items.add(_buildGame(controller.detailModel.value.skills[i],i,context));
-        
+      for (var i = 0; i < widget.controller.detailModel.value.skills.length; i++) {
+        items.add(_buildGame(widget.controller.detailModel.value.skills[i],i,context));
       }
-    if(controller.detailModel.value.skills.length>2){
-      if(!controller.isExpand.value){
+    if(widget.controller.detailModel.value.skills.length>2){
+      if(!widget.controller.isExpand.value){
         items = items.sublist(0,2);
       }
     }
@@ -486,17 +531,17 @@ class PlayDetail extends StatelessWidget {
               child: Column(children: items),
             ),
           SizedBox(height: 8),
-          if(controller.detailModel.value.skills.length>2)
+          if(widget.controller.detailModel.value.skills.length>2)
           PWidget.container(
             PWidget.row([
-              if(!controller.isExpand.value)
-              ...List.generate(controller.detailModel.value.skills.length.clamp(0, 7), (i) {
+              if(!widget.controller.isExpand.value)
+              ...List.generate(widget.controller.detailModel.value.skills.length.clamp(0, 7), (i) {
                 if(i<=1)return SizedBox();
-                 var skill = controller.detailModel.value.skills[i];
+                 var skill = widget.controller.detailModel.value.skills[i];
                  return CachedNetworkImage(imageUrl: "${skill.thumb}?imageMogr2/thumbnail/!100p",width: 16,height: 16,fit: BoxFit.cover);
                 }),
                 PWidget.container(
-                    PWidget.icon(controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54,20]),
+                    PWidget.icon(widget.controller.isExpand.value?Icons.keyboard_arrow_up_rounded: Icons.keyboard_arrow_down_rounded,[Colors.white54,20]),
                     [null, null, Colors.white12],
                     {'br': 56}
                 ),
@@ -505,11 +550,11 @@ class PlayDetail extends StatelessWidget {
             // PWidget.text(controller.isExpand.value?'stow': 'show all',[Colors.white54])
           [null, null, Colors.white10],
           {'fun': () {
-            controller.isExpand.value=!controller.isExpand.value;
+            widget.controller.isExpand.value=!widget.controller.isExpand.value;
           },'wali':PFun.lg(0,0),'pd':8,'br': 56,
           },
           ),
-          if(controller.detailModel.value.signature=='')
+          if(widget.controller.detailModel.value.signature=='')
           SizedBox(height: 20,),
         ],
       ),
@@ -518,118 +563,7 @@ class PlayDetail extends StatelessWidget {
   }
 
   Widget _buildGame(SkillModel skillModel,int i,BuildContext context){
-    var isOpen = skillModel.wswitch==1;
-    return GestureDetector(
-      onTap: () async {
-        if(isMe){
-          await Get.to(()=>AddGamePage({"id":skillModel.authId}));
-          controller.onReady();
-          return;
-        }else if(isOpen){
-        var res = await Get.to(()=>PlayOrder(liveUid: "${controller.detailModel.value.userId}", skillModel: skillModel,));
-        flog('$res','Get.to(()=>PlayOrder');
-        if(res != null){
-          var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-          V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${controller.detailModel.value.memberId}");
-          if(conv.data != null) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                  Chat(
-                    selectedConversation: conv.data!,
-                    orderSn: res,
-                  ),
-              ));
-          }
-        }
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            height: 124,
-            decoration: BoxDecoration(
-              color:skillModel.wswitch==0?Colors.white12: Color(0xFF7D00FF)
-            ),
-            child: Stack(
-              children: [
-                // Positioned.fill(left: -2,right: -2,top: -2,bottom: -2, child: CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: double.infinity,fit: BoxFit.cover,alignment: Alignment.bottomCenter)),
-                if(isOpen&&skillModel.background!='') Positioned.fill(child: CachedNetworkImage(imageUrl: "${skillModel.background}",fit: BoxFit.cover)),
-                // BackdropFilter(filter: ImageFilter.blur(sigmaX: 8,sigmaY: 8),child: Container(
-                // color: Color(0x007400FF),
-                // ),),
-                // Positioned.fill(child: PWidget.container(PWidget.boxh(0), {'gd': [
-                //   PFun.cl2crGd(Color(0xff7400FF), Color(0xff7400FF).withOpacity(0)),
-                //   PFun.cl2crGd(Color(0xFFFF4400), Color(0xFFFF4400).withOpacity(0)),
-                // ][i%2]})),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SizedBox(width: 8),
-                          CachedNetworkImage(imageUrl: "${skillModel.thumb}",width: 66,height: 66,fit: BoxFit.cover),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("${skillModel.name}",style: TextStyle(color: Colors.white,fontSize: 14),),
-                                Text("${skillModel.level}",style: TextStyle(color: Colors.white54,fontSize: 12),),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Image.asset("assets/images/ic_balance_money.webp",width: 18,height: 18,),
-                                    SizedBox(width: 5,),
-                                    Text("${skillModel.coin}",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
-                                    Text(" / ${skillModel.unit}",style: TextStyle(color: Colors.white,fontSize: 12),),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          if(isOpen||isMe)
-                           ColorfulButton(
-                             child: Padding(
-                               padding: const EdgeInsets.only(left: 20,right: 20,top: 2),
-                               child: Text(
-                                 isMe ? "Edit".tr : "Order".tr,
-                                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
-                                ),
-                             ),
-                             height: 30,
-                           ),
-                           SizedBox(height: 8),
-                          SizedBox(width: 8),
-                        ],
-                      ),
-                    ),
-                    PWidget.container(
-                    PWidget.row([
-                        OrdersAndStarWidget({
-                           ///controller.detailModel.value
-                           'orders':skillModel.orders,
-                           'star':skillModel.star,
-                        },bgColor: Colors.transparent,isTran: true),
-                      PWidget.text('More'.tr,[Colors.white70]),
-                      ],'231'),
-                    {'pd':PFun.lg(0,8,8,8),'fun': () {
-                      Get.to(()=>GameComment(skillModel,'${controller.detailModel.value.userId}'));
-                    },},
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    return PlayGameWidget(skillModel,widget.controller,i);
   }
 
   Widget _buildIntro(){
@@ -652,7 +586,7 @@ class PlayDetail extends StatelessWidget {
           // if(controller.detailModel.value.imageList.isNotEmpty||isMe)
             PWidget.row([
               PWidget.text('${'Album'.tr} ', [Colors.white, 18], {'ff': 'DIN', 'exp': true}),
-              if (controller.detailModel.value.imageList.isNotEmpty)
+              if (widget.controller.detailModel.value.imageList.isNotEmpty)
                 PWidget.text('More'.tr, [
                   Colors.white,
                   16
@@ -660,16 +594,16 @@ class PlayDetail extends StatelessWidget {
                   'ff': 'DIN',
                   'pd': 8,
                   'fun': () async {
-                    Get.to(() => PhotoWallWidget(controller.detailModel.value.imageList, isPage: true));
+                    Get.to(() => PhotoWallWidget(widget.controller.detailModel.value.imageList, isPage: true));
                   }
                 }),
             ]),
-          if(controller.detailModel.value.imageList.isNotEmpty)
-            PhotoWallWidget(controller.detailModel.value.imageList,key: UniqueKey()),
-          if(controller.detailModel.value.imageList.isEmpty)
+          if(widget.controller.detailModel.value.imageList.isNotEmpty)
+            PhotoWallWidget(widget.controller.detailModel.value.imageList,key: UniqueKey()),
+          if(widget.controller.detailModel.value.imageList.isEmpty)
             PWidget.container(
               PWidget.text(
-                isMe? '${controller.detailModel.value.emptyAlbumDesc1}':'${controller.detailModel.value.emptyAlbumDesc2}',
+                isMe? '${widget.controller.detailModel.value.emptyAlbumDesc1}':'${widget.controller.detailModel.value.emptyAlbumDesc2}',
                 [Colors.white54],
                 {'ct': true,'isOf': false},
               ),
@@ -703,6 +637,7 @@ class PlayDetail extends StatelessWidget {
 
 class PlayDetailController extends GetxController {
   String userId;
+  String gId;
 
   bool isMemberCode;
 
@@ -715,7 +650,7 @@ class PlayDetailController extends GetxController {
 
   Rx<PlayDetailModel> detailModel = PlayDetailModel().obs;
 
-  PlayDetailController({required this.userId, required this.isMemberCode});
+  PlayDetailController({required this.userId, required this.isMemberCode,this.gId=''});
 
   @override
   void onInit() {
@@ -746,7 +681,7 @@ class PlayDetailController extends GetxController {
     });
 
     EasyLoading.show();
-    detailModel.value = await ImApi.getPlayDetail(userId, isMemberCode);
+    detailModel.value = await ImApi.getPlayDetail(userId, gId, isMemberCode);
     // if(detailModel.value.imageList.length != 0) {
       // detailModel.value.imageList.clear();
       // detailModel.value.imageList.add(

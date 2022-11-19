@@ -13,8 +13,8 @@ class ImApi {
     return ImSigModel.fromJson(response.data);
   }
 
-  static Future<PlayDetailModel> getPlayDetail(String id,bool isMemberCode) async {
-    String url = '/peiwan/app/home/super/$id';
+  static Future<PlayDetailModel> getPlayDetail(String id,String gid,bool isMemberCode) async {
+    String url = '/peiwan/app/home/super/$id?gid=$gid';
     if(isMemberCode){
       url = '/peiwan/app/home/superMemberCode/$id';
     }

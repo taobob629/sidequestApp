@@ -557,5 +557,12 @@ const Map<String, String> en_US = {
   '段位': 'Rank',
   '暂无': 'None',
   'the service price not in the price range':
-      'the service price not in the price range'
+      'the service price not in the price range',
+  'Play':'Play',
+  'SUBTOTAL':'SUBTOTAL',
+  'Service Tax':'Service Tax',
+  'Please enter discount password here':'Please enter discount password here',
+  'Submit':'Submit',
+  'TOTAL':'TOTAL',
+  'Coupon deduction':'Coupon deduction',
 };

@@ -444,7 +444,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 'mg': PFun.lg(0, 0, 16, 16),
                 'crr': 12,
                 'fun': () {
-                  return Get.to(() => PlayDetail(userId: "${data['id']}")); //jumpPage(PlayUserInfo(data));
+                  return Get.to(() => PlayDetail(userId: "${data['id']}", gId:gid)); //jumpPage(PlayUserInfo(data));
                 }
               },
             ),

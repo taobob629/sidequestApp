@@ -30,6 +30,8 @@ class PayOrderModel {
   late String skillid = "";
   late int nums = 1;
   late String des = "";
+  late String serviceItemId = "";
+  late String code = "";
 
   late String totalAmount = "0";
 

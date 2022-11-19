@@ -88,6 +88,8 @@ class PayApi {
       "nums" : model.nums,
       "des" : model.des,
       "type" : model.payType,
+      "serviceItemId":model.serviceItemId,
+      "code":model.code,
     };
     var response = await http.post('/peiwan/app/order/setorder',
       data: formData

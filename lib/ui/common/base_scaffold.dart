@@ -10,13 +10,15 @@ class BaseScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final Widget body;
   final Widget? floatingActionButton;
+  final bool resizeToAvoidBottomInset;
 
   BaseScaffold({
     required this.title,
     this.backgroundColor = AppColor.background,
     required this.body,
     this.actions,
-    this.floatingActionButton
+    this.floatingActionButton,
+    this.resizeToAvoidBottomInset = true,
   });
 
   @override
@@ -28,6 +30,7 @@ class BaseScaffold extends StatelessWidget {
         title: PageTitle(title: title,),
         actions: actions,
       ),
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       body: body,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,
