@@ -305,7 +305,7 @@ class PlayDetail extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 10,top: 4),
                             child: Text(
-                              "Message",
+                              "Message".tr,
                               style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: "din"),
                             ),
                           ),
@@ -616,7 +616,7 @@ class PlayDetail extends StatelessWidget {
                            'orders':skillModel.orders,
                            'star':skillModel.star,
                         },bgColor: Colors.transparent,isTran: true),
-                      PWidget.text('More',[Colors.white70]),
+                      PWidget.text('More'.tr,[Colors.white70]),
                       ],'231'),
                     {'pd':PFun.lg(0,8,8,8),'fun': () {
                       Get.to(()=>GameComment(skillModel,'${controller.detailModel.value.userId}'));

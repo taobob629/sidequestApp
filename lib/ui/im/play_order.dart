@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/wy_http.dart';
+import 'package:wy/model/data_model.dart';
 
 import '../../model/pay_order_model.dart';
 import '../../model/play_detail_model.dart';
@@ -34,15 +36,68 @@ class PlayOrder extends StatelessWidget {
               top: 0,
               bottom: 0,
               child: SingleChildScrollView(
-                  child: Obx(() => Column(
+                  child: Obx(() {
+                    var serviceItems = (controller.preOrderDm.object?['serviceItems']??[]) as List;
+                    return Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           _buildItem(),
+                          ...List.generate(serviceItems.length, (i) {
+                            var serviceItem = serviceItems[i];
+                            return Container(
+                              height: 105,
+                              margin: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Color(0x08ffffff),
+                              ),
+                              child: Row(
+                                children: [
+                                  // Container(
+                                  //   width: 80,
+                                  //   height: 80,
+                                  //   child: controller.skillModel.value.thumb == "" ? Container():CachedNetworkImage(
+                                  //     imageUrl: controller.skillModel.value.thumb,
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(width: 10,),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            serviceItem['name'],
+                                            maxLines: 2,
+                                            style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: "DIN"),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(child: Text("",style: TextStyle(color: Colors.white54,fontSize: 12),)),
+                                            QuantitySelector(
+                                              initValue: 1,
+                                              tag: "1",
+                                              onQuantityChanged: (quantity){
+                                                controller.changeQuantity(quantity);
+                                              },
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
                           // _buildTime(),
                           //  _buildMemo(),
-                  Container(height: 120,)
+                          Container(height: 120)
                 ],
-              ))
+              );
+                  })
             ),
           ),
           Positioned(
@@ -133,7 +188,7 @@ class PlayOrder extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -178,6 +233,7 @@ class PlayOrderController extends GetxController {
     remarksController = TextEditingController();
     this.skillModel.value = skillModel;
     this.liveUid = liveUid;
+    preOrder(skillModel.authId.toString(), liveUid);
     changeQuantity(1);
   }
 
@@ -190,6 +246,20 @@ class PlayOrderController extends GetxController {
   void onClose() {
     remarksController.dispose();
     super.onClose();
+  }
+  
+   ///过滤
+  var preOrderDm = DataModel(object: {});
+  Future<int> preOrder(String skillAuthId,String liveuid) async {
+    await http.get('/peiwan/app/order/preOrder',queryParameters: {
+      "skillAuthId":skillAuthId,
+      "liveuid":liveuid,
+    }).then((res) async {
+      preOrderDm.addObject(res.data);
+    }).catchError((e) {
+      preOrderDm.toError(e.toString());
+    });
+    return preOrderDm.flag;
   }
 
   void changeQuantity(int quantity){

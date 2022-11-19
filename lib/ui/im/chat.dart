@@ -18,6 +18,8 @@ import 'package:wy/ui/im/play_detail.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/play_order_detail_model.dart';
+import '../../widget/tim_ui/my_tim_uikit_chat.dart' as my;
+import '../../widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
 
 class Chat extends StatefulWidget {
   final V2TimConversation selectedConversation;
@@ -191,7 +193,7 @@ class _ChatState extends State<Chat> {
     double height = width * 191 / 369;
     double iconHeight = height * 0.5;
     return Scaffold(
-      body: TIMUIKitChat(
+      body: my.TIMUIKitChat(
         topFixWidget: _buildOrderState(),
           lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
             // This configuration is unnecessary and only for demonstration purpose.
@@ -310,11 +312,11 @@ class _ChatState extends State<Chat> {
               ),
             );
           }),
-          morePanelConfig: MorePanelConfig(
+          morePanelConfig: my_tim_uikit_more_panel.MorePanelConfig(
             showFilePickAction: false,
             showCameraAction: false,
             extraAction: [
-              MorePanelItem(
+              my_tim_uikit_more_panel.MorePanelItem(
                   id: "order",
                   title: "Order".tr,
                   onTap: (c) {
