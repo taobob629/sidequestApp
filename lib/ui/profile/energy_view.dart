@@ -37,8 +37,12 @@ class EnergyView extends StatelessWidget {
                   ),
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                    child: Text("${'Remaining'.tr}: $remainingText", style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
+                  padding: const EdgeInsets.only(top: 5, right: 10),
+                    child: Text("${'Remaining'.tr}: $remainingText",
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontFamily: "DIN")),
                   ),
               ],
             ),
