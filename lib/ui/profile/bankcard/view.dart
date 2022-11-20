@@ -62,22 +62,11 @@ class BindBankCardPage extends GetView<BindBankCardController> {
                   onChanged: (check) {}),
               Text.rich(TextSpan(children: [
                 TextSpan(
-                  text: 'By signing up to Wanyoo\'s tournament, you agree to \n our'.tr,
+                  text: 'By checking this means you agree to our'.tr,
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
                 TextSpan(
-                    text: 'Tournament RulesPrivacy'.tr,
-                    style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        // 查看 服务条款
-                      }),
-                TextSpan(
-                  text: ' & ',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                TextSpan(
-                    text: 'Cookies Policy'.tr,
+                    text: ' Seller Payment Terms'.tr,
                     style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
