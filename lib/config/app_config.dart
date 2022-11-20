@@ -52,8 +52,12 @@ class AppConfig {
     }
     String env = StorageManager.getEnv();
     if(env.contains("dev") || env.contains("test")){
+      //网吧用:pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg
+      //陪玩用:
       Stripe.publishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg";
     }else{
+      //陪玩用：pk_live_51M2DJEB3wUGNV3o0sYDSmWc4taO50UAssHoZF962DboypII4XQFn1SyrwbIA3soc4V3MvLjXqotbUHPq2bHMxiOr00XzkcBdcO
+      //网吧用:pk_live_51L2yYXIXDgiM7OYZrSLG5cd2s9TQmlmNCMZjjIXporezDYxYrFuEziACkmsXOVVq6eAmXh4bykLcPov7xuFTAiKB00FUsm5xFM
       Stripe.publishableKey = "pk_live_51L2yYXIXDgiM7OYZrSLG5cd2s9TQmlmNCMZjjIXporezDYxYrFuEziACkmsXOVVq6eAmXh4bykLcPov7xuFTAiKB00FUsm5xFM";
     }
     Stripe.merchantIdentifier = "merchant.com.sidequest";
