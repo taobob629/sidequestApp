@@ -66,14 +66,14 @@ class PlayOrder extends StatelessWidget {
                       PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
                       PWidget.boxw(5),
                       // PWidget.text('112', [Colors.white, 16]),
-                      PWidget.text(controller.totalAmount.value.toStringAsFixed(2), [Colors.white, 16]),
+                      PWidget.text(controller.totalAmount.value.toStringAsFixed(0), [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
                     PWidget.row([
                       PWidget.text("${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)", [Colors.white, 18], {'exp': true}),
                       PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
                       PWidget.boxw(5),
-                      PWidget.text('${(controller.totalAmount.value * controller.fellv.value).toStringAsFixed(2)}', [Colors.white, 16]),
+                      PWidget.text('${(controller.totalAmount.value * controller.fellv.value).ceil()}', [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
                     YouhuiquanInputWidget(textCon, (v) async {
@@ -84,7 +84,7 @@ class PlayOrder extends StatelessWidget {
                       if (controller.calculateDm.value.object == 0) return PWidget.boxh(0);
                       return PWidget.container(
                         PWidget.row([
-                          PWidget.text("${'Coupon deduction'.tr}", [Colors.white, 18], {'exp': true}),
+                          PWidget.text("${'Discount'.tr}", [Colors.white, 18], {'exp': true}),
                           Stack(clipBehavior: Clip.none, children: [
                             PWidget.row([
                               PWidget.image("assets/images/ic_balance_money.webp", [16, 16]),
@@ -104,8 +104,8 @@ class PlayOrder extends StatelessWidget {
                       PWidget.boxw(5),
                       Obx(() {
                         var zj = controller.totalAmount.value;
-                        var flj = controller.totalAmount.value * controller.fellv.value;
-                        var zzj = (zj - flj - controller.calculateDm.value.object!).toStringAsFixed(2);
+                        var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
+                        var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
                         flog(controller.calculateDm.value.object!, 'calculate');
                         return PWidget.text(zzj, [Color(0xffeeca46), 24]);
                       }),
@@ -281,7 +281,7 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
       PWidget.row([
         buildTFView(
           context,
-          hintText: 'Please enter discount password here'.tr,
+          hintText: 'please enter voucher code'.tr,
           height: 40,
           padding: EdgeInsets.only(left: 8, right: 8),
           isExp: true,
