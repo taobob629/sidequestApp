@@ -111,7 +111,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         PWidget.column([
           PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
           Text(
-            '''1.${'If you withdraw cash from us, you’ll be charged a handling fee of 15%.'.tr}\n2. ${'Withdrawals typically take three to five bank working days.'.tr}''',
+            '''1.${'If you withdraw cash from us, you’ll be charged a handling fee of 8%.'.tr}\n2. ${'Withdrawals typically take three to five bank working days.'.tr}''',
             style: TextStyle(color: Color(0xff8291B4)),
           ),
         ]),
