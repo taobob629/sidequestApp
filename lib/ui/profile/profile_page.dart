@@ -202,8 +202,8 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Obx(()=>Row(
+            mainAxisAlignment:controller.online.value? MainAxisAlignment.spaceAround:MainAxisAlignment.spaceAround,
             children: [
               // IconMenu(
               //   icon: "assets/images/ic_tab_shop_new.webp",
@@ -243,7 +243,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ],
-          ),
+          )),
           if(1!=1)
           SizedBox(
             height: 15,
