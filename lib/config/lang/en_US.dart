@@ -381,8 +381,7 @@ const Map<String, String> en_US = {
   'Top Up': 'Top Up',
   'Other Top Up Amount': 'Other Top Up Amount',
   'Top Up Account': 'Top Up Account',
-  'mins': 'mins',
-  //分钟缩写
+  'mins': 'mins', //分钟缩写
   'Credits Balance': 'Credits Balance',
   'Free Gaming Time': 'Free Gaming Time',
   'Bind bank card': 'Bind bank card',
