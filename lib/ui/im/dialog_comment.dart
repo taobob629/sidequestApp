@@ -17,7 +17,13 @@ class CommentDialog extends StatelessWidget {
   final bool isRefund;
 
   CommentDialog(int orderId, Function onDone,{ this.isRehect=false,this.isRefund=false}){
-    controller = Get.put(CommentDialogController(orderId:orderId, onDone:onDone,isReject: isRehect,isRefund: isRefund));
+    controller = Get.put(
+        CommentDialogController(
+            orderId: orderId,
+            onDone: onDone,
+            isReject: isRehect,
+            isRefund: isRefund),
+        tag: '$orderId$isRefund$isRehect');
   }
 
   @override
