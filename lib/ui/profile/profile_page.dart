@@ -342,6 +342,14 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfilePageController extends GetxController {
+  static ProfilePageController instance() {
+    try {
+      return Get.find<ProfilePageController>();
+    } catch (e) {
+      return Get.put(ProfilePageController());
+    }
+  }
+
   RxList<VipInfoModel> vipInfoList = RxList();
 
   int devCount = 0;
