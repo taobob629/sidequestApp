@@ -42,7 +42,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                 ? PWidget.text(
                     'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8})
                 : ListView.separated(
-          shrinkWrap: true,
+                    shrinkWrap: true,
                     itemBuilder: (context, index) => item(index),
                     separatorBuilder: (context, index) => Container(
                       height: 10,
@@ -184,118 +184,6 @@ class SkillListPage extends GetView<SkillListPageController> {
         ],
       ),
     );
-
-    return ListTile(
-      dense: true,
-      title: Container(
-        padding: EdgeInsets.only(right: 16),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/skill_rect_bg.webp'),
-                fit: BoxFit.fill)),
-        child: PWidget.row([
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/skill_circle_bg.webp'),
-                    fit: BoxFit.fill)),
-            child: CircleAvatar(
-              radius: 32,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                    imageUrl: data.skillThumb ?? '',
-                    fit: BoxFit.cover,
-                    width: 64,
-                    height: 64),
-              ),
-            ),
-          ),
-          PWidget.boxw(8),
-          PWidget.column([
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PWidget.text('${data.skillName}', [Colors.yellow, 18, true],
-                    {'ff': 'DIN'}),
-                Row(
-                  children: [
-                    if (data.status != SkillModel.PASS)
-                      PWidget.container(
-                        PWidget.text(
-                            {
-                              '2': 'edit'.tr,
-                              '0': 'under review'.tr,
-                              '1': 'edit'.tr
-                            }['${data.status}'],
-                            [
-                              {
-                                '2': Colors.black.withOpacity(0.75),
-                                '0': Colors.white24,
-                                '1': Colors.black
-                              }['${data.status}'],
-                              14,
-                            ],
-                            {
-                              'pd': PFun.lg(2, 2, 8, 8),
-                              'fun': () {
-                                if ([SkillModel.DENIED, SkillModel.PASS]
-                                    .contains(data.status))
-                                  return jumpPage(AddGamePage(data.toJson()),
-                                      callback: (res) {
-                                    if (res != null) controller.refresh();
-                                  });
-                                ; //todo
-                              }
-                            }),
-                        [
-                          null,
-                          null,
-                          {
-                            '2': Colors.white,
-                            '0': Colors.white.withOpacity(0.1),
-                            '1': Colors.white.withOpacity(0.5)
-                          }['${data.status}']
-                        ],
-                        {'br': 56},
-                      ),
-                    if (data.status == SkillModel.PASS)
-                      GestureDetector(
-                          onTap: () => jumpPage(AddGamePage(data.toJson()),
-                                  callback: (res) {
-                                if (res != null) controller.refresh();
-                              }),
-                          child: Icon(
-                            Icons.edit_note_rounded,
-                            size: 24,
-                            color: Colors.white,
-                          )),
-                    if (data.status == SkillModel.PASS) PWidget.boxw(4),
-                    if (data.status == SkillModel.PASS)
-                      GestureDetector(
-                          onTap: () => controller.addSkillItem(data),
-                          child: Icon(
-                            Icons.add,
-                            size: 24,
-                            color: Colors.green,
-                          )),
-                  ],
-                )
-              ],
-            ),
-            PWidget.boxh(4),
-            PWidget.text('${data.levelName}', [Colors.white, 12]),
-            // if (data.status == SkillModel.DENIED) PWidget.boxh(4),
-            // if (data.status == SkillModel.DENIED)
-            //   PWidget.text('${data.reason}', [Colors.red, 12]),
-          ], {
-            'exp': 1
-          }),
-        ]),
-      ),
-      //contentPadding: EdgeInsets.all(0),
-      subtitle: Container(child: Column(children: _buildBottom(data))),
-    );
   }
 
   _skill_items(SkillModel data) {
@@ -360,23 +248,11 @@ class SkillListPage extends GetView<SkillListPageController> {
         image: DecorationImage(
             image: ExactAssetImage('assets/images/skill_divider.webp'),
             alignment: Alignment.bottomRight),
-        // border: Border(
-        //   top: BorderSide(
-        //     width: 0.6,
-        //     color: Colors.yellow.withOpacity(0.6),
-        //   ),
-        // ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // IconButton(
-          //     onPressed: () => controller.addSkillItem(data,skillItemModel: ),
-          //     icon: Icon(
-          //       Icons.edit,
-          //       color: Colors.white,
-          //     )),
           if (item != null)
             Text(
               '${item?.name}',
@@ -409,14 +285,6 @@ class SkillListPage extends GetView<SkillListPageController> {
                   ],
                 ),
               PWidget.boxw(5),
-              // if (item != null)
-              //   GestureDetector(
-              //       onTap: () => controller.addSkillItem(data),
-              //       child: Icon(
-              //         Icons.delete,
-              //         size: icon_size,
-              //         color: Colors.white60,
-              //       )),
               if (item != null)
                 GestureDetector(
                     onTap: () =>
@@ -427,15 +295,6 @@ class SkillListPage extends GetView<SkillListPageController> {
                       color: Colors.white,
                     )),
               PWidget.boxw(3),
-              // if (showAdd)
-              //   GestureDetector(
-              //       onTap: () => controller.addSkillItem(data),
-              //       child: Icon(
-              //         Icons.add,
-              //         size: icon_size,
-              //         color: Colors.green,
-              //       )),
-              // if (!showAdd) PWidget.boxw(icon_size),
               PWidget.boxw(icon_size),
             ],
           ),
