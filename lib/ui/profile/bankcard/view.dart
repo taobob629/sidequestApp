@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/profile/bankcard/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
@@ -53,32 +55,9 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Checkbox(
-                  value: true,
-                  activeColor: Color.fromRGBO(236, 93, 0, 1),
-                  onChanged: (check) {}),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                  text: 'By checking this means you agree to our'.tr,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                TextSpan(
-                    text: ' Seller Payment Terms'.tr,
-                    style: TextStyle(
-                        color: Color.fromRGBO(40, 86, 255, 1),
-                        fontSize: 12,
-                        decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        // 查看 服务条款
-                      }),
-              ]))
-            ],
-          ),
+          PrivacyCheck(
+              controller: controller.privacyCheckController,
+              type: TYPE_ADD_BANK),
           FloatingButton(
             label: "Next".tr,
             onTap: () {
