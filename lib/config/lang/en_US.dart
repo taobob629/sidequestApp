@@ -398,7 +398,7 @@ const Map<String, String> en_US = {
   'Please enter the 6-digit format xx-xx-xx':
       'Please enter the 6-digit format xx-xx-xx',
   'Bank name': 'Bank name',
-  'please input': 'Please input',
+  'please input': 'please input',
   'Account number': 'Account number',
   'Name on account': 'Name on account',
   'Cancel Confirm': 'Cancel Confirm',
