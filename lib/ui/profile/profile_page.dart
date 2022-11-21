@@ -214,15 +214,16 @@ class ProfilePage extends StatelessWidget {
               //     mainController.updateCurrentIndex(2);
               //   },
               // ),
-              IconMenu(
-                icon: "assets/images/ic_wallet.webp",
-                title: "Wallet".tr,
-                onTap: () {
-                  userController.checkLogin(() {
-                    Get.toNamed(AppPages.WALLET_PAGE);
-                  });
-                },
-              ),
+              if (controller.online.value)
+                IconMenu(
+                  icon: "assets/images/ic_wallet.webp",
+                  title: "Wallet".tr,
+                  onTap: () {
+                    userController.checkLogin(() {
+                      Get.toNamed(AppPages.WALLET_PAGE);
+                    });
+                  },
+                ),
               IconMenu(
                 icon: "assets/images/ic_settings.webp",
                 title: "Services".tr,
@@ -303,7 +304,8 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "My Bookings".tr,
                 onTap: () {
-                  userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
+                  userController.checkLogin(() => Get.to(() => BookingPage())
+                      ?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
@@ -324,13 +326,15 @@ class ProfilePage extends StatelessWidget {
                   icon: "assets/images/ic_tab_events_new.webp",
                   title: "My Activities".tr,
                   onTap: () {
-                    userController.checkLogin(() => Get.to(() => MyEventsPage()));
+                    userController
+                        .checkLogin(() => Get.to(() => MyEventsPage()));
                   }),
               IconMenu(
                   icon: "assets/images/ic_address_new.webp",
                   title: "My Address".tr,
                   onTap: () {
-                    userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
+                    userController
+                        .checkLogin(() => NavigatorHelper.gotoAddressPage());
                   }),
               IconMenu(icon: "", title: ""),
             ],
@@ -371,7 +375,9 @@ class ProfilePageController extends GetxController {
     }
     devCount = 0;
 
-    Get.dialog(InputDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+    Get.dialog(InputDialog(),
+            barrierDismissible: true, barrierColor: Colors.black26)
+        .then((value) {
       if (value == "9637") {
         Get.to(() => DeveloperPage());
       } else {
