@@ -434,14 +434,14 @@ class OrderDetail extends StatelessWidget {
         theme: TimelineThemeData(
           direction: Axis.horizontal,
           connectorTheme: ConnectorThemeData(
-            space: 30.0,
+            space: 25.0,
             thickness: 5.0,
           ),
         ),
         builder: TimelineTileBuilder.connected(
             itemExtentBuilder: (_, index) {
               if (index == 0) return 100;
-              if (length <= 2) return Get.width + 140;
+              if (length <= 2) return Get.width + 100;
               if (index == (length - 1)) return 100;
               return Get.width - 200;
             },

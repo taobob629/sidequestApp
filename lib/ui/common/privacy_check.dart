@@ -17,7 +17,7 @@ class PrivacyCheck extends StatelessWidget {
       {required PrivacyCheckController controller,
       int type = TYPE_LOGIN,
       this.privacyList = const [],
-      this.wrapAlignment = WrapAlignment.center}) {
+      this.wrapAlignment = WrapAlignment.start}) {
     this.controller = controller;
     this.controller._c = _controller;
     switch (type) {
