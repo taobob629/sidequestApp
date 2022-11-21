@@ -54,7 +54,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           PWidget.row([
             PWidget.image('assets/images/ic_balance_votes.webp'),
             PWidget.boxw(4),
-            PWidget.text('Withdrawal income amount'.tr, [Color(0xffEEF3FF)], {'exp': true}),
+            PWidget.text('Total amount'.tr, [Color(0xffEEF3FF)], {'exp': true}),
           ]),
           PWidget.boxh(10),
           Obx(() => PWidget.text('${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
@@ -63,7 +63,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
       ItemTitle(
-          title: "Enter withdrawal amount".tr,
+          title: "Withdrawal amount".tr,
           subTitle: "",
           actions: Text(
             '${'Min'.tr}:1000',
@@ -111,7 +111,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         PWidget.column([
           PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
           Text(
-            '''1.${'If you withdraw cash from us, you’ll be charged a handling fee of 8%.'.tr}\n2. ${'Withdrawals typically take three to five bank working days.'.tr}''',
+            '''1.${'If you withdraw cash from us, you’ll be charged a handling fee of 8%.'.tr}\n2. ${'Withdrawals typically take three to five bank working days.'.tr}\n3. ${'6 Diamond for £1.'.tr}''',
             style: TextStyle(color: Color(0xff8291B4)),
           ),
         ]),
