@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
+import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/service/bindings.dart';
 import 'package:wy/ui/playwith/service/view.dart';
 import 'package:wy/ui/playwith/skill/list/bindings.dart';
-import 'package:wy/ui/playwith/skill/list/controller.dart';
 import 'package:wy/ui/playwith/skill/list/view.dart';
 import 'package:wy/ui/playwith/skill/skill_item/bindings.dart';
 import 'package:wy/ui/playwith/skill/skill_item/view.dart';
@@ -15,7 +16,7 @@ import 'package:wy/ui/profile/bankcard/view.dart';
 import 'package:wy/ui/profile/grade/bindings.dart';
 import 'package:wy/ui/profile/grade/index.dart';
 
-import '../ui/playwith/skill/play_skills_page.dart';
+import 'app_config.dart';
 
 class AppPages {
   static const Main = '/main';
@@ -26,6 +27,7 @@ class AppPages {
   static const MoreGames = '/moreGames';
   static const SkillItem = '/skillItem';
   static const SkillList = '/skillList';
+  static const WALLET_PAGE = '/wallet';
   static final routes = [
     GetPage(
       name: Main,
@@ -64,6 +66,9 @@ class AppPages {
         name: SkillList,
         page: () => SkillListPage(),
         binding: SkillListBinding()),
-
+    GetPage(
+        name: WALLET_PAGE,
+        page: () => PlayBalancePage(),
+        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)])
   ];
 }

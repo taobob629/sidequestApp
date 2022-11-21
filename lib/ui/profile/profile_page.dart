@@ -219,7 +219,7 @@ class ProfilePage extends StatelessWidget {
                 title: "Wallet".tr,
                 onTap: () {
                   userController.checkLogin(() {
-                    Get.to(() => PlayBalancePage());
+                    Get.toNamed(AppPages.WALLET_PAGE);
                   });
                 },
               ),
@@ -263,7 +263,7 @@ class ProfilePage extends StatelessWidget {
                   title: "Wallet".tr,
                   onTap: () {
                     userController.checkLogin(() {
-                      Get.to(() => PlayBalancePage());
+                      Get.toNamed(AppPages.WALLET_PAGE);
                     });
                   },
                 ),
