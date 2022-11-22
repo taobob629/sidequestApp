@@ -3,14 +3,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
+import 'package:wy/ui/profile/coupon/coupon_page.dart';
 
 import '../../common/colorful_button.dart';
 
 class AddCouponDialog extends StatelessWidget {
-
-  AddCouponDialog();
-
-  final controller = Get.put(AddCouponDialogController());
+  int tab=CouponPage.TYPE_STORE;
+  var controller;
+  AddCouponDialog({this.tab=CouponPage.TYPE_STORE}){
+    controller= Get.put(AddCouponDialogController(tab),tag: '$tab');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +118,9 @@ class AddCouponDialog extends StatelessWidget {
 
 class AddCouponDialogController extends GetxController{
   late TextEditingController codeController;
+  int tab=CouponPage.TYPE_STORE;
+
+  AddCouponDialogController(this.tab);
 
   @override
   void onInit() {
@@ -136,7 +141,7 @@ class AddCouponDialogController extends GetxController{
       return;
     }
     EasyLoading.show();
-    String? msg =  await CouponApi.add(code);
+    String? msg =tab==CouponPage.TYPE_STORE?  await CouponApi.add(code):await CouponApi.addPW(code);
     Get.back(result: msg);
   }
 }

@@ -2,11 +2,13 @@
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/ui/profile/coupon/coupon_page.dart';
+import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 
 class CouponApi {
-  static Future<List<CouponModel>> list({int couponType = 0}) async {
+  static Future<List<CouponModel>> list({int couponType = 0,int tab=CouponPage.TYPE_STORE}) async {
     var response = await http.get('/app/coupon/list',
-      queryParameters: ({"couponType":couponType})
+      queryParameters: ({"couponType":couponType,'tab':tab})
     );
     List<CouponModel> list = response.data
       .map<CouponModel>((item) => CouponModel.fromJson(item))
@@ -44,5 +46,12 @@ class CouponApi {
 
     return response.statusMessage;
   }
+  //添加陪玩优惠券
+  static Future<String?> addPW(String code) async {
+    var response = await http.get('/app/coupon/pw/add',
+        queryParameters: ({"code" : code})
+    );
 
+    return response.statusMessage;
+  }
 }

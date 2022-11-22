@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/address_model.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -58,6 +59,12 @@ class NavigatorHelper {
     Get.to(()=>CouponPage(couponType: couponType, payOrderModel: payOrderModel,))?.then(
         (model){if(model != null){onSelect?.call(model);}})
       .whenComplete(() => whenComplete?.call());
+  }
+
+  static void gotoCouponTabPage({int couponType = 0,PayOrderModel? payOrderModel, Function(CouponModel)? onSelect, Function? whenComplete}){
+    Get.toNamed(AppPages.COUPON_TAB_PAGE)?.then(
+            (model){if(model != null){onSelect?.call(model);}})
+        .whenComplete(() => whenComplete?.call());
   }
 
   static void gotoConfigTarget(String content){

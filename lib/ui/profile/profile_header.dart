@@ -136,7 +136,7 @@ class ProfileHeader extends StatelessWidget {
                 icon: "coupons",
                       label: "${controller.userInfoModel.value.coupons}",
                       info: "Vouchers".tr,
-                      onTap: () => controller.checkLogin(() => NavigatorHelper.gotoCouponPage(whenComplete: () => controller.updateInfo())),
+                      onTap: () => controller.checkLogin(() => NavigatorHelper.gotoCouponTabPage(whenComplete: () => controller.updateInfo())),
                     ),
             ],
           )

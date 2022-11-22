@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
+import 'package:wy/app.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -11,22 +12,24 @@ import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/utils/utils.dart';
 
 import 'coupon_item.dart';
 import 'dialog_coupon.dart';
 
 class CouponPage extends StatelessWidget {
-
+ static const int TYPE_STORE=0;
+ static const int TYPE_SIDE_KICK=1;
   late final CouponPageController controller;
-
-  CouponPage({int couponType = 0, PayOrderModel? payOrderModel}){
-    controller = Get.put(CouponPageController(couponType: couponType, payOrderModel: payOrderModel));
+  bool showAppbar=false;
+  CouponPage({int couponType = 0, PayOrderModel? payOrderModel,int tab=TYPE_STORE,this.showAppbar=true}){
+    controller = Get.put(CouponPageController(tab:tab,couponType: couponType, payOrderModel: payOrderModel),tag: '$tab');
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      title: "My Vouchers".tr,
+    return Scaffold(
+      appBar:showAppbar? AppBar(title: Text("Vouchers".tr),):null,
       body: Stack(
         children: [
           Positioned(
@@ -62,7 +65,7 @@ class CouponPage extends StatelessWidget {
           ()=>controller.floatingActionButtonShow.value ?
         FloatingButton(
             label: "ADD".tr,
-              onTap: () => Get.dialog(AddCouponDialog(), barrierColor: Colors.black26).then((value) {
+              onTap: () => Get.dialog(AddCouponDialog(tab: controller.tab,), barrierColor: Colors.black26).then((value) {
                     if (value != null) {
                       controller.reload();
                       Get.dialog(ConfirmDialog(title: "Voucher Added".tr, info: value), barrierColor: Colors.black26);
@@ -81,8 +84,8 @@ class CouponPageController extends GetxListController<CouponModel> {
 
   PayOrderModel? payOrderModel;
   int couponType = 0;
-
-  CouponPageController({required this.payOrderModel, required this.couponType});
+  int tab;
+  CouponPageController({required this.payOrderModel, required this.couponType,this.tab=CouponPage.TYPE_STORE});
 
   @override
   void onInit() {
@@ -115,19 +118,12 @@ class CouponPageController extends GetxListController<CouponModel> {
 
   Future<List<CouponModel>> loadData() async{
     EasyLoading.show();
-
-
     List<CouponModel> list;
     if(payOrderModel == null) {
-      if(couponType == 0) {
-        list = await CouponApi.list();
-      }else{
-        list = await CouponApi.list(couponType: couponType);
-      }
+        list = await CouponApi.list(couponType: couponType,tab: this.tab);
     }else{
       list = await CouponApi.avaList(payOrderModel!);
     }
-
     EasyLoading.dismiss();
 
     return list;

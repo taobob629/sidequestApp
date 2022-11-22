@@ -13,6 +13,8 @@ import 'package:wy/ui/profile/attention/bindings.dart';
 import 'package:wy/ui/profile/attention/tab_view.dart';
 import 'package:wy/ui/profile/bankcard/bindings.dart';
 import 'package:wy/ui/profile/bankcard/view.dart';
+import 'package:wy/ui/profile/coupon/tab/bindings.dart';
+import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 import 'package:wy/ui/profile/grade/bindings.dart';
 import 'package:wy/ui/profile/grade/index.dart';
 
@@ -28,6 +30,7 @@ class AppPages {
   static const SkillItem = '/skillItem';
   static const SkillList = '/skillList';
   static const WALLET_PAGE = '/wallet';
+  static const COUPON_TAB_PAGE = '/coupon_tab_page';
   static final routes = [
     GetPage(
       name: Main,
@@ -69,6 +72,10 @@ class AppPages {
     GetPage(
         name: WALLET_PAGE,
         page: () => PlayBalancePage(),
-        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)])
+        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(
+        name: COUPON_TAB_PAGE,
+        page: () => CouponTabPage(),
+        binding: CouponTabBinding())
   ];
 }
