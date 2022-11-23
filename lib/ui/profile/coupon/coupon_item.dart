@@ -35,21 +35,9 @@ class CouponItem extends StatelessWidget {
     }
     return imgsrc;
   }
-
+ double mainpadding=30;
   @override
   Widget build(BuildContext context) {
-    List<Color> colors = [];
-    colors.add(Color(0x77F89A08));
-    colors.add(Color(0x77FC3C02));
-    colors.add(Color(0x775B3E98));
-    colors.add(Color(0x77FCB013));
-    colors.add(Color(0x77841FC3));
-    colors.add(Color(0x7719AD74));
-    colors.add(Color(0x773967D9));
-    colors.add(Color(0x77FC6D13));
-    colors.add(Color(0x77669EFC));
-    colors.add(Color(0x77CF5DA6));
-    flog('model.type ${model.type}');
     return GestureDetector(
       onTap: () => onTap?.call(model),
       child: Stack(
@@ -64,10 +52,7 @@ class CouponItem extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(45, 16, 45, 16),
-                  // decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(12),
-                  //     color: colors[model.type]),
+                  padding: EdgeInsets.fromLTRB(mainpadding, 16, mainpadding, 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -76,41 +61,35 @@ class CouponItem extends StatelessWidget {
                         children: [
                           //   Spacer(),
                           Flexible(
-                              flex: 2,
+                              flex: 5,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  PWidget.text('${model.discount}',
-                                      [Colors.white, 60], {'ff': 'DIN'}),
+                                  PWidget.text('${model.discount}', [Colors.white, 50], {'ff': 'DIN'}),
                                   if (model.unit.isNotEmpty)
                                     Container(
                                       child: Transform.rotate(
                                         angle: Math.pi / 2,
-                                        child: Container(
-                                            padding: EdgeInsets.only(
-                                                top: 18, right: 6),
-                                            child: PWidget.text(
-                                                '${model.unit}',
-                                                [Colors.white, 30],
-                                                {'ff': 'DIN'})),
+                                        child: Container(padding: EdgeInsets.only(top: 20, right: 10), child: PWidget.text('${model.unit}', [Colors.white, 30], {'ff': 'DIN'})),
                                       ),
                                     ),
                                 ],
                               )),
-                          PWidget.boxw(10),
                           Flexible(
-                            flex: 4,
+                            flex: 8,
                             child: Container(
                               //    color: Colors.white60,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  PWidget.text('${model.typeName}',
-                                      [Colors.yellow, 25], {'ff': 'DIN'}),
-                                  PWidget.text('${model.name}',
-                                      [Colors.yellow, 16], {'ff': 'DIN'}),
-                                  PWidget.text('${model.description}',
-                                      [Colors.yellow, 17], {'ff': 'DIN'}),
+                                  PWidget.text('${model.typeName}', [Colors.yellow, 25], {'ff': 'DIN'}),
+                                  PWidget.text('${model.name}', [Colors.yellow, 15], {'ff': 'DIN'}),
+                                  PWidget.boxh(3),
+                                  Text(
+                                    '${model.description}',
+                                    style: TextStyle(color: Colors.white70, fontSize: 14, fontFamily: 'DIN'),
+                                    maxLines: 2,
+                                  ),
                                 ],
                               ),
                             ),
@@ -125,115 +104,20 @@ class CouponItem extends StatelessWidget {
                 )
               ],
             ),
-            // child: Container(
-            //   decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(12),
-            //       color: colors[model.type]),
-            //   child: Stack(
-            //     children: [
-            //       Positioned(
-            //           left: -9,
-            //           top: 0,
-            //           bottom: 0,
-            //           child: Center(
-            //             child: Container(
-            //               height: 18,
-            //               width: 18,
-            //               decoration: BoxDecoration(
-            //                   color: AppColor.background,
-            //                   borderRadius: BorderRadius.circular(9)),
-            //             ),
-            //           )),
-            //       Positioned(
-            //           right: -9,
-            //           top: 0,
-            //           bottom: 0,
-            //           child: Center(
-            //             child: Container(
-            //               height: 18,
-            //               width: 18,
-            //               decoration: BoxDecoration(
-            //                   color: AppColor.background,
-            //                   borderRadius: BorderRadius.circular(9)),
-            //             ),
-            //           )),
-            //       Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           Column(
-            //             mainAxisAlignment: MainAxisAlignment.center,
-            //             crossAxisAlignment: CrossAxisAlignment.center,
-            //             children: [
-            //               Text(
-            //                 "${model.name}",
-            //                 style: TextStyle(color: Colors.white, fontSize: 16),
-            //               ),
-            //               _buildDisplay()
-            //             ],
-            //           ),
-            //           // Padding(
-            //           //   padding: const EdgeInsets.only(top: 5.0),
-            //           //   child: Text("${model.couponCode}",style: TextStyle(color: Colors.white,fontSize: 16),),
-            //           // ),
-            //           SizedBox(
-            //             height: 15,
-            //           ),
-            //           Padding(
-            //             padding: const EdgeInsets.only(left: 15),
-            //             child: Column(
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Row(
-            //                   children: [
-            //                     Icon(
-            //                       Icons.widgets_outlined,
-            //                       size: 16,
-            //                       color: Colors.white,
-            //                     ),
-            //                     SizedBox(
-            //                       width: 5,
-            //                     ),
-            //                     Padding(
-            //                       padding: const EdgeInsets.only(top: 6),
-            //                       child: Text(
-            //                         model.typeName,
-            //                         style: TextStyle(
-            //                             fontSize: 16,
-            //                             fontFamily: "DIN",
-            //                             color: Colors.white),
-            //                       ),
-            //                     )
-            //                   ],
-            //                 ),
-            //                 Text(
-            //                   "${'Expire Date'.tr}: ${model.expireTime}",
-            //                   style: TextStyle(fontSize: 12, color: Colors.white60),
-            //                 )
-            //               ],
-            //             ),
-            //           )
-            //         ],
-            //       )
-            //     ],
-            //   ),
-            // ),
           ),
           if (model.usedCount > 1)
             Positioned(
               top: 15,
               right: 15,
-              child: PWidget.text('${'Available'.tr} : ${model.usedCount}',
-                  [Colors.white, 14], {'ff': 'DIN'}),
+              child: PWidget.text('${'Available'.tr} : ${model.usedCount}', [Colors.white, 14], {'ff': 'DIN'}),
             ),
           Positioned(
             bottom: 15,
-            left: 60,
+            left: mainpadding,
             // left: 20,
             child: Container(
               //    alignment: Alignment.center,
-              child: PWidget.text('${'Expire Date'.tr} : ${model.expireTime}',
-                  [Colors.white, 14], {'ff': 'DIN'}),
+              child: PWidget.text('${'Expire Date'.tr} : ${model.expireTime}', [Colors.white, 14], {'ff': 'DIN'}),
             ),
           )
         ],
