@@ -1,35 +1,43 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
-import 'package:wy/app.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/ui/common/base_scaffold.dart';
-import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
 
 import 'coupon_item.dart';
 import 'dialog_coupon.dart';
 
 class CouponPage extends StatelessWidget {
- static const int TYPE_STORE=0;
- static const int TYPE_SIDE_KICK=1;
+  static const int TYPE_STORE = 0;
+  static const int TYPE_SIDE_KICK = 1;
   late final CouponPageController controller;
-  bool showAppbar=false;
-  CouponPage({int couponType = 0, PayOrderModel? payOrderModel,int tab=TYPE_STORE,this.showAppbar=true}){
-    controller = Get.put(CouponPageController(tab:tab,couponType: couponType, payOrderModel: payOrderModel),tag: '$tab');
+  bool showAppbar = false;
+
+  CouponPage(
+      {int couponType = 0,
+      PayOrderModel? payOrderModel,
+      int tab = TYPE_STORE,
+      this.showAppbar = true}) {
+    controller = Get.put(
+        CouponPageController(
+            tab: tab, couponType: couponType, payOrderModel: payOrderModel),
+        tag: '$tab');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:showAppbar? AppBar(title: Text("Vouchers".tr),):null,
+      appBar: showAppbar
+          ? AppBar(
+              title: Text("Vouchers".tr),
+            )
+          : null,
       body: Stack(
         children: [
           Positioned(
@@ -45,34 +53,41 @@ class CouponPage extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: GridView.builder(
                             controller: controller.scrollController,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 167/116
-                ),
-                itemBuilder: (context,index){
-                  CouponModel model = controller.list[index];
-                  return CouponItem(model: model, onTap: (model)=>controller.selectCoupon(model),);
-                },
-                itemCount: controller.list.length,
-              )
-            ))
-          )
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    mainAxisSpacing: 10.0,
+                                    crossAxisSpacing: 10.0,
+                                    childAspectRatio: 688 / 333),
+                            itemBuilder: (context, index) {
+                              CouponModel model = controller.list[index];
+                              return CouponItem(
+                                model: model,
+                                onTap: (model) =>
+                                    controller.selectCoupon(model),
+                              );
+                            },
+                            itemCount: controller.list.length,
+                          ))))
         ],
       ),
-      floatingActionButton: Obx(
-          ()=>controller.floatingActionButtonShow.value ?
-        FloatingButton(
-            label: "ADD".tr,
-              onTap: () => Get.dialog(AddCouponDialog(tab: controller.tab,), barrierColor: Colors.black26).then((value) {
+      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
+          ? FloatingButton(
+              label: "ADD".tr,
+              onTap: () => Get.dialog(
+                          AddCouponDialog(
+                            tab: controller.tab,
+                          ),
+                          barrierColor: Colors.black26)
+                      .then((value) {
                     if (value != null) {
                       controller.reload();
-                      Get.dialog(ConfirmDialog(title: "Voucher Added".tr, info: value), barrierColor: Colors.black26);
+                      Get.dialog(
+                          ConfirmDialog(title: "Voucher Added".tr, info: value),
+                          barrierColor: Colors.black26);
                     }
                   }))
-          : Container()
-      ),
+          : Container()),
     );
   }
 }
@@ -85,7 +100,11 @@ class CouponPageController extends GetxListController<CouponModel> {
   PayOrderModel? payOrderModel;
   int couponType = 0;
   int tab;
-  CouponPageController({required this.payOrderModel, required this.couponType,this.tab=CouponPage.TYPE_STORE});
+
+  CouponPageController(
+      {required this.payOrderModel,
+      required this.couponType,
+      this.tab = CouponPage.TYPE_STORE});
 
   @override
   void onInit() {
@@ -102,11 +121,13 @@ class CouponPageController extends GetxListController<CouponModel> {
   @override
   void onReady() {
     scrollController.addListener(() {
-      if (scrollController.offset - offset > 0) { //down
+      if (scrollController.offset - offset > 0) {
+        //down
         if (floatingActionButtonShow.value) {
           floatingActionButtonShow.value = false;
         }
-      } else { //up
+      } else {
+        //up
         if (!floatingActionButtonShow.value) {
           floatingActionButtonShow.value = true;
         }
@@ -116,12 +137,12 @@ class CouponPageController extends GetxListController<CouponModel> {
     super.onReady();
   }
 
-  Future<List<CouponModel>> loadData() async{
+  Future<List<CouponModel>> loadData() async {
     EasyLoading.show();
     List<CouponModel> list;
-    if(payOrderModel == null) {
-        list = await CouponApi.list(couponType: couponType,tab: this.tab);
-    }else{
+    if (payOrderModel == null) {
+      list = await CouponApi.list(couponType: couponType, tab: this.tab);
+    } else {
       list = await CouponApi.avaList(payOrderModel!);
     }
     EasyLoading.dismiss();
@@ -129,11 +150,15 @@ class CouponPageController extends GetxListController<CouponModel> {
     return list;
   }
 
-  void selectCoupon(CouponModel model){
-    if(payOrderModel != null){
+  void selectCoupon(CouponModel model) {
+    if (payOrderModel != null) {
       Get.back(result: model);
-    }else{
-      Get.dialog(CouponDialog(model: model,),barrierColor: Colors.black26);
+    } else {
+      Get.dialog(
+          CouponDialog(
+            model: model,
+          ),
+          barrierColor: Colors.black26);
     }
   }
 }
