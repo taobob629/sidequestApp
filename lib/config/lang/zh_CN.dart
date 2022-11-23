@@ -334,8 +334,8 @@ const Map<String, String> zh_CN = {
   'Country': '国家',
   'State': '省',
   'City': '城市',
-  'My Services': '我的技能',
-  'Add Service': '添加技能',
+  'My Services': '我的服务',
+  'Add Service': '添加服务',
   'reject': '拒绝',
   'under review': '审核中',
   'edit': '编辑',
@@ -569,4 +569,5 @@ const Map<String, String> zh_CN = {
   'TOTAL': '总计',
   'Coupon deduction': '抵扣',
   'Discount': '折扣',
+
 };
