@@ -226,7 +226,7 @@ class ProfilePage extends StatelessWidget {
                 ),
               IconMenu(
                 icon: "assets/images/ic_settings.webp",
-                title: "Services".tr,
+                title: "My Services".tr,
                 onTap: () {
                   userController.checkLogin(() {
                     Get.toNamed(AppPages.SkillList);
