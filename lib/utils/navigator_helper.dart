@@ -18,6 +18,7 @@ import 'package:wy/ui/profile/coupon/coupon_page.dart';
 import 'package:wy/ui/profile/edit/edit_profile_page.dart';
 import 'package:wy/ui/search/search_page.dart';
 import 'package:wy/ui/shop/product/product_page.dart';
+import 'package:wy/utils/utils.dart';
 
 class NavigatorHelper {
   static void gotoPayPage(PayOrderModel payOrderModel,{bool offPage = false,Function? whenComplete}){
@@ -49,22 +50,41 @@ class NavigatorHelper {
     });
   }
 
-  static Future<AddressModel?> gotoAddressPage({bool select = false}) async{
+  static Future<AddressModel?> gotoAddressPage({bool select = false}) async {
     AddressModel? model;
-    await Get.to(()=>AddressPage(select: select,))?.then((value) => model = value);
+    await Get.to(() => AddressPage(
+          select: select,
+        ))?.then((value) => model = value);
     return model;
   }
 
-  static void gotoCouponPage({int couponType = 0,PayOrderModel? payOrderModel, Function(CouponModel)? onSelect, Function? whenComplete}){
-    Get.to(()=>CouponPage(couponType: couponType, payOrderModel: payOrderModel,))?.then(
-        (model){if(model != null){onSelect?.call(model);}})
-      .whenComplete(() => whenComplete?.call());
+  static void gotoCouponPage(
+      {int couponType = 0,
+      PayOrderModel? payOrderModel,
+      Map<String, dynamic>? preOrder,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
+    Get.to(() => CouponPage(
+          couponType: couponType,
+          payOrderModel: payOrderModel,
+          preOrder: preOrder,
+        ))?.then((model) {
+      if (model != null) {
+        onSelect?.call(model);
+      }
+    }).whenComplete(() => whenComplete?.call());
   }
 
-  static void gotoCouponTabPage({int couponType = 0,PayOrderModel? payOrderModel, Function(CouponModel)? onSelect, Function? whenComplete}){
-    Get.toNamed(AppPages.COUPON_TAB_PAGE)?.then(
-            (model){if(model != null){onSelect?.call(model);}})
-        .whenComplete(() => whenComplete?.call());
+  static void gotoCouponTabPage(
+      {int couponType = 0,
+      PayOrderModel? payOrderModel,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
+    Get.toNamed(AppPages.COUPON_TAB_PAGE)?.then((model) {
+      if (model != null) {
+        onSelect?.call(model);
+      }
+    }).whenComplete(() => whenComplete?.call());
   }
 
   static void gotoConfigTarget(String content){

@@ -9,6 +9,7 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
+import 'package:wy/utils/utils.dart';
 
 import 'coupon_item.dart';
 import 'dialog_coupon.dart';
@@ -22,11 +23,15 @@ class CouponPage extends StatelessWidget {
   CouponPage(
       {int couponType = 0,
       PayOrderModel? payOrderModel,
+      Map<String, dynamic>? preOrder,
       int tab = TYPE_STORE,
       this.showAppbar = true}) {
     controller = Get.put(
         CouponPageController(
-            tab: tab, couponType: couponType, payOrderModel: payOrderModel),
+            preOrder: preOrder,
+            tab: tab,
+            couponType: couponType,
+            payOrderModel: payOrderModel),
         tag: '$tab');
   }
 
@@ -100,10 +105,12 @@ class CouponPageController extends GetxListController<CouponModel> {
   PayOrderModel? payOrderModel;
   int couponType = 0;
   int tab;
+  Map<String, dynamic>? preOrder;
 
   CouponPageController(
       {required this.payOrderModel,
       required this.couponType,
+      this.preOrder,
       this.tab = CouponPage.TYPE_STORE});
 
   @override
@@ -139,11 +146,14 @@ class CouponPageController extends GetxListController<CouponModel> {
 
   Future<List<CouponModel>> loadData() async {
     EasyLoading.show();
+    // flog('preOrder---$preOrder ');
     List<CouponModel> list;
-    if (payOrderModel == null) {
-      list = await CouponApi.list(couponType: couponType, tab: this.tab);
-    } else {
+    if (payOrderModel != null) {
       list = await CouponApi.avaList(payOrderModel!);
+    } else if (preOrder != null) {
+      list = await CouponApi.avaiPwcoupons(preOrder);
+    } else {
+      list = await CouponApi.list(couponType: couponType, tab: this.tab);
     }
     EasyLoading.dismiss();
 
@@ -151,7 +161,7 @@ class CouponPageController extends GetxListController<CouponModel> {
   }
 
   void selectCoupon(CouponModel model) {
-    if (payOrderModel != null) {
+    if (payOrderModel != null || preOrder != null) {
       Get.back(result: model);
     } else {
       Get.dialog(

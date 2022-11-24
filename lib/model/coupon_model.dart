@@ -15,6 +15,11 @@ class CouponModel {
   late String unit = "";
   late int usedCount = 0;
 
+  @override
+  String toString() {
+    return 'CouponModel{id: $id, name: $name, description: $description, type: $type, expireTime: $expireTime, discount: $discount, limitStore: $limitStore, productId: $productId, freeTime: $freeTime, couponCode: $couponCode, typeName: $typeName, qrcode: $qrcode, unit: $unit, usedCount: $usedCount}';
+  }
+
   CouponModel();
 
   CouponModel.fromJson(Map<String, dynamic> json) {

@@ -30,22 +30,30 @@ class CouponApi {
       "orderShot" : model.orderShot,
       "phrase" : 0,
     };
-    var response = await http.post('/app/coupon/avaList',
-      data: formData
-    );
+    var response = await http.post('/app/coupon/avaList', data: formData);
     List<CouponModel> list = response.data
-      .map<CouponModel>((item) => CouponModel.fromJson(item))
-      .toList();
+        .map<CouponModel>((item) => CouponModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<List<CouponModel>> avaiPwcoupons(
+      Map<String, dynamic>? preOrder) async {
+    var response =
+        await http.post('/peiwan/app/order/avaiPwcoupons', data: preOrder);
+    List<CouponModel> list = response.data
+        .map<CouponModel>((item) => CouponModel.fromJson(item))
+        .toList();
     return list;
   }
 
   static Future<String?> add(String code) async {
-    var response = await http.get('/app/coupon/add',
-      queryParameters: ({"code" : code})
-    );
+    var response =
+        await http.get('/app/coupon/add', queryParameters: ({"code": code}));
 
     return response.statusMessage;
   }
+
   //添加陪玩优惠券
   static Future<String?> addPW(String code) async {
     var response = await http.get('/app/coupon/pw/add',
