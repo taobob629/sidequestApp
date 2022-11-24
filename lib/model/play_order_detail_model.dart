@@ -78,6 +78,8 @@ class PlayOrderDetailModel {
     rejectReason = json['order']['rejectReason'] ?? "";
     reason = json['order']['reason'] ?? "";
     receipttime = json['order']['receipttime'] ?? "";
+    addtime = json['order']['addtime'] ?? "";
+
     discount = json['order']['discount'] ?? 0;
     flog('status 3 $status');
   }
