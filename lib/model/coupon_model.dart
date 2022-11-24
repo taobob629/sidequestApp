@@ -5,7 +5,7 @@ class CouponModel {
   late String description = "";
   late int type = 0;
   late String expireTime = "";
-  late int discount = 0;
+  late int _discount = 0;
   late String limitStore = "";
   late String productId = "0";
   late int freeTime = 0;
@@ -15,9 +15,11 @@ class CouponModel {
   late String unit = "";
   late int usedCount = 0;
 
+  String get discount => unit == 'OFF' ? '$_discount%' : '$_discount';
+
   @override
   String toString() {
-    return 'CouponModel{id: $id, name: $name, description: $description, type: $type, expireTime: $expireTime, discount: $discount, limitStore: $limitStore, productId: $productId, freeTime: $freeTime, couponCode: $couponCode, typeName: $typeName, qrcode: $qrcode, unit: $unit, usedCount: $usedCount}';
+    return 'CouponModel{id: $id, name: $name, description: $description, type: $type, expireTime: $expireTime, discount: $_discount, limitStore: $limitStore, productId: $productId, freeTime: $freeTime, couponCode: $couponCode, typeName: $typeName, qrcode: $qrcode, unit: $unit, usedCount: $usedCount}';
   }
 
   CouponModel();
@@ -25,7 +27,7 @@ class CouponModel {
   CouponModel.fromJson(Map<String, dynamic> json) {
     id = json['coupon']['id'];
     name = json['coupon']['name'] == null ? "" : json['coupon']['name'];
-    discount =
+    _discount =
         json['coupon']['discount'] == null ? 0 : json['coupon']['discount'];
     type = json['coupon']['type'];
     expireTime = json['coupon']['expireTime'] == null
