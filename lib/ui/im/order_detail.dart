@@ -362,6 +362,30 @@ class OrderDetail extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Text(
+                  "Discount".tr,
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                ),
+                Spacer(),
+                Image.asset(
+                  "assets/images/ic_balance_money.webp",
+                  width: 14,
+                  height: 14,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "${palymodel.discount}",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
+            ),
           )
         ],
       ),

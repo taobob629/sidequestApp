@@ -37,6 +37,7 @@ class PlayOrderDetailModel {
   late int toUid = 0;
   late int nums = 0;
   late int total = 0;
+  late int discount=0;
  // late int status = 0; //-4已超时-3拒绝-2已完成-1取消0待支付1已支付2已接单，3：等待退款；4：拒绝退款；5：同意退款；6：退款申诉：等待平台退款
   late String orderno = "";
   late int svctm = 0;
@@ -77,6 +78,7 @@ class PlayOrderDetailModel {
     rejectReason = json['order']['rejectReason'] ?? "";
     reason = json['order']['reason'] ?? "";
     receipttime = json['order']['receipttime'] ?? "";
+    discount = json['order']['discount'] ?? 0;
     flog('status 3 $status');
   }
 }
