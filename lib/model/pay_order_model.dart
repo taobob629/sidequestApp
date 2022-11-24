@@ -62,7 +62,7 @@ class PayOrderModel {
 
   @override
   String toString() {
-    return 'PayOrderModel{type: $type, addressId: $addressId, goodsPrice: $goodsPrice, freightPrice: $freightPrice, tax: $tax, couponPrice: $couponPrice, couponCode: $couponCode, payType: $payType, orderShot: $orderShot, phrase: $phrase, couponId: $couponId, chargeid: $chargeid, svctm: $svctm, liveuid: $liveuid, skillid: $skillid, nums: $nums, des: $des, totalAmount: $totalAmount}';
+    return 'PayOrderModel{type: $type, addressId: $addressId, goodsPrice: $goodsPrice, freightPrice: $freightPrice, tax: $tax, couponPrice: $couponPrice, couponCode: $couponCode, payType: $payType, orderShot: $orderShot, phrase: $phrase, couponId: $couponId, chargeid: $chargeid, svctm: $svctm, liveuid: $liveuid, skillid: $skillid, nums: $nums, des: $des, serviceItemId: $serviceItemId, code: $code, totalAmount: $totalAmount}';
   }
 }
 

@@ -100,7 +100,7 @@ class PlayOrder extends StatelessWidget {
                                   .toJson(),
                               //  payOrderModel: pageController.getPayOrderModel(),
                               onSelect: (model) async {
-                                flog('v $model');
+                              //  flog('v $model');
                                 await controller.calculate(
                                     skillModel.authId.toString(),
                                     liveUid,
@@ -425,6 +425,7 @@ class PlayOrderController extends GetxController {
   }
 
   var calculateDm = DataModel(object: 0).obs;
+  int couponId = 0;
 
   Future<int> calculate(String skillAuthId, String liveuid,
       String serviceItemId, var couponId, var couponCode) async {
@@ -439,6 +440,7 @@ class PlayOrderController extends GetxController {
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
       calculateDm.value.addObject(res.data['discount']);
+      this.couponId = res.data['couponId'];
     }).catchError((e) {
       calculateDm.value.toError(e.toString());
     });
@@ -481,7 +483,8 @@ class PlayOrderController extends GetxController {
     model.des = remarksController.text;
     model.serviceItemId = serviceItemId;
     model.code = calculateDm.value.object == 0 ? '' : this.code;
-    flog(model.code,'code');
+    model.couponId = couponId;
+    flog('model $model');
     return model;
   }
 }
