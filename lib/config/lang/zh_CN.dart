@@ -569,5 +569,5 @@ const Map<String, String> zh_CN = {
   'TOTAL': '总计',
   'Coupon deduction': '抵扣',
   'Discount': '折扣',
-  'Available': 'Available',
+  'Available': '可用',
 };
