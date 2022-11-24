@@ -455,6 +455,7 @@ class OrderDetail extends StatelessWidget {
     return Container(
       height: 65,
       child: Timeline.tileBuilder(
+        physics: NeverScrollableScrollPhysics(),
         theme: TimelineThemeData(
           direction: Axis.horizontal,
           connectorTheme: ConnectorThemeData(
