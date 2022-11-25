@@ -4,7 +4,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/play_detail_model.dart';
+import 'package:wy/model/skill_item_model.dart';
+import 'package:wy/model/skill_model.dart' as m;
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/chat.dart';
@@ -13,6 +16,7 @@ import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/ui/playwith/add_game_page.dart';
 import 'package:wy/ui/playwith/game_comment.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
+import 'package:wy/ui/playwith/skill/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/expansion_tile.dart';
 import 'package:wy/widget/mylistview.dart';
@@ -122,7 +126,7 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
                                 'mg': PFun.lg(8, 8),
                                 'br': 56,
                                 'pd': PFun.lg(4, 4, 12, 12),
-                                // if (serviceItems.length == 1) 'fun': () => fun(context, isOpen, serviceItems.first),
+                                if (isMe) 'fun': () => fun(context, isOpen, {}),
                               },
                             ),
                         ],
@@ -155,11 +159,20 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
                       ], {
                         'exp': 1
                       }),
-                      if (isOpen || isMe)
-                        PWidget.container(
-                          PWidget.text(isMe ? "Edit".tr : "Play".tr, [Colors.white], {'ff': 'DIN'}),
-                          [null, null, Colors.black26],
-                          {'wali': PFun.lg(1, 0), 'mg': PFun.lg(8, 8), 'br': 56, 'pd': PFun.lg(4, 4, 12, 12), 'fun': () => fun(context, isOpen, serviceItem)},
+                      if ((isOpen || isMe))
+                        Opacity(
+                          opacity: !isMe ? 1 : (serviceItem['isDefault'] == 0 ? 1 : 0.25),
+                          child: PWidget.container(
+                            PWidget.text(isMe ? "Edit".tr : "Play".tr, [Colors.white], {'ff': 'DIN'}),
+                            [null, null, Colors.black26],
+                            {
+                              'wali': PFun.lg(1, 0),
+                              'mg': PFun.lg(8, 8),
+                              'br': 56,
+                              'pd': PFun.lg(4, 4, 12, 12),
+                              if (serviceItem['isDefault'] == 0 || !isMe) 'fun': () => fun(context, isOpen, serviceItem),
+                            },
+                          ),
                         ),
                     ]),
                     {'pd': PFun.lg(0, 0, 8, 8)},
@@ -174,10 +187,33 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
     );
   }
 
-  Future<void> fun(BuildContext context, bool isOpen, serviceItem) async {
+  Future<void> fun(BuildContext context, bool isOpen, Map serviceItem) async {
     if (isMe) {
-      await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
-      widget.controller.onReady();
+      if (serviceItem.isEmpty) {
+        //父级
+        await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
+        widget.controller.onReady();
+      } else {
+        //子级
+        // var controller = Get.put(SkillListPageController());
+        // var sm = m.SkillModel();
+        // sm.skillid = serviceItem['skillid'];
+        // sm.levelid = serviceItem['levelId'];
+        // sm.id = serviceItem['id'];
+        // sm.skillName = serviceItem['skillName'];
+        // controller.addSkillItem(sm);
+        // await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
+        // widget.controller.onReady();
+        var skillItemModel = SkillItemModel(id: serviceItem['id']);
+        await Get.toNamed(AppPages.SkillItem,
+            arguments: Map()
+              ..['id'] = skillItemModel.id
+              ..['skillid'] = serviceItem['skillid']
+              ..['levelid'] = serviceItem['levelId']
+              ..['skillAuthid'] = serviceItem['skillAuthid']
+              ..['skillName'] = serviceItem['skillName']);
+        widget.controller.onReady();
+      }
       return;
     } else if (isOpen) {
       var res = await Get.to(() {
