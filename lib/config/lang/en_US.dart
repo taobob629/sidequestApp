@@ -570,4 +570,13 @@ const Map<String, String> en_US = {
   'Coupon deduction': 'Coupon deduction',
   'Discount': 'Discount',
   'Available': 'Available',
+  'Overdue':'Overdue',
+  'Rejected':'Rejected',
+  'Completed':'Completed',
+  'Canceled':'Canceled',
+  'Accepted':'Accepted',
+  'Refund Pending':'Refund Pending',
+  'Refund Rejected':'Refund Rejected',
+  'Refund Accepted':'同意退款',
+  'Refund Dispute':'Refund Dispute',
 };

@@ -570,4 +570,13 @@ const Map<String, String> zh_CN = {
   'Coupon deduction': '抵扣',
   'Discount': '折扣',
   'Available': '可用',
+  'Overdue':'Overdue',
+  'Rejected':'拒绝',
+  'Completed':'已完成',
+  'Canceled':'已取消',
+  'Accepted':'已接单',
+  'Refund Pending':'等待退款',
+  'Refund Rejected':'拒绝退款',
+  'Refund Accepted':'Refund Accepted',
+  'Refund Dispute':'客服介入',
 };
