@@ -129,14 +129,11 @@ class PlayOrder extends StatelessWidget {
     return PWidget.container(
       PWidget.row([
         PWidget.text(serviceItem['name'], [Colors.white], {'exp': true}),
-        PWidget.row([
-          PWidget.image("assets/images/ic_balance_money.webp", [18, 18]),
-          PWidget.boxw(5),
-          PWidget.text("${serviceItem['price']}", [Colors.white, 18, true], {'null': ''}),
-          PWidget.text(" / ${serviceItem['unit']}", [Colors.white, 12], {'null': ''}),
-        ], {
-          'exp': 1
-        }),
+        PWidget.image("assets/images/ic_balance_money.webp", [18, 18]),
+        PWidget.boxw(5),
+        PWidget.text("${serviceItem['price']}", [Colors.white, 18, true], {'null': ''}),
+        PWidget.text(" / ${serviceItem['unit']}", [Colors.white, 12], {'null': '', 'exp': true}),
+        PWidget.boxw(4),
         QuantitySelector(
           initValue: 1,
           tag: "1",
@@ -420,7 +417,7 @@ class PlayOrderController extends GetxController {
     model.des = remarksController.text;
     model.serviceItemId = serviceItemId;
     model.code = calculateDm.value.object == 0 ? '' : this.code;
-    flog(model.code,'code');
+    flog(model.code, 'code');
     return model;
   }
 }
