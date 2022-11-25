@@ -235,7 +235,9 @@ class _AddGamePageState extends State<AddGamePage> {
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
         isUploadFile = true;
+        EasyLoading.show();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        EasyLoading.dismiss();
         isUploadFile = false;
         // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => gamePhotos.add('$url'));

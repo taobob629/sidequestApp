@@ -20,6 +20,7 @@ import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
+import 'package:wy/ui/playwith/game_comment.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
@@ -759,13 +760,14 @@ class OrdersAndStarWidget extends StatefulWidget {
   final Color? tColor;
   final bool? isTran;
   final List margin;
+  final Function? fun;
 
   const OrdersAndStarWidget(this.data,
       {Key? key,
       this.bgColor,
       this.tColor,
       this.isTran = false,
-      this.margin = const [8]})
+      this.margin = const [8], this.fun})
       : super(key: key);
 
   @override
@@ -809,7 +811,12 @@ class _OrdersAndStarWidgetState extends State<OrdersAndStarWidget> {
         // if (widget.data['orders'] != 0) PWidget.boxw(8),
       ], '220'),
       [null, null, Colors.black12],
-      {'crr': 56, 'mg': widget.margin, 'pd': PFun.lg(4, 4, 8, 8)},
+      {
+        'crr': 56, 
+        'mg': widget.margin, 
+        'pd': PFun.lg(4, 4, 8, 8),
+        if(widget.fun!=null) 'fun': () => widget.fun!(),
+      },
     );
   }
 }

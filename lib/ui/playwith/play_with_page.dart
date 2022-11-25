@@ -9,9 +9,11 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
+import 'package:wy/model/play_detail_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/filter_widget.dart';
+import 'package:wy/ui/playwith/game_comment.dart';
 import 'package:wy/ui/playwith/game_score_page.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
 import 'package:wy/ui/playwith/play_tab_widget.dart';
@@ -260,11 +262,14 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
       MyCustomScroll(
         isShuaxin: true,
         isGengduo: superlistDm.hasNext,
-        onRefresh: () {
-          playSwitchKey = getTime();
+        onRefresh: () async {
+          // playSwitchKey = getTime();
           superlistDm.flag = 2;
           filterDm.flag = 2;
+          // setState(() {});
           setState(() {});
+          await this.filter();
+          await this.superlist(isRef: true);
           return Future(() => getTime());
           // return this.superlist(isRef: true);
         },
@@ -444,7 +449,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 'mg': PFun.lg(0, 0, 16, 16),
                 'crr': 12,
                 'fun': () {
-                  return Get.to(() => PlayDetail(userId: "${data['id']}", gId:gid)); //jumpPage(PlayUserInfo(data));
+                  return Get.to(() => PlayDetail(userId: "${data['id']}", gId: gid)); //jumpPage(PlayUserInfo(data));
                 }
               },
             ),

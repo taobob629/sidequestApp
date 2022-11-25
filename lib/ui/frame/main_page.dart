@@ -66,7 +66,7 @@ class MainPage extends GetView<MainPageController> {
                 right: 0,
                 top: 0,
                 bottom: padding.bottom + 50,
-                child: PreloadPageView.builder(
+                child: PageView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   controller: controller.controller,
                   itemCount: 5,
@@ -191,7 +191,7 @@ class MainPageBinding extends Bindings {
 }
 
 class MainPageController extends FullLifeCycleController with FullLifeCycleMixin{
-  late PreloadPageController controller;
+  late PageController controller;
   var currentIndex = 0.obs;
 
   bool checking = false;
@@ -203,7 +203,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   @override
   void onInit() async{
     super.onInit();
-    controller = PreloadPageController();
+    controller = PageController();
 
     var initializationSettingsAndroid = AndroidInitializationSettings(
       '@mipmap/ic_push'

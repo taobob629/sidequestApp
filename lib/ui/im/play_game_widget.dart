@@ -94,11 +94,16 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
                             PWidget.boxw((pmSize.width) * (263 / 646)),
                             PWidget.text("${widget.skillModel.name}", [Colors.white], {'exp': true}),
                             if (widget.skillModel.star > 0)
-                              OrdersAndStarWidget({
-                                ///controller.detailModel.value
-                                'orders': widget.skillModel.orders,
-                                'star': widget.skillModel.star,
-                              }, bgColor: Colors.transparent, isTran: true),
+                              OrdersAndStarWidget(
+                                {
+                                  ///controller.detailModel.value
+                                  'orders': widget.skillModel.orders,
+                                  'star': widget.skillModel.star,
+                                },
+                                bgColor: Colors.transparent,
+                                isTran: true,
+                                fun: () => Get.to(() => GameComment(widget.skillModel, "${widget.skillModel.authId}")),
+                              ),
                           ]),
                           if (widget.skillModel.star <= 0) PWidget.boxh(8),
                           PWidget.row([
@@ -117,7 +122,7 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
                                 'mg': PFun.lg(8, 8),
                                 'br': 56,
                                 'pd': PFun.lg(4, 4, 12, 12),
-                                if (serviceItems.length == 1) 'fun': () => fun(context, isOpen, serviceItems.first),
+                                // if (serviceItems.length == 1) 'fun': () => fun(context, isOpen, serviceItems.first),
                               },
                             ),
                         ],
