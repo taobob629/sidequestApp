@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
+import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 
 /**
@@ -17,6 +18,7 @@ class BindBankCardController extends GetxController {
   late TextEditingController bankNameTEC;
   late TextEditingController accountNumTEC;
   late TextEditingController nameOnAccountNumTEC;
+  late PrivacyCheckController privacyCheckController;
   RxString _bankName = RxString('');
 
   String get bankName => _bankName.value;
@@ -28,6 +30,7 @@ class BindBankCardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    privacyCheckController = PrivacyCheckController();
     sortCodeTEC = TextEditingController();
     bankNameTEC = TextEditingController();
     accountNumTEC = TextEditingController();
@@ -46,22 +49,24 @@ class BindBankCardController extends GetxController {
   }
 
   save() async {
-    EasyLoading.show();
-    var sortcode = sortCodeTEC.text;
-    var bankName = bankNameTEC.text;
-    var cardNumber = accountNumTEC.text;
-    var accountName = nameOnAccountNumTEC.text;
-    await BalanceApi.addBankCard(Map<String, dynamic>()
-          ..['sortcode'] = sortcode
-          ..['bankName'] = bankName
-          ..['cardNumber'] = cardNumber
-          ..['accountName'] = accountName)
-        .catchError((e) {
+    if (privacyCheckController.check()) {
+      EasyLoading.show();
+      var sortcode = sortCodeTEC.text;
+      var bankName = bankNameTEC.text;
+      var cardNumber = accountNumTEC.text;
+      var accountName = nameOnAccountNumTEC.text;
+      await BalanceApi.addBankCard(Map<String, dynamic>()
+            ..['sortcode'] = sortcode
+            ..['bankName'] = bankName
+            ..['cardNumber'] = cardNumber
+            ..['accountName'] = accountName)
+          .catchError((e) {
+        EasyLoading.dismiss();
+      });
+      refreshBankList();
       EasyLoading.dismiss();
-    });
-    refreshBankList();
-    EasyLoading.dismiss();
-    Get.back();
+      Get.back();
+    }
   }
 
   /**

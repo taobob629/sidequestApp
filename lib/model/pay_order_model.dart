@@ -35,9 +35,34 @@ class PayOrderModel {
 
   late String totalAmount = "0";
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = new Map<String, dynamic>();
+    json['type'] = type;
+    json['tax'] = tax;
+    json['couponPrice'] = couponPrice;
+    json['couponCode'] = couponCode;
+    json['payType'] = payType;
+    json['orderShot'] = orderShot;
+    json['phrase'] = phrase;
+    json['couponId'] = couponId;
+    json['chargeid'] = chargeid;
+    json['svctm'] = svctm;
+    json['liveuid'] = liveuid;
+    json['skillid'] = skillid;
+    json['nums'] = nums;
+    json['des'] = des;
+    json['serviceItemId'] = serviceItemId;
+    json['code'] = code;
+    json['totalAmount'] = totalAmount;
+    json['addressId'] = addressId;
+    json['goodsPrice'] = goodsPrice;
+    json['freightPrice'] = freightPrice;
+    return json;
+  }
+
   @override
   String toString() {
-    return 'PayOrderModel{type: $type, addressId: $addressId, goodsPrice: $goodsPrice, freightPrice: $freightPrice, tax: $tax, couponPrice: $couponPrice, couponCode: $couponCode, payType: $payType, orderShot: $orderShot, phrase: $phrase, couponId: $couponId, chargeid: $chargeid, svctm: $svctm, liveuid: $liveuid, skillid: $skillid, nums: $nums, des: $des, totalAmount: $totalAmount}';
+    return 'PayOrderModel{type: $type, addressId: $addressId, goodsPrice: $goodsPrice, freightPrice: $freightPrice, tax: $tax, couponPrice: $couponPrice, couponCode: $couponCode, payType: $payType, orderShot: $orderShot, phrase: $phrase, couponId: $couponId, chargeid: $chargeid, svctm: $svctm, liveuid: $liveuid, skillid: $skillid, nums: $nums, des: $des, serviceItemId: $serviceItemId, code: $code, totalAmount: $totalAmount}';
   }
 }
 

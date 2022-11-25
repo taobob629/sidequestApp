@@ -8,6 +8,7 @@ import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/credit_card_model.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/db_model.dart';
@@ -542,7 +543,7 @@ class PayPageController extends GetxController {
                 onConfirm: () {
                   Get.back();
                   Get.back();
-                  Get.to(() => PlayBalancePage());
+                  Get.toNamed(AppPages.WALLET_PAGE);
                 },
               ),
               barrierColor: Colors.black26,

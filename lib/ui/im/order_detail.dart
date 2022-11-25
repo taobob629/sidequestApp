@@ -337,7 +337,7 @@ class OrderDetail extends StatelessWidget {
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number".tr, "${palymodel.orderno}"),
           _infoItem(userLable(palymodel), userName(palymodel), isClickable: true),
-          _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.receipttime * 1000))}"),
+          _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
           _infoItem("Service Duration".tr, "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -358,6 +358,30 @@ class OrderDetail extends StatelessWidget {
                 ),
                 Text(
                   "${palymodel.total}",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Text(
+                  "Discount".tr,
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                ),
+                Spacer(),
+                Image.asset(
+                  "assets/images/ic_balance_money.webp",
+                  width: 14,
+                  height: 14,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "${palymodel.discount}",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ],
@@ -431,17 +455,18 @@ class OrderDetail extends StatelessWidget {
     return Container(
       height: 65,
       child: Timeline.tileBuilder(
+        physics: NeverScrollableScrollPhysics(),
         theme: TimelineThemeData(
           direction: Axis.horizontal,
           connectorTheme: ConnectorThemeData(
-            space: 30.0,
+            space: 25.0,
             thickness: 5.0,
           ),
         ),
         builder: TimelineTileBuilder.connected(
             itemExtentBuilder: (_, index) {
               if (index == 0) return 100;
-              if (length <= 2) return Get.width + 140;
+              if (length <= 2) return Get.width + 100;
               if (index == (length - 1)) return 100;
               return Get.width - 200;
             },

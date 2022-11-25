@@ -202,8 +202,8 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Obx(()=>Row(
+            mainAxisAlignment:controller.online.value? MainAxisAlignment.spaceAround:MainAxisAlignment.spaceAround,
             children: [
               // IconMenu(
               //   icon: "assets/images/ic_tab_shop_new.webp",
@@ -214,18 +214,19 @@ class ProfilePage extends StatelessWidget {
               //     mainController.updateCurrentIndex(2);
               //   },
               // ),
-              IconMenu(
-                icon: "assets/images/ic_wallet.webp",
-                title: "Wallet".tr,
-                onTap: () {
-                  userController.checkLogin(() {
-                    Get.to(() => PlayBalancePage());
-                  });
-                },
-              ),
+              if (controller.online.value)
+                IconMenu(
+                  icon: "assets/images/ic_wallet.webp",
+                  title: "Wallet".tr,
+                  onTap: () {
+                    userController.checkLogin(() {
+                      Get.toNamed(AppPages.WALLET_PAGE);
+                    });
+                  },
+                ),
               IconMenu(
                 icon: "assets/images/ic_settings.webp",
-                title: "Services".tr,
+                title: "My Services".tr,
                 onTap: () {
                   userController.checkLogin(() {
                     Get.toNamed(AppPages.SkillList);
@@ -242,7 +243,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ],
-          ),
+          )),
           if(1!=1)
           SizedBox(
             height: 15,
@@ -263,7 +264,7 @@ class ProfilePage extends StatelessWidget {
                   title: "Wallet".tr,
                   onTap: () {
                     userController.checkLogin(() {
-                      Get.to(() => PlayBalancePage());
+                      Get.toNamed(AppPages.WALLET_PAGE);
                     });
                   },
                 ),
@@ -303,7 +304,8 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "My Bookings".tr,
                 onTap: () {
-                  userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
+                  userController.checkLogin(() => Get.to(() => BookingPage())
+                      ?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
@@ -324,13 +326,15 @@ class ProfilePage extends StatelessWidget {
                   icon: "assets/images/ic_tab_events_new.webp",
                   title: "My Activities".tr,
                   onTap: () {
-                    userController.checkLogin(() => Get.to(() => MyEventsPage()));
+                    userController
+                        .checkLogin(() => Get.to(() => MyEventsPage()));
                   }),
               IconMenu(
                   icon: "assets/images/ic_address_new.webp",
                   title: "My Address".tr,
                   onTap: () {
-                    userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
+                    userController
+                        .checkLogin(() => NavigatorHelper.gotoAddressPage());
                   }),
               IconMenu(icon: "", title: ""),
             ],
@@ -342,6 +346,14 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfilePageController extends GetxController {
+  static ProfilePageController instance() {
+    try {
+      return Get.find<ProfilePageController>();
+    } catch (e) {
+      return Get.put(ProfilePageController());
+    }
+  }
+
   RxList<VipInfoModel> vipInfoList = RxList();
 
   int devCount = 0;
@@ -363,7 +375,9 @@ class ProfilePageController extends GetxController {
     }
     devCount = 0;
 
-    Get.dialog(InputDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+    Get.dialog(InputDialog(),
+            barrierDismissible: true, barrierColor: Colors.black26)
+        .then((value) {
       if (value == "9637") {
         Get.to(() => DeveloperPage());
       } else {

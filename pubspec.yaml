@@ -121,6 +121,7 @@ flutter:
     - assets/images/
     - assets/images/play/
     - assets/images/grade/
+    - assets/images/coupon/
 
   fonts:
     - family: iconfont

@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -66,30 +70,79 @@ class PlayOrder extends StatelessWidget {
                       PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
                       PWidget.boxw(5),
                       // PWidget.text('112', [Colors.white, 16]),
-                      PWidget.text(controller.totalAmount.value.toStringAsFixed(2), [Colors.white, 16]),
+                      PWidget.text(
+                          controller.totalAmount.value.toStringAsFixed(0),
+                          [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
                     PWidget.row([
-                      PWidget.text("${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)", [Colors.white, 18], {'exp': true}),
-                      PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
+                      PWidget.text(
+                          "${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)",
+                          [Colors.white, 18],
+                          {'exp': true}),
+                      PWidget.image(
+                          "assets/images/ic_balance_money.webp", [20, 20]),
                       PWidget.boxw(5),
-                      PWidget.text('${(controller.totalAmount.value * controller.fellv.value).toStringAsFixed(2)}', [Colors.white, 16]),
+                      PWidget.text(
+                          '${(controller.totalAmount.value * controller.fellv.value).ceil()}',
+                          [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
-                    YouhuiquanInputWidget(textCon, (v) async {
-                      await controller.calculate(skillModel.authId.toString(), liveUid, '${serviceItem['id']}', v);
-                      if (controller.calculateDm.value.object == 0) textCon.clear();
-                    }),
+                    // YouhuiquanInputWidget(textCon, (v) async {
+                    //   await controller.calculate(skillModel.authId.toString(), liveUid, '${serviceItem['id']}', v);
+                    //   if (controller.calculateDm.value.object == 0) textCon.clear();
+                    // }),
+                    GestureDetector(
+                      onTap: () => Get.find<UserController>().checkLogin(() =>
+                          NavigatorHelper.gotoCouponPage(
+                              preOrder: Get.find<PlayOrderController>()
+                                  .getPayOrderModel()
+                                  .toJson(),
+                              //  payOrderModel: pageController.getPayOrderModel(),
+                              onSelect: (model) async {
+                              //  flog('v $model');
+                                await controller.calculate(
+                                    skillModel.authId.toString(),
+                                    liveUid,
+                                    '${serviceItem['id']}',
+                                    model.id,
+                                    model.couponCode);
+                              })),
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Vouchers".tr,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     Obx(() {
-                      if (controller.calculateDm.value.object == 0) return PWidget.boxh(0);
+                      if (controller.calculateDm.value.object == 0)
+                        return PWidget.boxh(0);
                       return PWidget.container(
                         PWidget.row([
-                          PWidget.text("${'Coupon deduction'.tr}", [Colors.white, 18], {'exp': true}),
+                          PWidget.text("${'Discount'.tr}", [Colors.white, 18],
+                              {'exp': true}),
                           Stack(clipBehavior: Clip.none, children: [
                             PWidget.row([
-                              PWidget.image("assets/images/ic_balance_money.webp", [16, 16]),
+                              PWidget.image(
+                                  "assets/images/ic_balance_money.webp",
+                                  [16, 16]),
                               PWidget.boxw(5),
-                              PWidget.text('${(controller.calculateDm.value.object)}', [Colors.white54, 16]),
+                              PWidget.text(
+                                  '${(controller.calculateDm.value.object)}',
+                                  [Colors.white54, 16]),
                             ]),
                             PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
                           ]),
@@ -104,8 +157,8 @@ class PlayOrder extends StatelessWidget {
                       PWidget.boxw(5),
                       Obx(() {
                         var zj = controller.totalAmount.value;
-                        var flj = controller.totalAmount.value * controller.fellv.value;
-                        var zzj = (zj - flj - controller.calculateDm.value.object!).toStringAsFixed(2);
+                        var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
+                        var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
                         flog(controller.calculateDm.value.object!, 'calculate');
                         return PWidget.text(zzj, [Color(0xffeeca46), 24]);
                       }),
@@ -167,9 +220,9 @@ class PlayOrder extends StatelessWidget {
                   child: controller.skillModel.value.thumb == ""
                       ? Container()
                       : CachedNetworkImage(
-                          imageUrl: controller.skillModel.value.thumb,
-                          fit: BoxFit.cover,
-                        ),
+                    imageUrl: controller.skillModel.value.thumb,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 SizedBox(
                   width: 10,
@@ -189,9 +242,9 @@ class PlayOrder extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Text(
-                            "",
-                            style: TextStyle(color: Colors.white54, fontSize: 12),
-                          )),
+                                "",
+                                style: TextStyle(color: Colors.white54, fontSize: 12),
+                              )),
                           // QuantitySelector(
                           //   initValue: 1,
                           //   tag: "1",
@@ -266,7 +319,9 @@ class PlayOrder extends StatelessWidget {
 class YouhuiquanInputWidget extends StatefulWidget {
   final TextEditingController textCon;
   final Function(String) fun;
+
   const YouhuiquanInputWidget(this.textCon, this.fun, {Key? key}) : super(key: key);
+
   @override
   _YouhuiquanInputWidgetState createState() => _YouhuiquanInputWidgetState();
 }
@@ -278,7 +333,7 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
       PWidget.row([
         buildTFView(
           context,
-          hintText: 'Please enter discount password here'.tr,
+          hintText: 'please enter voucher code'.tr,
           height: 40,
           padding: EdgeInsets.only(left: 8, right: 8),
           isExp: true,
@@ -349,6 +404,7 @@ class PlayOrderController extends GetxController {
   }
 
   var preOrderDm = DataModel(object: {}).obs;
+
   Future<int> preOrder(String skillAuthId, String liveuid, String serviceItemId) async {
     await http.get('/peiwan/app/order/preOrder', queryParameters: {
       "skillAuthId": skillAuthId,
@@ -366,15 +422,22 @@ class PlayOrderController extends GetxController {
   }
 
   var calculateDm = DataModel(object: 0).obs;
-  Future<int> calculate(String skillAuthId, String liveuid, String serviceItemId, String code) async {
+  int couponId = 0;
+
+  Future<int> calculate(String skillAuthId, String liveuid,
+      String serviceItemId, var couponId, var couponCode) async {
     this.code = code;
-    await http.get('/peiwan/app/order/calculate', queryParameters: {
-      "skillAuthId": skillAuthId,
-      "liveuid": liveuid,
-      "serviceItemId": serviceItemId,
-      "code": code,
-    }).then((res) async {
+    Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
+    params['skillAuthId'] = skillAuthId;
+    params['liveuid'] = liveuid;
+    params['couponId'] = couponId;
+    params['serviceItemId'] = serviceItemId;
+    params['code'] = couponCode;
+    await http
+        .post('/peiwan/app/order/calculate', data: params)
+        .then((res) async {
       calculateDm.value.addObject(res.data['discount']);
+      this.couponId = res.data['couponId'];
     }).catchError((e) {
       calculateDm.value.toError(e.toString());
     });
@@ -391,13 +454,13 @@ class PlayOrderController extends GetxController {
   void showSelectTime() {
     DateTime start = DateTime.now();
     Get.dialog<DateTime?>(
-            DateTimePickerDialog(
-              format: "dd-MMM-yyyy HH:mm",
-              initDateTime: start,
-              minDateTime: start,
-              minuteDivider: 30,
-            ),
-            barrierColor: Colors.black26)
+        DateTimePickerDialog(
+          format: "dd-MMM-yyyy HH:mm",
+          initDateTime: start,
+          minDateTime: start,
+          minuteDivider: 30,
+        ),
+        barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         this.timeSelect.value = true;
@@ -417,7 +480,8 @@ class PlayOrderController extends GetxController {
     model.des = remarksController.text;
     model.serviceItemId = serviceItemId;
     model.code = calculateDm.value.object == 0 ? '' : this.code;
-    flog(model.code, 'code');
+    model.couponId = couponId;
+    flog('model $model');
     return model;
   }
 }

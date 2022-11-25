@@ -287,15 +287,15 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if(checking == false) {
       checking = true;
       IndexApi.checkVersion().then((value) {
-        final profilePageController = Get.find<ProfilePageController>();
-        if(Platform.isIOS){
+        final profilePageController = ProfilePageController.instance();
+        if (Platform.isIOS) {
           StorageManager.setOnline(value.status);
-        }else{
+        } else {
           StorageManager.setOnline(true);
         }
         profilePageController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
-          if(Get.context!=null) {
+          if (Get.context != null) {
             UpgradeDialog.show(Get.context!, value, cancelable: !value.force)
                 .whenComplete(() => checkAd(Get.context!));
           }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/profile/bankcard/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
@@ -33,7 +35,8 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             PWidget.boxw(8),
             Expanded(
               child: Text(
-                'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'.tr,
+                'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'
+                    .tr,
                 style: TextStyle(color: Color(0xff4488FF)),
               ),
             ),
@@ -52,40 +55,9 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Checkbox(
-                  value: true,
-                  activeColor: Color.fromRGBO(236, 93, 0, 1),
-                  onChanged: (check) {}),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                  text: 'By signing up to Wanyoo\'s tournament, you agree to \n our'.tr,
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                TextSpan(
-                    text: 'Tournament RulesPrivacy'.tr,
-                    style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        // 查看 服务条款
-                      }),
-                TextSpan(
-                  text: ' & ',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                TextSpan(
-                    text: 'Cookies Policy'.tr,
-                    style: TextStyle(color: Color.fromRGBO(40, 86, 255, 1), fontSize: 12, decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        // 查看 服务条款
-                      }),
-              ]))
-            ],
-          ),
+          PrivacyCheck(
+              controller: controller.privacyCheckController,
+              type: TYPE_ADD_BANK),
           FloatingButton(
             label: "Next".tr,
             onTap: () {
@@ -132,7 +104,13 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'please input'.tr, con: controller.bankNameTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
+        buildTFView(context!,
+            hintText: 'please input'.tr,
+            con: controller.bankNameTEC,
+            textAlign: TextAlign.right,
+            hintColor: hintColor,
+            textColor: Colors.white,
+            isExp: true),
       ])),
       itemBg(PWidget.row([
         PWidget.text('Account number'.tr, [
@@ -141,7 +119,13 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'please input'.tr, con: controller.accountNumTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
+        buildTFView(context!,
+            hintText: 'please input'.tr,
+            con: controller.accountNumTEC,
+            textAlign: TextAlign.right,
+            hintColor: hintColor,
+            textColor: Colors.white,
+            isExp: true),
       ])),
       itemBg(PWidget.row([
         PWidget.text('Name on account'.tr, [
@@ -150,12 +134,25 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           'ali': 1
         }),
         PWidget.boxw(8),
-        buildTFView(context!, hintText: 'please input'.tr, con: controller.nameOnAccountNumTEC, textAlign: TextAlign.right, hintColor: hintColor, textColor: Colors.white, isExp: true),
+        buildTFView(context!,
+            hintText: '${'please input'.tr}',
+            con: controller.nameOnAccountNumTEC,
+            textAlign: TextAlign.right,
+            hintColor: hintColor,
+            textColor: Colors.white,
+            isExp: true),
       ])),
     ];
   }
 
   Widget itemBg(view, {Function? fun}) {
+    return Container(
+        child: view,
+        padding: EdgeInsets.fromLTRB(10, 15, 15, 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Color(0xff282640),
+        ));
     return PWidget.container(view, [null, 48, Color(0xff282640)],
         {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
