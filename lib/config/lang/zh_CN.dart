@@ -580,5 +580,5 @@ const Map<String, String> zh_CN = {
   'Refund Accepted':'同意退款',
   'Refund Dispute':'客服介入',
   'Seller Payment Terms':'陪玩支付协议',
-
+  'Diamond': '钻石',
 };
