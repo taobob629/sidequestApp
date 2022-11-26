@@ -51,6 +51,7 @@ class FilterValue extends ValueNotifier {
   var filterValue = {};
   changeFilterObj(v) {
     filterObj = filterObj == v ? null : v;
+    flog(filterObj, 'filterObj');
     Future(() => notifyListeners());
   }
 
@@ -545,9 +546,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   }
 
   Widget filterTag(name) {
-    var isSelecto = filterValue.filterObj == name;
+    var isSelecto = filterValue.filterObj == filterName(name);
     var key;
-    var value = filterValue.filterValue[name];
+    var value = filterValue.filterValue[filterName(name)];
     if (value != null) {
       key = '$value'.split(':').first;
     }
