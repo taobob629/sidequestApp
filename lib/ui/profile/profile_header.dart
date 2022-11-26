@@ -117,7 +117,7 @@ class ProfileHeader extends StatelessWidget {
               CountInfo(
                 icon: "corns",
                 label: profilePageController.online.value ? "£${controller.userInfoModel.value.balance}" : "${controller.userInfoModel.value.balance}",
-                info: profilePageController.online.value ? "Credits" : "Online Time",
+                info: profilePageController.online.value ? "Credits".tr: "Online Time",
                 onTap: ()=>controller.checkLogin(()=>profilePageController.online.value ? Get.to(()=>BalancePage())?.whenComplete(() => controller.updateInfo()):null),
               ),
               CountInfo(
