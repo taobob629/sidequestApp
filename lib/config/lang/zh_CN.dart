@@ -577,6 +577,6 @@ const Map<String, String> zh_CN = {
   'Accepted':'已接单',
   'Refund Pending':'等待退款',
   'Refund Rejected':'拒绝退款',
-  'Refund Accepted':'Refund Accepted',
+  'Refund Accepted':'同意退款',
   'Refund Dispute':'客服介入',
 };

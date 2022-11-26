@@ -577,6 +577,6 @@ const Map<String, String> en_US = {
   'Accepted':'Accepted',
   'Refund Pending':'Refund Pending',
   'Refund Rejected':'Refund Rejected',
-  'Refund Accepted':'同意退款',
+  'Refund Accepted':'Refund Accepted',
   'Refund Dispute':'Refund Dispute',
 };
