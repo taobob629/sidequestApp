@@ -433,7 +433,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                   ], '001'),
                   {'pd': 8},
                 ),
-                locationWidget(city),
+                locationWidget(city,data['distance']),
                 // if (data['online'] == 1)
                 PWidget.container(
                   PWidget.text(data['online'] == 1 ? 'Online'.tr : 'OffLine'.tr, [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
@@ -566,13 +566,21 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
     );
   }
 
-  Positioned locationWidget(String city) {
+  Positioned locationWidget(String city, double dis) {
+   // var distance;
+   // flog('e $dis');
+   // try {
+   //   distance = double.parse(dis.toString());
+   // }catch(e){
+   //   flog('e $distance');
+   //   distance=0;
+   // }
     return Positioned(
         right: 10,
         top: 10,
         child: Row(
           children: [
-            Icon(
+           if(dis==0) Icon(
               Icons.location_on,
               color: Colors.white60,
               size: 14,
@@ -580,7 +588,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
             Container(
               constraints: BoxConstraints(maxWidth: 100),
               child: Text(
-                city,
+                dis==0? city:distance(dis),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(color: Colors.white, fontSize: 11),
@@ -588,6 +596,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
             )
           ],
         ));
+  }
+  distance(double distance){
+    if(distance<10)return '<10KM';
+    if(distance<100)return '<100KM';
+    if(distance>100)return '${distance.floor()}/KM';
   }
 
   Widget defaultAvatar() {

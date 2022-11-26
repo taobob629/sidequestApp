@@ -15,6 +15,7 @@ import 'package:wy/api/index_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/firebase_options.dart';
+import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -203,6 +204,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   @override
   void onInit() async{
     super.onInit();
+    LocationService().init();
     controller = PageController();
 
     var initializationSettingsAndroid = AndroidInitializationSettings(

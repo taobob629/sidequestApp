@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
+import 'package:get/get.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;
@@ -59,7 +60,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
-                    "$confirmBtn",
+                    "$confirmBtn".tr,
                     style: TextStyle(
                         color: Colors.white, fontSize: 18, fontFamily: "DIN"),
                   ),
