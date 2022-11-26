@@ -580,6 +580,6 @@ const Map<String, String> en_US = {
   'Refund Accepted':'Refund Accepted',
   'Refund Dispute':'Refund Dispute',
   'Seller Payment Terms':'Seller Payment Terms',
-  'Diamond': 'Diamond',
+  'Diamond':'Diamond',
   'Credits':'Credits',
 };
