@@ -102,9 +102,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
       .width * 0.75;
     widget.controller.initData(width);
     isMe = widget.controller.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString();
-    return SafeArea(
-        top: false,
-        child: Stack(
+    return Stack(
       children: [
         Scaffold(
             backgroundColor: AppColor.background,
@@ -136,34 +134,34 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                               return;
                             }
                             Get.dialog(ConfirmDialog(
-                                      title: "Add Block List".tr,
-                                      info: "Do you want to add this person to black list?".tr,
-                                      confirmBtn: "CONFIRM".tr,
-                                      onConfirm: () async {
-                                        EasyLoading.show();
-                                        var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
-                                        List<String> userIDList = [];
-                                        userIDList.add(widget.userId);
-                                        await friendshipManager.addToBlackList(userIDList: userIDList);
-                                        EasyLoading.dismiss();
-                                        Get.back();
-                                      },
-                                    ),barrierColor: Colors.black26);
+                              title: "Add Block List".tr,
+                              info: "Do you want to add this person to black list?".tr,
+                              confirmBtn: "CONFIRM".tr,
+                              onConfirm: () async {
+                                EasyLoading.show();
+                                var friendshipManager = TencentImSDKPlugin.v2TIMManager.getFriendshipManager();
+                                List<String> userIDList = [];
+                                userIDList.add(widget.userId);
+                                await friendshipManager.addToBlackList(userIDList: userIDList);
+                                EasyLoading.dismiss();
+                                Get.back();
+                              },
+                            ),barrierColor: Colors.black26);
                           },
                           child: Container(
                             height: 32,
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(56),
-                                ),
-                                child: Text(
-                                  isMe ? "Edit".tr : "Block".tr,
-                                  style: TextStyle(color: Colors.white, fontSize: 16),
-                                ),
-                              ),
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(56),
+                            ),
+                            child: Text(
+                              isMe ? "Edit".tr : "Block".tr,
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ),
                         ),
                       )
                   ],
@@ -254,10 +252,10 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                                                 Obx(() {
                                                   var isOnline = widget.controller.detailModel.value.online==1;
                                                   return PWidget.container(PWidget.text(isOnline ? 'Online'.tr : 'OffLine'.tr, [Colors.white, 10]), {
-                                                        'gd': isOnline ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
-                                                        'pd': PFun.lg(1, 1, 12, 12),
-                                                      });
-                                                    }
+                                                    'gd': isOnline ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
+                                                    'pd': PFun.lg(1, 1, 12, 12),
+                                                  });
+                                                }
                                                 ),
                                               ],
                                             )
@@ -309,8 +307,8 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                               padding: const EdgeInsets.only(left: 10,top: 4),
                               child: Text(
                                 widget.controller.detailModel.value.follow == 1 ? "UnFollow".tr : "Follow".tr,
-                                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
-                                  ),
+                                style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
+                              ),
                             ),
                           ],
                         ),
@@ -384,7 +382,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
             ),
           )
       ],
-    ));
+    );
   }
 
   Widget buildInfo(bool isMe) {
