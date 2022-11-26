@@ -579,4 +579,6 @@ const Map<String, String> zh_CN = {
   'Refund Rejected':'拒绝退款',
   'Refund Accepted':'同意退款',
   'Refund Dispute':'客服介入',
+  'Seller Payment Terms':'支付协议',
+
 };
