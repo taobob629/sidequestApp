@@ -582,4 +582,5 @@ const Map<String, String> en_US = {
   'Seller Payment Terms':'Seller Payment Terms',
   'Diamond':'Diamond',
   'Credits':'Credits',
+  'Actual payment':'Actual payment',
 };
