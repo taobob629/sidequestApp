@@ -71,7 +71,7 @@ class PlayOrder extends StatelessWidget {
                       PWidget.boxw(5),
                       // PWidget.text('112', [Colors.white, 16]),
                       PWidget.text(
-                          controller.totalAmount.value.toStringAsFixed(0),
+                          controller.preOrderDm.value.object?['subtotal'],
                           [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
@@ -84,7 +84,7 @@ class PlayOrder extends StatelessWidget {
                           "assets/images/ic_balance_money.webp", [20, 20]),
                       PWidget.boxw(5),
                       PWidget.text(
-                          '${(controller.totalAmount.value * controller.fellv.value).ceil()}',
+                          controller.preOrderDm.value.object?['tax'],
                           [Colors.white, 16]),
                     ]),
                     PWidget.boxh(15),
@@ -141,7 +141,7 @@ class PlayOrder extends StatelessWidget {
                                   [16, 16]),
                               PWidget.boxw(5),
                               PWidget.text(
-                                  '${(controller.calculateDm.value.object)}',
+                                  controller.preOrderDm.value.object?['discount'],
                                   [Colors.white54, 16]),
                             ]),
                             PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
@@ -156,11 +156,11 @@ class PlayOrder extends StatelessWidget {
                       PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
                       PWidget.boxw(5),
                       Obx(() {
-                        var zj = controller.totalAmount.value;
-                        var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
-                        var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
-                        flog(controller.calculateDm.value.object!, 'calculate');
-                        return PWidget.text(zzj, [Color(0xffeeca46), 24]);
+                        // var zj = controller.totalAmount.value;
+                        // var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
+                        // var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
+                        // flog(controller.calculateDm.value.object!, 'calculate');
+                        return PWidget.text( controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
                       }),
                     ]),
                   ]),
@@ -190,8 +190,8 @@ class PlayOrder extends StatelessWidget {
         QuantitySelector(
           initValue: 1,
           tag: "1",
-          onQuantityChanged: (quantity) {
-            controller.changeQuantity(quantity);
+          onQuantityChanged: (quantity) async{
+            await  controller.changeQuantity(quantity,serviceItem['authId']);
           },
         )
       ]),
@@ -412,7 +412,9 @@ class PlayOrderController extends GetxController {
       "serviceItemId": serviceItemId,
     }).then((res) async {
       preOrderDm.value.addObject(res.data);
-      changeQuantity(1);
+      totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']));
+      nums.value = 1;
+      // changeQuantity(1,skillAuthId);
       feilv();
     }).catchError((e) {
       preOrderDm.value.toError(e.toString());
@@ -420,6 +422,30 @@ class PlayOrderController extends GetxController {
     preOrderDm.refresh();
     return preOrderDm.value.flag;
   }
+  // Future<CalculateModel> getPreorder(String skillAuthId, String liveuid, String serviceItemId) async {
+  //
+  //   await http.get('/peiwan/app/order/preOrder', queryParameters: {
+  //     "skillAuthId": skillAuthId,
+  //     "liveuid": liveuid,
+  //     "serviceItemId": serviceItemId,
+  //   }).then((res) async {
+  //     calculateModel=new CalculateModel();
+  //
+  //     preOrderDm.value.addObject(res.data);
+  //     calculateModel.couponId = res.data['couponId'];
+  //     calculateModel.tax=res.data['tax'];
+  //     calculateModel.discount=res.data['discount'];
+  //     calculateModel.subtotal=res.data['subtotal'];
+  //     calculateModel.total=888;
+  //     nums.value=1;
+  //     // changeQuantity(1);
+  //     feilv();
+  //   }).catchError((e) {
+  //     preOrderDm.value.toError(e.toString());
+  //   });
+  //   preOrderDm.refresh();
+  //   return calculateModel;
+  // }
 
   var calculateDm = DataModel(object: 0).obs;
   int couponId = 0;
@@ -445,10 +471,47 @@ class PlayOrderController extends GetxController {
     return calculateDm.value.flag;
   }
 
-  void changeQuantity(int quantity) {
+
+  Future<int> calculate2(String skillAuthId, String liveuid,
+      String serviceItemId, var couponId, var couponCode) async {
+    this.code = code;
+    Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
+    params['skillAuthId'] = skillAuthId;
+    params['liveuid'] = liveuid;
+    params['couponId'] = couponId;
+    params['serviceItemId'] = serviceItemId;
+    params['code'] = couponCode;
+    await http
+        .post('/peiwan/app/order/calculate', data: params)
+        .then((res) async {
+      preOrderDm.value.addObject(res.data);
+      this.couponId = res.data['couponId'];
+    }).catchError((e) {
+      preOrderDm.value.toError(e.toString());
+    });
+    preOrderDm.refresh();
+    return preOrderDm.value.flag;
+  }
+  Future<int> changeQuantity(int quantity,String skillAuthId) async {
     // totalAmount.value = skillModel.value.coin * quantity;
     totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']) * quantity);
     nums.value = quantity;
+    this.code = code;
+    Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
+    params['skillAuthId'] = skillAuthId;
+    params['couponId'] = couponId;
+    params['serviceItemId'] = serviceItemId;
+    params['code'] = code;
+    await http
+        .post('/peiwan/app/order/calculate', data: params)
+        .then((res) async {
+      preOrderDm.value.addObject(res.data);
+      this.couponId = res.data['couponId'];
+    }).catchError((e) {
+      preOrderDm.value.toError(e.toString());
+    });
+    preOrderDm.refresh();
+    return quantity;
   }
 
   void showSelectTime() {

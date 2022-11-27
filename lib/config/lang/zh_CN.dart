@@ -583,4 +583,5 @@ const Map<String, String> zh_CN = {
   'Diamond':'钻石',
   'Credits':'余额',
   'Disabled':'已关闭',
+  'Actual payment':'实际支付',
 };

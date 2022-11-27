@@ -34,10 +34,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
-    options.headers['language'] = language();
     options.headers['longitude'] = LocationService().position?.longitude??0;
     options.headers['latitude'] = LocationService().position?.latitude??0;
-   // flog('position--${ LocationService().position}');
     handler.next(options);
   }
 }
