@@ -97,10 +97,12 @@ class SkillListPage extends GetView<SkillListPageController> {
                   padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                   child: Column(children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PWidget.text('${data.skillName}',
-                            [Colors.yellow, 18, true], {'ff': 'DIN'}),
+                        PWidget.text('',[], {'ff': 'DIN','exp': true},[
+                              PWidget.textIs('${data.skillName}',[Colors.yellow, 18, true],),
+                             if(data.wswitch==0) PWidget.textIs('\t\t'+'Disabled'.tr,[Colors.red],),
+                            ]),
                         Row(
                           children: [
                             if (data.status == SkillModel.ONGOING)
@@ -250,14 +252,18 @@ class SkillListPage extends GetView<SkillListPageController> {
             alignment: Alignment.bottomRight),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (item != null)
-            Text(
-              '${item?.name}',
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
+          PWidget.text('',[],{'exp':true},[
+            PWidget.textIs('${item?.name}',[Colors.white]),
+            if(item.isDefault==0) PWidget.textIs('\t\t'+'Disabled'.tr,[Colors.red]),
+          ]),
+            // Text(
+            //   '${item?.name}',
+            //   style: TextStyle(color: Colors.white, fontSize: 14),
+            // ),
           if (item == null) Container(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,

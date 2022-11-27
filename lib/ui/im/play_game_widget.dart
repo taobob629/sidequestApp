@@ -191,7 +191,8 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
     if (isMe) {
       if (serviceItem.isEmpty) {
         //父级
-        await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
+        // await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
+        await Get.toNamed(AppPages.SkillList);
         widget.controller.onReady();
       } else {
         //子级
@@ -204,14 +205,15 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
         // controller.addSkillItem(sm);
         // await Get.to(() => AddGamePage({"id": widget.skillModel.authId}));
         // widget.controller.onReady();
-        var skillItemModel = SkillItemModel(id: serviceItem['id']);
-        await Get.toNamed(AppPages.SkillItem,
-            arguments: Map()
-              ..['id'] = skillItemModel.id
-              ..['skillid'] = serviceItem['skillid']
-              ..['levelid'] = serviceItem['levelId']
-              ..['skillAuthid'] = serviceItem['skillAuthid']
-              ..['skillName'] = serviceItem['skillName']);
+        // var skillItemModel = SkillItemModel(id: serviceItem['id']);
+        // await Get.toNamed(AppPages.SkillItem,
+        // arguments: Map()
+        //   ..['id'] = skillItemModel.id
+        //   ..['skillid'] = serviceItem['skillid']
+        //   ..['levelid'] = serviceItem['levelId']
+        //   ..['skillAuthid'] = serviceItem['skillAuthid']
+        //   ..['skillName'] = serviceItem['skillName']);
+        await Get.toNamed(AppPages.SkillList);
         widget.controller.onReady();
       }
       return;

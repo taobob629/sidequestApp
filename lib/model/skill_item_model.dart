@@ -17,6 +17,7 @@ class SkillItemModel {
     this.price,
     this.unit,
     this.enabled,
+    this.isDefault,
   });
 
   Map<String, dynamic> toJson() {
@@ -29,6 +30,7 @@ class SkillItemModel {
     json['price'] = price;
     json['unit'] = unit;
     json['enabled'] = enabled;
+    json['isDefault'] = isDefault;
     return json;
   }
 
@@ -41,6 +43,7 @@ class SkillItemModel {
     price = double.parse(json['price']);
     unit = json['unit'];
     enabled = json['enabled'];
+    isDefault = json['isDefault'];
   }
 
   int? id;
@@ -51,4 +54,5 @@ class SkillItemModel {
   double? price;
   dynamic unit;
   int? enabled;
+  int? isDefault;
 }
