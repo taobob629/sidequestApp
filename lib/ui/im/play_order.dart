@@ -106,7 +106,7 @@ class PlayOrder extends StatelessWidget {
                                     liveUid,
                                     '${serviceItem['id']}',
                                     model.id,
-                                    model.couponCode);
+                                    model.couponCode,);
                               })),
                       child: Container(
                         color: Colors.transparent,
@@ -141,7 +141,7 @@ class PlayOrder extends StatelessWidget {
                                   [16, 16]),
                               PWidget.boxw(5),
                               PWidget.text(
-                                  controller.preOrderDm.value.object?['discount'],
+                                  controller.calculateDm.value.object,
                                   [Colors.white54, 16]),
                             ]),
                             PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
@@ -191,7 +191,8 @@ class PlayOrder extends StatelessWidget {
           initValue: 1,
           tag: "1",
           onQuantityChanged: (quantity) async{
-            await  controller.changeQuantity(quantity,serviceItem['authId']);
+            flog(serviceItem);
+            await  controller.changeQuantity(quantity,'${serviceItem['skillAuthid']}');
           },
         )
       ]),
@@ -463,35 +464,37 @@ class PlayOrderController extends GetxController {
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
       calculateDm.value.addObject(res.data['discount']);
+      preOrderDm.value.object?['total']=res.data['total'];
       this.couponId = res.data['couponId'];
     }).catchError((e) {
       calculateDm.value.toError(e.toString());
     });
     calculateDm.refresh();
+    preOrderDm.refresh();
     return calculateDm.value.flag;
   }
 
 
-  Future<int> calculate2(String skillAuthId, String liveuid,
-      String serviceItemId, var couponId, var couponCode) async {
-    this.code = code;
-    Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
-    params['skillAuthId'] = skillAuthId;
-    params['liveuid'] = liveuid;
-    params['couponId'] = couponId;
-    params['serviceItemId'] = serviceItemId;
-    params['code'] = couponCode;
-    await http
-        .post('/peiwan/app/order/calculate', data: params)
-        .then((res) async {
-      preOrderDm.value.addObject(res.data);
-      this.couponId = res.data['couponId'];
-    }).catchError((e) {
-      preOrderDm.value.toError(e.toString());
-    });
-    preOrderDm.refresh();
-    return preOrderDm.value.flag;
-  }
+  // Future<int> calculate2(String skillAuthId, String liveuid,
+  //     String serviceItemId, var couponId, var couponCode) async {
+  //   this.code = code;
+  //   Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
+  //   params['skillAuthId'] = skillAuthId;
+  //   params['liveuid'] = liveuid;
+  //   params['couponId'] = couponId;
+  //   params['serviceItemId'] = serviceItemId;
+  //   params['code'] = couponCode;
+  //   await http
+  //       .post('/peiwan/app/order/calculate', data: params)
+  //       .then((res) async {
+  //     preOrderDm.value.addObject(res.data);
+  //     this.couponId = res.data['couponId'];
+  //   }).catchError((e) {
+  //     preOrderDm.value.toError(e.toString());
+  //   });
+  //   preOrderDm.refresh();
+  //   return preOrderDm.value.flag;
+  // }
   Future<int> changeQuantity(int quantity,String skillAuthId) async {
     // totalAmount.value = skillModel.value.coin * quantity;
     totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']) * quantity);
@@ -505,7 +508,7 @@ class PlayOrderController extends GetxController {
     await http
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
-      preOrderDm.value.addObject(res.data);
+      preOrderDm.value.object?['total']=res.data['total'];
       this.couponId = res.data['couponId'];
     }).catchError((e) {
       preOrderDm.value.toError(e.toString());

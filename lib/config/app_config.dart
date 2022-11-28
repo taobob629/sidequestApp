@@ -4,11 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:tim_ui_kit/ui/constants/emoji.dart';
+import 'package:tim_ui_kit/ui/widgets/emoji.dart';
+import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/app.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import 'app_color.dart';
 
@@ -97,8 +101,41 @@ class AppConfig {
         darkTextColor:Colors.white
       );
       _coreInstance.setTheme(theme: timTheme);
+      
     }
   }
+
+  //  setCustomSticker() async {
+  //   // 添加自定义表情包
+  //   // Add custom sticker package
+  //   List<CustomStickerPackage> customStickerPackageList = [];
+  //   final defEmojiList = emojiData.asMap().keys.map((emojiIndex) {
+  //     final emo = Emoji.fromJson(emojiData[emojiIndex]);
+  //     return CustomSticker(
+  //         index: emojiIndex, name: emo.name, unicode: emo.unicode);
+  //   }).toList();
+  //   customStickerPackageList.add(CustomStickerPackage(
+  //       name: "defaultEmoji",
+  //       stickerList: defEmojiList,
+  //       menuItem: defEmojiList[0]));
+  //   customStickerPackageList.addAll(Const.emojiList.map((customEmojiPackage) {
+  //     return CustomStickerPackage(
+  //         name: customEmojiPackage.name,
+  //         baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
+  //         stickerList: customEmojiPackage.list
+  //             .asMap()
+  //             .keys
+  //             .map((idx) =>
+  //             CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
+  //             .toList(),
+  //         menuItem: CustomSticker(
+  //           index: 0,
+  //           name: customEmojiPackage.icon,
+  //         ));
+  //   }).toList());
+  //   Provider.of<CustomStickerPackageData>(context, listen: false)
+  //       .customStickerPackageList = customStickerPackageList;
+  // }
 
   static String getBaseServer(){
     String env = StorageManager.getEnv();
