@@ -127,7 +127,7 @@ class PlayOrder extends StatelessWidget {
                       ),
                     ),
                     Obx(() {
-                      if (controller.calculateDm.value.object == 0)
+                      if (controller.preOrderDm.value.object?['discount'] == 0)
                         return PWidget.boxh(0);
                       return PWidget.container(
                         PWidget.row([
@@ -358,7 +358,7 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
 }
 
 class PlayOrderController extends GetxController {
-  var totalAmount = 0.0.obs;
+  // var totalAmount = 0.0.obs;
   var balance=0.0.obs;
 
   var nums = 1.obs;
@@ -413,8 +413,8 @@ class PlayOrderController extends GetxController {
       "serviceItemId": serviceItemId,
     }).then((res) async {
       preOrderDm.value.addObject(res.data);
-      totalAmount.value =
-          (double.parse(preOrderDm.value.object?['serviceItems']['price']));
+      // totalAmount.value =
+      //     (double.parse(preOrderDm.value.object?['serviceItems']['price']));
       nums.value = 1;
       balance.value = double.parse('${res.data['coin']}');
       // changeQuantity(1,skillAuthId);
@@ -450,7 +450,7 @@ class PlayOrderController extends GetxController {
   //   return calculateModel;
   // }
 
-  var calculateDm = DataModel(object: 0).obs;
+  // var calculateDm = DataModel(object: 0).obs;
   int couponId = 0;
 
   Future<int> calculate(String skillAuthId, String liveuid,
@@ -465,17 +465,17 @@ class PlayOrderController extends GetxController {
     await http
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
-      calculateDm.value.addObject(res.data['discount']);
+      // calculateDm.value.addObject(res.data['discount']);
       // preOrderDm.value.object?['total']=res.data['total'];
       preOrderDm.value.addObject(res.data);
 
       this.couponId = res.data['couponId'];
     }).catchError((e) {
-      calculateDm.value.toError(e.toString());
+      preOrderDm.value.toError(e.toString());
     });
-    calculateDm.refresh();
+    // calculateDm.refresh();
     preOrderDm.refresh();
-    return calculateDm.value.flag;
+    return preOrderDm.value.flag;
   }
 
 
@@ -545,14 +545,14 @@ class PlayOrderController extends GetxController {
   PayOrderModel getPayOrderModel() {
     PayOrderModel model = PayOrderModel();
     model.type = -2;
-    model.totalAmount = totalAmount.value.toString();
+    // model.totalAmount = totalAmount.value.toString();
     model.svctm = this.time.value.millisecondsSinceEpoch;
     model.liveuid = liveUid;
     model.skillid = skillModel.value.id;
     model.nums = nums.value;
     model.des = remarksController.text;
     model.serviceItemId = serviceItemId;
-    model.code = calculateDm.value.object == 0 ? '' : this.code;
+    model.code = preOrderDm.value.object == 0 ? '' : this.code;
     model.couponId = couponId;
     flog('model $model');
     return model;
