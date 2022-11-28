@@ -76,6 +76,10 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
   
   ///初始化函数
   Future initData() async {
+    this.initListenAndPump();
+  }
+
+  initListenAndPump(){
     playDetailValue.animationController.clear();
     listen= widget.controller.detailModel.listenAndPump((event) {
       if(event.skills.isNotEmpty && playDetailValue.animationController.isEmpty){
@@ -365,7 +369,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                         var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
                         V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${widget.controller.detailModel.value.memberId}");
                         if(conv.data != null) {
-                          Navigator.push(
+                          await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
@@ -373,7 +377,12 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                                       selectedConversation: conv.data!,
                                       orderSn: widget.controller.detailModel.value.orderSn,
                                     ),
-                              ));
+                              ),
+                          );
+                          // this.initListenAndPump();
+                          widget.controller.detailModel.value=PlayDetailModel();
+                          widget.controller.detailModel.refresh();
+                          widget.controller.onReady();
                         }
                       },
                     )
