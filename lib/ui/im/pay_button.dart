@@ -42,7 +42,7 @@ class PayButton extends StatelessWidget {
                     () => Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        (playOrderController.preOrderDm.value.object?.isEmpty ?? true) ? '0.0' : "${playOrderController.preOrderDm.value.object?['coin'].toStringAsFixed(2)}",
+                        "${playOrderController.balance.toStringAsFixed(0)}",
                         style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: "DIN"),
                       ),
                     ),

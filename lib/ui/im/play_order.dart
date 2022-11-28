@@ -141,7 +141,7 @@ class PlayOrder extends StatelessWidget {
                                   [16, 16]),
                               PWidget.boxw(5),
                               PWidget.text(
-                                  controller.calculateDm.value.object,
+                                  '${controller.preOrderDm.value.object?['coupon']}   ${controller.preOrderDm.value.object?['discount']}',
                                   [Colors.white54, 16]),
                             ]),
                             PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
@@ -360,6 +360,7 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
 
 class PlayOrderController extends GetxController {
   var totalAmount = 0.0.obs;
+  var balance=0.0.obs;
 
   var nums = 1.obs;
 
@@ -415,6 +416,7 @@ class PlayOrderController extends GetxController {
       preOrderDm.value.addObject(res.data);
       totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']));
       nums.value = 1;
+      balance=res.data['coin'];
       // changeQuantity(1,skillAuthId);
       feilv();
     }).catchError((e) {
@@ -464,7 +466,9 @@ class PlayOrderController extends GetxController {
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
       calculateDm.value.addObject(res.data['discount']);
-      preOrderDm.value.object?['total']=res.data['total'];
+      // preOrderDm.value.object?['total']=res.data['total'];
+      preOrderDm.value.addObject(res.data);
+
       this.couponId = res.data['couponId'];
     }).catchError((e) {
       calculateDm.value.toError(e.toString());
@@ -508,7 +512,9 @@ class PlayOrderController extends GetxController {
     await http
         .post('/peiwan/app/order/calculate', data: params)
         .then((res) async {
-      preOrderDm.value.object?['total']=res.data['total'];
+      // preOrderDm.value.object?['total']=res.data['total'];
+      preOrderDm.value.addObject(res.data);
+
       this.couponId = res.data['couponId'];
     }).catchError((e) {
       preOrderDm.value.toError(e.toString());
