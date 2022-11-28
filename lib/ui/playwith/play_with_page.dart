@@ -117,7 +117,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
             if (i == 1) buildCount(),
           ]);
         },
-        tabPage: [PlayWithChild(), page],
+        tabPage: [Obx(()=>userController.user?.value?.id==0?buildLoad():PlayWithChild()), page],
       ),
     );
   }
@@ -202,18 +202,18 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   void initState() {
     this.initData();
     super.initState();
-    userListener();
+  //  userListener();
   }
 
-  Future<void> userListener() async {
-    userController.user.listen((user) async {
-      superlistDm.flag = 2;
-      filterDm.flag = 2;
-      await filter();
-      await superlist(isRef: true);
-      getTime();
-    });
-  }
+  // Future<void> userListener() async {
+  //   userController.user.listen((user) async {
+  //     superlistDm.flag = 2;
+  //     filterDm.flag = 2;
+  //     await filter();
+  //     await superlist(isRef: true);
+  //     getTime();
+  //   });
+  // }
 
   ///初始化函数
   Future initData() async {
