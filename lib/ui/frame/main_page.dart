@@ -29,6 +29,7 @@ import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/shop/shop_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:wy/utils/utils.dart';
 
 class MainPage extends GetView<MainPageController> {
 
@@ -207,17 +208,17 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     LocationService().init();
     controller = PageController();
 
-    var initializationSettingsAndroid = AndroidInitializationSettings(
-      '@mipmap/ic_push'
-    );
+    controller.addListener(() {
+      var curpage = controller.page;
+      if (curpage == 2.0) userController.checkLogin(() => null);
+    });
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_push');
     var initializationSettingsIOS = IOSInitializationSettings(
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification
-    );
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
     var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS
-    );
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     await AppConfig.flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -255,7 +256,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   @override
   void onReady() {
     super.onReady();
-      checkVersion();
+    checkVersion();
     _timer = Timer.periodic(Duration(minutes: 5), (timer) {
       IndexApi.checkVersion().then((value) {
         if (value.upgrade && value.force) {
@@ -266,15 +267,15 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     });
   }
 
+  UserController userController = Get.find<UserController>();
+
   @override
   void onResumed() {
-    UserController userController = Get.find<UserController>();
     userController.login(checkLastLoginTime: true);
   }
 
   @override
-  void onDetached() {
-  }
+  void onDetached() {}
 
   @override
   void onInactive() {

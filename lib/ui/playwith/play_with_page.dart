@@ -196,11 +196,23 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   var gid = '';
 
   var playSwitchKey = 0;
+  final UserController userController = Get.find<UserController>();
 
   @override
   void initState() {
     this.initData();
     super.initState();
+    userListener();
+  }
+
+  Future<void> userListener() async {
+    userController.user.listen((user) async {
+      superlistDm.flag = 2;
+      filterDm.flag = 2;
+      await filter();
+      await superlist(isRef: true);
+      getTime();
+    });
   }
 
   ///初始化函数
@@ -210,6 +222,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 
   ///过滤
   var filterDm = DataModel<Map>(flag: 2, object: {});
+
   Future<int> filter() async {
     await http.get('/peiwan/app/home/filter?gameId=$gid').then((res) async {
       filterDm.addObject(res.data);
