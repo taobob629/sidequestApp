@@ -99,10 +99,20 @@ class SkillListPage extends GetView<SkillListPageController> {
                     Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PWidget.text('',[], {'ff': 'DIN','exp': true},[
-                              PWidget.textIs('${data.skillName}',[Colors.yellow, 18, true],),
-                             if(data.wswitch==0) PWidget.textIs('\t\t'+'Disabled'.tr,[Colors.red],),
-                            ]),
+                        PWidget.text('', [], {
+                          'ff': 'DIN',
+                          'exp': true
+                        }, [
+                          PWidget.textIs(
+                            '${data.skillName}',
+                            [Colors.yellow, 18, true],
+                          ),
+                          if (data.wswitch == 0)
+                            PWidget.textIs(
+                              '\t\t' + 'Disabled'.tr,
+                              [Colors.red],
+                            ),
+                        ]),
                         Row(
                           children: [
                             if (data.status == SkillModel.ONGOING)
@@ -256,14 +266,17 @@ class SkillListPage extends GetView<SkillListPageController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (item != null)
-          PWidget.text('',[],{'exp':true},[
-            PWidget.textIs('${item?.name}',[Colors.white]),
-            if(item.isDefault==0) PWidget.textIs('\t\t'+'Disabled'.tr,[Colors.red]),
-          ]),
-            // Text(
-            //   '${item?.name}',
-            //   style: TextStyle(color: Colors.white, fontSize: 14),
-            // ),
+            PWidget.text('', [], {
+              'exp': true
+            }, [
+              PWidget.textIs('${item?.name}', [Colors.white]),
+              if (item.isDefault == 0)
+                PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
+            ]),
+          // Text(
+          //   '${item?.name}',
+          //   style: TextStyle(color: Colors.white, fontSize: 14),
+          // ),
           if (item == null) Container(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -293,12 +306,13 @@ class SkillListPage extends GetView<SkillListPageController> {
               PWidget.boxw(5),
               if (item != null)
                 GestureDetector(
-                    onTap: () =>
-                        controller.addSkillItem(data, skillItemModel: item),
+                    onTap: () => item.isDefault == 0
+                        ? controller.addSkillItem(data, skillItemModel: item)
+                        : null,
                     child: Icon(
                       Icons.edit_note_rounded,
                       size: icon_size,
-                      color: Colors.white,
+                      color: item.isDefault == 1 ? Colors.grey : Colors.white,
                     )),
               PWidget.boxw(3),
               PWidget.boxw(icon_size),
