@@ -270,7 +270,7 @@ class SkillListPage extends GetView<SkillListPageController> {
               'exp': true
             }, [
               PWidget.textIs('${item?.name}', [Colors.white]),
-              if (item.isDefault == 0)
+              if (item.enabled == 0)
                 PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
             ]),
           // Text(
