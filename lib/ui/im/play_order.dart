@@ -1,7 +1,7 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -20,7 +20,6 @@ import '../common/input_view.dart';
 import '../common/quantity_selector.dart';
 import '../common/select_view.dart';
 import 'pay_button.dart';
-import 'package:date_format/date_format.dart';
 
 class PlayOrder extends StatelessWidget {
   late final SkillModel skillModel;
@@ -414,9 +413,10 @@ class PlayOrderController extends GetxController {
       "serviceItemId": serviceItemId,
     }).then((res) async {
       preOrderDm.value.addObject(res.data);
-      totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']));
+      totalAmount.value =
+          (double.parse(preOrderDm.value.object?['serviceItems']['price']));
       nums.value = 1;
-      balance=res.data['coin'];
+      balance.value = double.parse('${res.data['coin']}');
       // changeQuantity(1,skillAuthId);
       feilv();
     }).catchError((e) {
@@ -499,9 +499,8 @@ class PlayOrderController extends GetxController {
   //   preOrderDm.refresh();
   //   return preOrderDm.value.flag;
   // }
-  Future<int> changeQuantity(int quantity,String skillAuthId) async {
-    // totalAmount.value = skillModel.value.coin * quantity;
-    totalAmount.value = (double.parse(preOrderDm.value.object?['serviceItems']['price']) * quantity);
+  Future<int> changeQuantity(int quantity, String skillAuthId) async {
+    EasyLoading.show();
     nums.value = quantity;
     this.code = code;
     Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
@@ -517,8 +516,10 @@ class PlayOrderController extends GetxController {
 
       this.couponId = res.data['couponId'];
     }).catchError((e) {
+      EasyLoading.dismiss();
       preOrderDm.value.toError(e.toString());
     });
+    EasyLoading.dismiss();
     preOrderDm.refresh();
     return quantity;
   }
