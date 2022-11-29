@@ -155,10 +155,6 @@ class PlayOrder extends StatelessWidget {
                       PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
                       PWidget.boxw(5),
                       Obx(() {
-                        // var zj = controller.totalAmount.value;
-                        // var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
-                        // var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
-                        // flog(controller.calculateDm.value.object!, 'calculate');
                         return PWidget.text( controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
                       }),
                     ]),

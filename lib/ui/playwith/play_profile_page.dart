@@ -724,6 +724,7 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
     '2': 'assets/images/play/level_2.png',
     '3': 'assets/images/play/level_3.png',
     '4': 'assets/images/play/level_4.png',
+    '5': 'assets/images/play/level_5.png',
   };
 
   var titleMap = {
@@ -743,11 +744,11 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
           (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
               'assets/images/play/level_1.png',
         ),
-        if (widget.isauth == 1)
-          PWidget.container(
-            PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
-            [10, 10, Color(0xffefbd6d)],
-          ),
+        // if (widget.isauth == 1)
+        //   PWidget.container(
+        //     PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
+        //     [10, 10, Color(0xffefbd6d)],
+        //   ),
       ]),
     );
   }
