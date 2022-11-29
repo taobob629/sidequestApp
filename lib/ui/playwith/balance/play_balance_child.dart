@@ -8,6 +8,7 @@ import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/dialog_password.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/charge_item.dart';
 import 'package:wy/ui/profile/balance/count_view.dart';
@@ -231,6 +232,7 @@ class _Bottom2Path extends CustomClipper<Path> {
 }
 
 class WalletBalancePageController extends GetxListController {
+  late PrivacyCheckController privacyCheckController;
   late var productIndex = 0.obs;
 
   late var customAmount = 0.0.obs;
@@ -297,6 +299,7 @@ class WalletBalancePageController extends GetxListController {
   @override
   void onInit() {
     super.onInit();
+    privacyCheckController = PrivacyCheckController();
     getBankList();
     amountController = TextEditingController()
       ..addListener(() {
@@ -445,6 +448,7 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.showToast('Success');
     EasyLoading.dismiss();
   }
+
   /*
    * 提现
    *  post方法
@@ -482,7 +486,7 @@ class WalletBalancePageController extends GetxListController {
   }
 
   Future<void> withdrawRequest(String type, String votes) async {
-     EasyLoading.show();
+    EasyLoading.show();
     var response;
     if (type == 'withDraw') {
       if (selectedBank == null) {

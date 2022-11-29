@@ -5,6 +5,7 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/balance/widget/bank_widget.dart';
@@ -101,11 +102,11 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.boxh(8),
       FloatingButton(
         label: "Withdrawal".tr,
-        onTap: () => controller.withDraw('withDraw'),
+        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('withDraw') : null,
       ),
       FloatingButton(
         label: "Exchange To Coin".tr,
-        onTap: () => controller.withDraw('exchange'),
+        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('exchange') : null,
       ),
       PWidget.container(
         PWidget.column([
@@ -117,6 +118,8 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         ]),
         {'pd': 16},
       ),
+      PWidget.boxh(8),
+      PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
     ];
   }
 
