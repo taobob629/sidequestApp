@@ -586,5 +586,6 @@ const Map<String, String> zh_CN = {
   'Actual payment': '实际支付',
   'Voucher Unavailable': '优惠券不可用',
   'Input your payment pin':'支付密码',
+  'Add Voucher':'添加优惠券',
 
 };

@@ -586,5 +586,6 @@ const Map<String, String> en_US = {
   'Actual payment': 'Actual payment',
   'Voucher Unavailable': 'Voucher Unavailable',
   'Input your payment pin':'Input your payment pin',
+  'Add Voucher':'Add Voucher',
 
 };
