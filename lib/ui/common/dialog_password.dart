@@ -22,7 +22,7 @@ class PasswordDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(title, style: TextStyle(fontSize: 16, color: Colors.white),),
+          Text(title.tr, style: TextStyle(fontSize: 16, color: Colors.white),),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 30),
             padding: const EdgeInsets.symmetric(horizontal: 15),
