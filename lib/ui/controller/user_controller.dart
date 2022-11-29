@@ -158,10 +158,10 @@ class UserController extends GetxController {
       // if(userSig == ""){
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
-      print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
+      // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
       _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
         imLoginDone.value = true;
-        print("~~~~~~~~~im login done~~~~~~~~~~~~~");
+        // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
         TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(
           onTotalUnreadMessageCountChanged: (count) {
             flog(count,'onTotalUnreadMessageCountChanged');
