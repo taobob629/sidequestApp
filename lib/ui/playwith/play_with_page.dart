@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
+import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_pages.dart';
@@ -106,7 +106,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
 
   Future<void> userListener() async {
     userController.user.listen((user) async {
-      setState(() => _key = ValueKey(getTime()));
+      if (mounted) setState(() => _key = ValueKey(getTime()));
     });
   }
 
@@ -217,7 +217,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   void initState() {
     this.initData();
     super.initState();
-  //  userListener();
+    //  userListener();
   }
 
   // Future<void> userListener() async {
@@ -630,7 +630,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   distance(double distance) {
     if (distance < 10) return '<10KM';
     // if (distance < 100) return '<100KM';
-    if (distance >=10) return '${distance.floor()}/KM';
+    if (distance >= 10) return '${distance.floor()}/KM';
   }
 
   Widget defaultAvatar() {

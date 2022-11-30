@@ -4,11 +4,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
-import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
-import 'package:tim_ui_kit/ui/utils/color.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitSearch/tim_uikit_search.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:provider/provider.dart';
+import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/widget/tim_ui/my_tim_uikit_conversation.dart' as mytui;
 

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/play_detail_model.dart';

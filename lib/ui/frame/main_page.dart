@@ -9,8 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:preload_page_view/preload_page_view.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';

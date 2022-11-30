@@ -5,13 +5,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/business_logic/life_cycle/chat_life_cycle.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_chat_global_model.dart';
-// import 'package:tim_ui_kit/business_logic/view_models/tui_chat_view_model.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
-import 'package:tim_ui_kit/ui/controller/tim_uikit_chat_controller.dart';
-import 'package:tim_ui_kit/ui/utils/permission.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/life_cycle/chat_life_cycle.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_chat_controller.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/permission.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
@@ -345,7 +344,7 @@ class _ChatState extends State<Chat> {
                   },
                   icon: Image.asset(
                     'images/more.png',
-                    package: 'tim_ui_kit',
+                    package: 'tencent_cloud_chat_uikit',
                     height: 34,
                     width: 34,
                   ))
