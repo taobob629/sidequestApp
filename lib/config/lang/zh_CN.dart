@@ -531,7 +531,7 @@ const Map<String, String> zh_CN = {
   'Free Time': '免费时长',
   'Play Function': 'Play Function',
   'Wallet': '我的钱包',
-  'SideQuestHub Store': 'SideQuestHub Store',
+  'SideQuestHub Store': '支线电竞',
   'My Balance': '我的账户',
   'Scan QR code': '扫描二维码',
   'Search anything you want to buy': '搜索你想要买的',
