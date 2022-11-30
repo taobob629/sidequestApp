@@ -13,6 +13,7 @@ import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
+import 'package:wy/utils/string_utils.dart';
 
 class EditAddressPage extends StatelessWidget {
 
@@ -220,7 +221,7 @@ class EditAddressPageController extends GetxListController<Shire> {
       return;
     }
     String email = emailController.text;
-    if(email.isEmpty){
+    if(email.isEmpty||!StringUtil.isEmail(email)){
       EasyLoading.showToast("Please input a email".tr);
       return;
     }
