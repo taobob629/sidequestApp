@@ -11,26 +11,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_chat_separate_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_self_info_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/message.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/permission.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/intl_camer_picker.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:tencent_wechat_camera_picker/tencent_wechat_camera_picker.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_state.dart';
-import 'package:tim_ui_kit/business_logic/separate_models/tui_chat_separate_view_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_chat_global_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_self_info_view_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_theme_view_model.dart';
-import 'package:tim_ui_kit/data_services/services_locatar.dart';
-import 'package:tim_ui_kit/ui/utils/color.dart';
-import 'package:tim_ui_kit/ui/utils/message.dart';
-import 'package:tim_ui_kit/ui/utils/permission.dart';
-import 'package:tim_ui_kit/ui/utils/platform.dart';
-import 'package:tim_ui_kit/ui/utils/tui_theme.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/intl_camer_picker.dart';
-import 'package:tim_ui_kit/ui/widgets/toast.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as video_thumbnail;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_base.dart';
-
-import 'package:tim_ui_kit/ui/utils/shared_theme.dart';
 import 'package:universal_html/html.dart' as html;
 
 class MorePanelConfig {
@@ -109,7 +103,7 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: SvgPicture.asset(
                 "images/screen.svg",
-                package: 'tim_ui_kit',
+                package: 'tencent_cloud_chat_uikit',
                 height: 64,
                 width: 64,
               ),
@@ -126,13 +120,15 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
               width: 64,
               margin: const EdgeInsets.only(bottom: 4),
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child: SvgPicture.asset(
-                "images/photo.svg",
-                package: 'tim_ui_kit',
-                height: 64,
-                width: 64,
-              ),
+                color: Colors.white12,
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Icon(Icons.photo,color: Colors.white54),
+              // child: SvgPicture.asset(
+              //   "images/photo.svg",
+              //   package: 'tencent_cloud_chat_uikit',
+              //   height: 64,
+              //   width: 64,
+              // ),
             )),
       if (PlatformUtils().isWeb)
         MorePanelItem(
@@ -150,7 +146,7 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: SvgPicture.asset(
                 "images/photo.svg",
-                package: 'tim_ui_kit',
+                package: 'tencent_cloud_chat_uikit',
                 height: 64,
                 width: 64,
               ),
@@ -187,7 +183,7 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             child: SvgPicture.asset(
               "images/file.svg",
-              package: 'tim_ui_kit',
+              package: 'tencent_cloud_chat_uikit',
               height: 64,
               width: 64,
             ),

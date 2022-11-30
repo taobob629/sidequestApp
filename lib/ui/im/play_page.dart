@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/ui/controller/tim_uikit_conversation_controller.dart';
-
+import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 import '../../common/keep_alive_wrapper.dart';
 import '../common/home_indicator.dart';
 import '../controller/user_controller.dart';

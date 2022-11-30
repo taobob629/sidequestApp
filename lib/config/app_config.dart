@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
-import 'package:tim_ui_kit/ui/constants/emoji.dart';
-import 'package:tim_ui_kit/ui/widgets/emoji.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:tencent_cloud_chat_uikit/ui/constants/emoji.dart';
+import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
 import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/app.dart';
 import 'package:wy/api/wy_http.dart';
@@ -133,8 +133,8 @@ class AppConfig {
   //           name: customEmojiPackage.icon,
   //         ));
   //   }).toList());
-  //   Provider.of<CustomStickerPackageData>(context, listen: false)
-  //       .customStickerPackageList = customStickerPackageList;
+  //   // Provider.of<CustomStickerPackageData>(context, listen: false)
+  //   //     .customStickerPackageList = customStickerPackageList;
   // }
 
   static String getBaseServer(){

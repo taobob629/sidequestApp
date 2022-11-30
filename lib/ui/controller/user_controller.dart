@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';

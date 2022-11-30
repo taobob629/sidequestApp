@@ -10,8 +10,10 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
-
+import 'package:flutter_easyloading/src/widgets/indicator.dart';
+import 'package:wy/widget/views.dart';
 import '../../model/pay_order_model.dart';
 import '../../model/play_detail_model.dart';
 import '../common/base_scaffold.dart';
@@ -61,109 +63,101 @@ class PlayOrder extends StatelessWidget {
               })),
             ),
             PWidget.positioned(
-              PWidget.column([
-                PWidget.container(
-                  PWidget.column([
-                    PWidget.row([
-                      PWidget.text('SUBTOTAL'.tr, [Colors.white, 18], {'exp': true}),
-                      PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
-                      PWidget.boxw(5),
-                      // PWidget.text('112', [Colors.white, 16]),
-                      PWidget.text(
-                          controller.preOrderDm.value.object?['subtotal'],
-                          [Colors.white, 16]),
-                    ]),
-                    PWidget.boxh(15),
-                    PWidget.row([
-                      PWidget.text(
-                          "${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)",
-                          [Colors.white, 18],
-                          {'exp': true}),
-                      PWidget.image(
-                          "assets/images/ic_balance_money.webp", [20, 20]),
-                      PWidget.boxw(5),
-                      PWidget.text(
-                          controller.preOrderDm.value.object?['tax'],
-                          [Colors.white, 16]),
-                    ]),
-                    PWidget.boxh(15),
-                    // YouhuiquanInputWidget(textCon, (v) async {
-                    //   await controller.calculate(skillModel.authId.toString(), liveUid, '${serviceItem['id']}', v);
-                    //   if (controller.calculateDm.value.object == 0) textCon.clear();
-                    // }),
-                    GestureDetector(
-                      onTap: () => Get.find<UserController>().checkLogin(() =>
-                          NavigatorHelper.gotoCouponPage(
-                              preOrder: Get.find<PlayOrderController>()
-                                  .getPayOrderModel()
-                                  .toJson(),
+              AnimatedSwitchBuilder(
+                value: controller.preOrderDm.value,
+                errorOnTap: () async => getTime(),
+                initViewIsCenter: true,
+                initialState: PWidget.container(buildLoad(), {'pd': PFun.lg(16, 16)}),
+                isAnimatedSize: true,
+                objectBuilder: (v) {
+                  return PWidget.column([
+                    PWidget.container(
+                      PWidget.column([
+                        PWidget.row([
+                          PWidget.text('SUBTOTAL'.tr, [Colors.white, 18], {'exp': true}),
+                          PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
+                          PWidget.boxw(5),
+                          // PWidget.text('112', [Colors.white, 16]),
+                          PWidget.text(controller.preOrderDm.value.object?['subtotal'], [Colors.white, 16]),
+                        ]),
+                        PWidget.boxh(15),
+                        PWidget.row([
+                          PWidget.text("${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)", [Colors.white, 18], {'exp': true}),
+                          PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
+                          PWidget.boxw(5),
+                          PWidget.text(controller.preOrderDm.value.object?['tax'], [Colors.white, 16]),
+                        ]),
+                        PWidget.boxh(15),
+                        // YouhuiquanInputWidget(textCon, (v) async {
+                        //   await controller.calculate(skillModel.authId.toString(), liveUid, '${serviceItem['id']}', v);
+                        //   if (controller.calculateDm.value.object == 0) textCon.clear();
+                        // }),
+                        GestureDetector(
+                          onTap: () => Get.find<UserController>().checkLogin(() => NavigatorHelper.gotoCouponPage(
+                              preOrder: Get.find<PlayOrderController>().getPayOrderModel().toJson(),
                               //  payOrderModel: pageController.getPayOrderModel(),
                               onSelect: (model) async {
-                              //  flog('v $model');
+                                //  flog('v $model');
                                 await controller.calculate(
-                                    skillModel.authId.toString(),
-                                    liveUid,
-                                    '${serviceItem['id']}',
-                                    model.id,
-                                    model.couponCode,);
+                                  skillModel.authId.toString(),
+                                  liveUid,
+                                  '${serviceItem['id']}',
+                                  model.id,
+                                  model.couponCode,
+                                );
                               })),
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Vouchers".tr,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Vouchers".tr,
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    Obx(() {
-                      if (controller.preOrderDm.value.object?['discount']==null||controller.preOrderDm.value.object?['discount'] == 0)
-                        return PWidget.boxh(0);
-                      return PWidget.container(
-                        PWidget.row([
-                          PWidget.text("${'Discount'.tr}", [Colors.white, 18],
-                              {'exp': true}),
-                          Stack(clipBehavior: Clip.none, children: [
+                        Obx(() {
+                          if (controller.preOrderDm.value.object?['discount'] == null || controller.preOrderDm.value.object?['discount'] == 0) return PWidget.boxh(0);
+                          return PWidget.container(
                             PWidget.row([
-                              PWidget.image(
-                                  "assets/images/ic_balance_money.webp",
-                                  [16, 16]),
-                              PWidget.boxw(5),
-                              PWidget.text(
-                                  '${controller.preOrderDm.value.object?['coupon']??''}  ${controller.preOrderDm.value.object?['discount']??''}',
-                                  [Colors.white54, 16]),
+                              PWidget.text("${'Discount'.tr}", [Colors.white, 18], {'exp': true}),
+                              Stack(clipBehavior: Clip.none, children: [
+                                PWidget.row([
+                                  PWidget.image("assets/images/ic_balance_money.webp", [16, 16]),
+                                  PWidget.boxw(5),
+                                  PWidget.text('${controller.preOrderDm.value.object?['coupon'] ?? ''}  ${controller.preOrderDm.value.object?['discount'] ?? ''}', [Colors.white54, 16]),
+                                ]),
+                                PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
+                              ]),
                             ]),
-                            PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
-                          ]),
+                            {'pd': PFun.lg(15, 15)},
+                          );
+                        }),
+                        PWidget.boxh(15),
+                        PWidget.row([
+                          PWidget.text("${'TOTAL'.tr}", [Color(0xffeeca46), 24, true], {'exp': true}),
+                          PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
+                          PWidget.boxw(5),
+                          Obx(() {
+                            return PWidget.text(controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
+                          }),
                         ]),
-                        {'pd': PFun.lg(15, 15)},
-                      );
-                    }),
-                    PWidget.boxh(15),
-                    PWidget.row([
-                      PWidget.text("${'TOTAL'.tr}", [Color(0xffeeca46), 24, true], {'exp': true}),
-                      PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
-                      PWidget.boxw(5),
-                      Obx(() {
-                        return PWidget.text( controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
-                      }),
-                    ]),
-                  ]),
-                  [null, null, Colors.black],
-                  {'pd': 15},
-                ),
-                PayButton(),
-              ], '220'),
+                      ]),
+                      [null, null, Colors.black],
+                      {'pd': 15},
+                    ),
+                    PayButton(),
+                  ], '220');
+                },
+              ),
               [null, MediaQuery.of(context).viewInsets.bottom, 0, 0],
             )
           ],
@@ -185,9 +179,9 @@ class PlayOrder extends StatelessWidget {
         QuantitySelector(
           initValue: 1,
           tag: "1",
-          onQuantityChanged: (quantity) async{
+          onQuantityChanged: (quantity) async {
             flog(serviceItem);
-            await  controller.changeQuantity(quantity,'${serviceItem['skillAuthid']}');
+            await controller.changeQuantity(quantity, '${serviceItem['skillAuthid']}');
           },
         )
       ]),
@@ -216,9 +210,9 @@ class PlayOrder extends StatelessWidget {
                   child: controller.skillModel.value.thumb == ""
                       ? Container()
                       : CachedNetworkImage(
-                    imageUrl: controller.skillModel.value.thumb,
-                    fit: BoxFit.cover,
-                  ),
+                          imageUrl: controller.skillModel.value.thumb,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 SizedBox(
                   width: 10,
@@ -238,9 +232,9 @@ class PlayOrder extends StatelessWidget {
                         children: [
                           Expanded(
                               child: Text(
-                                "",
-                                style: TextStyle(color: Colors.white54, fontSize: 12),
-                              )),
+                            "",
+                            style: TextStyle(color: Colors.white54, fontSize: 12),
+                          )),
                           // QuantitySelector(
                           //   initValue: 1,
                           //   tag: "1",
@@ -355,7 +349,7 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
 
 class PlayOrderController extends GetxController {
   // var totalAmount = 0.0.obs;
-  var balance=0.0.obs;
+  var balance = 0.0.obs;
 
   var nums = 1.obs;
 
@@ -449,8 +443,7 @@ class PlayOrderController extends GetxController {
   // var calculateDm = DataModel(object: 0).obs;
   int couponId = 0;
 
-  Future<int> calculate(String skillAuthId, String liveuid,
-      String serviceItemId, var couponId, var couponCode) async {
+  Future<int> calculate(String skillAuthId, String liveuid, String serviceItemId, var couponId, var couponCode) async {
     this.code = code;
     Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
     params['skillAuthId'] = skillAuthId;
@@ -458,9 +451,7 @@ class PlayOrderController extends GetxController {
     params['couponId'] = couponId;
     params['serviceItemId'] = serviceItemId;
     params['code'] = couponCode;
-    await http
-        .post('/peiwan/app/order/calculate', data: params)
-        .then((res) async {
+    await http.post('/peiwan/app/order/calculate', data: params).then((res) async {
       // calculateDm.value.addObject(res.data['discount']);
       // preOrderDm.value.object?['total']=res.data['total'];
       preOrderDm.value.addObject(res.data);
@@ -473,7 +464,6 @@ class PlayOrderController extends GetxController {
     preOrderDm.refresh();
     return preOrderDm.value.flag;
   }
-
 
   // Future<int> calculate2(String skillAuthId, String liveuid,
   //     String serviceItemId, var couponId, var couponCode) async {
@@ -504,9 +494,7 @@ class PlayOrderController extends GetxController {
     params['couponId'] = couponId;
     params['serviceItemId'] = serviceItemId;
     params['code'] = code;
-    await http
-        .post('/peiwan/app/order/calculate', data: params)
-        .then((res) async {
+    await http.post('/peiwan/app/order/calculate', data: params).then((res) async {
       // preOrderDm.value.object?['total']=res.data['total'];
       preOrderDm.value.addObject(res.data);
 
@@ -523,13 +511,13 @@ class PlayOrderController extends GetxController {
   void showSelectTime() {
     DateTime start = DateTime.now();
     Get.dialog<DateTime?>(
-        DateTimePickerDialog(
-          format: "dd-MMM-yyyy HH:mm",
-          initDateTime: start,
-          minDateTime: start,
-          minuteDivider: 30,
-        ),
-        barrierColor: Colors.black26)
+            DateTimePickerDialog(
+              format: "dd-MMM-yyyy HH:mm",
+              initDateTime: start,
+              minDateTime: start,
+              minuteDivider: 30,
+            ),
+            barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         this.timeSelect.value = true;

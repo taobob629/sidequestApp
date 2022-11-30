@@ -6,24 +6,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_state.dart';
-import 'package:tim_ui_kit/business_logic/separate_models/tui_chat_separate_view_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_chat_global_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_conversation_view_model.dart';
-import 'package:tim_ui_kit/business_logic/view_models/tui_self_info_view_model.dart';
-import 'package:tim_ui_kit/data_services/services_locatar.dart';
-import 'package:tim_ui_kit/tim_ui_kit.dart';
-import 'package:tim_ui_kit/ui/utils/color.dart';
-import 'package:tim_ui_kit/ui/utils/message.dart';
-import 'package:tim_ui_kit/ui/utils/platform.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_at_text.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_emoji_panel.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_base.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_send_sound_message.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_chat_separate_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_conversation_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_self_info_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/message.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/permission.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_at_text.dart';
 import 'package:wy/widget/tim_ui/my_tim_uikit_emoji_panel.dart' as my;
 import 'package:wy/widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
 import 'package:wy/widget/tim_ui/my_tim_uikit_send_sound_message.dart' as my_tim_uikit_send_sound_message;
-import 'package:tim_ui_kit/ui/utils/permission.dart';
 
 enum MuteStatus { none, me, all }
 
@@ -274,7 +271,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                 width: 18,
                 child: Image.asset(
                   'images/clear.png',
-                  package: 'tim_ui_kit',
+                  package: 'tencent_cloud_chat_uikit',
                 ),
               ),
             )
@@ -768,7 +765,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                   showSendSoundText
                                       ? 'images/keyboard.svg'
                                       : 'images/voice.svg',
-                                  package: 'tim_ui_kit',
+                                  package: 'tencent_cloud_chat_uikit',
                                   color: Colors.white54,
                                   height: 28,
                                   width: 28,
@@ -843,7 +840,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                         showEmojiPanel
                                             ? 'images/keyboard.svg'
                                             : 'images/face.svg',
-                                        package: 'tim_ui_kit',
+                                        package: 'tencent_cloud_chat_uikit',
                                         color: Colors.white54,
                                         height: 28,
                                         width: 28,
@@ -867,7 +864,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                         color: hexToColor("5c6168"), size: 32)
                                     : SvgPicture.asset(
                                         'images/add.svg',
-                                        package: 'tim_ui_kit',
+                                        package: 'tencent_cloud_chat_uikit',
                                         color: Colors.white54,
                                         height: 28,
                                         width: 28,

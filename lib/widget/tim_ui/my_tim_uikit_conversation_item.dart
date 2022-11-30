@@ -1,17 +1,14 @@
 // ignore_for_file: avoid_print, empty_catches
 
 import 'package:flutter/material.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:tencent_cloud_chat_uikit/ui/utils/time_ago.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation_draft_text.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation_last_msg.dart';
+import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_statelesswidget.dart';
-import 'package:tim_ui_kit/ui/utils/color.dart';
-import 'package:tim_ui_kit/ui/utils/time_ago.dart';
-import 'package:tim_ui_kit/ui/utils/tui_theme.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitConversation/tim_uikit_conversation_draft_text.dart';
-import 'package:tim_ui_kit/ui/views/TIMUIKitConversation/tim_uikit_conversation_last_msg.dart';
-import 'package:tim_ui_kit/ui/widgets/avatar.dart';
-import 'package:tim_ui_kit/ui/widgets/unread_message.dart';
-import 'package:tim_ui_kit/base_widgets/tim_ui_kit_base.dart';
-
 typedef LastMessageBuilder = Widget Function(
     V2TimMessage? lastMsg, List<V2TimGroupAtInfo?> groupAtInfoList);
 
