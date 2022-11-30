@@ -33,5 +33,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>允许SideQuest获取麦克风权限，用于发送语音消息</string>
 </dict>
 </plist>
