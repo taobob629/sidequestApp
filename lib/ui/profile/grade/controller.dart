@@ -10,6 +10,7 @@ import 'package:wy/api/user_api.dart';
 import 'package:wy/model/level_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/utils.dart';
 
 class GradeController extends GetxController {
   RxBool _isLoadding = RxBool(true);
@@ -86,9 +87,9 @@ class GradeController extends GetxController {
   }
 
  bool isTopLevel(){
-    if(isauth == TYPE_VIP){
-      return model.userLevel>=4;
-    }
+    // if(isauth == TYPE_VIP){
+    //   return model.userLevel>=5;
+    // }
     return model.userLevel>=5;
  }
  bool isVip(){
