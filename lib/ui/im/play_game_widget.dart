@@ -106,7 +106,7 @@ class _PlayGameWidgetState extends State<PlayGameWidget> {
                                 },
                                 bgColor: Colors.transparent,
                                 isTran: true,
-                                fun: () => Get.to(() => GameComment(widget.skillModel, "${widget.skillModel.authId}")),
+                                fun: () => Get.to(() => GameComment(widget.skillModel, widget.controller.userId)),
                               ),
                           ]),
                           if (widget.skillModel.star <= 0) PWidget.boxh(8),

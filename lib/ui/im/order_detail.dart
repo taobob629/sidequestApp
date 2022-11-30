@@ -34,7 +34,7 @@ class OrderDetail extends StatelessWidget {
               left: 0,
               right: 0,
               top: 0,
-              bottom: 0,
+              bottom: 80,
               child: SingleChildScrollView(
                   child: Obx(() => Column(
                         mainAxisSize: MainAxisSize.max,

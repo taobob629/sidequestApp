@@ -629,8 +629,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 
   distance(double distance) {
     if (distance < 10) return '<10KM';
-    if (distance < 100) return '<100KM';
-    if (distance > 100) return '${distance.floor()}/KM';
+    // if (distance < 100) return '<100KM';
+    if (distance >=10) return '${distance.floor()}/KM';
   }
 
   Widget defaultAvatar() {

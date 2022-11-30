@@ -127,7 +127,7 @@ class PlayOrder extends StatelessWidget {
                       ),
                     ),
                     Obx(() {
-                      if (controller.preOrderDm.value.object?['discount'] == 0)
+                      if (controller.preOrderDm.value.object?['discount']==null||controller.preOrderDm.value.object?['discount'] == 0)
                         return PWidget.boxh(0);
                       return PWidget.container(
                         PWidget.row([
@@ -140,7 +140,7 @@ class PlayOrder extends StatelessWidget {
                                   [16, 16]),
                               PWidget.boxw(5),
                               PWidget.text(
-                                  '${controller.preOrderDm.value.object?['coupon']}   ${controller.preOrderDm.value.object?['discount']}',
+                                  '${controller.preOrderDm.value.object?['coupon']??''}  ${controller.preOrderDm.value.object?['discount']??''}',
                                   [Colors.white54, 16]),
                             ]),
                             PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
@@ -155,10 +155,6 @@ class PlayOrder extends StatelessWidget {
                       PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
                       PWidget.boxw(5),
                       Obx(() {
-                        // var zj = controller.totalAmount.value;
-                        // var flj = (controller.totalAmount.value * controller.fellv.value).ceil();
-                        // var zzj = (zj + flj - controller.calculateDm.value.object!).toStringAsFixed(0);
-                        // flog(controller.calculateDm.value.object!, 'calculate');
                         return PWidget.text( controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
                       }),
                     ]),
