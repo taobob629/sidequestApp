@@ -12,6 +12,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
 import 'package:wy/ui/profile/consume/my_consume_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/widget/paixs_widget.dart';
 
 import 'charge_item.dart';
 import 'input_formatter.dart';
@@ -43,6 +44,7 @@ class BalancePage extends StatelessWidget {
       ],
       body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TopBanner(),
           ItemTitle(
@@ -63,6 +65,16 @@ class BalancePage extends StatelessWidget {
             subTitle: "",
           ),
           _buildAccountSelect(context),
+          PWidget.container(
+            PWidget.column([
+              PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
+              Text(
+                '* this credit is only used for consuming in SideQuest Hub Store.'.tr,
+                style: TextStyle(color: Color(0xff8291B4)),
+              ),
+            ]),
+            {'pd': 16},
+          ),
           Container(
             height: 100,
           )

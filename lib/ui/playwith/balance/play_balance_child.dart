@@ -91,6 +91,16 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
             )),
       ),
       _buildCustomInput(),
+      PWidget.container(
+        PWidget.column([
+          PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
+          Text(
+            '*this Coins are only used for SideKick matching.'.tr,
+            style: TextStyle(color: Color(0xff8291B4)),
+          ),
+        ]),
+        {'pd': 16},
+      ),
       // ItemTitle(title: "Top Up Account", subTitle: ""),
       // _buildAccountSelect(context!),
     ];
