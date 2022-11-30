@@ -531,7 +531,7 @@ const Map<String, String> en_US = {
   'Free Time': 'Free Time',
   'Play Function': 'Play Function',
   'Wallet': 'Wallet',
-  'Store Function': 'Store Function',
+  'SideQuestHub Store': 'SideQuestHub Store',
   'My Balance': 'My Balance',
   'Scan QR code': 'Scan QR code',
   'Search anything you want to buy': 'Search anything you want to buy',
