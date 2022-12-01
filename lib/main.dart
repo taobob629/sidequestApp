@@ -5,6 +5,7 @@ import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/https_overrides.dart';
 import 'package:wy/firebase_options.dart';
@@ -14,6 +15,7 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/route.dart';
 
 import 'api/wy_http.dart';
+import 'provider/custom_sticker_package_data.dart';
 
 PackageInfo? packageInfo;
 Future<void> getAppPackageInfo() async {
@@ -49,9 +51,19 @@ void main() async {
   if (env.contains("dev") || env.contains("test")) {
     PluginManager.instance // 注册插件
       ..register(DioInspector(dio: http));
-    runApp(UMEWidget(child: app, enable: true));
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CustomStickerPackageData()),
+      ],
+      child: UMEWidget(child: app, enable: true),
+    ));
   } else {
-    runApp(app);
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CustomStickerPackageData()),
+      ],
+      child: app,
+    ));
   }
 
   ///路由配置

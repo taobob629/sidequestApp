@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;
@@ -22,57 +23,65 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WyDialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 30),
-            child: Text("$info",
-                style: TextStyle(color: Colors.white, fontSize: 14)),
-          ),
-          Row(
-            children: [
-              if (concelBtn != null)
+      child: Container(
+          height: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 30),
+                  child: Text("$info",
+                      style: TextStyle(color: Colors.white, fontSize: 14)),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                if (concelBtn != null)
+                  Flexible(
+                      child: ColorfulButton(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              "$concelBtn",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "DIN"),
+                            ),
+                          ),
+                          height: 40,
+                          onTap: () => Navigator.pop(context, true))),
+                if (concelBtn != null)
+                  Container(
+                    width: 16,
+                  ),
                 Flexible(
                     child: ColorfulButton(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            "$concelBtn",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: "DIN"),
-                          ),
-                        ),
-                        height: 40,
-                        onTap: () => Navigator.pop(context, true))),
-              if (concelBtn != null)
-                Container(
-                  width: 16,
-                ),
-              Flexible(
-                  child: ColorfulButton(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    "$confirmBtn".tr,
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      "$confirmBtn".tr,
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                    ),
                   ),
-                ),
-                height: 40,
-                onTap: () => onConfirm == null
-                    ? Navigator.pop(context, true)
-                    : onConfirm!.call(),
-              ))
-            ],
-          )
-        ],
+                  height: 40,
+                  onTap: () => onConfirm == null
+                      ? Navigator.pop(context, true)
+                      : onConfirm!.call(),
+                ))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

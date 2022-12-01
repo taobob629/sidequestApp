@@ -846,10 +846,10 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                         width: 28,
                                       ),
                               ),
-                            if (forbiddenText == null)
-                              const SizedBox(
-                                width: 10,
-                              ),
+                            // if (forbiddenText == null)
+                            //   const SizedBox(
+                            //     width: 10,
+                            //   ),
                             if (widget.showMorePannel &&
                                 forbiddenText == null &&
                                 showMoreButton)

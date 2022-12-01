@@ -15,6 +15,7 @@ import 'package:wy/api/im_api.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:intl/intl.dart';
+import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import '../../model/play_order_detail_model.dart';
 import '../../widget/tim_ui/my_tim_uikit_chat.dart' as my;
@@ -193,6 +194,7 @@ class _ChatState extends State<Chat> {
     double iconHeight = height * 0.5;
     return Scaffold(
       body: my.TIMUIKitChat(
+        // customEmojiStickerList: Const.emojiList.where((element) => element.isEmoji == true).toList(),
         topFixWidget: _buildOrderState(),
           lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
             // This configuration is unnecessary and only for demonstration purpose.
@@ -207,7 +209,9 @@ class _ChatState extends State<Chat> {
               // In practical use, only parameters that are different from the default items need be provided.
               isAllowClickAvatar: true,
               isAllowLongPressMessage: true,
+              isUseDefaultEmoji: !true,
               isShowReadingStatus: true,
+              isAllowEmojiPanel: false,
               isShowGroupReadingStatus: false,
               notificationTitle: "",
               notificationOPPOChannelID: "", //PushConfig.OPPOChannelID,

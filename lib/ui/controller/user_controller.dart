@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:tencent_cloud_chat_uikit/ui/constants/emoji.dart';
+import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
+import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
@@ -12,9 +16,11 @@ import 'package:wy/model/im_sig_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
+import 'package:wy/provider/custom_sticker_package_data.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import '../../utils/db_helper.dart';
 
@@ -44,10 +50,47 @@ class UserController extends GetxController {
   void onReady() async {
     super.onReady();
     await login();
+    setCustomSticker();
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
       login();
     });
     //startPayNotify();
+  }
+
+   static setCustomSticker() async {
+    // 添加自定义表情包
+    // Add custom sticker package
+    List<CustomStickerPackage> customStickerPackageList = [];
+    final defEmojiList = emojiData.asMap().keys.map((emojiIndex) {
+      final emo = Emoji.fromJson(emojiData[emojiIndex]);
+      return CustomSticker(
+          index: emojiIndex, name: emo.name, unicode: emo.unicode);
+    }).toList();
+    customStickerPackageList.add(CustomStickerPackage(
+        name: "defaultEmoji",
+        stickerList: defEmojiList,
+        isEmoji: true,
+        isDeafultEmoji: true,
+        menuItem: defEmojiList[0]));
+    customStickerPackageList.addAll(Const.emojiList.map((customEmojiPackage) {
+      return CustomStickerPackage(
+          name: customEmojiPackage.name,
+          isDeafultEmoji: true,
+          isEmoji: true,
+          baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
+          stickerList: customEmojiPackage.list
+              .asMap()
+              .keys
+              .map((idx) =>
+              CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
+              .toList(),
+          menuItem: CustomSticker(
+            index: 0,
+            name: customEmojiPackage.icon,
+          ));
+    }).toList());
+    Provider.of<CustomStickerPackageData>(context!, listen: false)
+        .customStickerPackageList = customStickerPackageList;
   }
 
   @override

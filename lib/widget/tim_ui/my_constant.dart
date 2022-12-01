@@ -65,7 +65,7 @@ class Const {
       "yz15@2x.png",
       "yz16@2x.png",
       "yz17@2x.png"
-    ]),
+    ],isEmoji: true),
     CustomEmojiFaceData(name: "4351", icon: "menu@2x.png", list: [
       "ys00@2x.png",
       "ys01@2x.png",
@@ -83,7 +83,7 @@ class Const {
       "ys13@2x.png",
       "ys14@2x.png",
       "ys15@2x.png"
-    ]),
+    ],isEmoji: true),
     CustomEmojiFaceData(name: "4352", icon: "menu@2x.png", list: [
       "gcs00@2x.png",
       "gcs01@2x.png",
@@ -102,6 +102,6 @@ class Const {
       "gcs14@2x.png",
       "gcs15@2x.png",
       "gcs16@2x.png"
-    ])
+    ],isEmoji: true)
   ];
 }
