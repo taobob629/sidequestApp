@@ -304,7 +304,7 @@ class _ChatState extends State<Chat> {
                         SizedBox(
                           height: 15,
                         ),
-                        Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
+                        Text("${data['addTime']}",
                           style: TextStyle(
                             color: Colors.white54,
                             fontSize: 14,
