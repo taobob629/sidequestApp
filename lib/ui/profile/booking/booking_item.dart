@@ -39,7 +39,7 @@ class BookingItem extends StatelessWidget {
                   Image.asset("assets/images/ic_booking_time.webp",width: 12,),
                   SizedBox(width: 5,),
                   Text(
-                    "${formatDate(DateTime.fromMillisecondsSinceEpoch(model.time*1000), [d, '/', M, '/', yyyy,' ',HH,':',nn,])}",
+                    "${model.timeString}",
                     style: TextStyle(fontSize: 12,color: Colors.white),
                   ),
                   Container(

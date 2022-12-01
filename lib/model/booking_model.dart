@@ -12,6 +12,7 @@ class BookingModel {
   late int time = 0;
   late bool done = false;
   late String phone = "";
+  late String timeString="";
 
   BookingModel();
 
@@ -26,6 +27,7 @@ class BookingModel {
     duration = json['duration'] == null ? 0 : json['duration'];
     time = json['time'] == null ? 0 : json['time'];
     done = json['done'] == null ? false : json['done'];
+    timeString=json['timeString'] == null ? "" : json['timeString'];
   }
 }
 
