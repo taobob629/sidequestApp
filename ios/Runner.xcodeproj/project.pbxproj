@@ -381,7 +381,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerProfile.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 3H47842M9N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -393,6 +393,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = SideQuest;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "need to use your camera to take a photo or scan QR code";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs access to location when in the background.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs access to location when open.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "允许SideQuest获取麦克风权限，用于发送语音消息";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "need to use your photo library to upload avatar";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -535,7 +537,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 3H47842M9N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -547,6 +549,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = SideQuest;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "need to use your camera to take a photo or scan QR code";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs access to location when in the background.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs access to location when open.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "允许SideQuest获取麦克风权限，用于发送语音消息";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "need to use your photo library to upload avatar";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -579,7 +583,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 3H47842M9N;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -591,6 +595,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = SideQuest;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "need to use your camera to take a photo or scan QR code";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app needs access to location when in the background.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs access to location when open.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "允许SideQuest获取麦克风权限，用于发送语音消息";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "need to use your photo library to upload avatar";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
