@@ -531,7 +531,7 @@ const Map<String, String> en_US = {
   'Free Time': 'Free Time',
   'Play Function': 'Play Function',
   'Wallet': 'Wallet',
-  'SideQuestHub Store': 'SideQuestHub Store',
+  'Store Function': 'Store Function',
   'My Balance': 'My Balance',
   'Scan QR code': 'Scan QR code',
   'Search anything you want to buy': 'Search anything you want to buy',
@@ -588,5 +588,6 @@ const Map<String, String> en_US = {
   'Input your payment pin':'Input your payment pin',
   'Add Voucher':'Add Voucher',
   '*this Coins are only used for SideKick matching.':'*this Coins are only used for SideKick matching.',
-  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.'
+  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.',
+  'SideKick Function': 'SideKick Function',
 };

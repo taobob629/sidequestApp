@@ -531,7 +531,7 @@ const Map<String, String> zh_CN = {
   'Free Time': '免费时长',
   'Play Function': 'Play Function',
   'Wallet': '我的钱包',
-  'SideQuestHub Store': '支线电竞',
+  'Store Function': 'Store Function',
   'My Balance': '我的账户',
   'Scan QR code': '扫描二维码',
   'Search anything you want to buy': '搜索你想要买的',
@@ -588,5 +588,6 @@ const Map<String, String> zh_CN = {
   'Input your payment pin':'支付密码',
   'Add Voucher':'添加优惠券',
   '*this Coins are only used for SideKick matching.':'*this Coins are only used for SideKick matching.',
-  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.'
+  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.',
+  'SideKick Function': 'SideKick Function',
 };
