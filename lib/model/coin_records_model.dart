@@ -36,7 +36,7 @@ class CoinRecordsModel {
     datatime = json['datatime'];
     showid = json['showid'];
     actionName = json['actionName'];
-    afterChangeVotes = json['afterChangeCoin']?.toString() ?? '0';
+    afterChangeVotes = json['afterChangeVotes']?.toString() ?? '0';
     afterChangeCoin = json['afterChangeCoin']?.toString() ?? '0';
   }
   int? id;

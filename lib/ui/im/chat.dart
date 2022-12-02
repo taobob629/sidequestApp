@@ -20,6 +20,7 @@ import 'package:wy/widget/tim_ui/my_constant.dart';
 import '../../model/play_order_detail_model.dart';
 import '../../widget/tim_ui/my_tim_uikit_chat.dart' as my;
 import '../../widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
+import 'package:date_format/date_format.dart';
 
 class Chat extends StatefulWidget {
   final V2TimConversation selectedConversation;
@@ -304,7 +305,10 @@ class _ChatState extends State<Chat> {
                         SizedBox(
                           height: 15,
                         ),
-                        Text("${data['addTime']}",
+                        // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
+                          Text( "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000), [d, '/', M, '/', yyyy,' ',HH,':',nn,])}",
+
+                            // Text("${data['addTime']}",
                           style: TextStyle(
                             color: Colors.white54,
                             fontSize: 14,
