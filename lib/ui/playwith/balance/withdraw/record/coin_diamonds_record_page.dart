@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/im/order_detail.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
@@ -100,29 +98,54 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-            /*  Text(
+              /*  Text(
                 'uid:${model.uid}',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),*/
-              SizedBox(
-                height: 10,
-              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 '${model.datatime}',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-              SizedBox(
-                height: 5,
+                style: TextStyle(fontSize: 14, color: Colors.white54),
               ),
             ],
           ),
           Spacer(),
-          Text(
-            "${model.total!.isNegative?'':'+'}${model.total}",
-            style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
-          ),
-          PWidget.boxw(3),
-          PWidget.image('assets/images/${type==TYPE_COIN?'ic_balance_money':'ic_balance_votes'}.webp', [20, 20, null, BoxFit.cover]),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "${model.total!.isNegative ? '' : '+'}${model.total}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: model.total?.isNegative == false ? Colors.green : Color(0xFFFFA900)),
+                  ),
+                  PWidget.boxw(3),
+                  PWidget.image(
+                      'assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp',
+                      [16, 16, null, BoxFit.cover]),
+                ],
+              ),
+              PWidget.boxh(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "${'Remaining'.tr}: ${type == TYPE_COIN ? model.afterChangeCoin : model.afterChangeVotes}",
+                    style: TextStyle(fontSize: 14, color: Colors.white54),
+                  ),
+                  PWidget.boxw(3),
+                  PWidget.image(
+                      'assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp',
+                      [16, 16, null, BoxFit.cover]),
+                ],
+              ),
+            ],
+          )
         ],
       ),
     );
