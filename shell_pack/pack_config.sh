@@ -50,36 +50,36 @@ apk_chanhels_length=0
 
 # ======================== IOS ======================== #
 
-# 工程名字
-project_name=Runner
-# scheme 名字
-project_scheme=$project_name
-# xcworkspace路径
-project_workspace_path=$project_path/ios/$project_name.xcworkspace
-# xcarchive 名字
-xcarchive_name=${project_name}.xcarchive
-# ipa 名字
-ipa_name=$project_name
-# ios 团队ID
-ios_teamID=""
-# 商店账号
-xcrun_u=""
-# 账号专属密码
-xcrun_p=""
-# 导出iOS文件路径
-export_ios_path=$project_path/export/ios
-# 导出 xcarchive路径
-export_xcarchive_path=$export_ios_path/xcarchive/
-# 导出ipa存放文件路径
-export_ipa_path=$export_ios_path/ipa/
-# ExportOptions.plist app-store路径
-export_options_plist_store=$project_path/shell_pack/ExportOptions.plist
-# ExportOptions.plist app-hoc路径
-export_options_plist_hoc=$project_path/shell_pack/ExportOptions_hoc.plist
-# ExportOptions.plist app-dev路径
-export_options_plist_dev=$project_path/shell_pack/ExportOptions_dev.plist
-# 最后选择的环境
-export_options_plist=$export_options_plist_store
+# # 工程名字
+# project_name=Runner
+# # scheme 名字
+# project_scheme=$project_name
+# # xcworkspace路径
+# project_workspace_path=$project_path/ios/$project_name.xcworkspace
+# # xcarchive 名字
+# xcarchive_name=${project_name}.xcarchive
+# # ipa 名字
+# ipa_name=$project_name
+# # ios 团队ID
+# ios_teamID=""
+# # 商店账号
+# xcrun_u=""
+# # 账号专属密码
+# xcrun_p=""
+# # 导出iOS文件路径
+# export_ios_path=$project_path/export/ios
+# # 导出 xcarchive路径
+# export_xcarchive_path=$export_ios_path/xcarchive/
+# # 导出ipa存放文件路径
+# export_ipa_path=$export_ios_path/ipa/
+# # ExportOptions.plist app-store路径
+# export_options_plist_store=$project_path/shell_pack/ExportOptions.plist
+# # ExportOptions.plist app-hoc路径
+# export_options_plist_hoc=$project_path/shell_pack/ExportOptions_hoc.plist
+# # ExportOptions.plist app-dev路径
+# export_options_plist_dev=$project_path/shell_pack/ExportOptions_dev.plist
+# # 最后选择的环境
+# export_options_plist=$export_options_plist_store
 
 # ======================== 蒲公英配置信息 ======================== #
 
