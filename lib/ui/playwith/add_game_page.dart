@@ -158,7 +158,7 @@ class _AddGamePageState extends State<AddGamePage> {
         children: [
           PrivacyCheck(
             controller: privacyCheckController,
-            type: TYPE_ADD_GAME,
+            type: TYPE_ADD_BANK,
           ),
           FloatingButton(
             label: "OK",
