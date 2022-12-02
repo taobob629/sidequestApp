@@ -60,11 +60,11 @@ class BalancePage extends StatelessWidget {
           //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
           //     )),
           // _buildCustomInput(),
-          ItemTitle(
-            title: "Top Up Account".tr,
-            subTitle: "",
-          ),
-          _buildAccountSelect(context),
+          // ItemTitle(
+          //   title: "Top Up Account".tr,
+          //   subTitle: "",
+          // ),
+          // _buildAccountSelect(context),
           PWidget.container(
             PWidget.column([
               PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
