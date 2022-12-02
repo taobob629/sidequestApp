@@ -587,7 +587,7 @@ const Map<String, String> en_US = {
   'Voucher Unavailable': 'Voucher Unavailable',
   'Input your payment pin':'Input your payment pin',
   'Add Voucher':'Add Voucher',
-  '*this Coins are only used for SideKick matching.':'*this Coins are only used for SideKick matching.',
-  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.',
+  '* The Coins are only used for SideKick matching.':'* The Coins are only used for SideKick matching.',
+  '* The credit is only used for consuming in SideQuest Hub Store.':'* The credit is only used for consuming in SideQuest Hub Store.',
   'SideKick Function': 'SideKick Function',
 };

@@ -69,7 +69,7 @@ class BalancePage extends StatelessWidget {
             PWidget.column([
               PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
               Text(
-                '* this credit is only used for consuming in SideQuest Hub Store.'.tr,
+                '* The credit is only used for consuming in SideQuest Hub Store.'.tr,
                 style: TextStyle(color: Color(0xff8291B4)),
               ),
             ]),

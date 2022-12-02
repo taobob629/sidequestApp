@@ -95,7 +95,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
         PWidget.column([
           PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
           Text(
-            '*this Coins are only used for SideKick matching.'.tr,
+            '* The Coins are only used for SideKick matching.'.tr,
             style: TextStyle(color: Color(0xff8291B4)),
           ),
         ]),

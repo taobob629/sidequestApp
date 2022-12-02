@@ -587,7 +587,7 @@ const Map<String, String> zh_CN = {
   'Voucher Unavailable': '优惠券不可用',
   'Input your payment pin':'支付密码',
   'Add Voucher':'添加优惠券',
-  '*this Coins are only used for SideKick matching.':'*this Coins are only used for SideKick matching.',
-  '* this credit is only used for consuming in SideQuest Hub Store.':'* this credit is only used for consuming in SideQuest Hub Store.',
+  '* The Coins are only used for SideKick matching.':'* 金币仅限陪玩服务使用。',
+  '* The credit is only used for consuming in SideQuest Hub Store.':'* 余额仅限支线电竞线下门店使用。',
   'SideKick Function': 'SideKick Function',
 };
