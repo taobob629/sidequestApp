@@ -52,14 +52,14 @@ class BalancePage extends StatelessWidget {
             subTitle: "",
           ),
           Obx(() => _buildChargeItems(context)),
-          ItemTitle(
-              title: "Other Top Up Amount".tr,
-              subTitle: '',
-              actions: Text(
-                '${'Min'.tr}:£1',
-                style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-              )),
-          _buildCustomInput(),
+          // ItemTitle(
+          //     title: "Other Top Up Amount".tr,
+          //     subTitle: '',
+          //     actions: Text(
+          //       '${'Min'.tr}:£1',
+          //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+          //     )),
+          // _buildCustomInput(),
           ItemTitle(
             title: "Top Up Account".tr,
             subTitle: "",

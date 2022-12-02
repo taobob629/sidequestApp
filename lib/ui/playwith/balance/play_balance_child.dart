@@ -65,32 +65,32 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       ItemTitle(title: "Recharge".tr, subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
-      Obx(
-        () => ItemTitle(
-            title: '',
-            subTitle: '',
-            customSubTitle: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: controller.iconByChargeRatio == 0
-                  ? Text(
-                      "Other recharge amount".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ): Row(
-                children: [
-                  PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
-                  Text(
-                    " ${controller.iconByChargeRatio}",
-                    style: TextStyle(color: Colors.yellow,fontSize: 18),
-                  )
-                ],
-              ),
-            ),
-            actions: Text(
-              '${'Min'.tr}:£1',
-              style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-            )),
-      ),
-      _buildCustomInput(),
+      // Obx(
+      //   () => ItemTitle(
+      //       title: '',
+      //       subTitle: '',
+      //       customSubTitle: Padding(
+      //         padding: EdgeInsets.only(left: 10),
+      //         child: controller.iconByChargeRatio == 0
+      //             ? Text(
+      //                 "Other recharge amount".tr,
+      //                 style: TextStyle(color: Colors.white, fontSize: 18),
+      //               ): Row(
+      //           children: [
+      //             PWidget.image('assets/images/ic_balance_money.webp', [16, 16]),
+      //             Text(
+      //               " ${controller.iconByChargeRatio}",
+      //               style: TextStyle(color: Colors.yellow,fontSize: 18),
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //       actions: Text(
+      //         '${'Min'.tr}:£1',
+      //         style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+      //       )),
+      // ),
+      // _buildCustomInput(),
       PWidget.container(
         PWidget.column([
           PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
