@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/withdraw/record/coin_diamonds_record_page.dart';
 
@@ -44,6 +45,7 @@ class WithDrawMainPage extends StatelessWidget {
       unselectedLabelColor: Colors.white38,
       indicatorColor: Colors.white38,
       indicatorSize: TabBarIndicatorSize.tab,
+      indicator: HomeIndicator(),
       indicatorWeight: 2,
       indicatorPadding: EdgeInsets.only(bottom: 5),
       labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
