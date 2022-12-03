@@ -424,7 +424,7 @@ class OrderDetail extends StatelessWidget {
                 ),
                 Spacer(),
                 Image.asset(
-                  "assets/images/ic_balance_money.webp",
+                  "assets/images/ic_balance_votes.webp",
                   width: 14,
                   height: 14,
                 ),
