@@ -39,6 +39,7 @@ class PlayOrderDetailModel {
   late int total = 0;
   late int discount=0;
   late int acturalPayment=0;
+  late int profit=0;
   late int tax=0;
  // late int status = 0; //-4已超时-3拒绝-2已完成-1取消0待支付1已支付2已接单，3：等待退款；4：拒绝退款；5：同意退款；6：退款申诉：等待平台退款
   late String orderno = "";
@@ -83,7 +84,8 @@ class PlayOrderDetailModel {
     receipttime = json['order']['receipttime'] ?? "";
     addtime = json['order']['addtime'] ?? "";
     discount = json['order']['discount'] ?? 0;
-    acturalPayment=total-discount;
+    acturalPayment=json['order']['acturalPayment'] ?? 0;
+    profit=json['order']['profit'] ?? 0;
     flog('status 3 $status');
   }
 }

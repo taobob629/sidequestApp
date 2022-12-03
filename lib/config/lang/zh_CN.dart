@@ -590,4 +590,5 @@ const Map<String, String> zh_CN = {
   '* The Coins are only used for SideKick matching.':'* 金币仅限陪玩服务使用。',
   '* The credit is only used for consuming in SideQuest Hub Store.':'* 余额仅限支线电竞线下门店使用。',
   'SideKick Function': 'SideKick Function',
+  'Profit':'收益',
 };

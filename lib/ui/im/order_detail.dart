@@ -363,7 +363,8 @@ class OrderDetail extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
+          if(palymodel.acturalPayment>0)
+            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
               children: [
@@ -387,7 +388,8 @@ class OrderDetail extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
+          if(palymodel.tax>0)
+            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
               children: [
@@ -406,6 +408,31 @@ class OrderDetail extends StatelessWidget {
                 ),
                 Text(
                   "${palymodel.tax}",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                )
+              ],
+            ),
+          ),
+          if(palymodel.profit>0)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              children: [
+                Text(
+                  "Profit".tr,
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                ),
+                Spacer(),
+                Image.asset(
+                  "assets/images/ic_balance_money.webp",
+                  width: 14,
+                  height: 14,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  "${palymodel.profit}",
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 )
               ],

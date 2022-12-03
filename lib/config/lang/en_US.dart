@@ -590,4 +590,6 @@ const Map<String, String> en_US = {
   '* The Coins are only used for SideKick matching.':'* The Coins are only used for SideKick matching.',
   '* The credit is only used for consuming in SideQuest Hub Store.':'* The credit is only used for consuming in SideQuest Hub Store.',
   'SideKick Function': 'SideKick Function',
+  'Profit':'Profit',
+
 };
