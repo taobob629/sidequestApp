@@ -75,23 +75,23 @@ class CouponPage extends StatelessWidget {
                           ))))
         ],
       ),
-      // floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
-      //     ? FloatingButton(
-      //         label: "ADD".tr,
-      //         onTap: () => Get.dialog(
-      //                     AddCouponDialog(
-      //                       tab: controller.tab,
-      //                     ),
-      //                     barrierColor: Colors.black26)
-      //                 .then((value) {
-      //               if (value != null) {
-      //                 controller.reload();
-      //                 Get.dialog(
-      //                     ConfirmDialog(title: "Voucher Added".tr, info: value),
-      //                     barrierColor: Colors.black26);
-      //               }
-      //             }))
-      //     : Container()),
+      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
+          ? FloatingButton(
+              label: "ADD".tr,
+              onTap: () => Get.dialog(
+                          AddCouponDialog(
+                            tab: controller.tab,
+                          ),
+                          barrierColor: Colors.black26)
+                      .then((value) {
+                    if (value != null) {
+                      controller.reload();
+                      Get.dialog(
+                          ConfirmDialog(title: "Voucher Added".tr, info: value),
+                          barrierColor: Colors.black26);
+                    }
+                  }))
+          : Container()),
     );
   }
 }
