@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -7,8 +6,11 @@ import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api/vip_api.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/config/lang/translations.dart';
 import 'package:wy/model/version_model.dart';
+import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -18,22 +20,20 @@ import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../common/dialog_confirm.dart';
 import 'setting_item.dart';
 
 class SettingsPage extends StatelessWidget {
-
   final controller = Get.put(SettingsPageController());
 
   final userController = Get.find<UserController>();
 
-
-
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Settings".tr,
+        title: "Settings".tr,
         body: Column(
           children: [
             SettingItem(
@@ -51,44 +51,46 @@ class SettingsPage extends StatelessWidget {
                   )),
             ),
             SettingItem(
-            title: "About Us".tr,
+              title: "Language".tr,
+              onTap: () => controller.choseLanguage(),
+            ),
+            SettingItem(
+              title: "About Us".tr,
               onTap: () => gotoAboutPage(context),
             ),
-          Obx(()=>controller.online.value && userController.userInfoModel.value.vipLevel > 0?SettingItem(
-            title: "Cancel Subscription".tr,
+            Obx(() => controller.online.value && userController.userInfoModel.value.vipLevel > 0
+                ? SettingItem(
+                    title: "Cancel Subscription".tr,
                     info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
                     onTap: () => controller.cancelVip(userController.userInfoModel.value.vipLevel),
-                  ):Container()),
-          Obx(()=>SettingItem(
-            title: "Version".tr,
+                  )
+                : Container()),
+            Obx(() => SettingItem(
+                  title: "Version".tr,
                   info: "${controller.version.value}",
                   onTap: () => controller.checkVersion(),
                 )),
-          SettingItem(
-            title: "Delete Account".tr,
+            SettingItem(
+              title: "Delete Account".tr,
               info: "${userController.user.value.email}",
               onTap: () => controller.deleteAccount(),
             ),
-        ],
-      ),
-      floatingActionButton: FloatingButton(
-        label: "SIGN OUT".tr,
+          ],
+        ),
+        floatingActionButton: FloatingButton(
+          label: "SIGN OUT".tr,
           onTap: () => controller.logout(),
-        )
-    );
+        ));
   }
 
-  void gotoAboutPage(BuildContext context){
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context){
-        return AboutPage();
-      }
-    ));
+  void gotoAboutPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AboutPage();
+    }));
   }
 }
 
 class SettingsPageController extends GetxController {
-
   var version = "".obs;
 
   var online = false.obs;
@@ -106,17 +108,17 @@ class SettingsPageController extends GetxController {
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     EasyLoading.dismiss();
     UserController userController = Get.find<UserController>();
-    userController.logout(done: ()=>Get.back());
+    userController.logout(done: () => Get.back());
   }
 
-  void checkVersion() async{
+  void checkVersion() async {
     EasyLoading.show();
     VersionModel model = await IndexApi.checkVersion();
-    if(!model.upgrade){
+    if (!model.upgrade) {
       EasyLoading.showInfo("You are using the latest version".tr);
-    }else{
+    } else {
       EasyLoading.dismiss();
-      Get.dialog(UpgradeDialog(model:model),barrierColor: Colors.black26);
+      Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);
     }
   }
 
@@ -135,26 +137,28 @@ Deleting your account will remove your profile and all of your content from Side
             await UserApi.deleteAccount();
             await logout();
           },
-        ),barrierColor: Colors.black26);
+        ),
+        barrierColor: Colors.black26);
   }
 
-  String getVipName(int level){
+  String getVipName(int level) {
     String name = "";
     final profilePageController = Get.find<ProfilePageController>();
     profilePageController.vipInfoList.forEach((element) {
-      if(element.level == level){
+      if (element.level == level) {
         name = element.name;
       }
     });
     return name;
   }
 
-  void cancelVip(int level) async{
+  void cancelVip(int level) async {
     EasyLoading.show();
     String info = await VipApi.cancelInfo();
     EasyLoading.dismiss();
-    Get.dialog(ConfirmDialog(
-      title: "Cancel Subscription".tr,
+    Get.dialog(
+        ConfirmDialog(
+          title: "Cancel Subscription".tr,
           info: info,
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
@@ -169,8 +173,42 @@ Deleting your account will remove your profile and all of your content from Side
                     confirmBtn: "CONFIRM".tr,
                     onConfirm: () {
                       Get.back();
-                    }),barrierColor: Colors.black26);
-        },
-    ),barrierColor: Colors.black26);
+                    }),
+                barrierColor: Colors.black26);
+          },
+        ),
+        barrierColor: Colors.black26);
+  }
+
+  void choseLanguage() {
+    flog('Get.local ${Get.locale?.languageCode} devicelocal  ${Get.deviceLocale}');
+    Get.bottomSheet(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: languages
+              .map(
+                (local) => ListTile(
+                    title: RawMaterialButton(
+                        onPressed: () {
+                          updateLanguage(local);
+                        },
+                        child: Text(
+                          local.languageCode.tr,
+                          style: TextStyle(color: local.languageCode == Get.locale?.languageCode ? Colors.white : Colors.white54),
+                        ))),
+              )
+              .toList(),
+        ),
+        backgroundColor: AppColor.primary,
+        enableDrag: false);
+  }
+
+  void updateLanguage(Locale local) {
+    if (local.languageCode == Get.locale?.languageCode) {
+      Get.back();
+    }
+    StorageManager.setLocal(local?.languageCode);
+    Get.updateLocale(local);
+    Get.back();
   }
 }

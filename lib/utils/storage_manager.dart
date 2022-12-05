@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:wy/config/lang/translations.dart';
 import 'package:wy/main.dart';
 import 'package:wy/model/credit_card_model.dart';
 import 'package:wy/model/user_model.dart';
@@ -28,6 +30,8 @@ class StorageManager {
   static const String kEnv= 'kEnv';
   static const String kOnline= 'kOnline';//是否通过审核在线版
   static const String kPayPasswordCheckTime= 'kPayPasswordCheckTime';
+  static const String kLocal= 'kLocal';
+
 
   /// 必备数据的初始化操作
   ///
@@ -189,5 +193,20 @@ class StorageManager {
   static void setCreditCardModel(CreditCardModel model) {
     String value = convert.jsonEncode(model.toJson());
     sharedPreferences.setString(kCredit, value);
+  }
+  static void setLocal(var languageCode){
+     sharedPreferences.setString(kLocal, languageCode);
+  }
+  static Locale? getLocal(){
+   String? local= sharedPreferences.getString(kLocal);
+   if(local==null)return Get.deviceLocale;//没有设置，跟随系统
+   if(local==CHINA.languageCode){
+    // Get.updateLocale(CHINA);
+     return CHINA;
+   }else{
+     //Get.updateLocale(ENGLISH);
+     return ENGLISH;
+   }
+
   }
 }

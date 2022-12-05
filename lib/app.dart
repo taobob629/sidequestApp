@@ -10,6 +10,7 @@ import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 import 'api/index_api.dart';
 import 'config/app_config.dart';
@@ -60,7 +61,7 @@ class App extends StatelessWidget {
           const Locale('en', 'US'),
           const Locale('zh', 'CN'),
         ],
-        locale: Get.deviceLocale,
+        locale: StorageManager.getLocal(),
         translations: Messages(),
         //跟随系统语言
         fallbackLocale: const Locale('en', 'US'),
