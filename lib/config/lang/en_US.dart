@@ -593,7 +593,7 @@ const Map<String, String> en_US = {
       '* The credit is only used for consuming in SideQuest Hub Store.',
   'SideKick Function': 'SideKick Function',
   'Profit': 'Profit',
-  'Armenia': 'Armenia',
+  'America': 'America',
   'Andorra': 'Andorra',
   'Austria': 'Austria',
   'Belarus': 'Belarus',

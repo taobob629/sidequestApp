@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DropdownWithSearch<T> extends StatelessWidget {
   final String title;
@@ -47,7 +48,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
               context: context,
               builder: (context) => SearchDialog(
                   placeHolder: placeHolder,
-                  title: title,
+                  title: title.tr,
                   searchInputRadius: searchBarRadius,
                   dialogRadius: dialogRadius,
                   titleStyle: dropdownHeadingStyle,
