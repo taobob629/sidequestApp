@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -114,31 +115,38 @@ class ProfileHeader extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CountInfo(
-                icon: "corns",
-                label: profilePageController.online.value ? "£${controller.userInfoModel.value.balance}" : "${controller.userInfoModel.value.balance}",
-                info: profilePageController.online.value ? "Credits".tr: "Online Time",
-                onTap: ()=>controller.checkLogin(()=>profilePageController.online.value ? Get.to(()=>BalancePage())?.whenComplete(() => controller.updateInfo()):null),
-              ),
-              CountInfo(
-                icon: "times",
-                      label: "${controller.userInfoModel.value.freeMins}",
-                      info: "Free Time".tr,
+                    CountInfo(
+                      icon: "corns",
+                      label: profilePageController.online.value
+                          ? "£${controller.userInfoModel.value.balance}"
+                          : "${controller.userInfoModel.value.balance}",
+                      info: profilePageController.online.value ? "Credits".tr : "Online Time",
                       onTap: () => controller.checkLogin(() => profilePageController.online.value
-                          ? Get.to(() => VipPage(
-                                vipLevel: 1,
-                                vipIndex: 0,
-                                list: profilePageController.vipInfoList,
-                              ))
+                          ? Get.to(() => BalancePage())?.whenComplete(() => controller.updateInfo())
                           : null),
                     ),
-              CountInfo(
-                icon: "coupons",
+                    CountInfo(
+                      customIcon: 'assets/images/ic_balance_money.webp',
+                      label: "${controller.userInfoModel.value.coin}",
+                      info: "Coin".tr,
+                      onTap: () => controller.checkLogin(() => Get.toNamed(AppPages.WALLET_PAGE)),
+                      icon: '',
+                    ),
+                    CountInfo(
+                      customIcon: 'assets/images/ic_balance_votes.webp',
+                      label: "${controller.userInfoModel.value.votes}",
+                      info: "Diamonds".tr,
+                      onTap: () => controller.checkLogin(() => Get.toNamed(AppPages.WALLET_PAGE)),
+                      icon: '',
+                    ),
+                    CountInfo(
+                      icon: "coupons",
                       label: "${controller.userInfoModel.value.coupons}",
                       info: "Vouchers".tr,
-                      onTap: () => controller.checkLogin(() => NavigatorHelper.gotoCouponTabPage(whenComplete: () => controller.updateInfo())),
+                      onTap: () => controller.checkLogin(() => NavigatorHelper.gotoCouponTabPage(
+                          whenComplete: () => controller.updateInfo())),
                     ),
-            ],
+                  ],
           )
         ),
         Positioned(
