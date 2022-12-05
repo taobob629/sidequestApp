@@ -299,7 +299,7 @@ const Map<String, String> zh_CN = {
   'Level': '段位',
   'Price range': '价格区间',
   'Enable': '开启',
-  'Screenshot': '截图',
+  'Screenshot': '段位截图',
   'Uploading failed, please try again later': 'Uploading failed, please try again later',
   '￡10.99/30min': '￡10.99/30min',
   'Very Good': '非常好',
