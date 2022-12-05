@@ -631,5 +631,7 @@ const Map<String, String> zh_CN = {
   'Spain': 'Spain',
   'Sweden': 'Sweden',
   'Switzerland': 'Switzerland',
-  'United Kingdom': '英国'
+  'United Kingdom': '英国',
+  'zh':'中文',
+  'en':'英文',
 };

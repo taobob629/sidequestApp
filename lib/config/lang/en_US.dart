@@ -585,14 +585,12 @@ const Map<String, String> en_US = {
   'Disabled': 'Disabled',
   'Actual payment': 'Actual payment',
   'Voucher Unavailable': 'Voucher Unavailable',
-  'Input your payment pin': 'Input your payment pin',
-  'Add Voucher': 'Add Voucher',
-  '* The Coins are only used for SideKick matching.':
-      '* The Coins are only used for SideKick matching.',
-  '* The credit is only used for consuming in SideQuest Hub Store.':
-      '* The credit is only used for consuming in SideQuest Hub Store.',
+  'Input your payment pin':'Input your payment pin',
+  'Add Voucher':'Add Voucher',
+  '* The Coins are only used for SideKick matching.':'* The Coins are only used for SideKick matching.',
+  '* The credit is only used for consuming in SideQuest Hub Store.':'* The credit is only used for consuming in SideQuest Hub Store.',
   'SideKick Function': 'SideKick Function',
-  'Profit': 'Profit',
+  'Profit':'Profit',
   'America': 'America',
   'Andorra': 'Andorra',
   'Austria': 'Austria',
@@ -633,5 +631,7 @@ const Map<String, String> en_US = {
   'Spain': 'Spain',
   'Sweden': 'Sweden',
   'Switzerland': 'Switzerland',
-  'United Kingdom': 'United Kingdom'
+  'United Kingdom': 'United Kingdom',
+  'zh':'Chinese',
+  'en':'English',
 };
