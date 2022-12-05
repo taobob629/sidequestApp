@@ -624,6 +624,7 @@ const Map<String, String> en_US = {
   'Norway': 'Norway',
   'Poland': 'Poland',
   'Portugal': 'Portugal',
+  'Romania': 'Romania',
   'Russia': 'Russia',
   'San Marino': 'San Marino',
   'Serbia': 'Serbia',

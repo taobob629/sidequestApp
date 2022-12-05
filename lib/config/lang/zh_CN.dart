@@ -622,6 +622,7 @@ const Map<String, String> zh_CN = {
   'Norway': 'Norway',
   'Poland': 'Poland',
   'Portugal': 'Portugal',
+  'Romania': 'Romania',
   'Russia': 'Russia',
   'San Marino': 'San Marino',
   'Serbia': 'Serbia',
