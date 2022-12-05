@@ -27,7 +27,7 @@ class CountInfo extends StatelessWidget {
           children: [
             Image.asset(
               customIcon.isEmpty ? "assets/images/ic_${icon}_new.webp" : customIcon,
-              height: 30,
+              height:  customIcon.isEmpty?30:26,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
