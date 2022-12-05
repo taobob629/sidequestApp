@@ -129,11 +129,13 @@ class ProfileHeader extends StatelessWidget {
                       customIcon: 'assets/images/coin_red.png',
                       label: "${controller.userInfoModel.value.coin}",
                       info: "Coin".tr,
+                      height: 26,
                       onTap: () => controller.checkLogin(
                           () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0)),
                       icon: '',
                     ),
                     CountInfo(
+                      height: 22,
                       customIcon: 'assets/images/diamonds_red.png',
                       label: "${controller.userInfoModel.value.votes}",
                       info: "Diamonds".tr,

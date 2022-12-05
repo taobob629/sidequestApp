@@ -6,13 +6,14 @@ class CountInfo extends StatelessWidget {
   final String info;
   final Function onTap;
   final String customIcon;
-
+  double height;
   CountInfo({
     required this.icon,
     required this.label,
     required this.info,
     required this.onTap,
     this.customIcon = '',
+    this.height=30
   });
 
   @override
@@ -27,7 +28,7 @@ class CountInfo extends StatelessWidget {
           children: [
             Image.asset(
               customIcon.isEmpty ? "assets/images/ic_${icon}_new.webp" : customIcon,
-              height:  customIcon.isEmpty?30:26,
+              height:  height,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
