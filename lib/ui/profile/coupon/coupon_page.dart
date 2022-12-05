@@ -10,6 +10,7 @@ import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/views.dart';
 
 import 'coupon_item.dart';
 import 'dialog_coupon.dart';
@@ -43,38 +44,28 @@ class CouponPage extends StatelessWidget {
               title: Text("Vouchers".tr),
             )
           : null,
-      body: Stack(
-        children: [
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              top: 0,
-              child: Obx(() => controller.initializing.value
-                  ? Container()
-                  : controller.list.length == 0
-                      ? EmptyView()
-                      : Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: GridView.builder(
-                            controller: controller.scrollController,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    mainAxisSpacing: 10.0,
-                                    crossAxisSpacing: 10.0,
-                                    childAspectRatio: 688 / 333),
-                            itemBuilder: (context, index) {
-                              CouponModel model = controller.list[index];
-                              return CouponItem(
-                                model: model,
-                                onTap: (model) => controller.selectCoupon(model),
-                              );
-                            },
-                            itemCount: controller.list.length,
-                          ))))
-        ],
-      ),
+      body: Obx(() => controller.initializing.value
+          ? buildLoad()
+          : controller.list.length == 0
+              ? EmptyView()
+              : Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: GridView.builder(
+                    controller: controller.scrollController,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                        childAspectRatio: 688 / 333),
+                    itemBuilder: (context, index) {
+                      CouponModel model = controller.list[index];
+                      return CouponItem(
+                        model: model,
+                        onTap: (model) => controller.selectCoupon(model),
+                      );
+                    },
+                    itemCount: controller.list.length,
+                  ))),
       bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
           ? FloatingButton(
               label: "ADD".tr,
