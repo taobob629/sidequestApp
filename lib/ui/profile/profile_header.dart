@@ -129,14 +129,17 @@ class ProfileHeader extends StatelessWidget {
                       customIcon: 'assets/images/ic_balance_money.webp',
                       label: "${controller.userInfoModel.value.coin}",
                       info: "Coin".tr,
-                      onTap: () => controller.checkLogin(() => Get.toNamed(AppPages.WALLET_PAGE)),
+                      onTap: () => controller.checkLogin(
+                          () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0)),
                       icon: '',
                     ),
                     CountInfo(
                       customIcon: 'assets/images/ic_balance_votes.webp',
                       label: "${controller.userInfoModel.value.votes}",
                       info: "Diamonds".tr,
-                      onTap: () => controller.checkLogin(() => Get.toNamed(AppPages.WALLET_PAGE)),
+                      onTap: () => controller.checkLogin(
+                        () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1),
+                      ),
                       icon: '',
                     ),
                     CountInfo(

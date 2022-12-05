@@ -6,6 +6,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/my_earnings_page.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/play_tab_widget.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
@@ -22,6 +23,7 @@ class _PlayBalancePageState extends State<PlayBalancePage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       body: PlayTabWidget(
+        page: Get.arguments?['page'] ?? 0,
         controller: ScrollController(),
         isScrollable: true,
         color: Color(0xff171525),
@@ -43,15 +45,20 @@ class _PlayBalancePageState extends State<PlayBalancePage> {
   }
 
   tabs() {
-    return userController.userInfoModel.value.isauth == TYPE_VIP ? ["Balance".tr, "My earnings".tr] : ['Balance'.tr];
+    return ["Balance".tr, "My earnings".tr];
+    //return userController.userInfoModel.value.isauth == TYPE_VIP ? ["Balance".tr, "My earnings".tr] : ['Balance'.tr];
   }
 
   tabPages() {
-    return userController.userInfoModel.value.isauth == TYPE_VIP
-        ? [
-            PlayBalanceChild(),
-            MyEarningsPage(),
-          ]
-        : [PlayBalanceChild()];
+    return [
+      PlayBalanceChild(),
+      MyEarningsPage(),
+    ];
+    // return userController.userInfoModel.value.isauth == TYPE_VIP
+    //     ? [
+    //         PlayBalanceChild(),
+    //         MyEarningsPage(),
+    //       ]
+    //     : [PlayBalanceChild()];
   }
 }
