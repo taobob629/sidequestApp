@@ -75,7 +75,7 @@ class CouponPage extends StatelessWidget {
                           ))))
         ],
       ),
-      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
+      bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
           ? FloatingButton(
               label: "ADD".tr,
               onTap: () => Get.dialog(
