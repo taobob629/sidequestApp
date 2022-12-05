@@ -4,6 +4,10 @@
     "name": "Albania"
   },
   {
+    "emoji": "\uD83C\uDDE6\uD83C\uDDF2",
+    "name": "Armenia"
+  },
+  {
     "emoji": "🇦🇩",
     "name": "Andorra"
   },
@@ -158,5 +162,9 @@
   {
     "emoji": "🇨🇭",
     "name": "Switzerland"
+  },
+  {
+    "emoji": "\uD83C\uDDEC\uD83C\uDDE7",
+    "name": "United Kingdom"
   }
 ]
