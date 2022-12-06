@@ -535,7 +535,7 @@ const Map<String, String> zh_CN = {
   'My Balance': '我的账户',
   'Scan QR code': '扫描二维码',
   'Search anything you want to buy': '搜索你想要买的',
-  'Shopping Cart': '购物车',
+  'Shopping Cart': '购买',
   'Subtotal': '小计',
   'VAT': '税',
   'Delivery': '运费',
