@@ -124,7 +124,7 @@ class _PlayUserInfoState extends State<PlayUserInfo> {
             PWidget.container(
               PWidget.row([
                 PWidget.container(
-                  PWidget.text('${'Services'.tr}:', [Colors.white70, 12]),
+                  PWidget.text('${'Services '.tr}:', [Colors.white70, 12]),
                   [null, null, Color(0xff63608C)],
                   {'pd': PFun.lg(2, 2, 8, 4)},
                 ),

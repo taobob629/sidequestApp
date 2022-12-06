@@ -493,7 +493,34 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                    child:  Text(
                    "${widget.controller.detailModel.value.fans}",
                    style: TextStyle(fontSize: 16, color: Colors.white),
-                 ),)
+                  ),
+                 ),
+                SizedBox(
+                  width: 30,
+                ),
+                InkWell(
+                  child: Text(
+                    "${'Services'.tr}: ".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                ),
+                Text(
+                  "${widget.controller.detailModel.value.orders}",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                InkWell(
+                  child: Text(
+                    "${'Mark'.tr}: ".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                ),
+                Text(
+                  "${widget.controller.detailModel.value.mark}",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                )
                 ],
               ),
               if(signature!='')

@@ -122,7 +122,7 @@ const Map<String, String> zh_CN = {
   'Message': '消息',
   'Follows': '关注',
   'Fans': '粉丝',
-  'Services': '服务',
+  'Services': '订单',
   'Album': '相册',
   'More': '更多',
   'Play Order': '陪玩订单',
@@ -634,4 +634,7 @@ const Map<String, String> zh_CN = {
   'United Kingdom': '英国',
   'zh':'中文',
   'en':'英文',
+  'Mark':'评分',
+  'Services ':'服务 ',
+
 };

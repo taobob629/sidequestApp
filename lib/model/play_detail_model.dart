@@ -22,9 +22,11 @@ class PlayDetailModel {
   late int follows = 0;
   late int follow = 0;
   late int userLevel = 0;
+  late double mark=0.0;
   late String orderSn = "";
   late int fans = 0;
   late int isauth = 0;
+  late int orders=0;
   late Location location=Location();
   late List<SkillModel> skills = [];
 
@@ -32,6 +34,8 @@ class PlayDetailModel {
 
   PlayDetailModel.fromJson(Map<String, dynamic> json) {
     userId = json['basicInfo']['id'];
+    mark=json['basicInfo']['stars'];
+    orders=json['basicInfo']['orders'];
     memberId = json['basicInfo']['userLogin'];
     signature = json['basicInfo']['signature'];
     imageList = json['thumb'] == null ? [] : (json['thumb'] as List).map<String>((e) => e['thumb']).toList();

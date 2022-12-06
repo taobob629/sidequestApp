@@ -310,7 +310,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         headers: [
           Listener(
             onPointerDown: (_) => filterValue.init(isClearValue: false),
-            child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('Services'.tr, [Colors.white, 20], {'ff': 'DIN'}), actions: [
+            child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('My Services'.tr, [Colors.white, 20], {'ff': 'DIN'}), actions: [
               IconButton(
                 onPressed: () async {
                   await Get.toNamed(AppPages.MoreGames);
