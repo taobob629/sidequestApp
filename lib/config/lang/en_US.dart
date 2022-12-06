@@ -102,7 +102,6 @@ const Map<String, String> en_US = {
   'Order Number': 'Order Number',
   'Service Time': 'Service Time',
   'Service Duration': 'Service Duration',
-  'Total Price': 'Total Price',
   'From': 'From',
   'To': 'To',
   'RejectReason': 'RejectReason',

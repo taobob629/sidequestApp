@@ -344,7 +344,7 @@ class OrderDetail extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  "Total Price".tr,
+                  "Total".tr,
                   style: TextStyle(fontSize: 12, color: Colors.white54),
                 ),
                 Spacer(),
