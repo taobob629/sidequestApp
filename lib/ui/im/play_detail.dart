@@ -464,7 +464,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                       ? Get.toNamed(AppPages.AttentionTab, arguments: Map()..['index'] = 0)
                       : null,
                   child: Text(
-                    "${'Follows'.tr}: ".tr,
+                    "${'Follows'.tr}: ",
                     style: TextStyle(fontSize: 12, color: Colors.white54),
                   ),
                 ),
@@ -500,7 +500,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                 ),
                 InkWell(
                   child: Text(
-                    "${'Services'.tr}: ".tr,
+                    "${'Services'.tr}: ",
                     style: TextStyle(fontSize: 12, color: Colors.white54),
                   ),
                 ),
@@ -513,7 +513,7 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                 ),
                 InkWell(
                   child: Text(
-                    "${'Mark'.tr}: ".tr,
+                    "${'Rating'.tr}: ",
                     style: TextStyle(fontSize: 12, color: Colors.white54),
                   ),
                 ),

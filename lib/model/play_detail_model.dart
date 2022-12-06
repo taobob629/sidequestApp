@@ -22,7 +22,7 @@ class PlayDetailModel {
   late int follows = 0;
   late int follow = 0;
   late int userLevel = 0;
-  late double mark=0.0;
+  late num mark=0.0;
   late String orderSn = "";
   late int fans = 0;
   late int isauth = 0;
