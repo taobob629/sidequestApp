@@ -42,7 +42,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
 
 //语言 0中文
 language() {
-  Locale? locale = Get.Get.deviceLocale;
+  Locale? locale = Get.Get.locale;
   var code = locale?.countryCode;
   switch (code) {
     case 'CN':
