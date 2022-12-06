@@ -126,7 +126,7 @@ class ProfileHeader extends StatelessWidget {
                           : null),
                     ),
                     CountInfo(
-                      customIcon: 'assets/images/coin_red.png',
+                      customIcon: 'assets/images/coin_red.webp',
                       label: "${controller.userInfoModel.value.coin}",
                       info: "Coin".tr,
                       height: 26,
@@ -136,7 +136,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                     CountInfo(
                       height: 22,
-                      customIcon: 'assets/images/diamonds_red.png',
+                      customIcon: 'assets/images/diamonds_red.webp',
                       label: "${controller.userInfoModel.value.votes}",
                       info: "Diamonds".tr,
                       onTap: () => controller.checkLogin(
