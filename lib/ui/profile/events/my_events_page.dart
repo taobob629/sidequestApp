@@ -18,6 +18,17 @@ class _MyEventsPageState extends State<MyEventsPage> {
   final controller = Get.put(MyEventsPageController());
 
   @override
+  void initState() {
+    this.initData();
+    super.initState();
+  }
+
+  ///初始化函数
+  Future initData() async {
+    eventTab(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "My Activities".tr,
