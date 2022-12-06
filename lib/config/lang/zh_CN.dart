@@ -88,7 +88,7 @@ const Map<String, String> zh_CN = {
   'Input your refund reason': '请输入退款理由',
   'Input your reject reason': '请输入拒绝理由',
   'Order Detail': '订单详情',
-  'Service': '服务',
+  'Service': '项目',
   'Status': '状态',
   'Score': '评分',
   'CANCEL': '取消',

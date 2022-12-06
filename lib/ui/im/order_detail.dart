@@ -338,7 +338,7 @@ class OrderDetail extends StatelessWidget {
           _infoItem("Order Number".tr, "${palymodel.orderno}"),
           _infoItem(userLable(palymodel), userName(palymodel), isClickable: true),
           _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
-          _infoItem("Service Duration".tr, "${palymodel.nums} ${palymodel.unit}"),
+          _infoItem("Quantity".tr, "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
