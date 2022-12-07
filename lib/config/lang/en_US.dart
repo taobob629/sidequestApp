@@ -636,5 +636,7 @@ const Map<String, String> en_US = {
   'Rating':'Rating',
   'Services ':'Services ',
   'Nonconforming':'Nonconforming',
+  'Refund Reject Reason':'Refund Reject Reason',
+  'Refund Reason':'Refund Reaso',
 
 };

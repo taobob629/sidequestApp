@@ -621,7 +621,7 @@ class OrderDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
       child: model.status == 4
           ? Text.rich(TextSpan(children: [
-              TextSpan(text: '${'Refund reason'.tr}:\n', style: TextStyle(color: Colors.white)),
+              TextSpan(text: '${'Refund Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
               TextSpan(text: '${model.reason}\n', style: TextStyle(color: Colors.white54)),
               TextSpan(
                   text: '${'Refund Reject Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
