@@ -73,15 +73,18 @@ class ImApi {
   }
 
   ///大神是否同意退款
-  static Future<Response> dsRefundOrder(String orderId,String status) async {
+  static Future<Response> dsRefundOrder(String orderId, String status,
+      {var playerRejectRefundReason}) async {
     var formData = {
-      "orderId" : orderId,
+      "orderId": orderId,
     };
-    return await http.put(
-      '/peiwan/app/order/god/refund',
-      queryParameters: ({'orderId':orderId,'status':status}),
-      data: formData
-    );
+    return await http.put('/peiwan/app/order/god/refund',
+        queryParameters: ({
+          'orderId': orderId,
+          'status': status,
+          'playerRejectRefundReason': playerRejectRefundReason
+        }),
+        data: formData);
   }
 
   static Future<Response> rejectOrder(String orderId,String reason) async {

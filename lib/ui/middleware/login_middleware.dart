@@ -26,9 +26,7 @@ class LoginMiddleWare extends GetMiddleware {
 
   @override
   GetPage? onPageCalled(GetPage? page) {
-    flog('onPageCalled');
     var account = StorageManager.getToken();
-    flog('onPageCalled $account');
     if (account.isEmpty) {
       return GetPage(name: AppPages.Login, page: () => LoginPage());
     }

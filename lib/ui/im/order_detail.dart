@@ -15,6 +15,7 @@ import '../../model/play_order_detail_model.dart';
 import '../common/base_scaffold.dart';
 import '../common/dialog_confirm.dart';
 import 'dialog_comment.dart';
+import 'dialog_reject.dart';
 
 class OrderDetail extends StatelessWidget {
   late final int orderId;
@@ -86,7 +87,7 @@ class OrderDetail extends StatelessWidget {
       items.add(divider);
     }
     items.add(Padding(
-      padding: const EdgeInsets.only(left: 15,top: 10),
+      padding: const EdgeInsets.only(left: 15, top: 10),
       child: Text(
         getCommentTitle(),
         style: TextStyle(fontSize: 18, color: Colors.white, fontFamily: "DIN"),
@@ -150,9 +151,7 @@ class OrderDetail extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    Get.dialog(
-                        CommentDialog(controller.orderId, () => Get.back(),
-                            isRehect: true),
+                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRehect: true),
                         barrierColor: Colors.black26);
                     // Get.dialog(ConfirmDialog(
                     //   title: "Reject Order",
@@ -165,8 +164,7 @@ class OrderDetail extends StatelessWidget {
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.white24,
-                          borderRadius: BorderRadius.circular(30)),
+                          color: Colors.white24, borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 4),
@@ -219,9 +217,7 @@ class OrderDetail extends StatelessWidget {
                   ),
                   height: 48,
                   onTap: () {
-                    Get.dialog(
-                        CommentDialog(controller.orderId, () => Get.back(),
-                            isRefund: true),
+                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRefund: true),
                         barrierColor: Colors.black26);
                   },
                 ),
@@ -295,7 +291,7 @@ class OrderDetail extends StatelessWidget {
               ),
               PWidget.boxh(8),
               Text(
-                "${controller.playOrderDetailModel.value.serviceItem['name']??''}",
+                "${controller.playOrderDetailModel.value.serviceItem['name'] ?? ''}",
                 style: TextStyle(color: Colors.white),
               ),
               Row(
@@ -303,10 +299,8 @@ class OrderDetail extends StatelessWidget {
                 children: [
                   Text(
                     "",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "",
@@ -337,7 +331,8 @@ class OrderDetail extends StatelessWidget {
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number".tr, "${palymodel.orderno}"),
           _infoItem(userLable(palymodel), userName(palymodel), isClickable: true),
-          _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
+          _infoItem("Service Time".tr,
+              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
           _infoItem("Quantity".tr, "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -363,81 +358,81 @@ class OrderDetail extends StatelessWidget {
               ],
             ),
           ),
-          if(palymodel.acturalPayment>0)
+          if (palymodel.acturalPayment > 0)
             Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              children: [
-                Text(
-                  "Actual payment".tr,
-                  style: TextStyle(fontSize: 12, color: Colors.white54),
-                ),
-                Spacer(),
-                Image.asset(
-                  "assets/images/ic_balance_money.webp",
-                  width: 14,
-                  height: 14,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  "${palymodel.acturalPayment}",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                ),
-              ],
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                children: [
+                  Text(
+                    "Actual payment".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                  Spacer(),
+                  Image.asset(
+                    "assets/images/ic_balance_money.webp",
+                    width: 14,
+                    height: 14,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "${palymodel.acturalPayment}",
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                ],
+              ),
             ),
-          ),
-          if(palymodel.tax>0)
+          if (palymodel.tax > 0)
             Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              children: [
-                Text(
-                  "Service Tax".tr,
-                  style: TextStyle(fontSize: 12, color: Colors.white54),
-                ),
-                Spacer(),
-                Image.asset(
-                  "assets/images/ic_balance_money.webp",
-                  width: 14,
-                  height: 14,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  "${palymodel.tax}",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                )
-              ],
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                children: [
+                  Text(
+                    "Service Tax".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                  Spacer(),
+                  Image.asset(
+                    "assets/images/ic_balance_money.webp",
+                    width: 14,
+                    height: 14,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "${palymodel.tax}",
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )
+                ],
+              ),
             ),
-          ),
-          if(palymodel.profit>0)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              children: [
-                Text(
-                  "Profit".tr,
-                  style: TextStyle(fontSize: 12, color: Colors.white54),
-                ),
-                Spacer(),
-                Image.asset(
-                  "assets/images/ic_balance_votes.webp",
-                  width: 14,
-                  height: 14,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Text(
-                  "${palymodel.profit}",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                )
-              ],
+          if (palymodel.profit > 0)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Row(
+                children: [
+                  Text(
+                    "Profit".tr,
+                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                  ),
+                  Spacer(),
+                  Image.asset(
+                    "assets/images/ic_balance_votes.webp",
+                    width: 14,
+                    height: 14,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "${palymodel.profit}",
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )
+                ],
+              ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Row(
@@ -466,23 +461,26 @@ class OrderDetail extends StatelessWidget {
       ),
     );
   }
-  userLable(PlayOrderDetailModel model){
-    UserController userController=Get.find<UserController>();
-    bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
-    if(isMe){
+
+  userLable(PlayOrderDetailModel model) {
+    UserController userController = Get.find<UserController>();
+    bool isMe = (Get.find<UserController>().userInfoModel.value.pwuserId == model.liveuid);
+    if (isMe) {
       return 'From'.tr;
     }
     return 'To'.tr;
   }
-  userName(PlayOrderDetailModel model){
-    UserController userController=Get.find<UserController>();
-    bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
-    if(isMe){
+
+  userName(PlayOrderDetailModel model) {
+    UserController userController = Get.find<UserController>();
+    bool isMe = (Get.find<UserController>().userInfoModel.value.pwuserId == model.liveuid);
+    if (isMe) {
       return model.creater;
     }
     return model.player;
   }
-  Widget _infoItem(String title, String value,{bool isClickable=false}) {
+
+  Widget _infoItem(String title, String value, {bool isClickable = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
@@ -494,13 +492,14 @@ class OrderDetail extends StatelessWidget {
           Spacer(),
           GestureDetector(
             onTap: () async {
-              if(!isClickable)return;
+              if (!isClickable) return;
               var model = controller.playOrderDetailModel.value;
-              bool isMe=(Get.find<UserController>().userInfoModel.value.pwuserId==model.liveuid);
-              if(isMe){
-                Get.to(() => PlayDetail(userId:'${model.uid}'));
-              }else{
-                Get.to(() => PlayDetail(userId:'${model.liveuid}'));
+              bool isMe =
+                  (Get.find<UserController>().userInfoModel.value.pwuserId == model.liveuid);
+              if (isMe) {
+                Get.to(() => PlayDetail(userId: '${model.uid}'));
+              } else {
+                Get.to(() => PlayDetail(userId: '${model.liveuid}'));
               }
             },
             child: Text(
@@ -547,8 +546,7 @@ class OrderDetail extends StatelessWidget {
             },
             indicatorBuilder: (_, index) {
               return DotIndicator(
-                color: getColor(controller
-                    .playOrderDetailModel.value.statusArray[index].colour),
+                color: getColor(controller.playOrderDetailModel.value.statusArray[index].colour),
               );
             },
             contentsBuilder: (_, index) {
@@ -617,16 +615,27 @@ class OrderDetail extends StatelessWidget {
 
   Widget _buildComments(context) {
     double width = MediaQuery.of(context).size.width;
+    var model = controller.playOrderDetailModel.value;
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Text(
-        getCommentText(),
-        style: TextStyle(
-          color: Colors.white54,
-          fontSize: 14,
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+      child: model.status == 4
+          ? Text.rich(TextSpan(children: [
+              TextSpan(text: '${'Refund reason'.tr}:\n', style: TextStyle(color: Colors.white)),
+              TextSpan(text: '${model.reason}\n', style: TextStyle(color: Colors.white54)),
+              TextSpan(
+                  text: '${'Refund Reject Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
+              TextSpan(
+                  text: '${model.playerRejectRefundReason}\n',
+                  style: TextStyle(color: Colors.white54))
+            ]))
+          : Text(
+              getCommentText(),
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: 14,
+              ),
+            ),
     );
   }
 
@@ -638,6 +647,8 @@ class OrderDetail extends StatelessWidget {
         return 'RejectReason'.tr;
       case 3:
         return 'Reason'.tr;
+      case 4:
+        return 'Refund Reject Reason'.tr;
       default:
         return 'Comments'.tr;
     }
@@ -651,6 +662,8 @@ class OrderDetail extends StatelessWidget {
         return model.rejectReason;
       case 3:
         return model.reason;
+      case 4:
+        return 'Refund reason:${model.reason} \nRefund reject reason:${model.playerRejectRefundReason}';
       default:
         return model.comments;
     }
@@ -673,8 +686,7 @@ class OrderDetailController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    ImApi.getPlayOrderDetail(orderId)
-        .then((value) => playOrderDetailModel.value = value);
+    ImApi.getPlayOrderDetail(orderId).then((value) => playOrderDetailModel.value = value);
   }
 
   void cancelOrder() {
@@ -695,19 +707,22 @@ class OrderDetailController extends GetxController {
 
   ///大神拒绝退款
   Future<void> dsRejectOrder() async {
-    EasyLoading.show();
-    var res =
-        await ImApi.dsRefundOrder(orderId.toString(), '4').catchError((v) {});
-    EasyLoading.showToast('${res.statusMessage}');
-    EasyLoading.dismiss();
-    Get.back();
+    Get.dialog(RejectDialog()).then((value) async {
+      flog('value $value');
+      if (value == null) return;
+      EasyLoading.show();
+      var res = await ImApi.dsRefundOrder(orderId.toString(), '4', playerRejectRefundReason: value)
+          .catchError((v) {});
+      EasyLoading.showToast('${res.statusMessage}');
+      EasyLoading.dismiss();
+      Get.back();
+    });
   }
 
   ///大神同意退款
   Future<void> dsRefundOrder() async {
     EasyLoading.show();
-    var res =
-        await ImApi.dsRefundOrder(orderId.toString(), '5').catchError((v) {});
+    var res = await ImApi.dsRefundOrder(orderId.toString(), '5').catchError((v) {});
     EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
     Get.back();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 
@@ -6,8 +7,7 @@ import '../common/colorful_button.dart';
 
 
 class RejectDialog extends StatelessWidget {
-
-  final controller = Get.put(InputDialogController());
+  late TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,19 @@ class RejectDialog extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: Colors.white10),
             child: TextField(
-              maxLines: 1,
-              controller: controller.codeController,
+              maxLength: 255,
+              minLines: 5,
+              maxLines: 10,
+              controller: textEditingController,
               cursorColor: Colors.white70,
               textAlign: TextAlign.start,
               style: const TextStyle(color: Colors.white, fontSize: 16),
               onSubmitted: (text) => {},
               decoration: InputDecoration(
-                  hintText: "Input your reject reason".tr, hintStyle: TextStyle(fontSize: 14, color: Colors.white24), border: InputBorder.none, contentPadding: EdgeInsets.only(bottom: 0)),
+                  hintText: "Input your reject reason".tr,
+                  hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(8)),
             ),
           ),
           ColorfulButton(
@@ -43,8 +48,9 @@ class RejectDialog extends StatelessWidget {
                 ),
               ),
             height: 40,
-            onTap: () => Get.back(result: controller.codeController.text)
-          )
+              onTap: () => textEditingController.text.isEmpty
+                  ? EasyLoading.showToast('Input your reject reason'.tr)
+                  : Get.back(result: textEditingController.text))
         ],
       ),
     );
@@ -99,22 +105,4 @@ class RejectDialog extends StatelessWidget {
       ),
     );*/
   }
-}
-
-class InputDialogController extends GetxController{
-  late TextEditingController codeController;
-
-  @override
-  void onInit() {
-    super.onInit();
-    codeController = TextEditingController();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    codeController.dispose();
-  }
-
-
 }
