@@ -688,11 +688,26 @@ class _SexAndAgeWidgetState extends State<SexAndAgeWidget> {
   Widget build(BuildContext context) {
     var isFemale = widget.sex == '1';
     var gd = PFun.tl2brGd(Color(0xff9DBDFD), Color(0xff76A3FD));
-    if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
+    var icoin= PWidget.icon(Icons.female_rounded,[Colors.white, 12]);
+    if(widget.sex=='1'){
+      gd=PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
+      icoin= PWidget.icon(Icons.female_rounded,[Colors.white, 12]);
+
+    }
+    else if(widget.sex=='0'){
+      gd = PFun.tl2brGd(Color(0xff9DBDFD), Color(0xff76A3FD));
+      icoin= PWidget.icon(Icons.male_rounded,[Colors.white, 12]);
+
+    }
+    else{
+      gd=PFun.tl2brGd(Color(0xffc5c7cd), Color(0xffa1a4ab));
+      icoin= PWidget.icon(Icons.question_mark,[Colors.white, 12]);
+
+    }
+    // if (isFemale) gd = PFun.tl2brGd(Color(0xffFF95D4), Color(0xffFF5BAA));
     return PWidget.container(
       PWidget.row([
-        PWidget.icon(isFemale ? Icons.female_rounded : Icons.male_rounded,
-            [Colors.white, 12]),
+        icoin,
         PWidget.boxw(2),
         PWidget.text(widget.age, [Colors.white, 10]),
       ], '220'),
