@@ -75,7 +75,6 @@ class ProductItem extends StatelessWidget {
               ),
               ColorfulButton(
                 height: 26,
-                width: 68,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Text(
