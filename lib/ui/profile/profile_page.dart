@@ -295,14 +295,14 @@ class ProfilePage extends StatelessWidget {
             children: [
               IconMenu(
                 icon: "assets/images/ic_balance_new.webp",
-                title: "My Balance".tr,
+                title: "Balance".tr,
                 onTap: () {
                   userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
-                title: "My Bookings".tr,
+                title: "Bookings".tr,
                 onTap: () {
                   userController.checkLogin(() => Get.to(() => BookingPage())
                       ?.whenComplete(() => userController.updateInfo()));
@@ -310,7 +310,7 @@ class ProfilePage extends StatelessWidget {
               ),
               IconMenu(
                   icon: "assets/images/ic_orders_new.webp",
-                  title: "My Orders".tr,
+                  title: "Orders".tr,
                   onTap: () {
                     userController.checkLogin(() => Get.to(() => OrdersPage()));
                   }),
@@ -324,14 +324,14 @@ class ProfilePage extends StatelessWidget {
             children: [
               IconMenu(
                   icon: "assets/images/ic_tab_events_new.webp",
-                  title: "My Activities".tr,
+                  title: "Activities".tr,
                   onTap: () {
                     userController
                         .checkLogin(() => Get.to(() => MyEventsPage()));
                   }),
               IconMenu(
                   icon: "assets/images/ic_address_new.webp",
-                  title: "My Address".tr,
+                  title: "Address".tr,
                   onTap: () {
                     userController
                         .checkLogin(() => NavigatorHelper.gotoAddressPage());

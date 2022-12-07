@@ -82,7 +82,7 @@ class PlayOrder extends StatelessWidget {
                         ]),
                         PWidget.boxh(15),
                         PWidget.row([
-                          PWidget.text("${'Service Tax'.tr}(${(controller.fellv.value * 100).toInt()}%)", [Colors.white, 18], {'exp': true}),
+                          PWidget.text("${'Service Tax'.tr}", [Colors.white, 18], {'exp': true}),
                           PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
                           PWidget.boxw(5),
                           PWidget.text(controller.preOrderDm.value.object?['tax'], [Colors.white, 16]),

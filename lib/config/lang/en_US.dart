@@ -352,7 +352,7 @@ const Map<String, String> en_US = {
   'Sent Message': 'Sent Message',
   'No more data': 'No more data',
   'Default': 'Default',
-  'My Address': 'My Address',
+  // 'My Address': 'My Address',
   'NEW ADDRESS': 'NEW ADDRESS',
   'Please add your shipping address': 'Please add your shipping address',
   'Address': 'Address',
@@ -402,7 +402,7 @@ const Map<String, String> en_US = {
   'Name on account': 'Name on account',
   'Cancel Confirm': 'Cancel Confirm',
   'Do you confirm to cancel this booking?': 'Do you confirm to cancel this booking?',
-  'My Bookings': 'My Bookings',
+  'Bookings': 'Bookings',
   'MAKE A NEW BOOKING': 'MAKE A NEW BOOKING',
   'Cancel Booking': 'Cancel Booking',
   'Book A Room': 'Book A Room',
@@ -455,7 +455,6 @@ const Map<String, String> en_US = {
   'Registered Date': 'Registered Date',
   "Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you.This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?": "Deleting your account will remove your profile and all of your content from SideQuest. Delete account means you won't be able to get any of your data back. All your SideQuest account data will be deleted. If you experienced an issue with your account and need help, please contact us so we can assist you.This action cannot be UNDONE. Are you sure you need to DELETE ACCOUNT?",
   'Delete Account': 'Delete Account',
-  'My Activities': 'My Activities',
   'Medal': 'Medal',
   'LEVEL': 'LEVEL',
   'Top level': 'Top level',
@@ -466,7 +465,7 @@ const Map<String, String> en_US = {
   'Next Level': 'Next Level',
   'Notifications': 'Notifications',
   'Repay': 'Repay', //
-  'My Orders': 'My Orders',
+
   'Pending': 'Pending',
   'Delivered': 'Delivered',
   'About us': 'About us',
@@ -638,5 +637,6 @@ const Map<String, String> en_US = {
   'Nonconforming':'Nonconforming',
   'Refund Reject Reason':'Refund Reject Reason',
   'Refund Reason':'Refund Reaso',
+
 
 };
