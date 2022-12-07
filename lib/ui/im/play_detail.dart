@@ -498,17 +498,20 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                 SizedBox(
                   width: 30,
                 ),
-                InkWell(
+                if(widget.controller.detailModel.value.orders>0)
+                  InkWell(
                   child: Text(
                     "${'Services'.tr}: ",
                     style: TextStyle(fontSize: 12, color: Colors.white54),
                   ),
                 ),
+                if(widget.controller.detailModel.value.orders>0)
                 Text(
                   "${widget.controller.detailModel.value.orders}",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
-                SizedBox(
+                if(widget.controller.detailModel.value.orders>0)
+                  SizedBox(
                   width: 30,
                 ),
                 InkWell(

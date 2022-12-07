@@ -46,6 +46,8 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     // {'name': '保密', 'value': 0},
     {'name': 'Male'.tr, 'value': 0},
     {'name': 'Female'.tr, 'value': 1},
+    {'name': 'Nonconforming'.tr, 'value': 2},
+
   ];
   var avatar;
   Rxn<String?> _country = Rxn();
@@ -446,28 +448,28 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
         // PWidget.boxw(8),
         buildTFView(context!, hintText: 'Please enter user nickname'.tr, hintColor: Colors.white24, textColor: Colors.white, con: userNameCon, isExp: true, maxLength: 26),
       ])),
-      // PWidget.boxh(16),
-      // itemBg(
-      //   PWidget.row([
-      //     PWidget.text('Gender'.tr, [Colors.white]),
-      //     PWidget.boxw(8),
-      //     PWidget.text(sex == null ? 'Please select'.tr : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
-      //     rightJtView(16, Colors.white54),
-      //   ]),
-      //   fun: () async {
-      //     var res = await Get.dialog(
-      //       SelectorDialog(
-      //         items: List.generate(sexList.length, (i) {
-      //           return VerifyField.fromJson({'name': '$i', 'label': sexList[i]['name']});
-      //         }),
-      //         title: "Select Gender".tr,
-      //         showInfo: true,
-      //       ),
-      //       barrierColor: Colors.black26,
-      //     );
-      //     if (res != null) setState(() => sex = int.parse(res.name));
-      //   },
-      // ),
+      PWidget.boxh(16),
+      itemBg(
+        PWidget.row([
+          PWidget.text('Gender'.tr, [Colors.white]),
+          PWidget.boxw(8),
+          PWidget.text(sex == null ? 'Please select'.tr : sexList[sex!]['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          rightJtView(16, Colors.white54),
+        ]),
+        fun: () async {
+          var res = await Get.dialog(
+            SelectorDialog(
+              items: List.generate(sexList.length, (i) {
+                return VerifyField.fromJson({'name': '$i', 'label': sexList[i]['name']});
+              }),
+              title: "Select Gender".tr,
+              showInfo: true,
+            ),
+            barrierColor: Colors.black26,
+          );
+          if (res != null) setState(() => sex = int.parse(res.name));
+        },
+      ),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([

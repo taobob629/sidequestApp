@@ -34,7 +34,7 @@ class PlayDetailModel {
 
   PlayDetailModel.fromJson(Map<String, dynamic> json) {
     userId = json['basicInfo']['id'];
-    mark=json['basicInfo']['stars'];
+    mark=json['basicInfo']['stars']==0?5.0:json['basicInfo']['stars'];
     orders=json['basicInfo']['orders'];
     memberId = json['basicInfo']['userLogin'];
     signature = json['basicInfo']['signature'];
@@ -46,7 +46,7 @@ class PlayDetailModel {
     age = json['basicInfo']['age'] ?? 0;
     language = json['basicInfo']['language'] ?? '';
     online = json['basicInfo']['online'] ?? 0;
-    sex = json['basicInfo']['sex'] ?? 0;
+    sex = json['basicInfo']['sex'] ?? 2;
     level = json['level'] ?? 0;
     follows = json['followers'] ?? 0;
     follow = json['follow'] ?? 0;
