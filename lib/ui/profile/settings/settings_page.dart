@@ -8,6 +8,7 @@ import 'package:wy/api/user_api.dart';
 import 'package:wy/api/vip_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/lang/translations.dart';
 import 'package:wy/model/version_model.dart';
 import 'package:wy/ui/common/action_button.dart';
@@ -108,7 +109,7 @@ class SettingsPageController extends GetxController {
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     EasyLoading.dismiss();
     UserController userController = Get.find<UserController>();
-    userController.logout(done: () => Get.back());
+    userController.logout(done: () => Get.offAllNamed(AppPages.Login));
   }
 
   void checkVersion() async {

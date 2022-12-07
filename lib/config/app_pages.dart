@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/login/login_page.dart';
+import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
@@ -22,6 +24,7 @@ import 'app_config.dart';
 
 class AppPages {
   static const Main = '/main';
+  static const Login = '/login';
   static const BindBankCard = '/bindbankcard';
   static const WithDrawRecord = '/withdrawRecord';
   static const AttentionTab = '/attentionTabPage';
@@ -33,9 +36,14 @@ class AppPages {
   static const COUPON_TAB_PAGE = '/coupon_tab_page';
   static final routes = [
     GetPage(
+      name: Login,
+      page: () => LoginPage(),
+    ),
+    GetPage(
       name: Main,
       page: () => MainPage(),
       binding: MainPageBinding(),
+      middlewares: [LoginMiddleWare()],
     ),
     GetPage(
       name: BindBankCard,

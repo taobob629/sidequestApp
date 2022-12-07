@@ -192,7 +192,7 @@ class MainPageBinding extends Bindings {
 
 class MainPageController extends FullLifeCycleController with FullLifeCycleMixin{
   late PageController controller;
-  var currentIndex = 0.obs;
+  var currentIndex = 2.obs;
 
   bool checking = false;
 
@@ -201,19 +201,17 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   late Timer _timer;
 
   @override
-  void onInit() async{
+  void onInit() async {
     super.onInit();
     LocationService().init();
-    controller = PageController();
-
+    controller = PageController(initialPage: 2);
     controller.addListener(() {
       var curpage = controller.page;
       if (curpage == 2.0) userController.checkLogin(() => null);
     });
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_push');
-    var initializationSettingsIOS = IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
+    var initializationSettingsIOS =
+        IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);

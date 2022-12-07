@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
 import 'package:wy/ui/common/privacy_check.dart';
@@ -186,8 +187,8 @@ class LoginPageController extends GetxController with GetSingleTickerProviderSta
         showLoading:true,
         done:(LoginModel loginModel){
           if(loginModel.validate == 0) {
-            Get.back();
-          }else{
+            Get.offAndToNamed(AppPages.Main);
+            }else{
             if(loginModel.secondary == 1){
               Get.off(()=>SecondaryPage(loginModel: loginModel,));
             }else {
