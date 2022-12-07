@@ -198,7 +198,7 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 15),
             child: Text(
-              "SideKick Function".tr,
+              "SideKick Section".tr,
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
@@ -286,7 +286,7 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 15),
             child: Text(
-              "Store Function".tr,
+              "Store Section".tr,
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),

@@ -31,7 +31,7 @@ class BalancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Top Up".tr,
+      title: "SideQuest Hub".tr,
       actions: [
         ActionButton(
           icon: Icon(

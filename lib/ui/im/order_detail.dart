@@ -647,8 +647,8 @@ class OrderDetail extends StatelessWidget {
         return 'RejectReason'.tr;
       case 3:
         return 'Reason'.tr;
-      case 4:
-        return 'Refund Reject Reason'.tr;
+      // case 4:
+      //   return 'Refund Reject Reason'.tr;
       default:
         return 'Comments'.tr;
     }
