@@ -88,10 +88,11 @@ dependencies:
   tencent_cloud_chat_uikit: 1.0.1
   tim_ui_kit_sticker_plugin: 
   geolocator: 9.0.2
-#  provider: 6.0.4
+  flutter_ringtone_player: 3.2.0
+    #  provider: 6.0.4
     # path: ../TIMSDK/Flutter/IMSDK/tim_ui_kit/
     # git:
-    #   url: https://github.com/rainver/TIMSDK.git
+  #   url: https://github.com/rainver/TIMSDK.git
   #   path: Flutter/IMSDK/tim_ui_kit
 
 dependency_overrides:

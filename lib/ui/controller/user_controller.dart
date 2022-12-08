@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
@@ -207,20 +208,25 @@ class UserController extends GetxController {
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
         TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(
           onTotalUnreadMessageCountChanged: (count) {
-            flog(count,'onTotalUnreadMessageCountChanged');
-            unreadMsgCount.value = count;
-          },
-          onConversationChanged: (v){
-            flog(v.length,'onConversationChanged');
-          },
-          onNewConversation: (v){
-            flog(v.length,'onNewConversation');
-          }
-        ));
+              flog(count, 'onTotalUnreadMessageCountChanged');
+              unreadMsgCount.value = count;
+            }, onConversationChanged: (v) {
+              flog(v.length, 'onConversationChanged');
+            }, onNewConversation: (v) {
+              flog(v.length, 'onNewConversation');
+            }));
+        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(
+            listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+          //播放提示音
+          FlutterRingtonePlayer.playNotification();
+        }));
+
         ///获取未读数量
-        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
-        if(v2timValueCallback.code==0){
-          flog(v2timValueCallback.data,'getTotalUnreadMessageCount');
+        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager
+            .getConversationManager()
+            .getTotalUnreadMessageCount();
+        if (v2timValueCallback.code == 0) {
+          flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
         }
       });
