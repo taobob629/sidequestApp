@@ -10,6 +10,7 @@ import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
 import 'coupon_item.dart';
@@ -47,7 +48,9 @@ class CouponPage extends StatelessWidget {
       body: Obx(() => controller.initializing.value
           ? buildLoad()
           : controller.list.length == 0
-              ? EmptyView()
+              ? Center(
+                  child: EmptyView(),
+                )
               : Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: GridView.builder(
@@ -117,25 +120,25 @@ class CouponPageController extends GetxListController<CouponModel> {
 
   @override
   void onReady() {
-    scrollController.addListener(() {
-      if (scrollController.offset - offset > 0) {
-        //down
-        if (floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = false;
-        }
-      } else {
-        //up
-        if (!floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = true;
-        }
-      }
-      offset = scrollController.offset;
-    });
+    // scrollController.addListener(() {
+    //   if (scrollController.offset - offset > 0) {
+    //     //down
+    //     if (floatingActionButtonShow.value) {
+    //       floatingActionButtonShow.value = false;
+    //     }
+    //   } else {
+    //     //up
+    //     if (!floatingActionButtonShow.value) {
+    //       floatingActionButtonShow.value = true;
+    //     }
+    //   }
+    //   offset = scrollController.offset;
+    // });
     super.onReady();
   }
 
   Future<List<CouponModel>> loadData() async {
-    EasyLoading.show();
+    //  EasyLoading.show();
     // flog('preOrder---$preOrder ');
     List<CouponModel> list;
     if (payOrderModel != null) {
@@ -145,7 +148,7 @@ class CouponPageController extends GetxListController<CouponModel> {
     } else {
       list = await CouponApi.list(couponType: couponType, tab: this.tab);
     }
-    EasyLoading.dismiss();
+//    EasyLoading.dismiss();
 
     return list;
   }
