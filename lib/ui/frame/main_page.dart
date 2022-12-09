@@ -205,10 +205,10 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     super.onInit();
     LocationService().init();
     controller = PageController(initialPage: 2);
-    controller.addListener(() {
-      var curpage = controller.page;
-      if (curpage == 2.0) userController.checkLogin(() => null);
-    });
+    // controller.addListener(() {
+    //   var curpage = controller.page;
+    //   if (curpage == 2.0) userController.checkLogin(() => null);
+    // });
     var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
     var initializationSettingsIOS =
         IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -216,10 +216,8 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    await AppConfig.flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: selectNotification
-    );
+    await AppConfig.flutterLocalNotificationsPlugin
+        .initialize(initializationSettings, onSelectNotification: selectNotification);
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

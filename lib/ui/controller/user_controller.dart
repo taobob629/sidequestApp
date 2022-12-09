@@ -135,9 +135,7 @@ class UserController extends GetxController {
 
   Future<void> updateInfo() async{
     if(StorageManager.getToken().isNotEmpty) {
-      EasyLoading.show();
       userInfoModel.value = await UserApi.info();
-      EasyLoading.dismiss();
     }
   }
 
