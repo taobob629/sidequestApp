@@ -395,144 +395,153 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
   Widget buildInfo(bool isMe) {
     return Obx(() {
       var signature = widget.controller.detailModel.value.signature;
-      return Container(
-          // height: 80,
-          padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: signature != '' ? 0 : 20),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 8),
-              Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 12,
-                  runSpacing: 8,
-                  children: [
-                    Text("${widget.controller.detailModel.value.name}",
-                        style: TextStyle(fontSize: 24, color: Colors.white)),
-                    SexAndAgeWidget(
-                      age: '${widget.controller.detailModel.value.age}',
-                      sex: '${widget.controller.detailModel.value.sex}',
-                    ),
-                    PlayLevelWidget(
-                      userId: widget.controller.userId,
-                      level: '${widget.controller.detailModel.value.userLevel}',
-                      isauth: widget.controller.detailModel.value.isauth,
-                    ),
-                    PWidget.container(
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.white60,
-                            size: 14,
-                          ),
-                          Container(
-                            constraints: BoxConstraints(maxWidth: 100),
-                            child: Text(
-                              '${widget.controller.detailModel.value.location.location()}',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 11),
-                          ),
-                          ),
-                        ],
-                      ),
-                      [null, null, Colors.white10],
-                      {'pd': PFun.lg(2, 2, 8, 8), 'br': 56},
-                    ),
-                    Builder(
-                      builder: (context) {
-                        var language = widget.controller.detailModel.value.language;
-                        if(language=='')return SizedBox();
-                        return PWidget.container(
-                          PWidget.text('$language',[Colors.white,12]),
-                          [null, null, Colors.white10],
-                          {'pd': PFun.lg(2,2,8,8),'br': 56},
-                        );
-                      }
-                    )
-                  ]),
-              SizedBox(height: 8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+      return GestureDetector(
+        onTap: () async {
+           if(isMe){
+              await Get.to(()=>PlayProfilePage());
+              widget.controller.onReady();
+              return;
+            }
+        },
+        child: Container(
+            // height: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: signature != '' ? 0 : 20),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () => isMe
-                      ? Get.toNamed(AppPages.AttentionTab, arguments: Map()..['index'] = 0)
-                      : null,
-                  child: Text(
-                    "${'Follows'.tr}: ",
-                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                SizedBox(height: 8),
+                Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 12,
+                    runSpacing: 8,
+                    children: [
+                      Text("${widget.controller.detailModel.value.name}",
+                          style: TextStyle(fontSize: 24, color: Colors.white)),
+                      SexAndAgeWidget(
+                        age: '${widget.controller.detailModel.value.age}',
+                        sex: '${widget.controller.detailModel.value.sex}',
+                      ),
+                      PlayLevelWidget(
+                        userId: widget.controller.userId,
+                        level: '${widget.controller.detailModel.value.userLevel}',
+                        isauth: widget.controller.detailModel.value.isauth,
+                      ),
+                      PWidget.container(
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.white60,
+                              size: 14,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 100),
+                              child: Text(
+                                '${widget.controller.detailModel.value.location.location()}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(color: Colors.white, fontSize: 11),
+                            ),
+                            ),
+                          ],
+                        ),
+                        [null, null, Colors.white10],
+                        {'pd': PFun.lg(2, 2, 8, 8), 'br': 56},
+                      ),
+                      Builder(
+                        builder: (context) {
+                          var language = widget.controller.detailModel.value.language;
+                          if(language=='')return SizedBox();
+                          return PWidget.container(
+                            PWidget.text('$language',[Colors.white,12]),
+                            [null, null, Colors.white10],
+                            {'pd': PFun.lg(2,2,8,8),'br': 56},
+                          );
+                        }
+                      )
+                    ]),
+                SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () => isMe
+                        ? Get.toNamed(AppPages.AttentionTab, arguments: Map()..['index'] = 0)
+                        : null,
+                    child: Text(
+                      "${'Follows'.tr}: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
                   ),
-                ),
-                  Text(
-                    "${widget.controller.detailModel.value.follows}",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                    Text(
+                      "${widget.controller.detailModel.value.follows}",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    InkWell(
+                      onTap: () => isMe
+                          ? Get.toNamed(AppPages.AttentionTab,
+                              arguments: Map()..['index'] = 1)
+                          : null,
+                      child: Text(
+                        "${'Fans'.tr}: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
+                    ),
+                   InkWell(
+                     onTap: () => isMe
+                         ? Get.toNamed(AppPages.AttentionTab,
+                         arguments: Map()..['index'] = 1)
+                         : null,
+                     child:  Text(
+                     "${widget.controller.detailModel.value.fans}",
+                     style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                   ),
                   SizedBox(
                     width: 30,
                   ),
-                  InkWell(
-                    onTap: () => isMe
-                        ? Get.toNamed(AppPages.AttentionTab,
-                            arguments: Map()..['index'] = 1)
-                        : null,
+                  if(widget.controller.detailModel.value.orders>0)
+                    InkWell(
                     child: Text(
-                      "${'Fans'.tr}: ",
-                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                      "${'Services'.tr}: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
                   ),
+                  if(widget.controller.detailModel.value.orders>0)
+                  Text(
+                    "${widget.controller.detailModel.value.orders}",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                 InkWell(
-                   onTap: () => isMe
-                       ? Get.toNamed(AppPages.AttentionTab,
-                       arguments: Map()..['index'] = 1)
-                       : null,
-                   child:  Text(
-                   "${widget.controller.detailModel.value.fans}",
-                   style: TextStyle(fontSize: 16, color: Colors.white),
+                  if(widget.controller.detailModel.value.orders>0)
+                    SizedBox(
+                    width: 30,
                   ),
-                 ),
-                SizedBox(
-                  width: 30,
-                ),
-                if(widget.controller.detailModel.value.orders>0)
                   InkWell(
-                  child: Text(
-                    "${'Services'.tr}: ",
-                    style: TextStyle(fontSize: 12, color: Colors.white54),
+                    child: Text(
+                      "${'Rating'.tr}: ",
+                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    ),
                   ),
+                  Text(
+                    "${widget.controller.detailModel.value.mark}",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  )
+                  ],
                 ),
-                if(widget.controller.detailModel.value.orders>0)
-                Text(
-                  "${widget.controller.detailModel.value.orders}",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                if(widget.controller.detailModel.value.orders>0)
-                  SizedBox(
-                  width: 30,
-                ),
-                InkWell(
-                  child: Text(
-                    "${'Rating'.tr}: ",
-                    style: TextStyle(fontSize: 12, color: Colors.white54),
-                  ),
-                ),
-                Text(
-                  "${widget.controller.detailModel.value.mark}",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                )
-                ],
-              ),
-              if(signature!='')
-              Divider(color: Colors.white10,height: 24),
-              if(signature!='') PWidget.text('${widget.controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
-              if(signature!='') Divider(color: Colors.white10,height: 24),
-            ],
+                if(signature!='')
+                Divider(color: Colors.white10,height: 24),
+                if(signature!='') PWidget.text('${widget.controller.detailModel.value.signature}',[Colors.white54,12],{'isOf': false}),
+                if(signature!='') Divider(color: Colors.white10,height: 24),
+              ],
+            ),
           ),
-        );
+      );
     });
   }
 
