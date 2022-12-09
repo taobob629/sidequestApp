@@ -73,7 +73,7 @@ class CommentDialog extends StatelessWidget {
                   color: Colors.white10
                 ),
                 child: TextField(
-                  maxLines: 1,
+                  maxLines: 5,
                   controller: controller.commentController,
                   cursorColor: Colors.white70,
                   textAlign: TextAlign.start,
