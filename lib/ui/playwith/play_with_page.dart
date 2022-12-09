@@ -358,11 +358,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
-          var city;
-          var signature = data['signature'];
+          var city='>1KM';
+          // var signature = data['signature'];
           var levelName = data['levelName'];
-          Location location = Location.fromStr(data['location']);
-          city = location.location();
+          // Location location = Location.fromStr(data['location']);
+          // city = location.location();
           return Listener(
             onPointerDown: (_) => filterValue.init(isClearValue: false),
             child: PWidget.container(
@@ -608,7 +608,6 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         top: 10,
         child: Row(
           children: [
-            if (dis == 0)
               Icon(
                 Icons.location_on,
                 color: Colors.white60,
