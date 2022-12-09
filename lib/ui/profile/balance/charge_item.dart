@@ -33,7 +33,7 @@ class ChargeItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              "assets/images/ic_balance_charge${index + 1}.webp",
+              showCoin?"assets/images/ic_coin_charge${index + 1}.webp":"assets/images/ic_balance_charge${index + 1}.webp",
               width: showCoin?50:60,
             ),
             SizedBox(
