@@ -248,6 +248,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
             "sex": sexList[sex!]['value'],
             "location": json.encode({
               'country': '${_curCountry?.emoji}${_curCountry?.name}',
+              'emoji':'${_curCountry?.emoji}',
               'city': city == '*City' ? null : city,
               'state': state == '*State' ? null : state,
             }),
