@@ -536,9 +536,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                                 PWidget.text(key, [isSelecto ? Color(0xfff4d26b) : Colors.white70], {'exp': true}),
                                 PWidget.icon(Icons.check_rounded, [isSelecto ? Color(0xfff4d26b) : Colors.transparent, 16]),
                               ]),
-                              [null, null, Colors.white.withOpacity(isSelecto ? 0.05 : 0)],
+                              [null, 40, Colors.white.withOpacity(isSelecto ? 0.05 : 0)],
                               {
-                                'pd': PFun.lg(12, 12, 16, 16),
+                                'pd': PFun.lg(0, 0, 16, 16),
                                 'fun': () async {
                                   filterValue.changeFilterValue(filterValue.filterObj, item);
                                   setState(() => superlistDm.init());
@@ -548,7 +548,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                             );
                           },
                         ),
-                  [null, isStow ? 0 : (list.isEmpty ? 80 : (list.length) * 44 + 16), Colors.white.withOpacity(isStow ? 0 : 0.05)],
+                  [null, isStow ? 0 : (list.isEmpty ? 80 : (list.length) * 40 + 18), Colors.white.withOpacity(isStow ? 0 : 0.05)],
                   {
                     'br': 8,
                     'mg': PFun.lg(8),
