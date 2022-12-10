@@ -58,9 +58,25 @@ class ChargeItem extends StatelessWidget {
                     )
                   ],
                 )),
-            Text(
-              "£${item.money}",
-              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                 Positioned.fill(
+                   left: -10,
+                   top: -4,
+                   right: -10,
+                   bottom: 2,
+                   child: Image.asset(
+                    "assets/images/chongzhi_bg.jpg",
+                    fit: BoxFit.fill,
+                   ),
+                 ),
+                Text(
+                  "£${item.money}",
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+                ),
+              ],
             )
           ],
         ),
