@@ -293,22 +293,22 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconMenu(
-                icon: "assets/images/ic_balance_new.webp",
-                title: "Balance".tr,
-                onTap: () {
-                  userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
-                },
-              ),
-              if (controller.online.value)
+              // if (controller.online.value)
                 IconMenu(
-                icon: "assets/images/ic_booking_new.webp",
-                title: "Bookings".tr,
+                icon: "assets/images/ic_balance_new.webp",
+                title: controller.online.value?"Balance".tr:"Account".tr,
                 onTap: () {
-                  userController.checkLogin(() => Get.to(() => BookingPage())
-                      ?.whenComplete(() => userController.updateInfo()));
+                  controller.online.value? userController.checkLogin(() => Get.to(() =>BalancePage())?.whenComplete(() => userController.updateInfo())):null;
                 },
               ),
+              IconMenu(
+              icon: "assets/images/ic_booking_new.webp",
+              title: "Bookings".tr,
+              onTap: () {
+                userController.checkLogin(() => Get.to(() => BookingPage())
+                    ?.whenComplete(() => userController.updateInfo()));
+              },
+            ),
               IconMenu(
                   icon: "assets/images/ic_orders_new.webp",
                   title: "Orders".tr,

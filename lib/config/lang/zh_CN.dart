@@ -638,4 +638,7 @@ const Map<String, String> zh_CN = {
   'Refund Reject Reason':'拒绝退款原因',
   'Refund Reason':'退款理由',
   'Experience':'经验',
+  'Online Time':'在线时长',
+  "Account":"账户",
+
 };

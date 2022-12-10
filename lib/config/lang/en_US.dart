@@ -638,5 +638,7 @@ const Map<String, String> en_US = {
   'Refund Reject Reason':'Refund Reject Reason',
   'Refund Reason':'Refund Reaso',
   'Experience':'Experience',
+  'Online Time':'Online Time',
+  "Account":"Account",
 
 };
