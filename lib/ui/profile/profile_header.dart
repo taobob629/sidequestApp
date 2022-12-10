@@ -125,21 +125,19 @@ class ProfileHeader extends StatelessWidget {
                           ? Get.to(() => BalancePage())?.whenComplete(() => controller.updateInfo())
                           : null),
                     ),
-                    if(profilePageController.online.value)CountInfo(
+                    CountInfo(
                       customIcon: 'assets/images/coin_red.webp',
                       label: "${controller.userInfoModel.value.coin}",
-                      info: "Coin".tr,
-                      onTap: () => controller.checkLogin(
-                          () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0)),
+                      info: profilePageController.online.value ? "Coin".tr : "Online Time".tr,
+                      onTap: () => controller.checkLogin(() =>profilePageController.online.value? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0):null),
                       icon: '',
                     ),
-                   if(profilePageController.online.value) CountInfo(
+                    CountInfo(
                       height: 30,
                       customIcon: 'assets/images/diamonds_red.webp',
                       label: "${controller.userInfoModel.value.votes}",
-                      info: "Experience".tr,
-                      onTap: () => controller.checkLogin(
-                        () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1),
+                      info: profilePageController.online.value?"Diamond".tr:"Experience".tr,
+                      onTap: () => controller.checkLogin(() => profilePageController.online.value?Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1):null,
                       ),
                       icon: '',
                     ),

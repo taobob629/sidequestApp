@@ -300,7 +300,8 @@ class ProfilePage extends StatelessWidget {
                   userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
-              IconMenu(
+              if (controller.online.value)
+                IconMenu(
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Bookings".tr,
                 onTap: () {
