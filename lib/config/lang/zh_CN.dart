@@ -637,4 +637,5 @@ const Map<String, String> zh_CN = {
   'Nonconforming':'未知',
   'Refund Reject Reason':'拒绝退款原因',
   'Refund Reason':'退款理由',
+  'Experience':'经验',
 };

@@ -120,12 +120,12 @@ class ProfileHeader extends StatelessWidget {
                       label: profilePageController.online.value
                           ? "£${controller.userInfoModel.value.balance}"
                           : "${controller.userInfoModel.value.balance}",
-                      info: profilePageController.online.value ? "Credits".tr : "Online Time",
+                      info: profilePageController.online.value ? "Credits".tr : "Free Time".tr,
                       onTap: () => controller.checkLogin(() => profilePageController.online.value
                           ? Get.to(() => BalancePage())?.whenComplete(() => controller.updateInfo())
                           : null),
                     ),
-                    CountInfo(
+                    if(profilePageController.online.value)CountInfo(
                       customIcon: 'assets/images/coin_red.webp',
                       label: "${controller.userInfoModel.value.coin}",
                       info: "Coin".tr,
@@ -133,11 +133,11 @@ class ProfileHeader extends StatelessWidget {
                           () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0)),
                       icon: '',
                     ),
-                    CountInfo(
+                   if(profilePageController.online.value) CountInfo(
                       height: 30,
                       customIcon: 'assets/images/diamonds_red.webp',
                       label: "${controller.userInfoModel.value.votes}",
-                      info: "Diamonds".tr,
+                      info: "Experience".tr,
                       onTap: () => controller.checkLogin(
                         () => Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1),
                       ),
