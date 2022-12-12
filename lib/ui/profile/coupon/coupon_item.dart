@@ -63,16 +63,32 @@ class CouponItem extends StatelessWidget {
                         children: [
                           //   Spacer(),
                           Flexible(
-                              flex: 5,
+                              flex: 6,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  PWidget.text('${model.discount}', [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 50], {'ff': 'DIN'}),
+                                  PWidget.text('${model.discount}', [
+                                    model.available == CouponModel.AVILABLE
+                                        ? Colors.white
+                                        : Colors.grey,
+                                    50
+                                  ], {
+                                    'ff': 'DIN'
+                                  }),
                                   if (model.unit.isNotEmpty)
                                     Container(
                                       child: Transform.rotate(
                                         angle: Math.pi / 2,
-                                        child: Container(padding: EdgeInsets.only(top: 20, right: 10), child: PWidget.text('${model.unit}', [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 30], {'ff': 'DIN'})),
+                                        child: Container(
+                                            padding: EdgeInsets.only(top: 20),
+                                            child: PWidget.text('${model.unit}', [
+                                              model.available == CouponModel.AVILABLE
+                                                  ? Colors.white
+                                                  : Colors.grey,
+                                              30
+                                            ], {
+                                              'ff': 'DIN'
+                                            })),
                                       ),
                                     ),
                                 ],
