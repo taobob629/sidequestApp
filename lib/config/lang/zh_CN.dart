@@ -640,5 +640,6 @@ const Map<String, String> zh_CN = {
   'Experience':'经验',
   'Online Time':'在线时长',
   "Account":"账户",
+  "Recommend":"推荐"
 
 };
