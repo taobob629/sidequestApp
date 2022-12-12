@@ -175,7 +175,7 @@ class RegisterPage extends StatelessWidget {
         ),
         Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
         Text(
-          "Nonconforming".tr,
+          "Non-binary".tr,
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
         // Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),

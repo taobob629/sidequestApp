@@ -640,6 +640,8 @@ const Map<String, String> en_US = {
   'Experience':'Experience',
   'Online Time':'Online Time',
   "Account":"Account",
-  "Recommend":"Recommend"
+  "Recommend":"Recommend",
+  "Non-binary":"Non-binary"
+
 
 };
