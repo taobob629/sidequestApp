@@ -63,7 +63,7 @@ class CouponItem extends StatelessWidget {
                         children: [
                           //   Spacer(),
                           Flexible(
-                              flex: 6,
+                              flex: 7,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -71,7 +71,7 @@ class CouponItem extends StatelessWidget {
                                     model.available == CouponModel.AVILABLE
                                         ? Colors.white
                                         : Colors.grey,
-                                    50
+                                    40
                                   ], {
                                     'ff': 'DIN'
                                   }),
@@ -85,7 +85,7 @@ class CouponItem extends StatelessWidget {
                                               model.available == CouponModel.AVILABLE
                                                   ? Colors.white
                                                   : Colors.grey,
-                                              30
+                                              20
                                             ], {
                                               'ff': 'DIN'
                                             })),
