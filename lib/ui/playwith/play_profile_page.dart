@@ -46,7 +46,7 @@ class _PlayProfilePageState extends State<PlayProfilePage> {
     // {'name': '保密', 'value': 0},
     {'name': 'Male'.tr, 'value': 0},
     {'name': 'Female'.tr, 'value': 1},
-    {'name': 'Nonconforming'.tr, 'value': 2},
+    {'name': 'Non-binary'.tr, 'value': 2},
 
   ];
   var avatar;
