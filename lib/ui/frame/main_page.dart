@@ -113,7 +113,7 @@ class MainPage extends GetView<MainPageController> {
                           index: 0,
                                 currentIndex: controller.currentIndex.value,
                                 iconName: "game",
-                                title: "Home".tr,
+                                title: "News".tr,
                                 colors: [Color(0xffb991ff), Color(0xff1817FF)],
                                 onTap: () {
                                   controller.controller.jumpToPage(0);
