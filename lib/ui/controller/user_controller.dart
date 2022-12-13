@@ -51,7 +51,7 @@ class UserController extends GetxController {
   void onReady() async {
     super.onReady();
     await login();
-    setCustomSticker();
+    // setCustomSticker();
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
       login();
     });
