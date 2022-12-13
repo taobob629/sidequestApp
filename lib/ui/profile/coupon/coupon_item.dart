@@ -71,7 +71,7 @@ class CouponItem extends StatelessWidget {
                                     model.available == CouponModel.AVILABLE
                                         ? Colors.white
                                         : Colors.grey,
-                                    40
+                                    50
                                   ], {
                                     'ff': 'DIN'
                                   }),
@@ -85,7 +85,7 @@ class CouponItem extends StatelessWidget {
                                               model.available == CouponModel.AVILABLE
                                                   ? Colors.white
                                                   : Colors.grey,
-                                              20
+                                              23
                                             ], {
                                               'ff': 'DIN'
                                             })),

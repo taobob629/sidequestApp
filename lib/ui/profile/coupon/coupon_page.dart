@@ -52,7 +52,7 @@ class CouponPage extends StatelessWidget {
                   child: EmptyView(),
                 )
               : Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  padding: const EdgeInsets.only(top: 10, left: 2, right: 2),
                   child: GridView.builder(
                     controller: controller.scrollController,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
