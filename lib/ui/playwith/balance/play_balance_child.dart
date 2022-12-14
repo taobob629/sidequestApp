@@ -162,7 +162,12 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CountView(icon: "money", title: "Coin".tr, count: "${controller.coin}"),
+                  CountView(
+                    customIcon: "assets/images/ic_corns_new.webp",
+                    title: "Coin".tr,
+                    count: "${controller.coin}",
+                    icon: '',
+                  ),
                   CountView(icon: "votes", title: "Diamond".tr, count: "${controller.diamonds}"),
                 ],
               )),

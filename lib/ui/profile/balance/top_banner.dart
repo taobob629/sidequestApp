@@ -62,6 +62,7 @@ class TopBanner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                     CountView(
+                      customIcon: 'assets/images/ic_corns_new.webp',
                       icon: "money",
                       title: "Credits Balance".tr,
                       count: "${userController.userInfoModel.value.balance}",

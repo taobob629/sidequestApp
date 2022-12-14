@@ -6,11 +6,13 @@ class CountView extends StatelessWidget {
   final String icon;
   final String title;
   final String count;
+  final String customIcon;
 
   CountView({
     required this.icon,
     required this.title,
-    required this.count
+    required this.count,
+    this.customIcon = '',
   });
 
   @override
@@ -23,14 +25,21 @@ class CountView extends StatelessWidget {
           SizedBox(height: 5,),
           Row(
             children: [
-              Image.asset("assets/images/ic_balance_$icon.webp",width: 30,height: 30,),
-              Padding(
-                padding: const EdgeInsets.only(top: 8,left: 5),
-                child: Text(count, style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 34),),
+              Image.asset(
+                customIcon.isNotEmpty ? customIcon : "assets/images/ic_balance_$icon.webp",
+                width: 30,
+                height: 30,
               ),
-              icon == "time"?
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 5),
+                padding: const EdgeInsets.only(top: 8, left: 5),
+                child: Text(
+                  count,
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 34),
+                ),
+              ),
+              icon == "time"
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 10.0, left: 5),
                       child: Text(
                         "mins".tr,
                         style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
