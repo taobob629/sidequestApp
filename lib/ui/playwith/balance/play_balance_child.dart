@@ -181,12 +181,12 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     });
     return GridView.count(
       physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       shrinkWrap: true,
       crossAxisCount: 3,
       mainAxisSpacing: 15,
-      crossAxisSpacing: 15,
-      childAspectRatio: 104 / 114,
+      crossAxisSpacing: 8,
+      childAspectRatio: 104 / 122,
       children: itemList,
     );
   }
