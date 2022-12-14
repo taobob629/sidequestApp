@@ -94,6 +94,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           maxLength: 20,
           tips: "optional".tr),
       InputView(
+        controller: controller.bankIBANTEC,
+        label: '${'Recipient’s IBAN (optional)'.tr}',
+        maxLength: 20,
+        tips: 'optional',
+      ),
+      InputView(
         controller: controller.bankCountryTEC,
         label: '*${'Recipient’s Bank Country'.tr}',
         maxLength: 20,
@@ -101,12 +107,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         tips: '',
       ),
       bankNameWidget(),
+
       InputView(
-        controller: controller.bankIBANTEC,
-        label: '${'Recipient’s IBAN (optional)'.tr}',
-        maxLength: 20,
-        tips: 'optional',
-      ),
+          controller: controller.nameOnAccountNumTEC,
+          label: '*${'Recipient’s Bank Account Name'.tr}',
+          maxLength: 20,
+          tips: "please input".tr),
       InputView(
           controller: controller.accountNumTEC,
           label: '*${'Recipient Bank Account Number'.tr}',
@@ -115,11 +121,6 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       InputView(
           controller: controller.bankAddressTEC,
           label: '*${'Recipient Bank Address'.tr}',
-          maxLength: 20,
-          tips: "please input".tr),
-      InputView(
-          controller: controller.nameOnAccountNumTEC,
-          label: '*${'Recipient’s Bank Account Name'.tr}',
           maxLength: 20,
           tips: "please input".tr),
     ];

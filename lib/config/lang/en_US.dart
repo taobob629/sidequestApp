@@ -646,6 +646,6 @@ const Map<String, String> en_US = {
   "Recommend":"Recommend",
   "Non-binary":"Non-binary",
   "Recipient Bank Address":"Recipient Bank Address",
-  "Recipient’s Bank Bccount Name":"Recipient’s Bank Bccount Name",
+  "Recipient’s Bank Account Name":"Recipient’s Bank Account Name",
   "Recipient’s Bank Country":"Recipient’s Bank Country",
 };
