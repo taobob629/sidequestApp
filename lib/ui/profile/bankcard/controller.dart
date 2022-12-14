@@ -155,7 +155,6 @@ class BindBankCardController extends GetxController {
 
   @override
   void onClose() {
-    flog('dispose');
     super.onClose();
     privacyCheckController.dispose();
     sortCodeTEC.dispose();

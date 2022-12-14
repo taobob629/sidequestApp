@@ -30,7 +30,9 @@ class _CountriesFieldState extends State<BanksField> {
   void changeOverlayState() {
     if (_focusNode.hasFocus) {
       this._overlayEntry = this._createOverlayEntry();
-      Overlay.of(context)?.insert(this._overlayEntry!!);
+      if (this._overlayEntry != null) {
+        Overlay.of(context)?.insert(this._overlayEntry!!);
+      }
     } else {
       this._overlayEntry?.remove();
     }
@@ -91,7 +93,9 @@ class _CountriesFieldState extends State<BanksField> {
 
   @override
   void dispose() {
+    try {
+      this._overlayEntry?.remove();
+    } catch (e) {}
     super.dispose();
-    this._overlayEntry?.remove();
   }
 }

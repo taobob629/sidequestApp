@@ -36,7 +36,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
+        //  PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
           FloatingButton(
             label: "Next".tr,
             onTap: () {
