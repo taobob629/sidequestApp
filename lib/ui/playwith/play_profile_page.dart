@@ -755,18 +755,23 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>widget.userId==Get.find<UserController>().userInfoModel.value.pwuserId.toString()? Get.toNamed(AppPages.Grade):null,
-      child: Stack(alignment: Alignment.bottomRight, children: [
-        PWidget.image(
-          (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
-              'assets/images/play/level_1.png',
-        ),
-        // if (widget.isauth == 1)
-        //   PWidget.container(
-        //     PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
-        //     [10, 10, Color(0xffefbd6d)],
-        //   ),
+    return widget.isauth != TYPE_VIP
+        ? Container()
+        : GestureDetector(
+            onTap: () =>
+                widget.userId == Get.find<UserController>().userInfoModel.value.pwuserId.toString()
+                    ? Get.toNamed(AppPages.Grade)
+                    : null,
+            child: Stack(alignment: Alignment.bottomRight, children: [
+              PWidget.image(
+                (widget.isauth == 1 ? levelMap : titleMap)[widget.level] ??
+                    'assets/images/play/level_1.png',
+              ),
+              // if (widget.isauth == 1)
+              //   PWidget.container(
+              //     PWidget.text('${widget.level}', [Colors.white, 8], {'ct': true}),
+              //     [10, 10, Color(0xffefbd6d)],
+              //   ),
       ]),
     );
   }
