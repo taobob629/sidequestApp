@@ -399,9 +399,9 @@ const Map<String, String> en_US = {
   'Next': 'Next',
   'SWIFT code': 'SWIFT code',
   'Please enter the 6-digit format xx-xx-xx': 'Please enter the 6-digit format xx-xx-xx',
-  'Recipient bank name': 'Recipient bank name',
+  'Recipient Bank Name': 'Recipient Bank Name',
   'please input': 'please input',
-  'Recipient bank account number': 'Recipient bank account number',
+  'Recipient Bank Account Number': 'Recipient Bank Account Number',
   'Name on account': 'Name on account',
   'Cancel Confirm': 'Cancel Confirm',
   'Do you confirm to cancel this booking?': 'Do you confirm to cancel this booking?',
@@ -644,7 +644,8 @@ const Map<String, String> en_US = {
   'Online Time':'Online Time',
   "Account":"Account",
   "Recommend":"Recommend",
-  "Non-binary":"Non-binary"
-
-
+  "Non-binary":"Non-binary",
+  "Recipient Bank Address":"Recipient Bank Address",
+  "Recipient’s Bank Bccount Name":"Recipient’s Bank Bccount Name",
+  "Recipient’s Bank Country":"Recipient’s Bank Country",
 };

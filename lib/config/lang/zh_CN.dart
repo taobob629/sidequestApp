@@ -398,9 +398,9 @@ const Map<String, String> zh_CN = {
   'Next': 'Next',
   'SWIFT code': 'SWIFT code',
   'Please enter the 6-digit format xx-xx-xx': '请输入6位数字',
-  'Recipient bank name': '银行名称',
+  'Recipient Bank Name': '收款银行名称',
   'please input': '请输入',
-  'Recipient bank account number': '帐号',
+  'Recipient Bank Account Number': '帐号',
   'Name on account': '帐户名称',
   'Cancel Confirm': '取消确认',
   'Do you confirm to cancel this booking?': '你想要取消这个预定吗?',
@@ -643,6 +643,9 @@ const Map<String, String> zh_CN = {
   'Online Time':'在线时长',
   "Account":"账户",
   "Recommend":"推荐",
-  "Non-binary":"未知"
+  "Non-binary":"未知",
+  "Recipient Bank Address":"收款行地址",
+  "Recipient’s Bank Bccount Name":"收款银行",
+  "Recipient’s Bank Country":"收款银行国家",
 
 };

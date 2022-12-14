@@ -81,7 +81,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       ),
       InputView(
           controller: controller.sortCodeTEC,
-          label: "Sort code".tr,
+          label: "Sort Code (Optional)".tr,
           inputFormatters: [
             TextInputFormatter.withFunction(
                 (oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))
@@ -90,12 +90,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           tips: "please input".tr),
       InputView(
           controller: controller.swiftCodeTEC,
-          label: "SWIFT code".tr,
+          label: "SWIFT Code (Optional)".tr,
           maxLength: 20,
-          tips: "please input".tr),
+          tips: "optional".tr),
       InputView(
         controller: controller.bankCountryTEC,
-        label: '*${'Recipient’s bank country'.tr}',
+        label: '*${'Recipient’s Bank Country'.tr}',
         maxLength: 20,
         customInput: country_widget(),
         tips: '',
@@ -103,25 +103,25 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       bankNameWidget(),
       InputView(
         controller: controller.bankIBANTEC,
-        label: '*${'Recipient’s IBAN'.tr}',
+        label: '${'Recipient’s IBAN (optional)'.tr}',
         maxLength: 20,
-        tips: '',
+        tips: 'optional',
       ),
       InputView(
           controller: controller.accountNumTEC,
-          label: '*${'Recipient bank account number'.tr}',
+          label: '*${'Recipient Bank Account Number'.tr}',
           maxLength: 20,
           tips: "please input".tr),
       InputView(
           controller: controller.bankAddressTEC,
-          label: '*${'Recipient bank address'.tr}',
+          label: '*${'Recipient Bank Address'.tr}',
           maxLength: 20,
           tips: "please input".tr),
-      InputView(
-          controller: controller.nameOnAccountNumTEC,
-          label: '*${'Recipient’s bank account name'.tr}',
-          maxLength: 20,
-          tips: "please input".tr),
+      // InputView(
+      //     controller: controller.nameOnAccountNumTEC,
+      //     label: '*${'Recipient’s Bank Account Name'.tr}',
+      //     maxLength: 20,
+      //     tips: "please input".tr),
     ];
   }
 
@@ -129,7 +129,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
     //return itemBg(BanksField());
     return InputView(
         controller: controller.bankNameTEC,
-        label: '*${'Recipient bank name'.tr}',
+        label: '*${'Recipient Bank Name'.tr}',
         maxLength: 20,
         customInput: BanksField(),
         tips: "please input".tr);
