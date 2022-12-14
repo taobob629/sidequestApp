@@ -163,7 +163,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CountView(
-                    customIcon: "assets/images/ic_corns_new.webp",
+                    customIcon: "assets/images/coin_red.webp",
                     title: "Coin".tr,
                     count: "${controller.coin}",
                     icon: '',
