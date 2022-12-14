@@ -38,7 +38,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         children: [
         //  PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
           FloatingButton(
-            label: "Next".tr,
+            label: "Confirm".tr,
             onTap: () {
               controller.save();
             },
