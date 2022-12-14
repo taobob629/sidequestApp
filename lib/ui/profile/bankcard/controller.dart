@@ -28,6 +28,7 @@ class BindBankCardController extends GetxController {
   late TextEditingController bankAddressTEC;
   late TextEditingController accountNumTEC;
   late TextEditingController nameOnAccountNumTEC;
+  late TextEditingController accountAddressTEC;
   RxString _bankName = RxString('');
 
   String get bankName => _bankName.value;
@@ -66,6 +67,7 @@ class BindBankCardController extends GetxController {
     bankAddressTEC = TextEditingController();
     accountNumTEC = TextEditingController();
     nameOnAccountNumTEC = TextEditingController();
+    accountAddressTEC = TextEditingController();
     sortCodeTEC.addListener(() {
       var text = sortCodeTEC.text;
       if (text.length == 8) {
@@ -101,6 +103,7 @@ class BindBankCardController extends GetxController {
       var iban = this.bankIBANTEC.text;
       var cardNumber = accountNumTEC.text;
       var accountName = nameOnAccountNumTEC.text;
+      var accountAddress = accountAddressTEC.text;
 
       await BalanceApi.addBankCard(Map<String, dynamic>()
             ..['sortcode'] = sortcode
@@ -110,6 +113,7 @@ class BindBankCardController extends GetxController {
             ..['bankAddress'] = bankAddress
             ..['country'] = country
             ..['billAddress'] = billAddress
+            ..['address_id'] = accountAddress
             ..['iban'] = iban)
           .catchError((e) {
         EasyLoading.dismiss();
@@ -128,12 +132,14 @@ class BindBankCardController extends GetxController {
  //   var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
     var accountName = nameOnAccountNumTEC.text;
+    var accountAddress = accountAddressTEC.text;
  //   flog('$bankName  $bankAddress $country ${billAddress} $cardNumber $accountName');
     return bankName.isNotEmpty &&
         bankAddress.isNotEmpty &&
         country?.isNotEmpty == true &&
         billAddress.isNotEmpty &&
         cardNumber.isNotEmpty &&
+        accountAddress.isNotEmpty&&
         accountName.isNotEmpty;
   }
 

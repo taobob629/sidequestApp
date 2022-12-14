@@ -54,7 +54,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         //  padding: EdgeInsets.all(16),
         itemCount: item.length,
         item: (i) => item[i],
-        divider: Divider(height: 2, color: Colors.transparent),
+        divider: Divider(height: 8, color: Colors.transparent),
       );
 
   List<Widget> get item {
@@ -122,6 +122,11 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           controller: controller.bankAddressTEC,
           label: '*${'Recipient Bank Address'.tr}',
           maxLength: 200,
+          tips: "please input".tr),
+      InputView(
+          controller: controller.accountAddressTEC,
+          label: '*${'Recipient’s Bank Account Address'.tr}',
+          maxLength: 20,
           tips: "please input".tr),
     ];
   }
