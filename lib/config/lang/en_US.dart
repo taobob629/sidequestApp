@@ -228,7 +228,7 @@ const Map<String, String> en_US = {
   'The payment result can not be confirmed, do you have finished it?': 'The payment result can not be confirmed, do you have finished it?',
   'The payment result still can not be confirmed, please contact our customer service.': 'The payment result still can not be confirmed, please contact our customer service.',
   'The payment has been canceled.': 'The payment has been canceled.',
-  'Waining': 'Waining',
+  'Warning': 'Warning',
   'Are you sure to delete this account ?': 'Are you sure to delete this account ?',
   'Wallet Records': 'Wallet Records',
   'WithDraw': 'WithDraw',

@@ -84,7 +84,7 @@ class BalancePage extends StatelessWidget {
       floatingActionButton: FloatingButton(
         label: "CONFIRM".tr,
         onTap: () => Get.dialog(ConfirmDialog(
-          title: 'Waining'.tr,
+          title: 'Warning'.tr,
           info: '* These Credits are only used for SideQuest Hub.'.tr,
           onConfirm: () => controller.pay(),
         )),

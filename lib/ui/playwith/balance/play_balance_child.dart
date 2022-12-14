@@ -56,7 +56,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       btnBar: FloatingButton(
         label: "CONFIRM".tr,
         onTap: () => Get.dialog(ConfirmDialog(
-          title: 'Waining'.tr,
+          title: 'Warning'.tr,
           info: '* These Coins are only used for SideKick.'.tr,
           onConfirm: () => controller.pay(),
         )),

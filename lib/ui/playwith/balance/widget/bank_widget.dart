@@ -110,7 +110,7 @@ class BankListWidget extends GetView<WalletBalancePageController> {
               onTap: () {
                 Get.dialog(
                   ConfirmDialog(
-                      title: "Waining".tr,
+                      title: "Warning".tr,
                       onConfirm: () {
                         Get.back();
                         controller.deleteBank(bankModel.id);

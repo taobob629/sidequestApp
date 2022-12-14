@@ -228,7 +228,7 @@ const Map<String, String> zh_CN = {
   'The payment result can not be confirmed, do you have finished it?': '付款结果无法确认，您完成了吗?',
   'The payment result still can not be confirmed, please contact our customer service.': '付款结果仍无法确认，请联系我们的客服.',
   'The payment has been canceled.': '支付被取消',
-  'Waining': '提醒',
+  'Warning': '提醒',
   'Are you sure to delete this account ?': '你确定要删除账户？',
   'Wallet Records': '钱包记录',
   'WithDraw': '提现',
