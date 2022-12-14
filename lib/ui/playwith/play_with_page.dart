@@ -390,7 +390,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                         Flexible(
                             child: Container(
                           child: Text(
-                            '${data['name']}'.replaceAll("", "\u200B"),
+                            '${data['name']}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
