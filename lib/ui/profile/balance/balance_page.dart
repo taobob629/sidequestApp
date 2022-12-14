@@ -6,6 +6,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/action_button.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -80,7 +81,14 @@ class BalancePage extends StatelessWidget {
           )
         ],
       )),
-      floatingActionButton: FloatingButton(label: "CONFIRM".tr, onTap: () => controller.pay()),
+      floatingActionButton: FloatingButton(
+        label: "CONFIRM".tr,
+        onTap: () => Get.dialog(ConfirmDialog(
+          title: 'Waining'.tr,
+          info: '* These Credits are only used for SideQuest Hub.'.tr,
+          onConfirm: () => controller.pay(),
+        )),
+      ),
     );
   }
 
@@ -328,6 +336,7 @@ class BalancePageController extends GetxListController {
   }
 
   void pay() {
+    if (Get.isDialogOpen == true) Get.back();
     PayOrderModel payOrderModel = PayOrderModel();
     String amountStr = amountController.text;
     double amount = 0.0;
