@@ -58,7 +58,7 @@ class BindBankCardController extends GetxController {
   void onInit() {
     super.onInit();
     initCountries();
-    privacyCheckController = PrivacyCheckController();
+  //  privacyCheckController = PrivacyCheckController();
     sortCodeTEC = TextEditingController();
     swiftCodeTEC = TextEditingController();
     bankCountryTEC = TextEditingController();
@@ -88,8 +88,8 @@ class BindBankCardController extends GetxController {
   }
 
   save() async {
-    if (privacyCheckController.check()) {
-      if (!validateForm()) {
+    // if (privacyCheckController.check()) {
+    if (!validateForm()) {
         EasyLoading.showToast('Incomplete information!');
         return;
       }
@@ -118,7 +118,7 @@ class BindBankCardController extends GetxController {
       refreshBankList();
       EasyLoading.dismiss();
       Get.back();
-    }
+    //  }
   }
 
   bool validateForm() {
@@ -156,7 +156,7 @@ class BindBankCardController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    privacyCheckController.dispose();
+    //   privacyCheckController.dispose();
     sortCodeTEC.dispose();
     swiftCodeTEC.dispose();
     bankCountryTEC.dispose();
