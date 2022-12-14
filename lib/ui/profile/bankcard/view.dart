@@ -1,13 +1,16 @@
-import 'package:flutter/gestures.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/privacy_check.dart';
-import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/profile/bankcard/controller.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/ui/profile/bankcard/widget/bank_field.dart';
+import 'package:wy/utils/text_utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/city_picker/csc_picker.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -28,36 +31,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: PWidget.column([
-        PWidget.container(
-          PWidget.row([
-            PWidget.image('assets/images/ic_safety.webp', [24, 24]),
-            PWidget.boxw(8),
-            Expanded(
-              child: Text(
-                'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'
-                    .tr,
-                style: TextStyle(color: Color(0xff4488FF)),
-              ),
-            ),
-          ], '000'),
-          [null, null, Color(0xffDEEAFF).withOpacity(0.1)],
-          {'pd': 8},
-        ),
-        PWidget.text(
-          'Bank card information'.tr,
-          [Colors.white, 18, true],
-          {'ff': 'DIN', 'pd': PFun.lg(16, 16, 26, 16)},
-        ),
-        Expanded(child: _buildForm())
-      ], '000'),
+      body: _buildForm(),
       btnBar: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          PrivacyCheck(
-              controller: controller.privacyCheckController,
-              type: TYPE_ADD_BANK),
+          PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
           FloatingButton(
             label: "Next".tr,
             onTap: () {
@@ -70,90 +49,133 @@ class BindBankCardPage extends GetView<BindBankCardController> {
   }
 
   _buildForm() => MyListView(
-        isShuaxin: false,
+    isShuaxin: false,
         flag: false,
-        padding: EdgeInsets.all(16),
+        //  padding: EdgeInsets.all(16),
         itemCount: item.length,
         item: (i) => item[i],
-        divider: Divider(height: 16, color: Colors.transparent),
+        divider: Divider(height: 2, color: Colors.transparent),
       );
 
   List<Widget> get item {
-    var hintColor = Color.fromRGBO(130, 145, 180, 1);
     return [
-      itemBg(PWidget.row([
-        PWidget.text('Sort code', [
-          Colors.white,
-        ], {
-          'ali': 1
-        }),
-        PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'Please enter the 6-digit format xx-xx-xx',
-            con: controller.sortCodeTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isBankCode: true,
-            isExp: true),
-      ])),
-      itemBg(PWidget.row([
-        PWidget.text('Bank name'.tr, [
-          Colors.white,
-        ], {
-          'ali': 1
-        }),
-        PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'please input'.tr,
-            con: controller.bankNameTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
-      ])),
-      itemBg(PWidget.row([
-        PWidget.text('Account number'.tr, [
-          Colors.white,
-        ], {
-          'ali': 1
-        }),
-        PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: 'please input'.tr,
-            con: controller.accountNumTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
-      ])),
-      itemBg(PWidget.row([
-        PWidget.text('Name on account'.tr, [
-          Colors.white,
-        ], {
-          'ali': 1
-        }),
-        PWidget.boxw(8),
-        buildTFView(context!,
-            hintText: '${'please input'.tr}',
-            con: controller.nameOnAccountNumTEC,
-            textAlign: TextAlign.right,
-            hintColor: hintColor,
-            textColor: Colors.white,
-            isExp: true),
-      ])),
+      PWidget.container(
+        PWidget.row([
+          PWidget.image('assets/images/ic_safety.webp', [24, 24]),
+          PWidget.boxw(8),
+          Expanded(
+            child: Text(
+              'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'
+                  .tr,
+              style: TextStyle(color: Color(0xff4488FF)),
+            ),
+          ),
+        ], '000'),
+        [null, null, Color(0xffDEEAFF).withOpacity(0.1)],
+        {'pd': 8},
+      ),
+      PWidget.text(
+        'Bank card information'.tr,
+        [Colors.white, 18, true],
+        {'ff': 'DIN', 'pd': PFun.lg(16, 16, 26, 16)},
+      ),
+      InputView(
+          controller: controller.sortCodeTEC,
+          label: "Sort code".tr,
+          inputFormatters: [
+            TextInputFormatter.withFunction(
+                (oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))
+          ],
+          maxLength: 20,
+          tips: "please input".tr),
+      InputView(
+          controller: controller.swiftCodeTEC,
+          label: "SWIFT code".tr,
+          maxLength: 20,
+          tips: "please input".tr),
+      InputView(
+        controller: controller.bankCountryTEC,
+        label: '*${'Recipient’s bank country'.tr}',
+        maxLength: 20,
+        customInput: country_widget(),
+        tips: '',
+      ),
+      bankNameWidget(),
+      InputView(
+        controller: controller.bankIBANTEC,
+        label: '*${'Recipient’s IBAN'.tr}',
+        maxLength: 20,
+        tips: '',
+      ),
+      InputView(
+          controller: controller.accountNumTEC,
+          label: '*${'Recipient bank account number'.tr}',
+          maxLength: 20,
+          tips: "please input".tr),
+      InputView(
+          controller: controller.bankAddressTEC,
+          label: '*${'Recipient bank address'.tr}',
+          maxLength: 20,
+          tips: "please input".tr),
+      InputView(
+          controller: controller.nameOnAccountNumTEC,
+          label: '*${'Recipient’s bank account name'.tr}',
+          maxLength: 20,
+          tips: "please input".tr),
     ];
+  }
+
+  Widget bankNameWidget() {
+    //return itemBg(BanksField());
+    return InputView(
+        controller: controller.bankNameTEC,
+        label: '*${'Recipient bank name'.tr}',
+        maxLength: 20,
+        customInput: BanksField(),
+        tips: "please input".tr);
+  }
+
+  country_widget() {
+    return Obx(() => CSCPicker(
+          countries: controller.countries,
+          arrowColor: Colors.white60,
+          showStates: false,
+          showCities: false,
+          dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(0)), color: Colors.transparent),
+          countrySearchPlaceholder: "Country".tr,
+          stateSearchPlaceholder: "State".tr,
+          citySearchPlaceholder: "City".tr,
+          countryDropdownLabel: "*${'Country'.tr}",
+          stateDropdownLabel: "*${'State'.tr}",
+          cityDropdownLabel: "*${'City'.tr}",
+          //  defaultCountry: DefaultCountry.United_States,
+          selectedItemStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+          dropdownDialogRadius: 10.0,
+          searchBarRadius: 10.0,
+          onCountryChanged: (value) {
+            controller.updateBanks(value);
+          },
+          onStateChanged: (value) {},
+          onCityChanged: (value) {},
+        ));
   }
 
   Widget itemBg(view, {Function? fun}) {
     return Container(
-        child: view,
-        padding: EdgeInsets.fromLTRB(10, 15, 15, 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Color(0xff282640),
-        ));
-    return PWidget.container(view, [null, 48, Color(0xff282640)],
-        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+      child: view,
+      padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+      decoration: ShapeDecoration(
+        color: Color(0xff282640),
+        shape: StadiumBorder(),
+      ),
+    );
+    return PWidget.container(
+        view, [null, 48, Color(0xff282640)], {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
+
+  _dropDownItems() {}
 }

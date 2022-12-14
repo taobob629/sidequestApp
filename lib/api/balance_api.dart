@@ -102,15 +102,21 @@ class BalanceApi {
       return [];
     }
     List<CoinRecordsModel> list = response.data
-        .map<CoinRecordsModel>((item) => CoinRecordsModel.fromJson(item))
-        .toList();
+        .map<CoinRecordsModel>((item) => CoinRecordsModel.fromJson(item)).toList();
     return list;
   }
 
- static Future<Response> exchangeToCoin(var amount) async {
-   Response response=  await http.post('/peiwan/app/withDrawal/voteToCoin',
-        queryParameters: ({'amount': amount}));
+  static Future<Response> exchangeToCoin(var amount) async {
+    Response response =
+        await http.post('/peiwan/app/withDrawal/voteToCoin', queryParameters: ({'amount': amount}));
     return response;
   }
 
+  static Future<List<SimpleBankModel>> getBanks(var country) async {
+    Response response = await http.get(
+      '/peiwan/app/card/banks/$country',
+    );
+    if (response.data == null) return [];
+    return response.data.map<SimpleBankModel>((item) => SimpleBankModel.fromJson(item)).toList();
+  }
 }

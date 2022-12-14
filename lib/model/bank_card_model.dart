@@ -8,6 +8,27 @@
 /// sortcode : "01-00-61"
 /// accountName : "test"
 /// bankName : "NATIONAL WESTMINSTER BANK PLC"
+class SimpleBankModel {
+  SimpleBankModel({
+    this.country,
+    this.bank,
+  });
+
+  SimpleBankModel.fromJson(dynamic json) {
+    country = json['country'];
+    bank = json['bank'];
+  }
+
+  String? country;
+  String? bank;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['country'] = country;
+    map['bank'] = bank;
+    return map;
+  }
+}
 
 class BankCardModel {
   BankCardModel({

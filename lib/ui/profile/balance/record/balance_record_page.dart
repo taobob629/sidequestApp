@@ -1,3 +1,4 @@
+/**/
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +9,6 @@ import '../../../common/empty_view.dart';
 import 'balance_record_item.dart';
 
 class BalanceRecordPage extends StatelessWidget {
-
   final controller = Get.put(BalanceRecordPageController());
 
   @override
