@@ -468,21 +468,23 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () => isMe
-                        ? Get.toNamed(AppPages.AttentionTab, arguments: Map()..['index'] = 0)
-                        : null,
-                    child: Text(
-                      "${'Follows'.tr}: ",
-                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                    onTap: () => isMe ? Get.toNamed(AppPages.AttentionTab, arguments: Map()..['index'] = 0) : null,
+                    child: Row(
+                      children: [
+                        Text(
+                          "${'Follows'.tr}: ",
+                          style: TextStyle(fontSize: 12, color: Colors.white54),
+                        ),
+                        Text(
+                          "${widget.controller.detailModel.value.follows}",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        )
+                      ],
                     ),
                   ),
-                    Text(
-                      "${widget.controller.detailModel.value.follows}",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
                     InkWell(
                       onTap: () => isMe
                           ? Get.toNamed(AppPages.AttentionTab,
