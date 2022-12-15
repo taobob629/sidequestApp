@@ -143,10 +143,12 @@ class PayPageController extends GetxController {
 
   Future<void> confirmPay({bool isPlay = false}) async {
     payOrderModel.payType = payType.value;
+//    flog('pay TYpe $payType');
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
         final Map params = <String, dynamic>{'info': payInfoModel.result!.appData};
+        //    flog('appdata $params');
         await _channel.invokeMethod('getAlipay', params);
       } else {
         EasyLoading.showError("Server response error!".tr);

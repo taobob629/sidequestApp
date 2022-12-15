@@ -3,19 +3,22 @@ import 'dart:convert';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/pay_info_model.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/utils/utils.dart';
 
 class PayApi {
   static Future<PayInfoModel> pay(PayOrderModel model) async {
-    if(model.type == -1){
-      return await _buy(model);
-    }else if(model.type == 0 ||model.type==2){
-      return await _charge(model);
-    }else if(model.type == -2){//陪玩
-      return await _play(model);
+    int type = model.type;
+    switch (type) {
+      case PayType.BUY_GOODS:
+        return await _buy(model);
+      case PayType.WB:
+      case PayType.PW_STRIP_ACCOUNT:
+        return await _charge(model);
+      case PayType.PW_RECHARGE:
+        return await _play(model);
+      default:
+        return await _openVip(model);
     }
-
-    return await _openVip(model);
-
   }
 
   static Future<PayInfoModel> _charge(PayOrderModel model) async {
@@ -28,26 +31,35 @@ class PayApi {
       "couponPrice" : "0",
       "couponCode" : "",
       "payType" : model.payType,
-      "orderShot" : "",
-      "phrase" : 0,
-      'chargeid':model.chargeid
+      "orderShot": "",
+      "phrase": 0,
+      'chargeid': model.chargeid
     };
-    var response = await http.post(model.payType == 1 ? '/app/order/stripe/charge' : '/app/order/charge',
-      data: formData
-    );
+    var response = await http.post(getUrlByPayType(model.payType), data: formData);
 
     return PayInfoModel.fromJson(response.data);
   }
 
+  static getUrlByPayType(int type) {
+    switch (type) {
+      case 1:
+        return '/app/order/stripe/charge';
+      case 4:
+        return '/app/order/alipay/coincharge';
+      default:
+        return '/app/order/charge';
+    }
+  }
+
   static Future<PayInfoModel> _openVip(PayOrderModel model) async {
     var formData = {
-      "type" : model.type,
-      "addressId" : 0,
-      "goodsPrice" : model.goodsPrice,
-      "freightPrice" : "0",
-      "tax" : "0",
-      "couponPrice" : "0",
-      "couponCode" : "",
+      "type": model.type,
+      "addressId": 0,
+      "goodsPrice": model.goodsPrice,
+      "freightPrice": "0",
+      "tax": "0",
+      "couponPrice": "0",
+      "couponCode": "",
       "payType" : model.payType,
       "orderShot" : "",
       "phrase" : model.phrase,
