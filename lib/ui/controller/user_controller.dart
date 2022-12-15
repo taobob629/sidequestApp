@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
@@ -208,6 +209,10 @@ class UserController extends GetxController {
           onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
+              FlutterAppBadger.isAppBadgeSupported().then((value){
+                flog(value, 'onTotalUnreadMessageCountChanged');
+                FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+              });
             }, onConversationChanged: (v) {
               flog(v.length, 'onConversationChanged');
             }, onNewConversation: (v) {
@@ -226,6 +231,10 @@ class UserController extends GetxController {
         if (v2timValueCallback.code == 0) {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
+          FlutterAppBadger.isAppBadgeSupported().then((value){
+            flog(value, 'getTotalUnreadMessageCount');
+            FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+          });
         }
       });
     }
