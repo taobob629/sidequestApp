@@ -211,7 +211,11 @@ class UserController extends GetxController {
               unreadMsgCount.value = count;
               FlutterAppBadger.isAppBadgeSupported().then((value){
                 flog(value, 'onTotalUnreadMessageCountChanged');
-                FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+                if(unreadMsgCount.value==0){
+                  FlutterAppBadger.removeBadge();
+                }else{
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,title: 'New Message');
+                }
               });
             }, onConversationChanged: (v) {
               flog(v.length, 'onConversationChanged');
@@ -232,8 +236,12 @@ class UserController extends GetxController {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
           FlutterAppBadger.isAppBadgeSupported().then((value){
-            flog(value, 'getTotalUnreadMessageCount');
-            FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+            if(unreadMsgCount.value==0){
+              FlutterAppBadger.removeBadge();  
+            }else{
+              flog(value, 'getTotalUnreadMessageCount');
+              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,title: 'New Message');
+            }
           });
         }
       });
