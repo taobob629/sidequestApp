@@ -132,18 +132,18 @@ class BindBankCardController extends GetxController {
 
   bool validateForm() {
     var bankName = bankNameTEC.text;
-    var bankAddress = bankAddressTEC.text;
+    // var bankAddress = bankAddressTEC.text;
     var country = this.country?.name;
-    var billAddress = this.bankAddressTEC.text;
+    // var billAddress = this.bankAddressTEC.text;
  //   var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
     var accountName = nameOnAccountNumTEC.text;
    // var accountAddress = accountAddressTEC.text;
  //   flog('$bankName  $bankAddress $country ${billAddress} $cardNumber $accountName');
     return bankName.isNotEmpty &&
-        bankAddress.isNotEmpty &&
+        // bankAddress.isNotEmpty &&
         country?.isNotEmpty == true &&
-        billAddress.isNotEmpty &&
+        // billAddress.isNotEmpty &&
         cardNumber.isNotEmpty &&
         //accountAddress.isNotEmpty&&
         accountName.isNotEmpty;

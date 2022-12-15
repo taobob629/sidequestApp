@@ -645,7 +645,7 @@ const Map<String, String> en_US = {
   "Account":"Account",
   "Recommend":"Recommend",
   "Non-binary":"Non-binary",
-  "Recipient Bank Address":"Recipient Bank Address",
+  "Recipient Bank Address (Optional)":"Recipient Bank Address (Optional)",
   "Recipient’s Bank Account Name":"Recipient’s Bank Account Name",
   "Recipient’s Bank Country":"Recipient’s Bank Country",
   "Refunded":"Refunded"

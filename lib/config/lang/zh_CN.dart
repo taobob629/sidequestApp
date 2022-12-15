@@ -644,7 +644,7 @@ const Map<String, String> zh_CN = {
   "Account":"账户",
   "Recommend":"推荐",
   "Non-binary":"未知",
-  "Recipient Bank Address":"收款行地址",
+  "Recipient Bank Address (Optional)":"收款行地址(可选)",
   "Recipient’s Bank Account Name":"收款姓名",
   "Recipient’s Bank Country":"收款银行国家",
   "Refunded":"已退款"

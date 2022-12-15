@@ -92,7 +92,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             visible: controller.country?.name == ENGLAND,
             child: InputView(
                 controller: controller.sortCodeTEC,
-                label: "Sort Code (Optional)".tr,
+                label: "Sort Code".tr,
                 inputFormatters: [
                   TextInputFormatter.withFunction(
                       (oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))
@@ -104,7 +104,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           visible: controller.country != null && controller.country?.name != ENGLAND,
           child: InputView(
               controller: controller.swiftCodeTEC,
-              label: "SWIFT Code (Optional)".tr,
+              label: "SWIFT Code".tr,
               maxLength: 20,
               tips: "optional".tr))),
       // InputView(
@@ -127,7 +127,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           tips: "please input".tr),
       InputView(
           controller: controller.bankAddressTEC,
-          label: '*${'Recipient Bank Address'.tr}',
+          label: '*${'Recipient Bank Address (Optional)'.tr}',
           maxLength: 200,
           tips: "please input".tr),
       // InputView(
