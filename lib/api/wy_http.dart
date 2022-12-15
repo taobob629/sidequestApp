@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as Get;
+import 'package:wy/main.dart';
 import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -34,8 +36,10 @@ class HeaderInterceptor extends InterceptorsWrapper {
     }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
+    options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
     options.headers['longitude'] = LocationService().position?.longitude??0;
     options.headers['latitude'] = LocationService().position?.latitude??0;
+    log(jsonEncode(options.headers),name:'options.headers');
     handler.next(options);
   }
 }

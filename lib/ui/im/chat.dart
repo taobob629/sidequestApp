@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unused_field, unused_element
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,6 +53,7 @@ class _ChatState extends State<Chat> {
   }
 
   String _getTitle() {
+    log(widget.selectedConversation.showName.toString(),name:'widget.selectedConversation.showName');
     return backRemark ?? widget.selectedConversation.showName ?? "";
   }
 
