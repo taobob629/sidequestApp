@@ -25,27 +25,27 @@ class PayApi {
     var formData = {
       "type" : model.type,
       "addressId" : 0,
-      "goodsPrice" : model.goodsPrice,
-      "freightPrice" : "0",
-      "tax" : "0",
-      "couponPrice" : "0",
-      "couponCode" : "",
-      "payType" : model.payType,
+      "goodsPrice": model.goodsPrice,
+      "freightPrice": "0",
+      "tax": "0",
+      "couponPrice": "0",
+      "couponCode": "",
+      "payType": model.payType,
       "orderShot": "",
       "phrase": 0,
       'chargeid': model.chargeid
     };
-    var response = await http.post(getUrlByPayType(model.payType), data: formData);
+    var response = await http.post(getUrlByPayType(model.payType, model.type), data: formData);
 
     return PayInfoModel.fromJson(response.data);
   }
 
-  static getUrlByPayType(int type) {
-    switch (type) {
+  static getUrlByPayType(int paytype, int type) {
+    switch (paytype) {
       case 1:
         return '/app/order/stripe/charge';
       case 4:
-        return '/app/order/alipay/coincharge';
+        return type == PayType.WB ? '/app/order/charge' : '/app/order/alipay/coincharge';
       default:
         return '/app/order/charge';
     }
