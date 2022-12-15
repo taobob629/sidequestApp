@@ -88,7 +88,7 @@ class _PlayOrdersChildState extends State<PlayOrdersChild> with AutomaticKeepAli
     setState(() {});
     return orderlistDm.flag;
   }
-  var statusMap = {-4: 'Overdue'.tr, -3: 'Rejected'.tr, -2: 'Completed'.tr, -1: 'Canceled'.tr, 0: 'Pending'.tr, 1: 'Paid'.tr, 2: 'Accepted'.tr, 3: 'Refund Pending'.tr, 4: 'Refund Rejected'.tr, 5: 'Refund Accepted'.tr, 6: 'Refund Dispute'.tr};
+  var statusMap = {-4: 'Overdue'.tr, -3: 'Rejected'.tr, -2: 'Completed'.tr, -1: 'Canceled'.tr, 0: 'Pending'.tr, 1: 'Paid'.tr, 2: 'Accepted'.tr, 3: 'Refund Pending'.tr, 4: 'Refund Rejected'.tr, 5: 'Refunded'.tr, 6: 'Refund Dispute'.tr,7: 'Refund Rejected'.tr,8: 'Refunded'.tr};
   // var statusMap = {-4: '已超时', -3: '拒绝', -2: '已完成', -1: '取消', 0: '待支付', 1: '已支付', 2: '已接单', 3: '等待退款', 4: '拒绝退款', 5: '同意退款', 6: '退款申诉,等待平台退款'};
 
   @override

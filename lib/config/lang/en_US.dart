@@ -639,7 +639,7 @@ const Map<String, String> en_US = {
   'Services ':'Services ',
   'Nonconforming':'Nonconforming',
   'Refund Reject Reason':'Refund Reject Reason',
-  'Refund Reason':'Refund Reaso',
+  'Refund Reason':'Refund Reason',
   'Experience':'Experience',
   'Online Time':'Online Time',
   "Account":"Account",
@@ -648,4 +648,5 @@ const Map<String, String> en_US = {
   "Recipient Bank Address":"Recipient Bank Address",
   "Recipient’s Bank Account Name":"Recipient’s Bank Account Name",
   "Recipient’s Bank Country":"Recipient’s Bank Country",
+  "Refunded":"Refunded"
 };
