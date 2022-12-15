@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
-import 'package:wy/ui/pay/pay_page.dart';
+import 'package:wy/ui/pay/controller.dart';
 import 'package:wy/utils/navigator_helper.dart';
 
 import '../../model/pay_order_model.dart';
