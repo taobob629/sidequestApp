@@ -11,6 +11,7 @@ import 'package:wy/ui/profile/bankcard/widget/bank_field.dart';
 import 'package:wy/utils/text_utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/city_picker/csc_picker.dart';
+import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -79,26 +80,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         [Colors.white, 18, true],
         {'ff': 'DIN', 'pd': PFun.lg(16, 16, 26, 16)},
       ),
-      InputView(
-          controller: controller.sortCodeTEC,
-          label: "Sort Code (Optional)".tr,
-          inputFormatters: [
-            TextInputFormatter.withFunction(
-                (oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))
-          ],
-          maxLength: 20,
-          tips: "please input".tr),
-      InputView(
-          controller: controller.swiftCodeTEC,
-          label: "SWIFT Code (Optional)".tr,
-          maxLength: 20,
-          tips: "optional".tr),
-      InputView(
-        controller: controller.bankIBANTEC,
-        label: '${'Recipient’s IBAN (optional)'.tr}',
-        maxLength: 20,
-        tips: 'optional',
-      ),
+
       InputView(
         controller: controller.bankCountryTEC,
         label: '*${'Recipient’s Bank Country'.tr}',
@@ -106,6 +88,31 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         customInput: country_widget(),
         tips: '',
       ),
+      Obx(() => Visibility(
+            visible: controller.country?.name == ENGLAND,
+            child: InputView(
+                controller: controller.sortCodeTEC,
+                label: "Sort Code (Optional)".tr,
+                inputFormatters: [
+                  TextInputFormatter.withFunction(
+                      (oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))
+                ],
+                maxLength: 20,
+                tips: "please input".tr),
+          )),
+      Obx(() => Visibility(
+          visible: controller.country != null && controller.country?.name != ENGLAND,
+          child: InputView(
+              controller: controller.swiftCodeTEC,
+              label: "SWIFT Code (Optional)".tr,
+              maxLength: 20,
+              tips: "optional".tr))),
+      // InputView(
+      //   controller: controller.bankIBANTEC,
+      //   label: '${'Recipient’s IBAN (optional)'.tr}',
+      //   maxLength: 20,
+      //   tips: 'optional',
+      // ),
       bankNameWidget(),
 
       InputView(
