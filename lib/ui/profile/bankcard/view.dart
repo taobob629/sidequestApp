@@ -130,11 +130,11 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           label: '*${'Recipient Bank Address'.tr}',
           maxLength: 200,
           tips: "please input".tr),
-      InputView(
-          controller: controller.accountAddressTEC,
-          label: '*${'Recipient’s Bank Account Address'.tr}',
-          maxLength: 20,
-          tips: "please input".tr),
+      // InputView(
+      //     controller: controller.accountAddressTEC,
+      //     label: '*${'Recipient’s Bank Account Address'.tr}',
+      //     maxLength: 20,
+      //     tips: "please input".tr),
     ];
   }
 
