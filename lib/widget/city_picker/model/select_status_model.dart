@@ -1,14 +1,15 @@
+const String ENGLAND = 'United Kingdom';
+
 class Country {
   int? id;
-  String name='';
+  String name = '';
   String? emoji;
   String? emojiU;
   String? iso2;
   String? iso3;
   String? frenchname;
   int? countrycode;
-  List<Region> state=[];
-
+  List<Region> state = [];
 
   Country.fromJson(Map<String, dynamic> json) {
     id = json['id'];

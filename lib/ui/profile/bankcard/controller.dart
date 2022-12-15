@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/model/bank_card_model.dart';
-import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
@@ -24,7 +23,7 @@ class BindBankCardController extends GetxController {
   late TextEditingController swiftCodeTEC;
   late TextEditingController bankCountryTEC;
   late TextEditingController bankNameTEC;
-  late TextEditingController bankIBANTEC;
+  //late TextEditingController bankIBANTEC;
   late TextEditingController bankAddressTEC;
   late TextEditingController accountNumTEC;
   late TextEditingController nameOnAccountNumTEC;
@@ -37,7 +36,14 @@ class BindBankCardController extends GetxController {
     _bankName.value = value;
   }
 
-  Country? country;
+  Rxn<Country> _country = Rxn();
+
+  Country? get country => _country.value;
+
+  set country(Country? value) {
+    _country.value = value;
+  }
+
   RxList<Country> _countries = RxList();
 
   List<Country> get countries => _countries.value;
@@ -62,7 +68,7 @@ class BindBankCardController extends GetxController {
     sortCodeTEC = TextEditingController();
     swiftCodeTEC = TextEditingController();
     bankCountryTEC = TextEditingController();
-    bankIBANTEC = TextEditingController();
+    // bankIBANTEC = TextEditingController();
     bankNameTEC = TextEditingController();
     bankAddressTEC = TextEditingController();
     accountNumTEC = TextEditingController();
@@ -100,22 +106,22 @@ class BindBankCardController extends GetxController {
       var bankAddress = bankAddressTEC.text;
       var country = this.country?.name;
       var billAddress = this.bankAddressTEC.text;
-      var iban = this.bankIBANTEC.text;
-      var cardNumber = accountNumTEC.text;
+    //  var iban = this.bankIBANTEC.text;
+    var cardNumber = accountNumTEC.text;
       var accountName = nameOnAccountNumTEC.text;
       var accountAddress = accountAddressTEC.text;
 
       await BalanceApi.addBankCard(Map<String, dynamic>()
-            ..['sortcode'] = sortcode
-            ..['bankName'] = bankName
-            ..['cardNumber'] = cardNumber
-            ..['accountName'] = accountName
-            ..['bankAddress'] = bankAddress
-            ..['country'] = country
-            ..['billAddress'] = billAddress
-            ..['address_id'] = accountAddress
-            ..['iban'] = iban)
-          .catchError((e) {
+          ..['sortcode'] = sortcode
+          ..['bankName'] = bankName
+          ..['cardNumber'] = cardNumber
+          ..['accountName'] = accountName
+          ..['bankAddress'] = bankAddress
+          ..['country'] = country
+          ..['billAddress'] = billAddress
+          ..['address_id'] = accountAddress)
+        //..['iban'] = iban)
+        .catchError((e) {
         EasyLoading.dismiss();
       });
       refreshBankList();
@@ -165,7 +171,7 @@ class BindBankCardController extends GetxController {
     sortCodeTEC.dispose();
     swiftCodeTEC.dispose();
     bankCountryTEC.dispose();
-    bankIBANTEC.dispose();
+    //  bankIBANTEC.dispose();
     bankNameTEC.dispose();
     bankAddressTEC.dispose();
     accountNumTEC.dispose();
