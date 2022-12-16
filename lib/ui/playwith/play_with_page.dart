@@ -88,10 +88,11 @@ class PlayWithPage extends StatefulWidget {
   _PlayWithPageState createState() => _PlayWithPageState();
 }
 
-class _PlayWithPageState extends State<PlayWithPage> {
+class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMixin {
   var tabList = ['SideKick'.tr, 'Message'.tr];
 
   ScrollController scrollController = ScrollController();
+  TabController? tabController;
 
   final UserController userController = Get.find<UserController>();
 
@@ -102,6 +103,11 @@ class _PlayWithPageState extends State<PlayWithPage> {
   @override
   void initState() {
     // userListener();
+    tabController = TabController(vsync: this, length: 2);
+    tabController?.addListener(() {
+      if (tabController?.index == 1) playWithValue.gamelistDm.init();
+      flog(tabController?.index, 'tabController');
+    });
     super.initState();
   }
 
@@ -111,12 +117,12 @@ class _PlayWithPageState extends State<PlayWithPage> {
     });
   }
 
-  // @override
-  // void dispose() {
-  //   flog('dispose','dispose');
-  //   playWithValue.gamelistDm.init();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    flog('dispose', 'dispose');
+    playWithValue.gamelistDm.init();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +138,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
         tabList: tabList,
         isShowLeft: false,
         // color: Color(0xff3B3860),
+        tabCon: tabController,
         controller: scrollController,
         tabBuilder: (i, t) {
           return Stack(clipBehavior: Clip.none, children: [
@@ -677,7 +684,9 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
 
   ///初始化函数
   Future initData() async {
-    if (playWithValue.gamelistDm.flag == 0) await this.gamelist();
+    if (playWithValue.gamelistDm.flag == 0) {
+      await this.gamelist();
+    }
   }
 
   Future<int> gamelist() async {
@@ -701,8 +710,8 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
 
   @override
   void dispose() {
-    flog('dispose1','dispose');
-    playWithValue.gamelistDm.init();
+    flog('dispose1', 'dispose');
+    // playWithValue.gamelistDm.init();
     super.dispose();
   }
 

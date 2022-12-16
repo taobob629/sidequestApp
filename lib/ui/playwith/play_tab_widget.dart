@@ -19,6 +19,7 @@ class PlayTabWidget extends StatefulWidget {
   final bool isShowLeft;
   final Widget? rightChild;
   final ScrollController? controller;
+  final TabController? tabCon;
 
   const PlayTabWidget({
     Key? key,
@@ -33,6 +34,7 @@ class PlayTabWidget extends StatefulWidget {
     this.rightChild,
     this.controller,
     this.isShowLeft = true,
+    this.tabCon,
   }) : super(key: key);
   @override
   _PlayTabWidgetState createState() => _PlayTabWidgetState();
@@ -49,7 +51,7 @@ class _PlayTabWidgetState extends State<PlayTabWidget> with TickerProviderStateM
 
   ///初始化函数
   Future initData() async {
-    tabCon = TabController(vsync: this, length: widget.tabList!.length, initialIndex: widget.page!);
+    tabCon = widget.tabCon ?? TabController(vsync: this, length: widget.tabList!.length, initialIndex: widget.page!);
   }
 
   @override
