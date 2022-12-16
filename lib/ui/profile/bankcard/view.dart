@@ -105,7 +105,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
               controller: controller.swiftCodeTEC,
               label: "SWIFT Code".tr,
               maxLength: 20,
-              tips: "optional".tr))),
+              tips: "please input".tr))),
       // InputView(
       //   controller: controller.bankIBANTEC,
       //   label: '${'Recipient’s IBAN (optional)'.tr}',
