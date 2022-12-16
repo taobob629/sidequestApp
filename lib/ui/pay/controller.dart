@@ -42,7 +42,7 @@ class PayPageController extends GetxController {
 
   late PayOrderModel payOrderModel;
 
-  late Timer _timer;
+  Timer? _timer;
 
   late int checkCount = 0;
 
@@ -103,6 +103,8 @@ class PayPageController extends GetxController {
   @override
   void onClose() {
     _streamSubscription.cancel();
+    _timer?.cancel();
+    _timer == null;
     super.onClose();
   }
 
@@ -142,8 +144,8 @@ class PayPageController extends GetxController {
   }
 
   Future<void> confirmPay({bool isPlay = false}) async {
+    checkCount = 0;
     payOrderModel.payType = payType.value;
-//    flog('pay TYpe $payType');
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
@@ -157,11 +159,9 @@ class PayPageController extends GetxController {
       Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
               barrierColor: Colors.black26)
           .whenComplete(() {
-        _timer.cancel();
+        _timer?.cancel();
       });
-      _timer = Timer.periodic(Duration(seconds: 2), (timer) {
-        autoCheckPay(payInfoModel.orderNo);
-      });
+      startTimer(payInfoModel);
     } else if (payType.value == 1) {
       EasyLoading.show();
       final billingDetails = BillingDetails(
@@ -182,12 +182,12 @@ class PayPageController extends GetxController {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
 
       PaymentSheetApplePay? applePay =
-          payInfoModel.applePay ? PaymentSheetApplePay(merchantCountryCode: 'GB') : null;
+      payInfoModel.applePay ? PaymentSheetApplePay(merchantCountryCode: 'GB') : null;
       PaymentSheetGooglePay? googlePay = payInfoModel.googlePay
           ? PaymentSheetGooglePay(
-              merchantCountryCode: 'GB',
-              testEnv: env == "prod" ? false : true,
-            )
+        merchantCountryCode: 'GB',
+        testEnv: env == "prod" ? false : true,
+      )
           : null;
 
       await Stripe.instance.initPaymentSheet(
@@ -231,11 +231,9 @@ class PayPageController extends GetxController {
         Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr),
                 barrierColor: Colors.black26)
             .whenComplete(() {
-          _timer.cancel();
+          _timer?.cancel();
         });
-        _timer = Timer.periodic(Duration(seconds: 2), (timer) {
-          autoCheckPay(payInfoModel.orderNo);
-        });
+        startTimer(payInfoModel);
       } on Exception catch (e) {
         if (e is StripeException) {
           EasyLoading.showInfo(
@@ -264,7 +262,7 @@ class PayPageController extends GetxController {
             );
           } else {
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
-                    barrierColor: Colors.black26)
+                barrierColor: Colors.black26)
                 .whenComplete(() {
               if (!isPlay) Get.back();
               Get.back(result: payInfoModel.orderNo);
@@ -285,6 +283,18 @@ class PayPageController extends GetxController {
         }
       });
     }
+  }
+
+  startTimer(PayInfoModel payInfoModel) {
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      if (checkCount > 10) {
+        timer.cancel();
+        return;
+      }
+      ;
+      autoCheckPay(payInfoModel.orderNo);
+    });
   }
 
   void checkPayPin(Function checkDone) {
@@ -315,13 +325,19 @@ class PayPageController extends GetxController {
 
   Future<void> autoCheckPay(String orderNo) async {
     checkCount++;
+    if (_timer == null) {
+      return;
+    }
     bool payStatus = await PayApi.status(payOrderModel.type, orderNo);
     if (payStatus) {
-      _timer.cancel();
+      _timer?.cancel();
+      _timer = null;
       _onPayDone();
+      return;
     }
     if (checkCount > 10) {
-      _timer.cancel();
+      _timer?.cancel();
+      _timer = null;
       Get.dialog(
           ConfirmDialog(
             cancelable: true,
@@ -370,7 +386,8 @@ class PayPageController extends GetxController {
       if (content.toString() == "6001") {
         //cancel
         EasyLoading.dismiss();
-        _timer.cancel();
+        _timer?.cancel();
+        _timer = null;
         Get.back(result: true);
         Get.dialog(
             ConfirmDialog(title: "Payment Result".tr, info: "The payment has been canceled.".tr),
