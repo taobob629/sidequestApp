@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
-import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/profile/bankcard/controller.dart';
-import 'package:wy/ui/profile/bankcard/widget/bank_field.dart';
 import 'package:wy/utils/text_utils.dart';
-import 'package:wy/view/views.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/city_picker/csc_picker.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/mylistview.dart';
@@ -37,7 +36,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-        //  PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
+          //  PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
           FloatingButton(
             label: "Confirm".tr,
             onTap: () {
@@ -138,13 +137,74 @@ class BindBankCardPage extends GetView<BindBankCardController> {
     ];
   }
 
+  final TextStyle lightTextStyle = const TextStyle(
+    color: Colors.blue,
+    fontWeight: FontWeight.bold,
+  );
+
+  InlineSpan formSpan(String src, String pattern) {
+    List<TextSpan> span = [];
+    List<String> parts = src.split(pattern);
+    if (parts.length > 1) {
+      for (int i = 0; i < parts.length; i++) {
+        span.add(TextSpan(text: parts[i]));
+        if (i != parts.length - 1) {
+          span.add(TextSpan(text: pattern, style: lightTextStyle));
+        }
+      }
+    } else {
+      span.add(TextSpan(text: src));
+    }
+    return TextSpan(children: span);
+  }
+
   Widget bankNameWidget() {
     //return itemBg(BanksField());
     return InputView(
-        controller: controller.bankNameTEC,
+        // controller: controller.bankNameTEC,
         label: '*${'Recipient Bank Name'.tr}',
         maxLength: 20,
-        customInput: BanksField(),
+        customInput: Autocomplete<SimpleBankModel>(
+          optionsBuilder: (value) => controller.banks,
+          displayStringForOption: (bank) => bank.bank ?? '',
+          onSelected: (value) {},
+          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+            controller.bankNameTEC = textEditingController;
+            return Container(
+              child: TextFormField(
+                controller: textEditingController,
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+                focusNode: focusNode,
+                onFieldSubmitted: (String value) {
+                  flog('onFieldSubmitted $value');
+                  onFieldSubmitted();
+                },
+                decoration: InputDecoration(
+                  hintText: 'please input'.tr,
+                  counterText: '',
+                  hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
+                  border: InputBorder.none,
+                ),
+              ),
+            );
+          },
+          optionsViewBuilder: (context, onSelected, options) => Obx(() => ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.banks.length,
+              itemBuilder: (context, index) => Material(
+                    color: Color(0xff282640),
+                    child: ListTile(
+                      onTap: () {
+                        SimpleBankModel model = controller.banks[index];
+                        onSelected(model);
+                      },
+                      title: Text(
+                        '${controller.banks[index].bank}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ))),
+        ),
         tips: "please input".tr);
   }
 
