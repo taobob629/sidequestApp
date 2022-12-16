@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/utils/utils.dart';
@@ -69,7 +71,7 @@ class BindBankCardController extends GetxController {
     swiftCodeTEC = TextEditingController();
     bankCountryTEC = TextEditingController();
     // bankIBANTEC = TextEditingController();
-    bankNameTEC = TextEditingController();
+    // bankNameTEC = TextEditingController();
     bankAddressTEC = TextEditingController();
     accountNumTEC = TextEditingController();
     nameOnAccountNumTEC = TextEditingController();
@@ -132,14 +134,15 @@ class BindBankCardController extends GetxController {
 
   bool validateForm() {
     var bankName = bankNameTEC.text;
+    flog(bankName);
     // var bankAddress = bankAddressTEC.text;
     var country = this.country?.name;
     // var billAddress = this.bankAddressTEC.text;
- //   var iban = this.bankIBANTEC.text;
+    //   var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
     var accountName = nameOnAccountNumTEC.text;
-   // var accountAddress = accountAddressTEC.text;
- //   flog('$bankName  $bankAddress $country ${billAddress} $cardNumber $accountName');
+    // var accountAddress = accountAddressTEC.text;
+    //   flog('$bankName  $bankAddress $country ${billAddress} $cardNumber $accountName');
     return bankName.isNotEmpty &&
         // bankAddress.isNotEmpty &&
         country?.isNotEmpty == true &&
@@ -167,12 +170,13 @@ class BindBankCardController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    flog('onClose');
     //   privacyCheckController.dispose();
     sortCodeTEC.dispose();
     swiftCodeTEC.dispose();
     bankCountryTEC.dispose();
     //  bankIBANTEC.dispose();
-    bankNameTEC.dispose();
+    // bankNameTEC.dispose();
     bankAddressTEC.dispose();
     accountNumTEC.dispose();
     nameOnAccountNumTEC.dispose();
