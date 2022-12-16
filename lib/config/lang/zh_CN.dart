@@ -217,7 +217,7 @@ const Map<String, String> zh_CN = {
   'Amount': '金额',
   'Please select your billing address': '请选择您的账单地址',
   'Billing Address': '帐单地址',
-  'Credit Card': '信用卡',
+  'Credit Card': '银行卡',
   'Server response error!': '服务错误!',
   'Checking payment result ...': '检测支付结果 ...',
   'Checking payment status ...': '检测支付状态 ...',
@@ -644,8 +644,9 @@ const Map<String, String> zh_CN = {
   "Account":"账户",
   "Recommend":"推荐",
   "Non-binary":"未知",
-  "Recipient Bank Address":"收款行地址",
+  "Recipient Bank Address (Optional)":"收款行地址(可选)",
   "Recipient’s Bank Account Name":"收款姓名",
   "Recipient’s Bank Country":"收款银行国家",
+  "Refunded":"已退款"
 
 };

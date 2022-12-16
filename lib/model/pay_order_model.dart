@@ -1,13 +1,24 @@
+class PayType {
+  static const BUY_GOODS = -1; //购买商品
+  static const WB = 0; //网吧账户充值
+  static const PW_RECHARGE = -2; //陪玩支付
+  static const PW_STRIP_ACCOUNT = 2; //陪玩账户充值
+  static const PW_ALIPAY_ACCOUNT = 3; //陪玩金币账户充值
+}
 
 class PayOrderModel {
   // 订单类型 -1购买商品 0网吧账户充值  >=5 开会员 -2陪玩支付 2陪玩账户充值
   late int type = 0;
+
   // 地址id
   late int addressId = 0;
+
   // 商品总价格 充值金额
   late String goodsPrice = "0";
+
   // 快递费用
   late String freightPrice = "0";
+
   // 税费
   late String tax = "0";
   // 优惠券费用
