@@ -36,6 +36,7 @@ import '../im/conversation.dart';
 class PlayWithValue extends ValueNotifier {
   PlayWithValue() : super(null);
   int playwithSeleIndex = 0;
+  var gamelistDm = DataModel<dynamic>();
   void changePlaywithSeleIndex(int v) {
     playwithSeleIndex = v;
     Future(() => notifyListeners());
@@ -100,7 +101,7 @@ class _PlayWithPageState extends State<PlayWithPage> {
 
   @override
   void initState() {
-   // userListener();
+    // userListener();
     super.initState();
   }
 
@@ -109,6 +110,13 @@ class _PlayWithPageState extends State<PlayWithPage> {
       if (mounted) setState(() => _key = ValueKey(getTime()));
     });
   }
+
+  // @override
+  // void dispose() {
+  //   flog('dispose','dispose');
+  //   playWithValue.gamelistDm.init();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -358,7 +366,7 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         mainAxisSpacing: 10,
         itemPadding: EdgeInsets.only(bottom: 16),
         itemModelBuilder: (i, data) {
-          var city='<100KM';
+          var city = '<100KM';
           // var signature = data['signature'];
           var levelName = data['levelName'];
           // Location location = Location.fromStr(data['location']);
@@ -608,11 +616,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         top: 10,
         child: Row(
           children: [
-              Icon(
-                Icons.location_on,
-                color: Colors.white60,
-                size: 14,
-              ),
+            Icon(
+              Icons.location_on,
+              color: Colors.white60,
+              size: 14,
+            ),
             Container(
               constraints: BoxConstraints(maxWidth: 100),
               child: Text(
@@ -669,13 +677,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
 
   ///初始化函数
   Future initData() async {
-    await this.gamelist();
+    if (playWithValue.gamelistDm.flag == 0) await this.gamelist();
   }
 
-  var gamelistDm = DataModel<dynamic>();
   Future<int> gamelist() async {
     await http.get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
-      gamelistDm.addList(res.data, true, 0);
+      playWithValue.gamelistDm.addList(res.data, true, 0);
       // gamelistDm.addList([
       //   for (var i = 0; i < 100; i++) ...gamelistDm.list,
       // ], false, 0);
@@ -683,20 +690,27 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
       //   fun(0, gamelistDm.list.first);
       // }
     }).catchError((e) {
-      gamelistDm.toError();
+      playWithValue.gamelistDm.toError();
     });
-    setState(() {});
-    if (gamelistDm.list.isNotEmpty) {
-      fun(playWithValue.playwithSeleIndex, gamelistDm.list.isEmpty ? {} : gamelistDm.list[playWithValue.playwithSeleIndex]);
+    if (mounted) setState(() {});
+    if (playWithValue.gamelistDm.list.isNotEmpty) {
+      fun(playWithValue.playwithSeleIndex, playWithValue.gamelistDm.list.isEmpty ? {} : playWithValue.gamelistDm.list[playWithValue.playwithSeleIndex]);
     }
-    return gamelistDm.flag;
+    return playWithValue.gamelistDm.flag;
+  }
+
+  @override
+  void dispose() {
+    flog('dispose1','dispose');
+    playWithValue.gamelistDm.init();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return AnimatedSwitchBuilder<dynamic>(
-      value: gamelistDm,
+      value: playWithValue.gamelistDm,
       errorOnTap: () => this.gamelist(),
       isAnimatedSize: true,
       animatedSizeAlignment: Alignment.topCenter,
