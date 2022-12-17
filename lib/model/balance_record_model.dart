@@ -7,6 +7,7 @@ class ConsumeRecordModel {
   late String payType = "";
 
   late String time = "";
+  late String remaining="";
 
   ConsumeRecordModel();
 
@@ -15,6 +16,7 @@ class ConsumeRecordModel {
     amount = json['amount'];
     payType = json['paytype'];
     time = json['time'];
+    remaining=json['remaining'];
   }
 }
 

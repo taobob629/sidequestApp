@@ -40,7 +40,7 @@ class TabConsumePage extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     ConsumeRecordModel model = controller.list[index];
-                    return RecordItem(title: model.title, detail: model.time, amount: model.amount,type: type,);
+                    return RecordItem(title: model.title, detail: model.time, amount: model.amount,type: type,remaining: model.remaining,);
                 },
                 childCount: controller.list.length
               )
