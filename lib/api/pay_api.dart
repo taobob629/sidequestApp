@@ -8,6 +8,7 @@ import 'package:wy/utils/utils.dart';
 class PayApi {
   static Future<PayInfoModel> pay(PayOrderModel model) async {
     int type = model.type;
+   // flog('type $type payType ${model.payType}');
     switch (type) {
       case PayType.BUY_GOODS:
         return await _buy(model);
@@ -41,9 +42,12 @@ class PayApi {
   }
 
   static getUrlByPayType(int paytype, int type) {
+   // flog('paytype $paytype type $type');
     switch (paytype) {
       case 1:
         return '/app/order/stripe/charge';
+      case 2:
+         return type==PayType.PW_STRIP_ACCOUNT?'/app/order/balanceToCoin':'/app/order/charge';
       case 4:
         return type == PayType.WB ? '/app/order/charge' : '/app/order/alipay/coincharge';
       default:

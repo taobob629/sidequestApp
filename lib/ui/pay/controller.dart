@@ -86,10 +86,30 @@ class PayPageController extends GetxController {
 
   ///硬币
   var coin = 0.obs;
+  RxString _balance=RxString('');
+
+  String get balance => _balance.value;
+
+  set balance(String value) {
+    _balance.value = value;
+  }
+
+  isSufficient(){
+    try{
+      double balanceValue=double.parse(balance);
+      double amount=double.parse(payOrderModel.totalAmount);
+      if(amount<balanceValue)return true;
+      return false;
+    }catch(e){
+      return false;
+    }
+
+  }
 
   Future<int> getCoin() async {
     await http.get('/peiwan/app/user/getCoin').then((res) async {
       coin.value = res.data['coin'];
+      balance=res.data['balance'];
     }).catchError((e) {});
     return coin.value;
   }
