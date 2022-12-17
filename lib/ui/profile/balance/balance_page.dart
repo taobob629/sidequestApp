@@ -85,7 +85,7 @@ class BalancePage extends StatelessWidget {
         label: "CONFIRM".tr,
         onTap: () => Get.dialog(ConfirmDialog(
           title: 'Warning'.tr,
-          info: '* These Credits are only used for SideQuest Hub.'.tr,
+          info: 'These Credits are only used for SideQuest Hub.'.tr,
           onConfirm: () => controller.pay(),
         )),
       ),

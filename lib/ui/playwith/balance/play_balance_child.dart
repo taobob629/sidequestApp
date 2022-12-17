@@ -57,7 +57,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
         label: "CONFIRM".tr,
         onTap: () => Get.dialog(ConfirmDialog(
           title: 'Warning'.tr,
-          info: '* These Coins are only used for SideKick.'.tr,
+          info: 'These Coins are only used for SideKick.'.tr,
           onConfirm: () => controller.pay(),
         )),
       ),
