@@ -589,6 +589,8 @@ const Map<String, String> zh_CN = {
   'Add Voucher': '添加优惠券',
   '* These Coins are only used for SideKick.': '* 金币仅限陪玩服务使用。',
   '* These Credits are only used for SideQuest Hub.': '* 余额仅限支线电竞线下门店使用。',
+  'These Coins are only used for SideKick.': '金币仅限陪玩服务使用。',
+  'These Credits are only used for SideQuest Hub.': '余额仅限支线电竞线下门店使用。',
   'SideKick Section': 'SideKick Section',
   'Profit': '收益',
   'America': 'America',

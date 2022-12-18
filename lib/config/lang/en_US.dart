@@ -590,6 +590,8 @@ const Map<String, String> en_US = {
   'Add Voucher':'Add Voucher',
   '* These Coins are only used for SideKick.':'* These Coins are only used for SideKick.',
   '* These Credits are only used for SideQuest Hub.':'* These Credits are only used for SideQuest Hub.',
+  'These Coins are only used for SideKick.':'These Coins are only used for SideKick.',
+  'These Credits are only used for SideQuest Hub.':'These Credits are only used for SideQuest Hub.',
   'SideKick Section': 'SideKick Section',
   'Profit':'Profit',
   'America': 'America',
