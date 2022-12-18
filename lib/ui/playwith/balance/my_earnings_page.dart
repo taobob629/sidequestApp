@@ -102,11 +102,11 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       PWidget.boxh(8),
       FloatingButton(
         label: "Withdrawal".tr,
-        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('withDraw') : null,
+        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('withDraw') :EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr),
       ),
       FloatingButton(
         label: "Exchange To Coin".tr,
-        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('exchange') : null,
+        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('exchange') :EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr),
       ),
       PWidget.container(
         PWidget.column([

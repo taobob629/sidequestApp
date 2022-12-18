@@ -651,5 +651,6 @@ const Map<String, String> en_US = {
   "Recipient’s Bank Account Name":"Recipient’s Bank Account Name",
   "Recipient’s Bank Country":"Recipient’s Bank Country",
   "Refunded":"Refunded",
-  "Lack of diamonds":"Lack of diamonds"
+  "Lack of diamonds":"Lack of diamonds",
+  "You should read and agree to our seller payment terms first.":"You should read and agree to our seller payment terms first."
 };

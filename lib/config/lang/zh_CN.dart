@@ -650,6 +650,7 @@ const Map<String, String> zh_CN = {
   "Recipient’s Bank Account Name":"收款姓名",
   "Recipient’s Bank Country":"收款银行国家",
   "Refunded":"已退款",
-  "Lack of diamonds":"钻石不足"
+  "Lack of diamonds":"钻石不足",
+  "You should read and agree to our seller payment terms first.":"请先阅读并同意我们的陪玩支付协议。"
 
 };
