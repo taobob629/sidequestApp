@@ -6,6 +6,7 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/balance_record_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/profile/consume/record_item.dart';
+import 'package:wy/utils/utils.dart';
 
 class TabConsumePage extends StatelessWidget {
 
@@ -81,17 +82,16 @@ class TabConsumePageController extends GetxRefreshController {
 
   @override
   Future<List<ConsumeRecordModel>> loadData({int pageNum = 1}) async{
-
     if(type == 1){
       List<ConsumeRecordModel> list = await BalanceApi.chargeRecords(pageNum,pageSize);
 
       return list;
     }else if(type == 2){
       List<ConsumeRecordModel> list = await BalanceApi.machineRecords(pageNum,pageSize);
-
       return list;
     }else {
       List<ConsumeRecordModel> list = await BalanceApi.consumeRecords(pageNum,pageSize);
+      flog(type,'ConsumeRecordModel');
       return list;
     }
   }

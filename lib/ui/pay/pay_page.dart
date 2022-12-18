@@ -73,7 +73,7 @@ class PayPage extends StatelessWidget {
               } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
                 return Obx(() => _buildPayView("Balance".tr, "balance_money", 2, controller.payType.value,
                     subTitle: Obx(() => Text(
-                          controller.balance,
+                          "￡${controller.balance}",
                           style: TextStyle(color: controller.isSufficient() ? Colors.white : Colors.white54),
                         ))));
               } else if (orderType > -2) {

@@ -165,7 +165,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
                   CountView(
                     customIcon: "assets/images/coin_red.webp",
                     title: "Coin".tr,
-                    count: "${controller.coin}",
+                    // count: "${controller.coin}",
+                    count: "${userController.userInfoModel.value.coin}",
                     icon: '',
                   ),
                   CountView(icon: "votes", title: "Diamond".tr, count: "${controller.diamonds}"),

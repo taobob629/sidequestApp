@@ -305,7 +305,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
       Image.asset('assets/images/play_bg.png', width: double.infinity, fit: BoxFit.cover),
       MyCustomScroll(
         isShuaxin: true,
-        isGengduo: superlistDm.hasNext,
+        // isGengduo: superlistDm.hasNext,
+        isGengduo: false,
         onRefresh: () async {
           // playSwitchKey = getTime();
           superlistDm.flag = 2;
@@ -323,26 +324,35 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         noDataText: superlistDm.flag == 2 ? '' : 'No more data'.tr,
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 8),
         headers: [
-          Listener(
-            onPointerDown: (_) => filterValue.init(isClearValue: false),
-            child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('My Services'.tr, [Colors.white, 20], {'ff': 'DIN'}), actions: [
-              IconButton(
-                onPressed: () async {
-                  await Get.toNamed(AppPages.MoreGames);
-                  playSwitchKey = getTime();
-                  filterDm.flag = 2;
-                  superlistDm.flag = 2;
-                  setState(() {});
-                  // this.superlist(isRef: true);
-                },
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.white60),
-              )
-            ]),
-          ),
+          if (1 == 2)
+            Listener(
+              onPointerDown: (_) => filterValue.init(isClearValue: false),
+              child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('My Services'.tr, [Colors.white, 20], {'ff': 'DIN'}), actions: [
+                IconButton(
+                  onPressed: () async {
+                    await Get.toNamed(AppPages.MoreGames);
+                    playSwitchKey = getTime();
+                    filterDm.flag = 2;
+                    superlistDm.flag = 2;
+                    setState(() {});
+                    // this.superlist(isRef: true);
+                  },
+                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white60),
+                )
+              ]),
+            ),
           Listener(
             onPointerDown: (_) => filterValue.init(isClearValue: false),
             child: PlaySwitchWidget(
               key: ValueKey(playSwitchKey),
+              onAddTap: () async {
+                await Get.toNamed(AppPages.MoreGames);
+                playWithValue.gamelistDm.init();
+                playSwitchKey = getTime();
+                filterDm.flag = 2;
+                superlistDm.flag = 2;
+                setState(() {});
+              },
               onTap: (v) async {
                 gid = v['id'] ?? '';
                 filterValue.init();
@@ -669,8 +679,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
 ///游戏列表
 class PlaySwitchWidget extends StatefulWidget {
   final Function(Map)? onTap;
+  final Function()? onAddTap;
 
-  const PlaySwitchWidget({Key? key, this.onTap}) : super(key: key);
+  const PlaySwitchWidget({Key? key, this.onTap, this.onAddTap}) : super(key: key);
   @override
   _PlaySwitchWidgetState createState() => _PlaySwitchWidgetState();
 }
@@ -724,15 +735,29 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
       isAnimatedSize: true,
       animatedSizeAlignment: Alignment.topCenter,
       listBuilder: (list, p, h) {
+        // list = [list.first];
         return PWidget.container(
           ListView.separated(
-            physics: MyBouncingScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(parent: MyBouncingScrollPhysics()),
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 16),
             separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 12),
-            itemCount: list.length,
+            itemCount: list.length + 1,
             itemBuilder: (_, i) {
               var isDy = playWithValue.playwithSeleIndex == i;
+              if (i == list.length)
+                return PWidget.container(
+                  PWidget.ccolumn([
+                    PWidget.container(
+                      PWidget.icon(Icons.add_rounded, [Colors.white54, 32, 32]),
+                      [(isDy ? 72 : 64), (isDy ? 72 : 56) + 24, Colors.white10],
+                      {'crr': 12},
+                    ),
+                    //PWidget.text('${data['name']}', [Colors.white, 12]),
+                  ], '211'),
+                  [(isDy ? 72 : 64)],
+                  {'fun': () => widget.onAddTap!()},
+                );
               var data = list[i];
               return PWidget.container(
                 PWidget.ccolumn([

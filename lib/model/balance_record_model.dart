@@ -16,7 +16,7 @@ class ConsumeRecordModel {
     amount = json['amount'];
     payType = json['paytype'];
     time = json['time'];
-    remaining=json['remaining'];
+    remaining=json['remaining']??'';
   }
 }
 

@@ -141,7 +141,7 @@ class PayPageController extends GetxController {
     }
     payOrderModel.addressId = address.value.id;
 
-    confirmPay(isPlay: isPlay);
+    await confirmPay(isPlay: isPlay);
     /*
     if(havePayPassword.value == false){
       Get.to(()=>ChangePasswordPage(type: 2, check: false, have: false,))?.whenComplete(() async=> await havePassword());
@@ -180,6 +180,7 @@ class PayPageController extends GetxController {
               barrierColor: Colors.black26)
           .whenComplete(() {
         _timer?.cancel();
+        Get.find<UserController>().updateInfo();
       });
       startTimer(payInfoModel);
     } else if (payType.value == 1) {
@@ -252,6 +253,7 @@ class PayPageController extends GetxController {
                 barrierColor: Colors.black26)
             .whenComplete(() {
           _timer?.cancel();
+          Get.find<UserController>().updateInfo();
         });
         startTimer(payInfoModel);
       } on Exception catch (e) {
@@ -286,6 +288,7 @@ class PayPageController extends GetxController {
                 .whenComplete(() {
               if (!isPlay) Get.back();
               Get.back(result: payInfoModel.orderNo);
+              Get.find<UserController>().updateInfo();
             });
           }
         } else {
@@ -298,7 +301,10 @@ class PayPageController extends GetxController {
             }
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
                     barrierColor: Colors.black26)
-                .whenComplete(() => Get.back());
+                .whenComplete(() {
+                  Get.back();
+                  Get.find<UserController>().updateInfo();
+                });
           }
         }
       });
