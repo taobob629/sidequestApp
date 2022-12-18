@@ -649,6 +649,7 @@ const Map<String, String> zh_CN = {
   "Recipient Bank Address (Optional)":"收款行地址(可选)",
   "Recipient’s Bank Account Name":"收款姓名",
   "Recipient’s Bank Country":"收款银行国家",
-  "Refunded":"已退款"
+  "Refunded":"已退款",
+  "Lack of diamonds":"钻石不足"
 
 };
