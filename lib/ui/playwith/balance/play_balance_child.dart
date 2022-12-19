@@ -490,14 +490,14 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, 1000)) {
+    if (!isValidateAmount(votes, 1000)&&type == 'withDraw') {
       EasyLoading.showInfo('Please enter an valid number greater than 1000'.tr);
       return;
     }
     double votesDouble = double.parse(votes);
     double votesSum = double.parse(userController.userInfoModel.value.votes);
     if (votesDouble.isGreaterThan(votesSum)) {
-      EasyLoading.showInfo('${'Please enter an valid number smaller than'.tr} $votesSum!');
+      EasyLoading.showInfo('${'Lack of diamonds'.tr}!');
       return;
     }
     Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
@@ -527,6 +527,7 @@ class WalletBalancePageController extends GetxListController {
     if (response.statusCode == 200) {
       diamonds = double.parse(response.data['votes'].toString()).toInt();
       coin = double.parse(response.data['coin'].toString()).toInt();
+      Get.find<UserController>().updateInfo();
       EasyLoading.showSuccess(response.statusMessage!);
     }
     EasyLoading.dismiss();

@@ -590,6 +590,8 @@ const Map<String, String> en_US = {
   'Add Voucher':'Add Voucher',
   '* These Coins are only used for SideKick.':'* These Coins are only used for SideKick.',
   '* These Credits are only used for SideQuest Hub.':'* These Credits are only used for SideQuest Hub.',
+  'These Coins are only used for SideKick.':'These Coins are only used for SideKick.',
+  'These Credits are only used for SideQuest Hub.':'These Credits are only used for SideQuest Hub.',
   'SideKick Section': 'SideKick Section',
   'Profit':'Profit',
   'America': 'America',
@@ -648,5 +650,7 @@ const Map<String, String> en_US = {
   "Recipient Bank Address (Optional)":"Recipient Bank Address (Optional)",
   "Recipient’s Bank Account Name":"Recipient’s Bank Account Name",
   "Recipient’s Bank Country":"Recipient’s Bank Country",
-  "Refunded":"Refunded"
+  "Refunded":"Refunded",
+  "Lack of diamonds":"Lack of diamonds",
+  "You should read and agree to our seller payment terms first.":"You should read and agree to our seller payment terms first."
 };

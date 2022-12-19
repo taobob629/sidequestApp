@@ -21,7 +21,8 @@ class PayPage extends StatelessWidget {
   PayPage({
     required PayOrderModel payOrderModel,
   }) {
-    controller = Get.put(PayPageController(payOrderModel: payOrderModel));
+    controller =
+        Get.put(PayPageController(payOrderModel: payOrderModel), tag: payOrderModel.totalAmount);
   }
 
   @override

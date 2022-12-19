@@ -11,6 +11,7 @@ import 'package:wy/utils/text_utils.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/city_picker/csc_picker.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
+import 'package:wy/widget/light_text.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -165,6 +166,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         label: '*${'Recipient Bank Name'.tr}',
         maxLength: 20,
         customInput: Autocomplete<SimpleBankModel>(
+          optionsMaxHeight: Get.height,
           optionsBuilder: (value) => controller.banks,
           displayStringForOption: (bank) => bank.bank ?? '',
           onSelected: (value) {},
@@ -176,8 +178,10 @@ class BindBankCardPage extends GetView<BindBankCardController> {
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 focusNode: focusNode,
                 onFieldSubmitted: (String value) {
-                  flog('onFieldSubmitted $value');
                   onFieldSubmitted();
+                },
+                onChanged: (text) {
+                  controller.filterBank(text.toUpperCase());
                 },
                 decoration: InputDecoration(
                   hintText: 'please input'.tr,
@@ -189,18 +193,17 @@ class BindBankCardPage extends GetView<BindBankCardController> {
             );
           },
           optionsViewBuilder: (context, onSelected, options) => Obx(() => ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.banks.length,
+              itemCount: controller.filterBanks.length,
               itemBuilder: (context, index) => Material(
                     color: Color(0xff282640),
                     child: ListTile(
                       onTap: () {
-                        SimpleBankModel model = controller.banks[index];
+                        SimpleBankModel model = controller.filterBanks[index];
                         onSelected(model);
                       },
-                      title: Text(
-                        '${controller.banks[index].bank}',
-                        style: TextStyle(color: Colors.white),
+                      title: LightTextWidget(
+                        text: '${controller.filterBanks[index].bank}',
+                        lightText: controller.keyWord,
                       ),
                     ),
                   ))),
