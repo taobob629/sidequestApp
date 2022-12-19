@@ -12,6 +12,8 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/profile/attention/list/view.dart';
 import 'package:wy/utils/utils.dart';
 
@@ -19,6 +21,8 @@ class AttentionListPageController extends GetxRefreshController {
   int type;
 
   AttentionListPageController(this.type);
+
+  UserController userController = Get.find<UserController>();
 
   @override
   void onInit() {
@@ -49,6 +53,8 @@ class AttentionListPageController extends GetxRefreshController {
       list.removeAt(index);
       list.refresh();
       Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FANS').refresh();
+      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}')
+          .refresh();
     }
   }
 
@@ -64,6 +70,8 @@ class AttentionListPageController extends GetxRefreshController {
       }
       //更新follow列表
       Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FOLLOW').refresh();
+      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}')
+          .refresh();
     }
   }
 }
