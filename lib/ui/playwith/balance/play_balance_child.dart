@@ -527,6 +527,7 @@ class WalletBalancePageController extends GetxListController {
     if (response.statusCode == 200) {
       diamonds = double.parse(response.data['votes'].toString()).toInt();
       coin = double.parse(response.data['coin'].toString()).toInt();
+      Get.find<UserController>().updateInfo();
       EasyLoading.showSuccess(response.statusMessage!);
     }
     EasyLoading.dismiss();
