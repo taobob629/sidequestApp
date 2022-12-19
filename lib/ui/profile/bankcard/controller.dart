@@ -62,11 +62,38 @@ class BindBankCardController extends GetxController {
     _banks.value = value;
   }
 
+  RxList<SimpleBankModel> _filterBanks = RxList();
+
+  List<SimpleBankModel> get filterBanks => _filterBanks.value;
+
+  set filterBanks(List<SimpleBankModel> value) {
+    _filterBanks.value = value;
+  }
+
+  RxString _keyWord = RxString('');
+
+  String get keyWord => _keyWord.value;
+
+  set keyWord(String value) {
+    _keyWord.value = value;
+  }
+
+  filterBank(String text) {
+    if (banks.isEmpty) return;
+    if (text.isEmpty) {
+      filterBanks = banks;
+      return;
+    }
+    keyWord = text;
+    filterBanks = banks.where((item) => item.bank?.toUpperCase()?.contains(text) == true).toList();
+    flog('filterBanks $filterBanks');
+  }
+
   @override
   void onInit() {
     super.onInit();
     initCountries();
-  //  privacyCheckController = PrivacyCheckController();
+    //  privacyCheckController = PrivacyCheckController();
     sortCodeTEC = TextEditingController();
     swiftCodeTEC = TextEditingController();
     bankCountryTEC = TextEditingController();
