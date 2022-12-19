@@ -417,28 +417,28 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                     spacing: 12,
                     runSpacing: 8,
                     children: [
-                      Text("${widget.controller.detailModel.value.name}",
-                          style: TextStyle(fontSize: 24, color: Colors.white)),
-                      SexAndAgeWidget(
-                        age: '${widget.controller.detailModel.value.age}',
-                        sex: '${widget.controller.detailModel.value.sex}',
-                      ),
-                      PlayLevelWidget(
-                        userId: widget.controller.userId,
-                        level: '${widget.controller.detailModel.value.userLevel}',
-                        isauth: widget.controller.detailModel.value.isauth,
-                      ),
-                      PWidget.container(
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.white60,
-                              size: 14,
-                            ),
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 100),
+                    Text("${widget.controller.detailModel.value.name}",
+                        style: TextStyle(fontSize: 24, color: Colors.white)),
+                    PlayLevelWidget(
+                      userId: widget.controller.userId,
+                      level: '${widget.controller.detailModel.value.userLevel}',
+                      isauth: widget.controller.detailModel.value.isauth,
+                    ),
+                    SexAndAgeWidget(
+                      age: '${widget.controller.detailModel.value.age}',
+                      sex: '${widget.controller.detailModel.value.sex}',
+                    ),
+                    PWidget.container(
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white60,
+                            size: 14,
+                          ),
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 100),
                               child: Text(
                                 '${widget.controller.detailModel.value.location.location()}',
                               overflow: TextOverflow.ellipsis,
