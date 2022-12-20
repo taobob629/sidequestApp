@@ -36,7 +36,7 @@ class HeaderInterceptor extends InterceptorsWrapper {
     }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
-    options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
+   // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
     options.headers['longitude'] = LocationService().position?.longitude??0;
     options.headers['latitude'] = LocationService().position?.latitude??0;
     log(jsonEncode(options.headers),name:'options.headers');
