@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:ota_update/ota_update.dart';
+// import 'package:ota_update/ota_update.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -111,7 +111,6 @@ class UpgradeDialog extends StatelessWidget {
 }
 
 class UpgradeDialogController extends GetxController {
-
   var showProgress = false.obs;
   var progress = 0.obs;
 
@@ -121,40 +120,40 @@ class UpgradeDialogController extends GetxController {
     showProgress.value = false;
     progress.value = 0;
   }
-
-  void startDownload(String url){
-    showProgress.value = true;
-    try {
-      OtaUpdate()
-        .execute(
-        //'https://internal1.4q.sk/flutter_hello_world.apk',
-        url,
-        // OPTIONAL
-        destinationFilename: 'SideQuestGame.apk',
-      ).listen((OtaEvent event) {
-        if(event.status == OtaStatus.DOWNLOADING) {
-          progress.value = int.parse(event.value??"0");
-        }else if(event.status == OtaStatus.ALREADY_RUNNING_ERROR){
-          EasyLoading.showToast("Upgrade already started".tr);
-        }else if(event.status == OtaStatus.PERMISSION_NOT_GRANTED_ERROR){
-          Get.dialog(
-            ConfirmDialog(title: "Permission required".tr, info: "File access denied, please click the button below to change current setting.".tr),barrierColor: Colors.black26
-          ).then((value) async{
-            if (value != null && value == true) {
-              await openAppSettings();
-            }
-          });
-        }else if(event.status == OtaStatus.INTERNAL_ERROR || event.status == OtaStatus.DOWNLOAD_ERROR){
-          EasyLoading.showError("${'Upgrade failed'.tr} :${event.value}");
-          showProgress.value = false;
-          progress.value = 0;
-        }else if(event.status == OtaStatus.INSTALLING){
-          showProgress.value = false;
-          progress.value = 0;
-        }
-      });
-    } catch (e) {
-      print('Failed to make OTA update. Details: $e');
-    }
-  }
+//
+// void startDownload(String url){
+//   showProgress.value = true;
+//   try {
+//     OtaUpdate()
+//       .execute(
+//       //'https://internal1.4q.sk/flutter_hello_world.apk',
+//       url,
+//       // OPTIONAL
+//       destinationFilename: 'SideQuestGame.apk',
+//     ).listen((OtaEvent event) {
+//       if(event.status == OtaStatus.DOWNLOADING) {
+//         progress.value = int.parse(event.value??"0");
+//       }else if(event.status == OtaStatus.ALREADY_RUNNING_ERROR){
+//         EasyLoading.showToast("Upgrade already started".tr);
+//       }else if(event.status == OtaStatus.PERMISSION_NOT_GRANTED_ERROR){
+//         Get.dialog(
+//           ConfirmDialog(title: "Permission required".tr, info: "File access denied, please click the button below to change current setting.".tr),barrierColor: Colors.black26
+//         ).then((value) async{
+//           if (value != null && value == true) {
+//             await openAppSettings();
+//           }
+//         });
+//       }else if(event.status == OtaStatus.INTERNAL_ERROR || event.status == OtaStatus.DOWNLOAD_ERROR){
+//         EasyLoading.showError("${'Upgrade failed'.tr} :${event.value}");
+//         showProgress.value = false;
+//         progress.value = 0;
+//       }else if(event.status == OtaStatus.INSTALLING){
+//         showProgress.value = false;
+//         progress.value = 0;
+//       }
+//     });
+//   } catch (e) {
+//     print('Failed to make OTA update. Details: $e');
+//   }
+// }
 }
