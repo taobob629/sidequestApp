@@ -13,6 +13,7 @@ import 'package:wy/config/app_config.dart';
 import 'package:wy/model/version_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
+import 'package:wy/utils/utils.dart';
 
 import 'dialog_confirm.dart';
 
@@ -82,16 +83,14 @@ class UpgradeDialog extends StatelessWidget {
                 child: Text("UPGRADE",style: TextStyle(color: Colors.white,fontSize: 16)),
                 height: 40,
                 onTap: () async {
-                  if(Platform.isAndroid) {
-                    controller.startDownload(model.store);
-                    return;
-                  }
-                  // await launch("https://play.google.com/store/apps/details?id=uk.co.sidequest.wy");
-                  StoreRedirect.redirect(
-                    androidAppId: "uk.co.sidequest.wy",
-                    iOSAppId: "1614945163"
-                  );
-                });
+                      // if(Platform.isAndroid) {
+                      //   controller.startDownload(model.store);
+                      //   return;
+                      // }
+                      // await launch("https://play.google.com/store/apps/details?id=uk.co.sidequest.wy");
+                      StoreRedirect.redirect(
+                          androidAppId: "uk.co.sidequest.wy", iOSAppId: "1614945163");
+                    });
             }),
           )
         ],

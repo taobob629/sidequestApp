@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,11 @@ import 'package:wy/widget/route.dart';
 import 'api/wy_http.dart';
 
 PackageInfo? packageInfo;
-var deviceInfo;
+//var deviceInfo;
 Future<void> getAppPackageInfo() async {
   packageInfo = await PlatformUtils.getAppPackageInfo();
-  deviceInfo = await PlatformUtils.getDeviceInfo();
-  flog(deviceInfo['manufacturer'], 'deviceInfo');
+  // deviceInfo = await PlatformUtils.getDeviceInfo();
+  // flog(deviceInfo['manufacturer'], 'deviceInfo');
   flog(packageInfo!.appName, 'packageInfo');
   flog(packageInfo!.buildNumber, 'packageInfo');
   flog(packageInfo!.buildSignature, 'packageInfo');

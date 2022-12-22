@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 export 'dart:io';
@@ -24,16 +23,16 @@ class PlatformUtils {
     return packageInfo.buildNumber;
   }
 
-  static Future getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.toMap();
-    } else if (Platform.isIOS) {
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.toMap();
-    } else {
-      return null;
-    }
-  }
+// static Future getDeviceInfo() async {
+//   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+//   if (Platform.isAndroid) {
+//     var androidDeviceInfo = await deviceInfo.androidInfo;
+//     return androidDeviceInfo.toMap();
+//   } else if (Platform.isIOS) {
+//     var iosDeviceInfo = await deviceInfo.iosInfo;
+//     return iosDeviceInfo.toMap();
+//   } else {
+//     return null;
+//   }
+// }
 }
