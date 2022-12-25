@@ -16,14 +16,12 @@ import '../common/base_scaffold.dart';
 import 'auth_input_view.dart';
 
 class LoginPage extends StatelessWidget {
-
   final controller = Get.put(LoginPageController());
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityScaffold(
-      builder: (context, keyboardShow){
-        return BaseScaffold(
-          title: keyboardShow ? "Sign In".tr : "",
+    return KeyboardVisibilityScaffold(builder: (context, keyboardShow) {
+      return BaseScaffold(
+        title: keyboardShow ? "Sign In".tr : "",
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -35,96 +33,128 @@ class LoginPage extends StatelessWidget {
                     offstage: keyboardShow,
                     child: Container(
                       height: 56,
-                        margin: const EdgeInsets.only(bottom: 80),
-                        child: Image.asset("assets/images/logo.webp", fit: BoxFit.contain,),
+                      margin: const EdgeInsets.only(bottom: 80),
+                      child: Image.asset(
+                        "assets/images/logo.webp",
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25,right: 25),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Offstage(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Offstage(
                             offstage: keyboardShow,
-                              child: Text(
+                            child: Text(
                               "SIGN IN".tr,
-                              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "DIN",
+                                  fontSize: 28),
                             )),
-                          SizedBox(height: 10,),
-                          AuthInputView(
-                            tips: "Account Email / Member ID".tr,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        AuthInputView(
+                          tips: "Account Email / Member ID".tr,
                           editingController: controller.emailEditingController,
                           textInputAction: TextInputAction.next,
                           focusNode: controller.emailFocusNode,
                         ),
-                          SizedBox(height: 20,),
-                          AuthInputView(
-                              tips: "Password".tr, password: true, editingController: controller.passwordEditingController, textInputAction: TextInputAction.go, focusNode: controller.passwordFocusNode),
-                          SizedBox(height: 20,),
-                          ColorfulButton(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        AuthInputView(
+                            tips: "Password".tr,
+                            password: true,
+                            editingController:
+                                controller.passwordEditingController,
+                            textInputAction: TextInputAction.go,
+                            focusNode: controller.passwordFocusNode),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ColorfulButton(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4),
                             child: Text(
                               "SIGN IN".tr,
-                              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "DIN",
+                                  fontSize: 18),
                             ),
                           ),
-                            height: 48,
-                            onTap: ()=>controller.login(),
-                          ),
-                          SizedBox(height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap:()=> Get.to(()=>RegisterPage(type: 1,)),
-                                child: Container(
-                                  color: Colors.transparent,
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text(
-                                    "Sign Up".tr,
-                                  style: TextStyle(color: Colors.white, fontSize: 14),
-                                ),
+                          height: 48,
+                          onTap: () => controller.login(),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () => Get.to(() => RegisterPage(
+                                    type: 1,
+                                  )),
+                              child: Container(
+                                color: Colors.transparent,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Sign Up".tr,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap:()=> Get.to(()=>ForgetPage(type: 1,)),
-                                child: Container(
-                                  color: Colors.transparent,
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text(
-                                    "Forgotten your password?".tr,
+                            ),
+                            GestureDetector(
+                              onTap: () => Get.to(() => ForgetPage(
+                                    type: 1,
+                                  )),
+                              child: Container(
+                                color: Colors.transparent,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Forgotten your password?".tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
                                   ),
                                 ),
-                                ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Positioned(
-                left: 0,right: 0,bottom: keyboardShow? 10 : 40,
-                child: Center(child: PrivacyCheck(controller: controller.controller,)),
-              )
-            ],
-          ),
-        );
-      }
-    );
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: keyboardShow ? 10 : 40,
+              child: Center(
+                  child: PrivacyCheck(
+                controller: controller.controller,
+              )),
+            )
+          ],
+        ),
+      );
+    });
   }
-
 }
 
-class LoginPageController extends GetxController with GetSingleTickerProviderStateMixin{
-
+class LoginPageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   late PrivacyCheckController controller;
 
   var email = "".obs;
@@ -137,7 +167,7 @@ class LoginPageController extends GetxController with GetSingleTickerProviderSta
   late FocusNode passwordFocusNode;
 
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     controller = PrivacyCheckController();
 
@@ -149,19 +179,19 @@ class LoginPageController extends GetxController with GetSingleTickerProviderSta
   }
 
   @override
-  void onReady(){
+  void onReady() {
     super.onReady();
     String account = StorageManager.getAccount();
     emailEditingController.text = account;
   }
 
   @override
-  void onClose(){
+  void onClose() {
     controller.dispose();
-    emailEditingController.dispose();
-    passwordEditingController.dispose();
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
+    // emailEditingController.dispose();
+    // passwordEditingController.dispose();
+    // emailFocusNode.dispose();
+    // passwordFocusNode.dispose();
     super.onClose();
   }
 
@@ -169,34 +199,39 @@ class LoginPageController extends GetxController with GetSingleTickerProviderSta
     String email = emailEditingController.text;
     String password = passwordEditingController.text;
 
-    if(email.isEmpty){
+    if (email.isEmpty) {
       EasyLoading.showToast("Please input your email".tr);
       return;
     }
 
-    if(password.isEmpty){
+    if (password.isEmpty) {
       EasyLoading.showToast("Please input your password".tr);
       return;
     }
 
-    if(controller.check()){
+    if (controller.check()) {
       UserController userController = Get.find<UserController>();
       userController.login(
-        email:email,
-        password: password,
-        showLoading:true,
-        done:(LoginModel loginModel){
-          if(loginModel.validate == 0) {
-            Get.offAndToNamed(AppPages.Main);
-            }else{
-            if(loginModel.secondary == 1){
-              Get.off(()=>SecondaryPage(loginModel: loginModel,));
-            }else {
-              Get.off(() => RegisterPage(type: 2, loginModel: loginModel,));
+          email: email,
+          password: password,
+          showLoading: true,
+          done: (LoginModel loginModel) {
+            if (loginModel.validate == 0) {
+              userController.imLogin();
+              Get.offAndToNamed(AppPages.Main);
+            } else {
+              if (loginModel.secondary == 1) {
+                Get.off(() => SecondaryPage(
+                      loginModel: loginModel,
+                    ));
+              } else {
+                Get.off(() => RegisterPage(
+                      type: 2,
+                      loginModel: loginModel,
+                    ));
+              }
             }
-          }
-        });
+          });
     }
   }
-
 }

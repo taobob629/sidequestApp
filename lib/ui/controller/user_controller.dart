@@ -38,7 +38,7 @@ class UserController extends GetxController {
 
   Timer? _payNotifyTimer;
 
-  int  _payNotifyTimes = 0;
+  int _payNotifyTimes = 0;
 
   DBHelper? db;
 
@@ -59,7 +59,7 @@ class UserController extends GetxController {
     //startPayNotify();
   }
 
-   static setCustomSticker() async {
+  static setCustomSticker() async {
     // 添加自定义表情包
     // Add custom sticker package
     List<CustomStickerPackage> customStickerPackageList = [];
@@ -84,7 +84,7 @@ class UserController extends GetxController {
               .asMap()
               .keys
               .map((idx) =>
-              CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
+                  CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
               .toList(),
           menuItem: CustomSticker(
             index: 0,
@@ -103,80 +103,88 @@ class UserController extends GetxController {
   }
 
   ///开始定时回调支付结果
-  void startPayNotify(){
+  void startPayNotify() {
     _cancelPayNotify();
-    _payNotifyTimer = Timer.periodic(Duration(seconds: 2), (timer) async{
-      if(db != null){
+    _payNotifyTimer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      if (db != null) {
         List<PayRecord> list = await db!.selectPayRecords();
-        if(list.isEmpty){
+        if (list.isEmpty) {
           print("no pay order need notify");
           _cancelPayNotify();
         }
-        list.forEach((payRecord) async{
-          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
-          if(ret == true){
+        list.forEach((payRecord) async {
+          print(
+              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(
+              payRecord.orderId, payRecord.tranId);
+          if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
         });
       }
-      _payNotifyTimes ++;
-      if(_payNotifyTimes >= 60){
+      _payNotifyTimes++;
+      if (_payNotifyTimes >= 60) {
         _cancelPayNotify();
       }
     });
   }
 
-  void _cancelPayNotify(){
-    if(_payNotifyTimer != null) {
+  void _cancelPayNotify() {
+    if (_payNotifyTimer != null) {
       _payNotifyTimer!.cancel();
       _payNotifyTimes = 0;
     }
   }
 
-  Future<void> updateInfo() async{
-    if(StorageManager.getToken().isNotEmpty) {
+  Future<void> updateInfo() async {
+    if (StorageManager.getToken().isNotEmpty) {
       userInfoModel.value = await UserApi.info();
     }
   }
 
-  void _updateUser(UserModel userModel){
+  void _updateUser(UserModel userModel) {
     user.value = userModel;
     StorageManager.setUser(userModel);
   }
 
-  void checkLogin(Function done){
-    if(user.value.id == 0){
-      Get.to(()=>LoginPage());
-    }else{
+  void checkLogin(Function done) {
+    if (user.value.id == 0) {
+      Get.offAll(() => LoginPage());
+    } else {
       done.call();
     }
   }
-  
+
   Future<void> login(
-    {String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false,
-    Function(LoginModel)? done}) async{
-    if(checkLastLoginTime) {
-      if(DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000){
+      {String? email,
+      String? password,
+      bool showLoading = false,
+      bool checkLastLoginTime = false,
+      Function(LoginModel)? done}) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
         return;
       }
     }
 
-    if(email == null){
+    if (email == null) {
       email = StorageManager.getAccount();
     }
-    if(password == null){
+    if (password == null) {
       password = StorageManager.getPassword();
     }
-    if(email.isEmpty || password.isEmpty){
+    if (email.isEmpty || password.isEmpty) {
       return;
     }
-    if(showLoading == true){
+    if (showLoading == true) {
       EasyLoading.show();
     }
     LoginModel loginModel = await AuthApi.signIn(email, password);
 
-    if(loginModel.validate == 0) {//老用户需要更新资料之后才可以使用
+    if (loginModel.validate == 0) {
+      //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
       _updateUser(loginModel.user);
       StorageManager.setToken(loginModel.token);
@@ -185,36 +193,42 @@ class UserController extends GetxController {
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }
-    if(showLoading == true){
+    if (showLoading == true) {
       EasyLoading.dismiss();
     }
-    if(loginModel.user.id != 0){
+    if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
-    imLogin();
+    // imLogin();
     done?.call(loginModel);
   }
 
-  void imLogin() async{
-    if(imLoginDone.value == false) {
+  void imLogin() async {
+    if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
       // if(userSig == ""){
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
+      _coreInstance
+          .login(userID: "${userSig.uid}", userSig: userSig.token)
+          .then((value) async {
         imLoginDone.value = true;
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(listener: V2TimConversationListener(
-          onTotalUnreadMessageCountChanged: (count) {
+        TencentImSDKPlugin.v2TIMManager
+            .getConversationManager()
+            .addConversationListener(
+                listener: V2TimConversationListener(
+                    onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
-              FlutterAppBadger.isAppBadgeSupported().then((value){
+              FlutterAppBadger.isAppBadgeSupported().then((value) {
                 flog(value, 'onTotalUnreadMessageCountChanged');
-                if(unreadMsgCount.value==0){
+                if (unreadMsgCount.value == 0) {
                   FlutterAppBadger.removeBadge();
-                }else{
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,title: 'New Message');
+                } else {
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                      title: 'New Message');
                 }
               });
             }, onConversationChanged: (v) {
@@ -222,8 +236,10 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(
-            listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager
+            .getMessageManager()
+            .addAdvancedMsgListener(listener:
+                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           FlutterRingtonePlayer.playNotification();
         }));
@@ -235,12 +251,13 @@ class UserController extends GetxController {
         if (v2timValueCallback.code == 0) {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
-          FlutterAppBadger.isAppBadgeSupported().then((value){
-            if(unreadMsgCount.value==0){
-              FlutterAppBadger.removeBadge();  
-            }else{
+          FlutterAppBadger.isAppBadgeSupported().then((value) {
+            if (unreadMsgCount.value == 0) {
+              FlutterAppBadger.removeBadge();
+            } else {
               flog(value, 'getTotalUnreadMessageCount');
-              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,title: 'New Message');
+              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                  title: 'New Message');
             }
           });
         }
@@ -248,7 +265,7 @@ class UserController extends GetxController {
     }
   }
 
-  void logout({Function? done}) async{
+  void logout({Function? done}) async {
     user.value = UserModel();
     userInfoModel.value = UserInfoModel();
     StorageManager.clear(StorageManager.kUser);
@@ -260,5 +277,4 @@ class UserController extends GetxController {
     unreadMsgCount.value = 0;
     done?.call();
   }
-
 }
