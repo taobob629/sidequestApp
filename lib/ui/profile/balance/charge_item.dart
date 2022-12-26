@@ -22,7 +22,7 @@ class ChargeItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       onTap: () => this.onTap.call(index),
       child: Container(
-        padding:  EdgeInsets.only(top: showCoin?6.0:10.0, bottom:  showCoin?6.0:10.0),
+        padding: EdgeInsets.only(top: showCoin ? 6.0 : 10.0, bottom: showCoin ? 6.0 : 10.0),
         decoration: BoxDecoration(
             color: Colors.white10,
             borderRadius: BorderRadius.circular(12),
@@ -33,11 +33,10 @@ class ChargeItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              showCoin?"assets/images/ic_coin_charge${index + 1}.webp":"assets/images/ic_balance_charge${index + 1}.webp",
-              width: showCoin?50:60,
-            ),
-            SizedBox(
-              height: 2,
+              showCoin
+                  ? "assets/images/ic_coin_charge${index + 1}.webp"
+                  : "assets/images/ic_balance_charge${index + 1}.webp",
+              width: showCoin ? 50 : 60,
             ),
             Visibility(
                 visible: showCoin,
@@ -45,36 +44,34 @@ class ChargeItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 5),
                       child: PWidget.image('assets/images/ic_balance_money.webp', [20, 20]),
                     ),
                     Text(
                       " ${item.coin}",
                       style: TextStyle(
-                          color: Colors.yellow,
-                          fontFamily: "DIN",
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.yellow, fontSize: 24, fontWeight: FontWeight.bold),
                     )
                   ],
                 )),
-            Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Positioned.fill(
-                   left: -10,
-                   top: -4,
-                   right: -10,
-                   bottom: 2,
-                   child: Image.asset(
-                    "assets/images/chongzhi_bg.jpg",
-                    fit: BoxFit.fill,
-                   ),
-                 ),
+                Visibility(
+                    visible: item.money != item.actualMoney,
+                    child: Text(
+                      "£${item.money}",
+                      style: TextStyle(
+                          color: Colors.white54,
+                          fontSize: 18,
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 1,
+                          decorationColor: Colors.white54,
+                          decorationStyle: TextDecorationStyle.solid),
+                    )),
+                PWidget.boxw(3),
                 Text(
-                  "£${item.money}",
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+                  "£${item.actualMoney}",
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
             )
