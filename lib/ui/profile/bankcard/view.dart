@@ -183,6 +183,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
                 onChanged: (text) {
                   controller.filterBank(text.toUpperCase());
                 },
+                cursorColor: Colors.white70,
                 decoration: InputDecoration(
                   hintText: 'please input'.tr,
                   counterText: '',
