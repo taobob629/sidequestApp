@@ -59,7 +59,7 @@ class ChargeItem extends StatelessWidget {
                 Visibility(
                     visible: item.money != item.actualMoney,
                     child: Text(
-                      "£${item.money}",
+                      "£${item.actualMoney}",
                       style: TextStyle(
                           color: Colors.white54,
                           fontSize: 18,
@@ -70,7 +70,7 @@ class ChargeItem extends StatelessWidget {
                     )),
                 PWidget.boxw(3),
                 Text(
-                  "£${item.actualMoney}",
+                  "£${item.money}",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
