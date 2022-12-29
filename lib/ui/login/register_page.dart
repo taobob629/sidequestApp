@@ -429,7 +429,7 @@ class RegisterPageController extends GetxController {
   }
 
   void signUp() async {
-    Get.offAll(LoginPage());
+    // Get.offAll(LoginPage());
 
     email = emailEditingController.text.trim();
     code = codeEditingController.text.trim();
@@ -516,7 +516,7 @@ class RegisterPageController extends GetxController {
           "Congratulations and welcome, your profile has been updated!".tr,
           duration: Duration(seconds: 3));
     }
-    // Get.offAll(LoginPage());
+    Get.offAll(LoginPage());
     // Get.back();
   }
 }

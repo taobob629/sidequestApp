@@ -181,7 +181,10 @@ class UserController extends GetxController {
     if (showLoading == true) {
       EasyLoading.show();
     }
-    LoginModel loginModel = await AuthApi.signIn(email, password);
+    LoginModel loginModel =
+        await AuthApi.signIn(email, password).catchError((e) {
+      EasyLoading.dismiss();
+    });
 
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用

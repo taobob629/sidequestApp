@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -88,7 +89,8 @@ class PlayWithPage extends StatefulWidget {
   _PlayWithPageState createState() => _PlayWithPageState();
 }
 
-class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMixin {
+class _PlayWithPageState extends State<PlayWithPage>
+    with TickerProviderStateMixin {
   var tabList = ['SideKick'.tr, 'Message'.tr];
 
   ScrollController scrollController = ScrollController();
@@ -96,7 +98,8 @@ class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMix
 
   final UserController userController = Get.find<UserController>();
 
-  TIMUIKitConversationController conversationController = TIMUIKitConversationController();
+  TIMUIKitConversationController conversationController =
+      TIMUIKitConversationController();
 
   var _key = ValueKey(1);
 
@@ -120,7 +123,7 @@ class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMix
   @override
   void dispose() {
     flog('dispose', 'dispose');
-    playWithValue.gamelistDm.init();
+    // playWithValue.gamelistDm.init();
     super.dispose();
   }
 
@@ -164,8 +167,12 @@ class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMix
               return jumpPage(GameScorePage());
               var page = SuccessPage(
                 title: 'Accompany certification',
-                content: ['Submitted successfully', 'The information has been submitted successfully,\nplease wait for the staff to review and confirm'],
-                child: PWidget.row([buttonView('Back', fontSize: 16, width: 130)], '221'),
+                content: [
+                  'Submitted successfully',
+                  'The information has been submitted successfully,\nplease wait for the staff to review and confirm'
+                ],
+                child: PWidget.row(
+                    [buttonView('Back', fontSize: 16, width: 130)], '221'),
               );
               return jumpPage(page);
               return FilterWidget.show(fun: (v) {
@@ -183,12 +190,21 @@ class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMix
             'fun': () {
               var page = SuccessPage(
                 title: 'Game support'.tr,
-                content: ['Recharge successfully'.tr, 'Play with order has been placed, please wait for play with\nOr contact can contact play with'.tr],
+                content: [
+                  'Recharge successfully'.tr,
+                  'Play with order has been placed, please wait for play with\nOr contact can contact play with'
+                      .tr
+                ],
                 child: PWidget.ccolumn([
                   PWidget.boxh(16),
-                  PWidget.container(CachedNetworkImage(imageUrl: 'imageUrl', width: 48, height: 48), {'crr': 48}),
+                  PWidget.container(
+                      CachedNetworkImage(
+                          imageUrl: 'imageUrl', width: 48, height: 48),
+                      {'crr': 48}),
                   PWidget.boxh(20),
-                  PWidget.row([buttonView('Sent Message'.tr, fontSize: 16, width: 130)], '221'),
+                  PWidget.row(
+                      [buttonView('Sent Message'.tr, fontSize: 16, width: 130)],
+                      '221'),
                 ]),
               );
               jumpPage(page);
@@ -206,11 +222,14 @@ class _PlayWithPageState extends State<PlayWithPage> with TickerProviderStateMix
     return Obx(() => userController.unreadMsgCount.value == 0
         ? Container()
         : PWidget.positioned(
-            PWidget.container(PWidget.text(userController.unreadMsgCount.value, [Colors.white, 12]), {
-              'gd': PFun.tbGd(Color(0xffFF6D6D), Color(0xffFF5252)),
-              'br': 24,
-              'pd': PFun.lg(1, 0, 4, 4),
-            }),
+            PWidget.container(
+                PWidget.text(
+                    userController.unreadMsgCount.value, [Colors.white, 12]),
+                {
+                  'gd': PFun.tbGd(Color(0xffFF6D6D), Color(0xffFF5252)),
+                  'br': 24,
+                  'pd': PFun.lg(1, 0, 4, 4),
+                }),
             [-4, null, null, -16],
           ));
   }
@@ -222,7 +241,8 @@ class PlayWithChild extends StatefulWidget {
   _PlayWithChildState createState() => _PlayWithChildState();
 }
 
-class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveClientMixin {
+class _PlayWithChildState extends State<PlayWithChild>
+    with AutomaticKeepAliveClientMixin {
   var gid = '';
 
   var playSwitchKey = 0;
@@ -289,7 +309,10 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
       if (level != '') "level": "$level",
       if (gamelevel != '') "gamelevel": "$gamelevel",
     };
-    await http.get('/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=${searchParams.isEmpty ? '' : jsonEncode(searchParams)}&gid=$gid').then((res) async {
+    await http
+        .get(
+            '/peiwan/app/home/superlist?pageNum=$page&pageSize=10&searchParams=${searchParams.isEmpty ? '' : jsonEncode(searchParams)}&gid=$gid')
+        .then((res) async {
       superlistDm.addList(res.data, true, 0);
     }).catchError((e) {
       superlistDm.toError(e.toString());
@@ -302,7 +325,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Stack(children: [
-      Image.asset('assets/images/play_bg.png', width: double.infinity, fit: BoxFit.cover),
+      Image.asset('assets/images/play_bg.png',
+          width: double.infinity, fit: BoxFit.cover),
       MyCustomScroll(
         isShuaxin: true,
         // isGengduo: superlistDm.hasNext,
@@ -327,19 +351,24 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           if (1 == 2)
             Listener(
               onPointerDown: (_) => filterValue.init(isClearValue: false),
-              child: MaterialBanner(backgroundColor: Colors.transparent, content: PWidget.text('My Services'.tr, [Colors.white, 20], {'ff': 'DIN'}), actions: [
-                IconButton(
-                  onPressed: () async {
-                    await Get.toNamed(AppPages.MoreGames);
-                    playSwitchKey = getTime();
-                    filterDm.flag = 2;
-                    superlistDm.flag = 2;
-                    setState(() {});
-                    // this.superlist(isRef: true);
-                  },
-                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white60),
-                )
-              ]),
+              child: MaterialBanner(
+                  backgroundColor: Colors.transparent,
+                  content: PWidget.text(
+                      'My Services'.tr, [Colors.white, 20], {'ff': 'DIN'}),
+                  actions: [
+                    IconButton(
+                      onPressed: () async {
+                        await Get.toNamed(AppPages.MoreGames);
+                        playSwitchKey = getTime();
+                        filterDm.flag = 2;
+                        superlistDm.flag = 2;
+                        setState(() {});
+                        // this.superlist(isRef: true);
+                      },
+                      icon:
+                          Icon(Icons.arrow_forward_ios, color: Colors.white60),
+                    )
+                  ]),
             ),
           Listener(
             onPointerDown: (_) => filterValue.init(isClearValue: false),
@@ -399,7 +428,11 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                         defaultAvatar()
                       else
                         PWidget.container(
-                          CachedNetworkImage(imageUrl: data['thumb'], fit: BoxFit.cover, width: 74, height: 74),
+                          CachedNetworkImage(
+                              imageUrl: data['thumb'],
+                              fit: BoxFit.cover,
+                              width: 74,
+                              height: 74),
                           {'crr': 8},
                         ),
                       // if (levelName != null && levelName != '')
@@ -433,34 +466,41 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                               userId: data['id'].toString(),
                             ),
                             PWidget.boxw(8),
-                            SexAndAgeWidget(age: '${data['age']}', sex: '${data['sex']}'),
+                            SexAndAgeWidget(
+                                age: '${data['age']}', sex: '${data['sex']}'),
                           ]),
                         ),
                       ]),
                       PWidget.boxh(6),
-                      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                        Image.asset(
-                          "assets/images/ic_balance_money.webp",
-                          width: 18,
-                          height: 14,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${data['price']}",
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        OrdersAndStarWidget(
-                          data,
-                          margin: [0],
-                        ),
-                      ]),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/ic_balance_money.webp",
+                              width: 18,
+                              height: 14,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "${data['price']}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            OrdersAndStarWidget(
+                              data,
+                              margin: [0],
+                            ),
+                          ]),
 
                       // if (signature != null && signature != '') PWidget.boxh(8),
                       // if (signature != null && signature != '') PWidget.text('$signature', [Colors.white54, 12]),
                       if (levelName != null && levelName != '') PWidget.boxh(6),
-                      if (levelName != null && levelName != '') PWidget.text('$levelName', [Colors.white54, 12]),
+                      if (levelName != null && levelName != '')
+                        PWidget.text('$levelName', [Colors.white54, 12]),
                       Builder(builder: (context) {
                         var list = (data['label'] ?? []) as List;
                         return Wrap(
@@ -489,8 +529,18 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 locationWidget(city, data['distance']),
                 // if (data['online'] == 1)
                 PWidget.container(
-                  PWidget.text(data['online'] == 1 ? 'Online'.tr : 'OffLine'.tr, [Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5), 12]),
-                  [null, null, data['online'] == 1 ? Color(0xff5ADBAE) : Colors.white.withOpacity(0.1)],
+                  PWidget.text(
+                      data['online'] == 1 ? 'Online'.tr : 'OffLine'.tr, [
+                    Colors.white.withOpacity(data['online'] == 1 ? 1 : 0.5),
+                    12
+                  ]),
+                  [
+                    null,
+                    null,
+                    data['online'] == 1
+                        ? Color(0xff5ADBAE)
+                        : Colors.white.withOpacity(0.1)
+                  ],
                   {
                     // 'gd': data['online'] == 1 ? PFun.tl2brGd(Color(0xff5ADBAE), Color(0x005ADBAE)) : PFun.tl2brGd(Color(0xFF434343), Color(0x00434343)),
                     'pd': PFun.lg(2, 2, 12, 12),
@@ -503,7 +553,9 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                 'mg': PFun.lg(0, 0, 16, 16),
                 'crr': 12,
                 'fun': () {
-                  return Get.to(() => PlayDetail(userId: "${data['id']}", gId: gid)); //jumpPage(PlayUserInfo(data));
+                  return Get.to(() => PlayDetail(
+                      userId: "${data['id']}",
+                      gId: gid)); //jumpPage(PlayUserInfo(data));
                 }
               },
             ),
@@ -541,10 +593,21 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
             }
             return PWidget.container(
               PWidget.column([
-                PWidget.row([filterTag('语言'), PWidget.boxw(8), filterTag('性别'), PWidget.boxw(8), filterTag('等级'), PWidget.boxw(8), filterTag('段位')]),
+                PWidget.row([
+                  filterTag('语言'),
+                  PWidget.boxw(8),
+                  filterTag('性别'),
+                  PWidget.boxw(8),
+                  filterTag('等级'),
+                  PWidget.boxw(8),
+                  filterTag('段位')
+                ]),
                 PWidget.container(
                   list.isEmpty
-                      ? PWidget.text(isStow ? '' : '暂无'.tr + '${filterValue.filterObj}', [Colors.white54], {'ct': true})
+                      ? PWidget.text(
+                          isStow ? '' : '暂无'.tr + '${filterValue.filterObj}',
+                          [Colors.white54],
+                          {'ct': true})
                       : MyListView(
                           isShuaxin: false,
                           flag: false,
@@ -555,17 +618,33 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                             var item = list[i];
                             var key = '$item'.split(':').first;
                             // var value = '$item'.split(':').last;
-                            var isSelecto = filterValue.filterValue[filterValue.filterObj] == item;
+                            var isSelecto = filterValue
+                                    .filterValue[filterValue.filterObj] ==
+                                item;
                             return PWidget.container(
                               PWidget.row([
-                                PWidget.text(key, [isSelecto ? Color(0xfff4d26b) : Colors.white70], {'exp': true}),
-                                PWidget.icon(Icons.check_rounded, [isSelecto ? Color(0xfff4d26b) : Colors.transparent, 16]),
+                                PWidget.text(key, [
+                                  isSelecto ? Color(0xfff4d26b) : Colors.white70
+                                ], {
+                                  'exp': true
+                                }),
+                                PWidget.icon(Icons.check_rounded, [
+                                  isSelecto
+                                      ? Color(0xfff4d26b)
+                                      : Colors.transparent,
+                                  16
+                                ]),
                               ]),
-                              [null, 40, Colors.white.withOpacity(isSelecto ? 0.05 : 0)],
+                              [
+                                null,
+                                40,
+                                Colors.white.withOpacity(isSelecto ? 0.05 : 0)
+                              ],
                               {
                                 'pd': PFun.lg(0, 0, 16, 16),
                                 'fun': () async {
-                                  filterValue.changeFilterValue(filterValue.filterObj, item);
+                                  filterValue.changeFilterValue(
+                                      filterValue.filterObj, item);
                                   setState(() => superlistDm.init());
                                   await this.superlist(isRef: true);
                                 },
@@ -573,11 +652,16 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
                             );
                           },
                         ),
-                  [null, isStow ? 0 : (list.isEmpty ? 80 : (list.length) * 40 + 18), Colors.white.withOpacity(isStow ? 0 : 0.05)],
+                  [
+                    null,
+                    isStow ? 0 : (list.isEmpty ? 80 : (list.length) * 40 + 18),
+                    Colors.white.withOpacity(isStow ? 0 : 0.05)
+                  ],
                   {
                     'br': 8,
                     'mg': PFun.lg(8),
-                    'bd': PFun.bdAllLg(Colors.white.withOpacity(isStow ? 0 : 0.1)),
+                    'bd': PFun.bdAllLg(
+                        Colors.white.withOpacity(isStow ? 0 : 0.1)),
                   },
                 ),
               ], '220'),
@@ -612,10 +696,26 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
           [key == null ? Colors.white70 : Color(0xfff4d26b), 12],
           {'exp': true},
         ),
-        PWidget.icon(isSelecto ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down_outlined, [key == null ? Colors.white.withOpacity(isSelecto ? 0.7 : 0.4) : Color(0xfff4d26b), 16]),
+        PWidget.icon(
+            isSelecto
+                ? Icons.keyboard_arrow_up_outlined
+                : Icons.keyboard_arrow_down_outlined,
+            [
+              key == null
+                  ? Colors.white.withOpacity(isSelecto ? 0.7 : 0.4)
+                  : Color(0xfff4d26b),
+              16
+            ]),
       ]),
       [null, null, Colors.white.withOpacity(isSelecto ? 0.1 : 0.05)],
-      {'bd': PFun.bdAllLg(Colors.white24.withOpacity(isSelecto ? 0.2 : 0)), 'fun': () => filterValue.changeFilterObj(filterName(name)), 'pd': 8, 'ali': PFun.lg(0, 0), 'exp': true, 'br': 8},
+      {
+        'bd': PFun.bdAllLg(Colors.white24.withOpacity(isSelecto ? 0.2 : 0)),
+        'fun': () => filterValue.changeFilterObj(filterName(name)),
+        'pd': 8,
+        'ali': PFun.lg(0, 0),
+        'exp': true,
+        'br': 8
+      },
     );
   }
 
@@ -681,12 +781,14 @@ class PlaySwitchWidget extends StatefulWidget {
   final Function(Map)? onTap;
   final Function()? onAddTap;
 
-  const PlaySwitchWidget({Key? key, this.onTap, this.onAddTap}) : super(key: key);
+  const PlaySwitchWidget({Key? key, this.onTap, this.onAddTap})
+      : super(key: key);
   @override
   _PlaySwitchWidgetState createState() => _PlaySwitchWidgetState();
 }
 
-class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepAliveClientMixin {
+class _PlaySwitchWidgetState extends State<PlaySwitchWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     this.initData();
@@ -695,13 +797,15 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
 
   ///初始化函数
   Future initData() async {
-    if (playWithValue.gamelistDm.flag == 0) {
-      await this.gamelist();
-    }
+    // if (playWithValue.gamelistDm.flag == 0) {
+    await this.gamelist();
+    // }
   }
 
   Future<int> gamelist() async {
-    await http.get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=').then((res) async {
+    await http
+        .get('/peiwan/app/home/gamelist?pageNum=1&pageSize=10&searchParams=')
+        .then((res) async {
       playWithValue.gamelistDm.addList(res.data, true, 0);
       // gamelistDm.addList([
       //   for (var i = 0; i < 100; i++) ...gamelistDm.list,
@@ -714,7 +818,11 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
     });
     if (mounted) setState(() {});
     if (playWithValue.gamelistDm.list.isNotEmpty) {
-      fun(playWithValue.playwithSeleIndex, playWithValue.gamelistDm.list.isEmpty ? {} : playWithValue.gamelistDm.list[playWithValue.playwithSeleIndex]);
+      fun(
+          playWithValue.playwithSeleIndex,
+          playWithValue.gamelistDm.list.isEmpty
+              ? {}
+              : playWithValue.gamelistDm.list[playWithValue.playwithSeleIndex]);
     }
     return playWithValue.gamelistDm.flag;
   }
@@ -738,10 +846,12 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
         // list = [list.first];
         return PWidget.container(
           ListView.separated(
-            physics: AlwaysScrollableScrollPhysics(parent: MyBouncingScrollPhysics()),
+            physics: AlwaysScrollableScrollPhysics(
+                parent: MyBouncingScrollPhysics()),
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 16),
-            separatorBuilder: (_, i) => VerticalDivider(color: Colors.transparent, width: 12),
+            separatorBuilder: (_, i) =>
+                VerticalDivider(color: Colors.transparent, width: 12),
             itemCount: list.length + 1,
             itemBuilder: (_, i) {
               var isDy = playWithValue.playwithSeleIndex == i;

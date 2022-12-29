@@ -64,18 +64,25 @@ class _AddGamePageState extends State<AddGamePage> {
   ///技能详情
   var skillInfoDm = DataModel<Map>(object: {});
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
+    await http
+        .get('/peiwan/app/home/skill/${widget.data['id']}')
+        .then((res) async {
       skillInfoDm.addObject(res.data);
       if (isEdit) {
         isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
-        platformIndex = skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
+        platformIndex = skillDm.list
+            .indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
         platform = skillDm.list[platformIndex];
-        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
+        gameIndex = platform['skill']
+            .indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
         game = platform['skill'][gameIndex];
-        gameLvIndex = (game['level'] ?? []).indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        gameLvIndex = (game['level'] ?? [])
+            .indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
         if (gameLvIndex != -1) gameLv = (game['level'] ?? [])[gameLvIndex];
         priceRangeCon.text = '';
-        if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null) gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
+        if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
+          gamePhotos =
+              '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
         this.config();
       }
     }).catchError((e) {
@@ -88,7 +95,9 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏
   var skillDm = DataModel();
   Future<int> skill({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}').then((res) async {
+    await http
+        .get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}')
+        .then((res) async {
       skillDm.addList(res.data, true, 0);
     }).catchError((e) {
       skillDm.toError(e.toString());
@@ -100,7 +109,9 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏价格区间
   var configDm = DataModel<Map>(object: {});
   Future<int> config({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
+    await http
+        .get('/peiwan/app/home/config?gameId=${game['id']}')
+        .then((res) async {
       configDm.addObject(res.data);
       var gameCoinMin = configDm.object?['gameCoinMin'];
       if (isEdit) {
@@ -122,7 +133,8 @@ class _AddGamePageState extends State<AddGamePage> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text(isEdit ? 'edit service'.tr : 'add service'.tr, style: TextStyle(fontSize: 18)),
+        title: Text(isEdit ? 'edit service'.tr : 'add service'.tr,
+            style: TextStyle(fontSize: 18)),
         centerTitle: true,
         elevation: 0,
       ),
@@ -134,7 +146,8 @@ class _AddGamePageState extends State<AddGamePage> {
               PWidget.boxw(8),
               Expanded(
                 child: TextScroll(
-                  'The following items are required. To ensure your interests, please fill them out truthfully'.tr,
+                  'The following items are required. To ensure your interests, please fill them out truthfully'
+                      .tr,
                   style: TextStyle(color: Color(0xff4488FF)),
                 ),
               ),
@@ -163,28 +176,42 @@ class _AddGamePageState extends State<AddGamePage> {
           FloatingButton(
             label: "OK",
             onTap: () async {
-              if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
+              if (isUploadFile)
+                return EasyLoading.showToast(
+                    'Uploading failed, please try again later'.tr);
               if (isSending) return EasyLoading.showToast('Submitting');
               if (privacyCheckController.check() == false) return;
-              if (platform == null) return EasyLoading.showToast('Please select category'.tr);
-              if (game == null) return EasyLoading.showToast('Please select service'.tr);
-              if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
+              if (platform == null)
+                return EasyLoading.showToast('Please select category'.tr);
+              if (game == null)
+                return EasyLoading.showToast('Please select service'.tr);
+              if (platformIndex == null)
+                return EasyLoading.showToast('Please select category'.tr);
               var list = skillDm.list[platformIndex]['skill'] as List;
-              if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
+              if (gameIndex == null)
+                return EasyLoading.showToast('Please select service'.tr);
               var levels = list[gameIndex]['level'] as List;
               if (levels.isNotEmpty) {
-                if (gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
+                if (gameLv == null)
+                  return EasyLoading.showToast(
+                      'Please select service level'.tr);
               }
               // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
-              if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price'.tr);
-              if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
-                return EasyLoading.showToast('The price cannot be less than the minimum value'.tr);
+              if (priceRangeCon.text.isEmpty)
+                return EasyLoading.showToast('Please enter the price'.tr);
+              if (double.parse(priceRangeCon.text) <
+                  configDm.object?['gameCoinMin']) {
+                return EasyLoading.showToast(
+                    'The price cannot be less than the minimum value'.tr);
               }
-              if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
-                return EasyLoading.showToast('The price cannot be greater than the maximum value'.tr);
+              if (double.parse(priceRangeCon.text) >
+                  configDm.object?['gameCoinMax']) {
+                return EasyLoading.showToast(
+                    'The price cannot be greater than the maximum value'.tr);
               }
               if (levels.isNotEmpty) {
-                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
+                if (gamePhotos.isEmpty)
+                  return EasyLoading.showToast('Please upload screenshot'.tr);
               }
               flog(gameLv);
               var data = {
@@ -199,7 +226,13 @@ class _AddGamePageState extends State<AddGamePage> {
               };
               flog(data, 'data');
               isSending = true;
-              await http.post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth', data: data).then((v) {
+              await http
+                  .post(
+                      isEdit
+                          ? '/peiwan/app/home/editSkill'
+                          : '/peiwan/app/user/setSkillAuth',
+                      data: data)
+                  .then((v) {
                 isSending = false;
                 EasyLoading.showToast('Submitted successfully'.tr);
                 Get.back(result: true);
@@ -215,7 +248,8 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 48, Color(0xff282640)], {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 48, Color(0xff282640)],
+        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 
   List<Widget> get item {
@@ -251,22 +285,27 @@ class _AddGamePageState extends State<AddGamePage> {
   ///技能录入
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text('Service detail'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
+      PWidget.text(
+          'Service detail'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
       PWidget.boxh(16),
       itemBg(
         PWidget.row([
           PWidget.text('Category'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(platform == null ? 'Please select'.tr : platform['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(platform == null ? 'Please select'.tr : platform['name'],
+              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           if (isEdit) return;
-          if (skillDm.list.isEmpty) return EasyLoading.showToast('Please check the network settings'.tr);
+          if (skillDm.list.isEmpty)
+            return EasyLoading.showToast(
+                'Please check the network settings'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(skillDm.list.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
+                return VerifyField.fromJson(
+                    {'name': '$i', 'label': skillDm.list[i]['name']});
               }),
               title: "Select Category".tr,
               showInfo: true,
@@ -291,19 +330,22 @@ class _AddGamePageState extends State<AddGamePage> {
         PWidget.row([
           PWidget.text('Service'.tr, [Colors.white]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select'.tr : game['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+          PWidget.text(game == null ? 'Please select'.tr : game['name'],
+              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
           if (isEdit) return;
-          if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
-          flog(skillDm.list[platformIndex],'platformIndex');
+          if (platformIndex == null)
+            return EasyLoading.showToast('Please select category first'.tr);
+          flog(skillDm.list[platformIndex], 'platformIndex');
           var list = skillDm.list[platformIndex]['skill'] as List;
           if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
+                return VerifyField.fromJson(
+                    {'name': '$i', 'label': list[i]['name']});
               }),
               title: "Select Service".tr,
               showInfo: true,
@@ -339,18 +381,22 @@ class _AddGamePageState extends State<AddGamePage> {
           PWidget.row([
             PWidget.text('Level'.tr, [Colors.white]),
             PWidget.boxw(8),
-            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'], [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
+            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'],
+                [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
             rightJtView(16, Colors.white54),
           ]),
           fun: () async {
-            if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
+            if (platformIndex == null)
+              return EasyLoading.showToast('Please select category first'.tr);
             var list = skillDm.list[platformIndex]['skill'] as List;
-            if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
+            if (gameIndex == null)
+              return EasyLoading.showToast('Please select service first'.tr);
             var levels = list[gameIndex]['level'] as List;
             var res = await Get.dialog(
               SelectorDialog(
                 items: List.generate(levels.length, (i) {
-                  return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
+                  return VerifyField.fromJson(
+                      {'name': '$i', 'label': levels[i]['name']});
                 }),
                 title: "Select Level".tr,
                 showInfo: true,
@@ -450,7 +496,8 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('${'Screenshot'.tr}(${20 - gamePhotos.length})', [Colors.white, 20], {'ff': 'DIN'}),
+      PWidget.text('${'Screenshot'.tr}(${20 - gamePhotos.length})',
+          [Colors.white, 20], {'ff': 'DIN'}),
       GridView.builder(
         padding: EdgeInsets.only(top: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -458,20 +505,27 @@ class _AddGamePageState extends State<AddGamePage> {
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: (gamePhotos.length == 20) ? gamePhotos.length : gamePhotos.length + 1,
+        itemCount: (gamePhotos.length == 20)
+            ? gamePhotos.length
+            : gamePhotos.length + 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
           if (gamePhotos.length > i) {
             return PWidget.container(
               Stack(children: [
-                Positioned.fill(child: CachedNetworkImage(imageUrl: gamePhotos[i], fit: BoxFit.cover)),
+                Positioned.fill(
+                    child: CachedNetworkImage(
+                        imageUrl: gamePhotos[i], fit: BoxFit.cover)),
                 Positioned.fill(child: Container(color: Colors.black54)),
                 PWidget.positioned(
                   PWidget.icon(
                     Icons.highlight_remove_rounded,
                     [Colors.white],
-                    {'pd': 8, 'fun': () => setState(() => gamePhotos.removeAt(i))},
+                    {
+                      'pd': 8,
+                      'fun': () => setState(() => gamePhotos.removeAt(i))
+                    },
                   ),
                   [0, null, null, 0],
                 ),
@@ -487,7 +541,9 @@ class _AddGamePageState extends State<AddGamePage> {
               'pd': 16,
               'ali': PFun.lg(0, 0),
               'fun': () {
-                if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
+                if (isUploadFile)
+                  return EasyLoading.showToast(
+                      'Uploading failed, please try again later'.tr);
                 this.selectAvatar(context!);
               }
             },
@@ -505,7 +561,8 @@ class PriceSlider extends StatefulWidget {
   final double? value;
   final Function(double)? fun;
 
-  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value}) : super(key: key);
+  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value})
+      : super(key: key);
   @override
   _PriceSliderState createState() => _PriceSliderState();
 }
@@ -530,27 +587,40 @@ class _PriceSliderState extends State<PriceSlider> {
         min: widget.min!,
         handlerWidth: 80,
         trackBar: FlutterSliderTrackBar(
-          inactiveTrackBar: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-          activeTrackBar: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          inactiveTrackBar: BoxDecoration(
+              color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+          activeTrackBar: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(8)),
         ),
         tooltip: FlutterSliderTooltip(
           positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
           custom: (v) => PWidget.container(
             PWidget.row([
-              Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
+              Image.asset("assets/images/ic_balance_money.webp",
+                  width: 16, height: 16),
               PWidget.boxw(4),
               PWidget.text('${double.parse('$v').toInt()}'),
+              PWidget.boxw(4),
+              PWidget.text(
+                  '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
             ]),
             [null, null, Colors.white],
             {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
           ),
         ),
         handler: FlutterSliderHandler(
-          child: PWidget.container(PWidget.text('${value.toInt()}', [Colors.black.withOpacity(0.75)]), [null, null, Colors.white], {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+          child: PWidget.container(
+              PWidget.text(
+                  '${value.toInt()}', [Colors.black.withOpacity(0.75)]),
+              [null, null, Colors.white],
+              {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
           foregroundDecoration: BoxDecoration(),
           decoration: BoxDecoration(),
         ),
-        handlerAnimation: FlutterSliderHandlerAnimation(curve: Curves.elasticOut, reverseCurve: Curves.elasticIn, duration: Duration(milliseconds: 250)),
+        handlerAnimation: FlutterSliderHandlerAnimation(
+            curve: Curves.elasticOut,
+            reverseCurve: Curves.elasticIn,
+            duration: Duration(milliseconds: 250)),
         onDragging: (i, v1, v2) => setState(() => value = v1),
         onDragCompleted: (i, v1, v2) => widget.fun!(v1),
       ),
