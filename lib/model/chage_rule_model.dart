@@ -75,11 +75,13 @@ class CoinChargeRuleModel {
     listOrder = json['listOrder'];
     addtime = json['addtime'];
     coinPaypal = json['coinPaypal'];
+    actualMoney = json['actualMoney'].toString();
   }
 
   dynamic id;
   dynamic name;
   late String money;
+  late String actualMoney;
   late int coin;
   late int coinIos;
   dynamic productId;
@@ -102,6 +104,7 @@ class CoinChargeRuleModel {
     map['listOrder'] = listOrder;
     map['addtime'] = addtime;
     map['coinPaypal'] = coinPaypal;
+    map['actualMoney'] = actualMoney;
     return map;
   }
 }

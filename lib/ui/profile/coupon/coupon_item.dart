@@ -71,10 +71,8 @@ class CouponItem extends StatelessWidget {
                                     model.available == CouponModel.AVILABLE
                                         ? Colors.white
                                         : Colors.grey,
-                                    50
-                                  ], {
-                                    'ff': 'DIN'
-                                  }),
+                                    45
+                                  ]),
                                   if (model.unit.isNotEmpty)
                                     Container(
                                       child: Transform.rotate(
@@ -86,9 +84,7 @@ class CouponItem extends StatelessWidget {
                                                   ? Colors.white
                                                   : Colors.grey,
                                               23
-                                            ], {
-                                              'ff': 'DIN'
-                                            })),
+                                            ])),
                                       ),
                                     ),
                                 ],
