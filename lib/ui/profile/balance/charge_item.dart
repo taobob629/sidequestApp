@@ -102,18 +102,11 @@ class ChargeItem extends StatelessWidget {
               ],
             ),
           ),
-          // Positioned(
-          //     right: 0,
-          //     top: 0,
-          //     child: ),Image.asset(
-          //   "assets/images/charge_badge.png",
-          //   width: 40,
-          // )
           Positioned(
             right: 0,
             top: 0,
             child: Visibility(
-              visible: item.freeCoin > 0,
+              visible: item.freeCoin > 0 && showCoin,
               child: Container(
                 width: 50,
                 height: 50,
