@@ -14,8 +14,8 @@ class ChargeRuleModel {
 
   ChargeRuleModel.fromJson(dynamic json) {
     chargeRatio = json['chargeRatio'];
-    coin = json['coin']??0;
-    votes = json['votes']??0;
+    coin = json['coin'] ?? 0;
+    votes = json['votes'] ?? 0;
     if (json['pw_charge_rules'] != null) {
       pwChargeRules = [];
       json['pw_charge_rules'].forEach((v) {
@@ -55,6 +55,7 @@ class CoinChargeRuleModel {
     this.money = '',
     this.coin = 0,
     this.coinIos = 0,
+    this.freeCoin = 0,
     this.productId,
     this.googlePid,
     this.give,
@@ -69,6 +70,7 @@ class CoinChargeRuleModel {
     money = json['money'] ?? '';
     coin = json['coin'] ?? 0;
     coinIos = json['coinIos'] ?? 0;
+    freeCoin = json['freeCoin'] ?? 0;
     productId = json['productId'];
     googlePid = json['googlePid'];
     give = json['give'];
@@ -83,6 +85,8 @@ class CoinChargeRuleModel {
   late String money;
   late String actualMoney;
   late int coin;
+  late int freeCoin;
+
   late int coinIos;
   dynamic productId;
   dynamic googlePid;
