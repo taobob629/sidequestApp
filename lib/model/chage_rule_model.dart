@@ -73,7 +73,7 @@ class CoinChargeRuleModel {
     freeCoin = json['freeCoin'] ?? 0;
     productId = json['productId'];
     googlePid = json['googlePid'];
-    give = json['give'];
+    give = json['give']??0;
     listOrder = json['listOrder'];
     addtime = json['addtime'];
     coinPaypal = json['coinPaypal'];
