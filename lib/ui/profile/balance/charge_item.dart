@@ -106,7 +106,7 @@ class ChargeItem extends StatelessWidget {
             right: 0,
             top: 0,
             child: Visibility(
-              visible: item.freeCoin > 0 && showCoin,
+              visible: item.give > 0 && showCoin,
               child: Container(
                 width: 50,
                 height: 50,
@@ -121,7 +121,7 @@ class ChargeItem extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10),
                     alignment: Alignment.topCenter,
                     child: Text(
-                      '${(item.freeCoin * 100 / item.coin).toStringAsFixed(0)}%UP',
+                      '${item.give}%UP',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
