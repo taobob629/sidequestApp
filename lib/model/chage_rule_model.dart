@@ -58,7 +58,7 @@ class CoinChargeRuleModel {
     this.freeCoin = 0,
     this.productId,
     this.googlePid,
-    this.give,
+    this.give = 0,
     this.listOrder,
     this.addtime,
     this.coinPaypal,
@@ -73,7 +73,7 @@ class CoinChargeRuleModel {
     freeCoin = json['freeCoin'] ?? 0;
     productId = json['productId'];
     googlePid = json['googlePid'];
-    give = json['give']??0;
+    give = json['give'] ?? 0;
     listOrder = json['listOrder'];
     addtime = json['addtime'];
     coinPaypal = json['coinPaypal'];
@@ -90,7 +90,7 @@ class CoinChargeRuleModel {
   late int coinIos;
   dynamic productId;
   dynamic googlePid;
-  dynamic give;
+  int give = 0;
   dynamic listOrder;
   dynamic addtime;
   dynamic coinPaypal;
