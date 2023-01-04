@@ -77,8 +77,11 @@ class ApiInterceptor extends InterceptorsWrapper {
       response.statusMessage = respData.msg;
       return handler.next(response);
     } else {
-      if (respData.code == 401 && requestPath != '/peiwan/app/tim/getSig') {
+      if (respData.code == 401) {
         //throw const UnAuthorizedException(); // 需要登录
+        if (requestPath == '/peiwan/app/tim/getSig') {
+          return handler.next(response);
+        }
         EasyLoading.dismiss(animation: false);
         var email = StorageManager.getAccount();
         var password = StorageManager.getPassword();
