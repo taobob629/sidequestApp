@@ -69,15 +69,15 @@ class ApiInterceptor extends InterceptorsWrapper {
 
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) async {
-    log('api-response:$response', name: "WY_API：${response.requestOptions.path}");
-
+    flog('onResponse api-response ${response.requestOptions.path}');
+    String requestPath = response.requestOptions.path;
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {
       response.data = respData.data;
       response.statusMessage = respData.msg;
       return handler.next(response);
     } else {
-      if (respData.code == 401) {
+      if (respData.code == 401 && requestPath != '/peiwan/app/tim/getSig') {
         //throw const UnAuthorizedException(); // 需要登录
         EasyLoading.dismiss(animation: false);
         var email = StorageManager.getAccount();
