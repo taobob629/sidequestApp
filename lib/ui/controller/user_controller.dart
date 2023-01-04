@@ -202,7 +202,7 @@ class UserController extends GetxController {
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
-    // imLogin();
+    imLogin();
     done?.call(loginModel);
   }
 
