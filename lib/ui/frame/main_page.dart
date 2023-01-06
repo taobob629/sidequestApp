@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,6 +16,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
+import 'package:wy/service/push_service.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -200,10 +203,33 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
 
   late Timer _timer;
 
+  initOfflinePush() async {
+    await ChannelPush.init(handleClickNotification);
+    uploadOfflinePushInfoToken();
+  }
+
+  uploadOfflinePushInfoToken() async {
+    if (!kIsWeb) {
+      ChannelPush.requestPermission();
+      Future.delayed(const Duration(seconds: 5), () async {
+        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
+        // ignore: avoid_print
+        print("Push token upload result: $isUploadSuccess");
+      });
+    }
+  }
+
+  void handleClickNotification(Map<String, dynamic> msg) async {
+    String ext = msg['ext'] ?? "";
+    Map<String, dynamic> extMsp = jsonDecode(ext);
+    String convId = extMsp["conversationID"] ?? "";
+  }
+
   @override
   void onInit() async {
     super.onInit();
     LocationService().init();
+    initOfflinePush();
     controller = PageController(initialPage: 2);
     // controller.addListener(() {
     //   var curpage = controller.page;
