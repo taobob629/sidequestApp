@@ -229,7 +229,6 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   void onInit() async {
     super.onInit();
     LocationService().init();
-    initOfflinePush();
     controller = PageController(initialPage: 2);
     // controller.addListener(() {
     //   var curpage = controller.page;
@@ -262,15 +261,18 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if(initialMessage != null){
       print('Restart app get remote message');
-      Get.to(()=>NotificationPage());
+      Get.to(() => NotificationPage());
     }
 
     NotificationAppLaunchDetails? notificationAppLaunchDetails =
-    await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    if(notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp){
-      print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
-      Get.to(()=>NotificationPage());
+        await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails != null &&
+        notificationAppLaunchDetails.didNotificationLaunchApp) {
+      print(
+          'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
+      Get.to(() => NotificationPage());
     }
+    initOfflinePush();
   }
 
   @override
