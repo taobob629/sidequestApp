@@ -20,7 +20,8 @@ import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import '../../model/play_order_detail_model.dart';
 import '../../widget/tim_ui/my_tim_uikit_chat.dart' as my;
-import '../../widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
+import '../../widget/tim_ui/my_tim_uikit_more_panel.dart'
+    as my_tim_uikit_more_panel;
 import 'package:date_format/date_format.dart';
 
 class Chat extends StatefulWidget {
@@ -28,14 +29,20 @@ class Chat extends StatefulWidget {
   final V2TimMessage? initFindingMsg;
   final String orderSn;
 
-  const Chat({Key? key, required this.selectedConversation, this.initFindingMsg, this.orderSn=''}) : super(key: key);
+  const Chat(
+      {Key? key,
+      required this.selectedConversation,
+      this.initFindingMsg,
+      this.orderSn = ''})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
-  final TIMUIKitChatController _timuiKitChatController = TIMUIKitChatController();
+  final TIMUIKitChatController _timuiKitChatController =
+      TIMUIKitChatController();
   bool isDisscuss = false;
   bool isTopic = false;
   String? backRemark;
@@ -44,8 +51,10 @@ class _ChatState extends State<Chat> {
 
   PlayOrderDetailModel? playOrderDetailModel;
 
-  _getPlayOrder(){
-    ImApi.getCurrentPlayOrderDetail(widget.selectedConversation.userID!,widget.orderSn).then((value) {
+  _getPlayOrder() {
+    ImApi.getCurrentPlayOrderDetail(
+            widget.selectedConversation.userID!, widget.orderSn)
+        .then((value) {
       setState(() {
         playOrderDetailModel = value;
       });
@@ -53,7 +62,8 @@ class _ChatState extends State<Chat> {
   }
 
   String _getTitle() {
-    log(widget.selectedConversation.showName.toString(),name:'widget.selectedConversation.showName');
+    log(widget.selectedConversation.showName.toString(),
+        name: 'widget.selectedConversation.showName');
     return backRemark ?? widget.selectedConversation.showName ?? "";
   }
 
@@ -68,7 +78,9 @@ class _ChatState extends State<Chat> {
   }
 
   ConvType _getConvType() {
-    return widget.selectedConversation.type == 1 ? ConvType.c2c : ConvType.group;
+    return widget.selectedConversation.type == 1
+        ? ConvType.c2c
+        : ConvType.group;
   }
 
   _initListener() async {
@@ -78,8 +90,13 @@ class _ChatState extends State<Chat> {
   }
 
   _onTapAvatar(String userID) {
-    if(widget.selectedConversation.userID=='system')return;
-    Get.to(() => PlayDetail(userId: userID,fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
+    if (widget.selectedConversation.userID == 'system') return;
+    Get.to(() => PlayDetail(
+              userId: userID,
+              fromChat: true,
+              isMemberCode: true,
+            ))!
+        .whenComplete(() => _getPlayOrder());
   }
 
   // _onTapLocation() {
@@ -117,8 +134,10 @@ class _ChatState extends State<Chat> {
   // }
 
   _goToVideoUI() async {
-    final hasCameraPermission = await Permissions.checkPermission(context, Permission.camera.value);
-    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasCameraPermission =
+        await Permissions.checkPermission(context, Permission.camera.value);
+    final hasMicphonePermission =
+        await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasCameraPermission || !hasMicphonePermission) {
       return;
     }
@@ -151,7 +170,8 @@ class _ChatState extends State<Chat> {
   }
 
   _goToVoiceUI() async {
-    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasMicphonePermission =
+        await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasMicphonePermission) {
       return;
     }
@@ -173,9 +193,14 @@ class _ChatState extends State<Chat> {
     }
   }
 
-  _toOrderPage()  {
-    if(widget.selectedConversation.userID=='system')return;
-    Get.to(()=>PlayDetail(userId: widget.selectedConversation.userID!, fromChat: true, isMemberCode: true,))!.whenComplete(() => _getPlayOrder());
+  _toOrderPage() {
+    if (widget.selectedConversation.userID == 'system') return;
+    Get.to(() => PlayDetail(
+              userId: widget.selectedConversation.userID!,
+              fromChat: true,
+              isMemberCode: true,
+            ))!
+        .whenComplete(() => _getPlayOrder());
   }
 
   @override
@@ -197,9 +222,10 @@ class _ChatState extends State<Chat> {
     double iconHeight = height * 0.5;
     return Scaffold(
       body: my.TIMUIKitChat(
-        // customEmojiStickerList: Const.emojiList.where((element) => element.isEmoji == true).toList(),
-        topFixWidget: _buildOrderState(),
-          lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
+          // customEmojiStickerList: Const.emojiList.where((element) => element.isEmoji == true).toList(),
+          topFixWidget: _buildOrderState(),
+          lifeCycle:
+              ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
             // This configuration is unnecessary and only for demonstration purpose.
             // It shows if you tend to avoid a message from rending, you can `return null` here.
             return message;
@@ -225,21 +251,27 @@ class _ChatState extends State<Chat> {
                 // GroupReceptAllowType.public
               ]),
           conversationID: _getConvID() ?? '',
-          conversationType:ConvType.values[widget.selectedConversation.type ?? ConversationType.V2TIM_C2C],
+          conversationType: ConvType.values[
+              widget.selectedConversation.type ?? ConversationType.V2TIM_C2C],
           onTapAvatar: _onTapAvatar,
           conversationShowName: _getTitle(),
           initFindingMsg: widget.initFindingMsg,
           draftText: _getDraftText(),
-          messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
+          messageItemBuilder: MessageItemBuilder(
+              customMessageItemBuilder: (message, isShowJump, clearJump) {
             var data = jsonDecode(message.customElem!.data!);
             var type = data['type'];
-            if(type != "play_order"){
-              return Text("Unsupported message type, please update your app!",style: TextStyle(fontSize: 12,color: Colors.white24),);
+            if (type != "play_order") {
+              return Text(
+                "Unsupported message type, please update your app!",
+                style: TextStyle(fontSize: 12, color: Colors.white24),
+              );
             }
             print(data);
             return GestureDetector(
-              onTap: (){
-                Get.to(()=>OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
+              onTap: () {
+                Get.to(() => OrderDetail(orderId: data['orderId']))!
+                    .whenComplete(() => _getPlayOrder());
               },
               child: Container(
                 height: height,
@@ -249,21 +281,25 @@ class _ChatState extends State<Chat> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/msg_bg.png"),
+                            fit: BoxFit.cover)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            data['icon'] == null ? Container(
-                              width: iconHeight,
-                              height: iconHeight,):
-                            Image.network(
-                              data['icon'],
-                              width: iconHeight,
-                              height: iconHeight,
-                            ),
+                            data['icon'] == null
+                                ? Container(
+                                    width: iconHeight,
+                                    height: iconHeight,
+                                  )
+                                : Image.network(
+                                    data['icon'],
+                                    width: iconHeight,
+                                    height: iconHeight,
+                                  ),
                             SizedBox(
                               width: 5,
                             ),
@@ -272,31 +308,47 @@ class _ChatState extends State<Chat> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                    width: width-iconHeight-25,
+                                    width: width - iconHeight - 25,
                                     child: Text(
                                       "${data['game']}",
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   Row(
                                     children: [
-                                      Image.asset("assets/images/ic_balance_money.webp",width: 15,height: 15,),
-                                      SizedBox(width: 3,),
+                                      Image.asset(
+                                        "assets/images/ic_balance_money.webp",
+                                        width: 15,
+                                        height: 15,
+                                      ),
+                                      SizedBox(
+                                        width: 3,
+                                      ),
                                       Text(
                                         "${data['price']}",
-                                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(width: 10,),
-                                      Text("for ${data['num']} ${data['num'] > 1 ? 'Hours':'Hour' }",
                                         style: TextStyle(
-                                          color: Colors.white54,
-                                          fontSize: 14,
-                                        )),
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                          "for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
+                                          style: TextStyle(
+                                            color: Colors.white54,
+                                            fontSize: 14,
+                                          )),
                                     ],
                                   )
                                 ],
@@ -308,14 +360,24 @@ class _ChatState extends State<Chat> {
                           height: 15,
                         ),
                         // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
-                          Text( "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000), [d, '/', M, '/', yyyy,' ',HH,':',nn,])}",
+                        Text(
+                            "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [
+                                  d,
+                                  '/',
+                                  M,
+                                  '/',
+                                  yyyy,
+                                  ' ',
+                                  HH,
+                                  ':',
+                                  nn,
+                                ])}",
 
                             // Text("${data['addTime']}",
-                          style: TextStyle(
-                            color: Colors.white54,
-                            fontSize: 14,
-                          )
-                        ),
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 14,
+                            )),
                       ],
                     )),
               ),
@@ -363,95 +425,109 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Widget _buildOrderState(){
-    if(playOrderDetailModel == null){
+  Widget _buildOrderState() {
+    if (playOrderDetailModel == null) {
       return Container();
     }
     return GestureDetector(
-      onTap: ()=>Get.to(()=>OrderDetail(orderId: playOrderDetailModel!.orderId))!.whenComplete(() => _getPlayOrder()),
+      onTap: () =>
+          Get.to(() => OrderDetail(orderId: playOrderDetailModel!.orderId))!
+              .whenComplete(() => _getPlayOrder()),
       child: Container(
         height: 80,
         color: Colors.white12,
         child: Stack(
           children: [
             Positioned(
-              left: 10,
-              right: 10,
-              top: 10,
-              child: Row(
-                children: [
-                  Text("${playOrderDetailModel!.gameName}",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),),
-                  Spacer(),
-                  Image.asset("assets/images/ic_balance_money.webp",width: 12,height: 12,),
-                  Text("${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} ${playOrderDetailModel!.nums > 1 ? 'Hours' : 'Hour'}",style: TextStyle(color: Colors.white,fontSize: 12),)
-                ],
-              )
-            ),
+                left: 10,
+                right: 10,
+                top: 10,
+                child: Row(
+                  children: [
+                    Text(
+                      "${playOrderDetailModel!.gameName}",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Image.asset(
+                      "assets/images/ic_balance_money.webp",
+                      width: 12,
+                      height: 12,
+                    ),
+                    Text(
+                      "${playOrderDetailModel!.total} for ${playOrderDetailModel!.nums} ${playOrderDetailModel!.nums > 1 ? 'Hours' : 'Hour'}",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    )
+                  ],
+                )),
             Positioned(
-              left: 0,
-              right: 0,
-              top: 45,
-              child: Container(
-                height: 2,
-                margin: const EdgeInsets.symmetric(horizontal: 35),
-                color: Colors.white24,
-              )
-            ),
+                left: 0,
+                right: 0,
+                top: 45,
+                child: Container(
+                  height: 2,
+                  margin: const EdgeInsets.symmetric(horizontal: 35),
+                  color: Colors.white24,
+                )),
             Positioned(
-              left: 0,
-              right: 0,
-              top: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 80,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 6,
-                        ),
-                        Text(
+                left: 0,
+                right: 0,
+                top: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 80,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 6,
+                          ),
+                          Text(
                             "Paid".tr,
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           )
                         ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 80,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: playOrderDetailModel!.status ==2 ? Colors.green : Colors.blue,
-                          radius: 6,
-                        ),
-                        Text(
+                    Container(
+                      width: 80,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: playOrderDetailModel!.status == 2
+                                ? Colors.green
+                                : Colors.blue,
+                            radius: 6,
+                          ),
+                          Text(
                             "${playOrderDetailModel!.status == 2 ? 'Serving'.tr : 'Waiting'.tr}",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           )
                         ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 80,
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.blue,
-                          radius: 6,
-                        ),
-                        Text(
+                    Container(
+                      width: 80,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            radius: 6,
+                          ),
+                          Text(
                             "Comment".tr,
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           )
                         ],
-                    ),
-                  )
-                ],
-              )
-            )
+                      ),
+                    )
+                  ],
+                ))
           ],
         ),
       ),

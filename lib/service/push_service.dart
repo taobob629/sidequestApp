@@ -25,7 +25,8 @@ class ChannelPush {
     cPush.createNotificationChannel(
         channelId: "new_message",
         channelName: "chat_message",
-        channelDescription: "The notification for chat message from Tencent Cloud IM");
+        channelDescription:
+            "The notification for chat message from Tencent Cloud IM");
 
     // require the permission for notification
     cPush.requireNotificationPermission();
@@ -85,7 +86,8 @@ class PushConfig {
   static const String OPPOChannelID = "new_message";
 
   // Business ID for Apple APNS
-  static const ApplePushBuzID = 0;
+  static const ApplePushDevBuzID = 15142;
+  static const ApplePushDisBuzID = 15143;
 
   static final PushAppInfo appInfo = PushAppInfo(
       hw_buz_id: PushConfig.HWPushBuzID,
@@ -101,5 +103,7 @@ class PushConfig {
       oppo_buz_id: PushConfig.OPPOPushBuzID,
       oppo_app_id: PushConfig.OPPOPushAPPID,
       google_buz_id: PushConfig.GOOGLEFCMPushBuzID,
-      apple_buz_id: PushConfig.ApplePushBuzID);
+      apple_buz_id: bool.fromEnvironment("dart.vm.product")
+          ? ApplePushDisBuzID
+          : ApplePushDevBuzID);
 }
