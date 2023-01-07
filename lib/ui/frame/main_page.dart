@@ -258,7 +258,6 @@ class MainPageController extends FullLifeCycleController
   void onInit() async {
     super.onInit();
     LocationService().init();
-    initOfflinePush();
     controller = PageController(initialPage: 2);
     // controller.addListener(() {
     //   var curpage = controller.page;
@@ -308,6 +307,7 @@ class MainPageController extends FullLifeCycleController
           'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(() => NotificationPage());
     }
+    initOfflinePush();
   }
 
   @override
