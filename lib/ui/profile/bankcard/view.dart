@@ -123,6 +123,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       InputView(
           controller: controller.accountNumTEC,
           label: '*${'Recipient Bank Account Number'.tr}',
+          textInputType: TextInputType.number,
           maxLength: 100,
           tips: "please input".tr),
       InputView(

@@ -74,7 +74,7 @@ class PushConfig {
   static const VIVOPushBuzID = 0;
 
   // Business ID for Google FCM
-  static const GOOGLEFCMPushBuzID = 40635894328;
+  static const GOOGLEFCMPushBuzID = 7024;
 
   // Business ID for OPPO
   static const OPPOPushBuzID = 0;
