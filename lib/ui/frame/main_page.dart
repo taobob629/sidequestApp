@@ -209,51 +209,6 @@ class MainPageController extends FullLifeCycleController
   DateTime? lastPopTime;
 
   late Timer _timer;
-
-  initOfflinePush() async {
-    await ChannelPush.init(handleClickNotification);
-    uploadOfflinePushInfoToken();
-  }
-
-  uploadOfflinePushInfoToken() async {
-    if (!kIsWeb) {
-      ChannelPush.requestPermission();
-      Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess =
-            await ChannelPush.uploadToken(PushConfig.appInfo);
-        // ignore: avoid_print
-        print("Push token upload result: $isUploadSuccess");
-      });
-    }
-  }
-
-  ///处理推送点击事件
-  void handleClickNotification(Map<String, dynamic> msg) async {
-    String ext = msg['ext'] ?? "";
-    Map<String, dynamic> extMsp = jsonDecode(ext);
-    String convId = extMsp["conversationID"] ?? "";
-
-    // 【TUIKit】若当前的会话与要跳转至的会话一致，则不跳转。
-    // final currentConvID = _timuiKitChatController.getCurrentConversation();
-    // if(currentConvID == convId.split("_")[1]){
-    //   return;
-    // }
-    //  final targetConversationRes = await TencentImSDKPlugin.v2TIMManager
-    //     .getConversationManager()
-    //     .getConversation(conversationID: convId);
-    //  V2TimConversation? targetConversation = targetConversationRes.data;
-    //  if(targetConversation != null){
-    //   ChannelPush.cPush.clearAllNotification();
-    //   Navigator.push(
-    //       _cachedContext ?? context,
-    //       MaterialPageRoute(
-    //         builder: (context) => Chat(
-    //           selectedConversation: targetConversation,
-    //         ),
-    //       ));
-    // }
-  }
-
   @override
   void onInit() async {
     super.onInit();
@@ -307,7 +262,6 @@ class MainPageController extends FullLifeCycleController
           'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(() => NotificationPage());
     }
-    initOfflinePush();
   }
 
   @override

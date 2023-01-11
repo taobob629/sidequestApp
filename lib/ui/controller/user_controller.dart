@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
@@ -19,6 +21,7 @@ import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
 import 'package:wy/provider/custom_sticker_package_data.dart';
+import 'package:wy/service/push_service.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
@@ -206,6 +209,49 @@ class UserController extends GetxController {
     done?.call(loginModel);
   }
 
+  uploadOfflinePushInfoToken() async {
+    if (!kIsWeb) {
+      ChannelPush.requestPermission();
+      Future.delayed(const Duration(seconds: 5), () async {
+        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
+        // ignore: avoid_print
+        print("Push token upload result: $isUploadSuccess");
+      });
+    }
+  }
+
+  ///处理推送点击事件
+  void handleClickNotification(Map<String, dynamic> msg) async {
+    String ext = msg['ext'] ?? "";
+    Map<String, dynamic> extMsp = jsonDecode(ext);
+    String convId = extMsp["conversationID"] ?? "";
+
+    // 【TUIKit】若当前的会话与要跳转至的会话一致，则不跳转。
+    // final currentConvID = _timuiKitChatController.getCurrentConversation();
+    // if(currentConvID == convId.split("_")[1]){
+    //   return;
+    // }
+    //  final targetConversationRes = await TencentImSDKPlugin.v2TIMManager
+    //     .getConversationManager()
+    //     .getConversation(conversationID: convId);
+    //  V2TimConversation? targetConversation = targetConversationRes.data;
+    //  if(targetConversation != null){
+    //   ChannelPush.cPush.clearAllNotification();
+    //   Navigator.push(
+    //       _cachedContext ?? context,
+    //       MaterialPageRoute(
+    //         builder: (context) => Chat(
+    //           selectedConversation: targetConversation,
+    //         ),
+    //       ));
+    // }
+  }
+
+  initOfflinePush() async {
+    await ChannelPush.init(handleClickNotification);
+    uploadOfflinePushInfoToken();
+  }
+
   void imLogin() async {
     if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
@@ -213,16 +259,13 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance
-          .login(userID: "${userSig.uid}", userSig: userSig.token)
-          .then((value) async {
+      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
         imLoginDone.value = true;
+        //执行登录 IM 成功后调用。初始化push
+        initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager
-            .getConversationManager()
-            .addConversationListener(
-                listener: V2TimConversationListener(
-                    onTotalUnreadMessageCountChanged: (count) {
+        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(
+                listener: V2TimConversationListener(onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
               FlutterAppBadger.isAppBadgeSupported().then((value) {
