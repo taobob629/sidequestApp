@@ -279,41 +279,46 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                           }else if(index == 1){
                             return Obx(()=> widget.controller.detailModel.value.skills.length > 0 ? _buildGames(context):Container());
                           }else if(index == 2){
-                            return  _buildIntro();
-                          }
-                          return Container(height: 64);
-                        },
-                        childCount: 4
-                    )
-                )
+                    return _buildIntro();
+                  }
+                  return Container(height: 64);
+                }, childCount: 4))
               ],
-            )
-        ),
-    if(!isMe)
-    Obx(()=>Visibility(
-    visible:widget.controller.detailModel.value.userId!=0 ,
-    child: Positioned(
-    left: 0,
-    right: 0,
-    bottom: 10,
-    child: Material(
-    color: Colors.transparent,
-    child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-    Obx(() {
-    return ColorfulButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(widget.controller.detailModel.value.follow==1?Icons.remove_circle: Icons.add_circle,color: Colors.white,size: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10,top: 4),
-                              child: Text(
-                                widget.controller.detailModel.value.follow == 1 ? "UnFollow".tr : "Follow".tr,
-                                style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "din"),
-                              ),
-                            ),
+            )),
+        if (!isMe)
+          Obx(() => Visibility(
+              visible: widget.controller.detailModel.value.userId != 0,
+              child: Positioned(
+                left: 0,
+                right: 0,
+                bottom: 10,
+                child: Material(
+                    color: Colors.transparent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Obx(() {
+                          return ColorfulButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  widget.controller.detailModel.value.follow == 1
+                                      ? Icons.remove_circle
+                                      : Icons.add_circle,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10, top: 4),
+                                  child: Text(
+                                    widget.controller.detailModel.value.follow == 1
+                                        ? "UnFollow".tr
+                                        : "Follow".tr,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18, fontFamily: "din"),
+                                  ),
+                                ),
                           ],
                         ),
                         height: 50,
@@ -379,17 +384,16 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
                                     ),
                               ),
                           );
-                          // this.initListenAndPump();
-                          widget.controller.detailModel.value=PlayDetailModel();
-                          widget.controller.detailModel.refresh();
-                          widget.controller.onReady();
-                        }
-                      },
-                    )
-                  ],
-                )
-            ),
-          )
+                              // this.initListenAndPump();
+                              widget.controller.detailModel.value = PlayDetailModel();
+                              widget.controller.detailModel.refresh();
+                              widget.controller.onReady();
+                            }
+                          },
+                        )
+                      ],
+                    )),
+              )))
       ],
     );
   }
