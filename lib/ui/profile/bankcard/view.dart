@@ -104,7 +104,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           visible: controller.country != null && controller.country?.name != ENGLAND,
           child: InputView(
               controller: controller.swiftCodeTEC,
-              label: "SWIFT Code".tr,
+              label: '*${"SWIFT Code".tr}',
               maxLength: 20,
               tips: "please input".tr))),
       // InputView(

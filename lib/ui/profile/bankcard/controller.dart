@@ -7,7 +7,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/utils/utils.dart';
@@ -25,10 +24,12 @@ class BindBankCardController extends GetxController {
   late TextEditingController swiftCodeTEC;
   late TextEditingController bankCountryTEC;
   late TextEditingController bankNameTEC;
+
   //late TextEditingController bankIBANTEC;
   late TextEditingController bankAddressTEC;
   late TextEditingController accountNumTEC;
   late TextEditingController nameOnAccountNumTEC;
+
 //  late TextEditingController accountAddressTEC;
   RxString _bankName = RxString('');
 
@@ -126,44 +127,46 @@ class BindBankCardController extends GetxController {
   save() async {
     // if (privacyCheckController.check()) {
     if (!validateForm()) {
-        EasyLoading.showToast('Incomplete information!');
-        return;
-      }
-      EasyLoading.show();
-      var sortcode = sortCodeTEC.text;
-      var bankName = bankNameTEC.text;
-      var bankAddress = bankAddressTEC.text;
-      var country = this.country?.name;
-      var billAddress = this.bankAddressTEC.text;
+      EasyLoading.showToast('Incomplete information!');
+      return;
+    }
+    EasyLoading.show();
+    var sortcode = sortCodeTEC.text;
+    var bankName = bankNameTEC.text;
+    var bankAddress = bankAddressTEC.text;
+    var country = this.country?.name;
+    var billAddress = this.bankAddressTEC.text;
     //  var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
-      var accountName = nameOnAccountNumTEC.text;
-     // var accountAddress = accountAddressTEC.text;
+    var accountName = nameOnAccountNumTEC.text;
+    // var accountAddress = accountAddressTEC.text;
 
-      await BalanceApi.addBankCard(Map<String, dynamic>()
+    await BalanceApi.addBankCard(Map<String, dynamic>()
           ..['sortcode'] = sortcode
           ..['bankName'] = bankName
           ..['cardNumber'] = cardNumber
           ..['accountName'] = accountName
           ..['bankAddress'] = bankAddress
           ..['country'] = country
-          ..['billAddress'] = billAddress
-         )
+          ..['billAddress'] = billAddress)
         //..['iban'] = iban)
         .catchError((e) {
-        EasyLoading.dismiss();
-      });
-      refreshBankList();
       EasyLoading.dismiss();
-      Get.back();
+    });
+    refreshBankList();
+    EasyLoading.dismiss();
+    Get.back();
     //  }
   }
 
   bool validateForm() {
     var bankName = bankNameTEC.text;
-    flog(bankName);
     // var bankAddress = bankAddressTEC.text;
     var country = this.country?.name;
+    if (country != ENGLAND) {
+      var code = swiftCodeTEC.text;
+      if (code.isEmpty) return false;
+    }
     // var billAddress = this.bankAddressTEC.text;
     //   var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
