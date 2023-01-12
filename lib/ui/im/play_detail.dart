@@ -289,18 +289,20 @@ class _PlayDetailState extends State<PlayDetail> with TickerProviderStateMixin {
               ],
             )
         ),
-        if(!isMe)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 10,
-            child: Material(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Obx(() {
-                      return ColorfulButton(
+    if(!isMe)
+    Obx(()=>Visibility(
+    visible:widget.controller.detailModel.value.userId!=0 ,
+    child: Positioned(
+    left: 0,
+    right: 0,
+    bottom: 10,
+    child: Material(
+    color: Colors.transparent,
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+    Obx(() {
+    return ColorfulButton(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
