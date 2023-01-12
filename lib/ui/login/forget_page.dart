@@ -87,7 +87,7 @@ class ForgetPage extends StatelessWidget {
     list.add(AuthInputView(
       tips: "${'New'.tr} ${type == 1 ? 'password'.tr : 'pin'.tr}",
       editingController: controller.passwordEditingController,
-      keyboardType: TextInputType.number,
+      keyboardType: type == 1 ?TextInputType.text:TextInputType.number,
       inputFormatters: type == 1
           ? null
           : [
