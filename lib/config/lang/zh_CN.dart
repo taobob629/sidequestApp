@@ -58,7 +58,7 @@ const Map<String, String> zh_CN = {
   'PASSWORD': '密码',
   'PIN': 'PIN',
   'Your sign in account email': '您的登录帐户电子邮件',
-  'New': 'New',
+  'New': '新',
   'password': '密码',
   'pin': 'pin',
   '* Only 6 numbers accepted as your payment pin': '* Only 6 numbers accepted as your payment pin',
@@ -651,6 +651,6 @@ const Map<String, String> zh_CN = {
   "Recipient’s Bank Country":"收款银行国家",
   "Refunded":"已退款",
   "Lack of diamonds":"钻石不足",
-  "You should read and agree to our seller payment terms first.":"请先阅读并同意我们的陪玩支付协议。"
-
+  "You should read and agree to our seller payment terms first.":"请先阅读并同意我们的陪玩支付协议。",
+  "RETRIEVE":"找回"
 };
