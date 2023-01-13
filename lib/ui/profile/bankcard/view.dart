@@ -84,7 +84,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       InputView(
         controller: controller.bankCountryTEC,
         label: '*${'Recipient’s Bank Country'.tr}',
-        maxLength: 24,
+        maxLength: 200,
         customInput: country_widget(),
         tips: '',
       ),
@@ -118,7 +118,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       InputView(
           controller: controller.nameOnAccountNumTEC,
           label: '*${'Recipient’s Bank Account Name'.tr}',
-          maxLength: 24,
+          maxLength: 200,
           tips: "please input".tr),
       InputView(
           controller: controller.accountNumTEC,
@@ -126,15 +126,15 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           textInputType: TextInputType.number,
           maxLength: 100,
           tips: "please input".tr),
-      InputView(
+    Obx(()=>InputView(
           controller: controller.bankAddressTEC,
-          label: '${'Recipient Bank Address (Optional)'.tr}',
+          label: '${controller.country?.name!= ENGLAND?'*':''}${'Recipient Bank Address'.tr}${controller.country?.name!= ENGLAND?'':' (Optional)'}',
           maxLength: 200,
-          tips: "please input".tr),
+          tips: "please input".tr)),
       Obx(()=>InputView(
           controller: controller.billAddressTEC,
-          label: '${controller.country?.name!= ENGLAND?'*':''}${'Recipient’s Bank Bill Address'.tr}',
-          maxLength: 20,
+          label: '${controller.country?.name!= ENGLAND?'*':''}${'Recipient’s Bank Bill Address'.tr}${controller.country?.name!= ENGLAND?'':' (Optional)'}',
+          maxLength: 200,
           tips: "please input".tr)),
     ];
   }
