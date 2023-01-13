@@ -131,11 +131,11 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           label: '${'Recipient Bank Address (Optional)'.tr}',
           maxLength: 200,
           tips: "please input".tr),
-      InputView(
+      Obx(()=>InputView(
           controller: controller.billAddressTEC,
-          label: '${'Recipient’s Bank Bill Address'.tr}',
+          label: '${controller.country?.name!= ENGLAND?'*':''}${'Recipient’s Bank Bill Address'.tr}',
           maxLength: 20,
-          tips: "please input".tr),
+          tips: "please input".tr)),
     ];
   }
 
