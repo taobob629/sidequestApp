@@ -653,6 +653,7 @@ const Map<String, String> en_US = {
   "Refunded":"Refunded",
   "Lack of diamonds":"Lack of diamonds",
   "You should read and agree to our seller payment terms first.":"You should read and agree to our seller payment terms first.",
-  "RETRIEVE":"找回"
+  "RETRIEVE":"RETRIEVE",
+  "Recipient’s Bank Bill Address":"Recipient’s Bank Bill Address"
 
 };

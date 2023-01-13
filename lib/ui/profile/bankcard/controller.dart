@@ -30,7 +30,7 @@ class BindBankCardController extends GetxController {
   late TextEditingController accountNumTEC;
   late TextEditingController nameOnAccountNumTEC;
 
-//  late TextEditingController accountAddressTEC;
+  late TextEditingController billAddressTEC;
   RxString _bankName = RxString('');
 
   String get bankName => _bankName.value;
@@ -101,6 +101,7 @@ class BindBankCardController extends GetxController {
     // bankIBANTEC = TextEditingController();
     // bankNameTEC = TextEditingController();
     bankAddressTEC = TextEditingController();
+    billAddressTEC = TextEditingController();
     accountNumTEC = TextEditingController();
     nameOnAccountNumTEC = TextEditingController();
     //accountAddressTEC = TextEditingController();
@@ -132,10 +133,11 @@ class BindBankCardController extends GetxController {
     }
     EasyLoading.show();
     var sortcode = sortCodeTEC.text;
+    var swiftCode = swiftCodeTEC.text;
     var bankName = bankNameTEC.text;
     var bankAddress = bankAddressTEC.text;
     var country = this.country?.name;
-    var billAddress = this.bankAddressTEC.text;
+    var billAddress = this.billAddressTEC.text;
     //  var iban = this.bankIBANTEC.text;
     var cardNumber = accountNumTEC.text;
     var accountName = nameOnAccountNumTEC.text;
@@ -143,6 +145,7 @@ class BindBankCardController extends GetxController {
 
     await BalanceApi.addBankCard(Map<String, dynamic>()
           ..['sortcode'] = sortcode
+          ..['swift'] = swiftCode
           ..['bankName'] = bankName
           ..['cardNumber'] = cardNumber
           ..['accountName'] = accountName
@@ -165,7 +168,9 @@ class BindBankCardController extends GetxController {
     var country = this.country?.name;
     if (country != ENGLAND) {
       var code = swiftCodeTEC.text;
-      if (code.isEmpty) return false;
+      var bankAddress = bankAddressTEC.text;
+      var billAddress = billAddressTEC.text;
+      if (code.isEmpty||bankAddress.isEmpty||billAddress.isEmpty) return false;
     }
     // var billAddress = this.bankAddressTEC.text;
     //   var iban = this.bankIBANTEC.text;

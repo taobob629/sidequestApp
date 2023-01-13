@@ -652,5 +652,6 @@ const Map<String, String> zh_CN = {
   "Refunded":"已退款",
   "Lack of diamonds":"钻石不足",
   "You should read and agree to our seller payment terms first.":"请先阅读并同意我们的陪玩支付协议。",
-  "RETRIEVE":"找回"
+  "RETRIEVE":"找回",
+  "Recipient’s Bank Bill Address":"账单地址"
 };
