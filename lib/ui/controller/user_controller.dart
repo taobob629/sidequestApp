@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
@@ -28,6 +29,7 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import '../../utils/db_helper.dart';
+import '../im/chat.dart';
 
 class UserController extends GetxController {
   Rx<UserModel> user = Rx(UserModel());
@@ -68,34 +70,22 @@ class UserController extends GetxController {
     List<CustomStickerPackage> customStickerPackageList = [];
     final defEmojiList = emojiData.asMap().keys.map((emojiIndex) {
       final emo = Emoji.fromJson(emojiData[emojiIndex]);
-      return CustomSticker(
-          index: emojiIndex, name: emo.name, unicode: emo.unicode);
+      return CustomSticker(index: emojiIndex, name: emo.name, unicode: emo.unicode);
     }).toList();
-    customStickerPackageList.add(CustomStickerPackage(
-        name: "defaultEmoji",
-        stickerList: defEmojiList,
-        isEmoji: true,
-        isDeafultEmoji: true,
-        menuItem: defEmojiList[0]));
+    customStickerPackageList.add(CustomStickerPackage(name: "defaultEmoji", stickerList: defEmojiList, isEmoji: true, isDeafultEmoji: true, menuItem: defEmojiList[0]));
     customStickerPackageList.addAll(Const.emojiList.map((customEmojiPackage) {
       return CustomStickerPackage(
           name: customEmojiPackage.name,
           isDeafultEmoji: true,
           isEmoji: true,
           baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
-          stickerList: customEmojiPackage.list
-              .asMap()
-              .keys
-              .map((idx) =>
-                  CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
-              .toList(),
+          stickerList: customEmojiPackage.list.asMap().keys.map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx])).toList(),
           menuItem: CustomSticker(
             index: 0,
             name: customEmojiPackage.icon,
           ));
     }).toList());
-    Provider.of<CustomStickerPackageData>(context!, listen: false)
-        .customStickerPackageList = customStickerPackageList;
+    Provider.of<CustomStickerPackageData>(context!, listen: false).customStickerPackageList = customStickerPackageList;
   }
 
   @override
@@ -116,10 +106,8 @@ class UserController extends GetxController {
           _cancelPayNotify();
         }
         list.forEach((payRecord) async {
-          print(
-              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(
-              payRecord.orderId, payRecord.tranId);
+          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -158,16 +146,9 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login(
-      {String? email,
-      String? password,
-      bool showLoading = false,
-      bool checkLastLoginTime = false,
-      Function(LoginModel)? done}) async {
+  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
-      if (DateTime.now().millisecondsSinceEpoch -
-              lastLoginTime.millisecondsSinceEpoch <
-          600000) {
+      if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
         return;
       }
     }
@@ -184,8 +165,7 @@ class UserController extends GetxController {
     if (showLoading == true) {
       EasyLoading.show();
     }
-    LoginModel loginModel =
-        await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
       EasyLoading.dismiss();
     });
 
@@ -225,26 +205,15 @@ class UserController extends GetxController {
     String ext = msg['ext'] ?? "";
     Map<String, dynamic> extMsp = jsonDecode(ext);
     String convId = extMsp["conversationID"] ?? "";
-
-    // 【TUIKit】若当前的会话与要跳转至的会话一致，则不跳转。
-    // final currentConvID = _timuiKitChatController.getCurrentConversation();
-    // if(currentConvID == convId.split("_")[1]){
-    //   return;
-    // }
-    //  final targetConversationRes = await TencentImSDKPlugin.v2TIMManager
-    //     .getConversationManager()
-    //     .getConversation(conversationID: convId);
-    //  V2TimConversation? targetConversation = targetConversationRes.data;
-    //  if(targetConversation != null){
-    //   ChannelPush.cPush.clearAllNotification();
-    //   Navigator.push(
-    //       _cachedContext ?? context,
-    //       MaterialPageRoute(
-    //         builder: (context) => Chat(
-    //           selectedConversation: targetConversation,
-    //         ),
-    //       ));
-    // }
+    if (convId.isNotEmpty) {
+      Future.delayed(Duration(seconds: 1)).then((value) async {
+        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
+        if (conv.data != null) {
+          Get.to(Chat(selectedConversation: conv.data!));
+        }
+      });
+    }
   }
 
   initOfflinePush() async {
@@ -273,8 +242,7 @@ class UserController extends GetxController {
                 if (unreadMsgCount.value == 0) {
                   FlutterAppBadger.removeBadge();
                 } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
-                      title: 'New Message');
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
                 }
               });
             }, onConversationChanged: (v) {
@@ -282,18 +250,13 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager
-            .getMessageManager()
-            .addAdvancedMsgListener(listener:
-                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           FlutterRingtonePlayer.playNotification();
         }));
 
         ///获取未读数量
-        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager
-            .getConversationManager()
-            .getTotalUnreadMessageCount();
+        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
         if (v2timValueCallback.code == 0) {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
@@ -302,8 +265,7 @@ class UserController extends GetxController {
               FlutterAppBadger.removeBadge();
             } else {
               flog(value, 'getTotalUnreadMessageCount');
-              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
-                  title: 'New Message');
+              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
             }
           });
         }
