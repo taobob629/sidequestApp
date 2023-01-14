@@ -30,10 +30,7 @@ class NewWalletPage extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 15,
-              ),
+              padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
               decoration: BoxDecoration(color: Color.fromRGBO(40, 37, 60, 1), borderRadius: BorderRadius.circular(30)),
               child: Column(
                 children: [
@@ -50,7 +47,7 @@ class NewWalletPage extends StatelessWidget {
                     imgName: "assets/images/diamonds_red.webp",
                     title: "Diamonds".tr,
                     subTitle: "You can withdrwal cash.".tr,
-                    btnTitle: "TOP UP".tr,
+                    btnTitle: "WITHDRAW".tr,
                     onTap: () {
                       Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1);
                     },
@@ -66,9 +63,9 @@ class NewWalletPage extends StatelessWidget {
                   ),
                   _balanceItem(
                     imgName: "assets/images/ic_coupons_new.webp",
-                    title: "Vouchers".tr,
-                    subTitle: "view/add your vouchers".tr,
-                    btnTitle: "View".tr,
+                    title: (userController.userInfoModel.value.coupons > 0 ? "${userController.userInfoModel.value.coupons} " : "") + "Vouchers".tr,
+                    subTitle: "View/add your vouchers".tr,
+                    btnTitle: "VIEW".tr,
                     onTap: () {
                       NavigatorHelper.gotoCouponTabPage(whenComplete: () => userController.updateInfo());
                     },
@@ -115,7 +112,7 @@ class NewWalletPage extends StatelessWidget {
             GestureDetector(
               onTap: onTap,
               child: Container(
-                width: 80,
+                width: 100,
                 height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
