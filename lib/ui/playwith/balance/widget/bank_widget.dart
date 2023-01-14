@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
@@ -29,14 +31,10 @@ class BankListWidget extends GetView<WalletBalancePageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-          height: _itemHeight * (controller.bankList.length) -
-              _topSpace * (controller.bankList.length - 1),
+          height: _itemHeight * (controller.bankList.length) - _topSpace * (controller.bankList.length - 1),
           margin: EdgeInsets.only(left: 16, right: 16),
           constraints: BoxConstraints(maxHeight: Get.height / 2, maxWidth: Get.width),
-          child: Stack(
-              children: controller.bankList
-                  .mapIndexed((index, bankModel) => item(context, index, bankModel))
-                  .toList()),
+          child: Stack(children: controller.bankList.mapIndexed((index, bankModel) => item(context, index, bankModel)).toList()),
         ));
   }
 
@@ -80,9 +78,7 @@ class BankListWidget extends GetView<WalletBalancePageController> {
               },
               child: Obx(() => Padding(
                     padding: EdgeInsets.only(top: 8),
-                    child: PWidget.image(
-                        'assets/images/${controller.accountType.value == bankModel.id ? 'ic_checked' : 'ic_uncheck'}.webp',
-                        [20, 20, null, BoxFit.cover]),
+                    child: PWidget.image('assets/images/${controller.accountType.value == bankModel.id ? 'ic_checked' : 'ic_uncheck'}.webp', [20, 20, null, BoxFit.cover]),
                   )),
             ),
             PWidget.boxw(10),
@@ -108,20 +104,68 @@ class BankListWidget extends GetView<WalletBalancePageController> {
             top: 0,
             child: GestureDetector(
               onTap: () {
-                Get.dialog(
-                  ConfirmDialog(
-                      title: "Warning".tr,
-                      onConfirm: () {
-                        Get.back();
-                        controller.deleteBank(bankModel.id);
-                      },
-                      info: "Are you sure to delete this account ?".tr),
-                  barrierColor: Colors.black26,
-                );
+                actionDialog(bankModel);
+                // Get.dialog(
+                //   ConfirmDialog(
+                //       title: "Warning".tr,
+                //       onConfirm: () {
+                //         Get.back();
+                //         controller.deleteBank(bankModel.id);
+                //       },
+                //       info: "Are you sure to delete this account ?".tr),
+                //   barrierColor: Colors.black26,
+                // );
               },
               child: PWidget.image('assets/images/ic_more.webp'),
             ))
       ],
     );
+  }
+
+  var actions = [
+    {'type': 0, 'title': 'edit'.tr},
+    {'type': 1, 'title': 'Delete'.tr}
+  ];
+
+  actionDialog(BankCardModel bankModel) {
+    Get.bottomSheet(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: actions
+              .map(
+                (action) => ListTile(
+                    title: RawMaterialButton(
+                        onPressed: () {
+                          switch (action['type']) {
+                            case 0:
+                              Get.back();
+                              Get.toNamed(AppPages.BindBankCard, arguments: bankModel);
+                              break;
+                            case 1:
+                              Get.dialog(
+                                ConfirmDialog(
+                                    title: "Warning".tr,
+                                    onConfirm: () {
+                                      Get.back();
+                                      if (Get.isDialogOpen == true) {
+                                        Get.back();
+                                      }
+                                      controller.deleteBank(bankModel.id);
+                                    },
+                                    info: "Are you sure to delete this account ?".tr),
+                                barrierColor: Colors.black26,
+                              );
+                              break;
+                          }
+                        },
+                        child: Text(
+                          '${action['title']}',
+                          style: TextStyle(color: Colors.white),
+                        ))),
+              )
+              .toList(),
+        ),
+        backgroundColor: AppColor.primary,
+        enableDrag: false);
   }
 }

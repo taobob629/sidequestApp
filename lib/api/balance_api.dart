@@ -55,8 +55,8 @@ class BalanceApi {
     return ChargeRuleModel.fromJson(response.data);
   }
   //添加银行卡
-  static Future<void> addBankCard(Map<String, dynamic> params) async{
-    var response=  await http.post('/peiwan/app/card/addCard',
+  static Future<void> addBankCard(Map<String, dynamic> params,{bool isEdit=false}) async{
+    var response=  await http.post(isEdit?'/peiwan/app/card/editCard':'/peiwan/app/card/addCard',
         data: params
     );
   }

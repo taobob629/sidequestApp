@@ -42,6 +42,7 @@ class BankCardModel {
     String? sortcode,
     String? accountName,
     String? bankName,
+    String? country,
   }) {
     _id = id;
     _memberId = memberId;
@@ -66,6 +67,16 @@ class BankCardModel {
     _sortcode = json['sortcode'];
     _accountName = json['accountName'];
     _bankName = json['bankName'];
+    _country = json['country'];
+    _sortcode = json['sortcode'];
+    _bankAddress = json['bankAddress'];
+    _swift = json['swift'];
+  }
+
+
+  @override
+  String toString() {
+    return 'BankCardModel{_id: $_id, _memberId: $_memberId, _cardNumber: $_cardNumber, _cardName: $_cardName, _expireDate: $_expireDate, _code: $_code, _billAddress: $_billAddress, _sortcode: $_sortcode, _accountName: $_accountName, _bankName: $_bankName, _country: $_country, _bankAddress: $_bankAddress}';
   }
 
   late int _id;
@@ -78,6 +89,27 @@ class BankCardModel {
   String? _sortcode;
   String? _accountName;
   String? _bankName;
+  String? _country;
+  String? _bankAddress;
+  String? _swift;
+
+  String? get swift => _swift;
+
+  set swift(String? value) {
+    _swift = value;
+  }
+
+  String? get bankAddress => _bankAddress;
+
+  set bankAddress(String? value) {
+    _bankAddress = value;
+  }
+
+  String? get country => _country;
+
+  set country(String? value) {
+    _country = value;
+  }
 
   int get id => _id;
 

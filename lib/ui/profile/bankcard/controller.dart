@@ -22,7 +22,8 @@ import 'package:wy/widget/city_picker/model/select_status_model.dart';
 class BindBankCardController extends GetxController {
   late TextEditingController sortCodeTEC;
   late TextEditingController swiftCodeTEC;
-  late TextEditingController bankCountryTEC;
+
+  // late TextEditingController bankCountryTEC;
   late TextEditingController bankNameTEC;
 
   //late TextEditingController bankIBANTEC;
@@ -31,6 +32,14 @@ class BindBankCardController extends GetxController {
   late TextEditingController nameOnAccountNumTEC;
 
   late TextEditingController billAddressTEC;
+  RxBool _isLodded = RxBool(false);
+
+  bool get isLodded => _isLodded.value;
+
+  set isLodded(bool value) {
+    _isLodded.value = value;
+  }
+
   RxString _bankName = RxString('');
 
   String get bankName => _bankName.value;
@@ -90,20 +99,30 @@ class BindBankCardController extends GetxController {
     flog('filterBanks $filterBanks');
   }
 
+  var bankId;
+  BankCardModel? model;
+
   @override
   void onInit() {
     super.onInit();
+    // bankId=Get.arguments['id'];
+    model = Get.arguments;
+    flog('Get.model ${model}');
     initCountries();
+    if (model == null) {
+      isLodded = true;
+    }
+    // flog('country $country');
     //  privacyCheckController = PrivacyCheckController();
-    sortCodeTEC = TextEditingController();
-    swiftCodeTEC = TextEditingController();
-    bankCountryTEC = TextEditingController();
+    sortCodeTEC = TextEditingController(text: model?.sortcode);
+    swiftCodeTEC = TextEditingController(text: model?.swift);
+    //bankCountryTEC = TextEditingController(text: model?.);
     // bankIBANTEC = TextEditingController();
-    // bankNameTEC = TextEditingController();
-    bankAddressTEC = TextEditingController();
-    billAddressTEC = TextEditingController();
-    accountNumTEC = TextEditingController();
-    nameOnAccountNumTEC = TextEditingController();
+    bankAddressTEC = TextEditingController(text: model?.bankAddress);
+    billAddressTEC = TextEditingController(text: model?.billAddress);
+    accountNumTEC = TextEditingController(text: model?.cardNumber);
+    nameOnAccountNumTEC = TextEditingController(text: model?.accountName);
+    //bankNameTEC.text = model?.bankName ?? '';
     //accountAddressTEC = TextEditingController();
     sortCodeTEC.addListener(() {
       var text = sortCodeTEC.text;
@@ -114,10 +133,17 @@ class BindBankCardController extends GetxController {
   }
 
   initCountries() async {
-    if (countries.isNotEmpty) return countries;
     countries.clear();
     var res = await rootBundle.loadString('assets/data/country.json');
     countries = (jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+    if (model == null) return;
+    this.country = countries.firstWhereOrNull((element) {
+      flog('name${element.name} counrty ${model?.country}');
+      return element.name == model?.country;
+    });
+    this._country.refresh();
+    isLodded = true;
+    flog('country${country?.name} ${country?.emojiU}');
   }
 
   search(String? text) async {
@@ -142,16 +168,18 @@ class BindBankCardController extends GetxController {
     var cardNumber = accountNumTEC.text;
     var accountName = nameOnAccountNumTEC.text;
     // var accountAddress = accountAddressTEC.text;
-
-    await BalanceApi.addBankCard(Map<String, dynamic>()
-          ..['sortcode'] = sortcode
-          ..['swift'] = swiftCode
-          ..['bankName'] = bankName
-          ..['cardNumber'] = cardNumber
-          ..['accountName'] = accountName
-          ..['bankAddress'] = bankAddress
-          ..['country'] = country
-          ..['billAddress'] = billAddress)
+    await BalanceApi.addBankCard(
+            Map<String, dynamic>()
+              ..['id'] = model?.id
+              ..['sortcode'] = this.country?.name == ENGLAND ? sortcode : ''
+              ..['swift'] = this.country?.name != ENGLAND ? swiftCode : ''
+              ..['bankName'] = bankName
+              ..['cardNumber'] = cardNumber
+              ..['accountName'] = accountName
+              ..['bankAddress'] = bankAddress
+              ..['country'] = country
+              ..['billAddress'] = billAddress,
+            isEdit: model != null)
         //..['iban'] = iban)
         .catchError((e) {
       EasyLoading.dismiss();
@@ -170,7 +198,7 @@ class BindBankCardController extends GetxController {
       var code = swiftCodeTEC.text;
       var bankAddress = bankAddressTEC.text;
       var billAddress = billAddressTEC.text;
-      if (code.isEmpty||bankAddress.isEmpty||billAddress.isEmpty) return false;
+      if (code.isEmpty || bankAddress.isEmpty || billAddress.isEmpty) return false;
     }
     // var billAddress = this.bankAddressTEC.text;
     //   var iban = this.bankIBANTEC.text;
@@ -209,7 +237,7 @@ class BindBankCardController extends GetxController {
     //   privacyCheckController.dispose();
     sortCodeTEC.dispose();
     swiftCodeTEC.dispose();
-    bankCountryTEC.dispose();
+    //  bankCountryTEC.dispose();
     //  bankIBANTEC.dispose();
     // bankNameTEC.dispose();
     bankAddressTEC.dispose();

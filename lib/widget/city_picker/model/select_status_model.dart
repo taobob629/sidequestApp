@@ -43,6 +43,11 @@ class Country {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Country{name: $name}';
+  }
 }
 
 class Region {

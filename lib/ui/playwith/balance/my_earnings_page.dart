@@ -48,7 +48,6 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
   }
 
   List<Widget> get item {
-    UserController userController = Get.find<UserController>();
     return [
       PWidget.container(
         PWidget.column([
