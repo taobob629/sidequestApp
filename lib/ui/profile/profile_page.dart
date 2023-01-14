@@ -17,6 +17,7 @@ import 'package:wy/ui/profile/icon_menu.dart';
 import 'package:wy/ui/profile/orders/orders_page.dart';
 import 'package:wy/ui/profile/profile_header.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
+import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
@@ -52,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                     onTap: () {
                       var userInfoModel = userController.userInfoModel.value;
                       // if (userInfoModel.isauth == 1) {
-                        userController.checkLogin(() => Get.to(() => PlayDetail(userId: "${userInfoModel.pwuserId}")));
+                      userController.checkLogin(() => Get.to(() => PlayDetail(userId: "${userInfoModel.pwuserId}")));
                       // } else {
                       //   userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage());
                       // }
@@ -202,76 +203,86 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
             ),
           ),
-          Obx(()=>Row(
-            mainAxisAlignment:controller.online.value? MainAxisAlignment.spaceAround:MainAxisAlignment.spaceAround,
-            children: [
-              // IconMenu(
-              //   icon: "assets/images/ic_tab_shop_new.webp",
-              //   title: "Play Home",
-              //   onTap: () {
-              //     // Get.to(()=>PlayDetail(userId: ""));
-              //     mainController.controller.jumpToPage(2);
-              //     mainController.updateCurrentIndex(2);
-              //   },
-              // ),
-              if (controller.online.value)
-                IconMenu(
-                  icon: "assets/images/ic_wallet.webp",
-                  title: "Wallet".tr,
-                  onTap: () {
-                    userController.checkLogin(() {
-                      Get.toNamed(AppPages.WALLET_PAGE);
-                    });
-                  },
-                ),
-              IconMenu(
-                icon: "assets/images/ic_settings.webp",
-                title: "My Services".tr,
-                onTap: () {
-                  userController.checkLogin(() {
-                    Get.toNamed(AppPages.SkillList);
-                  });
-                },
-              ),
-              IconMenu(
-                icon: "assets/images/ic_orders.webp",
-                title: "Orders".tr,
-                onTap: () {
-                  userController.checkLogin(() {
-                    Get.to(() => PlayOrdersPage());
-                  });
-                },
-              ),
-            ],
-          )),
-          if(1!=1)
-          SizedBox(
-            height: 15,
-          ),
-          if(1!=1)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // IconMenu(
-              //   icon: "assets/images/ic_tab_user_new.webp",
-              //   title: "Play Profile",
-              //   onTap: () {
-              //     Get.to(() => PlayProfilePage());
-              //   },
-              // ),
-              IconMenu(
-                icon: "assets/images/ic_balance_new.webp",
-                  title: "Wallet".tr,
-                  onTap: () {
-                    userController.checkLogin(() {
-                      Get.toNamed(AppPages.WALLET_PAGE);
-                    });
-                  },
-                ),
-              IconMenu(icon: "", title: ""),
-              IconMenu(icon: "", title: ""),
-            ],
-          )
+          Obx(() => Row(
+                mainAxisAlignment: controller.online.value ? MainAxisAlignment.spaceAround : MainAxisAlignment.spaceAround,
+                children: [
+                  // IconMenu(
+                  //   icon: "assets/images/ic_tab_shop_new.webp",
+                  //   title: "Play Home",
+                  //   onTap: () {
+                  //     // Get.to(()=>PlayDetail(userId: ""));
+                  //     mainController.controller.jumpToPage(2);
+                  //     mainController.updateCurrentIndex(2);
+                  //   },
+                  // ),
+                  // if (controller.online.value)
+                  //   IconMenu(
+                  //     icon: "assets/images/ic_wallet.webp",
+                  //     title: "Wallet".tr,
+                  //     onTap: () {
+                  //       userController.checkLogin(() {
+                  //         Get.toNamed(AppPages.WALLET_PAGE);
+                  //       });
+                  //     },
+                  //   ),
+                  if (controller.online.value)
+                    IconMenu(
+                      icon: "assets/images/ic_wallet.webp",
+                      title: "Wallet".tr,
+                      onTap: () {
+                        userController.checkLogin(() {
+                          Get.to(() => NewWalletPage());
+                        });
+                      },
+                    ),
+                  IconMenu(
+                    icon: "assets/images/ic_settings.webp",
+                    title: "My Services".tr,
+                    onTap: () {
+                      userController.checkLogin(() {
+                        Get.toNamed(AppPages.SkillList);
+                      });
+                    },
+                  ),
+                  IconMenu(
+                    icon: "assets/images/ic_orders.webp",
+                    title: "Orders".tr,
+                    onTap: () {
+                      userController.checkLogin(() {
+                        Get.to(() => PlayOrdersPage());
+                      });
+                    },
+                  ),
+                ],
+              )),
+          // if (1 != 1)
+          //   SizedBox(
+          //     height: 15,
+          //   ),
+          // if (1 != 1)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //     children: [
+          //       // IconMenu(
+          //       //   icon: "assets/images/ic_tab_user_new.webp",
+          //       //   title: "Play Profile",
+          //       //   onTap: () {
+          //       //     Get.to(() => PlayProfilePage());
+          //       //   },
+          //       // ),
+          //       IconMenu(
+          //         icon: "assets/images/ic_balance_new.webp",
+          //         title: "Wallet".tr,
+          //         onTap: () {
+          //           userController.checkLogin(() {
+          //             Get.toNamed(AppPages.WALLET_PAGE);
+          //           });
+          //         },
+          //       ),
+          //       IconMenu(icon: "", title: ""),
+          //       IconMenu(icon: "", title: ""),
+          //     ],
+          //   )
         ],
       ),
     );
@@ -294,26 +305,31 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // if (controller.online.value)
-                IconMenu(
-                icon: "assets/images/ic_balance_new.webp",
-                title: controller.online.value?"Balance".tr:"Account".tr,
+              // IconMenu(
+              //   icon: "assets/images/ic_balance_new.webp",
+              //   title: controller.online.value ? "Balance".tr : "Account".tr,
+              //   onTap: () {
+              //     controller.online.value ? userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo())) : null;
+              //   },
+              // ),
+              IconMenu(
+                icon: "assets/images/ic_booking_new.webp",
+                title: "Bookings".tr,
                 onTap: () {
-                  controller.online.value? userController.checkLogin(() => Get.to(() =>BalancePage())?.whenComplete(() => userController.updateInfo())):null;
+                  userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
                 },
               ),
-              IconMenu(
-              icon: "assets/images/ic_booking_new.webp",
-              title: "Bookings".tr,
-              onTap: () {
-                userController.checkLogin(() => Get.to(() => BookingPage())
-                    ?.whenComplete(() => userController.updateInfo()));
-              },
-            ),
               IconMenu(
                   icon: "assets/images/ic_orders_new.webp",
                   title: "Orders".tr,
                   onTap: () {
                     userController.checkLogin(() => Get.to(() => OrdersPage()));
+                  }),
+              IconMenu(
+                  icon: "assets/images/ic_tab_events_new.webp",
+                  title: "Activities".tr,
+                  onTap: () {
+                    userController.checkLogin(() => Get.to(() => MyEventsPage()));
                   }),
             ],
           ),
@@ -323,20 +339,19 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconMenu(
-                  icon: "assets/images/ic_tab_events_new.webp",
-                  title: "Activities".tr,
-                  onTap: () {
-                    userController
-                        .checkLogin(() => Get.to(() => MyEventsPage()));
-                  }),
+              // IconMenu(
+              //     icon: "assets/images/ic_tab_events_new.webp",
+              //     title: "Activities".tr,
+              //     onTap: () {
+              //       userController.checkLogin(() => Get.to(() => MyEventsPage()));
+              //     }),
               IconMenu(
                   icon: "assets/images/ic_address_new.webp",
                   title: "Address".tr,
                   onTap: () {
-                    userController
-                        .checkLogin(() => NavigatorHelper.gotoAddressPage());
+                    userController.checkLogin(() => NavigatorHelper.gotoAddressPage());
                   }),
+              IconMenu(icon: "", title: ""),
               IconMenu(icon: "", title: ""),
             ],
           )
@@ -376,9 +391,7 @@ class ProfilePageController extends GetxController {
     }
     devCount = 0;
 
-    Get.dialog(InputDialog(),
-            barrierDismissible: true, barrierColor: Colors.black26)
-        .then((value) {
+    Get.dialog(InputDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
       if (value == "9637") {
         Get.to(() => DeveloperPage());
       } else {
