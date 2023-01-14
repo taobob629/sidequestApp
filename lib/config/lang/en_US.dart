@@ -655,6 +655,15 @@ const Map<String, String> en_US = {
   "Lack of diamonds":"Lack of diamonds",
   "You should read and agree to our seller payment terms first.":"You should read and agree to our seller payment terms first.",
   "RETRIEVE":"RETRIEVE",
-  "Recipient’s Bank Bill Address":"Recipient’s Bank Bill Address"
+  "Recipient’s Bank Bill Address":"Recipient’s Bank Bill Address",
+  "These coins are only used for SideKick":"These coins are only used for SideKick",
+  "WITHDRAW":"WITHDRAW",
+  'These credits are only used for SideQuest Hub': 'These credits are only used for SideQuest Hub',
+  'View/Add your vouchers':'View/Add your vouchers',
+  "VIEW":"VIEW",
+  "TOP UP":"TOP UP",
+  "SideKick Coin":"SideKick Coin",
+
+
 
 };

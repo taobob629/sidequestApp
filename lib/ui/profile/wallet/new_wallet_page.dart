@@ -36,8 +36,8 @@ class NewWalletPage extends StatelessWidget {
                 children: [
                   _balanceItem(
                     imgName: "assets/images/coin_red.webp",
-                    title: "Coins".tr,
-                    subTitle: "These coins are only used for SideKick.".tr,
+                    title: "SideKick Coin".tr,
+                    subTitle: "These coins are only used for SideKick".tr,
                     btnTitle: "TOP UP".tr,
                     onTap: () {
                       Get.toNamed(AppPages.WALLET_PAGE);
@@ -46,7 +46,7 @@ class NewWalletPage extends StatelessWidget {
                   _balanceItem(
                     imgName: "assets/images/diamonds_red.webp",
                     title: "Diamonds".tr,
-                    subTitle: "You can withdrwal cash.".tr,
+                    subTitle: "You can withdrwal cash".tr,
                     btnTitle: "WITHDRAW".tr,
                     onTap: () {
                       Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1);
@@ -55,7 +55,7 @@ class NewWalletPage extends StatelessWidget {
                   _balanceItem(
                     imgName: "assets/images/ic_corns_new.webp",
                     title: "Credits".tr,
-                    subTitle: "These Credits are only used for SideQuest Hub.".tr,
+                    subTitle: "These credits are only used for SideQuest Hub".tr,
                     btnTitle: "TOP UP".tr,
                     onTap: () {
                       userController.checkLogin(() => Get.to(() => BalancePage())?.whenComplete(() => userController.updateInfo()));
@@ -64,7 +64,7 @@ class NewWalletPage extends StatelessWidget {
                   _balanceItem(
                     imgName: "assets/images/ic_coupons_new.webp",
                     title: (userController.userInfoModel.value.coupons > 0 ? "${userController.userInfoModel.value.coupons} " : "") + "Vouchers".tr,
-                    subTitle: "View/add your vouchers".tr,
+                    subTitle: "View/Add your vouchers".tr,
                     btnTitle: "VIEW".tr,
                     onTap: () {
                       NavigatorHelper.gotoCouponTabPage(whenComplete: () => userController.updateInfo());

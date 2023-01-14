@@ -654,5 +654,14 @@ const Map<String, String> zh_CN = {
   "Lack of diamonds":"钻石不足",
   "You should read and agree to our seller payment terms first.":"请先阅读并同意我们的陪玩支付协议。",
   "RETRIEVE":"找回",
-  "Recipient’s Bank Bill Address":"账单地址"
+  "Recipient’s Bank Bill Address":"账单地址",
+  "These coins are only used for SideKick":"金币仅限陪玩服务使用",
+  "WITHDRAW":"提现",
+  'These credits are only used for SideQuest Hub': '余额仅限支线电竞线下门店使用',
+  'View/Add your vouchers':'查看/添加优惠券',
+  "VIEW":"查看",
+  "TOP UP":"充值",
+  "SideKick Coin":"金币",
+
+
 };
