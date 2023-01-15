@@ -46,7 +46,7 @@ class NewWalletPage extends StatelessWidget {
                   _balanceItem(
                     imgName: "assets/images/diamonds_red.webp",
                     title: "Diamonds".tr,
-                    subTitle: "You can withdrwal cash".tr,
+                    subTitle: "6 Diamonds for £1".tr,
                     btnTitle: "WITHDRAW".tr,
                     onTap: () {
                       Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1);

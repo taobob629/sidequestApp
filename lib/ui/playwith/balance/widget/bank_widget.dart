@@ -123,7 +123,7 @@ class BankListWidget extends GetView<WalletBalancePageController> {
   }
 
   var actions = [
-    {'type': 0, 'title': 'edit'.tr},
+    {'type': 0, 'title': 'Edit'.tr},
     {'type': 1, 'title': 'Delete'.tr}
   ];
 

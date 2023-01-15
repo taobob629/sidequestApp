@@ -663,6 +663,7 @@ const Map<String, String> en_US = {
   "VIEW":"VIEW",
   "TOP UP":"TOP UP",
   "SideKick Coin":"SideKick Coin",
+  "6 Diamonds for £1":"6 Diamonds for £1"
 
 
 
