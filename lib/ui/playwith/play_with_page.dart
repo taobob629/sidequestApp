@@ -705,9 +705,9 @@ class _PlaySwitchWidgetState extends State<PlaySwitchWidget> with AutomaticKeepA
       await this.gamelist();
     } catch (e) {
       playWithValue.gamelistDm.toError();
-      Future.delayed(Duration(milliseconds: 500)).then((value) {
-        initData();
-      });
+      // Future.delayed(Duration(milliseconds: 500)).then((value) {
+      //   initData();
+      // });
     }
   }
 
