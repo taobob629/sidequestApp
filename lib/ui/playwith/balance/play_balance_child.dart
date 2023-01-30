@@ -475,7 +475,7 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, 600) && type == 'withDraw') {
+    if (!isValidateAmount(votes, 600) && (type == 'withDraw' || type == 'paypal')) {
       EasyLoading.showInfo('Please enter an valid number greater than 600'.tr);
       return;
     }
