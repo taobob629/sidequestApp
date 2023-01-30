@@ -486,7 +486,7 @@ class WalletBalancePageController extends GetxListController {
       return;
     }
     if (type == "paypal" && paypalController.text.trim().isEmpty) {
-      EasyLoading.showInfo('Please Enter withdraw paypal account!'.tr);
+      EasyLoading.showInfo('Please Enter paypal account!'.tr);
       return;
     }
     Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
