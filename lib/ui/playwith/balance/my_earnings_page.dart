@@ -333,7 +333,7 @@ class WithdrawTipsDialog extends StatelessWidget {
               PWidget.column([
                 PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
                 Text(
-                  '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}''',
+                  '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}\n3. ${'If you withdraw cash from us, you’ll be charged a handling fee of 3%.'.tr}''',
                   style: TextStyle(color: Color(0xff8291B4), height: 1.5),
                 ),
               ]),
