@@ -67,7 +67,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           title: "Withdrawal amount".tr,
           subTitle: "",
           actions: Text(
-            '${'Min'.tr}:1000',
+            '${'Min'.tr}:600',
             style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
           )),
       _buildCustomInput(),
@@ -287,7 +287,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration:
-              const InputDecoration(hintText: "1000", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+              const InputDecoration(hintText: "600", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 
