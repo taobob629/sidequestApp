@@ -126,11 +126,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(
-              hintText: "£1",
-              hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 0)),
+          decoration:
+              const InputDecoration(hintText: "£1", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 
@@ -142,23 +139,10 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
       child: AspectRatio(
         aspectRatio: 343 / 136,
         child: Stack(children: [
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 100,
-              child: ClipPath(clipper: BottomPath(), child: Container(color: Colors.white30))),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 100,
-              child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
-          Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
-          Positioned(
-              right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
+          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: BottomPath(), child: Container(color: Colors.white30))),
+          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
+          Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
+          Positioned(right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
           Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -240,8 +224,7 @@ class _Bottom2Path extends CustomClipper<Path> {
     var path = Path();
     path.moveTo(0, size.height);
     path.lineTo(0, size.height * 55 / 100);
-    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700, size.height * 1.3, size.width,
-        size.height * 60 / 100);
+    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700, size.height * 1.3, size.width, size.height * 60 / 100);
     path.lineTo(size.width, size.height); // 第五个点
     return path;
   }
@@ -260,6 +243,7 @@ class WalletBalancePageController extends GetxListController {
 
   late var accountType = 0.obs;
   var _iconByChargeRatio = 0.obs;
+  final withdrawType = 0.obs;
 
   get iconByChargeRatio => _iconByChargeRatio.value;
 
@@ -283,8 +267,8 @@ class WalletBalancePageController extends GetxListController {
   }
 
   void dealIconChargeRatio() {
-    if(amountController.text.isBlank==true){
-      iconByChargeRatio=0;
+    if (amountController.text.isBlank == true) {
+      iconByChargeRatio = 0;
       return;
     }
     double amount = double.parse(amountController.text);
@@ -301,6 +285,7 @@ class WalletBalancePageController extends GetxListController {
 
   late TextEditingController amountController;
   late TextEditingController accountController;
+  TextEditingController paypalController = TextEditingController();
   late FocusNode accountFocusNode;
   late FocusNode amountFocusNode;
   RxList<BankCardModel> _bankList = RxList();
@@ -483,14 +468,14 @@ class WalletBalancePageController extends GetxListController {
     withDrawalRatio：提现手续费比例
     chargeRatio：金币兑换比例
    */
-  Future<void> withDraw(String type) async {
+  Future<void> withDraw(String type, {String cardNum = ""}) async {
     UserController userController = Get.find<UserController>();
     var votes = amountController.text;
     if (votes.isEmpty) {
       EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, 1000)&&type == 'withDraw') {
+    if (!isValidateAmount(votes, 1000) && type == 'withDraw') {
       EasyLoading.showInfo('Please enter an valid number greater than 1000'.tr);
       return;
     }
@@ -500,17 +485,57 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('${'Lack of diamonds'.tr}!');
       return;
     }
+    if (type == "paypal" && paypalController.text.trim().isEmpty) {
+      EasyLoading.showInfo('Please Enter withdraw paypal account!'.tr);
+    }
     Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
       if (value == true) {
-        await withdrawRequest(type, votes);
+        if (type == "paypal") {
+          await paypalWithdrawRequest(paypalController.text, votes);
+        } else {
+          await withdrawRequest(type, votes);
+        }
       }
     });
+  }
+
+  Future<void> paypalWithdrawRequest(String cardNumber, String votes) async {
+    EasyLoading.show();
+    var response;
+
+    if (selectedBank == null) {
+      EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+      return;
+    }
+    response = await BalanceApi.withDraw(Map<String, dynamic>()
+      ..['card'] = cardNumber
+      ..['votes'] = votes
+      ..['accountType'] = 1);
+    if (response.statusCode == 200) {
+      diamonds = double.parse(response.data['votes'].toString()).toInt();
+      coin = double.parse(response.data['coin'].toString()).toInt();
+      Get.find<UserController>().updateInfo();
+      EasyLoading.showSuccess(response.statusMessage!);
+    }
+    EasyLoading.dismiss();
   }
 
   Future<void> withdrawRequest(String type, String votes) async {
     EasyLoading.show();
     var response;
     if (type == 'withDraw') {
+      if (selectedBank == null) {
+        EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+        return;
+      }
+      response = await BalanceApi.withDraw(Map<String, dynamic>()
+        ..['card'] = selectedBank?.cardNumber
+        ..['cardId'] = selectedBank?.id
+        ..['votes'] = votes
+        ..['withDrawalRatio'] = chargeRule.withdrawalRatio
+        ..['accountType'] = 0
+        ..['chargeRatio'] = chargeRule.chargeRatio);
+    } else if (type == 'PalpalWithDraw') {
       if (selectedBank == null) {
         EasyLoading.showInfo('Please Add withdraw account First!'.tr);
         return;
