@@ -63,13 +63,42 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         [null, null, Color(0xff282640)],
         {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
       ),
-      ItemTitle(
-          title: "Withdrawal amount".tr,
-          subTitle: "",
-          actions: Text(
-            '${'Min'.tr}:600',
-            style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-          )),
+      // ItemTitle(
+      //     title: "Withdrawal amount".tr,
+      //     subTitle: "",
+      //     actions: Text(
+      //       '${'Min'.tr}:600',
+      //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+      //     )
+      //     ),
+      Container(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+        child: Row(
+          children: [
+            Text(
+              "Withdrawal amount".tr,
+              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.dialog(WithdrawTipsDialog());
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 6),
+                width: 24,
+                height: 24,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+                child: Text(
+                  "?".tr,
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       _buildCustomInput(),
       Obx(() => Column(
             children: [
@@ -115,7 +144,6 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         ],
                       ),
                     ),
-
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -134,40 +162,6 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         ],
                       ),
                     ),
-                    // Expanded(
-                    //     child: GestureDetector(
-                    //         onTap: () {
-                    //           controller.withdrawType.value = 0;
-                    //         },
-                    //         child: Container(
-                    //           height: 40,
-                    //           alignment: Alignment.center,
-                    //           decoration: BoxDecoration(
-                    //               gradient: controller.withdrawType.value == 0
-                    //                   ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])
-                    //                   : null),
-                    //           child: Text(
-                    //             "Credit",
-                    //             style: TextStyle(color: Colors.white),
-                    //           ),
-                    //         ))),
-                    // Expanded(
-                    //     child: GestureDetector(
-                    //         onTap: () {
-                    //           controller.withdrawType.value = 1;
-                    //         },
-                    //         child: Container(
-                    //           height: 40,
-                    //           alignment: Alignment.center,
-                    //           decoration: BoxDecoration(
-                    //               gradient: controller.withdrawType.value == 1
-                    //                   ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])
-                    //                   : null),
-                    //           child: Text(
-                    //             "Paypal",
-                    //             style: TextStyle(color: Colors.white),
-                    //           ),
-                    //         ))),
                   ],
                 ),
               ),
@@ -256,16 +250,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         label: "Exchange To Coin".tr,
         onTap: () => controller.privacyCheckController.check() ? controller.withDraw('exchange') : EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr),
       ),
-      PWidget.container(
-        PWidget.column([
-          PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
-          Text(
-            '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}''',
-            style: TextStyle(color: Color(0xff8291B4)),
-          ),
-        ]),
-        {'pd': 16},
-      ),
+
       PWidget.boxh(8),
       PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
     ];
@@ -287,7 +272,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration:
-              const InputDecoration(hintText: "600", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+              const InputDecoration(hintText: "0", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 
@@ -328,103 +313,35 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
   }
 }
 
-class PaypalWithdrawDialog extends StatelessWidget {
-  PaypalWithdrawDialog({Key? key}) : super(key: key);
-  late TextEditingController accountText = TextEditingController();
-  late TextEditingController confirmText = TextEditingController();
+class WithdrawTipsDialog extends StatelessWidget {
+  WithdrawTipsDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-      height: 260,
-      margin: EdgeInsets.symmetric(horizontal: 30),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("Paypal Withdraw", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              padding: const EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
-              child: TextField(
-                maxLines: 1,
-                inputFormatters: [PrecisionLimitFormatter(2)],
-                controller: accountText,
-                cursorColor: Colors.white70,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.numberWithOptions(decimal: false),
-                style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
-                // onSubmitted: (text) => controller.changeCustomAmount(text),
-                decoration: const InputDecoration(
-                    hintText: "paypal account", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
-              )),
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              padding: const EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
-              child: TextField(
-                maxLines: 1,
-                inputFormatters: [PrecisionLimitFormatter(2)],
-                controller: confirmText,
-                cursorColor: Colors.white70,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.numberWithOptions(decimal: false),
-                style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
-                // onSubmitted: (text) => controller.changeCustomAmount(text),
-                decoration: const InputDecoration(
-                    hintText: "confirm account", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+    return Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: [
+        Positioned(
+          top: 210,
+          child: Container(
+            height: 150,
+            width: 375,
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10)),
+            child: PWidget.container(
+              PWidget.column([
+                PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
+                Text(
+                  '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}''',
+                  style: TextStyle(color: Color(0xff8291B4), height: 1.5),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      if (accountText.text.isNotEmpty && accountText.text == confirmText.text) {
-                        Get.back(result: accountText.text);
-                      }
-                    },
-                    child: Container(
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
-                      child: Text(
-                        "Confirm",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ]),
+              {'pd': 16},
             ),
-          )
-        ],
-      ),
-    ));
+          ),
+        ),
+      ],
+    );
   }
 }
