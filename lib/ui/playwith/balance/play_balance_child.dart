@@ -504,10 +504,10 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.show();
     var response;
 
-    if (selectedBank == null) {
-      EasyLoading.showInfo('Please Add withdraw account First!'.tr);
-      return;
-    }
+    // if (selectedBank == null) {
+    //   EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+    //   return;
+    // }
     response = await BalanceApi.withDraw(Map<String, dynamic>()
       ..['card'] = cardNumber
       ..['votes'] = votes
