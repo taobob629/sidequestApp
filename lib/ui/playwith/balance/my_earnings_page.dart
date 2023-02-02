@@ -80,8 +80,11 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
               style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
             ),
             GestureDetector(
-              onTap: () {
-                Get.dialog(WithdrawTipsDialog());
+              onTapDown: (details) {
+                print(details.globalPosition);
+                Get.dialog(WithdrawTipsDialog(
+                  offset: details.globalPosition,
+                ));
               },
               child: Container(
                 margin: EdgeInsets.only(left: 6),
@@ -314,7 +317,8 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
 }
 
 class WithdrawTipsDialog extends StatelessWidget {
-  WithdrawTipsDialog({Key? key}) : super(key: key);
+  WithdrawTipsDialog({Key? key, required this.offset}) : super(key: key);
+  final Offset offset;
 
   @override
   Widget build(BuildContext context) {
@@ -322,12 +326,23 @@ class WithdrawTipsDialog extends StatelessWidget {
       alignment: AlignmentDirectional.topCenter,
       children: [
         Positioned(
-          top: 210,
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15,
+          left: offset.dx - 10,
+          child: ClipPath(
+            clipper: Triangle(dir: -1),
+            child: Container(
+              width: 20.0,
+              height: 10.0,
+              color: Color(0xff282640),
+              child: null,
+            ),
+          ),
+        ),
+        Positioned(
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15 + 10,
+          width: Get.width - offset.dx / 2,
           child: Container(
-            height: 150,
-            width: 375,
             padding: EdgeInsets.symmetric(horizontal: 15),
-            alignment: Alignment.center,
             decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10)),
             child: PWidget.container(
               PWidget.column([
@@ -344,4 +359,29 @@ class WithdrawTipsDialog extends StatelessWidget {
       ],
     );
   }
+}
+
+class Triangle extends CustomClipper<Path> {
+  double dir;
+  Triangle({required this.dir});
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+
+    double w = size.width;
+    double h = size.height;
+    if (dir < 0) {
+      path.moveTo(w / 2, 0);
+      path.quadraticBezierTo(w / 2, 0, 0, h);
+      path.quadraticBezierTo(0, h, w, h);
+    } else {
+      path.quadraticBezierTo(0, h / 2, w * 2 / 3, h);
+      path.quadraticBezierTo(w / 3, h / 3, w, 0);
+      path.lineTo(0, 0);
+    }
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
