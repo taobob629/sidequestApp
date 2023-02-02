@@ -29,6 +29,7 @@ import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/search_appbar.dart';
 import 'package:wy/widget/views.dart';
 
 import '../controller/user_controller.dart';
@@ -325,6 +326,8 @@ class _PlayWithChildState extends State<PlayWithChild> with AutomaticKeepAliveCl
         noDataText: superlistDm.flag == 2 ? '' : 'No more data'.tr,
         headPadding: EdgeInsets.only(top: pmPadd.top + 56, bottom: 8),
         headers: [
+          SearchAppBar(hintLabel: 'Input your last name'.tr,showRight: false,canInput: false,onTap: ()=>Get.toNamed(AppPages.SEARCH_USER_PAGE),),
+          PWidget.boxh(16),
           if (1 == 2)
             Listener(
               onPointerDown: (_) => filterValue.init(isClearValue: false),

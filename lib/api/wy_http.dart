@@ -69,7 +69,7 @@ class ApiInterceptor extends InterceptorsWrapper {
 
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) async {
-    flog('onResponse api-response ${response.requestOptions.path}');
+    flog('onResponse api-response ${response}');
     String requestPath = response.requestOptions.path;
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {

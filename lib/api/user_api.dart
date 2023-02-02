@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/model/level_model.dart';
+import 'package:wy/model/simple_user_info_model.dart';
 import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/model/user_info_model.dart';
@@ -160,5 +161,15 @@ class UserApi {
             : '/peiwan/app/order/user/level',
         queryParameters: ({}));
     return LevelModel.fromJson(response.data);
+  }
+
+  static Future<List<SimpleUserInfoModel>> search(String key) async {
+    var response = await http.get('/peiwan/app/home/search',
+        queryParameters: ({"searchParams":key})
+    );
+    List<SimpleUserInfoModel> list = response.data
+        .map<SimpleUserInfoModel>((item) => SimpleUserInfoModel.fromJson(item))
+        .toList();
+    return list;
   }
 }

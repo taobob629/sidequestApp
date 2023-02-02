@@ -5,6 +5,8 @@ import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
+import 'package:wy/ui/playwith/search/bindings.dart';
+import 'package:wy/ui/playwith/search/search_page.dart';
 import 'package:wy/ui/playwith/service/bindings.dart';
 import 'package:wy/ui/playwith/service/view.dart';
 import 'package:wy/ui/playwith/skill/list/bindings.dart';
@@ -34,6 +36,7 @@ class AppPages {
   static const SkillList = '/skillList';
   static const WALLET_PAGE = '/wallet';
   static const COUPON_TAB_PAGE = '/coupon_tab_page';
+  static const SEARCH_USER_PAGE = '/search_user_page';
   static final routes = [
     GetPage(
       name: Login,
@@ -84,6 +87,11 @@ class AppPages {
     GetPage(
         name: COUPON_TAB_PAGE,
         page: () => CouponTabPage(),
-        binding: CouponTabBinding())
+        binding: CouponTabBinding()),
+    GetPage(
+      name: SEARCH_USER_PAGE,
+      binding: SearchUserBinding(),
+      page: () => SearchUserPage(),
+    ),
   ];
 }
