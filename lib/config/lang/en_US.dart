@@ -664,7 +664,9 @@ const Map<String, String> en_US = {
   "TOP UP":"TOP UP",
   "SideKick Coin":"SideKick Coin",
   "6 Diamonds for £1":"6 Diamonds for £1",
-"Please Enter paypal account!":"Please Enter paypal account!"
+  "Please Enter paypal account!":"Please Enter paypal account!",
+  "Input nickname,UK account or email":"Input nickname,UK account or email",
+
 
 
 

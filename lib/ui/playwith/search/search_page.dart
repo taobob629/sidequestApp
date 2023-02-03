@@ -34,7 +34,7 @@ class SearchUserPage extends GetView<SearchUserController> {
             style: const TextStyle(color: Colors.white, fontSize: 16),
             onSubmitted: (text) => controller.reload(),
             decoration: const InputDecoration(
-                hintText: "Input your last name",
+                hintText: "Input nickname,UK account or email".tr,
                 hintStyle: TextStyle(fontSize: 14, color: Colors.white30),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(bottom: 12)),

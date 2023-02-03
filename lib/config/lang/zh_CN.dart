@@ -663,7 +663,8 @@ const Map<String, String> zh_CN = {
   "TOP UP":"充值",
   "SideKick Coin":"金币",
   "6 Diamonds for £1":"6钻石兑换1英镑",
-  "Please Enter paypal account!":"请输入Paypal账户!"
+  "Please Enter paypal account!":"请输入Paypal账户!",
+  "Input nickname,UK account or email":"请输入昵称,UK账户或者Email",
 
 
 };
