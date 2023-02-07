@@ -7,8 +7,8 @@ class AppColor {
   static Color navBar = Color(0xff0d2432);
   static Color navBarActive = Color(0xffe23e45);
   static Color navBarInactive = Color(0xff8eb2be);
-  static const Color background = Color(0xff171525);
+  static const Color background = Color(0xff1B1A1E);
   static const Color itemBg = Color(0xff282640);
-
-
+  static const Color yellow = Color(0xFFFFD20E);
+  static const Color greyAF = Color(0xFFAFAFAF);
 }

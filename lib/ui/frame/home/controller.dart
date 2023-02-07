@@ -1,6 +1,3 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/simple_user_info_model.dart';
 
@@ -10,38 +7,36 @@ import 'package:wy/model/simple_user_info_model.dart';
     描述:
  */
 class HomePageController extends GetxListController<SimpleUserInfoModel> {
-  late FocusNode focusNode;
-  late TextEditingController controller;
+  List<String> games = [
+    'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/header_1666015473587.jpg',
+    'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/header_1666015473587.jpg',
+    'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/header_1666015473587.jpg'
+  ];
 
   @override
   void onInit() {
     super.onInit();
-    focusNode = FocusNode();
-    controller = TextEditingController();
   }
 
   @override
   void onClose() {
-    controller.dispose();
-    focusNode.dispose();
     super.onClose();
   }
 
   @override
   void onReady() {
     super.onReady();
-    focusNode.requestFocus();
   }
 
   @override
   Future<List<SimpleUserInfoModel>> loadData() async {
-    String key = controller.text;
-    if (key.isEmpty) {
-      return [];
-    }
-    EasyLoading.show();
-    List<SimpleUserInfoModel> list = await UserApi.search(key);
-    EasyLoading.dismiss();
+    // String key = controller.text;
+    // if (key.isEmpty) {
+    //   return [];
+    // }
+    // EasyLoading.show();
+    // List<SimpleUserInfoModel> list = await UserApi.search(key);
+    // EasyLoading.dismiss();
     return list;
   }
 }
