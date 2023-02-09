@@ -11,4 +11,16 @@ class AppColor {
   static const Color itemBg = Color(0xff282640);
   static const Color yellow = Color(0xFFFFD20E);
   static const Color greyAF = Color(0xFFAFAFAF);
+
+  /// 主色 - 渐变
+  static List<Color> get buttonGradientBg {
+    return [hexColor("#4596FE"), hexColor("#78ADFF")];
+  }
+}
+
+Color hexColor(String hexString) {
+  final buffer = StringBuffer();
+  if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+  buffer.write(hexString.replaceFirst('#', ''));
+  return Color(int.parse(buffer.toString(), radix: 16));
 }

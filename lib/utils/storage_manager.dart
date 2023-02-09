@@ -1,15 +1,15 @@
+import 'dart:convert' as convert;
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wy/config/lang/translations.dart';
 import 'package:wy/main.dart';
 import 'package:wy/model/credit_card_model.dart';
 import 'package:wy/model/user_model.dart';
-import 'dart:convert' as convert;
-
 import 'package:wy/utils/utils.dart';
 
 class StorageManager {
@@ -27,11 +27,11 @@ class StorageManager {
   static const String kCart = 'kCart';
   static const String kCredit = 'kCredit';
   static const String kPushToken = 'kPushToken';
-  static const String kEnv= 'kEnv';
-  static const String kOnline= 'kOnline';//是否通过审核在线版
-  static const String kPayPasswordCheckTime= 'kPayPasswordCheckTime';
-  static const String kLocal= 'kLocal';
-
+  static const String kEnv = 'kEnv';
+  static const String kOnline = 'kOnline'; //是否通过审核在线版
+  static const String kPayPasswordCheckTime = 'kPayPasswordCheckTime';
+  static const String kLocal = 'kLocal';
+  static const String kFirstUse = 'firstUse'; //是否首次安装
 
   /// 必备数据的初始化操作
   ///
@@ -144,18 +144,18 @@ class StorageManager {
     sharedPreferences.setString(kCart, value);
   }
 
-  static bool getOnline(){
-    if(Platform.isAndroid){
+  static bool getOnline() {
+    if (Platform.isAndroid) {
       return true;
     }
-    return sharedPreferences.getBool(kOnline)??false;
+    return sharedPreferences.getBool(kOnline) ?? false;
   }
 
   static Future<void> setOnline(bool value) async {
-   await sharedPreferences.setBool(kOnline, value);
+    await sharedPreferences.setBool(kOnline, value);
   }
 
-  static String getEnv(){
+  static String getEnv() {
     String? value = sharedPreferences.getString(kEnv);
     if (value == null) {
       return "prod";
@@ -194,19 +194,29 @@ class StorageManager {
     String value = convert.jsonEncode(model.toJson());
     sharedPreferences.setString(kCredit, value);
   }
-  static void setLocal(var languageCode){
-     sharedPreferences.setString(kLocal, languageCode);
-  }
-  static Locale? getLocal(){
-   String? local= sharedPreferences.getString(kLocal);
-   if(local==null)return Get.deviceLocale;//没有设置，跟随系统
-   if(local==CHINA.languageCode){
-    // Get.updateLocale(CHINA);
-     return CHINA;
-   }else{
-     //Get.updateLocale(ENGLISH);
-     return ENGLISH;
-   }
 
+  static void setLocal(var languageCode) {
+    sharedPreferences.setString(kLocal, languageCode);
+  }
+
+  static Locale? getLocal() {
+    String? local = sharedPreferences.getString(kLocal);
+    if (local == null) return Get.deviceLocale; //没有设置，跟随系统
+    if (local == CHINA.languageCode) {
+      // Get.updateLocale(CHINA);
+      return CHINA;
+    } else {
+      //Get.updateLocale(ENGLISH);
+      return ENGLISH;
+    }
+  }
+
+  static bool getFirstUse() {
+    bool? value = sharedPreferences.getBool(kFirstUse);
+    return value ?? true;
+  }
+
+  static void setFirstUse(bool value) {
+    sharedPreferences.setBool(kFirstUse, value);
   }
 }

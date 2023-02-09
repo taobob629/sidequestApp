@@ -15,16 +15,41 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/home/view.dart';
 import 'package:wy/widget/lable.dart';
 
-List<Map> supports = [
+List<Map> users = [
   Map()
-    ..['title'] = 'FAQ'
+    ..['title'] = 'Game accounts'
     ..['action'] = () => EasyLoading.showToast('FAQ'),
   Map()
-    ..['title'] = 'Help Center'
+    ..['title'] = 'Friends'
+    ..['action'] = () => EasyLoading.showToast('Help Center'),
+];
+List<Map> supports = [
+  Map()
+    ..['title'] = 'Teams'
+    ..['action'] = () => EasyLoading.showToast('FAQ'),
+  Map()
+    ..['title'] = 'My sidequest subscription'
     ..['action'] = () => EasyLoading.showToast('Help Center'),
   Map()
-    ..['title'] = 'Give us feedback'
+    ..['title'] = 'Profile'
     ..['action'] = () => EasyLoading.showToast('Give us feedback'),
+  Map()
+    ..['title'] = 'Password'
+    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
+  Map()
+    ..['title'] = 'Language'
+    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
+  Map()
+    ..['title'] = 'Connections'
+    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
+];
+List<Map> legals = [
+  Map()
+    ..['title'] = 'Terms of use'
+    ..['action'] = () => EasyLoading.showToast('FAQ'),
+  Map()
+    ..['title'] = 'Privacy Policy'
+    ..['action'] = () => EasyLoading.showToast('Help Center'),
 ];
 
 class HomeDrawer extends StatelessWidget {

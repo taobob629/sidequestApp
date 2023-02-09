@@ -6,12 +6,12 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:get/get.dart';
-import 'package:wy/config/app_config.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
+import 'package:wy/ui/splash/bindings.dart';
+import 'package:wy/ui/splash/view.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/utils/utils.dart';
 
 class LoginMiddleWare extends GetMiddleware {
   final UserController userController = Get.find<UserController>();
@@ -26,6 +26,10 @@ class LoginMiddleWare extends GetMiddleware {
 
   @override
   GetPage? onPageCalled(GetPage? page) {
+    var firstUse = StorageManager.getFirstUse();
+    if (firstUse) {
+      return GetPage(name: AppPages.SPLASH, page: () => SplashPage(), binding: SplashPageBinding());
+    }
     var account = StorageManager.getToken();
     if (account.isEmpty) {
       return GetPage(name: AppPages.Login, page: () => LoginPage());

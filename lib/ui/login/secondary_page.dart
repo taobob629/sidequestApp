@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
+import 'package:wy/config/app_pages.dart';
 
 import '../../model/login_model.dart';
 import '../../model/user_model.dart';
@@ -126,7 +127,7 @@ class SecondaryPageController extends GetxController{
 
   void validate() async{
     String data = validateEditingController.text;
-    if(data.isEmpty){
+    if (data.isEmpty) {
       EasyLoading.showInfo('Please input your'.tr + " $way");
       return;
     }
@@ -135,6 +136,10 @@ class SecondaryPageController extends GetxController{
     UserModel userModel = await AuthApi.validateInfo(fieldSelect.name, data, loginModel.token);
     EasyLoading.dismiss();
     loginModel.user = userModel;
-    Get.off(()=>RegisterPage(type: 2,loginModel: loginModel,));
+    Get.offAndToNamed(AppPages.REGISTER,
+        arguments: Map()
+          ..['type'] = 2
+          ..['loginModel'] = loginModel);
+    //  Get.off(()=>RegisterPage(type: 2,loginModel: loginModel,));
   }
 }

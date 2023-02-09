@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
@@ -98,17 +99,14 @@ class LoginPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              onTap: () => Get.to(() => RegisterPage(
-                                    type: 1,
-                                  )),
+                              onTap: () =>
+                                  Get.toNamed(AppPages.REGISTER, arguments: Map()..['type'] = 1),
                               child: Container(
                                 color: Colors.transparent,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   "Sign Up".tr,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14),
+                                  style: TextStyle(color: Colors.white, fontSize: 14),
                                 ),
                               ),
                             ),
@@ -195,7 +193,22 @@ class LoginPageController extends GetxController
     super.onClose();
   }
 
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+      // scopes: [
+      //   'email',
+      //   'https://www.googleapis.com/auth/contacts.readonly',
+      // ],
+      );
+
   void login() async {
+    // try {
+    //   GoogleSignInAccount? account = await _googleSignIn.signIn();
+    //   flog('google sign in $account');
+    // }catch(e){
+    //   flog('sign in err $e');
+    // }
+    //
+    // return;
     String email = emailEditingController.text;
     String password = passwordEditingController.text;
 
@@ -225,10 +238,14 @@ class LoginPageController extends GetxController
                       loginModel: loginModel,
                     ));
               } else {
-                Get.off(() => RegisterPage(
-                      type: 2,
-                      loginModel: loginModel,
-                    ));
+                Get.offAndToNamed(AppPages.REGISTER,
+                    arguments: Map()
+                      ..['type'] = 1
+                      ..['loginModel'] = loginModel);
+                // Get.off(() => RegisterPage(
+                //       type: 2,
+                //       loginModel: loginModel,
+                //     ));
               }
             }
           });

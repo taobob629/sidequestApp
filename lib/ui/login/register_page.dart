@@ -17,20 +17,11 @@ import '../controller/user_controller.dart';
 import 'auth_input_view.dart';
 import 'birthday_selector.dart';
 
-class RegisterPage extends StatelessWidget {
-  late final int type; //1注册 2更新老用户资料
-
-  late final RegisterPageController controller;
-
-  RegisterPage({required this.type, LoginModel? loginModel}) {
-    controller =
-        Get.put(RegisterPageController(type: type, loginModel: loginModel));
-  }
-
+class RegisterPage extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-        title: type == 1 ? "Sign Up".tr : "Update Profile".tr,
+        title: controller.type == 1 ? "Sign Up".tr : "Update Profile".tr,
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: SingleChildScrollView(
@@ -239,7 +230,7 @@ class RegisterPage extends StatelessWidget {
           ],
           tips: "Payment Pin".tr),
     );
-    if (type == 1) {
+    if (controller.type == 1) {
       list.add(SizedBox(
         height: 20,
       ));
@@ -256,9 +247,8 @@ class RegisterPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            type == 1 ? "SIGN UP" : "UPDATE",
-            style:
-                TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+            controller.type == 1 ? "SIGN UP" : "UPDATE",
+            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
           ),
         ),
         height: 48,
