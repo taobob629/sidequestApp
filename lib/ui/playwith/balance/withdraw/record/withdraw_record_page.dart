@@ -8,6 +8,8 @@ import 'package:wy/ui/playwith/balance/withdraw/record/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
+import '../../widget/TipsDialog.dart';
+
 /*
     view
     sidequest_hub_app
@@ -43,28 +45,19 @@ class WithDrawRecordPage extends StatelessWidget {
               ? Container()
               : controller.list.length == 0
                   ? Stack(
-                      children: [
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: EmptyView())
-                      ],
+                      children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
+                              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                             if (index.isOdd) {
                               return Divider(
                                 color: Colors.white24,
                               );
                             }
-                            WithdrawRecordModel model =
-                                controller.list[index ~/ 2];
+                            WithdrawRecordModel model = controller.list[index ~/ 2];
                             return recordItem(model);
                           }, childCount: controller.list.length * 2 - 1));
                         })
@@ -89,15 +82,43 @@ class WithDrawRecordPage extends StatelessWidget {
               //   height: 10,
               // ),
               Text(
-                getPayCardStr(model.card)??'',
+                getPayCardStr(model.card) ?? '',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(
                 height: 10,
               ),
-              Text(
-                '${model.statusText()}',
-                style: TextStyle(fontSize: 14, color: Colors.white),
+              Row(
+                children: [
+                  Text(
+                    '${model.statusText()}',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  ),
+                  Visibility(
+                    visible: model.status == 2,
+                    child: GestureDetector(
+                      onTapDown: (details) {
+                        print(details.globalPosition);
+                        Get.dialog(TipsDialog(
+                          offset: details.globalPosition,
+                          tips: model.note,
+                        ));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 6),
+                        width: 20,
+                        height: 20,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+                        child: Text(
+                          "?".tr,
+                          style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -124,4 +145,3 @@ class WithDrawRecordPage extends StatelessWidget {
   @override
   bool get wantKeepAlive => true;
 }
-

@@ -59,8 +59,7 @@ class PlaySkillsChild extends StatefulWidget {
   _PlaySkillsChildState createState() => _PlaySkillsChildState();
 }
 
-class _PlaySkillsChildState extends State<PlaySkillsChild>
-    with AutomaticKeepAliveClientMixin {
+class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     this.initData();
@@ -96,8 +95,7 @@ class _PlaySkillsChildState extends State<PlaySkillsChild>
           isShuaxin: false,
           isGengduo: false,
           itemModel: authlistDm,
-          btmWidget: PWidget.text(
-              'No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
+          btmWidget: PWidget.text('No more'.tr, [Colors.white54], {'ct': true, 'pd': 8}),
           touchBottomAnimationValue: 0.1,
           // onRefresh: () => this.authlist(isRef: true),
           // onLoading: (p) => this.authlist(page: p),
@@ -114,8 +112,8 @@ class _PlaySkillsChildState extends State<PlaySkillsChild>
                 PWidget.text('${data['skillName']}', [Colors.white, 16, true]),
                 PWidget.boxh(4),
                 PWidget.text('${data['levelName']}', [Colors.white54, 12]),
-                if (data['status'] == 2) PWidget.boxh(4),
-                if (data['status'] == 2) PWidget.text('${data['reason']}', [Colors.red, 12]),
+                // if (data['status'] == 2) PWidget.boxh(4),
+                // if (data['status'] == 2) PWidget.text('${data['reason']}', [Colors.red, 12]),
               ], {
                 'exp': 1
               }),

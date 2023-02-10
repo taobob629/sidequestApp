@@ -35,6 +35,8 @@ class WithdrawRecordModel {
     card = json['card'];
     memberId = json['memberId'];
     coin = json['coin'];
+    note = json['note'];
+
     money = json['money'];
     cardId = json['cardId'];
     fee = json['fee'];
@@ -54,6 +56,8 @@ class WithdrawRecordModel {
   num? cardId;
   String? fee;
   String? createTime;
+  String note = "";
+
   dynamic sortCode;
   dynamic bankName;
   num? status;
@@ -66,6 +70,8 @@ class WithdrawRecordModel {
     map['card'] = card;
     map['memberId'] = memberId;
     map['coin'] = coin;
+    map['note'] = note;
+
     map['money'] = money;
     map['cardId'] = cardId;
     map['fee'] = fee;
