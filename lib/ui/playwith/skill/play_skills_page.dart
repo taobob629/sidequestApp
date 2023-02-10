@@ -112,8 +112,8 @@ class _PlaySkillsChildState extends State<PlaySkillsChild> with AutomaticKeepAli
                 PWidget.text('${data['skillName']}', [Colors.white, 16, true]),
                 PWidget.boxh(4),
                 PWidget.text('${data['levelName']}', [Colors.white54, 12]),
-                // if (data['status'] == 2) PWidget.boxh(4),
-                // if (data['status'] == 2) PWidget.text('${data['reason']}', [Colors.red, 12]),
+                if (data['status'] == 2) PWidget.boxh(4),
+                if (data['status'] == 2) PWidget.text('${data['reason']}', [Colors.red, 12]),
               ], {
                 'exp': 1
               }),
