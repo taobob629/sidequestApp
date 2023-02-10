@@ -20,7 +20,7 @@ import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
-import '../../balance/widget/TipsDialog.dart';
+import '../../balance/widget/tips_dialog.dart';
 import 'controller.dart';
 
 class SkillListPage extends GetView<SkillListPageController> {

@@ -8,7 +8,7 @@ import 'package:wy/ui/playwith/balance/withdraw/record/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
-import '../../widget/TipsDialog.dart';
+import '../../widget/tips_dialog.dart';
 
 /*
     view
