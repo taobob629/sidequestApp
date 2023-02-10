@@ -11,6 +11,8 @@ class AppColor {
   static const Color itemBg = Color(0xff282640);
   static const Color yellow = Color(0xFFFFD20E);
   static const Color greyAF = Color(0xFFAFAFAF);
+  static const Color whiteGray = Color(0xFFC5C3C6);
+  static const Color textWhiteGrey = Color(0xFFC5C3C6);
 
   /// 主色 - 渐变
   static List<Color> get buttonGradientBg {

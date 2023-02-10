@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/login/login_page.dart';
-import 'package:wy/ui/login/regist/bindings.dart';
+import 'package:wy/ui/login/register/bindings.dart';
+import 'package:wy/ui/login/register/register_page.dart';
 import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
@@ -24,8 +25,6 @@ import 'package:wy/ui/profile/grade/bindings.dart';
 import 'package:wy/ui/profile/grade/index.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
-
-import '../ui/login/register_page.dart';
 import 'app_config.dart';
 
 class AppPages {

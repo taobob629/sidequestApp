@@ -1,54 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/model/login_model.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
-import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/login/auth_input_view.dart';
 import 'package:wy/ui/login/birthday_selector.dart';
-import 'package:wy/ui/login/register_page.dart';
 import 'package:wy/utils/datetime_utils.dart';
+import 'package:wy/utils/image_util.dart';
+
+import 'controller.dart';
 
 class RegisterPage extends GetView<RegisterPageController> {
-  late final int type; //1注册 2更新老用户资料
-
-  late final RegisterPageController controller;
-
-  RegisterPage({required this.type, LoginModel? loginModel}) {
-    controller = Get.put(RegisterPageController(type: type, loginModel: loginModel));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return KeyboardScaffold(
-        title: type == 1 ? "Sign Up".tr : "Update Profile".tr,
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Profile Information",
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Obx(() {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: controller.step.value == 1 ? createStep1() : createStep2(),
-                  );
-                })
-              ],
+    return KeyboardVisibilityBuilder(builder: (context, keyboardVisible) {
+      return Scaffold(
+        body: KeyboardDismissOnTap(
+          child: Container(
+            padding: REdgeInsets.all(38),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  40.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.close,
+                        size: 17.w,
+                        color: AppColor.whiteGray,
+                      )
+                    ],
+                  ),
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(20).w),
+                      child: ImageUtil.assetImage('default_logo', height: 40.w),
+                    ),
+                  ),
+                  26.verticalSpace,
+                  Text.rich(TextSpan(children: [
+                    TextSpan(
+                        text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
+                        style: TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: "DIN")),
+                    TextSpan(
+                        text: 'We would like to know who this account would be for.',
+                        style: TextStyle(color: AppColor.whiteGray))
+                  ])),
+                  // Text(
+                  //   "Profile Information",
+                  //   style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                  // ),
+                  16.verticalSpace,
+                  Obx(() {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: controller.step.value == 1 ? createStep1() : createStep2(),
+                    );
+                  })
+                ],
+              ),
             ),
           ),
-        ));
+        ),
+      );
+    });
   }
 
   List<Widget> createStep1() {
@@ -117,7 +137,7 @@ class RegisterPage extends GetView<RegisterPageController> {
             style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
           ),
         ),
-        height: 48,
+        height: 50,
         onTap: () => controller.gotoStep2(),
       ),
     );
@@ -227,7 +247,7 @@ class RegisterPage extends GetView<RegisterPageController> {
           ],
           tips: "Payment Pin".tr),
     );
-    if (type == 1) {
+    if (controller.type == 1) {
       list.add(SizedBox(
         height: 20,
       ));
@@ -244,7 +264,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            type == 1 ? "SIGN UP" : "UPDATE",
+            controller.type == 1 ? "SIGN UP" : "UPDATE",
             style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
           ),
         ),

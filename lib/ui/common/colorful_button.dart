@@ -5,8 +5,10 @@ class ColorfulButton extends StatelessWidget {
   final double? height;
   final double? width;
   final Function? onTap;
+  double borderRadius;
 
-  ColorfulButton({required this.child, this.height, this.width, this.onTap});
+  ColorfulButton(
+      {required this.child, this.height, this.width, this.onTap, this.borderRadius = 15});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,11 @@ class ColorfulButton extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(borderRadius),
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+                    colors: [Color(0xFFD49C21), Color(0xFFE96524)])),
             child: Center(
               child: child,
             ),
