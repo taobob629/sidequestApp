@@ -8,7 +8,6 @@ import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/forget_page.dart';
-import 'package:wy/ui/login/register_page.dart';
 import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 

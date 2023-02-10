@@ -11,7 +11,6 @@ import '../common/dialog_selector.dart';
 import '../common/input_view.dart';
 import '../common/keyboard_scaffold.dart';
 import '../common/select_view.dart';
-import 'register_page.dart';
 
 class SecondaryPage extends StatelessWidget {
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/config/app_color.dart';
 
 class AuthInputView extends StatelessWidget {
 
@@ -30,7 +32,7 @@ class AuthInputView extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
         color: Colors.white10,
-        borderRadius: BorderRadius.circular(25)
+        borderRadius: BorderRadius.all(Radius.circular(16)).w,
       ),
       child: TextField(
         controller: editingController,
@@ -45,7 +47,7 @@ class AuthInputView extends StatelessWidget {
         style: const TextStyle(color: Colors.white, fontSize: 16),
         decoration: InputDecoration(
           hintText: tips,
-          hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
+          hintStyle: TextStyle(fontSize: 14, color: AppColor.whiteGray),
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(bottom: 0)
         ),
