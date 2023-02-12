@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
+import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/game_model.dart';
 
 /**
@@ -8,16 +11,10 @@ import 'package:wy/model/game_model.dart';
     描述:
  */
 
-class ChooseGamePageController extends GetxController {
+class ChooseGamePageController extends BasePageController {
+
   RxList<SimpleGameModel> games = RxList();
-
-  RxInt _count = RxInt(0);
-
-  RxInt get count => _count;
-
-  set count(RxInt value) {
-    _count = value;
-  }
+  RxList<SimpleGameModel> selected_games = RxList();
 
   @override
   void onInit() {
@@ -38,5 +35,15 @@ class ChooseGamePageController extends GetxController {
   void initGameList() async {
     var result = await GamesApi.getRecommendGames();
     games?.addAll(result);
+    pageState=PageState.loaded;
+  }
+
+  updateSelectedGames(SimpleGameModel item) {
+    if( this.selected_games.contains(item)){
+      selected_games.remove(item);
+    }else{
+      selected_games.add(item);
+    }
+
   }
 }

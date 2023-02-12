@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
@@ -20,8 +22,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityScaffold(builder: (context, keyboardShow) {
-      return BaseScaffold(
-        title: keyboardShow ? "Sign In".tr : "",
+      return Scaffold(
+       // title: keyboardShow ? "Sign In".tr : "",
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -29,6 +31,7 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  100.verticalSpace,
                   Offstage(
                     offstage: keyboardShow,
                     child: Container(
@@ -147,7 +150,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class LoginPageController extends GetxController
+class LoginPageController extends BasePageController
     with GetSingleTickerProviderStateMixin {
   late PrivacyCheckController controller;
 

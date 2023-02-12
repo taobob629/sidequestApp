@@ -33,6 +33,14 @@ class SimpleGameModel {
   String? icon;
   String? id;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SimpleGameModel && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['name'] = name;
