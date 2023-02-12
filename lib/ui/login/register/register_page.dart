@@ -10,6 +10,7 @@ import 'package:wy/ui/login/auth_input_view.dart';
 import 'package:wy/ui/login/birthday_selector.dart';
 import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/widget/gradient_button.dart';
 
 import 'controller.dart';
 
@@ -20,50 +21,103 @@ class RegisterPage extends GetView<RegisterPageController> {
       return Scaffold(
         body: KeyboardDismissOnTap(
           child: Container(
+            height: Get.height,
             padding: REdgeInsets.all(38),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  40.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.close,
-                        size: 17.w,
-                        color: AppColor.whiteGray,
-                      )
+                      40.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              onPressed: () => Get.back(),
+                              icon: Icon(
+                                Icons.close,
+                                size: 17.w,
+                                color: AppColor.whiteGray,
+                              ))
+                        ],
+                      ),
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(20).w),
+                          child: ImageUtil.assetImage('default_logo', height: 40.w),
+                        ),
+                      ),
+                      26.verticalSpace,
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: "DIN")),
+                        TextSpan(
+                            text: 'We would like to know who this account would be for.',
+                            style: TextStyle(color: AppColor.whiteGray))
+                      ])),
+                      // Text(
+                      //   "Profile Information",
+                      //   style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                      // ),
+                      16.verticalSpace,
+                      Obx(() {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: controller.step.value == 1 ? createStep1() : createStep2(),
+                        );
+                      }),
                     ],
                   ),
-                  Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(20).w),
-                      child: ImageUtil.assetImage('default_logo', height: 40.w),
-                    ),
-                  ),
-                  26.verticalSpace,
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                        text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
-                        style: TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: "DIN")),
-                    TextSpan(
-                        text: 'We would like to know who this account would be for.',
-                        style: TextStyle(color: AppColor.whiteGray))
-                  ])),
-                  // Text(
-                  //   "Profile Information",
-                  //   style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
-                  // ),
-                  16.verticalSpace,
-                  Obx(() {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: controller.step.value == 1 ? createStep1() : createStep2(),
-                    );
-                  })
-                ],
-              ),
+                ),
+                Positioned(
+                    bottom: 16.h,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: GradientButton(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                                    border: Border.all(color: Colors.grey, width: 1)),
+                                tapCallback: () {},
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.apps,
+                                      color: AppColor.whiteGray,
+                                    ),
+                                    Text('Iphone',
+                                        style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                                  ],
+                                ))),
+                        16.horizontalSpace,
+                        Expanded(
+                            child: GradientButton(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                                    border: Border.all(color: Colors.grey, width: 1)),
+                                tapCallback: () {},
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.apps,
+                                      color: AppColor.whiteGray,
+                                    ),
+                                    Text('Google',
+                                        style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                                  ],
+                                ))),
+                      ],
+                    ))
+              ],
             ),
           ),
         ),
@@ -119,7 +173,7 @@ class RegisterPage extends GetView<RegisterPageController> {
                 child: Text(
                   "Players under the age of 16 must provide an emergency contact in order to use our services and sign up."
                       .tr,
-                  style: TextStyle(fontSize: 12, color: Colors.white54),
+                  style: TextStyle(fontSize: 12, color: AppColor.whiteGray),
                 ),
               ),
             ],
@@ -264,7 +318,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            controller.type == 1 ? "SIGN UP" : "UPDATE",
+            controller.type == 1 ? "SIGN UP".tr : "UPDATE".tr,
             style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
           ),
         ),

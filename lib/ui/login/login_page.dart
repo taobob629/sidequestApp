@@ -78,15 +78,12 @@ class LoginPage extends StatelessWidget {
                           height: 20,
                         ),
                         ColorfulButton(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              "SIGN IN".tr,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "DIN",
-                                  fontSize: 18),
-                            ),
+                          child: Text(
+                            "SIGN IN".tr,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "DIN",
+                                fontSize: 18),
                           ),
                           height: 48,
                           onTap: () => controller.login(),

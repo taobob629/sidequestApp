@@ -16,7 +16,7 @@ class AppColor {
 
   /// 主色 - 渐变
   static List<Color> get buttonGradientBg {
-    return [hexColor("#4596FE"), hexColor("#78ADFF")];
+    return [hexColor("#FFD0A920"), hexColor("#FFED5A24")];
   }
 }
 

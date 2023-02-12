@@ -43,7 +43,7 @@ class GradientButton extends StatelessWidget {
       _colors = [Colors.grey.withAlpha(100), Colors.grey.withAlpha(100)];
     } else {
       //确保colors数组不空
-      _colors = colors ?? [theme.primaryColor, theme.primaryColorDark];
+      _colors = colors ?? [Color(0xFFD0A920), Color(0xFFED5A24)];
     }
 
     return DecoratedBox(

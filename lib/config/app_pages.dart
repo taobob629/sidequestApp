@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/login/choose_game/bindings.dart';
+import 'package:wy/ui/login/choose_game/view.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/ui/login/register/bindings.dart';
 import 'package:wy/ui/login/register/register_page.dart';
@@ -42,6 +44,7 @@ class AppPages {
   static const COUPON_TAB_PAGE = '/coupon_tab_page';
   static const SEARCH_USER_PAGE = '/search_user_page';
   static const SPLASH = '/splash';
+  static const CHOOSE_GAME = '/choose_game';
   static final routes = [
     GetPage(
       name: REGISTER,
@@ -56,6 +59,11 @@ class AppPages {
     GetPage(
       name: Login,
       page: () => LoginPage(),
+    ),
+    GetPage(
+      name: CHOOSE_GAME,
+      binding: ChooseGamePageBinding(),
+      page: () => ChooseGamesPage(),
     ),
     GetPage(
       name: Main,
