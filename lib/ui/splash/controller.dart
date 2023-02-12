@@ -24,7 +24,8 @@ class SplashPageController extends GetxController {
   }
 
   toLogin() {
-    Get.toNamed(AppPages.Login);
+    Get.toNamed(AppPages.CHOOSE_GAME);
+   // Get.toNamed(AppPages.Login);
   }
 
   toRegister() {
