@@ -4,6 +4,7 @@
     描述:
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class PageState {
@@ -19,5 +20,17 @@ class BasePageController extends GetxController {
 
   set pageState(int value) {
     _pageState.value = value;
+  }
+
+  toast(var msg) {
+    EasyLoading.showToast(msg);
+  }
+
+  info(var msg) {
+    EasyLoading.showInfo(msg);
+  }
+
+  err(var msg) {
+    EasyLoading.showError(msg);
   }
 }

@@ -12,6 +12,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/forget_page.dart';
 import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../model/login_model.dart';
 import '../common/base_scaffold.dart';
@@ -230,6 +231,13 @@ class LoginPageController extends BasePageController
           done: (LoginModel loginModel) {
             if (loginModel.validate == 0) {
               userController.imLogin();
+              //如果是从登录页面跳转的，跳转到选择游戏页面先
+              var fromRegister=Get.arguments?['fromRegister'];
+              flog('fromRegister $fromRegister');
+              if(fromRegister){
+                Get.offAndToNamed(AppPages.CHOOSE_GAME);
+                return;
+              }
               Get.offAndToNamed(AppPages.Main);
             } else {
               if (loginModel.secondary == 1) {

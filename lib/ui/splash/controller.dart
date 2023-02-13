@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 /**
     author:mac
@@ -10,12 +11,14 @@ import 'package:wy/model/login_model.dart';
 class SplashPageController extends GetxController {
   @override
   void onInit() {
+    StorageManager.setFirstUse(false);
     super.onInit();
   }
 
   @override
   void onClose() {
     super.onClose();
+
   }
 
   @override
@@ -24,8 +27,8 @@ class SplashPageController extends GetxController {
   }
 
   toLogin() {
-    Get.toNamed(AppPages.CHOOSE_GAME);
-   // Get.toNamed(AppPages.Login);
+  //  Get.toNamed(AppPages.CHOOSE_GAME);
+    Get.toNamed(AppPages.Login);
   }
 
   toRegister() {

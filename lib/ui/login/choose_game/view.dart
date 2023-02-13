@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
@@ -38,7 +39,7 @@ class ChooseGamesPage extends GetView<ChooseGamePageController> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   IconButton(
-                                      onPressed: () => Get.back(),
+                                      onPressed: () => Get.offAllNamed(AppPages.Main),
                                       icon: Icon(
                                         Icons.close,
                                         size: 17.w,
@@ -79,7 +80,7 @@ class ChooseGamesPage extends GetView<ChooseGamePageController> {
               child: Obx(() => StadiumButton(
                     'Follow ${controller.selected_games.length} games',
                     width: Get.width - 44.w,
-                    onTap: () {},
+                    onTap: () => controller.followGames(),
                   )),
             ))
           ],

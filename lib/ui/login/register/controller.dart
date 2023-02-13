@@ -256,7 +256,7 @@ class RegisterPageController extends GetxController {
           "Congratulations and welcome, your profile has been updated!".tr,
           duration: Duration(seconds: 3));
     }
-    Get.offAll(LoginPage());
+    Get.offAll(LoginPage(), arguments: Map()..['fromRegister'] = true);
     // Get.back();
   }
 }

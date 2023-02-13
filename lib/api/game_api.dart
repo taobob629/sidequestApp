@@ -10,4 +10,10 @@ class GamesApi {
     if (response.data == null) return [];
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
+
+  static Future<Response> addRegisterFavorite(List gameIds) async {
+    Response response = await http.post('/peiwan/app/login/addRegisterFavorite',
+        data: Map()..['gameIdList'] = gameIds);
+    return response;
+  }
 }
