@@ -72,57 +72,63 @@ class RegisterPage extends GetView<RegisterPageController> {
                     ],
                   ),
                 ),
-                Positioned(
-                    bottom: 16.h,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: GradientButton(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                                    border: Border.all(color: Colors.grey, width: 1)),
-                                tapCallback: () {},
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.apps,
-                                      color: AppColor.whiteGray,
-                                    ),
-                                    Text('Iphone',
-                                        style: TextStyle(color: Colors.white, fontSize: 16.sp))
-                                  ],
-                                ))),
-                        16.horizontalSpace,
-                        Expanded(
-                            child: GradientButton(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                                    border: Border.all(color: Colors.grey, width: 1)),
-                                tapCallback: () {},
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.apps,
-                                      color: AppColor.whiteGray,
-                                    ),
-                                    Text('Google',
-                                        style: TextStyle(color: Colors.white, fontSize: 16.sp))
-                                  ],
-                                ))),
-                      ],
-                    ))
+                buildBottom()
               ],
             ),
           ),
         ),
       );
     });
+  }
+
+  Widget buildBottom() {
+    return Visibility(
+        visible: false,
+        child: Positioned(
+        bottom: 16.h,
+        left: 0,
+        right: 0,
+        child: Row(
+          children: [
+            Expanded(
+                child: GradientButton(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    tapCallback: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.apps,
+                          color: AppColor.whiteGray,
+                        ),
+                        Text('Iphone',
+                            style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                      ],
+                    ))),
+            16.horizontalSpace,
+            Expanded(
+                child: GradientButton(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                        border: Border.all(color: Colors.grey, width: 1)),
+                    tapCallback: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.apps,
+                          color: AppColor.whiteGray,
+                        ),
+                        Text('Google',
+                            style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                      ],
+                    ))),
+          ],
+        )));
   }
 
   List<Widget> createStep1() {

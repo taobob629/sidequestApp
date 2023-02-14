@@ -234,7 +234,7 @@ class LoginPageController extends BasePageController
               //如果是从登录页面跳转的，跳转到选择游戏页面先
               var fromRegister=Get.arguments?['fromRegister'];
               flog('fromRegister $fromRegister');
-              if(fromRegister){
+              if(fromRegister==true){
                 Get.offAndToNamed(AppPages.CHOOSE_GAME);
                 return;
               }

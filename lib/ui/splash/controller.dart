@@ -34,7 +34,6 @@ class SplashPageController extends GetxController {
   toRegister() {
     Get.toNamed(AppPages.REGISTER,
         arguments: Map()
-          ..['type'] = 1
-          ..['loginModel'] = LoginModel());
+          ..['type'] = 1);
   }
 }
