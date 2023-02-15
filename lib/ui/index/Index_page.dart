@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -8,6 +10,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/drawer.dart';
 import 'package:wy/ui/index/tab_games_page.dart';
 import 'package:wy/ui/index/tab_headlines_page.dart';
 import 'package:wy/ui/index/tab_news_page.dart';
@@ -15,13 +18,15 @@ import 'package:wy/ui/login/qr_login_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/scan/scan_page.dart';
+import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 import '../store/store_page.dart';
 
-class IndexPage extends StatelessWidget {
+GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
 
+class IndexPage extends StatelessWidget {
   final controller = Get.put(IndexPageController());
 
   final userController = Get.find<UserController>();
@@ -29,15 +34,14 @@ class IndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: Container(
-          child: SafeArea(
+      // key: homeDrawerKey,
+      // drawer: HomeDrawer(),
+      body: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(40),child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
@@ -53,31 +57,42 @@ class IndexPage extends StatelessWidget {
                         indicatorWeight: 4,
                         indicatorPadding: EdgeInsets.only(bottom: 5),
                         labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-                        labelStyle: const TextStyle(fontSize: 20,fontFamily: "din"),
-                        unselectedLabelStyle: const TextStyle(fontSize: 20,fontFamily: "din"),
+                        labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+                        unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
                         tabs: createTabs(),
                       ),
                       Spacer(),
                       GestureDetector(
-                        onTap: ()=>userController.checkLogin(()=>Get.to(()=>BookingPage())),
+                        onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10,right: 4),
-                          child: Image.asset("assets/images/ic_store.png",width: 27,height: 27,fit: BoxFit.contain,),
+                          padding: const EdgeInsets.only(bottom: 10, right: 4),
+                          child: Image.asset(
+                            "assets/images/ic_store.png",
+                            width: 27,
+                            height: 27,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       GestureDetector(
                         onTap: () {
-                          userController.checkLogin(() async{
+                          userController.checkLogin(() async {
                             bool access = await PermissionHelper.requestCameraPermission(context);
-                            if(access){
+                            if (access) {
                               controller.scan();
                             }
                           });
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10,right: 5),
-                          child: Icon(IconFonts.scan,size: 22,color: Colors.white,),
+                          padding: const EdgeInsets.only(bottom: 10, right: 5),
+                          child: Icon(
+                            IconFonts.scan,
+                            size: 22,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       /*
@@ -92,13 +107,8 @@ class IndexPage extends StatelessWidget {
                   ),
                 )
               ],
-            )
-          ),
-        )
-      ),
-      body: TabBarView(
-        controller: controller.tabController,
-        children: createPages()
+            )),),
+        body: TabBarView(controller: controller.tabController, children: createPages()),
       ),
     );
   }
@@ -126,15 +136,15 @@ class IndexPage extends StatelessWidget {
     return pages;
   }
 
-  String decryptData(String data){
+  String decryptData(String data) {
     final key = encrypt.Key.fromUtf8('my 32 length key.......sidequest');
     final iv = encrypt.IV.fromLength(16);
     final encryptMaker = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
     encrypt.Encrypted encrypted = encrypt.Encrypted.fromBase64(data);
-    return encryptMaker.decrypt(encrypted,iv: iv);
+    return encryptMaker.decrypt(encrypted, iv: iv);
   }
 
-  void encryptData(String data){
+  void encryptData(String data) {
     final key = encrypt.Key.fromUtf8('my 32 length key.......sidequest');
     final iv = encrypt.IV.fromLength(16);
     final encryptMaker = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
@@ -142,7 +152,7 @@ class IndexPage extends StatelessWidget {
   }
 }
 
-class IndexPageController extends GetxController with SingleGetTickerProviderMixin{
+class IndexPageController extends GetxController with SingleGetTickerProviderMixin {
   late TabController tabController;
 
   @override
@@ -162,25 +172,27 @@ class IndexPageController extends GetxController with SingleGetTickerProviderMix
     super.onReady();
   }
 
-  void scan(){
-    Get.to(()=>ScanPage())?.then((value) {
+  void scan() {
+    Get.to(() => ScanPage())?.then((value) {
       log("scan->$value");
-      if(value == null){
+      if (value == null) {
         return;
       }
       String data = value.toString();
       //String deData = decryptData(data);
 
-      if(data.indexOf("qlogin") >= 0){
-        Get.to(()=>QrLoginPage(code: data,));
+      if (data.indexOf("qlogin") >= 0) {
+        Get.to(() => QrLoginPage(
+              code: data,
+            ));
 
         return;
       }
-      if(data == "Eb13IPoTrQ2uJNr/sAA70A=="){// Eb13IPoTrQ2uJNr/sAA70A==  page:balance
-        Get.to(()=>BalancePage());
+      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
+        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
+        Get.to(() => BalancePage());
         return;
       }
     });
   }
-
 }

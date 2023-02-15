@@ -45,9 +45,11 @@ class App extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
+                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0),
                   primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,
+                  primaryIconTheme: IconThemeData(color: AppColor.iconColorPrimary),
                   colorScheme: theme.colorScheme.copyWith(
                     primary: AppColor.primary,
                     secondary: AppColor.accent,

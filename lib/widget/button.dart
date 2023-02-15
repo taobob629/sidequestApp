@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/utils/image_util.dart';
 
 class Button extends StatelessWidget {
   final String? text;
@@ -12,6 +14,7 @@ class Button extends StatelessWidget {
   final bool isFill;
   final void Function()? onPressed;
   final Widget child;
+
   const Button({
     Key? key,
     this.text,
@@ -65,6 +68,54 @@ class Button extends StatelessWidget {
                   child: child,
                 ),
               ),
+      ),
+    );
+  }
+}
+
+class ClickIcon extends StatelessWidget {
+  var size;
+  IconData? icon;
+  Function()? onTap;
+  Color? color;
+  Widget? customIcon;
+
+  ClickIcon({this.size, this.icon, this.onTap, this.color, this.customIcon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      child: InkWell(
+        onTap: onTap,
+        child: customIcon ??
+            Icon(
+              icon,
+              size: size ?? 16,
+              color: color ?? AppColor.iconColorPrimary,
+            ),
+      ),
+    );
+  }
+}
+
+class ClickableWidget extends StatelessWidget {
+  var width;
+  var height;
+  Function()? onTap;
+  Widget? widget;
+
+  ClickableWidget({this.width, this.height, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      child: InkWell(
+        onTap: onTap,
+        child: widget,
       ),
     );
   }

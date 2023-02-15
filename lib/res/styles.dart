@@ -13,6 +13,10 @@ class PageStyle {
     fontSize: 15.sp,
     color: Color(0xFFFFFFFF),
   );
+  static var ts_FFFFFF_16sp = TextStyle(
+    fontSize: 16.sp,
+    color: Color(0xFFFFFFFF),
+  );
   static var labelStyle = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.bold,

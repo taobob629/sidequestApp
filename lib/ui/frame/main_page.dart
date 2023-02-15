@@ -33,6 +33,9 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wy/utils/utils.dart';
 
+import 'drawer.dart';
+
+GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
 class MainPage extends GetView<MainPageController> {
   final userController = Get.find<UserController>();
 
@@ -61,8 +64,11 @@ class MainPage extends GetView<MainPageController> {
       },
       child: AnnotatedRegion(
           value: SystemUiOverlayStyle.light,
-          child: Scaffold(
+          child: Obx(()=>Scaffold(
               backgroundColor: AppColor.background,
+              key: homeDrawerKey,
+              drawer: HomeDrawer(),
+              appBar: controller.currentIndex==0?AppBar(elevation: 0,):null,
               body: Stack(
                 children: [
                   Positioned(
@@ -138,9 +144,9 @@ class MainPage extends GetView<MainPageController> {
                               position: BadgePosition(top: 3, end: 5),
                               animationType: BadgeAnimationType.fade,
                               animationDuration:
-                                  const Duration(microseconds: 500),
+                              const Duration(microseconds: 500),
                               showBadge:
-                                  userController.unreadMsgCount.value > 0,
+                              userController.unreadMsgCount.value > 0,
                               badgeContent: Text(
                                 "${userController.unreadMsgCount.value}",
                                 style: TextStyle(
@@ -187,7 +193,7 @@ class MainPage extends GetView<MainPageController> {
                         );
                       }))
                 ],
-              ))),
+              )))),
     );
   }
 }

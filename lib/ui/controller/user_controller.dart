@@ -32,6 +32,9 @@ import '../../utils/db_helper.dart';
 import '../im/chat.dart';
 
 class UserController extends GetxController {
+ static UserController instance(){
+   return Get.find<UserController>();
+ }
   Rx<UserModel> user = Rx(UserModel());
   Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
 
