@@ -10,37 +10,26 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/home/view.dart';
+import 'package:wy/utils/image_util.dart';
+import 'package:wy/widget/button.dart';
 import 'package:wy/widget/lable.dart';
+import 'package:wy/widget/stadium_button.dart';
 
-List<Map> users = [
-  Map()
-    ..['title'] = 'Game accounts'
-    ..['action'] = () => EasyLoading.showToast('FAQ'),
-  Map()
-    ..['title'] = 'Friends'
-    ..['action'] = () => EasyLoading.showToast('Help Center'),
-];
+import '../index/Index_page.dart';
+
 List<Map> supports = [
   Map()
-    ..['title'] = 'Teams'
+    ..['title'] = 'FAQ'
     ..['action'] = () => EasyLoading.showToast('FAQ'),
   Map()
-    ..['title'] = 'My sidequest subscription'
+    ..['title'] = 'Help Center'
     ..['action'] = () => EasyLoading.showToast('Help Center'),
   Map()
-    ..['title'] = 'Profile'
-    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
-  Map()
-    ..['title'] = 'Password'
-    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
-  Map()
-    ..['title'] = 'Language'
-    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
-  Map()
-    ..['title'] = 'Connections'
+    ..['title'] = 'Give us feedback'
     ..['action'] = () => EasyLoading.showToast('Give us feedback'),
 ];
 List<Map> legals = [
@@ -58,81 +47,204 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: Get.width,
-      backgroundColor: AppColor.background,
-      child: ListView(
-        children: <Widget>[
-          AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: 16,
-              ),
-              onPressed: () => drawerKey.currentState?.closeDrawer(),
-            ),
-          ),
-          DrawerHeader(
-            // drawer的头部控件
-            decoration: BoxDecoration(),
-            child: ListTile(
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    radius: 40.w,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
-                      user?.avatar ?? '',
+      width: Get.width - 40.w,
+      backgroundColor: Color(0xFF262731),
+      child: Scaffold(
+        body: MediaQuery.removePadding(
+            removeTop: true,
+            context: context,
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  dense: true,
+                  trailing: ClickIcon(
+                    onTap: () => Get.toNamed(AppPages.NOTICE_PAGE),
+                    customIcon: ImageUtil.assetImage(
+                      'icon_notice',
+                      width: 18.w,
                     ),
-                  )
-                ],
-              ),
-              title: Text(
-                '${user?.nick}',
-                style: PageStyle.ts_FFFFFF_15sp,
-              ),
-              dense: false,
-              subtitle: Text(
-                'View profile',
-                style: PageStyle.ts_FFFFFF_15sp,
-              ),
-              trailing: IconButton(
-                iconSize: 16,
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white54,
+                  ),
                 ),
-                onPressed: () {},
-              ),
-            ),
+                header(),
+                achievements(),
+                remainingTimes(),
+                _listItem('My sidequest subscription', onTapMore: () {}),
+                sectionText('Support'.tr),
+                supportsWidget(supports),
+                sectionText('Legal'.tr),
+                supportsWidget(legals),
+              ],
+            )),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+          child: StadiumButton(
+            'Log out',
+            onTap: () {},
           ),
-          LableWidget(label: 'Support'.tr),
-          Column(
-            children: supports.map((e) => _listItem(e['title'], onTapMore: e['action'])).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget supportsWidget(List items) {
+    return ListView.separated(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var item = items[index];
+          return _listItem(item['title'], onTapMore: item['action']);
+        },
+        separatorBuilder: (context, index) => Divider(
+              color: AppColor.dividerColor,
+            ),
+        itemCount: items.length);
+  }
+
+  Widget remainingTimes() {
+    return Padding(
+      padding: EdgeInsets.only(left: 30, top: 10).r,
+      child: Text.rich(TextSpan(children: [
+        TextSpan(text: 'Remaining game time:', style: TextStyle(color: Color(0xFFC5C5C5))),
+        TextSpan(text: '${user?.remain}', style: TextStyle(color: AppColor.textYellow))
+      ])),
+    );
+  }
+
+  ListTile header() {
+    return ListTile(
+      contentPadding: EdgeInsets.only(left: 16, right: 16).r,
+      leading: Stack(
+        children: [
+          ClipRRect(
+            child: ImageUtil.networkImage(
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+                url:
+                    'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/Tundra-Thursdays---Website-main-image.png'),
+            borderRadius: BorderRadius.circular(20),
           )
         ],
       ),
+      title: Text(
+        '${user?.nick}',
+        style: PageStyle.ts_FFFFFF_16sp,
+      ),
+      dense: true,
+      subtitle: Text(
+        'View profile',
+        style: TextStyle(fontSize: 12.sp, color: AppColor.textC5C5),
+      ),
+      trailing: ClickIcon(
+        icon: Icons.arrow_forward_ios,
+        size: 13.0,
+        onTap: () => EasyLoading.showToast('12112'),
+      ),
+    );
+  }
+
+  Widget sectionText(String text) {
+    return contentPadding(Text(
+      text,
+      style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.bold),
+    ));
+  }
+
+  Widget contentPadding(Widget child, {var top, var bootom}) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15, top: 15).r,
+      child: child,
     );
   }
 
   Widget _listItem(var label, {Function()? onTapMore}) {
     return ListTile(
       // 子项
-      leading: SizedBox(
-        width: 20,
-      ),
+      contentPadding: EdgeInsets.only(
+        left: 30,
+        right: 16,
+      ).r,
+      // leading: SizedBox(
+      //   width: 30.w,
+      // ),
       title: Text(
         '$label',
-        style: PageStyle.labelStyle,
+        style: TextStyle(color: Colors.white, fontSize: 15.sp),
       ),
-      trailing: IconButton(
-        icon: Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.white54,
-          size: 16,
-        ),
-        onPressed: onTapMore,
+      trailing: ClickIcon(
+        icon: Icons.arrow_forward_ios,
+        size: 13.0,
+        onTap: onTapMore,
       ),
     );
+  }
+
+  Widget achievements() {
+    return Container(
+      margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
+      padding: EdgeInsets.all(15).r,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(11),
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
+      child: Row(
+        children: [
+          achievementItem(user?.coin, 'ic_balance_money'),
+          achievementItem(user?.coupons, 'ic_coupons_new'),
+          achievementItem(user?.votes, 'diamonds_red'),
+          achievementItem(user?.balance, 'ic_corns_new'),
+        ],
+      ),
+    );
+  }
+
+  Widget achievementItem(var text, var icon) {
+    var textStyle = TextStyle(color: Color(0xFFC5C5C5), fontSize: 12.sp);
+    double width = 18;
+    double height = 18;
+    switch (icon) {
+      case 'ic_balance_money':
+        width = 18;
+        height = 18;
+        break;
+      case 'ic_coupons_new':
+        width = 22;
+        height = 15;
+        break;
+      case 'diamonds_red':
+        width = 18;
+        height = 18;
+        break;
+      case 'ic_corns_new':
+        width = 22;
+        height = 18;
+        break;
+    }
+    return Expanded(
+        child: InkWell(
+      onTap: () {
+        switch (icon) {
+          case 'ic_balance_money':
+            break;
+          case 'ic_coupons_new':
+            break;
+          case 'diamonds_red':
+            break;
+          case 'ic_corns_new':
+            break;
+        }
+      },
+      child: Row(
+        children: [
+          Text(
+            '$text' ?? '',
+            style: textStyle,
+          ),
+          5.horizontalSpace,
+          ImageUtil.assetImage(icon, width: width, height: height)
+        ],
+      ),
+    ));
   }
 }

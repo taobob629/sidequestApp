@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static Color primary = Color(0xff171525);
+  static Color primary = Color(0xFF1B1A1E);
   static Color accent = Color(0xffe33e45);
+  static Color iconColorPrimary = Color(0xFFC5C3C6);
+  static Color dividerColor = Color(0xFF2D2E3A);
 
   static Color navBar = Color(0xff0d2432);
   static Color navBarActive = Color(0xffe23e45);
@@ -13,6 +15,8 @@ class AppColor {
   static const Color greyAF = Color(0xFFAFAFAF);
   static const Color whiteGray = Color(0xFFC5C3C6);
   static const Color textWhiteGrey = Color(0xFFC5C3C6);
+  static const Color textC5C5 = Color(0xFFc5c5c5);
+  static const Color textYellow = Color(0xFFFFCB0D);
 
   /// 主色 - 渐变
   static List<Color> get buttonGradientBg {
