@@ -6,7 +6,8 @@ import 'package:wy/ui/common/web_page.dart';
 const int TYPE_LOGIN = 0;
 const int TYPE_ADD_GAME = 1;
 const int TYPE_ADD_BANK = 2;
-
+const String TermsAndConditionLink='https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String PrivacyPolicyLink='https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
 class PrivacyCheck extends StatelessWidget {
   final _controller = Get.put(_PrivacyCheckController());
   List<PrivacyInfo> privacyList = [];
@@ -24,10 +25,10 @@ class PrivacyCheck extends StatelessWidget {
       case TYPE_LOGIN:
         privacyList = [
           PrivacyInfo('Terms and Conditions'.tr,
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf'),
+              TermsAndConditionLink),
           PrivacyInfo('', ''),
           PrivacyInfo('Privacy Policy'.tr,
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideQuest-Privacy-Policy.pdf'),
+              PrivacyPolicyLink),
           PrivacyInfo('', ''),
           PrivacyInfo('SideKick Policy'.tr,
               'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),

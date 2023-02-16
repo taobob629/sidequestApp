@@ -12,9 +12,15 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/res/styles.dart';
+import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/home/view.dart';
+import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/ui/profile/profile_page.dart';
+import 'package:wy/ui/profile/vip/vip_page.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
 import 'package:wy/widget/lable.dart';
 import 'package:wy/widget/stadium_button.dart';
@@ -35,10 +41,10 @@ List<Map> supports = [
 List<Map> legals = [
   Map()
     ..['title'] = 'Terms of use'
-    ..['action'] = () => EasyLoading.showToast('FAQ'),
+    ..['action'] = () => Get.to(WebPage(title: 'Terms of use', url: TermsAndConditionLink)),
   Map()
     ..['title'] = 'Privacy Policy'
-    ..['action'] = () => EasyLoading.showToast('Help Center'),
+    ..['action'] = () => Get.to(WebPage(title: 'Privacy Policy', url: PrivacyPolicyLink)),
 ];
 
 class HomeDrawer extends StatelessWidget {
@@ -55,6 +61,7 @@ class HomeDrawer extends StatelessWidget {
             context: context,
             child: ListView(
               children: <Widget>[
+                30.verticalSpace,
                 ListTile(
                   dense: true,
                   trailing: ClickIcon(
@@ -68,7 +75,12 @@ class HomeDrawer extends StatelessWidget {
                 header(),
                 achievements(),
                 remainingTimes(),
-                _listItem('My sidequest subscription', onTapMore: () {}),
+                _listItem('My sidequest subscription',
+                    onTapMore: () => Get.to(() => VipPage(
+                          vipLevel: user?.vipLevel ?? 0,
+                          vipIndex: 0,
+                          list: ProfilePageController.instance().vipInfoList,
+                        ))?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
                 supportsWidget(supports),
                 sectionText('Legal'.tr),
@@ -226,12 +238,22 @@ class HomeDrawer extends StatelessWidget {
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
+            if (ProfilePageController.instance().online.value)
+              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
             break;
           case 'ic_coupons_new':
+            NavigatorHelper.gotoCouponTabPage(
+                whenComplete: () => UserController.instance().updateInfo());
             break;
           case 'diamonds_red':
+            ProfilePageController.instance().online.value
+                ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1)
+                : null;
             break;
           case 'ic_corns_new':
+            if (ProfilePageController.instance().online.value)
+              Get.to(() => BalancePage())
+                  ?.whenComplete(() => UserController.instance().updateInfo());
             break;
         }
       },
