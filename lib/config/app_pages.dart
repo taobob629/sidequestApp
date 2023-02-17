@@ -26,6 +26,7 @@ import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 import 'package:wy/ui/profile/grade/bindings.dart';
 import 'package:wy/ui/profile/grade/index.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
+import 'package:wy/ui/profile/vip/vip_page.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
 import 'app_config.dart';
@@ -47,6 +48,7 @@ class AppPages {
   static const SPLASH = '/splash';
   static const CHOOSE_GAME = '/choose_game';
   static const NOTICE_PAGE = '/notice_page';
+  static const VIP_PAGE = '/vip_page';
   static final routes = [
     GetPage(
       name: REGISTER,
