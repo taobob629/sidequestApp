@@ -16,6 +16,8 @@ import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
+import 'package:wy/config/app_config.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/db_model.dart';
 import 'package:wy/model/im_sig_model.dart';
 import 'package:wy/model/login_model.dart';
@@ -288,4 +290,11 @@ class UserController extends GetxController {
     unreadMsgCount.value = 0;
     done?.call();
   }
+ Future<void> appLogout() async {
+   EasyLoading.show();
+   await AuthApi.signOut();
+   await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
+   EasyLoading.dismiss();
+   logout(done: () => Get.offAllNamed(AppPages.Login));
+ }
 }

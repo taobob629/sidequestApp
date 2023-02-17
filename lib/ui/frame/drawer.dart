@@ -91,7 +91,7 @@ class HomeDrawer extends StatelessWidget {
           padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
           child: StadiumButton(
             'Log out',
-            onTap: () {},
+            onTap: ()=>UserController.instance().appLogout(),
           ),
         ),
       ),
