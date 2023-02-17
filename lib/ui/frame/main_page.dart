@@ -33,9 +33,11 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../new_profile/new_profile_page.dart';
 import 'drawer.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
+
 class MainPage extends GetView<MainPageController> {
   final userController = Get.find<UserController>();
 
@@ -48,12 +50,9 @@ class MainPage extends GetView<MainPageController> {
           controller.controller.jumpToPage(0);
           controller.updateCurrentIndex(0);
         }
-        if (controller.lastPopTime == null ||
-            DateTime.now().difference(controller.lastPopTime!) >
-                Duration(seconds: 2)) {
+        if (controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
           controller.lastPopTime = DateTime.now();
-          EasyLoading.showInfo("Press again to exit".tr,
-              duration: Duration(seconds: 2));
+          EasyLoading.showInfo("Press again to exit".tr, duration: Duration(seconds: 2));
         } else {
           controller.lastPopTime = DateTime.now();
           // 退出app
@@ -64,11 +63,15 @@ class MainPage extends GetView<MainPageController> {
       },
       child: AnnotatedRegion(
           value: SystemUiOverlayStyle.light,
-          child: Obx(()=>Scaffold(
+          child: Obx(() => Scaffold(
               backgroundColor: AppColor.background,
               key: homeDrawerKey,
               drawer: HomeDrawer(),
-              appBar: controller.currentIndex==0?AppBar(elevation: 0,):null,
+              appBar: controller.currentIndex == 0
+                  ? AppBar(
+                      elevation: 0,
+                    )
+                  : null,
               body: Stack(
                 children: [
                   Positioned(
@@ -91,7 +94,7 @@ class MainPage extends GetView<MainPageController> {
                           case 3:
                             return ShopPage();
                           case 4:
-                            return ProfilePage();
+                            return NewProfilePage();
                           default:
                             return IndexPage();
                         }
@@ -143,14 +146,11 @@ class MainPage extends GetView<MainPageController> {
                               badgeColor: Colors.red,
                               position: BadgePosition(top: 3, end: 5),
                               animationType: BadgeAnimationType.fade,
-                              animationDuration:
-                              const Duration(microseconds: 500),
-                              showBadge:
-                              userController.unreadMsgCount.value > 0,
+                              animationDuration: const Duration(microseconds: 500),
+                              showBadge: userController.unreadMsgCount.value > 0,
                               badgeContent: Text(
                                 "${userController.unreadMsgCount.value}",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.white),
+                                style: TextStyle(fontSize: 12, color: Colors.white),
                               ),
                               ignorePointer: true,
                               child: TabButton(
@@ -158,10 +158,7 @@ class MainPage extends GetView<MainPageController> {
                                   currentIndex: controller.currentIndex.value,
                                   iconName: "play",
                                   title: "SideKick".tr,
-                                  colors: [
-                                    Color(0xffe7e439),
-                                    Color(0xff6c6301)
-                                  ],
+                                  colors: [Color(0xffe7e439), Color(0xff6c6301)],
                                   onTap: () {
                                     controller.controller.jumpToPage(2);
                                     controller.updateCurrentIndex(2);
@@ -205,8 +202,7 @@ class MainPageBinding extends Bindings {
   }
 }
 
-class MainPageController extends FullLifeCycleController
-    with FullLifeCycleMixin {
+class MainPageController extends FullLifeCycleController with FullLifeCycleMixin {
   late PageController controller;
   var currentIndex = 2.obs;
 
@@ -224,25 +220,18 @@ class MainPageController extends FullLifeCycleController
     //   var curpage = controller.page;
     //   if (curpage == 2.0) userController.checkLogin(() => null);
     // });
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_push');
-    var initializationSettingsIOS = IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
+    var initializationSettingsIOS = IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    await AppConfig.flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
-        onSelectNotification: selectNotification);
+    await AppConfig.flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => StorageManager.setPushToken(value));
+    FirebaseMessaging.instance.getToken().then((value) => StorageManager.setPushToken(value));
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print('Got a message whilst in the foreground!');
       showLocalNotification(message);
@@ -252,20 +241,15 @@ class MainPageController extends FullLifeCycleController
       Get.to(() => NotificationPage());
     });
 
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       print('Restart app get remote message');
       Get.to(() => NotificationPage());
     }
 
-    NotificationAppLaunchDetails? notificationAppLaunchDetails = await AppConfig
-        .flutterLocalNotificationsPlugin
-        .getNotificationAppLaunchDetails();
-    if (notificationAppLaunchDetails != null &&
-        notificationAppLaunchDetails.didNotificationLaunchApp) {
-      print(
-          'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
+    NotificationAppLaunchDetails? notificationAppLaunchDetails = await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp) {
+      print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(() => NotificationPage());
     }
   }
@@ -313,8 +297,7 @@ class MainPageController extends FullLifeCycleController
         profilePageController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
           if (Get.context != null) {
-            UpgradeDialog.show(Get.context!, value, cancelable: !value.force)
-                .whenComplete(() => checkAd(Get.context!));
+            UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));
           }
         } else {
           if (Get.context != null) {
@@ -351,8 +334,7 @@ class MainPageController extends FullLifeCycleController
       FilePathAndroidBitmap? largeIcon;
       BigPictureStyleInformation? bigPictureStyleInformation;
       if (notification?.android?.imageUrl != null) {
-        var file = await DefaultCacheManager()
-            .getSingleFile(notification!.android!.imageUrl!);
+        var file = await DefaultCacheManager().getSingleFile(notification!.android!.imageUrl!);
         largeIcon = FilePathAndroidBitmap(file.path);
         bigPictureStyleInformation = BigPictureStyleInformation(
           FilePathAndroidBitmap(file.path),
@@ -360,30 +342,11 @@ class MainPageController extends FullLifeCycleController
         );
       }
 
-      AndroidNotificationDetails androidPlatformChannelSpecifics =
-          AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
-              channelDescription: 'system notification'.tr,
-              importance: Importance.max,
-              priority: Priority.high,
-              largeIcon: largeIcon,
-              styleInformation: bigPictureStyleInformation,
-              ticker: 'ticker'.tr);
-      IOSNotificationDetails iosPlatformChannelSpecifics =
-          IOSNotificationDetails(
-              presentAlert: true,
-              presentBadge: true,
-              presentSound: true,
-              badgeNumber: 1,
-              threadIdentifier: 'system');
-      NotificationDetails platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics,
-          iOS: iosPlatformChannelSpecifics);
-      await AppConfig.flutterLocalNotificationsPlugin.show(
-          0,
-          '${notification?.title}',
-          '${notification?.body}',
-          platformChannelSpecifics,
-          payload: '');
+      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
+          channelDescription: 'system notification'.tr, importance: Importance.max, priority: Priority.high, largeIcon: largeIcon, styleInformation: bigPictureStyleInformation, ticker: 'ticker'.tr);
+      IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true, badgeNumber: 1, threadIdentifier: 'system');
+      NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
+      await AppConfig.flutterLocalNotificationsPlugin.show(0, '${notification?.title}', '${notification?.body}', platformChannelSpecifics, payload: '');
     }
   }
 
@@ -392,8 +355,7 @@ class MainPageController extends FullLifeCycleController
     Get.to(() => NotificationPage());
   }
 
-  Future onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) async {
+  Future onDidReceiveLocalNotification(int id, String? title, String? body, String? payload) async {
     print('onDidReceiveLocalNotification: $title');
   }
 }

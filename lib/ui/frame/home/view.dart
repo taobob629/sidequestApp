@@ -47,11 +47,7 @@ class HomePage extends StatelessWidget {
         onPressed: () => Scaffold.of(context).openDrawer(),
         icon: ClipRRect(
           borderRadius: BorderRadius.circular(40.w),
-          child: CachedNetworkImage(
-              width: 40.w,
-              height: 40.w,
-              imageUrl: Get.find<UserController>().userInfoModel?.value?.avatar ?? '',
-              fit: BoxFit.cover),
+          child: CachedNetworkImage(width: 40.w, height: 40.w, imageUrl: Get.find<UserController>().userInfoModel?.value?.avatar ?? '', fit: BoxFit.cover),
         ),
       ),
       snap: false,

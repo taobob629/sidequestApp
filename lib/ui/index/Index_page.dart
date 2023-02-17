@@ -38,64 +38,65 @@ class IndexPage extends StatelessWidget {
       // drawer: HomeDrawer(),
       body: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(40),child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      TabBar(
-                        controller: controller.tabController,
-                        isScrollable: true,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Colors.white38,
-                        indicatorColor: Colors.white38,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicator: HomeIndicator(),
-                        indicatorWeight: 4,
-                        indicatorPadding: EdgeInsets.only(bottom: 5),
-                        labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-                        labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-                        unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-                        tabs: createTabs(),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10, right: 4),
-                          child: Image.asset(
-                            "assets/images/ic_store.png",
-                            width: 27,
-                            height: 27,
-                            fit: BoxFit.contain,
-                          ),
+          preferredSize: const Size.fromHeight(40),
+          child: SafeArea(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    TabBar(
+                      controller: controller.tabController,
+                      isScrollable: true,
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white38,
+                      indicatorColor: Colors.white38,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicator: HomeIndicator(),
+                      indicatorWeight: 4,
+                      indicatorPadding: EdgeInsets.only(bottom: 5),
+                      labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
+                      labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+                      unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+                      tabs: createTabs(),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10, right: 4),
+                        child: Image.asset(
+                          "assets/images/ic_store.png",
+                          width: 27,
+                          height: 27,
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          userController.checkLogin(() async {
-                            bool access = await PermissionHelper.requestCameraPermission(context);
-                            if (access) {
-                              controller.scan();
-                            }
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10, right: 5),
-                          child: Icon(
-                            IconFonts.scan,
-                            size: 22,
-                            color: Colors.white,
-                          ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        userController.checkLogin(() async {
+                          bool access = await PermissionHelper.requestCameraPermission(context);
+                          if (access) {
+                            controller.scan();
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10, right: 5),
+                        child: Icon(
+                          IconFonts.scan,
+                          size: 22,
+                          color: Colors.white,
                         ),
                       ),
-                      /*
+                    ),
+                    /*
                       GestureDetector(
                         onTap: ()=>NavigatorHelper.gotoSearchPage(),
                         child: Padding(
@@ -103,11 +104,12 @@ class IndexPage extends StatelessWidget {
                           child: Icon(IconFonts.search,size: 26,color: Colors.white,),
                         ),
                       )*/
-                    ],
-                  ),
-                )
-              ],
-            )),),
+                  ],
+                ),
+              )
+            ],
+          )),
+        ),
         body: TabBarView(controller: controller.tabController, children: createPages()),
       ),
     );
@@ -152,7 +154,7 @@ class IndexPage extends StatelessWidget {
   }
 }
 
-class IndexPageController extends GetxController with SingleGetTickerProviderMixin {
+class IndexPageController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
