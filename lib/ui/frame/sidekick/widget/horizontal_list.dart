@@ -6,16 +6,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/model/game_model.dart';
+import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/utils/image_util.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/views.dart';
 
 class HorizontalGameListWidget extends StatelessWidget {
+  SideKickController controller = Get.find<SideKickController>();
+
   //滑动控制器
-  ScrollController _scrollController = new ScrollController()
-    ..addListener(() {
-      flog('scroll');
-    });
-  int _currentSelectIndex = 0;
+  ScrollController _scrollController = new ScrollController()..addListener(() {});
   RxBool _needRefresh = RxBool(false);
 
   bool get needRefresh => _needRefresh.value;
@@ -44,15 +44,14 @@ class HorizontalGameListWidget extends StatelessWidget {
               double scrollIndex = pixels / _itemWidth;
               double scrollOffset = pixels % _itemWidth;
               //当前选中
-              _currentSelectIndex = scrollIndex.round();
-
+              controller.currentSelectIndex = scrollIndex.round();
               if (pixels == maxScrollExtent) {
               } else if (pixels == 0) {
               } else {
                 if (scrollOffset != 0.0) {
                   Future.delayed(Duration.zero, () {
                     _scrollController.animateTo(
-                      _currentSelectIndex * _itemWidth,
+                      controller.currentSelectIndex * _itemWidth,
                       duration: Duration(milliseconds: 200),
                       curve: Curves.linear,
                     );
@@ -60,72 +59,62 @@ class HorizontalGameListWidget extends StatelessWidget {
                 } else {}
               }
               update();
+              // flog('_cur${controller.currentSelectIndex}');
               return true;
             },
             child: Obx(() => SingleChildScrollView(
                   controller: _scrollController,
                   //滑动方向 为水平 方向
                   scrollDirection: needRefresh ? Axis.horizontal : Axis.horizontal,
-                  child: Row(
-                    children: buildChildren(),
-                  ),
+                  child: Obx(() => controller.gameList.isEmpty
+                      ? buildLoad()
+                      : Row(
+                          children: buildChildren(),
+                        )),
                 ))));
   }
 
   buildChildren() {
     List<Widget> list = [];
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < controller.gameList.length; i++) {
       list.add(buildItemWidget(i));
     }
     return list;
   }
 
-  double _itemWidth = 0.0;
+  double _itemWidth = Get.width / 4;
 
   Widget buildItemWidget(int index) {
-    //一页显示5个
-    _itemWidth = Get.size.width / 5;
-
-    Color textColor = Colors.grey;
-    double fontSize = 14;
-    double imageWidth = 55.0;
-    flog('update---');
+    SimpleGameModel item = controller.gameList[index];
+    double imageWidth = 76.0; //正常尺寸
     //当控制器绑定成功后再使用
     if (_scrollController.hasClients) {
       //获取当前滑动的距离
       double offset = _scrollController.offset;
       double scorllIndex = offset / _itemWidth;
-      //1.9 -2.0
-      double uniWidth = scorllIndex - scorllIndex.round();
-      if ((scorllIndex.round() + 2) == index) {
-        textColor = Colors.redAccent;
-        fontSize = 16;
-        imageWidth = 55.0 + 20 * (1.0 - uniWidth);
-      } else if ((scorllIndex.round() + 3) == index) {
-        imageWidth = 55.0 + 20 * uniWidth;
+      if ((scorllIndex.round()) == index) {
+        imageWidth = 100.0.w;
+      } else {
+        imageWidth = 76.w;
+      }
+    } else {
+      //默认第一个选中
+      if (index == 0) {
+        imageWidth = 100.0.w;
       }
     }
-
-    return Container(
-      width: _itemWidth,
-      padding: EdgeInsets.all(5),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //裁剪圆形
-          ClipOval(
-            child: ImageUtil.assetImage('ic_coupons_new',width: imageWidth),
-          ),
-          //图片
-          //文字
-          Text(
-            "测试$index",
-            style: TextStyle(
-              color: textColor,
-              fontSize: fontSize,
-            ),
-          ),
-        ],
+    return InkWell(
+      onTap: () => controller.choseSelect(index),
+      child: Container(
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w),
+        width: _itemWidth,
+        padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 2),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(10)).w,
+          child: ImageUtil.networkImage(
+              url: item.thumb ?? '', width: imageWidth, height: imageWidth, fit: BoxFit.cover),
+        ),
       ),
     );
   }

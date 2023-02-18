@@ -20,17 +20,20 @@ class SimpleGameModel {
   SimpleGameModel({
     this.name,
     this.icon,
+    this.thumb,
     this.id,
   });
 
   SimpleGameModel.fromJson(dynamic json) {
     name = json['name'];
     icon = json['icon'];
+    thumb = json['thumb'];
     id = json['id'];
   }
 
   String? name;
   String? icon;
+  String? thumb;
   String? id;
 
   @override
@@ -46,6 +49,7 @@ class SimpleGameModel {
     map['name'] = name;
     map['id'] = id;
     map['icon'] = icon;
+    map['thumb'] = thumb;
     return map;
   }
 }
