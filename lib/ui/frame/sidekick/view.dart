@@ -15,10 +15,10 @@ import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../../widget/refresh_list.dart';
-import 'widget/body.dart';
+import 'widget/section.dart';
 
 class SideKickPage extends StatelessWidget {
-  var controller = Get.put(SideKickController());
+  var controller = Get.put(SideKickController(),permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +51,7 @@ class SideKickPage extends StatelessWidget {
         ],
         body: SectionWidget(listBody: biuldSmartRefresh(controller.refreshController, body(context), onRefresh: () {
           flog('onRefresh');
+          controller.onRefresh();
           controller.refreshController.refreshCompleted();
         }),),
       ),

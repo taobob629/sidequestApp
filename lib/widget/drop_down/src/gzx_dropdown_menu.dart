@@ -24,7 +24,8 @@ class GZXDropDownMenu extends StatefulWidget {
   final List<GZXDropdownMenuBuilder> menus;
   final int animationMilliseconds;
   final Color maskColor;
-
+  final Color backgroundColor;
+  final BoxDecoration? decoration;
   /// Called when dropdown menu start showing or hiding.
   final DropdownMenuChange? dropdownMenuChanging;
 
@@ -39,6 +40,8 @@ class GZXDropDownMenu extends StatefulWidget {
     required this.menus,
     this.animationMilliseconds = 500,
     this.maskColor = const Color.fromRGBO(0, 0, 0, 0.5),
+    this.backgroundColor =Colors.white54,
+    this.decoration,
     this.dropdownMenuChanging,
     this.dropdownMenuChanged,
   }) : super(key: key);
@@ -198,7 +201,8 @@ class _GZXDropDownMenuState extends State<GZXDropDownMenu>
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.white,
+              decoration: widget.decoration,
+             // color: widget.backgroundColor,
               width: double.infinity,
               height: _animation == null ? 0 : _animation!.value,
               child: widget.menus[menuIndex].dropDownWidget,

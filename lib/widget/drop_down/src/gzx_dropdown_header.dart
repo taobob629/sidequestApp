@@ -24,6 +24,7 @@ class GZXDropDownHeader extends StatefulWidget {
   final GZXDropdownMenuController controller;
   final OnItemTap? onItemTap;
   final List<GZXDropDownHeaderItem> items;
+  final BoxDecoration? itemDecoration;
   final GlobalKey stackKey;
 
   /// Creates a dropdown header widget, Contains more than one header items.
@@ -44,6 +45,7 @@ class GZXDropDownHeader extends StatefulWidget {
     this.dividerColor = const Color(0xFFeeede6),
     this.onItemTap,
     this.color = Colors.white,
+    this.itemDecoration,
   }) : super(key: key);
 
   @override
@@ -86,15 +88,26 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
     _screenWidth = mediaQuery.size.width;
     _menuCount = widget.items.length;
 
+    // var gridView = GridView.count(
+    //   physics: NeverScrollableScrollPhysics(),
+    //   crossAxisCount: _menuCount,
+    //   crossAxisSpacing: 15.w,
+    // //  childAspectRatio: ((_screenWidth- 75.w)/ _menuCount) / widget.height,
+    //   childAspectRatio: 75/30,
+    //   children: widget.items.map<Widget>((item) {
+    //     return _menu(item);
+    //   }).toList(),
+    // );
     var gridView = GridView.count(
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: _menuCount,
-      childAspectRatio: (_screenWidth / _menuCount) / widget.height,
+      crossAxisSpacing: 15.w,
+      //  childAspectRatio: ((_screenWidth- 75.w)/ _menuCount) / widget.height,
+      childAspectRatio: 75/30,
       children: widget.items.map<Widget>((item) {
         return _menu(item);
       }).toList(),
     );
-
     return Container(
       key: _keyDropDownHeader,
       height: widget.height,
@@ -154,14 +167,15 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
         setState(() {});
       },
       child: Container(
-        padding: EdgeInsets.only(left: 7.5.w,right: 7.5.w),
+       // padding: EdgeInsets.only(left: 7.5.w,right: 7.5.w),
         color: widget.color,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
               child: Container(
-                decoration: BoxDecoration(color: Color(0xff32353D)),
+                height: widget.height,
+                decoration: widget.itemDecoration ??BoxDecoration(color: Color(0xff32353D)),
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
