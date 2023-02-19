@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/views.dart';
 
 class HorizontalGameListWidget extends StatelessWidget {
@@ -58,7 +59,7 @@ class HorizontalGameListWidget extends StatelessWidget {
                   });
                 } else {}
               }
-              update();
+             // update();
               // flog('_cur${controller.currentSelectIndex}');
               return true;
             },
@@ -91,31 +92,37 @@ class HorizontalGameListWidget extends StatelessWidget {
     if (_scrollController.hasClients) {
       //获取当前滑动的距离
       double offset = _scrollController.offset;
+    //  flog('offset $offset');
       double scorllIndex = offset / _itemWidth;
-      if ((scorllIndex.round()) == index) {
-        imageWidth = 100.0.w;
-      } else {
-        imageWidth = 76.w;
-      }
+      // if ((scorllIndex.round()) == index&&offset!=0) {
+      //   flog('_scrollController.hasClients ${_scrollController.hasClients}');
+      //   controller.currentSelectIndex = index;
+      //   imageWidth = 100.0.w;
+      // } else {
+      //   imageWidth = 76.w;
+      // }
     } else {
       //默认第一个选中
       if (index == 0) {
         imageWidth = 100.0.w;
       }
     }
+    // flog('controller.currentSelectIndex ${controller.currentSelectIndex}');
     return InkWell(
       onTap: () => controller.choseSelect(index),
-      child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w),
-        width: _itemWidth,
-        padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 2),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(10)).w,
-          child: ImageUtil.networkImage(
-              url: item.thumb ?? '', width: imageWidth, height: imageWidth, fit: BoxFit.cover),
-        ),
-      ),
+      child: Obx(() => Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w),
+            width: controller.currentSelectIndex == index ? 100.w : 76.w,
+            padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 2),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)).w,
+              child: ImageUtil.networkImage(
+                  url: item.thumb ?? '',
+                  width: controller.currentSelectIndex == index ? 100.w : 76.w,
+                  height: controller.currentSelectIndex == index ? 100.w : 76.w,
+                  fit: BoxFit.cover),
+            ),
+          )),
     );
   }
 }

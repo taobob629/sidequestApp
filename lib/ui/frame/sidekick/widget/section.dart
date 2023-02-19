@@ -15,13 +15,14 @@ List gameFilter = ['语言', '性别', '等级', '段位'];
 
 class SectionWidget extends StatelessWidget {
   GlobalKey _stackKey = GlobalKey();
-  Widget listBody;
+  final Widget listBody;
   SideKickController controller = Get.find<SideKickController>();
 
   SectionWidget({required this.listBody});
 
   @override
   Widget build(BuildContext context) {
+    flog('buildbuildbuild');
     return Obx(() => Visibility(
         visible: controller.gameList.isNotEmpty && controller.gameSections != null,
         child: Container(
