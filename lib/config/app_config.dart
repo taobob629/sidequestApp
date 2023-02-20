@@ -18,7 +18,7 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import 'app_color.dart';
-
+var splashBg='https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';
 class AppConfig {
   static final Http http = Http();
   static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -95,6 +95,7 @@ class AppConfig {
 
   static String getBaseServer() {
     String env = StorageManager.getEnv();
+    return _prodServer;
     if (env == "dev220") {
       return _devServer;
     } else if (env == "dev201") {

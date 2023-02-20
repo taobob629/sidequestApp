@@ -10,6 +10,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_config.dart';
 import 'package:wy/widget/gradient_button.dart';
 
 import 'controller.dart';
@@ -23,7 +24,7 @@ class SplashPage extends GetView<SplashPageController> {
         height: Get.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/bg_vip10.webp'),
+                image: NetworkImage(splashBg),
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.topCenter)),
         child: Column(
