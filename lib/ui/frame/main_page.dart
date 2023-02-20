@@ -1,39 +1,33 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+
 import 'package:wy/api/index_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
-import 'package:wy/service/push_service.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/events_page.dart';
+import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/frame/tab_button.dart';
-import 'package:wy/ui/im/play_page.dart';
 import 'package:wy/ui/index/Index_page.dart';
 import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
-import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/shop/shop_page.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:wy/utils/utils.dart';
 
-import '../new_profile/new_profile_page.dart';
 import 'drawer.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -94,7 +88,7 @@ class MainPage extends GetView<MainPageController> {
                           case 3:
                             return ShopPage();
                           case 4:
-                            return NewProfilePage();
+                            return ProfilePage();
                           default:
                             return IndexPage();
                         }
@@ -288,22 +282,22 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if (checking == false) {
       checking = true;
       IndexApi.checkVersion().then((value) {
-        final profilePageController = ProfilePageController.instance();
-        if (Platform.isIOS) {
-          StorageManager.setOnline(value.status);
-        } else {
-          StorageManager.setOnline(true);
-        }
-        profilePageController.online.value = StorageManager.getOnline();
-        if (value.upgrade) {
-          if (Get.context != null) {
-            UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));
-          }
-        } else {
-          if (Get.context != null) {
-            checkAd(Get.context!);
-          }
-        }
+        // final profilePageController = ProfilePageController.instance();
+        // if (Platform.isIOS) {
+        //   StorageManager.setOnline(value.status);
+        // } else {
+        //   StorageManager.setOnline(true);
+        // }
+        // profilePageController.online.value = StorageManager.getOnline();
+        // if (value.upgrade) {
+        //   if (Get.context != null) {
+        //     UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));
+        //   }
+        // } else {
+        //   if (Get.context != null) {
+        //     checkAd(Get.context!);
+        //   }
+        // }
       });
     }
   }

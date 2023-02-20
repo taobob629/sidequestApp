@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -42,6 +43,7 @@ class App extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return GetMaterialApp(
+              useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
@@ -65,13 +67,15 @@ class App extends StatelessWidget {
                 const Locale('en', 'US'),
                 const Locale('zh', 'CN'),
               ],
-              locale: StorageManager.getLocal(),
+              locale: DevicePreview.locale(context),
               translations: Messages(),
               //跟随系统语言
               fallbackLocale: const Locale('en', 'US'),
               getPages: AppPages.routes,
               initialRoute: AppPages.Main,
-              builder: EasyLoading.init(),
+              builder: EasyLoading.init(
+                builder: (context, child) => DevicePreview.appBuilder(context, child),
+              ),
             );
           },
         ));

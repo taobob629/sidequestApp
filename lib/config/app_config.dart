@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -104,6 +106,10 @@ class AppConfig {
   }
 
   static Future<Widget> createApp() async {
-    return App();
+    return DevicePreview(
+      // enabled:!kReleaseMode
+      enabled: false,
+      builder: (context) => App(), // Wrap your app
+    );
   }
 }

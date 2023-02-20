@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/frame/profile/vip_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -26,12 +27,13 @@ import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 import 'package:wy/ui/profile/grade/bindings.dart';
 import 'package:wy/ui/profile/grade/index.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
-import 'package:wy/ui/profile/vip/vip_page.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
 import 'app_config.dart';
 
 class AppPages {
+  AppPages._();
+
   static const Main = '/main';
   static const Login = '/login';
   static const REGISTER = '/register';
@@ -101,10 +103,7 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(
-        name: WALLET_PAGE,
-        page: () => PlayBalancePage(),
-        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -115,5 +114,8 @@ class AppPages {
       name: NOTICE_PAGE,
       page: () => NotificationPage(),
     ),
+
+    ///profile
+    GetPage(name: VIP_PAGE, page: () => VipPage())
   ];
 }

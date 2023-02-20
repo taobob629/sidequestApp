@@ -50,6 +50,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>need to use your camera to take a photo or scan QR code</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This allows you to upload a photo to your profile album from your gallery.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when in the background and open.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
