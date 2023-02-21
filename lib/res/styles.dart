@@ -22,4 +22,5 @@ class PageStyle {
     fontWeight: FontWeight.bold,
     color: Color(0xFFFFFFFF),
   );
+  static var itemPaddingNormal= EdgeInsets.all(15.r);
 }

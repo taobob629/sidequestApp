@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
+import 'package:wy/model/game_user_model.dart';
 
 class GamesApi {
   static Future<List<SimpleGameModel>> getRecommendGames() async {
@@ -22,6 +23,15 @@ class GamesApi {
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
 
+  static Future<List<GameUserModel>> getGamesPlayerList(Map<String, dynamic> params,
+      {var pageNum, var pageSize, var searchParams, var gid}) async {
+    Response response = await http.get(
+      '/peiwan/app/new/superlist?pageNum=$pageNum&pageSize=10&gid=$gid&searchParams=$searchParams',
+    );
+    if (response.data == null) return [];
+    return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+  }
+
   static Future<Response> addRegisterFavorite(List gameIds) async {
     Response response = await http.post('/peiwan/app/login/addRegisterFavorite',
         data: Map()..['gameIdList'] = gameIds);
@@ -30,7 +40,7 @@ class GamesApi {
 
   static Future<GameSectionModel> getGamesSection(var gameId) async {
     Response response =
-        await http.get('/peiwan/app/home/filter', queryParameters: Map()..['gameId'] = gameId);
+        await http.get('/peiwan/app/new/filter', queryParameters: Map()..['gameId'] = gameId);
     return GameSectionModel.fromJson(response.data);
   }
 }

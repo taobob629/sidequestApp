@@ -168,7 +168,7 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
       },
       child: Container(
        // padding: EdgeInsets.only(left: 7.5.w,right: 7.5.w),
-        color: widget.color,
+     //   color: widget.color,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
