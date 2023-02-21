@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
+import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
+import 'package:wy/ui/profile/developer/developer_page.dart';
 
 import 'profile_album_page.dart';
 import 'profile_dashboard_page.dart';
@@ -123,22 +125,25 @@ class ProfilePage extends StatelessWidget {
                                   )),
 
                               /// email
-                              Obx(() => Padding(
-                                    padding: const EdgeInsets.only(top: 8),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 15),
-                                          child: Text(
-                                            "ID:${t.vm.value.uk}",
-                                            style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
+                              Obx(() => GestureDetector(
+                                    onTap: t.goDev,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15),
+                                            child: Text(
+                                              "ID:${t.vm.value.uk}",
+                                              style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          t.vm.value.email,
-                                          style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                        )
-                                      ],
+                                          Text(
+                                            t.vm.value.email,
+                                            style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   )),
                             ],
@@ -283,6 +288,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   late TabController tabController;
   final vm = ProfileModel().obs;
 
+  int devCount = 0;
   @override
   void onInit() {
     super.onInit();
@@ -298,6 +304,22 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   getProfileInfo() {
     ProfileApi.getProfileInfo().then((value) {
       vm.value = ProfileModel.fromJson(value);
+    });
+  }
+
+  void goDev() {
+    devCount++;
+    if (devCount < 6) {
+      return;
+    }
+    devCount = 0;
+
+    Get.dialog(InputDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+      if (value == "9637") {
+        Get.to(() => DeveloperPage());
+      } else {
+        Get.back();
+      }
     });
   }
 
