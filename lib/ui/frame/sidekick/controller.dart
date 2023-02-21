@@ -60,10 +60,11 @@ class SideKickController extends GetxController {
     } catch (e) {
       flog('gameSection e $e');
     }
-    flog('gameSection $gameSections');
   }
 
-  void choseSelect(index) {}
+  void choseSelect(index) {
+    currentSelectIndex = index;
+  }
 
   void onRefresh() {
     if (gameList.isEmpty) getGames();
@@ -73,6 +74,9 @@ class SideKickController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _currentSelectIndex.listen((value) {
+      flog('value$value');
+    });
     getGames();
   }
 }
