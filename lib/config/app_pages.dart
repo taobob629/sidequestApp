@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
-import 'package:wy/ui/frame/profile/vip_page.dart';
+import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
 import 'package:wy/ui/login/login_page.dart';

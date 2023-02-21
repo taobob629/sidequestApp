@@ -169,12 +169,15 @@ class ProfilePage extends StatelessWidget {
                             "assets/images/profile_avatar_border.webp",
                             width: 64,
                           ),
-                          Obx(() => Positioned(
-                              bottom: -10,
-                              child: Image.asset(
-                                "assets/images/profile/icon_level_${t.vm.value.vipLevel}.webp",
-                                height: 28,
-                              ))),
+                          Obx(() => Visibility(
+                                visible: t.vm.value.vipLevel < 5,
+                                child: Positioned(
+                                    bottom: -10,
+                                    child: Image.asset(
+                                      "assets/images/profile/icon_level_${t.vm.value.vipLevel == 0 ? 5 : t.vm.value.vipLevel}.webp",
+                                      height: 28,
+                                    )),
+                              )),
                         ]),
                       )
                     ],

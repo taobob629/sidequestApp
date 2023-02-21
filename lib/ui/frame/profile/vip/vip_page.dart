@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +11,7 @@ import 'package:wy/ui/profile/vip/vip_info_dialog.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
-import 'model/vip_info_model.dart';
+import '../model/vip_info_model.dart';
 
 class VipPage extends StatelessWidget {
   late final VipPageController controller = Get.put(VipPageController());
@@ -156,12 +158,21 @@ class VipPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   )),
             ),
+            // SliverToBoxAdapter(
+            //   child: _buildTitle(),
+            // ),
             SliverToBoxAdapter(
-              child: _buildTitle(),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text(
+                  "Benefits",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             Obx(() => SliverList(
                   delegate: SliverChildBuilderDelegate(
