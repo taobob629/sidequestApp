@@ -171,6 +171,7 @@ class HomeDrawer extends StatelessWidget {
   Widget _listItem(var label, {Function()? onTapMore}) {
     return ListTile(
       // 子项
+      dense: true,
       contentPadding: EdgeInsets.only(
         left: 30,
         right: 16,
