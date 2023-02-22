@@ -63,39 +63,39 @@ class IndexPage extends StatelessWidget {
                       tabs: createTabs(),
                     ),
                     Spacer(),
-                    GestureDetector(
-                      onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, right: 4),
-                        child: Image.asset(
-                          "assets/images/ic_store.png",
-                          width: 27,
-                          height: 27,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        userController.checkLogin(() async {
-                          bool access = await PermissionHelper.requestCameraPermission(context);
-                          if (access) {
-                            controller.scan();
-                          }
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, right: 5),
-                        child: Icon(
-                          IconFonts.scan,
-                          size: 22,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(bottom: 10, right: 4),
+                    //     child: Image.asset(
+                    //       "assets/images/ic_store.png",
+                    //       width: 27,
+                    //       height: 27,
+                    //       fit: BoxFit.contain,
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     userController.checkLogin(() async {
+                    //       bool access = await PermissionHelper.requestCameraPermission(context);
+                    //       if (access) {
+                    //         controller.scan();
+                    //       }
+                    //     });
+                    //   },
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(bottom: 10, right: 5),
+                    //     child: Icon(
+                    //       IconFonts.scan,
+                    //       size: 22,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
                     /*
                       GestureDetector(
                         onTap: ()=>NavigatorHelper.gotoSearchPage(),
@@ -174,27 +174,4 @@ class IndexPageController extends GetxController with GetSingleTickerProviderSta
     super.onReady();
   }
 
-  void scan() {
-    Get.to(() => ScanPage())?.then((value) {
-      log("scan->$value");
-      if (value == null) {
-        return;
-      }
-      String data = value.toString();
-      //String deData = decryptData(data);
-
-      if (data.indexOf("qlogin") >= 0) {
-        Get.to(() => QrLoginPage(
-              code: data,
-            ));
-
-        return;
-      }
-      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
-        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
-        Get.to(() => BalancePage());
-        return;
-      }
-    });
-  }
 }

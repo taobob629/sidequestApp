@@ -27,15 +27,16 @@ class SexAndAgeWidget extends StatelessWidget {
       case WOMAN:
         colors = [Color(0xFFF351BD), Color(0xFFFF1549)];
         icon = Icons.male_rounded;
+        text='女';
         break;
       default:
         colors = [Color(0xffc5c7cd), Color(0xffa1a4ab)];
         icon = Icons.question_mark;
+        text='未知';
         break;
     }
     return Container(
-      height: 15,
-      padding: EdgeInsets.all(2).r,
+      padding: EdgeInsets.fromLTRB(5,2,5,2).r,
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: colors),
           borderRadius: BorderRadius.all(Radius.circular(5).r)),
@@ -48,7 +49,7 @@ class SexAndAgeWidget extends StatelessWidget {
           ),
           3.horizontalSpace,
           Text(
-            '$age',
+            '$text',
             style: TextStyle(color: Colors.white, fontSize: 9.sp),
           )
         ],

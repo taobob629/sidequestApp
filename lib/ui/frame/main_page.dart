@@ -12,8 +12,10 @@ import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
 
 import 'package:wy/api/index_api.dart';
+import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
@@ -21,14 +23,21 @@ import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/events_page.dart';
 import 'package:wy/ui/frame/profile/profile_page.dart';
+import 'package:wy/ui/frame/social/view.dart';
 import 'package:wy/ui/frame/tab_button.dart';
 import 'package:wy/ui/index/Index_page.dart';
+import 'package:wy/ui/login/qr_login_page.dart';
 import 'package:wy/ui/playwith/play_with_page.dart';
+import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
+import 'package:wy/ui/scan/scan_page.dart';
 import 'package:wy/ui/shop/shop_page.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/storage_manager.dart';
 
 import 'drawer.dart';
+import 'sidekick/view.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
 
@@ -44,7 +53,8 @@ class MainPage extends GetView<MainPageController> {
           controller.controller.jumpToPage(0);
           controller.updateCurrentIndex(0);
         }
-        if (controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
+        if (controller.lastPopTime == null ||
+            DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
           controller.lastPopTime = DateTime.now();
           EasyLoading.showInfo("Press again to exit".tr, duration: Duration(seconds: 2));
         } else {
@@ -64,6 +74,46 @@ class MainPage extends GetView<MainPageController> {
               appBar: controller.currentIndex == 0
                   ? AppBar(
                       elevation: 0,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                userController.checkLogin(() => Get.to(() => BookingPage())),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10, right: 4),
+                              child: Image.asset(
+                                "assets/images/ic_store.png",
+                                width: 27,
+                                height: 27,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              userController.checkLogin(() async {
+                                bool access =
+                                    await PermissionHelper.requestCameraPermission(context);
+                                if (access) {
+                                  controller.scan();
+                                }
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10, right: 5),
+                              child: Icon(
+                                IconFonts.scan,
+                                size: 22,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     )
                   : null,
               body: Stack(
@@ -73,6 +123,7 @@ class MainPage extends GetView<MainPageController> {
                     right: 0,
                     top: 0,
                     bottom: padding.bottom + 50,
+                    //  child: buildTabView(),
                     child: PageView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       controller: controller.controller,
@@ -82,8 +133,13 @@ class MainPage extends GetView<MainPageController> {
                           case 0:
                             return IndexPage();
                           case 1:
+                            //return PlayWithPage();
+                            return SocialPage();
                             return EventsPage();
                           case 2:
+                            return KeepAliveWrapper(
+                              child: SideKickPage(),
+                            );
                             return PlayWithPage();
                           case 3:
                             return ShopPage();
@@ -129,7 +185,7 @@ class MainPage extends GetView<MainPageController> {
                                 index: 1,
                                 currentIndex: controller.currentIndex.value,
                                 iconName: "events",
-                                title: "Activities".tr,
+                                title: "Social".tr,
                                 colors: [Color(0xffFFD189), Color(0xffFF3617)],
                                 onTap: () {
                                   controller.controller.jumpToPage(1);
@@ -205,6 +261,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
   DateTime? lastPopTime;
 
   late Timer _timer;
+
   @override
   void onInit() async {
     super.onInit();
@@ -215,11 +272,14 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     //   if (curpage == 2.0) userController.checkLogin(() => null);
     // });
     var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
-    var initializationSettingsIOS = IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettingsIOS =
+        IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
-    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    await AppConfig.flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
+    await AppConfig.flutterLocalNotificationsPlugin
+        .initialize(initializationSettings, onSelectNotification: selectNotification);
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -241,9 +301,12 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
       Get.to(() => NotificationPage());
     }
 
-    NotificationAppLaunchDetails? notificationAppLaunchDetails = await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    if (notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp) {
-      print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
+    NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails != null &&
+        notificationAppLaunchDetails.didNotificationLaunchApp) {
+      print(
+          'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(() => NotificationPage());
     }
   }
@@ -336,11 +399,25 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
         );
       }
 
-      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
-          channelDescription: 'system notification'.tr, importance: Importance.max, priority: Priority.high, largeIcon: largeIcon, styleInformation: bigPictureStyleInformation, ticker: 'ticker'.tr);
-      IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true, badgeNumber: 1, threadIdentifier: 'system');
-      NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
-      await AppConfig.flutterLocalNotificationsPlugin.show(0, '${notification?.title}', '${notification?.body}', platformChannelSpecifics, payload: '');
+      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          'system'.tr, 'System Notification'.tr,
+          channelDescription: 'system notification'.tr,
+          importance: Importance.max,
+          priority: Priority.high,
+          largeIcon: largeIcon,
+          styleInformation: bigPictureStyleInformation,
+          ticker: 'ticker'.tr);
+      IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+          badgeNumber: 1,
+          threadIdentifier: 'system');
+      NotificationDetails platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
+      await AppConfig.flutterLocalNotificationsPlugin.show(
+          0, '${notification?.title}', '${notification?.body}', platformChannelSpecifics,
+          payload: '');
     }
   }
 
@@ -351,5 +428,28 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
 
   Future onDidReceiveLocalNotification(int id, String? title, String? body, String? payload) async {
     print('onDidReceiveLocalNotification: $title');
+  }
+
+  void scan() {
+    Get.to(() => ScanPage())?.then((value) {
+      if (value == null) {
+        return;
+      }
+      String data = value.toString();
+      //String deData = decryptData(data);
+
+      if (data.indexOf("qlogin") >= 0) {
+        Get.to(() => QrLoginPage(
+              code: data,
+            ));
+
+        return;
+      }
+      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
+        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
+        Get.to(() => BalancePage());
+        return;
+      }
+    });
   }
 }

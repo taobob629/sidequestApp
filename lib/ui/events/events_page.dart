@@ -56,58 +56,14 @@ class _EventsPageState extends State<EventsPage> {
       listBuilder: (list, p, h) {
         var tabList = list.map<String>((m) => m['name']).toList();
         var page = list.indexWhere((w) => w['defaut'] == 1);
-        return ScaffoldWidget(
-          appBar: statusBar(),
-          body: TabWidget(
-            tabList: tabList,
-            page: page == -1 ? 0 : page,
-            tabPage: List.generate(list.length, (i) {
-              return EventsChild(list[i]);
-            }),
-          ),
+        return TabWidget(
+          tabList: tabList,
+          tabstyle: TAB_STYLE_1,
+          page: page == -1 ? 0 : page,
+          tabPage: List.generate(list.length, (i) {
+            return EventsChild(list[i]);
+          }),
         );
-        // return Scaffold(
-        //   backgroundColor: Colors.transparent,
-        //   appBar: PreferredSize(
-        //       preferredSize: const Size.fromHeight(40),
-        //       child: Container(
-        //         child: SafeArea(
-        //             child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: <Widget>[
-        //             Spacer(),
-        //             Padding(
-        //               padding: const EdgeInsets.symmetric(horizontal: 10),
-        //               child: Row(
-        //                 children: [
-        //                   TabBar(
-        //                     controller: controller.tabController,
-        //                     isScrollable: true,
-        //                     labelColor: Colors.white,
-        //                     unselectedLabelColor: Colors.white38,
-        //                     indicatorColor: Colors.white38,
-        //                     indicatorSize: TabBarIndicatorSize.label,
-        //                     indicator: HomeIndicator(),
-        //                     indicatorWeight: 4,
-        //                     indicatorPadding: EdgeInsets.only(bottom: 5),
-        //                     labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-        //                     labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-        //                     unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-        //                     tabs: createTabs(),
-        //                   ),
-        //                   Spacer(),
-        //                 ],
-        //               ),
-        //             )
-        //           ],
-        //         )),
-        //       )),
-        //   body: TabBarView(
-        //     controller: controller.tabController,
-        //     physics: PagePhysics(),
-        //     children: createPages(),
-        //   ),
-        // );
       },
     );
   }
