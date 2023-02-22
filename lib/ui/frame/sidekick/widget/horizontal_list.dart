@@ -45,21 +45,22 @@ class HorizontalGameListWidget extends StatelessWidget {
               double scrollIndex = pixels / _itemWidth;
               double scrollOffset = pixels % _itemWidth;
               //当前选中
-              controller.currentSelectIndex = scrollIndex.round();
+              //     controller.currentSelectIndex = scrollIndex.round();
+              var index = scrollIndex.round();
               if (pixels == maxScrollExtent) {
               } else if (pixels == 0) {
               } else {
                 if (scrollOffset != 0.0) {
                   Future.delayed(Duration.zero, () {
                     _scrollController.animateTo(
-                      controller.currentSelectIndex * _itemWidth,
+                      index * _itemWidth,
                       duration: Duration(milliseconds: 200),
                       curve: Curves.linear,
                     );
                   });
                 } else {}
               }
-             // update();
+              // update();
               // flog('_cur${controller.currentSelectIndex}');
               return true;
             },
@@ -68,7 +69,7 @@ class HorizontalGameListWidget extends StatelessWidget {
                   //滑动方向 为水平 方向
                   scrollDirection: needRefresh ? Axis.horizontal : Axis.horizontal,
                   child: Obx(() => controller.gameList.isEmpty
-                      ? buildLoad()
+                      ? buildLoad(isCenter: true)
                       : Row(
                           children: buildChildren(),
                         )),
@@ -92,7 +93,7 @@ class HorizontalGameListWidget extends StatelessWidget {
     if (_scrollController.hasClients) {
       //获取当前滑动的距离
       double offset = _scrollController.offset;
-    //  flog('offset $offset');
+      //  flog('offset $offset');
       double scorllIndex = offset / _itemWidth;
       // if ((scorllIndex.round()) == index&&offset!=0) {
       //   flog('_scrollController.hasClients ${_scrollController.hasClients}');

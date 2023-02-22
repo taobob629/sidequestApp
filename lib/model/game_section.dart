@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
 class GameSectionModel {
-  RxList<String> gameLevel;
-  RxList<String> genders;
-  RxList<String> language;
-  RxList<String> levels;
+  RxList<KeyMap> gameLevel;
+  RxList<KeyMap> genders;
+  RxList<KeyMap> language;
+  RxList<KeyMap> levels;
 
   GameSectionModel(
       {required this.gameLevel,
@@ -14,10 +14,18 @@ class GameSectionModel {
 
   factory GameSectionModel.fromJson(Map<String, dynamic> json) {
     return GameSectionModel(
-      gameLevel: json['gameLevel'] != null ? new RxList<String>.from(json['gameLevel']) : RxList(),
-      genders: json['genders'] != null ? RxList<String>.from(json['genders']) : RxList(),
-      language: json['language'] != null ? RxList<String>.from(json['language']) : RxList(),
-      levels: json['levels'] != null ? RxList<String>.from(json['levels']) : RxList(),
+      gameLevel: json['gameLevel'] != null
+          ? RxList((json['gameLevel'] as List).map((i) => KeyMap.fromJson(i)).toList())
+          : RxList(),
+      genders: json['genders'] != null
+          ? RxList((json['genders'] as List).map((i) => KeyMap.fromJson(i)).toList())
+          : RxList(),
+      language: json['language'] != null
+          ? RxList((json['language'] as List).map((i) => KeyMap.fromJson(i)).toList())
+          : RxList(),
+      levels: json['levels'] != null
+          ? RxList((json['levels'] as List).map((i) => KeyMap.fromJson(i)).toList())
+          : RxList(),
     );
   }
 
@@ -36,5 +44,22 @@ class GameSectionModel {
       data['levels'] = this.levels;
     }
     return data;
+  }
+}
+
+class KeyMap {
+  String? name;
+  String? value;
+
+  KeyMap(this.name, this.value);
+
+  @override
+  String toString() {
+    return 'KeyMap{name: $name, value: $value}';
+  }
+
+  KeyMap.fromJson(dynamic json) {
+    name = json['name'];
+    value = json['value'].toString();
   }
 }

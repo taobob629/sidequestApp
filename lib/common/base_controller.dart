@@ -3,14 +3,17 @@
     创建日期:2023/2/12
     描述:
  */
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
+import 'page/empty_view.dart';
 
 class PageState {
   static final int initialing = 0;
   static final int loaded = 1;
   static final int err = 2;
+  static final int empty = 3;
+  static final int sucess = 4;
 }
 
 class BasePageController extends GetxController {
@@ -32,5 +35,9 @@ class BasePageController extends GetxController {
 
   err(var msg) {
     EasyLoading.showError(msg);
+  }
+
+  buildEmpty() {
+    return EmptyView();
   }
 }

@@ -3,17 +3,30 @@
     创建日期:2023/2/17
     描述:
  */
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/game_api.dart';
+import 'package:wy/api/network_method.dart';
+import 'package:wy/common/getx_list_controller.dart';
+import 'package:wy/common/list/index.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
-import 'package:wy/ui/frame/sidekick/widget/section.dart';
+import 'package:wy/model/game_user_model.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:dio/src/response.dart' as dio;
 
-class SideKickController extends GetxController {
-  RxList filters = RxList(gameFilter);
+List<KeyMap> gameInitFilter = [
+  KeyMap('语言'.tr, null),
+  KeyMap('性别'.tr, null),
+  KeyMap('等级'.tr, null),
+  KeyMap('段位'.tr, null)
+];
+
+class SideKickController extends RefreshListController<GameUserModel> {
+  RxList<KeyMap?> filters = RxList(gameInitFilter);
 
   RxInt _currentSelectIndex = RxInt(0);
 
@@ -24,10 +37,8 @@ class SideKickController extends GetxController {
   }
 
   RxList<SimpleGameModel> gameList = RxList();
-  RefreshController refreshController = RefreshController();
 
   getGames() async {
-    // gameList.clear();
     await GamesApi.getMyGamesList().then((value) {
       gameList.addAll(value);
       getGameSection();
@@ -44,31 +55,20 @@ class SideKickController extends GetxController {
 
   getGameSection() async {
     try {
-      gameSections =
-          await GamesApi.getGamesSection(gameList[currentSelectIndex].id).whenComplete(() {
-        getGameList();
-      });
+      gameSections = await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
+      getGamePlayers();
     } catch (e) {
       flog('gameSection catchErr e $e');
     }
   }
 
-  getGameList() async {
-    try {
-      gameSections =
-          await GamesApi.getGamesSection(gameList[currentSelectIndex].id).whenComplete(() {});
-    } catch (e) {
-      flog('gameSection e $e');
-    }
+  getGamePlayers() {
+    initData();
   }
 
   void choseSelect(index) {
     currentSelectIndex = index;
-  }
-
-  void onRefresh() {
-    if (gameList.isEmpty) getGames();
-    //getGames();
+    onRefresh();
   }
 
   @override
@@ -78,5 +78,55 @@ class SideKickController extends GetxController {
       flog('value$value');
     });
     getGames();
+  }
+
+  @override
+  buildMethodType() {
+    return NWMethod.GET;
+  }
+
+  @override
+  Map<String, dynamic> buildParams() => {};
+
+  @override
+  String buildUrl() {
+    var filterParams = {
+      "language": "${filters[0]?.value}",
+      "gender": "${filters[1]?.value}",
+      "level": "${filters[2]?.value}",
+      "gamelevel": "${filters[3]?.value}",
+    };
+    var gid = gameList[currentSelectIndex].id;
+    var searchParams = jsonEncode(filterParams);
+    return '/peiwan/app/new/superlist?pageNum=$page&pageSize=$pageSize&gid=$gid&searchParams=$searchParams';
+  }
+
+  @override
+  bool paged() => true;
+
+  @override
+  List<GameUserModel> dealData(dio.Response<dynamic> response) {
+    return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+  }
+
+  @override
+  needAutoLoadData() => false;
+
+  onSectionChange(int section, int index) {
+    switch (section) {
+      case 0:
+        filters[section] = gameSections?.language[index];
+        break;
+      case 1:
+        filters[section] = gameSections?.genders[index];
+        break;
+      case 2:
+        filters[section] = gameSections?.levels[index];
+        break;
+      case 3:
+        filters[section] = gameSections?.gameLevel[index];
+        break;
+    }
+    onRefresh();
   }
 }

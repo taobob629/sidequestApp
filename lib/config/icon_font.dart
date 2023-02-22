@@ -19,3 +19,6 @@ class IconFonts {
   static const IconData empty = IconData(0xe600, fontFamily: 'wy');
   static const IconData pc = IconData(0xe632, fontFamily: 'wy');
 }
+const FONT_LIGHT='Light-6';
+const FONT_MEDIUM='Medium-7';
+const FONT_BLACK='Black-2';
