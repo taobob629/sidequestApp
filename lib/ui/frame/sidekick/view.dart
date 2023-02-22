@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/ui/frame/sidekick/widget/horizontal_list.dart';
 import 'package:wy/utils/image_util.dart';
@@ -47,7 +48,7 @@ class SideKickPage extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
                   icon: ImageUtil.assetImage('ic_search', width: 23.w, height: 23.w))
             ],
           ),

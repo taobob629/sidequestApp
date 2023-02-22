@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
@@ -7,6 +8,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/simple_user_info_model.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 import 'controller.dart';
@@ -44,11 +46,7 @@ class SearchUserPage extends GetView<SearchUserController> {
           Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: GestureDetector(
-                child: Icon(
-                  IconFonts.search,
-                  size: 26,
-                  color: Colors.white,
-                ),
+                child: ImageUtil.assetImage('ic_search', width: 23.w, height: 23.w),
                 onTap: () => controller.reload(),
               )),
         ],

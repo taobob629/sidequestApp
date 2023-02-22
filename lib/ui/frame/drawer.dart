@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/web_page.dart';
@@ -91,7 +92,7 @@ class HomeDrawer extends StatelessWidget {
           padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
           child: StadiumButton(
             'Log out',
-            onTap: ()=>UserController.instance().appLogout(),
+            onTap: () => UserController.instance().appLogout(),
           ),
         ),
       ),
@@ -115,8 +116,12 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(text: 'Remaining game time:', style: TextStyle(color: Color(0xFFC5C5C5))),
-        TextSpan(text: '${user?.remain}', style: TextStyle(color: AppColor.textYellow))
+        TextSpan(
+            text: 'Remaining game time:',
+            style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
+        TextSpan(
+            text: '${user?.remain}',
+            style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );
   }
@@ -181,7 +186,7 @@ class HomeDrawer extends StatelessWidget {
       // ),
       title: Text(
         '$label',
-        style: TextStyle(color: Colors.white, fontSize: 15.sp),
+        style: TextStyle(color: Colors.white, fontSize: 15.sp, fontFamily: FONT_LIGHT),
       ),
       trailing: ClickIcon(
         icon: Icons.arrow_forward_ios,
@@ -213,7 +218,7 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Widget achievementItem(var text, var icon) {
-    var textStyle = TextStyle(color: Color(0xFFC5C5C5), fontSize: 12.sp);
+    var textStyle = TextStyle(color: Color(0xFFC5C5C5), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
     double width = 18;
     double height = 18;
     switch (icon) {

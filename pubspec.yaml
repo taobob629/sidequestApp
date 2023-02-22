@@ -146,6 +146,15 @@ flutter:
 
 
   fonts:
+    - family: Black-2
+      fonts:
+        - asset: assets/fonts/Montserrat-Black-2.ttf
+    - family: Light-6
+      fonts:
+        - asset: assets/fonts/Montserrat-Light-6.ttf
+    - family: Medium-7
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium-7.ttf
     - family: DIN-Condensed-Bold
       fonts:
         - asset: assets/fonts/DIN-Condensed-Bold.ttf

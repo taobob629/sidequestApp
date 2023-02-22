@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wy/utils/index.dart';
 
 import '../ui/common/home_indicator.dart';
 import 'custom_scroll_physics.dart';
@@ -29,12 +32,20 @@ class TabWidget extends StatefulWidget {
     this.indicator = const HomeIndicator(),
     this.padding,
   }) : super(key: key);
+
   @override
   _TabWidgetState createState() => _TabWidgetState();
 }
 
 class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
   TabController? tabCon;
+   RxString _tabIndex=RxString('');
+
+  String get tabIndex => _tabIndex.value;
+
+  set tabIndex(String value) {
+    _tabIndex.value = value;
+  }
 
   @override
   void initState() {
@@ -44,7 +55,12 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
 
   ///初始化函数
   Future initData() async {
-    tabCon = TabController(vsync: this, length: widget.tabList!.length, initialIndex: widget.page!);
+    tabIndex=widget.tabList![0];
+    tabCon = TabController(vsync: this, length: widget.tabList!.length, initialIndex: widget.page!)
+      ..addListener(() {
+        tabIndex=widget.tabList![tabCon?.index??0];
+        flog('onChange--- $tabIndex');
+      });
   }
 
   @override
@@ -99,7 +115,21 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
               labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
               unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
               tabs: widget.tabList!.map((m) {
-                return Tab(text: m);
+                return Obx(()=>Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(23).r,
+                      gradient: tabIndex == m
+                          ? LinearGradient(colors: [
+                        Color(0xFFE68887),
+                        Color(0xFFBE39CC),
+                        Color(0xFF612AD7),
+                      ])
+                          : null),
+                  child: Tab(
+                    text: m,
+                  ),
+                ));
               }).toList(),
             ),
           ),
