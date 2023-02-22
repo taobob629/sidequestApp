@@ -20,8 +20,7 @@ import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import '../../model/play_order_detail_model.dart';
 import '../../widget/tim_ui/my_tim_uikit_chat.dart' as my;
-import '../../widget/tim_ui/my_tim_uikit_more_panel.dart'
-    as my_tim_uikit_more_panel;
+import '../../widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
 import 'package:date_format/date_format.dart';
 
 class Chat extends StatefulWidget {
@@ -29,20 +28,14 @@ class Chat extends StatefulWidget {
   final V2TimMessage? initFindingMsg;
   final String orderSn;
 
-  const Chat(
-      {Key? key,
-      required this.selectedConversation,
-      this.initFindingMsg,
-      this.orderSn = ''})
-      : super(key: key);
+  const Chat({Key? key, required this.selectedConversation, this.initFindingMsg, this.orderSn = ''}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
-  final TIMUIKitChatController _timuiKitChatController =
-      TIMUIKitChatController();
+  final TIMUIKitChatController _timuiKitChatController = TIMUIKitChatController();
   bool isDisscuss = false;
   bool isTopic = false;
   String? backRemark;
@@ -52,9 +45,7 @@ class _ChatState extends State<Chat> {
   PlayOrderDetailModel? playOrderDetailModel;
 
   _getPlayOrder() {
-    ImApi.getCurrentPlayOrderDetail(
-            widget.selectedConversation.userID!, widget.orderSn)
-        .then((value) {
+    ImApi.getCurrentPlayOrderDetail(widget.selectedConversation.userID!, widget.orderSn).then((value) {
       setState(() {
         playOrderDetailModel = value;
       });
@@ -62,8 +53,7 @@ class _ChatState extends State<Chat> {
   }
 
   String _getTitle() {
-    log(widget.selectedConversation.showName.toString(),
-        name: 'widget.selectedConversation.showName');
+    log(widget.selectedConversation.showName.toString(), name: 'widget.selectedConversation.showName');
     return backRemark ?? widget.selectedConversation.showName ?? "";
   }
 
@@ -72,15 +62,11 @@ class _ChatState extends State<Chat> {
   }
 
   String? _getConvID() {
-    return widget.selectedConversation.type == 1
-        ? widget.selectedConversation.userID
-        : widget.selectedConversation.groupID;
+    return widget.selectedConversation.type == 1 ? widget.selectedConversation.userID : widget.selectedConversation.groupID;
   }
 
   ConvType _getConvType() {
-    return widget.selectedConversation.type == 1
-        ? ConvType.c2c
-        : ConvType.group;
+    return widget.selectedConversation.type == 1 ? ConvType.c2c : ConvType.group;
   }
 
   _initListener() async {
@@ -134,10 +120,8 @@ class _ChatState extends State<Chat> {
   // }
 
   _goToVideoUI() async {
-    final hasCameraPermission =
-        await Permissions.checkPermission(context, Permission.camera.value);
-    final hasMicphonePermission =
-        await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasCameraPermission = await Permissions.checkPermission(context, Permission.camera.value);
+    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasCameraPermission || !hasMicphonePermission) {
       return;
     }
@@ -170,8 +154,7 @@ class _ChatState extends State<Chat> {
   }
 
   _goToVoiceUI() async {
-    final hasMicphonePermission =
-        await Permissions.checkPermission(context, Permission.microphone.value);
+    final hasMicphonePermission = await Permissions.checkPermission(context, Permission.microphone.value);
     if (!hasMicphonePermission) {
       return;
     }
@@ -224,8 +207,7 @@ class _ChatState extends State<Chat> {
       body: my.TIMUIKitChat(
           // customEmojiStickerList: Const.emojiList.where((element) => element.isEmoji == true).toList(),
           topFixWidget: _buildOrderState(),
-          lifeCycle:
-              ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
+          lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
             // This configuration is unnecessary and only for demonstration purpose.
             // It shows if you tend to avoid a message from rending, you can `return null` here.
             return message;
@@ -238,7 +220,7 @@ class _ChatState extends State<Chat> {
               // In practical use, only parameters that are different from the default items need be provided.
               isAllowClickAvatar: true,
               isAllowLongPressMessage: true,
-              isUseDefaultEmoji: !true,
+              isUseDefaultEmoji: true,
               isShowReadingStatus: true,
               isAllowEmojiPanel: false,
               isShowGroupReadingStatus: false,
@@ -251,14 +233,12 @@ class _ChatState extends State<Chat> {
                 // GroupReceptAllowType.public
               ]),
           conversationID: _getConvID() ?? '',
-          conversationType: ConvType.values[
-              widget.selectedConversation.type ?? ConversationType.V2TIM_C2C],
+          conversationType: ConvType.values[widget.selectedConversation.type ?? ConversationType.V2TIM_C2C],
           onTapAvatar: _onTapAvatar,
           conversationShowName: _getTitle(),
           initFindingMsg: widget.initFindingMsg,
           draftText: _getDraftText(),
-          messageItemBuilder: MessageItemBuilder(
-              customMessageItemBuilder: (message, isShowJump, clearJump) {
+          messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
             var data = jsonDecode(message.customElem!.data!);
             var type = data['type'];
             if (type != "play_order") {
@@ -270,8 +250,7 @@ class _ChatState extends State<Chat> {
             print(data);
             return GestureDetector(
               onTap: () {
-                Get.to(() => OrderDetail(orderId: data['orderId']))!
-                    .whenComplete(() => _getPlayOrder());
+                Get.to(() => OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
               },
               child: Container(
                 height: height,
@@ -279,11 +258,7 @@ class _ChatState extends State<Chat> {
                 padding: const EdgeInsets.all(0),
                 child: Container(
                     padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/msg_bg.png"),
-                            fit: BoxFit.cover)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -308,8 +283,7 @@ class _ChatState extends State<Chat> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
                                     width: width - iconHeight - 25,
@@ -317,10 +291,7 @@ class _ChatState extends State<Chat> {
                                       "${data['game']}",
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   Row(
@@ -335,16 +306,12 @@ class _ChatState extends State<Chat> {
                                       ),
                                       Text(
                                         "${data['price']}",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(
-                                          "for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
+                                      Text("for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
                                           style: TextStyle(
                                             color: Colors.white54,
                                             fontSize: 14,
@@ -430,9 +397,7 @@ class _ChatState extends State<Chat> {
       return Container();
     }
     return GestureDetector(
-      onTap: () =>
-          Get.to(() => OrderDetail(orderId: playOrderDetailModel!.orderId))!
-              .whenComplete(() => _getPlayOrder()),
+      onTap: () => Get.to(() => OrderDetail(orderId: playOrderDetailModel!.orderId))!.whenComplete(() => _getPlayOrder()),
       child: Container(
         height: 80,
         color: Colors.white12,
@@ -446,10 +411,7 @@ class _ChatState extends State<Chat> {
                   children: [
                     Text(
                       "${playOrderDetailModel!.gameName}",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     Image.asset(
@@ -499,9 +461,7 @@ class _ChatState extends State<Chat> {
                       child: Column(
                         children: [
                           CircleAvatar(
-                            backgroundColor: playOrderDetailModel!.status == 2
-                                ? Colors.green
-                                : Colors.blue,
+                            backgroundColor: playOrderDetailModel!.status == 2 ? Colors.green : Colors.blue,
                             radius: 6,
                           ),
                           Text(

@@ -27,7 +27,7 @@ class ProfilePage extends StatelessWidget {
             padding: EdgeInsets.only(left: 20),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/profile/profile_head_bg.png"),
+                image: AssetImage("assets/images/profile/profile_head_bg.webp"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -78,8 +78,12 @@ class ProfilePage extends StatelessWidget {
                                               ])),
                                           child: Row(
                                             children: [
+                                              Image.asset(
+                                                "assets/images/profile/icon_sex_${t.vm.value.gender - 1}.png",
+                                                width: 8,
+                                              ),
                                               Text(
-                                                "${t.vm.value.gender == 1 ? "♂" : "♀"} ${t.vm.value.age}",
+                                                "${t.vm.value.age}",
                                                 style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                               ),
                                             ],
@@ -233,7 +237,7 @@ class ProfilePage extends StatelessWidget {
 
           /// dashboard、post、album
           Padding(
-            padding: const EdgeInsets.only(top: 7, left: 30, right: 30),
+            padding: const EdgeInsets.only(top: 7, left: 30, right: 20),
             child: TabBar(
               controller: t.tabController,
               isScrollable: false,
@@ -243,7 +247,7 @@ class ProfilePage extends StatelessWidget {
               indicatorSize: TabBarIndicatorSize.label,
               indicatorWeight: 2,
               indicatorPadding: EdgeInsets.only(bottom: 5),
-              labelPadding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+              labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
               labelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: "din"),
               unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "din"),
               tabs: createTabs(),

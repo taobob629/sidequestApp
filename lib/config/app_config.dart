@@ -2,11 +2,10 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/core/core_services.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:tencent_cloud_chat_uikit/ui/constants/emoji.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
 import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/app.dart';
@@ -17,8 +16,11 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/tim_ui/my_constant.dart';
 
+import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'app_color.dart';
-var splashBg='https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';
+
+var splashBg = 'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';
+
 class AppConfig {
   static final Http http = Http();
   static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -95,7 +97,6 @@ class AppConfig {
 
   static String getBaseServer() {
     String env = StorageManager.getEnv();
-    return _prodServer;
     if (env == "dev220") {
       return _devServer;
     } else if (env == "dev201") {

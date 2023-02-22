@@ -9,7 +9,6 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:tencent_cloud_chat_uikit/ui/constants/emoji.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
 import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/api/auth_api.dart';
@@ -34,9 +33,10 @@ import '../../utils/db_helper.dart';
 import '../im/chat.dart';
 
 class UserController extends GetxController {
- static UserController instance(){
-   return Get.find<UserController>();
- }
+  static UserController instance() {
+    return Get.find<UserController>();
+  }
+
   Rx<UserModel> user = Rx(UserModel());
   Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
 
@@ -72,25 +72,25 @@ class UserController extends GetxController {
   static setCustomSticker() async {
     // 添加自定义表情包
     // Add custom sticker package
-    List<CustomStickerPackage> customStickerPackageList = [];
-    final defEmojiList = emojiData.asMap().keys.map((emojiIndex) {
-      final emo = Emoji.fromJson(emojiData[emojiIndex]);
-      return CustomSticker(index: emojiIndex, name: emo.name, unicode: emo.unicode);
-    }).toList();
-    customStickerPackageList.add(CustomStickerPackage(name: "defaultEmoji", stickerList: defEmojiList, isEmoji: true, isDeafultEmoji: true, menuItem: defEmojiList[0]));
-    customStickerPackageList.addAll(Const.emojiList.map((customEmojiPackage) {
-      return CustomStickerPackage(
-          name: customEmojiPackage.name,
-          isDeafultEmoji: true,
-          isEmoji: true,
-          baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
-          stickerList: customEmojiPackage.list.asMap().keys.map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx])).toList(),
-          menuItem: CustomSticker(
-            index: 0,
-            name: customEmojiPackage.icon,
-          ));
-    }).toList());
-    Provider.of<CustomStickerPackageData>(context!, listen: false).customStickerPackageList = customStickerPackageList;
+    // List<CustomStickerPackage> customStickerPackageList = [];
+    // final defEmojiList = emojiData.asMap().keys.map((emojiIndex) {
+    //   final emo = Emoji.fromJson(emojiData[emojiIndex]);
+    //   return CustomSticker(index: emojiIndex, name: emo.name, unicode: emo.unicode);
+    // }).toList();
+    // customStickerPackageList.add(CustomStickerPackage(name: "defaultEmoji", stickerList: defEmojiList, isEmoji: true, isDefaultEmoji: true, menuItem: defEmojiList[0]));
+    // customStickerPackageList.addAll(Const.emojiList.map((customEmojiPackage) {
+    //   return CustomStickerPackage(
+    //       name: customEmojiPackage.name,
+    //       isDefaultEmoji: true,
+    //       isEmoji: true,
+    //       baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
+    //       stickerList: customEmojiPackage.list.asMap().keys.map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx])).toList(),
+    //       menuItem: CustomSticker(
+    //         index: 0,
+    //         name: customEmojiPackage.icon,
+    //       ));
+    // }).toList());
+    // Provider.of<CustomStickerPackageData>(context!, listen: false).customStickerPackageList = customStickerPackageList;
   }
 
   @override
@@ -290,11 +290,12 @@ class UserController extends GetxController {
     unreadMsgCount.value = 0;
     done?.call();
   }
- Future<void> appLogout() async {
-   EasyLoading.show();
-   await AuthApi.signOut();
-   await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
-   EasyLoading.dismiss();
-   logout(done: () => Get.offAllNamed(AppPages.Login));
- }
+
+  Future<void> appLogout() async {
+    EasyLoading.show();
+    await AuthApi.signOut();
+    await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
+    EasyLoading.dismiss();
+    logout(done: () => Get.offAllNamed(AppPages.Login));
+  }
 }

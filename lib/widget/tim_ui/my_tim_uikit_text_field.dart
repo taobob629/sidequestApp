@@ -64,11 +64,7 @@ class TIMUIKitInputTextField extends StatefulWidget {
   final TUIChatSeparateViewModel model;
 
   /// sticker panel customiziation
-  final Widget Function(
-      {void Function() sendTextMessage,
-      void Function(int index, String data) sendFaceMessage,
-      void Function() deleteText,
-      void Function(int unicode) addText})? customStickerPanel;
+  final Widget Function({void Function() sendTextMessage, void Function(int index, String data) sendFaceMessage, void Function() deleteText, void Function(int unicode) addText})? customStickerPanel;
 
   const TIMUIKitInputTextField(
       {Key? key,
@@ -107,8 +103,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
   Map<String, V2TimGroupMemberFullInfo> memberInfoMap = {};
 
   late TextEditingController textEditingController;
-  final TUIConversationViewModel conversationModel =
-      serviceLocator<TUIConversationViewModel>();
+  final TUIConversationViewModel conversationModel = serviceLocator<TUIConversationViewModel>();
   final TUISelfInfoViewModel selfModel = serviceLocator<TUISelfInfoViewModel>();
   MuteStatus muteStatus = MuteStatus.none;
 
@@ -161,10 +156,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
     }
 
     if (showMore) {
-      return my_tim_uikit_more_panel.MorePanel(
-          morePanelConfig: widget.morePanelConfig,
-          conversationID: widget.conversationID,
-          conversationType: widget.conversationType);
+      return my_tim_uikit_more_panel.MorePanel(morePanelConfig: widget.morePanelConfig, conversationID: widget.conversationID, conversationType: widget.conversationType);
     }
 
     return Container();
@@ -228,24 +220,21 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
 
   handleSetDraftText() async {
     String convID = widget.conversationID;
-    String conversationID = widget.conversationType == ConvType.c2c
-        ? "c2c_$convID"
-        : "group_$convID";
+    String conversationID = widget.conversationType == ConvType.c2c ? "c2c_$convID" : "group_$convID";
     String text = textEditingController.text;
     String? draftText = _filterU200b(text);
 
     if (draftText.isEmpty) {
       draftText = "";
     }
-    await conversationModel.setConversationDraft(
-        conversationID: conversationID, draftText: draftText);
+    await conversationModel.setConversationDraft(conversationID: conversationID, draftText: draftText);
   }
 
   _buildRepliedMessage(V2TimMessage? repliedMessage) {
     final haveRepliedMessage = repliedMessage != null;
     if (haveRepliedMessage) {
       final text =
-          "${MessageUtils.getDisplayName(widget.model.repliedMessage!)}:${widget.model.abstractMessageBuilder != null ? widget.model.abstractMessageBuilder!(widget.model.repliedMessage!) : MessageUtils.getAbstractMessage(widget.model.repliedMessage!)}";
+          "${MessageUtils.getDisplayName(widget.model.repliedMessage!)}:${widget.model.abstractMessageBuilder != null ? widget.model.abstractMessageBuilder!(widget.model.repliedMessage!) : MessageUtils.getAbstractMessageAsync(widget.model.repliedMessage!, widget.model.groupMemberList ?? [])}";
       return Container(
         color: hexToColor("EBF0F6"),
         alignment: Alignment.centerLeft,
@@ -323,15 +312,9 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
     final convType = widget.conversationType;
     if (text.isNotEmpty && text != zeroWidthSpace) {
       if (widget.model.repliedMessage != null) {
-        MessageUtils.handleMessageError(
-            widget.model.sendReplyMessage(
-                text: text, convID: widget.conversationID, convType: convType),
-            context);
+        MessageUtils.handleMessageError(widget.model.sendReplyMessage(text: text, convID: widget.conversationID, convType: convType), context);
       } else {
-        MessageUtils.handleMessageError(
-            widget.model.sendTextMessage(
-                text: text, convID: widget.conversationID, convType: convType),
-            context);
+        MessageUtils.handleMessageError(widget.model.sendTextMessage(text: text, convID: widget.conversationID, convType: convType), context);
       }
       textEditingController.clear();
       goDownBottom();
@@ -342,21 +325,9 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
   onCustomEmojiFaceSubmitted(int index, String data) {
     final convType = widget.conversationType;
     if (widget.model.repliedMessage != null) {
-      MessageUtils.handleMessageError(
-          widget.model.sendFaceMessage(
-              index: index,
-              data: data,
-              convID: widget.conversationID,
-              convType: convType),
-          context);
+      MessageUtils.handleMessageError(widget.model.sendFaceMessage(index: index, data: data, convID: widget.conversationID, convType: convType), context);
     } else {
-      MessageUtils.handleMessageError(
-          widget.model.sendFaceMessage(
-              index: index,
-              data: data,
-              convID: widget.conversationID,
-              convType: convType),
-          context);
+      MessageUtils.handleMessageError(widget.model.sendFaceMessage(index: index, data: data, convID: widget.conversationID, convType: convType), context);
     }
   }
 
@@ -374,21 +345,11 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
     final convType = widget.conversationType;
     if (text.isNotEmpty && text != zeroWidthSpace) {
       if (widget.model.repliedMessage != null) {
-        MessageUtils.handleMessageError(
-            widget.model.sendReplyMessage(
-                text: text, convID: widget.conversationID, convType: convType),
-            context);
+        MessageUtils.handleMessageError(widget.model.sendReplyMessage(text: text, convID: widget.conversationID, convType: convType), context);
       } else if (memberInfoMap.isNotEmpty) {
-        widget.model.sendTextAtMessage(
-            text: text,
-            convType: widget.conversationType,
-            convID: widget.conversationID,
-            atUserList: getUserIdFromMemberInfoMap());
+        widget.model.sendTextAtMessage(text: text, convType: widget.conversationType, convID: widget.conversationID, atUserList: getUserIdFromMemberInfoMap());
       } else {
-        MessageUtils.handleMessageError(
-            widget.model.sendTextMessage(
-                text: text, convID: widget.conversationID, convType: convType),
-            context);
+        MessageUtils.handleMessageError(widget.model.sendTextMessage(text: text, convID: widget.conversationID, convType: convType), context);
       }
       textEditingController.clear();
       if (showKeyboard) {
@@ -448,9 +409,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
       });
       textEditingController.clear();
       textEditingController.text = widget.model.editRevokedMsg;
-      textEditingController.selection = TextSelection.fromPosition(TextPosition(
-          affinity: TextAffinity.downstream,
-          offset: widget.model.editRevokedMsg.length));
+      textEditingController.selection = TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream, offset: widget.model.editRevokedMsg.length));
       widget.model.editRevokedMsg = "";
     }
   }
@@ -458,8 +417,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
   _addDeleteTag() {
     final originalText = textEditingController.text;
     textEditingController.text = zeroWidthSpace + originalText;
-    textEditingController.selection = TextSelection.fromPosition(
-        TextPosition(offset: textEditingController.text.length));
+    textEditingController.selection = TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length));
   }
 
   _handleSoftKeyBoardDelete() {
@@ -489,15 +447,12 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
     String text = "$lastText@$showName ";
     //please do not delete space
     textEditingController.text = text;
-    textEditingController.selection =
-        TextSelection.fromPosition(TextPosition(offset: text.length));
+    textEditingController.selection = TextSelection.fromPosition(TextPosition(offset: text.length));
     lastText = text;
   }
 
   _handleAtText(String text, TUIChatSeparateViewModel model) async {
-    String? groupID = widget.conversationType == ConvType.group
-        ? widget.conversationID
-        : null;
+    String? groupID = widget.conversationType == ConvType.group ? widget.conversationID : null;
 
     if (groupID == null) {
       lastText = text;
@@ -524,17 +479,11 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
       memberInfoMap = map;
     }
     // 有@的情况并且是文本新增的时候
-    if (textLength > 0 &&
-        text[textLength - 1] == "@" &&
-        (lastText.length < textLength || text == "@")) {
+    if (textLength > 0 && text[textLength - 1] == "@" && (lastText.length < textLength || text == "@")) {
       V2TimGroupMemberFullInfo? memberInfo = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AtText(
-              groupMemberList: model.groupMemberList,
-              groupInfo: model.groupInfo,
-              groupID: groupID,
-              groupType: conversationModel.selectedConversation?.groupType),
+          builder: (context) => AtText(groupMemberList: model.groupMemberList, groupInfo: model.groupInfo, groupID: groupID, groupType: conversationModel.selectedConversation?.groupType),
         ),
       );
       final showName = _getShowName(memberInfo);
@@ -578,8 +527,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
     } else {
       focusNode = FocusNode();
     }
-    textEditingController =
-        widget.controller?.textEditingController ?? TextEditingController();
+    textEditingController = widget.controller?.textEditingController ?? TextEditingController();
     if (widget.controller != null) {
       widget.controller?.addListener(() {
         final actionType = widget.controller?.actionType;
@@ -587,8 +535,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
           _hideAllPanel();
         }
         if (actionType == ActionType.longPressToAt) {
-          _longPressToAt(
-              widget.controller?.atUserID, widget.controller?.atUserName);
+          _longPressToAt(widget.controller?.atUserID, widget.controller?.atUserName);
         }
       });
     }
@@ -608,12 +555,8 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
 
   Future<bool> getMemberMuteStatus(String userID) async {
     // Get the mute state of the members recursively
-    if (widget.model.groupMemberList?.any((item) => (item?.userID == userID)) ??
-        false) {
-      final int muteUntil = widget.model.groupMemberList
-              ?.firstWhere((item) => (item?.userID == userID))
-              ?.muteUntil ??
-          0;
+    if (widget.model.groupMemberList?.any((item) => (item?.userID == userID)) ?? false) {
+      final int muteUntil = widget.model.groupMemberList?.firstWhere((item) => (item?.userID == userID))?.muteUntil ?? 0;
       return muteUntil * 1000 > DateTime.now().millisecondsSinceEpoch;
     } else {
       return false;
@@ -622,25 +565,19 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
 
   _getMuteType(TUIChatSeparateViewModel model) async {
     if (widget.conversationType == ConvType.group) {
-      if ((model.groupInfo?.isAllMuted ?? false) &&
-          muteStatus != MuteStatus.all) {
+      if ((model.groupInfo?.isAllMuted ?? false) && muteStatus != MuteStatus.all) {
         Future.delayed(const Duration(seconds: 0), () {
           setState(() {
             muteStatus = MuteStatus.all;
           });
         });
-      } else if (selfModel.loginInfo?.userID != null &&
-          await getMemberMuteStatus(selfModel.loginInfo!.userID!) &&
-          muteStatus != MuteStatus.me) {
+      } else if (selfModel.loginInfo?.userID != null && await getMemberMuteStatus(selfModel.loginInfo!.userID!) && muteStatus != MuteStatus.me) {
         Future.delayed(const Duration(seconds: 0), () {
           setState(() {
             muteStatus = MuteStatus.me;
           });
         });
-      } else if (!(model.groupInfo?.isAllMuted ?? false) &&
-          !(selfModel.loginInfo?.userID != null &&
-              await getMemberMuteStatus(selfModel.loginInfo!.userID!)) &&
-          muteStatus != MuteStatus.none) {
+      } else if (!(model.groupInfo?.isAllMuted ?? false) && !(selfModel.loginInfo?.userID != null && await getMemberMuteStatus(selfModel.loginInfo!.userID!)) && muteStatus != MuteStatus.none) {
         Future.delayed(const Duration(seconds: 0), () {
           setState(() {
             muteStatus = MuteStatus.none;
@@ -669,8 +606,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final theme = value.theme;
-    final TUIChatSeparateViewModel model =
-        Provider.of<TUIChatSeparateViewModel>(context);
+    final TUIChatSeparateViewModel model = Provider.of<TUIChatSeparateViewModel>(context);
     _getMuteType(model);
     final debounceFunc = _debounce((value) {
       if (isWebDevice() || isAndroidDevice()) {
@@ -720,8 +656,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         constraints: const BoxConstraints(minHeight: 50),
                         child: Row(
                           children: [
@@ -741,9 +676,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                   ),
                                 ),
                               )),
-                            if (!PlatformUtils().isWeb &&
-                                widget.showSendAudio &&
-                                forbiddenText == null)
+                            if (!PlatformUtils().isWeb && widget.showSendAudio && forbiddenText == null)
                               InkWell(
                                 onTap: () async {
                                   if (showSendSoundText) {
@@ -752,8 +685,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                       showKeyboard = true;
                                     });
                                   }
-                                  if (await Permissions.checkPermission(
-                                      context, Permission.microphone.value)) {
+                                  if (await Permissions.checkPermission(context, Permission.microphone.value)) {
                                     setState(() {
                                       showEmojiPanel = false;
                                       showMore = false;
@@ -762,9 +694,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                   }
                                 },
                                 child: SvgPicture.asset(
-                                  showSendSoundText
-                                      ? 'images/keyboard.svg'
-                                      : 'images/voice.svg',
+                                  showSendSoundText ? 'images/keyboard.svg' : 'images/voice.svg',
                                   package: 'tencent_cloud_chat_uikit',
                                   color: Colors.white54,
                                   height: 28,
@@ -778,11 +708,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                             if (forbiddenText == null)
                               Expanded(
                                 child: showSendSoundText
-                                    ? my_tim_uikit_send_sound_message.SendSoundMessage(
-                                        onDownBottom: goDownBottom,
-                                        conversationID: widget.conversationID,
-                                        conversationType:
-                                            widget.conversationType)
+                                    ? my_tim_uikit_send_sound_message.SendSoundMessage(onDownBottom: goDownBottom, conversationID: widget.conversationID, conversationType: widget.conversationType)
                                     : TextField(
                                         onChanged: debounceFunc,
                                         maxLines: 4,
@@ -800,13 +726,9 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                           });
                                         },
                                         keyboardType: TextInputType.multiline,
-                                        textInputAction:
-                                            PlatformUtils().isAndroid
-                                                ? TextInputAction.newline
-                                                : TextInputAction.send,
+                                        textInputAction: PlatformUtils().isAndroid ? TextInputAction.newline : TextInputAction.send,
                                         onEditingComplete: onSubmitted,
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
+                                        textAlignVertical: TextAlignVertical.center,
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintStyle: const TextStyle(
@@ -830,16 +752,9 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                   goDownBottom();
                                 },
                                 child: kIsWeb
-                                    ? Icon(
-                                        showEmojiPanel
-                                            ? Icons.keyboard_alt_outlined
-                                            : Icons.mood_outlined,
-                                        color: hexToColor("5c6168"),
-                                        size: 32)
+                                    ? Icon(showEmojiPanel ? Icons.keyboard_alt_outlined : Icons.mood_outlined, color: hexToColor("5c6168"), size: 32)
                                     : SvgPicture.asset(
-                                        showEmojiPanel
-                                            ? 'images/keyboard.svg'
-                                            : 'images/face.svg',
+                                        showEmojiPanel ? 'images/keyboard.svg' : 'images/face.svg',
                                         package: 'tencent_cloud_chat_uikit',
                                         color: Colors.white54,
                                         height: 28,
@@ -850,9 +765,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                             //   const SizedBox(
                             //     width: 10,
                             //   ),
-                            if (widget.showMorePannel &&
-                                forbiddenText == null &&
-                                showMoreButton)
+                            if (widget.showMorePannel && forbiddenText == null && showMoreButton)
                               InkWell(
                                 onTap: () {
                                   // model.sendCustomMessage(data: "a", convID: model.currentSelectedConv, convType: model.currentSelectedConvType == 1 ? ConvType.c2c : ConvType.group);
@@ -860,8 +773,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                   goDownBottom();
                                 },
                                 child: kIsWeb
-                                    ? Icon(Icons.add_circle_outline_outlined,
-                                        color: hexToColor("5c6168"), size: 32)
+                                    ? Icon(Icons.add_circle_outline_outlined, color: hexToColor("5c6168"), size: 32)
                                     : SvgPicture.asset(
                                         'images/add.svg',
                                         package: 'tencent_cloud_chat_uikit',
@@ -870,8 +782,7 @@ class _InputTextFieldState extends TIMUIKitState<TIMUIKitInputTextField> {
                                         width: 28,
                                       ),
                               ),
-                            if ((isAndroidDevice() || isWebDevice()) &&
-                                !showMoreButton)
+                            if ((isAndroidDevice() || isWebDevice()) && !showMoreButton)
                               SizedBox(
                                 height: 32.0,
                                 child: ElevatedButton(

@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:get/get.dart';
 import 'package:wy/api/vip_api.dart';
 import 'package:wy/config/app_pages.dart';

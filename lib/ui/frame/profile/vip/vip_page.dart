@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/ui/profile/vip/privilege_view.dart';
 import 'package:wy/ui/profile/vip/vip_info_dialog.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
 import '../model/vip_info_model.dart';
+import 'vip_benefit_item.dart';
 
 class VipPage extends StatelessWidget {
   late final VipPageController controller = Get.put(VipPageController());
@@ -45,12 +45,10 @@ class VipPage extends StatelessWidget {
                         right: 0,
                         bottom: 0,
                         top: 0,
-                        child: Obx(() {
-                          return Image.asset(
-                            "assets/images/bg_vip${controller.vipLevel.value}.webp",
-                            fit: BoxFit.cover,
-                          );
-                        }),
+                        child: Image.asset(
+                          "assets/images/profile/vip_header_bg.webp",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       Positioned(
                         left: 0,
@@ -159,6 +157,30 @@ class VipPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      // ArcPageView(
+                      //   children: <Widget>[
+                      //     Container(
+                      //       color: Colors.red,
+                      //     ),
+                      //     Container(
+                      //       color: Colors.green,
+                      //     ),
+                      //     Container(
+                      //       color: Colors.blue,
+                      //     ),
+                      //     Container(
+                      //       color: Colors.orange,
+                      //     ),
+                      //   ],
+                      // )
+                      // Container(
+                      //   margin: EdgeInsets.only(top: 100),
+                      //   child: GradientRing(
+                      //     radius: 200,
+                      //     width: 10,
+                      //     colors: [Color(0x00383838), Color(0xFFCABB9E), Color(0x00383838)],
+                      //   ),
+                      // )
                     ],
                   )),
             ),
@@ -177,10 +199,11 @@ class VipPage extends StatelessWidget {
             Obx(() => SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      return PrivilegeView(
+                      return VipBenefitItem(
                         index: index,
                         showIndex: controller.showPrivilegeIndex.value,
                         title: controller.vipInfoList[controller.vipIndex.value].intro[index].title,
+                        subTitle: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
                         content: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
                         onTap: (tapIndex) => controller.showPrivilegeIndex.value = tapIndex,
                       );
@@ -293,6 +316,147 @@ class _BottomPath extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return true;
   }
+}
+
+class ArcPageView extends StatefulWidget {
+  final List<Widget> children;
+
+  const ArcPageView({required this.children});
+
+  @override
+  _ArcPageViewState createState() => _ArcPageViewState();
+}
+
+class _ArcPageViewState extends State<ArcPageView> {
+  final PageController _controller = PageController();
+  late double _currentPage;
+  final double angle = pi / 2;
+  final double radius = 100;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPage = 0;
+    _controller.addListener(() {
+      setState(() {
+        _currentPage = _controller.page!;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Transform(
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateX(-0.1),
+            alignment: Alignment.center,
+            child: PageView(
+              controller: _controller,
+              children: widget.children,
+            ),
+          ),
+        ),
+        _buildIndicators(),
+      ],
+    );
+  }
+
+  Widget _buildIndicators() {
+    List<Widget> indicators = [];
+
+    for (int i = 0; i < widget.children.length; i++) {
+      indicators.add(_buildIndicator(i));
+    }
+
+    return Container(
+      height: radius * 2,
+      child: Transform.translate(
+        offset: Offset(
+          radius * sin(_currentPage * angle),
+          radius * cos(_currentPage * angle),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: indicators,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIndicator(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _currentPage = index.toDouble();
+          _controller.animateToPage(
+            index,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        });
+      },
+      child: Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _currentPage == index ? Colors.blue : Colors.grey,
+        ),
+      ),
+    );
+  }
+}
+
+class GradientRing extends StatelessWidget {
+  final double radius;
+  final double width;
+  final List<Color> colors;
+
+  GradientRing({required this.radius, required this.width, required this.colors});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(radius * 2, radius * 2),
+      painter: _GradientRingPainter(radius, width, colors),
+    );
+  }
+}
+
+class _GradientRingPainter extends CustomPainter {
+  final double radius;
+  final double width;
+  final List<Color> colors;
+
+  _GradientRingPainter(this.radius, this.width, this.colors);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..shader = _createGradient(size)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = width;
+
+    final center = Offset(radius, radius);
+    final startAngle = -3 * pi / 4;
+    final endAngle = startAngle + pi / 2; // 60 degrees in radians
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius - width / 2), startAngle, endAngle - startAngle, false, paint);
+  }
+
+  Shader _createGradient(Size size) {
+    return SweepGradient(
+      startAngle: 0,
+      endAngle: pi * 2,
+      colors: colors,
+    ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
 class VipPageController extends GetxController {

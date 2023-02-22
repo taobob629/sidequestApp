@@ -12,7 +12,7 @@ class ProfileModel {
   String balance = "";
   String uk = "";
   List<TrophieModel> trophies = [];
-  int gender = 0;
+  int gender = 1;
   String avatar = "";
   int coin = 0;
   String email = "";
@@ -34,7 +34,7 @@ class ProfileModel {
     this.balance = "",
     this.uk = "",
     this.trophies = const [],
-    this.gender = 0,
+    this.gender = 1,
     this.avatar = "",
     this.coin = 0,
     this.email = "",
@@ -64,7 +64,7 @@ class ProfileModel {
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
     trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
-    gender = json["gender"] ?? 0;
+    gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
