@@ -5,7 +5,7 @@
  */
 import 'package:badges/badges.dart';
 import 'package:date_format/date_format.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
@@ -29,8 +29,7 @@ class GameListItemWidget extends GetView<SideKickController> {
         left: 0,
       ).r,
       margin: EdgeInsets.only(top: 10.r),
-      decoration: BoxDecoration(
-          color: AppColor.itemBg, borderRadius: BorderRadius.all(Radius.circular(16)).w),
+      decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.all(Radius.circular(16)).w),
       child: ListTile(
         leading: Badge(
           showBadge: model.online == ONLINE,
@@ -40,11 +39,7 @@ class GameListItemWidget extends GetView<SideKickController> {
           child: Container(
             width: 50.h,
             height: 50.h,
-            decoration: model.online == ONLINE
-                ? BoxDecoration(
-                    border: Border.all(color: badgeColor, width: 1),
-                    borderRadius: BorderRadius.all(Radius.circular(25.h)))
-                : null,
+            decoration: model.online == ONLINE ? BoxDecoration(border: Border.all(color: badgeColor, width: 1), borderRadius: BorderRadius.all(Radius.circular(25.h))) : null,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(25)).h,
               child: ImageUtil.networkImage(url: model.thumb, fit: BoxFit.cover),
@@ -97,8 +92,7 @@ class GameListItemWidget extends GetView<SideKickController> {
               LocationWidget(model.distance),
               Text(
                 '${model.levelName}',
-                style: TextStyle(
-                    color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
+                style: TextStyle(color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
               )
             ],
           ),

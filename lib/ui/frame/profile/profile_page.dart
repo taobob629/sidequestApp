@@ -78,10 +78,14 @@ class ProfilePage extends StatelessWidget {
                                               ])),
                                           child: Row(
                                             children: [
-                                              Image.asset(
-                                                "assets/images/profile/icon_sex_${t.vm.value.gender - 1}.png",
-                                                width: 8,
-                                              ),
+                                              if (t.vm.value.gender != 2)
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 3),
+                                                  child: Image.asset(
+                                                    "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
+                                                    width: 8,
+                                                  ),
+                                                ),
                                               Text(
                                                 "${t.vm.value.age}",
                                                 style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),

@@ -51,7 +51,7 @@ class ProfileModel {
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 0;
 
-    if ((json["country"] is String)) {
+    if ((json["country"] is String) && json["country"].toString().contains("\\")) {
       country = CountryModel.fromJson(jsonDecode(json["country"].replaceAll("""\\""", """\\\\""")));
     } else {
       country = CountryModel();
