@@ -320,7 +320,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   }
 
   void goDev() {
-    Get.to(SettingsPage());
+  //  Get.to(SettingsPage());
     devCount++;
     if (devCount < 6) {
       return;
