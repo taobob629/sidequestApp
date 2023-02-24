@@ -45,7 +45,7 @@ class _State extends State<SocialPage> with SingleTickerProviderStateMixin {
             tabList: controller.tabs,
             tabPage: [
               KeepAliveWrapper(child: EventsPage()),
-              KeepAliveWrapper(child: ActivityTabPage()),
+              KeepAliveWrapper(child: Container()),
             ],
           ),
         ));
