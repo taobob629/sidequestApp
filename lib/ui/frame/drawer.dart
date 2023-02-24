@@ -18,6 +18,7 @@ import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/home/view.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/profile/vip/vip_page.dart';
 import 'package:wy/utils/image_util.dart';
@@ -50,11 +51,14 @@ List<Map> legals = [
 
 class HomeDrawer extends StatelessWidget {
   final user = Get.find<UserController>().userInfoModel?.value;
+  double drawerWidth = Get.width - 40.w;
 
   @override
   Widget build(BuildContext context) {
+    double total = user?.total.toDouble() ?? 0;
+    int remain = user?.remain ?? 1;
     return Drawer(
-      width: Get.width - 40.w,
+      width: drawerWidth,
       backgroundColor: Color(0xFF262731),
       child: Scaffold(
         body: MediaQuery.removePadding(
@@ -76,6 +80,12 @@ class HomeDrawer extends StatelessWidget {
                 header(),
                 achievements(),
                 remainingTimes(),
+                contentPadding(EnergyView(
+                  width: drawerWidth - 20 * 2.r,
+                  percent: total == 0 ? 0 : remain / total,
+                  remaining: user?.remain ?? 0,
+                )),
+                8.verticalSpace,
                 _listItem('My sidequest subscription',
                     onTapMore: () => Get.to(() => VipPage(
                           vipLevel: user?.vipLevel ?? 0,
