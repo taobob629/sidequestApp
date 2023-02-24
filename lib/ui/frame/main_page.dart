@@ -200,8 +200,8 @@ class MainPage extends GetView<MainPageController> {
                                 //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
                                 colors: [Color(0xfffa7f85), Color(0xffb6262c)],
                                 onTap: () {
-                                  controller.controller.jumpToPage(3);
-                                  controller.updateCurrentIndex(3);
+                                  controller.controller.jumpToPage(2);
+                                  controller.updateCurrentIndex(2);
                                 }),
                             Badge(
                               shape: BadgeShape.circle,
