@@ -52,7 +52,7 @@ class _TabButtonState extends State<TabButton> with SingleTickerProviderStateMix
 
     // Widget icon = SvgPicture.asset("assets/images/ic_tab_${widget.iconName}.svg");
     // Widget iconLight = SvgPicture.asset("assets/images/ic_tab_${widget.iconName}_light.svg",color: Colors.white,);
-    Widget icon = Image.asset("assets/images/ic_tab_${widget.iconName}_new.webp",width: 28, fit: BoxFit.contain,);
+    Widget icon = Image.asset("assets/images/${widget.iconName}.png",width: 28, fit: BoxFit.contain,);
 
     if(widget.index == widget.currentIndex){
       Container bgColorContainer = Container(

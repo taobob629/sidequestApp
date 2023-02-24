@@ -174,7 +174,7 @@ class MainPage extends GetView<MainPageController> {
                             TabButton(
                                 index: 0,
                                 currentIndex: controller.currentIndex.value,
-                                iconName: "game",
+                                iconName: "tab_home",
                                 title: "Home".tr,
                                 colors: [Color(0xffb991ff), Color(0xff1817FF)],
                                 onTap: () {
@@ -184,7 +184,7 @@ class MainPage extends GetView<MainPageController> {
                             TabButton(
                                 index: 1,
                                 currentIndex: controller.currentIndex.value,
-                                iconName: "events",
+                                iconName: "tab_social",
                                 title: "Social".tr,
                                 colors: [Color(0xffFFD189), Color(0xffFF3617)],
                                 onTap: () {
@@ -206,7 +206,7 @@ class MainPage extends GetView<MainPageController> {
                               child: TabButton(
                                   index: 2,
                                   currentIndex: controller.currentIndex.value,
-                                  iconName: "play",
+                                  iconName: "tab_sidekick",
                                   title: "SideKick".tr,
                                   colors: [Color(0xffe7e439), Color(0xff6c6301)],
                                   onTap: () {
@@ -217,8 +217,8 @@ class MainPage extends GetView<MainPageController> {
                             TabButton(
                                 index: 3,
                                 currentIndex: controller.currentIndex.value,
-                                iconName: "shop",
-                                title: "Shop".tr,
+                                iconName: "tab_message",
+                                title: "Message".tr,
                                 //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
                                 colors: [Color(0xfffa7f85), Color(0xffb6262c)],
                                 onTap: () {
@@ -228,7 +228,7 @@ class MainPage extends GetView<MainPageController> {
                             TabButton(
                                 index: 4,
                                 currentIndex: controller.currentIndex.value,
-                                iconName: "user",
+                                iconName: "tab_profile",
                                 title: "Profile".tr,
                                 colors: [Color(0xff99c6fa), Color(0xff727DFF)],
                                 onTap: () {
