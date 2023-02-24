@@ -7,6 +7,7 @@ import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
+import 'package:wy/ui/profile/settings/settings_page.dart';
 
 import 'profile_album_page.dart';
 import 'profile_dashboard_page.dart';
@@ -319,6 +320,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   }
 
   void goDev() {
+    Get.to(SettingsPage());
     devCount++;
     if (devCount < 6) {
       return;

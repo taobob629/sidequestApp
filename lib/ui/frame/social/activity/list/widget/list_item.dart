@@ -9,7 +9,7 @@ import 'package:wy/model/activity_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/utils/index.dart';
 
-class ActivityListItemWidget extends StatelessWidget {
+ class ActivityListItemWidget extends StatelessWidget {
   late ActivityListModel model;
 
   ActivityListItemWidget(this.model);
@@ -18,7 +18,7 @@ class ActivityListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return contentPadding(
       height: 200.h,
-      child: ImageUtil.networkImage(url: model.image, border: 20.r),
+      child: ImageUtil.networkImage(url: model.image, border: 20.r,fit: BoxFit.cover),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /**
@@ -41,4 +42,10 @@ class Dimens {
   static double gap50 = 50;
   static double gap40 = 40;
   static double gap30 = 30;
+}
+contentPadding({required Widget child,double? width,double? height}){
+  return Container(
+    width: width,
+    height: height,
+    padding: EdgeInsets.all(16.w),child: child,);
 }

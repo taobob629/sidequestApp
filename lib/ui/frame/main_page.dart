@@ -191,6 +191,18 @@ class MainPage extends GetView<MainPageController> {
                                   controller.controller.jumpToPage(1);
                                   controller.updateCurrentIndex(1);
                                 }),
+
+                            TabButton(
+                                index: 2,
+                                currentIndex: controller.currentIndex.value,
+                                iconName: "tab_sidekick",
+                                title: "SideKick".tr,
+                                //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
+                                colors: [Color(0xfffa7f85), Color(0xffb6262c)],
+                                onTap: () {
+                                  controller.controller.jumpToPage(3);
+                                  controller.updateCurrentIndex(3);
+                                }),
                             Badge(
                               shape: BadgeShape.circle,
                               badgeColor: Colors.red,
@@ -204,27 +216,16 @@ class MainPage extends GetView<MainPageController> {
                               ),
                               ignorePointer: true,
                               child: TabButton(
-                                  index: 2,
+                                  index: 3,
                                   currentIndex: controller.currentIndex.value,
-                                  iconName: "tab_sidekick",
-                                  title: "SideKick".tr,
+                                  iconName: "tab_message",
+                                  title: "Message".tr,
                                   colors: [Color(0xffe7e439), Color(0xff6c6301)],
                                   onTap: () {
                                     controller.controller.jumpToPage(2);
                                     controller.updateCurrentIndex(2);
                                   }),
                             ),
-                            TabButton(
-                                index: 3,
-                                currentIndex: controller.currentIndex.value,
-                                iconName: "tab_message",
-                                title: "Message".tr,
-                                //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                                colors: [Color(0xfffa7f85), Color(0xffb6262c)],
-                                onTap: () {
-                                  controller.controller.jumpToPage(3);
-                                  controller.updateCurrentIndex(3);
-                                }),
                             TabButton(
                                 index: 4,
                                 currentIndex: controller.currentIndex.value,
