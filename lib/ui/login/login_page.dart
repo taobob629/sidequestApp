@@ -245,7 +245,7 @@ class LoginPageController extends BasePageController
                       loginModel: loginModel,
                     ));
               } else {
-                Get.offAndToNamed(AppPages.REGISTER,
+                Get.toNamed(AppPages.REGISTER,
                     arguments: Map()
                       ..['type'] = 1
                       ..['loginModel'] = loginModel);

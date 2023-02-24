@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/api/auth_api.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -256,7 +257,7 @@ class RegisterPageController extends GetxController {
           "Congratulations and welcome, your profile has been updated!".tr,
           duration: Duration(seconds: 3));
     }
-    Get.offAll(LoginPage(), arguments: Map()..['fromRegister'] = true);
+    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login) ,arguments: Map()..['fromRegister'] = true);
     // Get.back();
   }
 }
