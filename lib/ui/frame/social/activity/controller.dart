@@ -6,7 +6,7 @@
 import 'package:get/get.dart';
 import 'package:wy/api/activity_api.dart';
 import 'package:wy/common/base_tab_controller.dart';
-
+import 'package:wy/model/activity_tab.dart';
 class ActivityTabController<ActivityTabModel> extends BaseTabContoller {
   Rxn<ActivityTabModel> _curTab = Rxn();
 
@@ -17,8 +17,9 @@ class ActivityTabController<ActivityTabModel> extends BaseTabContoller {
   }
 
   @override
-  initTabs() async {
-    tabs = await ActivityApi.activityTabs();
+ Future initTabs() async {
+   List tabs = await ActivityApi.activityTabs();
     if (tabs.isNotEmpty) curTab = tabs[0];
+    return tabs;
   }
 }

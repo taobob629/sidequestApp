@@ -5,23 +5,23 @@
  */
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wy/api/game_api.dart';
 import 'package:wy/api/network_method.dart';
-import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/common/list/index.dart';
-import 'package:wy/model/game_model.dart';
-import 'package:wy/model/game_section.dart';
-import 'package:wy/model/game_user_model.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/model/activity_list_model.dart';
 import 'package:dio/src/response.dart' as dio;
 
-class ActivityListController extends RefreshListController<GameUserModel> {
+class ActivityListController extends RefreshListController<ActivityListModel> {
+ late var type;
+
+ ActivityListController(this.type);
+
   @override
   buildMethodType() {
     return NWMethod.GET;
+  }
+  @override
+  void onInit() {
+    super.onInit();
   }
 
   @override
@@ -29,15 +29,15 @@ class ActivityListController extends RefreshListController<GameUserModel> {
 
   @override
   String buildUrl() {
-    return '/peiwan/app/new/superlist?pageNum=$page&pageSize=$pageSize';
+    return '/app/events/26/webActivities?matchDiff=$type';
   }
 
   @override
   bool paged() => true;
 
   @override
-  List<GameUserModel> dealData(dio.Response<dynamic> response) {
-    return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+  List<ActivityListModel> dealData(dio.Response<dynamic> response) {
+    return response.data['matchList'].map<ActivityListModel>((item) => ActivityListModel.fromJson(item)).toList();
   }
 
   @override

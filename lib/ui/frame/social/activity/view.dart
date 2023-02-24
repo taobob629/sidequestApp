@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/social/activity/controller.dart';
+import 'package:wy/ui/frame/social/activity/list/view.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 
 class ActivityTabPage extends StatefulWidget {
@@ -26,11 +28,14 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
   }
 
   init() async {
-    await controller.initTabs();
-    controller.tabbarController = TabController(length: controller.tabs.length, vsync: this)
-      ..addListener(() {
-        controller.curTab = controller.tabs[controller.tabbarController?.index ?? 0];
-      });
+    controller.initTabs().then((tabs) {
+      flog('initTabs $tabs');
+      controller.tabbarController = TabController(length: tabs.length, vsync: this)
+        ..addListener(() {
+          controller.curTab = tabs[controller.tabbarController?.index ?? 0];
+        });
+      controller.tabs = tabs;
+    });
   }
 
   @override
@@ -57,7 +62,9 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
   }
 
   List<Widget> tabPages() {
-    return controller.tabs.map((tab) => KeepAliveWrapper(child: Container())).toList();
+    return controller.tabs
+        .map((tab) => KeepAliveWrapper(child: ActivityListPage('${tab.type}')))
+        .toList();
   }
 
   buildTabs() {
