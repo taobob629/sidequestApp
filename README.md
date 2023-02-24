@@ -19,7 +19,8 @@ Appstore： 账号：merchant@wanyoo.co.uk 密码：Tbbaggio!12345678
 
 merchant@wanyoo.co.uk Woaiwangyu88
 
-
+蓝湖账号
+1277389320@qq.com/Tbbaggio@1
 
 firebase
 developer@sidequestmeta.com
