@@ -12,6 +12,7 @@ import 'package:wy/api/game_api.dart';
 import 'package:wy/api/network_method.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/common/list/index.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
@@ -38,13 +39,6 @@ class SideKickController extends RefreshListController<GameUserModel> {
 
   RxList<SimpleGameModel> gameList = RxList();
 
-  getGames() async {
-    await GamesApi.getMyGamesList().then((value) {
-      gameList.addAll(value);
-      getGameSection();
-    });
-  }
-
   Rxn<GameSectionModel?> _gameSections = Rxn();
 
   GameSectionModel? get gameSections => _gameSections.value;
@@ -56,7 +50,6 @@ class SideKickController extends RefreshListController<GameUserModel> {
   getGameSection() async {
     try {
       gameSections = await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
-      getGamePlayers();
     } catch (e) {
       flog('gameSection catchErr e $e');
     }
@@ -74,10 +67,20 @@ class SideKickController extends RefreshListController<GameUserModel> {
   @override
   void onInit() {
     super.onInit();
-    _currentSelectIndex.listen((value) {
-      flog('value$value');
-    });
-    getGames();
+    init();
+    _currentSelectIndex.listen((value) {});
+  }
+
+  init() async {
+    await initMyGames();
+    await getGameSection();
+    await getGamePlayers();
+  }
+
+  Future<void> initMyGames() async {
+    var result = await GamesApi.getMyGamesList();
+    gameList.clear();
+    gameList.addAll(result);
   }
 
   @override
@@ -128,5 +131,9 @@ class SideKickController extends RefreshListController<GameUserModel> {
         break;
     }
     onRefresh();
+  }
+
+  toGameListPage() {
+    Get.toNamed(AppPages.MoreGames);
   }
 }
