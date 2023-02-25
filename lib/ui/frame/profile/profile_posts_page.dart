@@ -13,8 +13,8 @@ class ProfilePostsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.separated(
+    return Container(
+      child: ListView.separated(
           padding: EdgeInsets.only(top: 15),
           itemCount: t.list.length,
           separatorBuilder: (context, index) {

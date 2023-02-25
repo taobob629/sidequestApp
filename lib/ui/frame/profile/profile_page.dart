@@ -37,12 +37,17 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SafeArea(
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    margin: EdgeInsets.only(right: 40),
-                    child: Image.asset(
-                      "assets/images/profile_setting.webp",
-                      width: 26,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => SettingsPage());
+                    },
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      margin: EdgeInsets.only(right: 40),
+                      child: Image.asset(
+                        "assets/images/profile_setting.webp",
+                        width: 26,
+                      ),
                     ),
                   ),
                 ),
@@ -51,92 +56,92 @@ class ProfilePage extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /// nickname
-                              Obx(() => Text(
-                                    t.vm.value.nickName,
-                                    style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
-                                  )),
+                        child: GestureDetector(
+                          onTap: t.goDev,
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                /// nickname
+                                Obx(() => Text(
+                                      t.vm.value.nickName,
+                                      style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
+                                    )),
 
-                              /// labels: sex、language、location
-                              Obx(() => Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          margin: EdgeInsets.only(right: 10),
-                                          height: 16.h,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(3),
-                                              gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                Color(0xFF1F84C9),
-                                                Color(0xFF7CB9D5),
-                                              ])),
-                                          child: Row(
-                                            children: [
-                                              if (t.vm.value.gender != 2)
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 3),
-                                                  child: Image.asset(
-                                                    "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
-                                                    width: 8,
+                                /// labels: sex、language、location
+                                Obx(() => Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                            margin: EdgeInsets.only(right: 10),
+                                            height: 16.h,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(3),
+                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                                  Color(0xFF1F84C9),
+                                                  Color(0xFF7CB9D5),
+                                                ])),
+                                            child: Row(
+                                              children: [
+                                                if (t.vm.value.gender != 2)
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 3),
+                                                    child: Image.asset(
+                                                      "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
+                                                      width: 8,
+                                                    ),
                                                   ),
+                                                Text(
+                                                  "${t.vm.value.age}",
+                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                 ),
-                                              Text(
-                                                "${t.vm.value.age}",
-                                                style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          margin: EdgeInsets.only(right: 10),
-                                          height: 16.h,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                t.vm.value.language,
-                                                style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                              ),
-                                            ],
+                                          Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                            margin: EdgeInsets.only(right: 10),
+                                            height: 16.h,
+                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  t.vm.value.language,
+                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          margin: EdgeInsets.only(right: 10),
-                                          height: 16.h,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                "assets/images/profile/icon_dibiao.webp",
-                                                width: 8,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                t.vm.value.country.country,
-                                                style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                            margin: EdgeInsets.only(right: 10),
+                                            height: 16.h,
+                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                            child: Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/profile/icon_dibiao.webp",
+                                                  width: 8,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  t.vm.value.country.country,
+                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )),
 
-                              /// email
-                              Obx(() => GestureDetector(
-                                    onTap: t.goDev,
-                                    child: Padding(
+                                /// email
+                                Obx(() => Padding(
                                       padding: const EdgeInsets.only(top: 8),
                                       child: Row(
                                         children: [
@@ -147,15 +152,15 @@ class ProfilePage extends StatelessWidget {
                                               style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                          Text(
-                                            t.vm.value.email,
-                                            style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                          )
+                                          // Text(
+                                          //   t.vm.value.email,
+                                          //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
+                                          // )
                                         ],
                                       ),
-                                    ),
-                                  )),
-                            ],
+                                    )),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -287,9 +292,12 @@ class ProfilePage extends StatelessWidget {
 
   List<Widget> createPages() {
     List<Widget> pages = [];
-    pages.add(KeepAliveWrapper(child: ProfileDashboardPage()));
-    pages.add(KeepAliveWrapper(child: ProfilePostsPage()));
-    pages.add(KeepAliveWrapper(child: ProfileAlbumPage()));
+    // pages.add(KeepAliveWrapper(child: ProfileDashboardPage()));
+    // pages.add(KeepAliveWrapper(child: ProfilePostsPage()));
+    // pages.add(KeepAliveWrapper(child: ProfileAlbumPage()));
+    pages.add(ProfileDashboardPage());
+    pages.add(ProfilePostsPage());
+    pages.add(ProfileAlbumPage());
     return pages;
   }
 }
@@ -320,7 +328,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   }
 
   void goDev() {
-  //  Get.to(SettingsPage());
+    //  Get.to(SettingsPage());
     devCount++;
     if (devCount < 6) {
       return;

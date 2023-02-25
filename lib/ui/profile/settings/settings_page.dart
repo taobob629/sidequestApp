@@ -34,54 +34,62 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: "Settings".tr,
-        body: Column(
-          children: [
-            SettingItem(
-              title: "Account Password".tr,
-              onTap: () => Get.to(() => ChangePasswordPage(
-                    type: 1,
-                    have: true,
-                  )),
-            ),
-            SettingItem(
-              title: "Payment Pin".tr,
-              onTap: () => Get.to(() => ChangePasswordPage(
-                    type: 2,
-                    check: true,
-                  )),
-            ),
-            SettingItem(
-              title: "Language".tr,
-              onTap: () => controller.choseLanguage(),
-            ),
-            SettingItem(
-              title: "About Us".tr,
-              onTap: () => gotoAboutPage(context),
-            ),
-            Obx(() => controller.online.value && userController.userInfoModel.value.vipLevel > 0
-                ? SettingItem(
-                    title: "Cancel Subscription".tr,
-                    info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
-                    onTap: () => controller.cancelVip(userController.userInfoModel.value.vipLevel),
-                  )
-                : Container()),
-            Obx(() => SettingItem(
-                  title: "Version".tr,
-                  info: "${controller.version.value}",
-                  onTap: () => controller.checkVersion(),
+      title: "Settings".tr,
+      body: Column(
+        children: [
+          SettingItem(
+            title: "Account Password".tr,
+            onTap: () => Get.to(() => ChangePasswordPage(
+                  type: 1,
+                  have: true,
                 )),
-            SettingItem(
-              title: "Delete Account".tr,
-              info: "${userController.user.value.email}",
-              onTap: () => controller.deleteAccount(),
+          ),
+          SettingItem(
+            title: "Payment Pin".tr,
+            onTap: () => Get.to(() => ChangePasswordPage(
+                  type: 2,
+                  check: true,
+                )),
+          ),
+          SettingItem(
+            title: "Language".tr,
+            onTap: () => controller.choseLanguage(),
+          ),
+          SettingItem(
+            title: "About Us".tr,
+            onTap: () => gotoAboutPage(context),
+          ),
+          Obx(() => controller.online.value && userController.userInfoModel.value.vipLevel > 0
+              ? SettingItem(
+                  title: "Cancel Subscription".tr,
+                  info: "${controller.getVipName(userController.userInfoModel.value.vipLevel)}",
+                  onTap: () => controller.cancelVip(userController.userInfoModel.value.vipLevel),
+                )
+              : Container()),
+          Obx(() => SettingItem(
+                title: "Version".tr,
+                info: "${controller.version.value}",
+                onTap: () => controller.checkVersion(),
+              )),
+          SettingItem(
+            title: "Delete Account".tr,
+            info: "${userController.user.value.email}",
+            onTap: () => controller.deleteAccount(),
+          ),
+          Spacer(),
+          SafeArea(
+            child: FloatingButton(
+              label: "SIGN OUT".tr,
+              onTap: () => controller.logout(),
             ),
-          ],
-        ),
-        floatingActionButton: FloatingButton(
-          label: "SIGN OUT".tr,
-          onTap: () => controller.logout(),
-        ));
+          )
+        ],
+      ),
+      // floatingActionButton: FloatingButton(
+      //   label: "SIGN OUT".tr,
+      //   onTap: () => controller.logout(),
+      // )
+    );
   }
 
   void gotoAboutPage(BuildContext context) {

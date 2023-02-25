@@ -28,11 +28,10 @@ class App extends StatelessWidget {
     ]);
     final ThemeData theme = ThemeData();
     return RefreshConfiguration(
-      // headerBuilder: () => WaterDropHeader(
-      //   waterDropColor: AppColor.accent,
-      // ),
-        footerBuilder: () =>
-            ClassicFooter(
+        // headerBuilder: () => WaterDropHeader(
+        //   waterDropColor: AppColor.accent,
+        // ),
+        footerBuilder: () => ClassicFooter(
               noDataText: "",
             ),
         enableLoadingWhenFailed: true,
@@ -49,30 +48,22 @@ class App extends StatelessWidget {
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
                   textTheme: TextTheme(
-                      headline1:
-                      TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white),
-                      headline2:
-                      TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400, color: Colors.white),
-                      headline3:
-                      TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400, color: Colors.white),
-                      headline4:
-                      TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400, color: Colors.white),
-                      headline6:
-                      TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.white),
-                      bodyText1: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w200,
-                      ),
-                      bodyText2: TextStyle(
-                          fontSize: 17.0.sp,
-                          color: Colors.white
-                      ),
-                      button: TextStyle(
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white),
+                    headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400, color: Colors.white),
+                    headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400, color: Colors.white),
+                    headline4: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400, color: Colors.white),
+                    headline6: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.white),
+                    bodyText1: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w200,
+                    ),
+                    bodyText2: TextStyle(fontSize: 17.0.sp, color: Colors.white),
+                    button: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0),
+                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold)),
                   primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,

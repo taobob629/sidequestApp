@@ -14,7 +14,7 @@ abstract class ProfileApi {
   }
 
   /// profile-post  帖子列表
-  static Future<List<PostItemModel>> getPostList({int page = 0}) async {
+  static Future<List<PostItemModel>> getPostList({int page = 1}) async {
     var response = await http.post('/peiwan/app/profile/listPost', data: {
       "pageNum": page,
       "pageSize": 20,

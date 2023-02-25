@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'colorful_button.dart';
 
 class FloatingButton extends StatelessWidget {
-
   final String label;
   final Function? onTap;
 
@@ -16,11 +15,15 @@ class FloatingButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: ColorfulButton(
         height: 50,
+        borderRadius: 25,
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text(label, style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),),
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+          ),
         ),
-        onTap: ()=>onTap?.call(),
+        onTap: () => onTap?.call(),
       ),
     );
   }

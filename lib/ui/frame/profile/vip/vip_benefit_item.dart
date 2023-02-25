@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/expansion_tile.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
+import '../model/vip_info_model.dart';
+
 class VipBenefitItem extends StatelessWidget {
+  final VipIntro model;
   final String content;
   final String title;
   final String subTitle;
@@ -22,6 +26,7 @@ class VipBenefitItem extends StatelessWidget {
     required this.onTap,
     this.key,
     required this.subTitle,
+    required this.model,
   });
 
   @override
@@ -42,9 +47,9 @@ class VipBenefitItem extends StatelessWidget {
           ExpansionTileWidget(
             title: Row(children: [
               Image.asset(
-                "assets/images/ic_privilege1.webp",
-                width: 40,
-                height: 40,
+                "assets/images/profile/benefit_type_${model.iconType}.webp",
+                width: 21,
+                height: 21,
                 fit: BoxFit.contain,
               ),
               SizedBox(
@@ -55,10 +60,11 @@ class VipBenefitItem extends StatelessWidget {
                   "$title",
                   maxLines: 2,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 18, fontFamily: "DIN", color: Color(0xFFEFC887)),
+                  style: TextStyle(fontSize: 14.sp, fontFamily: "DIN", color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ]),
+            initiallyExpanded: index == 0,
             expandViewBuilder: (anima) {
               flog(anima.status);
               return Row(
@@ -83,7 +89,7 @@ class VipBenefitItem extends StatelessWidget {
             onExpansionChanged: (v) => this.onTap.call(this.index),
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 55, right: 10),
+                padding: const EdgeInsets.only(left: 39, right: 10, top: 8),
                 child: Text(
                   "$content",
                   textAlign: TextAlign.left,
@@ -92,21 +98,24 @@ class VipBenefitItem extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 8),
-            child: Row(
-              children: [
-                Text(
-                  "Balance : ",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 14, color: Color(0xff808388), fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "30 Minutes",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ],
+          Visibility(
+            visible: false,
+            child: Container(
+              margin: EdgeInsets.only(top: 8),
+              child: Row(
+                children: [
+                  Text(
+                    "Balance : ",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 14, color: Color(0xff808388), fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "30 Minutes",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           )
         ],

@@ -16,8 +16,8 @@ class ProfileAlbumPage extends StatelessWidget {
   final t = Get.put(ProfileAlbumController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(() => GridView.builder(
+    return Container(
+      child: Obx(() => GridView.builder(
             padding: EdgeInsets.all(15),
             itemCount: t.list.length + 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -78,11 +78,7 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
     _picker.pickImage(source: ImageSource.gallery).then((xfile) {
       if (xfile != null) {
         Common.uploadFile(File(xfile.path), (p0, p1) {
-          // EasyLoading.show();
-          print(p0);
-          print("p1");
-          print(p1);
-          EasyLoading.showProgress(p0 / p1);
+          EasyLoading.show();
         }).then((val) {
           EasyLoading.dismiss();
           if (val.isNotEmpty) {
@@ -90,7 +86,7 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
               getPostList();
             });
           }
-        });
+        }).whenComplete(() => EasyLoading.dismiss());
       }
     }).onError((error, stackTrace) {
       EasyLoading.dismiss();

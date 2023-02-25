@@ -1,15 +1,23 @@
+import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/profile/vip/vip_info_dialog.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
+import '../../../../utils/navigator_helper.dart';
+import '../../../controller/user_controller.dart';
+import '../../../profile/vip/subscribe_dialog.dart';
 import '../model/vip_info_model.dart';
 import 'vip_benefit_item.dart';
 
@@ -19,215 +27,168 @@ class VipPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColor.background,
-        body: CustomScrollView(
-          controller: controller.scrollController,
-          slivers: [
-            SliverAppBar(
-              elevation: 0,
-              pinned: true,
-              backgroundColor: AppColor.background,
-              expandedHeight: Get.width - 100,
-              title: Obx(() {
-                return Text(
-                  "VIP",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: controller.titleColor.value, fontSize: 16),
-                );
-              }),
-              flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  background: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Image.asset(
-                          "assets/images/profile/vip_header_bg.webp",
-                          fit: BoxFit.cover,
-                        ),
+      backgroundColor: AppColor.background,
+      body: CustomScrollView(
+        controller: controller.scrollController,
+        slivers: [
+          SliverAppBar(
+            elevation: 0,
+            pinned: true,
+            backgroundColor: AppColor.background,
+            expandedHeight: Get.width - 100,
+            title: Obx(() {
+              return Text(
+                "VIP",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: controller.titleColor.value, fontSize: 16),
+              );
+            }),
+            flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  children: [
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      top: 0,
+                      child: Image.asset(
+                        "assets/images/profile/vip_header_bg.webp",
+                        fit: BoxFit.cover,
                       ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Obx(() {
-                          return Swiper(
-                            controller: controller.swiperController,
-                            autoplay: false,
-                            loop: false,
-                            viewportFraction: 0.35,
-                            scale: 0.01,
-                            physics: PagePhysics(parent: MyBouncingScrollPhysics()),
-                            index: controller.vipIndex.value,
-                            itemBuilder: (BuildContext context, int index) {
-                              int level = controller.vipInfoList[index].level;
-                              String asset = "assets/images/ic_level$level.webp";
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 40),
-                                child: Image.asset(
-                                  asset,
-                                  fit: BoxFit.contain,
-                                ),
-                              );
-                            },
-                            itemCount: controller.vipInfoList.length,
-                            onIndexChanged: (index) => controller.levelChange(index),
-                            onTap: (index) {
-                              controller.swiperController.move(index);
-                            },
-                          );
-                        }),
-                      ),
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: ClipPath(
-                            clipper: _BottomPath(),
-                            child: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: AppColor.background,
-                              ),
-                            ),
-                          )),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 20,
-                        height: 108,
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Obx(() {
-                                return Text(
-                                  controller.vipInfoList.isNotEmpty ? "${controller.vipInfoList[controller.vipIndex.value].name}" : "",
-                                  style: TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
-                                );
-                              }),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              // Obx(() {
-                              //   // if (controller.vipInfoList[controller.vipIndex.value].monthFee == 0) {
-                              //   //   return Container(
-                              //   //     width: 251,
-                              //   //     height: 66,
-                              //   //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(40), color: Colors.white54),
-                              //   //     child: Center(
-                              //   //       child: Padding(
-                              //   //         padding: const EdgeInsets.only(top: 6.0),
-                              //   //         child: Text(
-                              //   //           "Invite Only".tr,
-                              //   //           style: TextStyle(color: Colors.black, fontSize: 24, fontFamily: "DIN"),
-                              //   //         ),
-                              //   //       ),
-                              //   //     ),
-                              //   //   );
-                              //   // }
-                              //   return GestureDetector(
-                              //     onTap: () => controller.openMonth(),
-                              //     child: Container(
-                              //       width: 251,
-                              //       height: 66,
-                              //       decoration: BoxDecoration(
-                              //           image: DecorationImage(image: AssetImage("assets/images/vip_btn${controller.vipInfoList[controller.vipIndex.value].level}.png"), fit: BoxFit.contain)),
-                              //       child: Center(
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.only(top: 6),
-                              //           child: Text(
-                              //             controller.vipInfoList.isNotEmpty && (ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level)
-                              //                 ? "Subscribed".tr
-                              //                 : ""
-                              //             // : "£ ${controller.vipInfoList[controller.vipIndex.value].monthFee} PM"
-                              //             ,
-                              //             style: TextStyle(color: Colors.black, fontSize: 30, fontFamily: "DIN"),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   );
-                              // })
-                            ],
+                    ),
+                    Positioned(
+                      top: 150,
+                      child: Obx(() {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "${controller.vipInfoList[controller.vipIndex.value].name}",
+                            style: TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
                           ),
-                        ),
-                      ),
-                      // ArcPageView(
-                      //   children: <Widget>[
-                      //     Container(
-                      //       color: Colors.red,
-                      //     ),
-                      //     Container(
-                      //       color: Colors.green,
-                      //     ),
-                      //     Container(
-                      //       color: Colors.blue,
-                      //     ),
-                      //     Container(
-                      //       color: Colors.orange,
-                      //     ),
-                      //   ],
-                      // )
-                      // Container(
-                      //   margin: EdgeInsets.only(top: 100),
-                      //   child: GradientRing(
-                      //     radius: 200,
-                      //     width: 10,
-                      //     colors: [Color(0x00383838), Color(0xFFCABB9E), Color(0x00383838)],
-                      //   ),
-                      // )
-                    ],
-                  )),
-            ),
-            // SliverToBoxAdapter(
-            //   child: _buildTitle(),
-            // ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  "Benefits",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                        );
+                      }),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      top: Get.statusBarHeight,
+                      child: Obx(() {
+                        return Swiper(
+                          controller: controller.swiperController,
+                          autoplay: false,
+                          loop: false,
+                          physics: PagePhysics(parent: MyBouncingScrollPhysics()),
+                          index: controller.vipIndex.value,
+                          itemBuilder: (BuildContext context, int index) {
+                            final vipModel = controller.vipInfoList[controller.vipIndex.value];
+                            return Container(
+                              padding: EdgeInsets.symmetric(vertical: 25),
+                              alignment: Alignment.center,
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.name.toLowerCase()}.webp")),
+                                  Positioned(
+                                      top: -10,
+                                      right: 10,
+                                      child: Image.asset(
+                                        "assets/images/profile/huizhang_${vipModel.name.toLowerCase()}.webp",
+                                        height: 93,
+                                      )),
+                                  Positioned(
+                                      left: 15,
+                                      top: 20,
+                                      child: Text(
+                                        "Pre Month",
+                                        style: TextStyle(color: Color(0xFF40280E), fontSize: 16),
+                                      )),
+                                  Positioned(
+                                      left: 15,
+                                      top: 40,
+                                      child: Text(
+                                        vipModel.name.toCapitalize,
+                                        style: TextStyle(color: Color(0xFF40280E), fontSize: 22, fontWeight: FontWeight.bold),
+                                      )),
+                                  Positioned(
+                                      bottom: 14,
+                                      left: 15,
+                                      child: GestureDetector(
+                                        onTap: () => controller.openMonth(),
+                                        child: Container(
+                                            height: 40,
+                                            width: 124,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
+                                            child: Text(
+                                              ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                  ? "Subscribed".tr
+                                                  : "£ ${vipModel.monthFee.toString()} PM",
+                                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                            )),
+                                      ))
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: controller.vipInfoList.length,
+                          onIndexChanged: (index) => controller.levelChange(index),
+                          onTap: (index) {
+                            controller.swiperController.move(index);
+                          },
+                        );
+                      }),
+                    ),
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: ClipPath(
+                          clipper: _BottomPath(),
+                          child: Container(
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: AppColor.background,
+                            ),
+                          ),
+                        )),
+                  ],
+                )),
+          ),
+          // SliverToBoxAdapter(
+          //   child: _buildTitle(),
+          // ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text(
+                "Benefits",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            Obx(() => SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return VipBenefitItem(
-                        index: index,
-                        showIndex: controller.showPrivilegeIndex.value,
-                        title: controller.vipInfoList[controller.vipIndex.value].intro[index].title,
-                        subTitle: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
-                        content: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
-                        onTap: (tapIndex) => controller.showPrivilegeIndex.value = tapIndex,
-                      );
-                    },
-                    childCount: controller.vipInfoList.isNotEmpty ? controller.vipInfoList[controller.vipIndex.value].intro.length : 0,
-                  ),
-                )),
-            // Obx(()=>SliverGrid(
-            //   delegate: SliverChildBuilderDelegate(
-            //     (BuildContext context, int index) {
-            //       String content = controller.vipInfoList[controller.vipLevel.value - 1].intro[index];
-            //       return PrivilegeView(content: content,);
-            //     },
-            //     childCount: controller.vipInfoList[controller.vipLevel.value - 1].intro.length,
-            //   ),
-            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //     crossAxisCount: 3,
-            //     mainAxisSpacing: 10,
-            //     crossAxisSpacing: 5,
-            //     childAspectRatio: 1,
-            //   )
-            // )),
-          ],
-        ));
+          ),
+          Obx(() => SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return VipBenefitItem(
+                      model: controller.vipInfoList[controller.vipIndex.value].intro[index],
+                      index: index,
+                      showIndex: controller.showPrivilegeIndex.value,
+                      title: controller.vipInfoList[controller.vipIndex.value].intro[index].title,
+                      subTitle: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
+                      content: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
+                      onTap: (tapIndex) => controller.showPrivilegeIndex.value = tapIndex,
+                    );
+                  },
+                  childCount: controller.vipInfoList.isNotEmpty ? controller.vipInfoList[controller.vipIndex.value].intro.length : 0,
+                ),
+              )),
+        ],
+      ),
+    );
   }
 
   Widget _buildMonthBtn() {
@@ -318,141 +279,35 @@ class _BottomPath extends CustomClipper<Path> {
   }
 }
 
-class ArcPageView extends StatefulWidget {
-  final List<Widget> children;
+class ArcPainter extends CustomPainter {
+  final List<Offset> ballPositions;
+  final Paint _paint;
+  final double _arcWidth;
 
-  const ArcPageView({required this.children});
-
-  @override
-  _ArcPageViewState createState() => _ArcPageViewState();
-}
-
-class _ArcPageViewState extends State<ArcPageView> {
-  final PageController _controller = PageController();
-  late double _currentPage;
-  final double angle = pi / 2;
-  final double radius = 100;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentPage = 0;
-    _controller.addListener(() {
-      setState(() {
-        _currentPage = _controller.page!;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: Transform(
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001)
-              ..rotateX(-0.1),
-            alignment: Alignment.center,
-            child: PageView(
-              controller: _controller,
-              children: widget.children,
-            ),
-          ),
-        ),
-        _buildIndicators(),
-      ],
-    );
-  }
-
-  Widget _buildIndicators() {
-    List<Widget> indicators = [];
-
-    for (int i = 0; i < widget.children.length; i++) {
-      indicators.add(_buildIndicator(i));
-    }
-
-    return Container(
-      height: radius * 2,
-      child: Transform.translate(
-        offset: Offset(
-          radius * sin(_currentPage * angle),
-          radius * cos(_currentPage * angle),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: indicators,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIndicator(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _currentPage = index.toDouble();
-          _controller.animateToPage(
-            index,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        });
-      },
-      child: Container(
-        width: 10,
-        height: 10,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: _currentPage == index ? Colors.blue : Colors.grey,
-        ),
-      ),
-    );
-  }
-}
-
-class GradientRing extends StatelessWidget {
-  final double radius;
-  final double width;
-  final List<Color> colors;
-
-  GradientRing({required this.radius, required this.width, required this.colors});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(radius * 2, radius * 2),
-      painter: _GradientRingPainter(radius, width, colors),
-    );
-  }
-}
-
-class _GradientRingPainter extends CustomPainter {
-  final double radius;
-  final double width;
-  final List<Color> colors;
-
-  _GradientRingPainter(this.radius, this.width, this.colors);
+  ArcPainter({required this.ballPositions, required arcWidth})
+      : _arcWidth = arcWidth,
+        _paint = Paint()
+          ..color = Colors.blue
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = arcWidth;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = _createGradient(size)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = width;
+    final centerX = size.width / 2;
+    final centerY = size.height / 2;
+    final radius = min(centerX, centerY) - (_arcWidth / 2);
 
-    final center = Offset(radius, radius);
-    final startAngle = -3 * pi / 4;
-    final endAngle = startAngle + pi / 2; // 60 degrees in radians
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius - width / 2), startAngle, endAngle - startAngle, false, paint);
-  }
+    final rect = Rect.fromCircle(center: Offset(centerX, centerY), radius: radius);
+    canvas.drawArc(rect, pi, pi, false, _paint);
 
-  Shader _createGradient(Size size) {
-    return SweepGradient(
-      startAngle: 0,
-      endAngle: pi * 2,
-      colors: colors,
-    ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    final anglePerSection = pi / 5;
+    for (var i = 0; i < 5; i++) {
+      final angle = pi + anglePerSection * i;
+      final ballX = centerX + cos(angle) * radius;
+      final ballY = centerY + sin(angle) * radius;
+      canvas.drawCircle(Offset(ballX, ballY), _arcWidth / 2, Paint()..color = Colors.red);
+      ballPositions.add(Offset(ballX, ballY));
+    }
   }
 
   @override
@@ -527,30 +382,30 @@ class VipPageController extends GetxController {
   }
 
   void openMonth() {
-    // VipInfoModel vipInfoModel = vipInfoList[vipIndex.value];
-    // var userController = Get.find<UserController>();
-    // if (userController.userInfoModel.value.vipLevel >= vipInfoModel.level) {
-    //   return;
-    // }
+    VipInfoModel vipInfoModel = vipInfoList[vipIndex.value];
+    var userController = Get.find<UserController>();
+    if (userController.userInfoModel.value.vipLevel >= vipInfoModel.level) {
+      return;
+    }
 
-    // PayOrderModel model = PayOrderModel();
-    // model.type = vipInfoModel.level;
-    // model.phrase = 0;
-    // model.goodsPrice = "${vipInfoModel.monthFee}";
-    // model.totalAmount = "${vipInfoModel.monthFee}";
-    // showConfirm(model);
+    PayOrderModel model = PayOrderModel();
+    model.type = vipInfoModel.level;
+    model.phrase = 0;
+    model.goodsPrice = "${vipInfoModel.monthFee}";
+    model.totalAmount = "${vipInfoModel.monthFee}";
+    showConfirm(model);
   }
 
   void showConfirm(PayOrderModel model) {
-    // var userController = Get.find<UserController>();
-    // if (userController.user.value.getAge() < 16) {
-    //   EasyLoading.showInfo("Subscription members must be at least 16 years old.".tr, duration: Duration(seconds: 3));
-    //   return;
-    // }
+    var userController = Get.find<UserController>();
+    if (userController.user.value.getAge() < 16) {
+      EasyLoading.showInfo("Subscription members must be at least 16 years old.".tr, duration: Duration(seconds: 3));
+      return;
+    }
     Get.dialog(VipInfoDialog(), barrierColor: Colors.black26).then((value) {
       if (value != null && value == true) {
-        // NavigatorHelper.gotoPayPage(model);
-        //Get.dialog(SubscribeDialog(),barrierColor: Colors.black26);
+        NavigatorHelper.gotoPayPage(model);
+        Get.dialog(SubscribeDialog(), barrierColor: Colors.black26);
       }
     });
   }

@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/frame/profile/profile_page.dart';
-import 'package:wy/ui/profile/vip/vip_page.dart';
+import 'package:wy/ui/profile/booking/booking_page.dart';
+import 'package:wy/ui/profile/events/my_events_page.dart';
+import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
 
 class ProfileDashboardPage extends StatelessWidget {
   ProfileDashboardPage({Key? key}) : super(key: key);
@@ -14,115 +16,142 @@ class ProfileDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            /// dashboard
-            Container(
-              height: 62,
-              margin: EdgeInsets.only(top: 20, left: 30, right: 30),
-              decoration: BoxDecoration(
-                color: Color(0xff313033),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _dashboardLabelItem("assets/images/profile/icon_wallet.webp", "Wallet", () {
-                    //
-                  }),
-                  _dashboardLabelItem("assets/images/profile/icon_bookings.webp", "Bookings", () {
-                    //
-                  }),
-                  _dashboardLabelItem("assets/images/profile/icon_activities.webp", "Activities", () {
-                    //
-                  }),
-                  _dashboardLabelItem("assets/images/profile/icon_sidekick.webp", "Sidekick", () {
-                    //
-                  }),
-                ],
-              ),
+    return SingleChildScrollView(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          /// dashboard
+          Container(
+            height: 62,
+            margin: EdgeInsets.only(left: 30, top: 20, right: 30),
+            decoration: BoxDecoration(
+              color: Color(0xff313033),
+              borderRadius: BorderRadius.circular(15),
             ),
-
-            /// Subscriptions
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 38),
-                    child: Text(
-                      "Subscriptions",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Obx(() => Container(
-                        width: Get.width,
-                        height: 48,
-                        margin: EdgeInsets.only(top: 10),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: t.vm.value.vips.map((e) => subscriptionItem(e)).toList(),
-                        ),
-                      ))
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _dashboardLabelItem(
+                  "assets/images/profile/icon_wallet.webp",
+                  "Wallet",
+                  onTap: () {
+                    Get.to(() => NewWalletPage());
+                  },
+                ),
+                _dashboardLabelItem(
+                  "assets/images/profile/icon_bookings.webp",
+                  "Bookings",
+                  onTap: () {
+                    Get.to(() => BookingPage());
+                  },
+                ),
+                _dashboardLabelItem(
+                  "assets/images/profile/icon_activities.webp",
+                  "Activities",
+                  onTap: () {
+                    Get.to(() => MyEventsPage());
+                  },
+                ),
+                _dashboardLabelItem(
+                  "assets/images/profile/icon_sidekick.webp",
+                  "Sidekick",
+                  onTap: () {
+                    Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+                  },
+                ),
+              ],
             ),
+          ),
 
-            ///
-
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 38),
-                    child: Text(
-                      "Trophies",
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-                    ),
+          /// Subscriptions
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 38),
+                  child: Text(
+                    "Subscriptions",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
-                  Obx(() => Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Color(0xff313033),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 6,
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          padding: EdgeInsets.zero,
-                          children: t.vm.value.trophies
-                              .map((e) => ExtendedImage.network(
-                                    e.iconImage,
-                                    width: 36,
-                                    height: 36,
-                                  ))
-                              .toList(),
-                        ),
-                      ))
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+                Obx(() => Container(
+                      width: Get.width,
+                      height: 48,
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: t.vm.value.vips.map((e) => _subscriptionItem(e)).toList(),
+                      ),
+                    ))
+              ],
+            ),
+          ),
+
+          /// Trophies
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 38),
+                  child: Text(
+                    "Trophies",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Obx(() => Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Color(0xff313033),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        crossAxisCount: 6,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        padding: EdgeInsets.zero,
+                        children: t.vm.value.trophies.map((e) {
+                          if (e.lighted) {
+                            return ExtendedImage.network(
+                              e.iconImage,
+                              width: 36,
+                              height: 36,
+                              fit: BoxFit.fitHeight,
+                            );
+                          } else {
+                            return ColorFiltered(
+                              colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
+                              child: ExtendedImage.network(
+                                e.iconImage,
+                                width: 36,
+                                height: 36,
+                              ),
+                            );
+                          }
+                        }).toList(),
+                      ),
+                    ))
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _dashboardLabelItem(String imageName, String title, Function()? onTap) {
+  Widget _dashboardLabelItem(String imageName, String title, {Function()? onTap}) {
     return GestureDetector(
       onTap: () => onTap?.call(),
+      behavior: HitTestBehavior.opaque,
       child: Container(
         alignment: Alignment.center,
         child: Column(
@@ -145,7 +174,7 @@ class ProfileDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget subscriptionItem(VipModel vipModel) {
+  Widget _subscriptionItem(VipModel vipModel) {
     return Container(
       // width: 128.w,
       height: 48,
