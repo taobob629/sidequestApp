@@ -42,6 +42,18 @@ abstract class ProfileApi {
     return response.data;
   }
 
+  /// profile-album  设置背景图
+  static Future setBackground(String photoId) async {
+    var response = await http.get('/peiwan/app/profile/setBackground', queryParameters: {"photoId": photoId});
+    return response.data;
+  }
+
+  /// profile-album  删除图片
+  static Future delPhoto(String photoId) async {
+    var response = await http.post('/peiwan/app/profile/delPhoto/', data: {"id": photoId});
+    return response.data;
+  }
+
   /// vip详情
   static Future getVipDetail() async {
     var response = await http.get('/peiwan/app/profile/vipDetail');

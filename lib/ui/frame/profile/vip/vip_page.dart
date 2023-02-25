@@ -34,7 +34,7 @@ class VipPage extends StatelessWidget {
           SliverAppBar(
             elevation: 0,
             pinned: true,
-            backgroundColor: AppColor.background,
+            // backgroundColor: AppColor.background,
             expandedHeight: Get.width - 100,
             title: Obx(() {
               return Text(
@@ -46,116 +46,107 @@ class VipPage extends StatelessWidget {
             }),
             flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
-                background: Stack(
-                  alignment: AlignmentDirectional.topCenter,
-                  children: [
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      top: 0,
-                      child: Image.asset(
-                        "assets/images/profile/vip_header_bg.webp",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      top: 150,
-                      child: Obx(() {
-                        return Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${controller.vipInfoList[controller.vipIndex.value].name}",
-                            style: TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
-                          ),
-                        );
-                      }),
-                    ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      top: Get.statusBarHeight,
-                      child: Obx(() {
-                        return Swiper(
-                          controller: controller.swiperController,
-                          autoplay: false,
-                          loop: false,
-                          physics: PagePhysics(parent: MyBouncingScrollPhysics()),
-                          index: controller.vipIndex.value,
-                          itemBuilder: (BuildContext context, int index) {
-                            final vipModel = controller.vipInfoList[controller.vipIndex.value];
-                            return Container(
-                              padding: EdgeInsets.symmetric(vertical: 25),
-                              alignment: Alignment.center,
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.name.toLowerCase()}.webp")),
-                                  Positioned(
-                                      top: -10,
-                                      right: 10,
-                                      child: Image.asset(
-                                        "assets/images/profile/huizhang_${vipModel.name.toLowerCase()}.webp",
-                                        height: 93,
-                                      )),
-                                  Positioned(
-                                      left: 15,
-                                      top: 20,
-                                      child: Text(
-                                        "Pre Month",
-                                        style: TextStyle(color: Color(0xFF40280E), fontSize: 16),
-                                      )),
-                                  Positioned(
-                                      left: 15,
-                                      top: 40,
-                                      child: Text(
-                                        vipModel.name.toCapitalize,
-                                        style: TextStyle(color: Color(0xFF40280E), fontSize: 22, fontWeight: FontWeight.bold),
-                                      )),
-                                  Positioned(
-                                      bottom: 14,
-                                      left: 15,
-                                      child: GestureDetector(
-                                        onTap: () => controller.openMonth(),
-                                        child: Container(
-                                            height: 40,
-                                            width: 124,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
-                                            child: Text(
-                                              ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                  ? "Subscribed".tr
-                                                  : "£ ${vipModel.monthFee.toString()} PM",
-                                              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                            )),
-                                      ))
-                                ],
-                              ),
-                            );
-                          },
-                          itemCount: controller.vipInfoList.length,
-                          onIndexChanged: (index) => controller.levelChange(index),
-                          onTap: (index) {
-                            controller.swiperController.move(index);
-                          },
-                        );
-                      }),
-                    ),
-                    Positioned(
+                background: Container(
+                  color: Colors.transparent,
+                  child: Stack(
+                    alignment: AlignmentDirectional.topCenter,
+                    children: [
+                      Positioned(
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        child: ClipPath(
-                          clipper: _BottomPath(),
-                          child: Container(
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: AppColor.background,
+                        top: 0,
+                        child: Image.asset(
+                          "assets/images/profile/vip_header_bg.webp",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        top: 150,
+                        child: Obx(() {
+                          return Container(
+                            alignment: Alignment.center,
+                            color: Colors.black,
+                            child: Text(
+                              controller.vipInfoList.isNotEmpty ? "${controller.vipInfoList[controller.vipIndex.value].name}" : "",
+                              style: TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
                             ),
-                          ),
-                        )),
-                  ],
+                          );
+                        }),
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        top: Get.statusBarHeight,
+                        child: Obx(() {
+                          return Swiper(
+                            controller: controller.swiperController,
+                            autoplay: false,
+                            loop: false,
+                            physics: PagePhysics(parent: MyBouncingScrollPhysics()),
+                            index: controller.vipIndex.value,
+                            itemBuilder: (BuildContext context, int index) {
+                              final vipModel = controller.vipInfoList[controller.vipIndex.value];
+                              return Container(
+                                padding: EdgeInsets.symmetric(vertical: 25),
+                                alignment: Alignment.center,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.name.toLowerCase()}.webp")),
+                                    Positioned(
+                                        top: -10,
+                                        right: 10,
+                                        child: Image.asset(
+                                          "assets/images/profile/huizhang_${vipModel.name.toLowerCase()}.webp",
+                                          height: 93,
+                                        )),
+                                    Positioned(
+                                        left: 15,
+                                        top: 20,
+                                        child: Text(
+                                          "Pre Month",
+                                          style: TextStyle(color: Color(0xFF40280E), fontSize: 16),
+                                        )),
+                                    Positioned(
+                                        left: 15,
+                                        top: 40,
+                                        child: Text(
+                                          vipModel.name.toCapitalize,
+                                          style: TextStyle(color: Color(0xFF40280E), fontSize: 22, fontWeight: FontWeight.bold),
+                                        )),
+                                    Positioned(
+                                        bottom: 14,
+                                        left: 15,
+                                        child: GestureDetector(
+                                          onTap: () => controller.openMonth(),
+                                          child: Container(
+                                              height: 32,
+                                              width: 124,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
+                                              child: Text(
+                                                ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                    ? "Subscribed".tr
+                                                    : "£ ${vipModel.monthFee.toString()} PM",
+                                                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                              )),
+                                        ))
+                                  ],
+                                ),
+                              );
+                            },
+                            itemCount: controller.vipInfoList.length,
+                            onIndexChanged: (index) => controller.levelChange(index),
+                            onTap: (index) {
+                              controller.swiperController.move(index);
+                            },
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
                 )),
           ),
           // SliverToBoxAdapter(
@@ -277,41 +268,6 @@ class _BottomPath extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return true;
   }
-}
-
-class ArcPainter extends CustomPainter {
-  final List<Offset> ballPositions;
-  final Paint _paint;
-  final double _arcWidth;
-
-  ArcPainter({required this.ballPositions, required arcWidth})
-      : _arcWidth = arcWidth,
-        _paint = Paint()
-          ..color = Colors.blue
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = arcWidth;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final centerX = size.width / 2;
-    final centerY = size.height / 2;
-    final radius = min(centerX, centerY) - (_arcWidth / 2);
-
-    final rect = Rect.fromCircle(center: Offset(centerX, centerY), radius: radius);
-    canvas.drawArc(rect, pi, pi, false, _paint);
-
-    final anglePerSection = pi / 5;
-    for (var i = 0; i < 5; i++) {
-      final angle = pi + anglePerSection * i;
-      final ballX = centerX + cos(angle) * radius;
-      final ballY = centerY + sin(angle) * radius;
-      canvas.drawCircle(Offset(ballX, ballY), _arcWidth / 2, Paint()..color = Colors.red);
-      ballPositions.add(Offset(ballX, ballY));
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
 class VipPageController extends GetxController {

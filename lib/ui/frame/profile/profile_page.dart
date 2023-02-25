@@ -8,6 +8,7 @@ import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
+import 'package:wy/utils/index.dart';
 
 import 'profile_album_page.dart';
 import 'profile_dashboard_page.dart';
@@ -25,175 +26,186 @@ class ProfilePage extends StatelessWidget {
           Container(
             height: 215,
             width: double.infinity,
-            padding: EdgeInsets.only(left: 20),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/profile/profile_head_bg.webp"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              fit: StackFit.expand,
               children: [
-                SafeArea(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() => SettingsPage());
-                    },
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(right: 40),
-                      child: Image.asset(
-                        "assets/images/profile_setting.webp",
-                        width: 26,
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  child: Row(
+                Obx(() => ExtendedImage.network(
+                      t.background.value,
+                      fit: BoxFit.cover,
+                      loadStateChanged: (state) {
+                        if (state.extendedImageLoadState == LoadState.failed) {
+                          return ExtendedImage.asset("assets/images/profile/profile_head_bg.webp");
+                        }
+                        return null;
+                      },
+                    )),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, bottom: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
+                      SafeArea(
                         child: GestureDetector(
-                          onTap: t.goDev,
+                          onTap: () {
+                            Get.to(() => SettingsPage());
+                          },
                           child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// nickname
-                                Obx(() => Text(
-                                      t.vm.value.nickName,
-                                      style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
-                                    )),
-
-                                /// labels: sex、language、location
-                                Obx(() => Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 5),
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: 16.h,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(3),
-                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                  Color(0xFF1F84C9),
-                                                  Color(0xFF7CB9D5),
-                                                ])),
-                                            child: Row(
-                                              children: [
-                                                if (t.vm.value.gender != 2)
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 3),
-                                                    child: Image.asset(
-                                                      "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
-                                                      width: 8,
-                                                    ),
-                                                  ),
-                                                Text(
-                                                  "${t.vm.value.age}",
-                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 5),
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: 16.h,
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  t.vm.value.language,
-                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 5),
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: 16.h,
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/profile/icon_dibiao.webp",
-                                                  width: 8,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  t.vm.value.country.country,
-                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-
-                                /// email
-                                Obx(() => Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 15),
-                                            child: Text(
-                                              "ID:${t.vm.value.uk}",
-                                              style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          // Text(
-                                          //   t.vm.value.email,
-                                          //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                          // )
-                                        ],
-                                      ),
-                                    )),
-                              ],
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.only(right: 40),
+                            child: Image.asset(
+                              "assets/images/profile_setting.webp",
+                              width: 26,
                             ),
                           ),
                         ),
                       ),
+                      Spacer(),
                       Container(
-                        margin: EdgeInsets.only(right: 25),
-                        child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                          Obx(() => Container(
-                                height: 64,
-                                alignment: Alignment.bottomCenter,
-                                child: ClipOval(
-                                  child: ExtendedImage.network(
-                                    t.vm.value.avatar,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: t.goDev,
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      /// nickname
+                                      Obx(() => Text(
+                                            t.vm.value.nickName,
+                                            style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
+                                          )),
+
+                                      /// labels: sex、language、location
+                                      Obx(() => Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                                  margin: EdgeInsets.only(right: 10),
+                                                  height: 16.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(3),
+                                                      gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                                        Color(0xFF1F84C9),
+                                                        Color(0xFF7CB9D5),
+                                                      ])),
+                                                  child: Row(
+                                                    children: [
+                                                      if (t.vm.value.gender != 2)
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right: 3),
+                                                          child: Image.asset(
+                                                            "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
+                                                            width: 8,
+                                                          ),
+                                                        ),
+                                                      Text(
+                                                        "${t.vm.value.age}",
+                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                                  margin: EdgeInsets.only(right: 10),
+                                                  height: 16.h,
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        t.vm.value.language,
+                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                                  margin: EdgeInsets.only(right: 10),
+                                                  height: 16.h,
+                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/images/profile/icon_dibiao.webp",
+                                                        width: 8,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        t.vm.value.country.country,
+                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+
+                                      /// email
+                                      Obx(() => Padding(
+                                            padding: const EdgeInsets.only(top: 8),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 15),
+                                                  child: Text(
+                                                    "ID:${t.vm.value.uk}",
+                                                    style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
+                                                  ),
+                                                ),
+                                                // Text(
+                                                //   t.vm.value.email,
+                                                //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
+                                                // )
+                                              ],
+                                            ),
+                                          )),
+                                    ],
                                   ),
                                 ),
-                              )),
-                          Image.asset(
-                            "assets/images/profile_avatar_border.webp",
-                            width: 64,
-                          ),
-                          Obx(() => Visibility(
-                                visible: t.vm.value.vipLevel < 5,
-                                child: Positioned(
-                                    bottom: -10,
-                                    child: Image.asset(
-                                      "assets/images/profile/icon_level_${t.vm.value.vipLevel == 0 ? 5 : t.vm.value.vipLevel}.webp",
-                                      height: 28,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 25),
+                              child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
+                                Obx(() => Container(
+                                      height: 64,
+                                      alignment: Alignment.bottomCenter,
+                                      child: ClipOval(
+                                        child: ExtendedImage.network(
+                                          t.vm.value.avatar,
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     )),
-                              )),
-                        ]),
-                      )
+                                Image.asset(
+                                  "assets/images/profile_avatar_border.webp",
+                                  width: 64,
+                                ),
+                                Obx(() => Visibility(
+                                      visible: t.vm.value.vipLevel < 5,
+                                      child: Positioned(
+                                          bottom: -10,
+                                          child: Image.asset(
+                                            "assets/images/profile/icon_level_${t.vm.value.vipLevel == 0 ? 5 : t.vm.value.vipLevel}.webp",
+                                            height: 28,
+                                          )),
+                                    )),
+                              ]),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -203,6 +215,7 @@ class ProfilePage extends StatelessWidget {
           Divider(
             indent: 20,
             endIndent: 20,
+            height: 1,
             color: Color(0xff262731),
           ),
 
@@ -210,7 +223,7 @@ class ProfilePage extends StatelessWidget {
           Obx(
             () => Container(
               height: 44,
-              padding: const EdgeInsets.only(top: 5, left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -242,6 +255,7 @@ class ProfilePage extends StatelessWidget {
           Divider(
             indent: 20,
             endIndent: 20,
+            height: 1,
             color: Color(0xff262731),
           ),
 
@@ -307,12 +321,14 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
   late TabController tabController;
   final vm = ProfileModel().obs;
+  final background = "".obs;
 
   int devCount = 0;
   @override
   void onInit() {
     super.onInit();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    background.value = StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
     getProfileInfo();
   }
 

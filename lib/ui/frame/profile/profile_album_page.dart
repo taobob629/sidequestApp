@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/profile_api.dart';
+import 'package:wy/ui/frame/profile/profile_page.dart';
+import 'package:wy/utils/index.dart';
 
 import 'model/album_item_model.dart';
 
@@ -45,16 +47,146 @@ class ProfileAlbumPage extends StatelessWidget {
                   ),
                 );
               }
-              return Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(11)),
-                clipBehavior: Clip.antiAlias,
-                child: ExtendedImage.network(
-                  t.list[index].thumb,
-                  fit: BoxFit.fill,
+              return GestureDetector(
+                onTap: () {
+                  Get.to(() => PhotoViewPage(photoUrl: t.list[index].thumb));
+                },
+                onLongPress: () {
+                  Get.bottomSheet(
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFF262731)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                                t.setBackground(t.list[index]);
+                              },
+                              child: Container(
+                                height: 52,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Set as background picture",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              color: Color(0xFF2D2E3A),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                height: 52,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Block Picture",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              color: Color(0xFF2D2E3A),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                                t.delPhoto(t.list[index]);
+                              },
+                              child: Container(
+                                height: 52,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Delete Picture",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 10,
+                              color: Color(0xFF2D2E3A),
+                            ),
+                            SafeArea(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Container(
+                                  height: 52,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(fontSize: 16, color: Color(0xFFFFD20E)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ignoreSafeArea: true);
+                },
+                child: Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11)),
+                  clipBehavior: Clip.antiAlias,
+                  child: ExtendedImage.network(
+                    t.list[index].thumb,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               );
             },
           )),
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class PhotoViewPage extends StatelessWidget {
+  const PhotoViewPage({Key? key, required this.photoUrl}) : super(key: key);
+  final String photoUrl;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Photo"),
+      ),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: ExtendedImage.network(
+            photoUrl,
+            fit: BoxFit.fitWidth,
+            mode: ExtendedImageMode.gesture,
+            initGestureConfigHandler: (state) {
+              return GestureConfig(
+                minScale: 0.5,
+                animationMinScale: 0.5,
+                maxScale: 3.0,
+                animationMaxScale: 3.5,
+                speed: 1.0,
+                inertialSpeed: 100.0,
+                initialScale: 1.0,
+                inPageView: false,
+                initialAlignment: InitialAlignment.center,
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -96,6 +228,22 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
   getPostList() {
     ProfileApi.getPhotoList().then((value) {
       list.value = value;
+    });
+  }
+
+  setBackground(AlbumItemModel model) {
+    ProfileApi.setBackground(model.id).then((value) {
+      // list.value = value;
+      StorageManager.sharedPreferences.setString("ProfileBackground", model.thumb);
+      ProfileController.find.background.value = model.thumb;
+    });
+  }
+
+  delPhoto(AlbumItemModel model) {
+    ProfileApi.delPhoto(model.id).then((value) {
+      getPostList();
+      // StorageManager.sharedPreferences.setString("ProfileBackground", model.thumb);
+      // ProfileController.find.background.value = model.thumb;
     });
   }
 
