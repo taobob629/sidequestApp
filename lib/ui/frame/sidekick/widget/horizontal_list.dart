@@ -81,6 +81,15 @@ class HorizontalGameListWidget extends StatelessWidget {
     for (int i = 0; i < controller.gameList.length; i++) {
       list.add(buildItemWidget(i));
     }
+    var moreBtn = IconButton(
+        padding: EdgeInsets.only(left: 20, right: 20).w,
+        onPressed: () => controller.toGameListPage(),
+        icon: Icon(
+          Icons.add,
+          color: Colors.white54,
+          size: 40,
+        ));
+    list.add(moreBtn);
     return list;
   }
 
@@ -114,7 +123,7 @@ class HorizontalGameListWidget extends StatelessWidget {
       child: Obx(() => Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w),
             width: controller.currentSelectIndex == index ? 100.w : 76.w,
-            padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 2),
+            padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 2.w),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(10)).w,
               child: ImageUtil.networkImage(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/model/game_service_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/utils/utils.dart';
 
 /*
@@ -53,5 +54,6 @@ class MoreGamesPageController extends GetxController
       gameInfo.changeFocus();
     }
     EasyLoading.dismiss();
+    Get.find<SideKickController>().initMyGames();
   }
 }

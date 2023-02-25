@@ -13,19 +13,7 @@ class EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ImageUtil.assetImage('ic_dialog', width: 100, height: 100),
-          40.verticalSpace,
-          Container(
-            child: Text(
-              'no data'.tr,
-              style: PageStyle.labelStyle,
-            ),
-          ),
-        ],
-      ),
+      child: ImageUtil.assetImage('empty', width: 115.w, height: 115.w),
     );
   }
 }

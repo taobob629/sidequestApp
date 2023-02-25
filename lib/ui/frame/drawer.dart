@@ -17,6 +17,7 @@ import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/home/view.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
@@ -157,6 +158,7 @@ class HomeDrawer extends StatelessWidget {
         style: PageStyle.ts_FFFFFF_16sp,
       ),
       dense: true,
+      onTap: ()=>Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
       subtitle: Text(
         'View profile',
         style: TextStyle(fontSize: 12.sp, color: AppColor.textC5C5),
@@ -164,7 +166,7 @@ class HomeDrawer extends StatelessWidget {
       trailing: ClickIcon(
         icon: Icons.arrow_forward_ios,
         size: 13.0,
-        onTap: () => EasyLoading.showToast('12112'),
+        onTap: () =>Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
       ),
     );
   }
