@@ -38,23 +38,20 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
     return ScaffoldWidget(
       body: Obx(() => SmartRefresher(
           controller: controller.refreshController,
-          onRefresh: controller.refresh,
+          onRefresh: controller.onRefresh,
           onLoading: controller.loadMore,
           enablePullUp: true,
           child: controller.initializing.value
               ? Container()
               : controller.list.length == 0
                   ? Stack(
-                      children: [
-                        Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
-                      ],
+                      children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate:
-                                  SliverChildBuilderDelegate((BuildContext context, int index) {
+                              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                             if (index.isOdd) {
                               return Divider(
                                 color: Colors.white24,
@@ -62,13 +59,14 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                             }
                             CoinRecordsModel model = controller.list[index ~/ 2];
                             return InkWell(
-                              onTap: (){
-                                if( model.actionid!<=0){
+                              onTap: () {
+                                if (model.actionid! <= 0) {
                                   return;
                                 }
                                 Get.to(() => OrderDetail(orderId: model.actionid!));
                               },
-                              child: recordItem(model),);
+                              child: recordItem(model),
+                            );
                           }, childCount: controller.list.length * 2 - 1));
                         })
                       ],
@@ -120,14 +118,10 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                 children: [
                   Text(
                     "${model.total!.isNegative ? '' : '+'}${model.total}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: model.total?.isNegative == false ? Colors.green : Color(0xFFFFA900)),
+                    style: TextStyle(fontSize: 16, color: model.total?.isNegative == false ? Colors.green : Color(0xFFFFA900)),
                   ),
                   PWidget.boxw(3),
-                  PWidget.image(
-                      'assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp',
-                      [16, 16, null, BoxFit.cover]),
+                  PWidget.image('assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp', [16, 16, null, BoxFit.cover]),
                 ],
               ),
               PWidget.boxh(10),
@@ -139,9 +133,7 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                     style: TextStyle(fontSize: 14, color: Colors.white54),
                   ),
                   PWidget.boxw(3),
-                  PWidget.image(
-                      'assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp',
-                      [16, 16, null, BoxFit.cover]),
+                  PWidget.image('assets/images/${type == TYPE_COIN ? 'ic_balance_money' : 'ic_balance_votes'}.webp', [16, 16, null, BoxFit.cover]),
                 ],
               ),
             ],

@@ -119,19 +119,35 @@ class VipPage extends StatelessWidget {
                                     Positioned(
                                         bottom: 14,
                                         left: 15,
-                                        child: GestureDetector(
-                                          onTap: () => controller.openMonth(),
+                                        child: Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () => controller.openMonth(),
+                                              child: Container(
+                                                  height: 32,
+                                                  width: 124,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
+                                                  child: Text(
+                                                    ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                        ? "Subscribed".tr
+                                                        : "£ ${vipModel.monthFee.toString()} PM",
+                                                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                                  )),
+                                            ),
+                                          ],
+                                        )),
+                                    Positioned(
+                                        right: 12,
+                                        bottom: 20,
+                                        child: Visibility(
+                                          visible: ProfileController.find.vm.value.vipLevel == controller.vipInfoList[controller.vipIndex.value].level,
                                           child: Container(
-                                              height: 32,
-                                              width: 124,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
-                                              child: Text(
-                                                ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                    ? "Subscribed".tr
-                                                    : "£ ${vipModel.monthFee.toString()} PM",
-                                                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                              )),
+                                            child: Text(
+                                              "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
+                                              style: TextStyle(color: Color(0xFF40280E), fontSize: 14, fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
                                         ))
                                   ],
                                 ),

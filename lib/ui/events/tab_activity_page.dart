@@ -8,39 +8,32 @@ import 'package:wy/ui/common/activity_item.dart';
 import 'package:wy/ui/common/empty_view.dart';
 
 class TabActivityPage extends StatelessWidget {
-
   final controller = Get.put(TabActivityPageController());
 
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.refresh,
-      onLoading: controller.loadMore,
-      enablePullUp: true,
-      child: CustomScrollView(
-        slivers: [
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                  ActivityItemModel activity = controller.list[index];
-                  return ActivityItem(model: activity,);
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    );
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.loadMore,
+        enablePullUp: true,
+        child: CustomScrollView(
+          slivers: [
+            Obx(() {
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                ActivityItemModel activity = controller.list[index];
+                return ActivityItem(
+                  model: activity,
+                );
+              }, childCount: controller.list.length));
+            })
+          ],
+        ));
   }
-
-
 }
 
 class TabActivityPageController extends GetxRefreshController<ActivityItemModel> {
-
   @override
   void onInit() {
     super.onInit();

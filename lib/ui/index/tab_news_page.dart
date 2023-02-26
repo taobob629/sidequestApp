@@ -9,48 +9,41 @@ import 'package:wy/ui/common/news_item.dart';
 import 'package:wy/model/banner_model.dart' as custom;
 
 class TabNewsPage extends StatelessWidget {
-
   final controller = Get.put(TabNewsPageController());
 
   @override
   Widget build(BuildContext context) {
-    double height = (MediaQuery
-      .of(context)
-      .size
-      .width - 30) * 19 / 34;
+    double height = (MediaQuery.of(context).size.width - 30) * 19 / 34;
     return SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.refresh,
-      onLoading: controller.loadMore,
-      enablePullUp: true,
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.transparent,
-            expandedHeight: height,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Obx(()=>controller.banners.isEmpty ? Container():BannerView(banners: controller.banners,))
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.loadMore,
+        enablePullUp: true,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+              expandedHeight: height,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: Obx(() => controller.banners.isEmpty
+                      ? Container()
+                      : BannerView(
+                          banners: controller.banners,
+                        ))),
             ),
-          ),
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    NewsItemModel item = controller.list[index];
-                  return NewsItem(item);
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    );
+            Obx(() {
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                NewsItemModel item = controller.list[index];
+                return NewsItem(item);
+              }, childCount: controller.list.length));
+            })
+          ],
+        ));
   }
 }
 
 class TabNewsPageController extends GetxRefreshController<NewsItemModel> {
-
   RxList<custom.BannerModel> banners = RxList();
 
   @override
@@ -60,23 +53,23 @@ class TabNewsPageController extends GetxRefreshController<NewsItemModel> {
   }
 
   @override
-  void onReady() async{
+  void onReady() async {
     super.onReady();
   }
 
-  Future<void> _loadBanner() async{
+  Future<void> _loadBanner() async {
     List<custom.BannerModel> bannerList = await IndexApi.getBanners(6);
-    if(bannerList.isNotEmpty) {
+    if (bannerList.isNotEmpty) {
       banners.clear();
       banners.addAll(bannerList);
     }
   }
 
   Future<List<NewsItemModel>> loadData({int pageNum = 1}) async {
-    if(pageNum == 1){
+    if (pageNum == 1) {
       _loadBanner();
     }
-    List<NewsItemModel> list = await IndexApi.getNews(pageNum,pageSize);
+    List<NewsItemModel> list = await IndexApi.getNews(pageNum, pageSize);
     return list;
   }
 }

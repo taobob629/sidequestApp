@@ -22,58 +22,43 @@ import 'package:wy/utils/utils.dart';
 import '../../common/dialog_confirm.dart';
 
 class JoinTeamPage extends StatelessWidget {
-
   late final String banner;
 
   late final bool create;
 
   late final JoinTeamPageController controller;
 
-  JoinTeamPage({required this.create, required this.banner, required int id, required List<LocationModel> location}){
-    controller = Get.put(JoinTeamPageController(id:id, create: create, location: location));
+  JoinTeamPage({required this.create, required this.banner, required int id, required List<LocationModel> location}) {
+    controller = Get.put(JoinTeamPageController(id: id, create: create, location: location));
   }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: create ? "Make a team".tr : "Join a team".tr,
+        title: create ? "Make a team".tr : "Join a team".tr,
         body: SingleChildScrollView(
           child: Stack(
             children: [_buildShadow(), _buildContent(context), _buildDashLine(), _buildHoleShadow(), _buildHole()],
           ),
         ),
-      floatingActionButton: FloatingButton(
-          label: "CONFIRM".tr, onTap: () => controller.join())
+        floatingActionButton: FloatingButton(label: "CONFIRM".tr, onTap: () => controller.join()));
+  }
+
+  Widget _buildShadow() {
+    return Container(
+      margin: const EdgeInsets.only(left: 15, right: 15, top: 0),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.4, 0.8], colors: [Color(0xff323232), Colors.transparent]),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
     );
   }
 
-  Widget _buildShadow(){
+  Widget _buildContent(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 15,right: 15,top: 0),
+      margin: const EdgeInsets.only(left: 16, right: 16, top: 1),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.4,0.8],
-          colors: [Color(0xff323232),Colors.transparent]
-        ),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15))
-      ),
-    );
-  }
-
-  Widget _buildContent(BuildContext context){
-    return Container(
-      margin: const EdgeInsets.only(left: 16,right: 16,top: 1),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.4,0.8],
-          colors: [Color(0xff28263c),AppColor.background]
-        ),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15))
-      ),
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.4, 0.8], colors: [Color(0xff28263c), AppColor.background]),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +71,8 @@ class JoinTeamPage extends StatelessWidget {
                 return LinearGradient(
                   begin: Alignment.center,
                   end: Alignment.bottomCenter,
-                  stops: [0.2,1],
-                  colors: [Colors.transparent,Colors.black],
+                  stops: [0.2, 1],
+                  colors: [Colors.transparent, Colors.black],
                 ).createShader(bounds);
               },
               blendMode: BlendMode.dstOut,
@@ -127,8 +112,7 @@ class JoinTeamPage extends StatelessWidget {
             maxLength: 20,
             controller: controller.tagController,
           ),
-          Obx(
-              ()=>Offstage(
+          Obx(() => Offstage(
                 offstage: controller.location.length == 0,
                 child: SelectView(
                   label: "LOCATION".tr,
@@ -142,9 +126,10 @@ class JoinTeamPage extends StatelessWidget {
                     }
                   },
                 ),
-              )
+              )),
+          SizedBox(
+            height: 10,
           ),
-          SizedBox(height: 10,),
           Offstage(
             offstage: true,
             child: Container(
@@ -185,67 +170,69 @@ class JoinTeamPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDashLine(){
+  Widget _buildDashLine() {
     return Positioned(
       left: 35,
       right: 35,
       top: 120,
-      child: _DashedLine(width: 10, count: 20, color: Color(0xFF0D0C1D),),
+      child: _DashedLine(
+        width: 10,
+        count: 20,
+        color: Color(0xFF0D0C1D),
+      ),
     );
   }
 
-  Widget _buildHoleShadow(){
+  Widget _buildHoleShadow() {
     return Positioned(
-      left: 0,
-      right: 0,
-      top: 105,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ClipPath(
-            clipper: _LeftHalfPath(),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundColor: Color(0xff323232),
+        left: 0,
+        right: 0,
+        top: 105,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ClipPath(
+              clipper: _LeftHalfPath(),
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Color(0xff323232),
+              ),
             ),
-          ),
-          ClipPath(
-            clipper: _RightHalfPath(),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundColor: Color(0xff323232),
-            ),
-          )
-        ],
-      )
-    );
+            ClipPath(
+              clipper: _RightHalfPath(),
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Color(0xff323232),
+              ),
+            )
+          ],
+        ));
   }
 
-  Widget _buildHole(){
+  Widget _buildHole() {
     return Positioned(
-      left: 0,
-      right: 0,
-      top: 105.5,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ClipPath(
-            clipper: _LeftHalfPath(),
-            child: CircleAvatar(
-              radius: 14.5,
-              backgroundColor: AppColor.background,
+        left: 0,
+        right: 0,
+        top: 105.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ClipPath(
+              clipper: _LeftHalfPath(),
+              child: CircleAvatar(
+                radius: 14.5,
+                backgroundColor: AppColor.background,
+              ),
             ),
-          ),
-          ClipPath(
-            clipper: _RightHalfPath(),
-            child: CircleAvatar(
-              radius: 14.5,
-              backgroundColor: AppColor.background,
-            ),
-          )
-        ],
-      )
-    );
+            ClipPath(
+              clipper: _RightHalfPath(),
+              child: CircleAvatar(
+                radius: 14.5,
+                backgroundColor: AppColor.background,
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -253,8 +240,8 @@ class _LeftHalfPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.moveTo(size.width/2, 0);//x,y坐标
-    path.lineTo(size.width/2, size.height);
+    path.moveTo(size.width / 2, 0); //x,y坐标
+    path.lineTo(size.width / 2, size.height);
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0);
     return path;
@@ -270,8 +257,8 @@ class _RightHalfPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.moveTo(size.width/2, 0);//x,y坐标
-    path.lineTo(size.width/2, size.height);
+    path.moveTo(size.width / 2, 0); //x,y坐标
+    path.lineTo(size.width / 2, size.height);
     path.lineTo(0, size.height);
     path.lineTo(0, 0);
     return path;
@@ -284,29 +271,23 @@ class _RightHalfPath extends CustomClipper<Path> {
 }
 
 class _DashedLine extends StatelessWidget {
-  final Axis axis;// 方向
-  final double width;//宽度
-  final double height;//高度
-  final int count;// 个数，密度
+  final Axis axis; // 方向
+  final double width; //宽度
+  final double height; //高度
+  final int count; // 个数，密度
   final Color color;
-  _DashedLine({
-    this.axis = Axis.horizontal,
-    this.width = 1,
-    this.height = 1,
-    this.count = 10,
-    this.color = Colors.black
-  });
+  _DashedLine({this.axis = Axis.horizontal, this.width = 1, this.height = 1, this.count = 10, this.color = Colors.black});
   @override
   Widget build(BuildContext context) {
     return Flex(
       direction: axis,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-      children: List.generate(count, (_){
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(count, (_) {
         return SizedBox(
           width: width,
           height: height,
           child: DecoratedBox(
-            decoration: BoxDecoration(color: color,borderRadius: BorderRadius.circular(width)),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(width)),
           ),
         );
       }),
@@ -330,9 +311,9 @@ class JoinTeamPageController extends GetxController {
 
   var genPasscode = "".obs;
 
-  JoinTeamPageController({required this.id, required this.create, required List<LocationModel> location}){
+  JoinTeamPageController({required this.id, required this.create, required List<LocationModel> location}) {
     this.location.addAll(location);
-    if(create) {
+    if (create) {
       selectLocation.value = location[0];
     }
   }
@@ -340,11 +321,10 @@ class JoinTeamPageController extends GetxController {
   final _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   Random _rnd = Random();
 
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     controller = PrivacyCheckController();
     nameController = TextEditingController();
@@ -354,7 +334,7 @@ class JoinTeamPageController extends GetxController {
   }
 
   @override
-  void onClose(){
+  void onClose() {
     controller.dispose();
     nameController.dispose();
     codeController.dispose();
@@ -370,22 +350,22 @@ class JoinTeamPageController extends GetxController {
       genPasscode.value = getRandomString(4);
     }
   }
-    
-  void copy(){
+
+  void copy() {
     Clipboard.setData(ClipboardData(text: genPasscode.value));
     EasyLoading.showToast("The team passcode copied, you can send it to your team members.".tr);
   }
 
-  void join() async{
+  void join() async {
     String name = nameController.text;
     String code = codeController.text;
 
-    if(create) {
+    if (create) {
       if (name.isEmpty) {
         EasyLoading.showToast("Please input your team name".tr);
         return;
       }
-    }else{
+    } else {
       if (code.length != 4) {
         EasyLoading.showToast("Please input correct team passcode".tr);
         return;
@@ -393,22 +373,22 @@ class JoinTeamPageController extends GetxController {
     }
 
     String role = roleController.text;
-    if(role.isEmpty){
+    if (role.isEmpty) {
       EasyLoading.showToast("Please input your playing role".tr);
       return;
     }
 
     String tag = tagController.text;
-    if(tag.isEmpty){
+    if (tag.isEmpty) {
       EasyLoading.showToast("Please input your discord tag".tr);
       return;
     }
     EasyLoading.show();
-    if(create) {
+    if (create) {
       int code = await EventsApi.createTeam(id, name, genPasscode.value, role, tag, selectLocation.value.id);
       EasyLoading.dismiss();
-      Get.dialog(PasscodeDialog(passcode: code),barrierColor: Colors.black26).whenComplete(() => Get.off(()=>TeamPage(eventId: id)));
-    }else{
+      Get.dialog(PasscodeDialog(passcode: code), barrierColor: Colors.black26).whenComplete(() => Get.off(() => TeamPage(eventId: id)));
+    } else {
       await EventsApi.joinTeam(id, code, role, tag);
       EasyLoading.dismiss();
       Get.dialog(
@@ -418,13 +398,11 @@ class JoinTeamPageController extends GetxController {
             onConfirm: () {
               Get.back();
               Get.back();
-              Get.find<EventPageController>().refresh();
+              Get.find<EventPageController>().onRefresh();
             },
           ),
           barrierColor: Colors.black26);
       //Get.back();
     }
-
   }
-  
 }

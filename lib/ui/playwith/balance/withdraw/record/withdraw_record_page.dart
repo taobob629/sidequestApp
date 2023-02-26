@@ -38,7 +38,7 @@ class WithDrawRecordPage extends StatelessWidget {
     return ScaffoldWidget(
       body: Obx(() => SmartRefresher(
           controller: controller.refreshController,
-          onRefresh: controller.refresh,
+          onRefresh: controller.onRefresh,
           onLoading: controller.loadMore,
           enablePullUp: true,
           child: controller.initializing.value

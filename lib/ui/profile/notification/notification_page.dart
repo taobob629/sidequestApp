@@ -11,41 +11,40 @@ import 'package:wy/ui/common/empty_view.dart';
 import 'notification_item.dart';
 
 class NotificationPage extends StatelessWidget {
-
   final controller = Get.put(NotificationPageController());
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Notifications".tr,
+        title: "Notifications".tr,
         body: Obx(() => SmartRefresher(
               controller: controller.refreshController,
-              onRefresh: controller.refresh,
+              onRefresh: controller.onRefresh,
               onLoading: controller.loadMore,
               enablePullUp: true,
               child: controller.initializing.value
                   ? Container()
                   : controller.list.length == 0
                       ? Stack(
-                          children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView()
-            )
-          ],
-        ) :ListView.separated(
-          itemBuilder: (context, index){
-            return NotificationItem(model: controller.list[index],);
-          },
-          separatorBuilder: (context, index){
-            return Container(height: 15,);
-          },
-          itemCount: controller.list.length
-        ),
-      ))
-    );
+                          children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
+                        )
+                      : ListView.separated(
+                          itemBuilder: (context, index) {
+                            return NotificationItem(
+                              model: controller.list[index],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Container(
+                              height: 15,
+                            );
+                          },
+                          itemCount: controller.list.length),
+            )));
   }
 }
 
 class NotificationPageController extends GetxRefreshController<NotificationModel> {
-
   @override
   void onInit() {
     this.initialRefresh = true;
@@ -59,7 +58,6 @@ class NotificationPageController extends GetxRefreshController<NotificationModel
   }
 
   Future<List<NotificationModel>> loadData({int pageNum = 1}) async {
-
     List<NotificationModel> list = await NotificationApi.list(pageNum, pageSize);
 
     return list;

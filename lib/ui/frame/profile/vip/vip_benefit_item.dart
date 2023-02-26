@@ -47,7 +47,7 @@ class VipBenefitItem extends StatelessWidget {
           ExpansionTileWidget(
             title: Row(children: [
               Image.asset(
-                "assets/images/profile/benefit_type_${model.iconType}.webp",
+                model.iconName,
                 width: 21,
                 height: 21,
                 fit: BoxFit.contain,

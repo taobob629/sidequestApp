@@ -60,15 +60,12 @@ class EventPage extends StatelessWidget {
                           image: controller.eventDetailModel.value.image,
                         ));
             }),
-            SliverPersistentHeader(
-                pinned: true,
-                delegate: _StickyTabBarDelegate(child: _buildTabBar())),
+            SliverPersistentHeader(pinned: true, delegate: _StickyTabBarDelegate(child: _buildTabBar())),
           ];
         },
         body: Container(
           padding: const EdgeInsets.only(top: 1),
-          child: TabBarView(
-              controller: controller.tabController, children: createPages()),
+          child: TabBarView(controller: controller.tabController, children: createPages()),
         ),
       ),
       floatingActionButton: Obx(() => _buildBtn(context)),
@@ -77,9 +74,7 @@ class EventPage extends StatelessWidget {
   }
 
   Widget _buildBtn(BuildContext context) {
-    if (!joined &&
-        !controller.eventDetailModel.value.canJoin &&
-        !controller.eventDetailModel.value.canCancel) {
+    if (!joined && !controller.eventDetailModel.value.canJoin && !controller.eventDetailModel.value.canCancel) {
       return Container();
     }
     if (controller.type == 1) {
@@ -94,9 +89,7 @@ class EventPage extends StatelessWidget {
                 )),
           ),
           height: 48,
-          onTap: () => controller.eventDetailModel.value.canCancel
-              ? controller.cancelActivity()
-              : controller.joinActivity(context),
+          onTap: () => controller.eventDetailModel.value.canCancel ? controller.cancelActivity() : controller.joinActivity(context),
         ),
       );
     } else {
@@ -108,14 +101,12 @@ class EventPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Obx(() => Text(
-                controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
+                    controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
                     style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
                   )),
             ),
             height: 48,
-            onTap: () => controller.eventDetailModel.value.canCancel
-                ? controller.cancelActivity()
-                : controller.joinMatch(context),
+            onTap: () => controller.eventDetailModel.value.canCancel ? controller.cancelActivity() : controller.joinMatch(context),
           ),
         );
       } else {
@@ -150,10 +141,8 @@ class EventPage extends StatelessWidget {
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.only(bottom: 2),
                     labelPadding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
-                    labelStyle:
-                        const TextStyle(fontSize: 18, fontFamily: "din"),
-                    unselectedLabelStyle:
-                        const TextStyle(fontSize: 18, fontFamily: "din"),
+                    labelStyle: const TextStyle(fontSize: 18, fontFamily: "din"),
+                    unselectedLabelStyle: const TextStyle(fontSize: 18, fontFamily: "din"),
                     tabs: createTabs(),
                   )
                 ]),
@@ -194,8 +183,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   _StickyTabBarDelegate({required this.child});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return this.child;
   }
 
@@ -211,8 +199,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class EventPageController extends GetxController
-    with SingleGetTickerProviderMixin {
+class EventPageController extends GetxController with SingleGetTickerProviderMixin {
   late TabController tabController;
 
   late ScrollController scrollController;
@@ -254,8 +241,7 @@ class EventPageController extends GetxController
       }
     });
     initData();
-    tabController =
-        TabController(length: tabs.length, initialIndex: 0, vsync: this);
+    tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -271,7 +257,7 @@ class EventPageController extends GetxController
     super.onClose();
   }
 
-  Future<void> refresh() async {
+  Future<void> onRefresh() async {
     if (type == 1) {
       eventDetailModel.value = await EventsApi.getActivityDetail(id);
     } else {
@@ -301,7 +287,7 @@ class EventPageController extends GetxController
       if (eventDetailModel.value.matchDiff == 5) {
         var res = await showSheet(
             builder: (_) => EventSelectoWidget(
-              'Choose a Store'.tr,
+                  'Choose a Store'.tr,
                   selectorList: eventDetailModel.value.location,
                 ));
         if (res != null) {
@@ -312,13 +298,10 @@ class EventPageController extends GetxController
           var dateTime = timeSplit.join(':');
           checkFee(() async {
             EasyLoading.show();
-            await EventsApi.joinActivity(eventDetailModel.value.id,
-                userController.user.value.id, store.id,
-                cupsleeve: dateTime);
+            await EventsApi.joinActivity(eventDetailModel.value.id, userController.user.value.id, store.id, cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
-            Get.dialog(
-                ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+            Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
           });
         }
       } else {
@@ -332,12 +315,10 @@ class EventPageController extends GetxController
           LocationModel store = item as LocationModel;
           checkFee(() async {
             EasyLoading.show();
-            await EventsApi.joinActivity(eventDetailModel.value.id,
-                userController.user.value.id, store.id);
+            await EventsApi.joinActivity(eventDetailModel.value.id, userController.user.value.id, store.id);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
-            Get.dialog(
-                ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+            Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
           });
         }
       }
@@ -347,7 +328,7 @@ class EventPageController extends GetxController
   cancelActivity() async {
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
-    refresh();
+    onRefresh();
     Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr), barrierColor: Colors.black26);
     EasyLoading.dismiss();
   }
@@ -364,12 +345,10 @@ class EventPageController extends GetxController
         LocationModel store = item as LocationModel;
         checkFee(() async {
           EasyLoading.show();
-          await EventsApi.joinMatch(eventDetailModel.value.id,
-              userController.user.value.id, store.id);
+          await EventsApi.joinMatch(eventDetailModel.value.id, userController.user.value.id, store.id);
           eventDetailModel.value.canCancel = true;
           EasyLoading.dismiss();
-          Get.dialog(
-              ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+          Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
         });
       }
     });

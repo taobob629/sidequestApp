@@ -12,6 +12,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/events/events_page.dart';
 import 'package:wy/ui/frame/social/controller.dart';
+import 'package:wy/ui/frame/social/post/page/post_list_page.dart';
 import 'package:wy/widget/tab_widget.dart';
 
 import 'activity/view.dart';
@@ -44,7 +45,8 @@ class _State extends State<SocialPage> with SingleTickerProviderStateMixin {
             tabController: controller.tabbarController,
             tabList: controller.tabs,
             tabPage: [
-              KeepAliveWrapper(child: EventsPage()),
+              // KeepAliveWrapper(child: PostListPage()),
+              PostListPage(),
               KeepAliveWrapper(child: ActivityTabPage()),
             ],
           ),

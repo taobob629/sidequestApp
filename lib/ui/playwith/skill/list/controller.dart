@@ -48,7 +48,7 @@ class SkillListPageController extends GetxController {
     pageState = FINISH;
   }
 
-  refresh() async {
+  onRefresh() async {
     pageState = INIT;
     list = await UserApi.myauthlist();
     pageState = FINISH;
@@ -69,14 +69,14 @@ class SkillListPageController extends GetxController {
               ..['skillAuthid'] = data.id
               ..['skillName'] = data.skillName)
         ?.then((res) {
-      if (res) refresh();
+      if (res) onRefresh();
     });
   }
 
   void addGame() {
     Get.to(() => AddGamePage({}))?.then((res) {
       flog('res$res');
-      if (res != null) refresh();
+      if (res != null) onRefresh();
     });
   }
 }

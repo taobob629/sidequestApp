@@ -9,48 +9,44 @@ import 'package:wy/ui/profile/consume/record_item.dart';
 import 'package:wy/utils/utils.dart';
 
 class TabConsumePage extends StatelessWidget {
-
   final int type;
 
   late final TabConsumePageController controller;
 
-  TabConsumePage({required this.type}){
+  TabConsumePage({required this.type}) {
     controller = Get.put(TabConsumePageController(type: type), tag: "$type");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-      SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.refresh,
-      onLoading: controller.loadMore,
-      enablePullUp: true,
-      child: controller.initializing.value ?
-      Container() :
-      controller.list.length == 0 ?
-      Stack(children: [
-        Positioned(
-          left: 0,right: 0,top: 0,bottom: 0,
-          child: EmptyView())
-      ],) :
-      CustomScrollView(
-        slivers: [
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    ConsumeRecordModel model = controller.list[index];
-                    return RecordItem(title: model.title, detail: model.time, amount: model.amount,type: type,remaining: model.remaining,);
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    )
-    );
+    return Obx(() => SmartRefresher(
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.loadMore,
+        enablePullUp: true,
+        child: controller.initializing.value
+            ? Container()
+            : controller.list.length == 0
+                ? Stack(
+                    children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
+                  )
+                : CustomScrollView(
+                    slivers: [
+                      Obx(() {
+                        return SliverList(
+                            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                          ConsumeRecordModel model = controller.list[index];
+                          return RecordItem(
+                            title: model.title,
+                            detail: model.time,
+                            amount: model.amount,
+                            type: type,
+                            remaining: model.remaining,
+                          );
+                        }, childCount: controller.list.length));
+                      })
+                    ],
+                  )));
     // return Obx(()=> controller.list.length == 0 ? EmptyView() :
     // ListView.separated(
     //   itemBuilder: (context, index){
@@ -67,33 +63,31 @@ class TabConsumePage extends StatelessWidget {
 }
 
 class TabConsumePageController extends GetxRefreshController {
-
   late int type;
 
   TabConsumePageController({required this.type});
 
   @override
   void onInit() {
-    if(type == 1) {
+    if (type == 1) {
       this.initialRefresh = true;
     }
     super.onInit();
   }
 
   @override
-  Future<List<ConsumeRecordModel>> loadData({int pageNum = 1}) async{
-    if(type == 1){
-      List<ConsumeRecordModel> list = await BalanceApi.chargeRecords(pageNum,pageSize);
+  Future<List<ConsumeRecordModel>> loadData({int pageNum = 1}) async {
+    if (type == 1) {
+      List<ConsumeRecordModel> list = await BalanceApi.chargeRecords(pageNum, pageSize);
 
       return list;
-    }else if(type == 2){
-      List<ConsumeRecordModel> list = await BalanceApi.machineRecords(pageNum,pageSize);
+    } else if (type == 2) {
+      List<ConsumeRecordModel> list = await BalanceApi.machineRecords(pageNum, pageSize);
       return list;
-    }else {
-      List<ConsumeRecordModel> list = await BalanceApi.consumeRecords(pageNum,pageSize);
-      flog(type,'ConsumeRecordModel');
+    } else {
+      List<ConsumeRecordModel> list = await BalanceApi.consumeRecords(pageNum, pageSize);
+      flog(type, 'ConsumeRecordModel');
       return list;
     }
   }
-
 }

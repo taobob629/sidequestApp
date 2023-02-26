@@ -110,7 +110,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                             'fun': () {
                               if ([SkillModel.DENIED, SkillModel.PASS].contains(data.status))
                                 return jumpPage(AddGamePage(data.toJson()), callback: (res) {
-                                  if (res != null) controller.refresh();
+                                  if (res != null) controller.onRefresh();
                                 });
                               ; //todo
                             }
@@ -118,7 +118,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                         if (data.status != SkillModel.ONGOING)
                           GestureDetector(
                               onTap: () => jumpPage(AddGamePage(data.toJson()), callback: (res) {
-                                    if (res != null) controller.refresh();
+                                    if (res != null) controller.onRefresh();
                                   }),
                               child: Icon(
                                 Icons.edit_note_rounded,

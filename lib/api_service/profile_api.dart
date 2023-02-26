@@ -14,7 +14,7 @@ abstract class ProfileApi {
   }
 
   /// profile-post  帖子列表
-  static Future<List<PostItemModel>> getPostList({int page = 1}) async {
+  static Future<List<PostItemModel>> getPostList({int page = 0}) async {
     var response = await http.post('/peiwan/app/profile/listPost', data: {
       "pageNum": page,
       "pageSize": 20,
@@ -50,7 +50,7 @@ abstract class ProfileApi {
 
   /// profile-album  删除图片
   static Future delPhoto(String photoId) async {
-    var response = await http.post('/peiwan/app/profile/delPhoto/', data: {"id": photoId});
+    var response = await http.post('/peiwan/app/profile/delPhoto/$photoId');
     return response.data;
   }
 

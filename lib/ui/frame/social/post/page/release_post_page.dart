@@ -1,0 +1,141 @@
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
+
+class ReleasePostPage extends StatelessWidget {
+  ReleasePostPage({Key? key}) : super(key: key);
+
+  final t = Get.put(ReleasePostController());
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      title: "Post".tr,
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 20),
+              child: Text(
+                "Post content",
+                style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: 150, maxHeight: 400),
+              child: Container(
+                margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Color(0xff313033),
+                  // border: Border.all(color: Color(0xFFDCDCE4)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  controller: t.textController,
+                  cursorColor: Colors.white,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Add content',
+                    hintStyle: TextStyle(fontSize: 14, color: Color(0xFFC5C3C6)),
+                    // counterText: "${t.textController.text.length}/500",
+                    // counterStyle: TextStyle(color: Colors.white),
+                  ),
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: Colors.white),
+                  onChanged: (value) {
+                    // controller.valueChange();
+                  },
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+              child: Text(
+                "Post photos(Optional)",
+                style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Obx(() => Wrap(
+                    runSpacing: 10,
+                    spacing: 10,
+                    children: [
+                      ...t.photoList.map(
+                        (photoUrl) {
+                          return Container(
+                            width: (Get.width - 40 - 20) / 3,
+                            height: (Get.width - 40 - 20) / 3,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: Color(0xff313033),
+                            ),
+                            child: Stack(
+                              alignment: AlignmentDirectional.center,
+                              fit: StackFit.expand,
+                              children: [
+                                ExtendedImage.network(
+                                  photoUrl,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        t.delPhoto(photoUrl);
+                                      },
+                                      child: Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.amber,
+                                        size: 24,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      GestureDetector(
+                        onTap: t.pickUploadPhoto,
+                        child: Container(
+                          width: (Get.width - 40 - 20) / 3,
+                          height: (Get.width - 40 - 20) / 3,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(11),
+                            color: Color(0xff313033),
+                          ),
+                          child: Image.asset(
+                            "assets/images/paly_add.png",
+                            fit: BoxFit.fitWidth,
+                            width: 60,
+                            height: 60,
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+            ),
+            SizedBox(height: 20),
+            SafeArea(
+              child: FloatingButton(
+                label: "Submit".tr,
+                onTap: () => t.submit(),
+              ),
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -7,39 +7,30 @@ import 'package:wy/model/match_item_model.dart';
 import 'package:wy/ui/common/match_item.dart';
 
 class TabMatchPage extends StatelessWidget {
-
   final controller = Get.put(TabMatchPageController());
 
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.refresh,
-      onLoading: controller.loadMore,
-      enablePullUp: true,
-      child: CustomScrollView(
-        slivers: [
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    MatchItemModel model = controller.list[index];
-                  return MatchItem(model:model);
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    );
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.loadMore,
+        enablePullUp: true,
+        child: CustomScrollView(
+          slivers: [
+            Obx(() {
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                MatchItemModel model = controller.list[index];
+                return MatchItem(model: model);
+              }, childCount: controller.list.length));
+            })
+          ],
+        ));
   }
-
-
 }
 
 class TabMatchPageController extends GetxRefreshController<MatchItemModel> {
-
   @override
   void onInit() {
     super.onInit();
@@ -47,7 +38,7 @@ class TabMatchPageController extends GetxRefreshController<MatchItemModel> {
   }
 
   Future<List<MatchItemModel>> loadData({int pageNum = 1}) async {
-    List<MatchItemModel> list = await EventsApi.matches(pageNum,pageSize);
+    List<MatchItemModel> list = await EventsApi.matches(pageNum, pageSize);
     return list;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:wy/model/banner_model.dart' as custom;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,61 +16,59 @@ import 'package:wy/ui/common/news_item.dart';
 import 'package:wy/ui/common/promotion_item.dart';
 
 class TabHeadlinesPage extends StatelessWidget {
-
   final controller = Get.put(TabHeadlinesPageController());
 
   @override
   Widget build(BuildContext context) {
     double height = (MediaQuery.of(context).size.width - 30) * 19 / 34;
     return SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.refresh,
-      onLoading: controller.loadMore,
-      enablePullUp: true,
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.transparent,
-            expandedHeight: height,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Obx(()=>controller.banners.isEmpty ? Container():BannerView(banners: controller.banners,))
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        onLoading: controller.loadMore,
+        enablePullUp: true,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.transparent,
+              expandedHeight: height,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: Obx(() => controller.banners.isEmpty
+                      ? Container()
+                      : BannerView(
+                          banners: controller.banners,
+                        ))),
             ),
-          ),
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                  Widget w;
-                  HeadlineModel data = controller.list[index];
-                  if (data.type == "news") {
-                    NewsItemModel news = data.model as NewsItemModel;
-                    w = NewsItem(news);
-                  } else if (data.type == "activity") {
-                    ActivityItemModel activity = data.model as ActivityItemModel;
-                    w = ActivityItem(model:activity);
-                  } else if (data.type == "match"){
-                    MatchItemModel match = data.model as MatchItemModel;
-                    w = MatchItem(model: match,);
-                  } else if(data.type == "promotion"){
-                    PromotionItemModel promotion = data.model as PromotionItemModel;
-                    w = PromotionItem(model:promotion);
-                  }else {
-                    w = Container();
-                  }
-                  return w;
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    );
+            Obx(() {
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                Widget w;
+                HeadlineModel data = controller.list[index];
+                if (data.type == "news") {
+                  NewsItemModel news = data.model as NewsItemModel;
+                  w = NewsItem(news);
+                } else if (data.type == "activity") {
+                  ActivityItemModel activity = data.model as ActivityItemModel;
+                  w = ActivityItem(model: activity);
+                } else if (data.type == "match") {
+                  MatchItemModel match = data.model as MatchItemModel;
+                  w = MatchItem(
+                    model: match,
+                  );
+                } else if (data.type == "promotion") {
+                  PromotionItemModel promotion = data.model as PromotionItemModel;
+                  w = PromotionItem(model: promotion);
+                } else {
+                  w = Container();
+                }
+                return w;
+              }, childCount: controller.list.length));
+            })
+          ],
+        ));
   }
 }
 
 class TabHeadlinesPageController extends GetxRefreshController<HeadlineModel> {
-
   RxList<custom.BannerModel> banners = RxList();
 
   @override
@@ -82,24 +79,23 @@ class TabHeadlinesPageController extends GetxRefreshController<HeadlineModel> {
   }
 
   @override
-  void onReady() async{
+  void onReady() async {
     super.onReady();
-
   }
 
-  Future<void> _loadBanner() async{
+  Future<void> _loadBanner() async {
     List<custom.BannerModel> bannerList = await IndexApi.getBanners(5);
-    if(bannerList.isNotEmpty) {
+    if (bannerList.isNotEmpty) {
       banners.clear();
       banners.addAll(bannerList);
     }
   }
 
   Future<List<HeadlineModel>> loadData({int pageNum = 1}) async {
-    if(pageNum == 1){
+    if (pageNum == 1) {
       _loadBanner();
     }
-    List<HeadlineModel> list = await IndexApi.getHeadlines(pageNum,pageSize);
+    List<HeadlineModel> list = await IndexApi.getHeadlines(pageNum, pageSize);
 
     return list;
   }

@@ -52,9 +52,8 @@ class AttentionListPageController extends GetxRefreshController {
       EasyLoading.showSuccess('${response.statusMessage}');
       list.removeAt(index);
       list.refresh();
-      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FANS').refresh();
-      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}')
-          .refresh();
+      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FANS').onRefresh();
+      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}').refresh();
     }
   }
 
@@ -69,9 +68,8 @@ class AttentionListPageController extends GetxRefreshController {
         user.status.value = BOTH_FOCUS;
       }
       //更新follow列表
-      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FOLLOW').refresh();
-      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}')
-          .refresh();
+      Get.find<AttentionListPageController>(tag: 'attention_$TYPE_FOLLOW').onRefresh();
+      Get.find<PlayDetailController>(tag: '${userController.userInfoModel.value.pwuserId}').refresh();
     }
   }
 }

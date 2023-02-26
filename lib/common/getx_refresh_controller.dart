@@ -3,7 +3,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 abstract class GetxRefreshController<T> extends GetxController {
   /// 分页第一页页码
-  static const int pageNumFirst = 1;
+  static const int pageNumFirst = 0;
 
   var initializing = true.obs;
 
@@ -38,13 +38,13 @@ abstract class GetxRefreshController<T> extends GetxController {
   }
 
   initData() async {
-    await refresh(init: true);
+    await onRefresh(init: true);
     initializing.value = false;
   }
 
   Future<List<T>> loadData({int pageNum = 1});
 
-  Future<List<T>> refresh({bool init = false}) async {
+  Future<List<T>> onRefresh({bool init = false}) async {
     try {
       _currentPageNum = pageNumFirst;
       var data = await loadData(pageNum: pageNumFirst);

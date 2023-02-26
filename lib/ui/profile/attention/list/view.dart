@@ -38,28 +38,20 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
     return ScaffoldWidget(
       body: Obx(() => SmartRefresher(
           controller: controller.refreshController,
-          onRefresh: controller.refresh,
+          onRefresh: controller.onRefresh,
           onLoading: controller.loadMore,
           enablePullUp: true,
           child: controller.initializing.value
               ? Container()
               : controller.list.length == 0
                   ? Stack(
-                      children: [
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: EmptyView())
-                      ],
+                      children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
+                              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                             return item(index, controller.list[index]);
                           }, childCount: controller.list.length));
                         })
@@ -71,43 +63,49 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
   item(int index, AttentionModel user) {
     return ListTile(
       leading: GestureDetector(
-        onTap: (){
-          Get.to(() => PlayDetail(userId:'${user.id}'));
+        onTap: () {
+          Get.to(() => PlayDetail(userId: '${user.id}'));
         },
         child: CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 24,
-          child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: CachedNetworkImage(
-                imageUrl: user.avatar ?? '',
-                fit: BoxFit.cover,
-                imageBuilder: (context, provider) {
-                  return Container(
-                    width: 48,
-                    height: 48,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        image: DecorationImage(
-                          image: provider,
-                          fit: BoxFit.cover,
-                        )),
-                  );
-                },
-              ))),),
+            backgroundColor: Colors.white,
+            radius: 24,
+            child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: CachedNetworkImage(
+                  imageUrl: user.avatar ?? '',
+                  fit: BoxFit.cover,
+                  imageBuilder: (context, provider) {
+                    return Container(
+                      width: 48,
+                      height: 48,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          )),
+                    );
+                  },
+                ))),
+      ),
       title: Row(
         children: [
           Text(user.name ?? 'Unknown'.tr, style: TextStyle(color: Colors.white, fontSize: 15)),
           PWidget.boxw(5),
-          user.sex==0?Icon(Icons.male,color: Colors.white,size: 16,):   CircleAvatar(
-              radius: 8,
-              child: Image(
-                fit: BoxFit.scaleDown,
-                image: AssetImage(
-                    'assets/images/${user.sex == 0 ? 'ic_male' : 'ic_female'}.webp'),
-                height: 16,
-              ))
+          user.sex == 0
+              ? Icon(
+                  Icons.male,
+                  color: Colors.white,
+                  size: 16,
+                )
+              : CircleAvatar(
+                  radius: 8,
+                  child: Image(
+                    fit: BoxFit.scaleDown,
+                    image: AssetImage('assets/images/${user.sex == 0 ? 'ic_male' : 'ic_female'}.webp'),
+                    height: 16,
+                  ))
         ],
       ),
       subtitle: Text(
@@ -153,9 +151,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
             elevation: 0,
             minWidth: 60,
             color: Colors.transparent,
-            textColor: user.status.value == BOTH_FOCUS
-                ? Color.fromRGBO(130, 145, 180, 1)
-                : Colors.white,
+            textColor: user.status.value == BOTH_FOCUS ? Color.fromRGBO(130, 145, 180, 1) : Colors.white,
             child: user.status.value == BOTH_FOCUS
                 ? Container(
                     width: 30,
@@ -166,7 +162,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
                     ),
                   )
                 : Text(
-              'Follow'.tr,
+                    'Follow'.tr,
                   ),
             onPressed: () {
               controller.fanceFollow(index, user);
