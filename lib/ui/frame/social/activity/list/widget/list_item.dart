@@ -7,6 +7,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/model/activity_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/utils/index.dart';
@@ -15,6 +16,8 @@ class ActivityListItemWidget extends StatelessWidget {
   late ActivityListModel model;
 
   ActivityListItemWidget(this.model);
+
+  var imageSize = 30.h;
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +59,39 @@ class ActivityListItemWidget extends StatelessWidget {
                         strutStyle: StrutStyle(height: 1.7),
                       ),
                     ),
-                  )))
+                  ))),
+          Positioned(
+              bottom: 92.h - imageSize / 2,
+              left: 15.w,
+              child: Container(
+                constraints: BoxConstraints(maxWidth: Get.width, maxHeight: imageSize + 10),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: buildPartener(model),
+                ),
+              )),
+          Positioned(
+              right: 20.w,
+              bottom: 24.h,
+              child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w))
         ],
       ),
     );
+  }
+
+  buildPartener(ActivityListModel model) {
+    var index = 0;
+    return model.showParticipants().map((item) {
+      index += 1;
+      return Positioned(
+          bottom: 0,
+          top: 0,
+          left: (index - 1) * imageSize / 2,
+          child: Container(
+            child: ImageUtil.networkImage(
+              fit: BoxFit.cover,
+                url: item.photo, width: imageSize, height: imageSize, border: imageSize / 2),
+          ));
+    }).toList();
   }
 }

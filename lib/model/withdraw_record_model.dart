@@ -56,10 +56,10 @@ class WithdrawRecordModel {
   num? cardId;
   String? fee;
   String? createTime;
-  String note = "";
+  String? note;
 
-  dynamic sortCode;
-  dynamic bankName;
+  String? sortCode;
+  String? bankName;
   num? status;
   num? votes;
 
