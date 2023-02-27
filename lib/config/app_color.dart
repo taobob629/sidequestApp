@@ -16,6 +16,7 @@ class AppColor {
   static const Color whiteGray = Color(0xFFC5C3C6);
   static const Color textWhiteGrey = Color(0xFFC5C3C6);
   static const Color textC5C5 = Color(0xFFc5c5c5);
+  static const Color textSubtitle = Color(0xFF959595);
   static const Color textYellow = Color(0xFFFFCB0D);
   static const Color tabBackGround = Color(0xFF292F3F);
 

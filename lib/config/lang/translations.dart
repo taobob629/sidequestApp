@@ -11,9 +11,11 @@ import 'package:get/get.dart';
 import 'package:wy/config/lang/zh_CN.dart';
 
 import 'en_US.dart';
-const CHINA=const Locale('zh', 'CN');
-const ENGLISH=const Locale('en', 'US');
-var languages=[ CHINA,ENGLISH];
+
+const CHINA = const Locale('zh', 'CN');
+const ENGLISH = const Locale('en', 'US');
+var languages = [CHINA, ENGLISH];
+
 class Messages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {

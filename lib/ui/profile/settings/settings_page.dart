@@ -190,26 +190,29 @@ Deleting your account will remove your profile and all of your content from Side
   }
 
   void choseLanguage() {
-    flog('Get.local ${Get.locale?.languageCode} devicelocal  ${Get.deviceLocale}');
-    Get.bottomSheet(
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: languages
-              .map(
-                (local) => ListTile(
-                    title: RawMaterialButton(
-                        onPressed: () {
-                          updateLanguage(local);
-                        },
-                        child: Text(
-                          local.languageCode.tr,
-                          style: TextStyle(color: local.languageCode == Get.locale?.languageCode ? Colors.white : Colors.white54),
-                        ))),
-              )
-              .toList(),
-        ),
-        backgroundColor: AppColor.primary,
-        enableDrag: false);
+    Get.toNamed(AppPages.LANGUAGE_PAGE);
+    // Get.bottomSheet(
+    //     Column(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: languages
+    //           .map(
+    //             (local) => ListTile(
+    //                 title: RawMaterialButton(
+    //                     onPressed: () {
+    //                       updateLanguage(local);
+    //                     },
+    //                     child: Text(
+    //                       local.languageCode.tr,
+    //                       style: TextStyle(
+    //                           color: local.languageCode == Get.locale?.languageCode
+    //                               ? Colors.white
+    //                               : Colors.white54),
+    //                     ))),
+    //           )
+    //           .toList(),
+    //     ),
+    //     backgroundColor: AppColor.primary,
+    //     enableDrag: false);
   }
 
   void updateLanguage(Locale local) {

@@ -8,12 +8,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+const int IMG_WEBP = 0;
+const int IMG_PNG = 1;
+
 class ImageUtil {
   ImageUtil._();
 
   static final _package = "sidequest_hub_app";
 
-  static String imageResStr(var name) => "assets/images/$name.webp";
+  static String imageResStr(var name, int type) =>
+      "assets/images/$name${type == IMG_WEBP ? '.webp' : '.png'}";
 
   static Widget svg(
     String name, {
@@ -31,15 +35,10 @@ class ImageUtil {
     );
   }
 
-  static Widget assetImage(
-    String res, {
-    double? width,
-    double? height,
-    BoxFit? fit,
-    Color? color,
-  }) {
+  static Widget assetImage(String res,
+      {double? width, double? height, BoxFit? fit, Color? color, int imageType = IMG_WEBP}) {
     return Image.asset(
-      imageResStr(res),
+      imageResStr(res, imageType),
       width: width,
       height: height,
       fit: fit,
@@ -65,7 +64,7 @@ class ImageUtil {
     required String url,
     double? width,
     double? height,
-    double border=0,
+    double border = 0,
     int? cacheWidth,
     int? cacheHeight,
     BoxFit? fit,
@@ -95,7 +94,7 @@ class ImageUtil {
     int? cacheWidth,
     int? cacheHeight,
     BoxFit? fit,
-    double border=0,
+    double border = 0,
     bool loadProgress = true,
     bool clearMemoryCacheWhenDispose = false,
     bool lowMemory = true,
@@ -119,7 +118,7 @@ class ImageUtil {
     required String url,
     double? width,
     double? height,
-    double border=0,
+    double border = 0,
     int? cacheWidth,
     int? cacheHeight,
     BoxFit? fit,
@@ -127,52 +126,54 @@ class ImageUtil {
     bool clearMemoryCacheWhenDispose = true,
     bool lowMemory = true,
     Widget? errorWidget,
-  }) =>border==0?CachedNetworkImage(
-    imageUrl: url,
-    width: width,
-    height: height,
-    fit: fit,
-    // memCacheWidth: _calculateCacheWidth(width),
-    // memCacheHeight: _calculateCacheHeight(height),
-    // placeholder: placeholder,
-    progressIndicatorBuilder: (context, url, progress) => Container(
-      width: 10.0,
-      height: 10.0,
-      child: loadProgress
-          ? Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 1.5,
-          value: progress.progress ?? 0,
-        ),
-      )
-          : null,
-    ),
-    errorWidget: (_, url, er) => errorWidget ?? error(width: width, height: height),
-  ):
-     Card(
-       shape: RoundedRectangleBorder(
-           borderRadius: BorderRadiusDirectional.circular(border)),
-       clipBehavior: Clip.antiAlias,
-       child:  CachedNetworkImage(
-       imageUrl: url,
-       width: width,
-       height: height,
-       fit: fit,
-       // memCacheWidth: _calculateCacheWidth(width),
-       // memCacheHeight: _calculateCacheHeight(height),
-       // placeholder: placeholder,
-       progressIndicatorBuilder: (context, url, progress) => Container(
-         width: 10.0,
-         height: 10.0,
-         child: loadProgress
-             ? Center(
-           child: CircularProgressIndicator(
-             strokeWidth: 1.5,
-             value: progress.progress ?? 0,
-           ),
-         )
-             : null,
-       ),
-       errorWidget: (_, url, er) => errorWidget ?? error(width: width, height: height),
-     ),);
+  }) =>
+      border == 0
+          ? CachedNetworkImage(
+              imageUrl: url,
+              width: width,
+              height: height,
+              fit: fit,
+              // memCacheWidth: _calculateCacheWidth(width),
+              // memCacheHeight: _calculateCacheHeight(height),
+              // placeholder: placeholder,
+              progressIndicatorBuilder: (context, url, progress) => Container(
+                width: 10.0,
+                height: 10.0,
+                child: loadProgress
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.5,
+                          value: progress.progress ?? 0,
+                        ),
+                      )
+                    : null,
+              ),
+              errorWidget: (_, url, er) => errorWidget ?? error(width: width, height: height),
+            )
+          : Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(border)),
+              clipBehavior: Clip.antiAlias,
+              child: CachedNetworkImage(
+                imageUrl: url,
+                width: width,
+                height: height,
+                fit: fit,
+                // memCacheWidth: _calculateCacheWidth(width),
+                // memCacheHeight: _calculateCacheHeight(height),
+                // placeholder: placeholder,
+                progressIndicatorBuilder: (context, url, progress) => Container(
+                  width: 10.0,
+                  height: 10.0,
+                  child: loadProgress
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            value: progress.progress ?? 0,
+                          ),
+                        )
+                      : null,
+                ),
+                errorWidget: (_, url, er) => errorWidget ?? error(width: width, height: height),
+              ),
+            );
 }
