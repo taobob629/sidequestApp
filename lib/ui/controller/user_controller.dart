@@ -22,14 +22,14 @@ import 'package:wy/model/im_sig_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
-import 'package:wy/provider/custom_sticker_package_data.dart';
 import 'package:wy/service/push_service.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/tim_ui/my_constant.dart';
 
+import '../../api_service/profile_api.dart';
 import '../../utils/db_helper.dart';
+import '../frame/profile/model/profile_model.dart';
 import '../im/chat.dart';
 
 class UserController extends GetxController {
@@ -37,8 +37,12 @@ class UserController extends GetxController {
     return Get.find<UserController>();
   }
 
+  static UserController get find => Get.find();
+
   Rx<UserModel> user = Rx(UserModel());
   Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
+
+  final userProfile = ProfileModel().obs;
 
   RxList<String> imBlackList = RxList();
 
@@ -135,6 +139,7 @@ class UserController extends GetxController {
   Future<void> updateInfo() async {
     if (StorageManager.getToken().isNotEmpty) {
       userInfoModel.value = await UserApi.info();
+      userProfile.value = await ProfileApi.getProfileInfo();
     }
   }
 

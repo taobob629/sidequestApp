@@ -1,10 +1,6 @@
-import 'dart:math' as math;
-import 'dart:math';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/string_ext.dart';
@@ -23,6 +19,7 @@ import 'vip_benefit_item.dart';
 
 class VipPage extends StatelessWidget {
   late final VipPageController controller = Get.put(VipPageController());
+  final userController = UserController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +86,7 @@ class VipPage extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               final vipModel = controller.vipInfoList[controller.vipIndex.value];
                               return Container(
-                                padding: EdgeInsets.symmetric(vertical: 25),
+                                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                                 alignment: Alignment.center,
                                 child: Stack(
                                   clipBehavior: Clip.none,
@@ -119,29 +116,33 @@ class VipPage extends StatelessWidget {
                                     Positioned(
                                         bottom: 14,
                                         left: 15,
-                                        child: Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () => controller.openMonth(),
-                                              child: Container(
-                                                  height: 32,
-                                                  width: 124,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(color: Color(0xFFEDA82D), borderRadius: BorderRadius.circular(20)),
-                                                  child: Text(
-                                                    ProfileController.find.vm.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                        ? "Subscribed".tr
-                                                        : "£ ${vipModel.monthFee.toString()} PM",
-                                                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                                  )),
-                                            ),
-                                          ],
-                                        )),
+                                        child: Obx(() => Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () => controller.openMonth(),
+                                                  child: Container(
+                                                      height: 32,
+                                                      width: 124,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                              ? Color(0xff707070)
+                                                              : Color(0xFFEDA82D),
+                                                          borderRadius: BorderRadius.circular(20)),
+                                                      child: Text(
+                                                        userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                            ? "Subscribed".tr
+                                                            : "£ ${vipModel.monthFee.toString()} PM",
+                                                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                                      )),
+                                                ),
+                                              ],
+                                            ))),
                                     Positioned(
                                         right: 12,
                                         bottom: 20,
                                         child: Visibility(
-                                          visible: ProfileController.find.vm.value.vipLevel == controller.vipInfoList[controller.vipIndex.value].level,
+                                          visible: userController.userProfile.value.vipLevel == controller.vipInfoList[controller.vipIndex.value].level,
                                           child: Container(
                                             child: Text(
                                               "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
@@ -287,6 +288,14 @@ class _BottomPath extends CustomClipper<Path> {
 }
 
 class VipPageController extends GetxController {
+  static VipPageController get find {
+    try {
+      return Get.find<VipPageController>();
+    } catch (e) {
+      return Get.put(VipPageController());
+    }
+  }
+
   late ScrollController scrollController;
 
   late SwiperController swiperController;
@@ -376,7 +385,11 @@ class VipPageController extends GetxController {
     }
     Get.dialog(VipInfoDialog(), barrierColor: Colors.black26).then((value) {
       if (value != null && value == true) {
-        NavigatorHelper.gotoPayPage(model);
+        NavigatorHelper.gotoPayPage(model, whenComplete: () {
+          userController.updateInfo();
+          userController.userProfile.refresh();
+          getVipDetail();
+        });
         Get.dialog(SubscribeDialog(), barrierColor: Colors.black26);
       }
     });

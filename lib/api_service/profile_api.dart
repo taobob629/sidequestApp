@@ -1,4 +1,5 @@
 import 'package:wy/ui/frame/profile/model/album_item_model.dart';
+import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/frame/profile/model/vip_info_model.dart';
 
 import '../api/wy_http.dart';
@@ -10,7 +11,7 @@ abstract class ProfileApi {
   /// profile 用户信息
   static Future getProfileInfo() async {
     var response = await http.get('/peiwan/app/profile/info');
-    return response.data;
+    return ProfileModel.fromJson(response.data);
   }
 
   /// profile-post  帖子列表

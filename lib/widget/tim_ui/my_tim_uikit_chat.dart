@@ -20,9 +20,10 @@ import 'package:tencent_cloud_chat_uikit/ui/utils/optimize_utils.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKItMessageList/TIMUIKitTongue/tim_uikit_chat_history_message_list_tongue.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKItMessageList/tim_uikit_chat_history_message_list_config.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/tim_uikit_multi_select_panel.dart';
-import 'package:wy/widget/tim_ui/my_tim_uikit_text_field.dart' as my;
-import 'package:wy/widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
+
 import 'package:wy/widget/tim_ui/my_tim_uikit_history_message_list_container.dart' as my_tim_uikit_history_message_list_container;
+import 'package:wy/widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
+import 'package:wy/widget/tim_ui/my_tim_uikit_text_field.dart' as my;
 
 class TIMUIKitChat extends StatefulWidget {
   int startTime = 0;
@@ -38,12 +39,13 @@ class TIMUIKitChat extends StatefulWidget {
   /// Conversation id, use for get history message list.
   final String conversationID;
 
+  V2TimConversation conversation;
+
   /// Conversation type.
   final ConvType conversationType;
 
   /// use for customize avatar
-  final Widget Function(BuildContext context, V2TimMessage message)?
-      userAvatarBuilder;
+  final Widget Function(BuildContext context, V2TimMessage message)? userAvatarBuilder;
 
   /// Use for show conversation name.
   final String conversationShowName;
@@ -64,12 +66,10 @@ class TIMUIKitChat extends StatefulWidget {
   final bool showTotalUnReadCount;
 
   /// Deprecated("Please use [extraTipsActionItemBuilder] instead")
-  final Widget? Function(V2TimMessage message, Function() closeTooltip,
-      [Key? key, BuildContext? context])? exteraTipsActionItemBuilder;
+  final Widget? Function(V2TimMessage message, Function() closeTooltip, [Key? key, BuildContext? context])? exteraTipsActionItemBuilder;
 
   /// The builder for extra tips action.
-  final Widget? Function(V2TimMessage message, Function() closeTooltip,
-      [Key? key, BuildContext? context])? extraTipsActionItemBuilder;
+  final Widget? Function(V2TimMessage message, Function() closeTooltip, [Key? key, BuildContext? context])? extraTipsActionItemBuilder;
 
   /// The text of draft shows in TextField.
   /// [Recommend]: You can specify this field with the draftText from V2TimConversation.
@@ -118,47 +118,45 @@ class TIMUIKitChat extends StatefulWidget {
   final Widget? topFixWidget;
 
   /// Custom emoji panel.
-  final Widget Function(
-      {void Function() sendTextMessage,
-      void Function(int index, String data) sendFaceMessage,
-      void Function() deleteText,
-      void Function(int unicode) addText})? customStickerPanel;
+  final Widget Function({void Function() sendTextMessage, void Function(int index, String data) sendFaceMessage, void Function() deleteText, void Function(int unicode) addText})? customStickerPanel;
 
   /// Custom text field
   final Widget Function(BuildContext context)? textFieldBuilder;
 
   TIMUIKitChat({
     Key? key,
-    this.groupID,
-    required this.conversationID,
-    required this.conversationType,
-    required this.conversationShowName,
-    this.abstractMessageBuilder,
-    this.onTapAvatar,
-    @Deprecated("Nickname will not show in one-to-one chat, if you tend to control it in group chat, please use `isShowSelfNameInGroup` and `isShowOthersNameInGroup` from `config: TIMUIKitChatConfig` instead")
-        this.showNickName = false,
-    this.showTotalUnReadCount = false,
-    this.messageItemBuilder,
+    @Deprecated(
+        "Nickname will not show in one-to-one chat, if you tend to control it in group chat, please use `isShowSelfNameInGroup` and `isShowOthersNameInGroup` from `config: TIMUIKitChatConfig` instead")
     @Deprecated("Please use [extraTipsActionItemBuilder] instead")
         this.exteraTipsActionItemBuilder,
-    this.extraTipsActionItemBuilder,
-    this.draftText,
-    this.textFieldHintText,
-    this.initFindingMsg,
-    this.userAvatarBuilder,
-    this.appBarConfig,
     this.controller,
+    this.groupID,
+    required this.conversationID,
+    required this.conversation,
+    required this.conversationType,
+    this.userAvatarBuilder,
+    required this.conversationShowName,
+    this.onTapAvatar,
+    this.showNickName = false,
+    this.messageItemBuilder,
+    this.showTotalUnReadCount = false,
+    this.draftText,
+    this.initFindingMsg,
+    this.textFieldHintText,
+    this.appBarConfig,
+    this.mainHistoryListConfig,
     this.morePanelConfig,
-    this.customStickerPanel,
-    this.config = const TIMUIKitChatConfig(),
     this.tongueItemBuilder,
     this.groupAtInfoList,
-    this.mainHistoryListConfig,
+    this.config = const TIMUIKitChatConfig(),
     this.onDealWithGroupApplication,
+    this.abstractMessageBuilder,
     this.toolTipsConfig,
     this.lifeCycle,
     this.topFixWidget = const SizedBox(),
     this.textFieldBuilder,
+    this.extraTipsActionItemBuilder,
+    this.customStickerPanel,
   }) : super(key: key) {
     startTime = DateTime.now().millisecondsSinceEpoch;
   }
@@ -170,13 +168,11 @@ class TIMUIKitChat extends StatefulWidget {
 class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
   final TUIChatSeparateViewModel model = TUIChatSeparateViewModel();
   final TUIThemeViewModel themeViewModel = serviceLocator<TUIThemeViewModel>();
-  final TIMUIKitInputTextFieldController textFieldController =
-      TIMUIKitInputTextFieldController();
+  final TIMUIKitInputTextFieldController textFieldController = TIMUIKitInputTextFieldController();
   bool isInit = false;
 
   late AutoScrollController autoController = AutoScrollController(
-    viewportBoundaryGetter: () =>
-        Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+    viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
     axis: Axis.vertical,
   );
 
@@ -222,8 +218,7 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              TIM_t_para("{{option1}} 条入群请求", "$option1 条入群请求")(
-                  option1: option1),
+              TIM_t_para("{{option1}} 条入群请求", "$option1 条入群请求")(option1: option1),
               style: const TextStyle(
                 fontSize: 12,
               ),
@@ -244,8 +239,7 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final TUITheme theme = value.theme;
-    final closePanel =
-        OptimizeUtils.throttle((_) => textFieldController.hideAllPanel(), 60);
+    final closePanel = OptimizeUtils.throttle((_) => textFieldController.hideAllPanel(), 60);
     final isBuild = isInit;
     isInit = true;
 
@@ -262,25 +256,19 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
           Provider(create: (_) => widget.config),
         ],
         builder: (context, model, w) {
-          final TUIChatGlobalModel chatGlobalModel =
-              Provider.of<TUIChatGlobalModel>(context, listen: true);
+          final TUIChatGlobalModel chatGlobalModel = Provider.of<TUIChatGlobalModel>(context, listen: true);
 
           widget.controller?.model = model;
           List<V2TimGroupApplication> filteredApplicationList = [];
-          if (widget.conversationType == ConvType.group &&
-              widget.onDealWithGroupApplication != null) {
-            filteredApplicationList =
-                chatGlobalModel.groupApplicationList.where((item) {
-              return (item.groupID == widget.conversationID) &&
-                  item.handleStatus == 0;
+          if (widget.conversationType == ConvType.group && widget.onDealWithGroupApplication != null) {
+            filteredApplicationList = chatGlobalModel.groupApplicationList.where((item) {
+              return (item.groupID == widget.conversationID) && item.handleStatus == 0;
             }).toList();
           }
 
-          final TUIGroupListenerModel groupListenerModel =
-              Provider.of<TUIGroupListenerModel>(context, listen: true);
+          final TUIGroupListenerModel groupListenerModel = Provider.of<TUIGroupListenerModel>(context, listen: true);
           final NeedUpdate? needUpdate = groupListenerModel.needUpdate;
-          if (needUpdate != null &&
-              needUpdate.groupID == widget.conversationID) {
+          if (needUpdate != null && needUpdate.groupID == widget.conversationID) {
             groupListenerModel.needUpdate = null;
             switch (needUpdate.updateType) {
               case UpdateType.groupInfo:
@@ -305,14 +293,11 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
                   config: widget.appBarConfig,
                   conversationShowName: widget.conversationShowName,
                   conversationID: widget.conversationID,
-                  showC2cMessageEditStaus:
-                      widget.config?.showC2cMessageEditStaus ?? true,
+                  showC2cMessageEditStaus: widget.config?.showC2cMessageEditStaus ?? true,
                 ),
                 body: Column(
                   children: [
-                    if (filteredApplicationList.isNotEmpty)
-                      _renderJoinGroupApplication(
-                          filteredApplicationList.length, theme),
+                    if (filteredApplicationList.isNotEmpty) _renderJoinGroupApplication(filteredApplicationList.length, theme),
                     if (widget.topFixWidget != null) widget.topFixWidget!,
                     Expanded(
                         child: Align(
@@ -320,23 +305,19 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
                             child: Listener(
                               onPointerMove: closePanel,
                               child: my_tim_uikit_history_message_list_container.TIMUIKitHistoryMessageListContainer(
+                                conversation: widget.conversation,
                                 userAvatarBuilder: widget.userAvatarBuilder,
                                 toolTipsConfig: widget.toolTipsConfig,
                                 groupAtInfoList: widget.groupAtInfoList,
                                 tongueItemBuilder: widget.tongueItemBuilder,
-                                onLongPressForOthersHeadPortrait:
-                                    (String? userId, String? nickName) {
+                                onLongPressForOthersHeadPortrait: (String? userId, String? nickName) {
                                   if (widget.conversationType != ConvType.c2c) {
-                                    textFieldController.longPressToAt(
-                                        nickName, userId);
+                                    textFieldController.longPressToAt(nickName, userId);
                                   }
                                 },
-                                mainHistoryListConfig:
-                                    widget.mainHistoryListConfig,
+                                mainHistoryListConfig: widget.mainHistoryListConfig,
                                 initFindingMsg: widget.initFindingMsg,
-                                extraTipsActionItemBuilder:
-                                    widget.extraTipsActionItemBuilder ??
-                                        widget.exteraTipsActionItemBuilder,
+                                extraTipsActionItemBuilder: widget.extraTipsActionItemBuilder ?? widget.exteraTipsActionItemBuilder,
                                 conversationType: widget.conversationType,
                                 scrollController: autoController,
                                 onTapAvatar: widget.onTapAvatar,
@@ -358,23 +339,16 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
                                     model: model,
                                     controller: textFieldController,
                                     backgroundColor: Colors.transparent,
-                                    customStickerPanel:
-                                        widget.customStickerPanel,
+                                    customStickerPanel: widget.customStickerPanel,
                                     morePanelConfig: widget.morePanelConfig,
                                     scrollController: autoController,
                                     conversationID: widget.conversationID,
                                     conversationType: widget.conversationType,
                                     initText: widget.draftText,
                                     hintText: widget.textFieldHintText,
-                                    showMorePannel:
-                                        widget.config?.isAllowShowMorePanel ??
-                                            true,
-                                    showSendAudio:
-                                        widget.config?.isAllowSoundMessage ??
-                                            true,
-                                    showSendEmoji:
-                                        widget.config?.isAllowEmojiPanel ??
-                                            true,
+                                    showMorePannel: widget.config?.isAllowShowMorePanel ?? true,
+                                    showSendAudio: widget.config?.isAllowSoundMessage ?? true,
+                                    showSendEmoji: widget.config?.isAllowEmojiPanel ?? true,
                                   ));
                       },
                       selector: (c, model) {
@@ -391,14 +365,12 @@ class _TUIChatState extends TIMUIKitState<TIMUIKitChat> {
 class TIMUIKitChatProviderScope extends StatelessWidget {
   final TUIChatGlobalModel globalModel = serviceLocator<TUIChatGlobalModel>();
   TUIChatSeparateViewModel? model;
-  final TUIGroupListenerModel groupListenerModel =
-      serviceLocator<TUIGroupListenerModel>();
+  final TUIGroupListenerModel groupListenerModel = serviceLocator<TUIGroupListenerModel>();
   final TUIThemeViewModel themeViewModel = serviceLocator<TUIThemeViewModel>();
   final Widget? child;
 
   /// You could get the model from here, and transfer it to other widget from TUIKit.
-  final Widget Function(BuildContext, TUIChatSeparateViewModel, Widget?)
-      builder;
+  final Widget Function(BuildContext, TUIChatSeparateViewModel, Widget?) builder;
   final List<SingleChildWidget>? providers;
 
   /// `TIMUIKitChatController` needs to be provided if you use it outside.
@@ -455,9 +427,7 @@ class TIMUIKitChatProviderScope extends StatelessWidget {
       },
       groupID: groupID,
     );
-    model?.showC2cMessageEditStatus = (conversationType == ConvType.c2c
-        ? config?.showC2cMessageEditStaus ?? true
-        : false);
+    model?.showC2cMessageEditStatus = (conversationType == ConvType.c2c ? config?.showC2cMessageEditStaus ?? true : false);
     loadData();
   }
 

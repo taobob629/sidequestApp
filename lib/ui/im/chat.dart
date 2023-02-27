@@ -206,6 +206,7 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       body: my.TIMUIKitChat(
           // customEmojiStickerList: Const.emojiList.where((element) => element.isEmoji == true).toList(),
+          conversation: widget.selectedConversation,
           topFixWidget: _buildOrderState(),
           lifeCycle: ChatLifeCycle(newMessageWillMount: (V2TimMessage message) async {
             // This configuration is unnecessary and only for demonstration purpose.

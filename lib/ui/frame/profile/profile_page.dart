@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/ui/common/dialog_input.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
@@ -17,6 +18,7 @@ import 'profile_posts_page.dart';
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
   final t = Get.put(ProfileController());
+  final userController = UserController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class ProfilePage extends StatelessWidget {
                                     children: [
                                       /// nickname
                                       Obx(() => Text(
-                                            t.vm.value.nickName,
+                                            userController.userProfile.value.nickName,
                                             style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
                                           )),
 
@@ -95,16 +97,16 @@ class ProfilePage extends StatelessWidget {
                                                       ])),
                                                   child: Row(
                                                     children: [
-                                                      if (t.vm.value.gender != 2)
+                                                      if (userController.userProfile.value.gender != 2)
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 3),
                                                           child: Image.asset(
-                                                            "assets/images/profile/icon_sex_${t.vm.value.gender}.png",
+                                                            "assets/images/profile/icon_sex_${userController.userProfile.value.gender}.png",
                                                             width: 8,
                                                           ),
                                                         ),
                                                       Text(
-                                                        "${t.vm.value.age}",
+                                                        "${userController.userProfile.value.age}",
                                                         style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                       ),
                                                     ],
@@ -118,7 +120,7 @@ class ProfilePage extends StatelessWidget {
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        t.vm.value.language,
+                                                        userController.userProfile.value.language,
                                                         style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                       ),
                                                     ],
@@ -139,7 +141,7 @@ class ProfilePage extends StatelessWidget {
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        t.vm.value.country.country,
+                                                        userController.userProfile.value.country.country,
                                                         style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                       ),
                                                     ],
@@ -157,7 +159,7 @@ class ProfilePage extends StatelessWidget {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right: 15),
                                                   child: Text(
-                                                    "ID:${t.vm.value.uk}",
+                                                    "ID:${userController.userProfile.value.uk}",
                                                     style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
                                                   ),
                                                 ),
@@ -181,7 +183,7 @@ class ProfilePage extends StatelessWidget {
                                       alignment: Alignment.bottomCenter,
                                       child: ClipOval(
                                         child: ExtendedImage.network(
-                                          t.vm.value.avatar,
+                                          userController.userProfile.value.avatar,
                                           width: 60,
                                           height: 60,
                                           fit: BoxFit.cover,
@@ -193,11 +195,11 @@ class ProfilePage extends StatelessWidget {
                                   width: 64,
                                 ),
                                 Obx(() => Visibility(
-                                      visible: t.vm.value.vipLevel < 5,
+                                      visible: userController.userProfile.value.vipLevel < 5,
                                       child: Positioned(
                                           bottom: -10,
                                           child: Image.asset(
-                                            "assets/images/profile/icon_level_${t.vm.value.vipLevel == 0 ? 5 : t.vm.value.vipLevel}.webp",
+                                            "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
                                             height: 28,
                                           )),
                                     )),
@@ -230,20 +232,20 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: Text(
-                      "Followers: ${t.vm.value.followers}",
+                      "Followers: ${userController.userProfile.value.followers}",
                       style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
-                    "Fans: ${t.vm.value.fans}",
+                    "Fans: ${userController.userProfile.value.fans}",
                     style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Visibility(
-                    visible: t.vm.value.isAuth == 1,
+                    visible: userController.userProfile.value.isAuth == 1,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Rating: ${t.vm.value.ranking}",
+                        "Rating: ${userController.userProfile.value.ranking}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -320,7 +322,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   static ProfileController get find => Get.find();
 
   late TabController tabController;
-  final vm = ProfileModel().obs;
+  // final vm = ProfileModel().obs;
   final background = "".obs;
 
   int devCount = 0;
@@ -329,7 +331,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     super.onInit();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value = StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
-    getProfileInfo();
+    // getProfileInfo();
   }
 
   @override
@@ -337,11 +339,11 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     super.onReady();
   }
 
-  getProfileInfo() {
-    ProfileApi.getProfileInfo().then((value) {
-      vm.value = ProfileModel.fromJson(value);
-    });
-  }
+  // getProfileInfo() {
+  //   ProfileApi.getProfileInfo().then((value) {
+  //     vm.value = ProfileModel.fromJson(value);
+  //   });
+  // }
 
   void goDev() {
     //  Get.to(SettingsPage());

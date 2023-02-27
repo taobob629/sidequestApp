@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,8 +52,7 @@ class MainPage extends GetView<MainPageController> {
           controller.controller.jumpToPage(0);
           controller.updateCurrentIndex(0);
         }
-        if (controller.lastPopTime == null ||
-            DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
+        if (controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
           controller.lastPopTime = DateTime.now();
           EasyLoading.showInfo("Press again to exit".tr, duration: Duration(seconds: 2));
         } else {
@@ -78,8 +76,7 @@ class MainPage extends GetView<MainPageController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () =>
-                                userController.checkLogin(() => Get.to(() => BookingPage())),
+                            onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10, right: 4),
                               child: Image.asset(
@@ -96,8 +93,7 @@ class MainPage extends GetView<MainPageController> {
                           GestureDetector(
                             onTap: () {
                               userController.checkLogin(() async {
-                                bool access =
-                                    await PermissionHelper.requestCameraPermission(context);
+                                bool access = await PermissionHelper.requestCameraPermission(context);
                                 if (access) {
                                   controller.scan();
                                 }
@@ -191,7 +187,6 @@ class MainPage extends GetView<MainPageController> {
                                   controller.controller.jumpToPage(1);
                                   controller.updateCurrentIndex(1);
                                 }),
-
                             TabButton(
                                 index: 2,
                                 currentIndex: controller.currentIndex.value,
@@ -273,14 +268,11 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     //   if (curpage == 2.0) userController.checkLogin(() => null);
     // });
     var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
-    var initializationSettingsIOS =
-        IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettingsIOS = IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    await AppConfig.flutterLocalNotificationsPlugin
-        .initialize(initializationSettings, onSelectNotification: selectNotification);
+    await AppConfig.flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -302,12 +294,9 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
       Get.to(() => NotificationPage());
     }
 
-    NotificationAppLaunchDetails? notificationAppLaunchDetails =
-        await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    if (notificationAppLaunchDetails != null &&
-        notificationAppLaunchDetails.didNotificationLaunchApp) {
-      print(
-          'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
+    NotificationAppLaunchDetails? notificationAppLaunchDetails = await AppConfig.flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails != null && notificationAppLaunchDetails.didNotificationLaunchApp) {
+      print('Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
       Get.to(() => NotificationPage());
     }
   }
@@ -400,25 +389,11 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
         );
       }
 
-      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'system'.tr, 'System Notification'.tr,
-          channelDescription: 'system notification'.tr,
-          importance: Importance.max,
-          priority: Priority.high,
-          largeIcon: largeIcon,
-          styleInformation: bigPictureStyleInformation,
-          ticker: 'ticker'.tr);
-      IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          badgeNumber: 1,
-          threadIdentifier: 'system');
-      NotificationDetails platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
-      await AppConfig.flutterLocalNotificationsPlugin.show(
-          0, '${notification?.title}', '${notification?.body}', platformChannelSpecifics,
-          payload: '');
+      AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
+          channelDescription: 'system notification'.tr, importance: Importance.max, priority: Priority.high, largeIcon: largeIcon, styleInformation: bigPictureStyleInformation, ticker: 'ticker'.tr);
+      IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true, badgeNumber: 1, threadIdentifier: 'system');
+      NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iosPlatformChannelSpecifics);
+      await AppConfig.flutterLocalNotificationsPlugin.show(0, '${notification?.title}', '${notification?.body}', platformChannelSpecifics, payload: '');
     }
   }
 

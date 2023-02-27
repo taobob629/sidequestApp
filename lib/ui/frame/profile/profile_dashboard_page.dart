@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
@@ -83,7 +84,7 @@ class ProfileDashboardPage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 10),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: t.vm.value.vips.map((e) => _subscriptionItem(e)).toList(),
+                        children: UserController.find.userProfile.value.vips.map((e) => _subscriptionItem(e)).toList(),
                       ),
                     ))
               ],
@@ -119,7 +120,7 @@ class ProfileDashboardPage extends StatelessWidget {
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
                         padding: EdgeInsets.zero,
-                        children: t.vm.value.trophies.map((e) {
+                        children: UserController.find.userProfile.value.trophies.map((e) {
                           if (e.lighted) {
                             return ExtendedImage.network(
                               e.iconImage,
@@ -209,7 +210,7 @@ class ProfileDashboardPage extends StatelessWidget {
               margin: EdgeInsets.only(left: 10, right: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                gradient: vipModel.level <= t.vm.value.vipLevel
+                gradient: vipModel.level <= UserController.find.userProfile.value.vipLevel
                     ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xff707070), Color(0xff707070)])
                     : LinearGradient(
                         begin: Alignment.centerLeft,

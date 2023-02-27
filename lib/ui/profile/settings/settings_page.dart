@@ -16,6 +16,7 @@ import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
@@ -152,7 +153,7 @@ Deleting your account will remove your profile and all of your content from Side
 
   String getVipName(int level) {
     String name = "";
-    final profilePageController = Get.find<ProfilePageController>();
+    final profilePageController = VipPageController.find;
     profilePageController.vipInfoList.forEach((element) {
       if (element.level == level) {
         name = element.name;

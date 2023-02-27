@@ -21,8 +21,8 @@ class TIMUIKitHistoryMessageListContainer extends StatefulWidget {
   final Widget Function(BuildContext, V2TimMessage?)? itemBuilder;
   final AutoScrollController? scrollController;
   final String conversationID;
-  final Function(String? userId, String? nickName)?
-      onLongPressForOthersHeadPortrait;
+  final V2TimConversation conversation;
+  final Function(String? userId, String? nickName)? onLongPressForOthersHeadPortrait;
   final List<V2TimGroupAtInfo?>? groupAtInfoList;
   final V2TimMessage? initFindingMsg;
 
@@ -30,14 +30,12 @@ class TIMUIKitHistoryMessageListContainer extends StatefulWidget {
   final MessageItemBuilder? messageItemBuilder;
 
   /// the builder for avatar
-  final Widget Function(BuildContext context, V2TimMessage message)?
-      userAvatarBuilder;
+  final Widget Function(BuildContext context, V2TimMessage message)? userAvatarBuilder;
 
   /// the builder for tongue
   final TongueItemBuilder? tongueItemBuilder;
 
-  final Widget? Function(V2TimMessage message, Function() closeTooltip,
-      [Key? key, BuildContext? context])? extraTipsActionItemBuilder;
+  final Widget? Function(V2TimMessage message, Function() closeTooltip, [Key? key, BuildContext? context])? extraTipsActionItemBuilder;
 
   /// conversation type
   final ConvType conversationType;
@@ -70,34 +68,28 @@ class TIMUIKitHistoryMessageListContainer extends StatefulWidget {
           this.showNickName = true,
       this.initFindingMsg,
       this.mainHistoryListConfig,
-      this.toolTipsConfig})
+      this.toolTipsConfig,
+      required this.conversation})
       : super(key: key);
   @override
-  State<StatefulWidget> createState() =>
-      _TIMUIKitHistoryMessageListContainerState();
+  State<StatefulWidget> createState() => _TIMUIKitHistoryMessageListContainerState();
 }
 
-class _TIMUIKitHistoryMessageListContainerState
-    extends TIMUIKitState<TIMUIKitHistoryMessageListContainer> {
+class _TIMUIKitHistoryMessageListContainerState extends TIMUIKitState<TIMUIKitHistoryMessageListContainer> {
   late TIMUIKitHistoryMessageListController _historyMessageListController;
 
   List<V2TimMessage?> historyMessageList = [];
 
-  Future<void> requestForData(String? lastMsgID, TUIChatSeparateViewModel model,
-      [int? count]) async {
+  Future<void> requestForData(String? lastMsgID, TUIChatSeparateViewModel model, [int? count]) async {
     if (model.haveMoreData) {
-      await model.loadData(
-          count: count ?? (kIsWeb ? 15 : HistoryMessageDartConstant.getCount),
-          lastMsgID: lastMsgID);
+      await model.loadData(count: count ?? (kIsWeb ? 15 : HistoryMessageDartConstant.getCount), lastMsgID: lastMsgID);
     }
   }
 
-  Widget Function(BuildContext, V2TimMessage)? _getTopRowBuilder(
-      TUIChatSeparateViewModel model) {
+  Widget Function(BuildContext, V2TimMessage)? _getTopRowBuilder(TUIChatSeparateViewModel model) {
     if (widget.messageItemBuilder?.messageNickNameBuilder != null) {
       return (BuildContext context, V2TimMessage message) {
-        return widget.messageItemBuilder!.messageNickNameBuilder!(
-            context, message, model);
+        return widget.messageItemBuilder!.messageNickNameBuilder!(context, message, model);
       };
     }
     return null;
@@ -106,15 +98,13 @@ class _TIMUIKitHistoryMessageListContainerState
   @override
   void initState() {
     super.initState();
-    _historyMessageListController = TIMUIKitHistoryMessageListController(
-        scrollController: widget.scrollController);
+    _historyMessageListController = TIMUIKitHistoryMessageListController(scrollController: widget.scrollController);
   }
 
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final chatConfig = Provider.of<TIMUIKitChatConfig>(context);
-    final TUIChatSeparateViewModel model =
-        Provider.of<TUIChatSeparateViewModel>(context, listen: false);
+    final TUIChatSeparateViewModel model = Provider.of<TUIChatSeparateViewModel>(context, listen: false);
 
     return TIMUIKitHistoryMessageListSelector(
       conversationID: model.conversationID,
@@ -123,6 +113,7 @@ class _TIMUIKitHistoryMessageListContainerState
           model: model,
           controller: _historyMessageListController,
           groupAtInfoList: widget.groupAtInfoList,
+          conversation: widget.conversation,
           mainHistoryListConfig: widget.mainHistoryListConfig,
           itemBuilder: (context, message) {
             return TIMUIKitHistoryMessageListItem(
@@ -130,20 +121,15 @@ class _TIMUIKitHistoryMessageListContainerState
                 topRowBuilder: _getTopRowBuilder(model),
                 onScrollToIndex: _historyMessageListController.scrollToIndex,
                 themeData: MessageThemeData(
-                  messageBackgroundColor:!(message!.isSelf??true)? Color(0xff8eb1e3):null,
+                  messageBackgroundColor: !(message!.isSelf ?? true) ? Color(0xff8eb1e3) : null,
                   // messageTextStyle: TextStyle(color:!(message!.isSelf??true)? Colors.white54:null),
                 ),
-                onScrollToIndexBegin:
-                    _historyMessageListController.scrollToIndexBegin,
-                toolTipsConfig: widget.toolTipsConfig ??
-                    ToolTipsConfig(
-                        additionalItemBuilder:
-                            widget.extraTipsActionItemBuilder),
+                onScrollToIndexBegin: _historyMessageListController.scrollToIndexBegin,
+                toolTipsConfig: widget.toolTipsConfig ?? ToolTipsConfig(additionalItemBuilder: widget.extraTipsActionItemBuilder),
                 message: message,
                 onTapForOthersPortrait: widget.onTapAvatar,
                 messageItemBuilder: widget.messageItemBuilder,
-                onLongPressForOthersHeadPortrait:
-                    widget.onLongPressForOthersHeadPortrait,
+                onLongPressForOthersHeadPortrait: widget.onLongPressForOthersHeadPortrait,
                 allowAtUserWhenReply: chatConfig.isAtWhenReply,
                 allowAvatarTap: chatConfig.isAllowClickAvatar,
                 allowLongPress: chatConfig.isAllowLongPressMessage,
@@ -152,7 +138,7 @@ class _TIMUIKitHistoryMessageListContainerState
           tongueItemBuilder: widget.tongueItemBuilder,
           initFindingMsg: widget.initFindingMsg,
           messageList: messageList,
-          onLoadMore: (String? a, [int? b]) async {
+          onLoadMore: (String? a, LoadDirection direction, [int? b]) async {
             return await requestForData(a, model, b);
           },
         );
