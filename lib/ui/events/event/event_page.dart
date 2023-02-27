@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/colorful_button.dart';
@@ -60,7 +62,8 @@ class EventPage extends StatelessWidget {
                           image: controller.eventDetailModel.value.image,
                         ));
             }),
-            SliverPersistentHeader(pinned: true, delegate: _StickyTabBarDelegate(child: _buildTabBar())),
+            SliverPersistentHeader(
+                pinned: true, delegate: _StickyTabBarDelegate(child: _buildTabBar())),
           ];
         },
         body: Container(
@@ -74,7 +77,9 @@ class EventPage extends StatelessWidget {
   }
 
   Widget _buildBtn(BuildContext context) {
-    if (!joined && !controller.eventDetailModel.value.canJoin && !controller.eventDetailModel.value.canCancel) {
+    if (!joined &&
+        !controller.eventDetailModel.value.canJoin &&
+        !controller.eventDetailModel.value.canCancel) {
       return Container();
     }
     if (controller.type == 1) {
@@ -89,7 +94,9 @@ class EventPage extends StatelessWidget {
                 )),
           ),
           height: 48,
-          onTap: () => controller.eventDetailModel.value.canCancel ? controller.cancelActivity() : controller.joinActivity(context),
+          onTap: () => controller.eventDetailModel.value.canCancel
+              ? controller.cancelActivity()
+              : controller.joinActivity(context),
         ),
       );
     } else {
@@ -106,7 +113,9 @@ class EventPage extends StatelessWidget {
                   )),
             ),
             height: 48,
-            onTap: () => controller.eventDetailModel.value.canCancel ? controller.cancelActivity() : controller.joinMatch(context),
+            onTap: () => controller.eventDetailModel.value.canCancel
+                ? controller.cancelActivity()
+                : controller.joinMatch(context),
           ),
         );
       } else {
@@ -135,14 +144,15 @@ class EventPage extends StatelessWidget {
                     isScrollable: true,
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.white38,
-                    indicatorColor: Colors.white38,
+                    indicatorColor: AppColor.yellow,
                     indicatorSize: TabBarIndicatorSize.label,
-                    indicator: HomeIndicator(),
+                    indicator:
+                        HomeIndicator(borderSide: BorderSide(width: 4.0.w, color: AppColor.yellow)),
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.only(bottom: 2),
                     labelPadding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
-                    labelStyle: const TextStyle(fontSize: 18, fontFamily: "din"),
-                    unselectedLabelStyle: const TextStyle(fontSize: 18, fontFamily: "din"),
+                    labelStyle: TextStyle(fontSize: 16, fontFamily: FONT_MEDIUM),
+                    unselectedLabelStyle: TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
                     tabs: createTabs(),
                   )
                 ]),
@@ -298,16 +308,22 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           var dateTime = timeSplit.join(':');
           checkFee(() async {
             EasyLoading.show();
-            await EventsApi.joinActivity(eventDetailModel.value.id, userController.user.value.id, store.id, cupsleeve: dateTime);
+            await EventsApi.joinActivity(
+                eventDetailModel.value.id, userController.user.value.id, store.id,
+                cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
-            Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                barrierColor: Colors.black26);
           });
         }
       } else {
         SelectorItem? item;
         if (eventDetailModel.value.location.length > 1) {
-          item = await SelectorDialog.show(context, eventDetailModel.value.location, title: "Select Location".tr);
+          item = await SelectorDialog.show(context, eventDetailModel.value.location,
+              title: "Select Location".tr);
         } else {
           item = eventDetailModel.value.location[0];
         }
@@ -315,10 +331,14 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           LocationModel store = item as LocationModel;
           checkFee(() async {
             EasyLoading.show();
-            await EventsApi.joinActivity(eventDetailModel.value.id, userController.user.value.id, store.id);
+            await EventsApi.joinActivity(
+                eventDetailModel.value.id, userController.user.value.id, store.id);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             EasyLoading.dismiss();
-            Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                barrierColor: Colors.black26);
           });
         }
       }
@@ -329,7 +349,8 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     EasyLoading.show();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
     onRefresh();
-    Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr), barrierColor: Colors.black26);
+    Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
+        barrierColor: Colors.black26);
     EasyLoading.dismiss();
   }
 
@@ -337,7 +358,8 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
-        item = await SelectorDialog.show(context, eventDetailModel.value.location, title: "Select Location".tr);
+        item = await SelectorDialog.show(context, eventDetailModel.value.location,
+            title: "Select Location".tr);
       } else {
         item = eventDetailModel.value.location[0];
       }
@@ -345,10 +367,14 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
         LocationModel store = item as LocationModel;
         checkFee(() async {
           EasyLoading.show();
-          await EventsApi.joinMatch(eventDetailModel.value.id, userController.user.value.id, store.id);
+          await EventsApi.joinMatch(
+              eventDetailModel.value.id, userController.user.value.id, store.id);
           eventDetailModel.value.canCancel = true;
           EasyLoading.dismiss();
-          Get.dialog(ConfirmDialog(title: "Congratulations".tr, info: "You have successfully signed up!".tr), barrierColor: Colors.black26);
+          Get.dialog(
+              ConfirmDialog(
+                  title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+              barrierColor: Colors.black26);
         });
       }
     });
@@ -362,8 +388,11 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
 
   void checkFee(Function checkDone) {
     if (eventDetailModel.value.fee > 0) {
-      String tips = "${'We will charge a deposit of £'.tr}${eventDetailModel.value.fee} ${'from your balance for this sign up, Please make sure that you have enough balance.'.tr}";
-      Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips), barrierColor: Colors.black26).then((value) {
+      String tips =
+          "${'We will charge a deposit of £'.tr}${eventDetailModel.value.fee} ${'from your balance for this sign up, Please make sure that you have enough balance.'.tr}";
+      Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips),
+              barrierColor: Colors.black26)
+          .then((value) {
         if (value == true) {
           UserController userController = Get.find<UserController>();
           double userBalance = double.parse(userController.userInfoModel.value.balance);

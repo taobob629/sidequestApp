@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wy/config/icon_font.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:html/dom.dart' as dom;
 
@@ -30,7 +33,7 @@ class TabOverviewPage extends StatelessWidget {
     return Obx(() => Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),
           padding: const EdgeInsets.symmetric(vertical: 5),
-          decoration: BoxDecoration(color: Color(0xCC28253D), borderRadius: BorderRadius.circular(16)),
+          decoration: itemDecoration(),
           child: Column(
             children: [
               // _buildSectionTopItem("time", "Check In", "${controller.eventDetailModel.value.checkinTime}"),
@@ -50,7 +53,10 @@ class TabOverviewPage extends StatelessWidget {
                 "Start Time".tr,
                 "${controller.eventDetailModel.value.startTime}",
               ),
-              controller.type == 0 ? _buildSectionTopItem("time".tr, "Check In".tr, "${controller.eventDetailModel.value.checkinTime}") : Container(),
+              controller.type == 0
+                  ? _buildSectionTopItem(
+                      "time".tr, "Check In".tr, "${controller.eventDetailModel.value.checkinTime}")
+                  : Container(),
               _buildSectionTopItem(
                 "fee".tr,
                 "Price".tr,
@@ -67,7 +73,10 @@ class TabOverviewPage extends StatelessWidget {
                 "Formation".tr,
                 "${controller.eventDetailModel.value.formation}",
               ),
-              controller.type == 0 ? _buildSectionTopItem("game".tr, "Game".tr, "${controller.eventDetailModel.value.gameName}") : Container(),
+              controller.type == 0
+                  ? _buildSectionTopItem(
+                      "game".tr, "Game".tr, "${controller.eventDetailModel.value.gameName}")
+                  : Container(),
               // _buildSectionTopItem("people", "Participants", "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}"),
               // controller.type == 0 ? _buildSectionTopItem("device", "Equipment", "${controller.eventDetailModel.value.equipment}") : Container(),
               // _buildSectionTopItem(
@@ -91,7 +100,12 @@ class TabOverviewPage extends StatelessWidget {
         ));
   }
 
-  Widget _buildSectionTopItem(String iconName, String title, String content, {CrossAxisAlignment align = CrossAxisAlignment.center, double width = 20, double height = 20}) {
+  Color iconColor = Color(0xff808388);
+
+  Widget _buildSectionTopItem(String iconName, String title, String content,
+      {CrossAxisAlignment align = CrossAxisAlignment.center,
+      double width = 20,
+      double height = 20}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
       child: PWidget.column([
@@ -100,7 +114,7 @@ class TabOverviewPage extends StatelessWidget {
           children: [
             SvgPicture.asset(
               "assets/images/ic_match_o_$iconName.svg",
-              color: Color(0xFF7D8AAC),
+              color: iconColor,
               width: width,
               height: height,
             ),
@@ -108,7 +122,7 @@ class TabOverviewPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10, top: 4),
               child: Text(
                 title,
-                style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 16),
+                style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 16),
               ),
             ),
             if (!title.contains('Location'.tr))
@@ -118,7 +132,8 @@ class TabOverviewPage extends StatelessWidget {
                   child: Text(
                     content,
                     textAlign: TextAlign.right,
-                    style: TextStyle(color: Color(0xFF7C8AAD), fontSize: 12, height: 1.5),
+                    style: TextStyle(
+                        color: iconColor, fontSize: 12, fontFamily: FONT_MEDIUM, height: 1.5),
                   ),
                 ),
               )
@@ -128,7 +143,7 @@ class TabOverviewPage extends StatelessWidget {
           Text(
             content,
             textAlign: TextAlign.right,
-            style: TextStyle(color: Color(0xFF7C8AAD), fontSize: 12, height: 1.5),
+            style: TextStyle(color: iconColor, fontFamily: FONT_MEDIUM, fontSize: 12, height: 1.5),
           ),
       ], '111'),
     );
@@ -138,7 +153,7 @@ class TabOverviewPage extends StatelessWidget {
     return Obx(() => Container(
         margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        decoration: BoxDecoration(color: Color(0xCC28253D), borderRadius: BorderRadius.circular(16)),
+        decoration: itemDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -146,13 +161,14 @@ class TabOverviewPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 "GENERAL INFORMATION".tr,
-                style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 16),
+                style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 16.sp),
               ),
             ),
             Html(
               data: controller.eventDetailModel.value.generalInfo,
-              style: {"body": Style(color: Colors.white54, lineHeight: LineHeight(2))},
-              onLinkTap: (String? url, RenderContext context, Map<String, String> attributes, dom.Element? element) async {
+              style: {"body": Style(color: Colors.white54, lineHeight: LineHeight(2),fontFamily: FONT_MEDIUM)},
+              onLinkTap: (String? url, RenderContext context, Map<String, String> attributes,
+                  dom.Element? element) async {
                 if (url != null) {
                   await launch(url);
                 }

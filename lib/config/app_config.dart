@@ -97,6 +97,7 @@ class AppConfig {
 
   static String getBaseServer() {
     String env = StorageManager.getEnv();
+    return _devServer;
     if (env == "dev220") {
       return _devServer;
     } else if (env == "dev201") {
