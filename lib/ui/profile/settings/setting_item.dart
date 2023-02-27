@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/config/icon_font.dart';
 
 class SettingItem extends StatelessWidget {
   final String title;
@@ -21,11 +23,11 @@ class SettingItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: TextStyle(color: Colors.white,fontSize: 16),),
+            Text(title, style: TextStyle(color: Colors.white,fontSize: 15.sp,fontFamily: FONT_LIGHT),),
             Spacer(),
             Text(info == null ?"":info!, style: TextStyle(color: Colors.grey,fontSize: 14)),
             SizedBox(width: 5,),
-            Icon(Icons.arrow_forward_ios_rounded,size: 16, color: Colors.white38,)
+            Icon(Icons.arrow_forward_ios_rounded,size: 16, color: Color(0xFFC5C3C6),)
 
           ],
         ),

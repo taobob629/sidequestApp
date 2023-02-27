@@ -1,88 +1,70 @@
 import 'package:wy/model/safe_convert.dart';
 
 class ActivityListModel {
-  // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/Fight night app and website.jpg
+  // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/IMG_20230123_103239_582.jpg
   final String image;
 
-  // 16
-  final int totalMembers;
+  // 0302@2179
+  final String unique;
 
-  // Fighting Games
-  final String game;
-  final List<LocationNameItem> locationName;
-
-  // <p>N/A</p>
-  final String bonus;
-
-  // Sidequest Hub Coventry
-  final String location;
-
-  // 185
+  // 731
   final int id;
 
-  // 24-02-2023 12:00(Fri)
+  // 12:00 11-03-2023
   final String time;
 
-  // FightNight Monday
+  // Photocard Trading Event
   final String title;
+  final List<ParticipantsItem> participants;
 
   ActivityListModel({
     this.image = "",
-    this.totalMembers = 0,
-    this.game = "",
-    required this.locationName,
-    this.bonus = "",
-    this.location = "",
+    this.unique = "",
     this.id = 0,
     this.time = "",
     this.title = "",
+    required this.participants,
   });
+
+  List<ParticipantsItem> showParticipants() {
+    if (participants.isEmpty) return [];
+    if (participants.length <= 3) return participants;
+    return participants.sublist(0, 3);
+  }
 
   factory ActivityListModel.fromJson(Map<String, dynamic>? json) => ActivityListModel(
         image: asT<String>(json, 'image'),
-        totalMembers: asT<int>(json, 'totalMembers'),
-        game: asT<String>(json, 'game'),
-        locationName:
-            asT<List>(json, 'locationName').map((e) => LocationNameItem.fromJson(e)).toList(),
-        bonus: asT<String>(json, 'bonus'),
-        location: asT<String>(json, 'location'),
+        unique: asT<String>(json, 'unique'),
         id: asT<int>(json, 'id'),
         time: asT<String>(json, 'time'),
         title: asT<String>(json, 'title'),
+        participants:
+            asT<List>(json, 'participants').map((e) => ParticipantsItem.fromJson(e)).toList(),
       );
 
   Map<String, dynamic> toJson() => {
         'image': image,
-        'totalMembers': totalMembers,
-        'game': game,
-        'locationName': locationName.map((e) => e.toJson()).toList(),
-        'bonus': bonus,
-        'location': location,
+        'unique': unique,
         'id': id,
         'time': time,
         'title': title,
+        'participants': participants.map((e) => e.toJson()).toList(),
       };
 }
 
-class LocationNameItem {
-  // Sidequest Hub Coventry
-  final String name;
+class ParticipantsItem {
+  // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/MemberAvatar/members/5.jpg
+  final String photo;
 
-  // 4
-  final int id;
-
-  LocationNameItem({
-    this.name = "",
-    this.id = 0,
+  ParticipantsItem({
+    this.photo = "",
   });
 
-  factory LocationNameItem.fromJson(Map<String, dynamic>? json) => LocationNameItem(
-        name: asT<String>(json, 'name'),
-        id: asT<int>(json, 'id'),
+  factory ParticipantsItem.fromJson(Map<String, dynamic>? json) => ParticipantsItem(
+        photo: asT<String>(json, 'photo'),
       );
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'id': id,
+        'photo': photo,
       };
 }

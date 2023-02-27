@@ -101,7 +101,7 @@ class WithDrawRecordPage extends StatelessWidget {
                         print(details.globalPosition);
                         Get.dialog(TipsDialog(
                           offset: details.globalPosition,
-                          tips: model.note,
+                          tips: '${model.note}',
                         ));
                       },
                       child: Container(

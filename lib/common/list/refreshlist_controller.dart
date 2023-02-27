@@ -15,7 +15,7 @@ import 'http_interface.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:dio/src/response.dart' as dio;
 
-const int DEFAULT_PAGE = 1;
+const int DEFAULT_PAGE = 0;
 const int DEFAULT_PAGE_SIZE = 10;
 
 abstract class RefreshListController<T> extends BasePageController
@@ -62,8 +62,9 @@ abstract class RefreshListController<T> extends BasePageController
     var method = buildMethodType();
     var params = buildParams();
     if (paged()) {
-      params['page'] = "$page";
+      params['pageNum'] = "$page";
       params['pageSize'] = '$pageSize';
+      url='$url&pageNum=$page&pageSize=$pageSize';
     }
     if (method == NWMethod.GET) {
       params = Map();
@@ -110,7 +111,9 @@ abstract class RefreshListController<T> extends BasePageController
   void onRefresh() {
     _isRefresh = true;
     page = DEFAULT_PAGE;
-    refreshController?.requestRefresh();
+    if(page==0) {
+      refreshController?.requestRefresh();
+    }
     request();
   }
 

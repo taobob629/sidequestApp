@@ -29,7 +29,7 @@ class ActivityListController extends RefreshListController<ActivityListModel> {
 
   @override
   String buildUrl() {
-    return '/app/events/26/webActivities?matchDiff=$type';
+    return '/peiwan/app/new/event/list?tab=$type';
   }
 
   @override
@@ -37,7 +37,7 @@ class ActivityListController extends RefreshListController<ActivityListModel> {
 
   @override
   List<ActivityListModel> dealData(dio.Response<dynamic> response) {
-    return response.data['matchList'].map<ActivityListModel>((item) => ActivityListModel.fromJson(item)).toList();
+    return response.data.map<ActivityListModel>((item) => ActivityListModel.fromJson(item)).toList();
   }
 
   @override

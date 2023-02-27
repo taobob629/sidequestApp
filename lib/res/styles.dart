@@ -7,6 +7,7 @@
 */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/config/app_color.dart';
 
 class PageStyle {
   static var ts_FFFFFF_15sp = TextStyle(
@@ -22,5 +23,14 @@ class PageStyle {
     fontWeight: FontWeight.bold,
     color: Color(0xFFFFFFFF),
   );
-  static var itemPaddingNormal= EdgeInsets.all(15.r);
+  static var itemPaddingNormal = EdgeInsets.all(15.r);
 }
+
+inputHint() => TextStyle(color: Color(0xFFB2B9C9),fontSize: 14.sp);
+
+BoxDecoration itemDecoration() =>
+    BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(16.r));
+
+ShapeDecoration inputDecoration() => ShapeDecoration(
+    color: Color(0xFF313033),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r));

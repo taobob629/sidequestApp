@@ -7,7 +7,7 @@ import 'package:wy/model/game_user_model.dart';
 
 class ActivityApi {
   static Future<List<ActivityTabModel>> activityTabs() async {
-    Response response = await http.get('/app/events/26/eventTab');
+    Response response = await http.get('/peiwan/app/new/event/tabs');
     if (response.data == null) return [];
     return response.data.map<ActivityTabModel>((item) => ActivityTabModel.fromJson(item)).toList();
   }
