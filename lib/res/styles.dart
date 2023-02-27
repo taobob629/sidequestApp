@@ -26,5 +26,11 @@ class PageStyle {
   static var itemPaddingNormal = EdgeInsets.all(15.r);
 }
 
+inputHint() => TextStyle(color: Color(0xFFB2B9C9),fontSize: 14.sp);
+
 BoxDecoration itemDecoration() =>
     BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(16.r));
+
+ShapeDecoration inputDecoration() => ShapeDecoration(
+    color: Color(0xFF313033),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r));

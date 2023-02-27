@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/config/icon_font.dart';
+import 'package:wy/res/index.dart';
 
 class InputView extends StatelessWidget {
-
   final String label;
   final String tips;
   final TextInputType textInputType;
@@ -36,7 +38,7 @@ class InputView extends StatelessWidget {
           child: customLabel ??
               Text(
                 label,
-                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "DIN"),
+                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
               ),
         ),
         Container(
@@ -46,7 +48,7 @@ class InputView extends StatelessWidget {
             right: 15,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: ShapeDecoration(color: Color(0x10FFFFFF), shape: StadiumBorder()),
+          decoration: inputDecoration(),
           child: customInput ??
               TextField(
                 maxLines: 1,
@@ -62,7 +64,7 @@ class InputView extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: tips,
                   counterText: '',
-                  hintStyle: TextStyle(fontSize: 14, color: Colors.white24),
+                  hintStyle: inputHint(),
                   border: InputBorder.none,
                   //  contentPadding: EdgeInsets.only(bottom: 8)
                 ),

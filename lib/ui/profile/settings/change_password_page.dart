@@ -16,25 +16,20 @@ class ChangePasswordPage extends StatelessWidget {
   final bool have;
   late final ChangePasswordPageController controller;
 
-  ChangePasswordPage({
-    required this.type,
-    this.check = false,
-    this.have = false
-  }){
+  ChangePasswordPage({required this.type, this.check = false, this.have = false}) {
     controller = Get.put(ChangePasswordPageController(type: type, check: check, have: have));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: type == 1 ? "Account Password".tr : "Payment Pin".tr,
+        title: type == 1 ? "Account Password".tr : "Payment Pin".tr,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx(() => controller.have.isTrue
                 ? InputView(
+                    autoHeight: true,
                     controller: controller.oldController,
                     textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
                     inputFormatters: type == 1
@@ -44,10 +39,11 @@ class ChangePasswordPage extends StatelessWidget {
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
                           ],
                     label: type == 1 ? "Old Password".tr : "Old Pin".tr,
-                    tips: type == 1 ? "Input your old password".tr : "Input your old pin".tr):Container()
-          ),
-          InputView(
-              controller: controller.newController,
+                    tips: type == 1 ? "Input your old password".tr : "Input your old pin".tr)
+                : Container()),
+            InputView(
+                autoHeight: true,
+                controller: controller.newController,
                 textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
                 inputFormatters: type == 1
                     ? null
@@ -57,52 +53,52 @@ class ChangePasswordPage extends StatelessWidget {
                       ],
                 label: type == 1 ? "New Password".tr : "New Pin".tr,
                 tips: type == 1 ? "Input your new password".tr : "Input your new pin".tr),
-          Offstage(
-            offstage: type == 1,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10),
+            Offstage(
+              offstage: type == 1,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 10),
                 child: Text(
                   "* Only 6 numbers accepted as your payment pin".tr,
                   style: TextStyle(color: Colors.white54, fontSize: 12),
                 ),
               ),
-          ),
-        ],
-      ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: GestureDetector(
-              onTap:()=> Get.to(()=>ForgetPage(type: type,)),
-              child: Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Center(
-                  child: Text(
-                    "Forgotten?".tr,
+            ),
+          ],
+        ),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                onTap: () => Get.to(() => ForgetPage(
+                      type: type,
+                    )),
+                child: Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                    child: Text(
+                      "Forgotten?".tr,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
                       ),
                     ),
+                  ),
                 ),
               ),
             ),
-          ),
-          FloatingButton(
-            label: "CONFIRM".tr,
+            FloatingButton(
+              label: "CONFIRM".tr,
               onTap: () => controller.updatePassword(),
             )
-        ],
-      )
-    );
+          ],
+        ));
   }
 }
 
-class ChangePasswordPageController extends GetxController{
-  
+class ChangePasswordPageController extends GetxController {
   TextEditingController oldController = TextEditingController();
   TextEditingController newController = TextEditingController();
 
@@ -111,18 +107,14 @@ class ChangePasswordPageController extends GetxController{
   int type;
   bool check;
 
-  ChangePasswordPageController({
-    required this.type,
-    required this.check,
-    required bool have
-  }){
+  ChangePasswordPageController({required this.type, required this.check, required bool have}) {
     this.have.value = have;
   }
 
   @override
-  void onReady() async{
+  void onReady() async {
     super.onReady();
-    if(type == 2 && check) {
+    if (type == 2 && check) {
       EasyLoading.show();
       have.value = await UserApi.havePayPassword();
       EasyLoading.dismiss();
@@ -135,30 +127,29 @@ class ChangePasswordPageController extends GetxController{
     newController.dispose();
     super.onClose();
   }
-  
-  void updatePassword() async{
+
+  void updatePassword() async {
     var oldPwd = oldController.text;
     var newPwd = newController.text;
-    
-    if(newPwd.length < 6) {
+
+    if (newPwd.length < 6) {
       EasyLoading.showToast("Password can not less than 6 characters".tr);
       return;
     }
     EasyLoading.show();
-    if(type == 1) {
+    if (type == 1) {
       bool ret = await UserApi.updateLoginPassword(oldPwd, newPwd);
-      if(ret){
+      if (ret) {
         EasyLoading.showSuccess("Success".tr);
         StorageManager.setPassword(newPwd);
         Get.back();
       }
-    }else{
+    } else {
       bool ret = await UserApi.updatePayPassword(oldPwd, newPwd);
-      if(ret){
+      if (ret) {
         EasyLoading.showSuccess("Success".tr);
         Get.back();
       }
     }
-
   }
 }
