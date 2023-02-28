@@ -84,7 +84,7 @@ class ProfileDashboardPage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 10),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: UserController.find.userProfile.value.vips.map((e) => _subscriptionItem(e)).toList(),
+                        children: UserController.find.userProfile.value.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
                       ),
                     ))
               ],
@@ -175,7 +175,7 @@ class ProfileDashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _subscriptionItem(VipModel vipModel) {
+  Widget _subscriptionItem(VipModel vipModel, int index) {
     return Container(
       // width: 128.w,
       height: 48,
@@ -200,7 +200,7 @@ class ProfileDashboardPage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               // if (vipModel.level > t.vm.value.vipLevel) {
-              Get.toNamed(AppPages.VIP_PAGE);
+              Get.toNamed(AppPages.VIP_PAGE, arguments: index);
               // }
               // Get.to(VipPage(vipLevel: vipLevel, vipIndex: vipIndex, list: list))
             },

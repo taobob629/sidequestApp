@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/app.dart';
@@ -67,8 +67,7 @@ class SearchUserPage extends GetView<SearchUserController> {
         top: 10,
       ).r,
       margin: EdgeInsets.only(left: 15, right: 15).r,
-      decoration: BoxDecoration(
-          color: AppColor.itemBg, borderRadius: BorderRadius.all(Radius.circular(16)).w),
+      decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.all(Radius.circular(16)).w),
       child: Stack(
         children: [
           Row(
@@ -82,11 +81,7 @@ class SearchUserPage extends GetView<SearchUserController> {
                 child: Container(
                   width: 50.h,
                   height: 50.h,
-                  decoration: model.online == ONLINE
-                      ? BoxDecoration(
-                          border: Border.all(color: badgeColor, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(25.h)))
-                      : null,
+                  decoration: model.online == ONLINE ? BoxDecoration(border: Border.all(color: badgeColor, width: 1), borderRadius: BorderRadius.all(Radius.circular(25.h))) : null,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(25)).h,
                     child: ImageUtil.networkImage(url: model.thumb, fit: BoxFit.cover),
@@ -132,10 +127,7 @@ class SearchUserPage extends GetView<SearchUserController> {
                   5.verticalSpace,
                   Stack(
                     children: [
-                      Obx(() => Wrap(
-                          spacing: 8.w,
-                          runSpacing: 8.h,
-                          children: model.showGames.map((item) => game_tag(item)).toList())),
+                      Obx(() => Wrap(spacing: 8.w, runSpacing: 8.h, children: model.showGames.map((item) => game_tag(item)).toList())),
                     ],
                   )
                 ],
@@ -147,9 +139,7 @@ class SearchUserPage extends GetView<SearchUserController> {
               child: InkWell(
                 onTap: () => model.expand(),
                 child: Obx(() => Icon(
-                      model.showGames.length <= 3
-                          ? Icons.keyboard_arrow_down_rounded
-                          : Icons.keyboard_arrow_up,
+                      model.showGames.length <= 3 ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_up,
                       color: Colors.white,
                     )),
               ),
@@ -166,8 +156,7 @@ class SearchUserPage extends GetView<SearchUserController> {
                   children: [
                     Text(
                       '${model.levelName}',
-                      style: TextStyle(
-                          color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
+                      style: TextStyle(color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
                     ),
                     LocationWidget(model.distance),
                   ],
@@ -188,8 +177,7 @@ class SearchUserPage extends GetView<SearchUserController> {
           ImageUtil.networkImage(url: item.ico, height: 10.w, width: 10.w),
           Text(
             '${item.name}',
-            style:
-                TextStyle(color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
+            style: TextStyle(color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
           )
         ],
       ),

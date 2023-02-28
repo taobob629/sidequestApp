@@ -6,14 +6,14 @@ import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/profile/vip/vip_info_dialog.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
+import '../../../../api/vip_api.dart';
 import '../../../../utils/navigator_helper.dart';
+import '../../../common/dialog_confirm.dart';
 import '../../../controller/user_controller.dart';
-import '../../../profile/vip/subscribe_dialog.dart';
 import '../model/vip_info_model.dart';
 import 'vip_benefit_item.dart';
 
@@ -119,7 +119,13 @@ class VipPage extends StatelessWidget {
                                         child: Obx(() => Row(
                                               children: [
                                                 GestureDetector(
-                                                  onTap: () => controller.openMonth(),
+                                                  onTap: () {
+                                                    if (userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level) {
+                                                      controller.cancelVip();
+                                                    } else {
+                                                      controller.openMonth();
+                                                    }
+                                                  },
                                                   child: Container(
                                                       height: 32,
                                                       width: 124,
@@ -131,7 +137,7 @@ class VipPage extends StatelessWidget {
                                                           borderRadius: BorderRadius.circular(20)),
                                                       child: Text(
                                                         userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                            ? "Subscribed".tr
+                                                            ? "Cancel".tr
                                                             : "£ ${vipModel.monthFee.toString()} PM",
                                                         style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                                                       )),
@@ -314,6 +320,7 @@ class VipPageController extends GetxController {
   void onInit() {
     scrollController = ScrollController();
     swiperController = SwiperController();
+    vipIndex.value = Get.arguments;
     getVipDetail();
     super.onInit();
   }
@@ -390,8 +397,37 @@ class VipPageController extends GetxController {
           userController.userProfile.refresh();
           getVipDetail();
         });
-        Get.dialog(SubscribeDialog(), barrierColor: Colors.black26);
+        // Get.dialog(SubscribeDialog(), barrierColor: Colors.black26);
       }
     });
+  }
+
+  void cancelVip() async {
+    EasyLoading.show();
+    String info = await VipApi.cancelInfo();
+    EasyLoading.dismiss();
+    Get.dialog(
+        ConfirmDialog(
+          title: "Cancel Subscription".tr,
+          info: info,
+          confirmBtn: "CONFIRM".tr,
+          onConfirm: () async {
+            Get.back();
+            EasyLoading.show();
+            String info = await VipApi.cancelVip();
+            EasyLoading.dismiss();
+            UserController.find.updateInfo();
+            Get.dialog(
+                ConfirmDialog(
+                    title: "Subscription Canceled".tr,
+                    info: info,
+                    confirmBtn: "CONFIRM".tr,
+                    onConfirm: () {
+                      Get.back();
+                    }),
+                barrierColor: Colors.black26);
+          },
+        ),
+        barrierColor: Colors.black26);
   }
 }
