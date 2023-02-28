@@ -22,29 +22,30 @@ class ProfileModel {
   int ranking = 0;
   int postNum = 0;
   String diamond = "";
+  bool vipCanceled = false;
 
-  ProfileModel({
-    this.language = "",
-    this.isAuth = 0,
-    this.sidekickLevel = 0,
-    this.nickName = "",
-    this.fans = 0,
-    this.vipLevel = 0,
-    this.followers = 0,
-    this.balance = "",
-    this.uk = "",
-    this.trophies = const [],
-    this.gender = 1,
-    this.avatar = "",
-    this.coin = 0,
-    this.email = "",
-    this.age = 0,
-    this.vips = const [],
-    this.coupons = 0,
-    this.ranking = 0,
-    this.postNum = 0,
-    this.diamond = "",
-  });
+  ProfileModel(
+      {this.language = "",
+      this.isAuth = 0,
+      this.sidekickLevel = 0,
+      this.nickName = "",
+      this.fans = 0,
+      this.vipLevel = 0,
+      this.followers = 0,
+      this.balance = "",
+      this.uk = "",
+      this.trophies = const [],
+      this.gender = 1,
+      this.avatar = "",
+      this.coin = 0,
+      this.email = "",
+      this.age = 0,
+      this.vips = const [],
+      this.coupons = 0,
+      this.ranking = 0,
+      this.postNum = 0,
+      this.diamond = "",
+      this.vipCanceled = false});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     language = json["language"] ?? "";
@@ -74,6 +75,7 @@ class ProfileModel {
     ranking = json["ranking"] ?? 0;
     postNum = json["postNum"] ?? 0;
     diamond = json["diamond"] ?? "";
+    vipCanceled = json["vipCanceled"] ?? false;
   }
 }
 

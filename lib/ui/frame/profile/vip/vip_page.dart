@@ -116,46 +116,84 @@ class VipPage extends StatelessWidget {
                                     Positioned(
                                         bottom: 14,
                                         left: 15,
-                                        child: Obx(() => Row(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level) {
+                                        child: Obx(() {
+                                          var vipCanceled = userController.userProfile.value.vipCanceled;
+                                          var diff = userController.userProfile.value.vipLevel - controller.vipInfoList[controller.vipIndex.value].level;
+                                          var showNextRenewal = (diff == 0) && !userController.userProfile.value.vipCanceled;
+                                          var btnTitle = "";
+                                          if (diff > 0) {
+                                            btnTitle = "Subscribed".tr;
+                                          } else if (diff == 0) {
+                                            if (vipCanceled) {
+                                              btnTitle = "Canceled".tr;
+                                            } else {
+                                              btnTitle = "Cancel".tr;
+                                            }
+                                          } else {
+                                            btnTitle = "£ ${vipModel.monthFee.toString()} PM";
+                                          }
+
+                                          return Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (diff > 0) {
+                                                    return;
+                                                  } else if (diff == 0) {
+                                                    if (!vipCanceled) {
                                                       controller.cancelVip();
-                                                    } else {
-                                                      controller.openMonth();
                                                     }
-                                                  },
-                                                  child: Container(
-                                                      height: 32,
-                                                      width: 124,
-                                                      alignment: Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                          color: userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                              ? Color(0xff707070)
-                                                              : Color(0xFFEDA82D),
-                                                          borderRadius: BorderRadius.circular(20)),
-                                                      child: Text(
-                                                        userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                            ? "Cancel".tr
-                                                            : "£ ${vipModel.monthFee.toString()} PM",
-                                                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                                      )),
+                                                  } else {
+                                                    controller.openMonth();
+                                                  }
+                                                  // if (!vipCanceled) {
+                                                  //   if (diff == 0) {
+                                                  //     controller.cancelVip();
+                                                  //   } else if (diff > 0) {
+                                                  //     // controller.openMonth();
+                                                  //   } else {
+                                                  //     controller.openMonth();
+                                                  //   }
+                                                  // }
+                                                },
+                                                child: Container(
+                                                    height: 32,
+                                                    width: 124,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                        color: userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                            ? Color(0xff707070)
+                                                            : Color(0xFFEDA82D),
+                                                        borderRadius: BorderRadius.circular(20)),
+                                                    child: Text(
+                                                      btnTitle,
+                                                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                                    )),
+                                              ),
+                                              Visibility(
+                                                visible: showNextRenewal,
+                                                child: Container(
+                                                  child: Text(
+                                                    "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
+                                                    style: TextStyle(color: Color(0xFF40280E), fontSize: 14, fontWeight: FontWeight.bold),
+                                                  ),
                                                 ),
-                                              ],
-                                            ))),
-                                    Positioned(
-                                        right: 12,
-                                        bottom: 20,
-                                        child: Visibility(
-                                          visible: userController.userProfile.value.vipLevel == controller.vipInfoList[controller.vipIndex.value].level,
-                                          child: Container(
-                                            child: Text(
-                                              "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
-                                              style: TextStyle(color: Color(0xFF40280E), fontSize: 14, fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ))
+                                              )
+                                            ],
+                                          );
+                                        })),
+                                    // Positioned(
+                                    //     right: 12,
+                                    //     bottom: 20,
+                                    //     child: Visibility(
+                                    //       visible: userController.userProfile.value.vipLevel == controller.vipInfoList[controller.vipIndex.value].level,
+                                    //       child: Container(
+                                    //         child: Text(
+                                    //           "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
+                                    //           style: TextStyle(color: Color(0xFF40280E), fontSize: 14, fontWeight: FontWeight.bold),
+                                    //         ),
+                                    //       ),
+                                    //     ))
                                   ],
                                 ),
                               );
@@ -321,6 +359,7 @@ class VipPageController extends GetxController {
     scrollController = ScrollController();
     swiperController = SwiperController();
     vipIndex.value = Get.arguments;
+    vipLevel.value = UserController.find.userProfile.value.vipLevel;
     getVipDetail();
     super.onInit();
   }
@@ -351,6 +390,7 @@ class VipPageController extends GetxController {
   getVipDetail() {
     ProfileApi.getVipDetail().then((value) {
       vipInfoList.value = value;
+      swiperController.move(vipIndex.value);
     });
   }
 
