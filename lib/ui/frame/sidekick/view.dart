@@ -37,7 +37,7 @@ class SideKickPage extends StatelessWidget {
         headerSliverBuilder: (context, index) => [
           SliverAppBar(
             backgroundColor: Colors.transparent,
-            leadingWidth: 120,
+            leadingWidth: 200,
             leading: TextButton.icon(
               onPressed: () {},
               icon: Container(),

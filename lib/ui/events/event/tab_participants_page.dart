@@ -18,7 +18,7 @@ class TabParticipantsPage extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 15, right: 15, bottom: 100),
         padding: const EdgeInsets.only(top: 15, bottom: 20),
-        decoration:itemDecoration(),
+        decoration: itemDecoration(),
         child: Obx(() {
           return Column(
             children: _buildRows(),
@@ -89,6 +89,7 @@ class TabParticipantsPage extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 15, top: 4.h),
             child: Text(
               model.name,
+              maxLines: 1,
               style: TextStyle(color: Colors.white, fontSize: 14.sp, fontFamily: FONT_LIGHT),
             ),
           )

@@ -12,6 +12,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/activity_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
+import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/utils/index.dart';
 
 class ActivityListItemWidget extends StatelessWidget {
@@ -39,7 +40,8 @@ class ActivityListItemWidget extends StatelessWidget {
                   color: Colors.grey,
                   borderRadius: new BorderRadius.all(new Radius.circular(16.0)),
                   image: new DecorationImage(
-                    image: NetworkImage(model.image), fit: BoxFit.cover,
+                    image: NetworkImage(model.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 // child: ImageUtil.networkImage(
@@ -56,7 +58,7 @@ class ActivityListItemWidget extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.only(left: 15.r, right: 15.r),
                 alignment: Alignment.centerLeft,
-            //    color: Colors.grey.withOpacity(0.1),
+                //    color: Colors.grey.withOpacity(0.1),
                 child: Text.rich(
                   TextSpan(
                     children: [
@@ -67,9 +69,7 @@ class ActivityListItemWidget extends StatelessWidget {
                       TextSpan(
                           text: '${model.time}',
                           style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM)),
+                              color: Colors.white54, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
                     ],
                   ),
                   textAlign: TextAlign.start,
@@ -89,7 +89,10 @@ class ActivityListItemWidget extends StatelessWidget {
           Positioned(
               right: 20.w,
               bottom: 12.h,
-              child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w))
+              child: InkWell(
+                onTap: ()=>Get.to(() => EventPage(id: model.id, type: 0)),
+                child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w),
+              ))
         ],
       ),
     );
@@ -102,7 +105,7 @@ class ActivityListItemWidget extends StatelessWidget {
       return Positioned(
           bottom: 0,
           top: 0,
-          left: (index - 1) * imageSize / 2,
+          left: (index - 1) * imageSize *3/4,
           child: Container(
             child: ImageUtil.networkImage(
                 fit: BoxFit.cover,

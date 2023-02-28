@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/attention_model.dart';
+import 'package:wy/model/game_user_model.dart';
 import 'package:wy/model/level_model.dart';
 import 'package:wy/model/simple_user_info_model.dart';
 import 'package:wy/model/skill_config_model.dart';
@@ -163,12 +164,12 @@ class UserApi {
     return LevelModel.fromJson(response.data);
   }
 
-  static Future<List<SimpleUserInfoModel>> search(String key) async {
-    var response = await http.get('/peiwan/app/home/search',
+  static Future<List<GameUserModel>> search(String key) async {
+    var response = await http.get('/peiwan/app/new/search',
         queryParameters: ({"searchParams":key})
     );
-    List<SimpleUserInfoModel> list = response.data
-        .map<SimpleUserInfoModel>((item) => SimpleUserInfoModel.fromJson(item))
+    List<GameUserModel> list = response.data
+        .map<GameUserModel>((item) => GameUserModel.fromJson(item))
         .toList();
     return list;
   }

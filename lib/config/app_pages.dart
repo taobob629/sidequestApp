@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
+import 'package:wy/ui/frame/sidekick/search/bindings.dart';
+import 'package:wy/ui/frame/sidekick/search/search_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -10,8 +12,6 @@ import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
-import 'package:wy/ui/playwith/search/bindings.dart';
-import 'package:wy/ui/playwith/search/search_page.dart';
 import 'package:wy/ui/playwith/service/bindings.dart';
 import 'package:wy/ui/playwith/service/view.dart';
 import 'package:wy/ui/playwith/skill/list/bindings.dart';
