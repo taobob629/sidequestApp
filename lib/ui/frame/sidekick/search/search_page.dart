@@ -50,7 +50,7 @@ class SearchUserPage extends GetView<SearchUserController> {
       body: Obx(() => ListView.separated(
             itemCount: controller.list.length,
             itemBuilder: (context, index) => _item(controller.list[index]),
-            separatorBuilder: (BuildContext context, int index) => Divider(),
+            separatorBuilder: (BuildContext context, int index) => 10.verticalSpace,
           )),
     );
   }
