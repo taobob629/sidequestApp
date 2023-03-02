@@ -10,7 +10,7 @@ class UserInfoModel {
   late String avatar = "";
   late int uid = 0;
   late int vipLevel = 0;
-  late String balance = "0.00";
+  late String balance = "£0.00";
   late String coin = "0";
   late String votes = "0.00";
   late int coupons = 0;
@@ -32,7 +32,7 @@ class UserInfoModel {
     nick = json['nick'] ?? '';
     avatar = json['avatar'] == null ? "" : json['avatar'];
     vipLevel = json['vipLevel'];
-    balance = json['balance'];
+    balance = "£"+json['balance'];
     votes = json['votes'].toString();
     coin = json['coin'].toString();
     freeMins = json['freeMins'];

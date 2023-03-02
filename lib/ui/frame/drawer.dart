@@ -94,18 +94,27 @@ class HomeDrawer extends StatelessWidget {
                           list: ProfilePageController.instance().vipInfoList,
                         ))?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
+                10.verticalSpace,
                 supportsWidget(supports),
                 sectionText('Legal'.tr),
+                10.verticalSpace,
                 supportsWidget(legals),
+                // Padding(
+                //   padding: EdgeInsets.only(top: 30, left: 15, right: 15, bottom: 20),
+                //   child: StadiumButton(
+                //     'Log out',
+                //     onTap: () => UserController.instance().appLogout(),
+                //   ),
+                // )
               ],
             )),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
-          child: StadiumButton(
-            'Log out',
-            onTap: () => UserController.instance().appLogout(),
-          ),
-        ),
+        // bottomNavigationBar: Padding(
+        //   padding: EdgeInsets.only(left: 15, right: 15, bottom: 20),
+        //   child: StadiumButton(
+        //     'Log out',
+        //     onTap: () => UserController.instance().appLogout(),
+        //   ),
+        // ),
       ),
     );
   }
@@ -158,7 +167,7 @@ class HomeDrawer extends StatelessWidget {
         style: PageStyle.ts_FFFFFF_16sp,
       ),
       dense: true,
-      onTap: ()=>Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
+      onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
       subtitle: Text(
         'View profile',
         style: TextStyle(fontSize: 12.sp, color: AppColor.textC5C5),
@@ -166,7 +175,7 @@ class HomeDrawer extends StatelessWidget {
       trailing: ClickIcon(
         icon: Icons.arrow_forward_ios,
         size: 13.0,
-        onTap: () =>Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
+        onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
       ),
     );
   }
@@ -187,12 +196,10 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _listItem(var label, {Function()? onTapMore}) {
     return ListTile(
+      minVerticalPadding:0,
       // 子项
       dense: true,
-      contentPadding: EdgeInsets.only(
-        left: 30,
-        right: 16,
-      ).r,
+      contentPadding: EdgeInsets.only(left: 30, right: 16, top: 0, bottom: 0).r,
       // leading: SizedBox(
       //   width: 30.w,
       // ),
