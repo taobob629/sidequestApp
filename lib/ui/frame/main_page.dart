@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
+import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation.dart';
 
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -38,6 +39,7 @@ import 'package:wy/utils/storage_manager.dart';
 
 import '../im/conversation.dart';
 import 'drawer.dart';
+import 'messages/messages_page.dart';
 import 'sidekick/view.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -140,9 +142,8 @@ class MainPage extends GetView<MainPageController> {
                             );
                             return PlayWithPage();
                           case 3:
-                            return ConversationPage(
-                              conversationController: TIMUIKitConversationController(),
-                            );
+                            return KeepAliveWrapper(child: MessagesPage());
+
                           case 4:
                             return ProfilePage();
                           default:
