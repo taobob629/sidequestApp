@@ -29,12 +29,14 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
 
   init() async {
     controller.initTabs().then((tabs) {
-      flog('initTabs $tabs');
+      // 找到默认显示的tab
+      controller.tabs = tabs;
       controller.tabbarController = TabController(length: tabs.length, vsync: this)
         ..addListener(() {
           controller.curTab = tabs[controller.tabbarController?.index ?? 0];
-        });
-      controller.tabs = tabs;
+        })
+        ..animateTo(controller.tabs.indexOf(controller.curTab!));
+
     });
   }
 
