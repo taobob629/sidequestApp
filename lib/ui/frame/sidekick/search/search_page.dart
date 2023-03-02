@@ -110,6 +110,11 @@ class SearchUserPage extends GetView<SearchUserController> {
                         constraints: BoxConstraints(maxWidth: 100.w),
                       ),
                       8.horizontalSpace,
+                      GameLevelWidget(
+                        level: model.userLevel,
+                        userId: model.id,
+                      ),
+                      8.horizontalSpace,
                       SexAndAgeWidget(
                         age: model.age,
                         sex: model.sex,

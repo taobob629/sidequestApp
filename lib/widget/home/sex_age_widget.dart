@@ -49,7 +49,7 @@ class SexAndAgeWidget extends StatelessWidget {
           ),
           3.horizontalSpace,
           Text(
-            '$text',
+            '$age',
             style: TextStyle(color: Colors.white, fontSize: 9.sp),
           )
         ],
