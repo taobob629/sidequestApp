@@ -14,8 +14,7 @@ import 'chat.dart';
 
 class ConversationPage extends StatefulWidget {
   final TIMUIKitConversationController conversationController;
-  const ConversationPage({Key? key, required this.conversationController})
-    : super(key: key);
+  const ConversationPage({Key? key, required this.conversationController}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ConversationState();
@@ -43,13 +42,16 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
   // }
 
   void _handleOnConvItemTaped(V2TimConversation? selectedConv) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Chat(
-            selectedConversation: selectedConv!,
-          ),
-        ));
+    if (selectedConv!.type == 1) {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Chat(
+              selectedConversation: selectedConv!,
+            ),
+          ));
+    }
+
     // _controller.reloadData();
     // var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
     // if(v2timValueCallback.code == 0){
@@ -63,9 +65,7 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
   }
 
   _pinConversation(V2TimConversation conversation) {
-    _controller.pinConversation(
-        conversationID: conversation.conversationID,
-        isPinned: !conversation.isPinned!);
+    _controller.pinConversation(conversationID: conversation.conversationID, isPinned: !conversation.isPinned!);
   }
 
   _deleteConversation(V2TimConversation conversation) {
@@ -73,9 +73,7 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
     // getTotalUnreadMessageCount();
   }
 
-
-  List<mytui.ConversationItemSlidablePanel> _itemSlidableBuilder(
-      V2TimConversation conversationItem) {
+  List<mytui.ConversationItemSlidablePanel> _itemSlidableBuilder(V2TimConversation conversationItem) {
     return [
       mytui.ConversationItemSlidablePanel(
         onPressed: (context) {
@@ -117,16 +115,16 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).padding.top+60,
+          height: MediaQuery.of(context).padding.top + 60,
         ),
         Expanded(
-          child: mytui.TIMUIKitConversation(
-            onTapItem: _handleOnConvItemTaped,
-            itemSlidableBuilder: _itemSlidableBuilder,
-            controller: _controller,
-            emptyBuilder: () {
-              return Container(
-                padding: const EdgeInsets.only(top: 100),
+            child: mytui.TIMUIKitConversation(
+          onTapItem: _handleOnConvItemTaped,
+          itemSlidableBuilder: _itemSlidableBuilder,
+          controller: _controller,
+          emptyBuilder: () {
+            return Container(
+              padding: const EdgeInsets.only(top: 100),
               child: Center(
                 child: Text(
                   'No Conversation'.tr,
@@ -134,8 +132,8 @@ class _ConversationState extends State<ConversationPage> with AutomaticKeepAlive
                 ),
               ),
             );
-            },
-          ))
+          },
+        ))
       ],
     );
   }

@@ -144,6 +144,8 @@ flutter:
     - assets/images/grade/
     - assets/images/play/
     - assets/images/profile/
+    - assets/images/message/
+
 
 
   fonts:

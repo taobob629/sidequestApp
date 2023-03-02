@@ -9,6 +9,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -35,6 +36,7 @@ import 'package:wy/ui/shop/shop_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/storage_manager.dart';
 
+import '../im/conversation.dart';
 import 'drawer.dart';
 import 'sidekick/view.dart';
 
@@ -138,7 +140,9 @@ class MainPage extends GetView<MainPageController> {
                             );
                             return PlayWithPage();
                           case 3:
-                            return ShopPage();
+                            return ConversationPage(
+                              conversationController: TIMUIKitConversationController(),
+                            );
                           case 4:
                             return ProfilePage();
                           default:
@@ -217,8 +221,8 @@ class MainPage extends GetView<MainPageController> {
                                   title: "Message".tr,
                                   colors: [Color(0xffe7e439), Color(0xff6c6301)],
                                   onTap: () {
-                                    controller.controller.jumpToPage(2);
-                                    controller.updateCurrentIndex(2);
+                                    controller.controller.jumpToPage(3);
+                                    controller.updateCurrentIndex(3);
                                   }),
                             ),
                             TabButton(
