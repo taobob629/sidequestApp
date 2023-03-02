@@ -8,6 +8,7 @@ class VipInfoModel {
   double yearFee = 0.0;
   String mins = "";
   String nextChargeDate = "";
+  String tips="";
   int level = 0;
   List<VipIntro> intro = [];
 
@@ -42,6 +43,7 @@ class VipInfoModel {
     nextChargeDate = json["nextChargeDate"] ?? "";
     level = json["level"] ?? 0;
     intro = json["intro"] != null ? json["intro"].map<VipIntro>((e) => VipIntro.fromJson(e)).toList() : [];
+    tips=json["tips"] ?? "";
   }
 }
 

@@ -207,7 +207,7 @@ class VipPage extends StatelessWidget {
                             alignment: Alignment.center,
                             // color: Colors.black,
                             child: Text(
-                              controller.vipInfoList.isNotEmpty ? "Tips: ${controller.vipInfoList[controller.vipIndex.value].intro.first.intro}" : "",
+                              controller.vipInfoList.isNotEmpty ? "Tips: ${controller.vipInfoList[controller.vipIndex.value].tips}" : "",
                               style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "DIN"),
                             ),
                           );
