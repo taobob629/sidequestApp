@@ -26,7 +26,7 @@ class IndexApi {
 
   static Future<List<HeadlineModel>> getHeadlines(
       int pageNum, int pageSize) async {
-    var response = await http.get('/app/index/headlines',
+    var response = await http.get('/peiwan/app/new/home/headlines',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     List<HeadlineModel> list = response.data
         .map<HeadlineModel>((item) => HeadlineModel.fromJson(item))
