@@ -13,6 +13,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/storage_manager.dart';
 
 import 'config/app_config.dart';
+import 'config/icon_font.dart';
 import 'config/lang/translations.dart';
 
 class App extends StatelessWidget {
@@ -63,7 +64,7 @@ class App extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold)),
+                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold,fontFamily: FONT_MEDIUM)),
                   primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,

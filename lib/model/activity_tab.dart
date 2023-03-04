@@ -6,7 +6,7 @@ class ActivityTabModel {
   // Tournaments
   final String name;
   // 0
-  final int defaut;
+   int defaut;
   // 0
   final String type;
 

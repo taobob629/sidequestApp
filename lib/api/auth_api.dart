@@ -27,8 +27,8 @@ class AuthApi {
   }
 
   static Future<void> signUp(
-      String firstName,
-      String lastName,
+      // String firstName,
+      // String lastName,
       String nick,
       String phone,
       String email,
@@ -42,8 +42,8 @@ class AuthApi {
     String version = await PlatformUtils.getAppVersion();
     String location = "$version@${Platform.operatingSystem}";
     var formData = {
-      "firstName": firstName,
-      "lastName": lastName,
+      // "firstName": firstName,
+      // "lastName": lastName,
       "nickname": nick,
       "phone": phone,
       "email": email,
@@ -79,8 +79,8 @@ class AuthApi {
 
   static Future<void> updateProfile(
       String password,
-      String firstName,
-      String lastName,
+      // String firstName,
+      // String lastName,
       String nick,
       String phone,
       String email,
@@ -92,8 +92,8 @@ class AuthApi {
     String version = await PlatformUtils.getAppVersion();
     String location = "$version@${Platform.operatingSystem}";
     var formData = {
-      "firstName": firstName,
-      "lastName": lastName,
+      // "firstName": firstName,
+      // "lastName": lastName,
       "nickname": nick,
       "phone": phone,
       "email": email,

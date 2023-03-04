@@ -4,6 +4,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/login/auth_input_view.dart';
@@ -22,7 +23,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         body: KeyboardDismissOnTap(
           child: Container(
             height: Get.height,
-            padding: REdgeInsets.all(38),
+            padding: REdgeInsets.all(16).w,
             child: Stack(
               children: [
                 SingleChildScrollView(
@@ -52,11 +53,11 @@ class RegisterPage extends GetView<RegisterPageController> {
                       Text.rich(TextSpan(children: [
                         TextSpan(
                             text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: "DIN")),
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 22.sp, fontFamily: FONT_MEDIUM)),
                         TextSpan(
                             text: 'We would like to know who this account would be for.',
-                            style: TextStyle(color: AppColor.whiteGray))
+                            style: TextStyle(color: AppColor.whiteGray, fontFamily: FONT_LIGHT))
                       ])),
                       // Text(
                       //   "Profile Information",
@@ -85,50 +86,48 @@ class RegisterPage extends GetView<RegisterPageController> {
     return Visibility(
         visible: false,
         child: Positioned(
-        bottom: 16.h,
-        left: 0,
-        right: 0,
-        child: Row(
-          children: [
-            Expanded(
-                child: GradientButton(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    tapCallback: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.apps,
-                          color: AppColor.whiteGray,
-                        ),
-                        Text('Iphone',
-                            style: TextStyle(color: Colors.white, fontSize: 16.sp))
-                      ],
-                    ))),
-            16.horizontalSpace,
-            Expanded(
-                child: GradientButton(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    tapCallback: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.apps,
-                          color: AppColor.whiteGray,
-                        ),
-                        Text('Google',
-                            style: TextStyle(color: Colors.white, fontSize: 16.sp))
-                      ],
-                    ))),
-          ],
-        )));
+            bottom: 16.h,
+            left: 0,
+            right: 0,
+            child: Row(
+              children: [
+                Expanded(
+                    child: GradientButton(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                            border: Border.all(color: Colors.grey, width: 1)),
+                        tapCallback: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.apps,
+                              color: AppColor.whiteGray,
+                            ),
+                            Text('Iphone', style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                          ],
+                        ))),
+                16.horizontalSpace,
+                Expanded(
+                    child: GradientButton(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(16)).w,
+                            border: Border.all(color: Colors.grey, width: 1)),
+                        tapCallback: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.apps,
+                              color: AppColor.whiteGray,
+                            ),
+                            Text('Google', style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                          ],
+                        ))),
+              ],
+            )));
   }
 
   List<Widget> createStep1() {
@@ -215,29 +214,29 @@ class RegisterPage extends GetView<RegisterPageController> {
     list.add(SizedBox(
       height: 20,
     ));
-    list.add(Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: AuthInputView(
-            tips: "First Name".tr,
-            editingController: controller.firstEditingController,
-            keyboardType: TextInputType.name,
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          flex: 1,
-          child: AuthInputView(
-            tips: "Last Name".tr,
-            editingController: controller.lastEditingController,
-            keyboardType: TextInputType.name,
-          ),
-        )
-      ],
-    ));
+    // list.add(Row(
+    //   children: [
+    //     Expanded(
+    //       flex: 1,
+    //       child: AuthInputView(
+    //         tips: "First Name".tr,
+    //         editingController: controller.firstEditingController,
+    //         keyboardType: TextInputType.name,
+    //       ),
+    //     ),
+    //     SizedBox(
+    //       width: 10,
+    //     ),
+    //     Expanded(
+    //       flex: 1,
+    //       child: AuthInputView(
+    //         tips: "Last Name".tr,
+    //         editingController: controller.lastEditingController,
+    //         keyboardType: TextInputType.name,
+    //       ),
+    //     )
+    //   ],
+    // ));
     list.add(SizedBox(
       height: 20,
     ));
@@ -312,6 +311,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         height: 20,
       ));
       list.add(AuthInputView(
+          isRequired: false,
           tips: "Invite Code (Optional)".tr,
           editingController: controller.inviteEditingController,
           keyboardType: TextInputType.text));
@@ -325,7 +325,7 @@ class RegisterPage extends GetView<RegisterPageController> {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             controller.type == 1 ? "SIGN UP".tr : "UPDATE".tr,
-            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+            style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 18),
           ),
         ),
         height: 48,

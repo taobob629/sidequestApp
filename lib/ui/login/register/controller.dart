@@ -41,8 +41,8 @@ class RegisterPageController extends GetxController {
   String code = "";
   String password = "";
   String pin = "";
-  String firstName = "";
-  String lastName = "";
+//  String firstName = "";
+ // String lastName = "";
   String nick = "";
   String phone = "";
   String uid = "";
@@ -186,8 +186,8 @@ class RegisterPageController extends GetxController {
     email = emailEditingController.text.trim();
     code = codeEditingController.text.trim();
     password = passwordEditingController.text.trim();
-    firstName = firstEditingController.text.trim();
-    lastName = lastEditingController.text.trim();
+    //firstName = firstEditingController.text.trim();
+   // lastName = lastEditingController.text.trim();
     nick = nickEditingController.text.trim();
     phone = phoneEditingController.text.trim();
     invite = inviteEditingController.text.trim();
@@ -203,15 +203,15 @@ class RegisterPageController extends GetxController {
       return;
     }
 
-    if (firstName.isEmpty) {
-      EasyLoading.showInfo("Please input your first name".tr);
-      return;
-    }
-
-    if (lastName.isEmpty) {
-      EasyLoading.showInfo("Please input your last name".tr);
-      return;
-    }
+    // if (firstName.isEmpty) {
+    //   EasyLoading.showInfo("Please input your first name".tr);
+    //   return;
+    // }
+    //
+    // if (lastName.isEmpty) {
+    //   EasyLoading.showInfo("Please input your last name".tr);
+    //   return;
+    // }
 
     if (nick.isEmpty) {
       EasyLoading.showInfo("Please input your nick name".tr);
@@ -231,8 +231,8 @@ class RegisterPageController extends GetxController {
     EasyLoading.show();
     if (type == 1) {
       await AuthApi.signUp(
-          firstName,
-          lastName,
+          // firstName,
+          // lastName,
           nick,
           phone,
           email,
@@ -247,7 +247,7 @@ class RegisterPageController extends GetxController {
           "Congratulations and welcome, please sign in with your new account!".tr,
           duration: Duration(seconds: 3));
     } else {
-      await AuthApi.updateProfile(password, firstName, lastName, nick, phone, email,
+      await AuthApi.updateProfile(password, nick, phone, email,
           formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), code, uid, pin, loginModel!.token);
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
