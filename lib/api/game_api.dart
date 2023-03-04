@@ -12,6 +12,13 @@ class GamesApi {
     if (response.data == null) return [];
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
+  static Future<List<SimpleGameModel>> getTopPlayers() async {
+    Response response = await http.get(
+      '/peiwan/app/new/home/topPlayers',
+    );
+    if (response.data == null) return [];
+    return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
+  }
 
   static Future<List<SimpleGameModel>> getMyGamesList() async {
     Response response = await http.get('/peiwan/app/home/gamelist',

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wy/model/promotion_item_model.dart';
 import 'package:wy/utils/navigator_helper.dart';
 
@@ -18,7 +19,7 @@ class PromotionItem extends StatelessWidget {
       onTap: ()=>NavigatorHelper.gotoConfigTarget(model.content),
       child: Container(
         clipBehavior: Clip.antiAlias,
-        margin: const EdgeInsets.only(left: 15,right: 15,bottom: 15),
+        margin: const EdgeInsets.only(left: 15,right: 15,bottom: 15).w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           color: Color(0xFF28253D),

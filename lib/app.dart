@@ -29,9 +29,9 @@ class App extends StatelessWidget {
     ]);
     final ThemeData theme = ThemeData();
     return RefreshConfiguration(
-        // headerBuilder: () => WaterDropHeader(
-        //   waterDropColor: AppColor.accent,
-        // ),
+        headerBuilder: () => WaterDropHeader(
+          waterDropColor: AppColor.accent,
+        ),
         footerBuilder: () => ClassicFooter(
               noDataText: "",
             ),

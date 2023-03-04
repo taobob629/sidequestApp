@@ -25,12 +25,12 @@ class HomePage extends StatelessWidget {
           builder: (context) => CustomScrollView(
             slivers: [
               BannerWidget(),
-              HomeHorizontalWidget(
-                'Popular events',
-                controller.games,
-              ),
-              HomeHorizontalWidget('Browse games', controller.games),
-              HomeHorizontalWidget('Top Monthly Sidekick users', controller.games),
+              // HomeHorizontalWidget(
+              //   'Popular events',
+              //   controller.games,
+              // ),
+              // HomeHorizontalWidget('Browse games', controller.games),
+              // HomeHorizontalWidget('Top Monthly Sidekick users', controller.games),
             ],
           ),
         ),
