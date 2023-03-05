@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation.dart';
 
 import '../messages_page.dart';
@@ -11,6 +10,7 @@ class ConversationListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: TIMUIKitConversation(onTapItem: (selectedConv) {
         Navigator.push(
             context,
@@ -20,9 +20,9 @@ class ConversationListPage extends StatelessWidget {
               ),
             ));
       }),
-      // floatingActionButton: FloatingActionButton(onPressed: () {
-      //   MessagesPageController.find.configIMTheme();
-      // }),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        MessagesPageController.find.configIMTheme();
+      }),
     );
   }
 }

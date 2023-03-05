@@ -127,6 +127,7 @@ class ProfileDashboardPage extends StatelessWidget {
                               width: 36,
                               height: 36,
                               fit: BoxFit.fitHeight,
+                              loadStateChanged: (state) => null,
                             );
                           } else {
                             return ColorFiltered(
@@ -135,6 +136,12 @@ class ProfileDashboardPage extends StatelessWidget {
                                 e.iconImage,
                                 width: 36,
                                 height: 36,
+                                loadStateChanged: (state) {
+                                  if (state.extendedImageLoadState == LoadState.completed) {
+                                    return null;
+                                  }
+                                  return Container();
+                                },
                               ),
                             );
                           }

@@ -20,6 +20,9 @@ class AppColor {
   static const Color textYellow = Color(0xFFFFCB0D);
   static const Color tabBackGround = Color(0xFF292F3F);
 
+  static const Color color3033 = Color(0xFF313033);
+  static const Color color302D = Color(0xFF30302D);
+
   /// 主色 - 渐变
   static List<Color> get buttonGradientBg {
     return [hexColor("#FFD0A920"), hexColor("#FFED5A24")];

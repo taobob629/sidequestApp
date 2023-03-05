@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/page/post_list_item_view.dart';
 import 'package:wy/ui/frame/social/post/page/release_post_page.dart';
@@ -31,6 +32,9 @@ class PostListPage extends StatelessWidget {
                         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                       return PostListItemView(
                         model: t.list[index],
+                        onTap: () {
+                          Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
+                        },
                       );
                     }, childCount: t.list.length));
                   })
@@ -44,7 +48,9 @@ class PostListPage extends StatelessWidget {
               child: SafeArea(
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => ReleasePostPage());
+                    Get.toNamed(AppPages.ReleasePost)?.then((value) {
+                      t.onRefresh();
+                    });
                   },
                   child: Container(
                     width: 50,

@@ -3,6 +3,7 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/frame/sidekick/search/bindings.dart';
 import 'package:wy/ui/frame/sidekick/search/search_page.dart';
+import 'package:wy/ui/frame/social/post/page/post_detail_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -31,6 +32,7 @@ import 'package:wy/ui/profile/settings/language/bindings.dart';
 import 'package:wy/ui/profile/settings/language/view.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
+import '../ui/frame/social/post/page/release_post_page.dart';
 import 'app_config.dart';
 
 class AppPages {
@@ -54,6 +56,9 @@ class AppPages {
   static const NOTICE_PAGE = '/notice_page';
   static const VIP_PAGE = '/vip_page';
   static const LANGUAGE_PAGE = '/language_page';
+  static const ReleasePost = '/release_post_page';
+  static const PostDetail = '/post_detail_page';
+
   static final routes = [
     GetPage(
       name: REGISTER,
@@ -111,10 +116,7 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(
-        name: WALLET_PAGE,
-        page: () => PlayBalancePage(),
-        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -127,6 +129,8 @@ class AppPages {
     ),
 
     ///profile
-    GetPage(name: VIP_PAGE, page: () => VipPage())
+    GetPage(name: VIP_PAGE, page: () => VipPage()),
+    GetPage(name: ReleasePost, page: () => ReleasePostPage()),
+    GetPage(name: PostDetail, page: () => PostDetailPage()),
   ];
 }

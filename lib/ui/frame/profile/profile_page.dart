@@ -35,10 +35,10 @@ class ProfilePage extends StatelessWidget {
                       t.background.value,
                       fit: BoxFit.cover,
                       loadStateChanged: (state) {
-                        if (state.extendedImageLoadState == LoadState.failed) {
-                          return ExtendedImage.asset("assets/images/profile/profile_head_bg.webp");
+                        if (state.extendedImageLoadState == LoadState.completed) {
+                          return null;
                         }
-                        return null;
+                        return ExtendedImage.asset("assets/images/profile/profile_head_bg.webp");
                       },
                     )),
                 Padding(
@@ -184,9 +184,11 @@ class ProfilePage extends StatelessWidget {
                                       child: ClipOval(
                                         child: ExtendedImage.network(
                                           userController.userProfile.value.avatar,
+                                          enableMemoryCache: true,
                                           width: 60,
                                           height: 60,
                                           fit: BoxFit.cover,
+                                          enableLoadState: false,
                                         ),
                                       ),
                                     )),
