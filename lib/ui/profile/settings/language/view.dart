@@ -28,11 +28,11 @@ class LanguagePage extends GetView<LanguagePageController> {
                   getTitle(local.languageCode),
                   style: TextStyle(fontSize: 16.sp, color: Colors.white, fontFamily: FONT_MEDIUM),
                 ),
-                subtitle: Text(
-                  '${getSubtitle(local.languageCode)}',
-                  style: TextStyle(
-                      color: AppColor.textSubtitle, fontSize: 13.sp, fontFamily: FONT_MEDIUM),
-                ),
+                // subtitle: Text(
+                //   '${getSubtitle(local.languageCode)}',
+                //   style: TextStyle(
+                //       color: AppColor.textSubtitle, fontSize: 13.sp, fontFamily: FONT_MEDIUM),
+                // ),
                 trailing: Obx(() => ImageUtil.assetImage(
                     '${controller.curLan == local ? 'rg_select' : 'rg_unselect'}',
                     imageType: IMG_PNG)),
