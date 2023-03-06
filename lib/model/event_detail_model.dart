@@ -25,7 +25,8 @@ class EventDetailModel {
   late List<LocationModel> location = [];
   late String listImage = "";
   late double fee = 0.0;
-
+  int kopEndTime=0;
+  int kopStartTime=0;//开始时间 结束时间
   bool get canCancel => _canCancel.value;
 
   set canCancel(bool value) {
@@ -44,6 +45,8 @@ class EventDetailModel {
     matchDiff = json['matchDiff'] ?? 0;
     title = json['title'];
     team = json['team'];
+    kopStartTime = json['kopStartTime'];
+    kopEndTime = json['kopEndTime'];
     totalMembers = json['totalMembers'] ?? 0;
     fee = json['fee'] == null ? 0.0 : json['fee'];
     gameName = json['gameName'] == null ? "No data" : json['gameName'];

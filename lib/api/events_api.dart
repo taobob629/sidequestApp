@@ -83,11 +83,12 @@ class EventsApi {
     var response = await http.get('/app/events/cancellEvent/$eventId');
   }
 
-  static Future<void> joinMatch(int eventId,int userId,int location) async {
+  static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
-      "location" : location
+      "location" : location,
+      "cupsleeve" : cupsleeve
     };
     var response = await http.post('/app/events/joinMatch',
       data: formData

@@ -88,11 +88,8 @@ class HomeDrawer extends StatelessWidget {
                 )),
                 8.verticalSpace,
                 _listItem('My sidequest subscription',
-                    onTapMore: () => Get.to(() => VipPage(
-                          vipLevel: user?.vipLevel ?? 0,
-                          vipIndex: 0,
-                          list: ProfilePageController.instance().vipInfoList,
-                        ))?.whenComplete(() => UserController.instance().updateInfo())),
+                    onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
+                        ?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -196,7 +193,7 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _listItem(var label, {Function()? onTapMore}) {
     return ListTile(
-      minVerticalPadding:0,
+      minVerticalPadding: 0,
       // 子项
       dense: true,
       contentPadding: EdgeInsets.only(left: 30, right: 16, top: 0, bottom: 0).r,
@@ -282,14 +279,14 @@ class HomeDrawer extends StatelessWidget {
             break;
         }
       },
-      child: Row(
+      child: Column(
         children: [
+          ImageUtil.assetImage(icon, width: width, height: height),
+          2.verticalSpace,
           Text(
             '$text' ?? '',
             style: textStyle,
           ),
-          5.horizontalSpace,
-          ImageUtil.assetImage(icon, width: width, height: height)
         ],
       ),
     ));
