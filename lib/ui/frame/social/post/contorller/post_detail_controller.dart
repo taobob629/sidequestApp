@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 
 class PostDetailController extends GetxController with GetSingleTickerProviderStateMixin {
-  PostItemModel postItem = PostItemModel();
+  static PostDetailController get find => Get.find();
+  final postItem = PostItemModel().obs;
   late TabController tabController;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    postItem = Get.arguments;
+    postItem.value = Get.arguments;
     tabController = TabController(vsync: this, length: 2, initialIndex: 0);
 
     super.onInit();
