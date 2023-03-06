@@ -282,14 +282,14 @@ class HomeDrawer extends StatelessWidget {
             break;
         }
       },
-      child: Row(
+      child: Column(
         children: [
+          ImageUtil.assetImage(icon, width: width, height: height),
+          2.verticalSpace,
           Text(
             '$text' ?? '',
             style: textStyle,
           ),
-          5.horizontalSpace,
-          ImageUtil.assetImage(icon, width: width, height: height)
         ],
       ),
     ));
