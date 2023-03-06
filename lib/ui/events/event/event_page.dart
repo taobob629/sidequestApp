@@ -18,6 +18,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_selecto_widget.dart';
 import 'package:wy/ui/events/event/team_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/utils/index.dart';
+import 'package:wy/utils/time_utils.dart';
 import 'package:wy/widget/views.dart';
 
 import 'join_button.dart';
@@ -287,9 +289,47 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
       tabs.add("Prizes".tr);
       model = await EventsApi.getMatchDetail(id);
     }
+    flog('stop time${model.kopStartTime}');
     EasyLoading.dismiss();
     title.value = model.title;
     eventDetailModel.value = model;
+  }
+
+  chooseTime() async {
+    var startTime = eventDetailModel.value.kopStartTime;
+    var endTime = eventDetailModel.value.kopEndTime;
+    flog(
+        'startTime ${TimeUtils.getYYYYMMDDHHMMSS(DateTime.fromMillisecondsSinceEpoch(startTime * 1000), '_', '_')}');
+    flog(
+        'endTime ${TimeUtils.getYYYYMMDDHHMMSS(DateTime.fromMillisecondsSinceEpoch(endTime * 1000), '_', '_')}');
+    flog('间隔 ${(endTime - startTime) / 60}');
+    if (endTime <= startTime || (endTime - startTime) / 60 < 15) {
+      return startTime;
+    }
+    //计算时间区间
+    var timesection = 60 * 15; //间隔是十五分钟
+    List timeSections = [];
+    for (int i = startTime; i < endTime; i += timesection) {
+      flog(
+          'i;${TimeUtils.getYYYYMMDDHHMMSS(DateTime.fromMillisecondsSinceEpoch(i * 1000), '-', ':')}');
+      timeSections.add(i);
+    }
+
+    var result = await Get.bottomSheet(
+        ListView(
+          children: timeSections
+              .map((e) => TextButton(
+                  onPressed: () => Get.back(result: e),
+                  child: Text(
+                    '${TimeUtils.getYYYYMMDDHHMM(DateTime.fromMillisecondsSinceEpoch(e * 1000), '-', ':')}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  )))
+              .toList(),
+        ),
+        backgroundColor: AppColor.itemBg);
+    flog('result=$result');
+    return result;
   }
 
   void joinActivity(BuildContext context) async {
@@ -355,6 +395,15 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
   }
 
   void joinMatch(BuildContext context) async {
+    int type = eventDetailModel.value.matchDiff;
+    var timeResult;
+    if (type == 5) {
+       timeResult = await chooseTime();
+      if (timeResult == null) {
+        EasyLoading.showToast('PLease Choose Time First'.tr);
+        return;
+      }
+    }
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
@@ -363,12 +412,15 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
       } else {
         item = eventDetailModel.value.location[0];
       }
+      //
       if (item != null) {
         LocationModel store = item as LocationModel;
         checkFee(() async {
           EasyLoading.show();
           await EventsApi.joinMatch(
-              eventDetailModel.value.id, userController.user.value.id, store.id);
+              eventDetailModel.value.id, userController.user.value.id, store.id,
+              cupsleeve: timeResult==null?null:TimeUtils.getYYYYMMDDHHMM(
+                  DateTime.fromMillisecondsSinceEpoch(timeResult*1000), '-', ':'));
           eventDetailModel.value.canCancel = true;
           EasyLoading.dismiss();
           Get.dialog(
