@@ -3,22 +3,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
+import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/another_xlider.dart';
+import 'package:wy/widget/lable.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -26,7 +32,9 @@ import 'package:wy/widget/scaffold_widget.dart';
 ///添加游戏
 class AddGamePage extends StatefulWidget {
   final Map data;
+
   const AddGamePage(this.data, {Key? key}) : super(key: key);
+
   @override
   _AddGamePageState createState() => _AddGamePageState();
 }
@@ -63,26 +71,23 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///技能详情
   var skillInfoDm = DataModel<Map>(object: {});
+
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
-    await http
-        .get('/peiwan/app/home/skill/${widget.data['id']}')
-        .then((res) async {
+    await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
       skillInfoDm.addObject(res.data);
       if (isEdit) {
         isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
-        platformIndex = skillDm.list
-            .indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
+        platformIndex =
+            skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
         platform = skillDm.list[platformIndex];
-        gameIndex = platform['skill']
-            .indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
+        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
         game = platform['skill'][gameIndex];
-        gameLvIndex = (game['level'] ?? [])
-            .indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
+        gameLvIndex =
+            (game['level'] ?? []).indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
         if (gameLvIndex != -1) gameLv = (game['level'] ?? [])[gameLvIndex];
         priceRangeCon.text = '';
         if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
-          gamePhotos =
-              '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
+          gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
         this.config();
       }
     }).catchError((e) {
@@ -94,10 +99,9 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///游戏
   var skillDm = DataModel();
+
   Future<int> skill({int page = 1, bool isRef = false}) async {
-    await http
-        .get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}')
-        .then((res) async {
+    await http.get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}').then((res) async {
       skillDm.addList(res.data, true, 0);
     }).catchError((e) {
       skillDm.toError(e.toString());
@@ -108,10 +112,9 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///游戏价格区间
   var configDm = DataModel<Map>(object: {});
+
   Future<int> config({int page = 1, bool isRef = false}) async {
-    await http
-        .get('/peiwan/app/home/config?gameId=${game['id']}')
-        .then((res) async {
+    await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
       configDm.addObject(res.data);
       var gameCoinMin = configDm.object?['gameCoinMin'];
       if (isEdit) {
@@ -129,12 +132,14 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///是否编辑
   bool isEdit = false;
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text(isEdit ? 'edit service'.tr : 'add service'.tr,
-            style: TextStyle(fontSize: 18)),
+        title: PageTitle(
+          title: isEdit ? 'edit service'.tr : 'add service'.tr,
+        ),
         centerTitle: true,
         elevation: 0,
       ),
@@ -161,8 +166,8 @@ class _AddGamePageState extends State<AddGamePage> {
             flag: false,
             item: (i) => item[i],
             itemCount: item.length,
-            padding: EdgeInsets.all(16),
-            divider: Divider(height: 16, color: Colors.transparent),
+            padding: EdgeInsets.all(20).w,
+            divider: Divider(height: 15.h, color: Colors.transparent),
           ),
         ),
       ]),
@@ -177,41 +182,30 @@ class _AddGamePageState extends State<AddGamePage> {
             label: "OK",
             onTap: () async {
               if (isUploadFile)
-                return EasyLoading.showToast(
-                    'Uploading failed, please try again later'.tr);
+                return EasyLoading.showToast('Uploading failed, please try again later'.tr);
               if (isSending) return EasyLoading.showToast('Submitting');
               if (privacyCheckController.check() == false) return;
-              if (platform == null)
-                return EasyLoading.showToast('Please select category'.tr);
-              if (game == null)
-                return EasyLoading.showToast('Please select service'.tr);
-              if (platformIndex == null)
-                return EasyLoading.showToast('Please select category'.tr);
+              if (platform == null) return EasyLoading.showToast('Please select category'.tr);
+              if (game == null) return EasyLoading.showToast('Please select service'.tr);
+              if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
               var list = skillDm.list[platformIndex]['skill'] as List;
-              if (gameIndex == null)
-                return EasyLoading.showToast('Please select service'.tr);
+              if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
               var levels = list[gameIndex]['level'] as List;
               if (levels.isNotEmpty) {
-                if (gameLv == null)
-                  return EasyLoading.showToast(
-                      'Please select service level'.tr);
+                if (gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
               }
               // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
               if (priceRangeCon.text.isEmpty)
                 return EasyLoading.showToast('Please enter the price'.tr);
-              if (double.parse(priceRangeCon.text) <
-                  configDm.object?['gameCoinMin']) {
-                return EasyLoading.showToast(
-                    'The price cannot be less than the minimum value'.tr);
+              if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
+                return EasyLoading.showToast('The price cannot be less than the minimum value'.tr);
               }
-              if (double.parse(priceRangeCon.text) >
-                  configDm.object?['gameCoinMax']) {
+              if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
                 return EasyLoading.showToast(
                     'The price cannot be greater than the maximum value'.tr);
               }
               if (levels.isNotEmpty) {
-                if (gamePhotos.isEmpty)
-                  return EasyLoading.showToast('Please upload screenshot'.tr);
+                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
               }
               flog(gameLv);
               var data = {
@@ -227,10 +221,7 @@ class _AddGamePageState extends State<AddGamePage> {
               flog(data, 'data');
               isSending = true;
               await http
-                  .post(
-                      isEdit
-                          ? '/peiwan/app/home/editSkill'
-                          : '/peiwan/app/user/setSkillAuth',
+                  .post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth',
                       data: data)
                   .then((v) {
                 isSending = false;
@@ -248,8 +239,8 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 48, Color(0xff282640)],
-        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 45.h, AppColor.itemBg2],
+        {'br': 10.r, 'pd': PFun.lg(0, 0, 16,  14.sp), 'fun': fun});
   }
 
   List<Widget> get item {
@@ -281,31 +272,37 @@ class _AddGamePageState extends State<AddGamePage> {
       print('No image selected.');
     }
   }
+var textColor=Color(0xFFB2B9C9);
+  Widget itemLable(var lable) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10).h,
+      child: Text(
+        "$lable",
+        style: PageStyle.labelStyle,
+      ),
+    );
+  }
 
   ///技能录入
   Widget gameMaterialsView() {
     return PWidget.column([
-      PWidget.text(
-          'Service detail'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
-      PWidget.boxh(16),
+      itemLable('Service detail'.tr),
       itemBg(
         PWidget.row([
-          PWidget.text('Category'.tr, [Colors.white]),
+          PWidget.text('Category'.tr, [textColor]),
           PWidget.boxw(8),
           PWidget.text(platform == null ? 'Please select'.tr : platform['name'],
-              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
-          rightJtView(16, Colors.white54),
+              [textColor, 12.sp], {'ali': 1, 'exp': true}),
+          rightJtView( 14.sp, textColor),
         ]),
         fun: () async {
           if (isEdit) return;
           if (skillDm.list.isEmpty)
-            return EasyLoading.showToast(
-                'Please check the network settings'.tr);
+            return EasyLoading.showToast('Please check the network settings'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(skillDm.list.length, (i) {
-                return VerifyField.fromJson(
-                    {'name': '$i', 'label': skillDm.list[i]['name']});
+                return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
               }),
               title: "Select Category".tr,
               showInfo: true,
@@ -325,14 +322,14 @@ class _AddGamePageState extends State<AddGamePage> {
           }
         },
       ),
-      PWidget.boxh(16),
+      10.verticalSpace,
       itemBg(
         PWidget.row([
-          PWidget.text('Service'.tr, [Colors.white]),
+          PWidget.text('Service'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select'.tr : game['name'],
-              [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
-          rightJtView(16, Colors.white54),
+          PWidget.text(game == null ? 'Please select'.tr : game['name'], [textColor,  12.sp],
+              {'ali': 1, 'exp': true}),
+          rightJtView( 14.sp, textColor),
         ]),
         fun: () async {
           if (isEdit) return;
@@ -344,8 +341,7 @@ class _AddGamePageState extends State<AddGamePage> {
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
-                return VerifyField.fromJson(
-                    {'name': '$i', 'label': list[i]['name']});
+                return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
               }),
               title: "Select Service".tr,
               showInfo: true,
@@ -369,7 +365,7 @@ class _AddGamePageState extends State<AddGamePage> {
         if (gameIndex == null) return PWidget.boxh(0);
         var levels = list[gameIndex]['level'] as List;
         if (levels.isEmpty) return PWidget.boxh(0);
-        return PWidget.boxh(16);
+        return PWidget.boxh( 14.sp);
       }),
       Builder(builder: (context) {
         if (platformIndex == null) return PWidget.boxh(0);
@@ -379,24 +375,22 @@ class _AddGamePageState extends State<AddGamePage> {
         if (levels.isEmpty) return PWidget.boxh(0);
         return itemBg(
           PWidget.row([
-            PWidget.text('Level'.tr, [Colors.white]),
+            PWidget.text('Level'.tr, [textColor]),
             PWidget.boxw(8),
             PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'],
-                [Color(0xff8291B4), 16], {'ali': 1, 'exp': true}),
-            rightJtView(16, Colors.white54),
+                [textColor,  12.sp], {'ali': 1, 'exp': true}),
+            rightJtView(16, textColor),
           ]),
           fun: () async {
             if (platformIndex == null)
               return EasyLoading.showToast('Please select category first'.tr);
             var list = skillDm.list[platformIndex]['skill'] as List;
-            if (gameIndex == null)
-              return EasyLoading.showToast('Please select service first'.tr);
+            if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
             var levels = list[gameIndex]['level'] as List;
             var res = await Get.dialog(
               SelectorDialog(
                 items: List.generate(levels.length, (i) {
-                  return VerifyField.fromJson(
-                      {'name': '$i', 'label': levels[i]['name']});
+                  return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
                 }),
                 title: "Select Level".tr,
                 showInfo: true,
@@ -415,62 +409,18 @@ class _AddGamePageState extends State<AddGamePage> {
       if (configDm.object?.isNotEmpty ?? false) PWidget.boxh(16),
       if (configDm.object?.isNotEmpty ?? false)
         itemBg(PWidget.row([
-          PWidget.text('Price range'.tr, [Colors.white]),
+          PWidget.text('Price range'.tr, [textColor]),
           PriceSlider(
             min: double.parse('${configDm.object?['gameCoinMin'] ?? '0.0'}'),
             max: double.parse('${configDm.object?['gameCoinMax'] ?? '0.0'}'),
             value: int.parse('${priceRangeCon.text}').toDouble(),
             fun: (v) => priceRangeCon.text = '${v.toInt()}',
           ),
-          // PWidget.container(
-          //   PWidget.column([
-          //     PWidget.row([
-          //       PWidget.boxw(4),
-          //       PWidget.text("${configDm.object?['gameCoinMin']}", [Colors.white54, 12]),
-          //       PWidget.spacer(),
-          //       PWidget.text("${configDm.object?['gameCoinMax']}", [Colors.white54, 12]),
-          //       PWidget.boxw(4),
-          //     ]),
-          //     PWidget.container(
-          //       PWidget.row([
-          //         PWidget.boxw(2),
-          //         PWidget.container(
-          //           PWidget.icon(Icons.remove_rounded, [Colors.white70, 20]),
-          //           [24, 24, Colors.white10],
-          //           {
-          //             'br': 40,
-          //             'ali': PFun.lg(0, 0),
-          //             'fun': () {
-          //               if (int.parse(priceRangeCon.text) <= configDm.object?['gameCoinMin']) return EasyLoading.showToast('The price cannot be less than the minimum value');
-          //               return priceRangeCon.text = (int.parse(priceRangeCon.text) - 1).toString();
-          //             },
-          //           },
-          //         ),
-          //         buildTFView(context!, isInt: true, isEdit: false, hintText: '${configDm.object?['gameCoinMin']}-${configDm.object?['gameCoinMax']}', hintColor: Colors.white24, textColor: Colors.white, con: priceRangeCon, textAlign: TextAlign.center, isExp: true),
-          //         PWidget.container(
-          //           PWidget.icon(Icons.add_rounded, [Colors.white70, 20]),
-          //           [24, 24, Colors.white10],
-          //           {
-          //             'br': 40,
-          //             'ali': PFun.lg(0, 0),
-          //             'fun': () {
-          //               if (int.parse(priceRangeCon.text) >= configDm.object?['gameCoinMax']) return EasyLoading.showToast('The price cannot be greater than the maximum value');
-          //               return priceRangeCon.text = (int.parse(priceRangeCon.text) + 1).toString();
-          //             },
-          //           },
-          //         ),
-          //       ]),
-          //       [null, null, Colors.white.withOpacity(0.05)],
-          //       {'pd': 4, 'br': 56},
-          //     ),
-          //   ]),
-          //   [100],
-          // ),
         ])),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
         itemBg(PWidget.row([
-          PWidget.text('Enable'.tr, [Colors.white]),
+          PWidget.text('Enable'.tr, [textColor]),
           PWidget.spacer(),
           Builder(builder: (context) {
             return CupertinoSwitch(
@@ -496,18 +446,15 @@ class _AddGamePageState extends State<AddGamePage> {
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      PWidget.text('${'Screenshot'.tr}(${20 - gamePhotos.length})',
-          [Colors.white, 20], {'ff': 'DIN'}),
+      itemLable('${'Screenshot'.tr}(${20 - gamePhotos.length}'),
       GridView.builder(
-        padding: EdgeInsets.only(top: 16),
+        padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: (gamePhotos.length == 20)
-            ? gamePhotos.length
-            : gamePhotos.length + 1,
+        itemCount: (gamePhotos.length == 20) ? gamePhotos.length : gamePhotos.length + 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
@@ -515,17 +462,13 @@ class _AddGamePageState extends State<AddGamePage> {
             return PWidget.container(
               Stack(children: [
                 Positioned.fill(
-                    child: CachedNetworkImage(
-                        imageUrl: gamePhotos[i], fit: BoxFit.cover)),
+                    child: CachedNetworkImage(imageUrl: gamePhotos[i], fit: BoxFit.cover)),
                 Positioned.fill(child: Container(color: Colors.black54)),
                 PWidget.positioned(
                   PWidget.icon(
                     Icons.highlight_remove_rounded,
-                    [Colors.white],
-                    {
-                      'pd': 8,
-                      'fun': () => setState(() => gamePhotos.removeAt(i))
-                    },
+                    [textColor],
+                    {'pd': 8, 'fun': () => setState(() => gamePhotos.removeAt(i))},
                   ),
                   [0, null, null, 0],
                 ),
@@ -533,21 +476,26 @@ class _AddGamePageState extends State<AddGamePage> {
               {'crr': 16},
             );
           }
-          return PWidget.container(
-            PWidget.image('assets/images/paly_add.png', [32, 32]),
-            [null, null, Color(0xff282640)],
-            {
-              'crr': 16,
-              'pd': 16,
-              'ali': PFun.lg(0, 0),
-              'fun': () {
+          return GestureDetector(
+              onTap: () {
                 if (isUploadFile)
-                  return EasyLoading.showToast(
-                      'Uploading failed, please try again later'.tr);
+                  EasyLoading.showToast('Uploading failed, please try again later'.tr);
                 this.selectAvatar(context!);
-              }
-            },
-          );
+              },
+              child: Container(
+                height: 105.h,
+                width: 105.h,
+                padding: EdgeInsets.all(35).r,
+                decoration: BoxDecoration(
+                    color: AppColor.itemBg2, borderRadius: BorderRadius.all(Radius.circular(10).r)),
+                child: ImageUtil.assetImage(
+                  'add_pic',
+                  imageType: IMG_PNG,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.scaleDown,
+                ),
+              ));
         },
       ),
     ]);
@@ -561,14 +509,15 @@ class PriceSlider extends StatefulWidget {
   final double? value;
   final Function(double)? fun;
 
-  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value})
-      : super(key: key);
+  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value}) : super(key: key);
+
   @override
   _PriceSliderState createState() => _PriceSliderState();
 }
 
 class _PriceSliderState extends State<PriceSlider> {
   var value = 0.0;
+
   @override
   void initState() {
     this.initData();
@@ -587,22 +536,20 @@ class _PriceSliderState extends State<PriceSlider> {
         min: widget.min!,
         handlerWidth: 80,
         trackBar: FlutterSliderTrackBar(
-          inactiveTrackBar: BoxDecoration(
-              color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-          activeTrackBar: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          inactiveTrackBar:
+              BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+          activeTrackBar:
+              BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
         ),
         tooltip: FlutterSliderTooltip(
           positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
           custom: (v) => PWidget.container(
             PWidget.row([
-              Image.asset("assets/images/ic_balance_money.webp",
-                  width: 16, height: 16),
+              Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
               PWidget.boxw(4),
               PWidget.text('${double.parse('$v').toInt()}'),
               PWidget.boxw(4),
-              PWidget.text(
-                  '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+              PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
             ]),
             [null, null, Colors.white],
             {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
@@ -610,8 +557,7 @@ class _PriceSliderState extends State<PriceSlider> {
         ),
         handler: FlutterSliderHandler(
           child: PWidget.container(
-              PWidget.text(
-                  '${value.toInt()}', [Colors.black.withOpacity(0.75)]),
+              PWidget.text('${value.toInt()}', [Colors.black.withOpacity(0.75)]),
               [null, null, Colors.white],
               {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
           foregroundDecoration: BoxDecoration(),

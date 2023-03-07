@@ -53,7 +53,7 @@ Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
         } else if (mode == LoadStatus.canLoading) {
           body = Text("松开加载", style: TextStyle(color: textColor));
         } else {
-          body = Text("-到底拉-");
+          body = Text("");
         }
         return Container(
           height: 50.0,

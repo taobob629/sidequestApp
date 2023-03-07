@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wy/config/icon_font.dart';
 
 class MyText extends StatefulWidget {
   final dynamic text;
@@ -26,8 +27,10 @@ class MyText extends StatefulWidget {
     this.children = const [],
     this.nullValue = '暂无',
     this.decoration,
-    this.height, this.fontFamily,
+    this.height,
+    this.fontFamily,
   }) : super(key: key);
+
   @override
   _MyTextState createState() => _MyTextState();
 
@@ -71,7 +74,7 @@ class _MyTextState extends State<MyText> {
       textAlign: widget.textAlign,
       style: TextStyle(
         color: widget.color,
-        fontFamily: widget.fontFamily,
+        fontFamily: widget.fontFamily ?? FONT_LIGHT,
         decoration: widget.decoration,
         height: widget.height ?? 1.3,
         // fontWeight: widget.isBold ? FontWeight.bold : FontWeight.w600,

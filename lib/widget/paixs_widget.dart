@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/widget/scrollbar.dart';
 import 'package:wy/widget/widget_tap.dart';
 
@@ -391,7 +392,7 @@ class PWidget {
         child: MyText(
           text,
           color: list[0],
-          fontFamily: data['ff'],
+          fontFamily: data['ff']??FONT_MEDIUM,
           size: isDataNull(() => list[1], 14),
           isBold: list.length > 2 ? list[2] : false,
           // height: data['h'],

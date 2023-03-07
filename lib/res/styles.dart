@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 
 class PageStyle {
   static var ts_FFFFFF_15sp = TextStyle(
@@ -20,7 +21,7 @@ class PageStyle {
   );
   static var labelStyle = TextStyle(
     fontSize: 15.sp,
-    fontWeight: FontWeight.bold,
+    fontFamily: FONT_MEDIUM,
     color: Color(0xFFFFFFFF),
   );
 }
@@ -31,6 +32,13 @@ inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
 
 BoxDecoration itemDecoration() =>
     BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(16.r));
+
+itemPadding({var l, var r, var b, var t}) {
+  return EdgeInsets.only(left: l ?? 10, right: r ?? 10, bottom: b ?? 10, top: t ?? 10).r;
+}
+
+BoxDecoration listItemDecoration({var radius}) =>
+    BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(radius ?? 10.r));
 
 ShapeDecoration inputDecoration() => ShapeDecoration(
     color: Color(0xFF313033),

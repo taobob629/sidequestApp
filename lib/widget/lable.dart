@@ -19,6 +19,7 @@ class LableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      dense: true,
       title: Text(
         label,
         style: PageStyle.labelStyle,
