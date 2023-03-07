@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 
 class PageStyle {
   static var ts_FFFFFF_15sp = TextStyle(
@@ -20,7 +21,7 @@ class PageStyle {
   );
   static var labelStyle = TextStyle(
     fontSize: 15.sp,
-    fontWeight: FontWeight.bold,
+    fontFamily: FONT_MEDIUM,
     color: Color(0xFFFFFFFF),
   );
 }

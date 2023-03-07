@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/web_page.dart';
 
 const int TYPE_LOGIN = 0;
 const int TYPE_ADD_GAME = 1;
 const int TYPE_ADD_BANK = 2;
-const String TermsAndConditionLink='https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
-const String PrivacyPolicyLink='https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String TermsAndConditionLink =
+    'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String PrivacyPolicyLink =
+    'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+
 class PrivacyCheck extends StatelessWidget {
   final _controller = Get.put(_PrivacyCheckController());
   List<PrivacyInfo> privacyList = [];
@@ -24,11 +29,9 @@ class PrivacyCheck extends StatelessWidget {
     switch (type) {
       case TYPE_LOGIN:
         privacyList = [
-          PrivacyInfo('Terms and Conditions'.tr,
-              TermsAndConditionLink),
+          PrivacyInfo('Terms and Conditions'.tr, TermsAndConditionLink),
           PrivacyInfo('', ''),
-          PrivacyInfo('Privacy Policy'.tr,
-              PrivacyPolicyLink),
+          PrivacyInfo('Privacy Policy'.tr, PrivacyPolicyLink),
           PrivacyInfo('', ''),
           PrivacyInfo('SideKick Policy'.tr,
               'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
@@ -64,6 +67,7 @@ class PrivacyCheck extends StatelessWidget {
                 child: SizedBox(
                   width: 24,
                   child: Obx(() => Checkbox(
+                      shape: CircleBorder(),
                       activeColor: AppColor.accent,
                       value: _controller.check.value,
                       onChanged: (v) => _controller.check.value = v!)),
@@ -88,17 +92,19 @@ class PrivacyCheck extends StatelessWidget {
     );
   }
 
+  var textColor = Color(0xFFB2B9C9);
+
   List<Widget> buildPrivacyItem() {
     List<Widget> items = [];
     items.add(Text(
       "By checking this means you agree to our".tr,
-      style: TextStyle(color: Colors.white, fontSize: 14),
+      style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: 14.sp),
     ));
     var privacyItems = privacyList.map((item) {
       if (item.url.isEmpty) {
         return Text(
           " & ",
-          style: TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: 14.sp),
         );
       } else {
         return GestureDetector(
@@ -109,7 +115,11 @@ class PrivacyCheck extends StatelessWidget {
           child: Text(
             item.title,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF2856FF), fontSize: 14, decoration: TextDecoration.underline),
+            style: TextStyle(
+                color: AppColor.textYellow,
+                fontFamily: FONT_MEDIUM,
+                fontSize: 14.sp,
+                decoration: TextDecoration.underline),
           ),
         );
       }
