@@ -23,6 +23,7 @@ import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/profile/vip/vip_page.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
 import 'package:wy/widget/lable.dart';
@@ -260,7 +261,7 @@ class HomeDrawer extends StatelessWidget {
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
-            if (ProfilePageController.instance().online.value)
+            if (StorageManager.getOnline())
               Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
             break;
           case 'ic_coupons_new':
@@ -268,12 +269,12 @@ class HomeDrawer extends StatelessWidget {
                 whenComplete: () => UserController.instance().updateInfo());
             break;
           case 'diamonds_red':
-            ProfilePageController.instance().online.value
+            StorageManager.getOnline()
                 ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1)
                 : null;
             break;
           case 'ic_corns_new':
-            if (ProfilePageController.instance().online.value)
+            if (StorageManager.getOnline())
               Get.to(() => BalancePage())
                   ?.whenComplete(() => UserController.instance().updateInfo());
             break;

@@ -23,10 +23,11 @@ class PageStyle {
     fontWeight: FontWeight.bold,
     color: Color(0xFFFFFFFF),
   );
-  static var itemPaddingNormal = EdgeInsets.all(15.r);
 }
 
-inputHint() => TextStyle(color: Color(0xFFB2B9C9),fontSize: 14.sp);
+var itemPaddingNormal = EdgeInsets.all(15.r);
+
+inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
 
 BoxDecoration itemDecoration() =>
     BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(16.r));
@@ -34,3 +35,15 @@ BoxDecoration itemDecoration() =>
 ShapeDecoration inputDecoration() => ShapeDecoration(
     color: Color(0xFF313033),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r));
+
+BoxDecoration pageDecoration() => BoxDecoration(
+        gradient: LinearGradient(
+      colors: [
+        Color(0xFFFA9B83),
+        Color(0xFF312D47),
+        AppColor.background,
+      ],
+      stops: [0.1, 0.3, 0.6],
+      begin: Alignment(-2, -1),
+      end: Alignment(2, 1),
+    ));

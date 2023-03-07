@@ -12,10 +12,11 @@ class InputView extends StatelessWidget {
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
+  double height;
   final Widget? customInput;
   final Widget? customLabel;
   final bool autoHeight;
-
+  Decoration? decoration;
   InputView(
       {required this.label,
       required this.tips,
@@ -26,6 +27,8 @@ class InputView extends StatelessWidget {
       this.maxLength,
       this.customInput,
       this.customLabel,
+      this.height = 40,
+        this.decoration,
       this.autoHeight = false});
 
   @override
@@ -42,13 +45,14 @@ class InputView extends StatelessWidget {
               ),
         ),
         Container(
-          height: autoHeight ? null : 40,
+          height: autoHeight ? null : height,
           margin: const EdgeInsets.only(
             left: 15,
             right: 15,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: inputDecoration(),
+          decoration: decoration??inputDecoration(),
+          alignment: Alignment.center,
           child: customInput ??
               TextField(
                 maxLines: 1,

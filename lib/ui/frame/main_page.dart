@@ -16,6 +16,7 @@ import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
@@ -80,7 +81,7 @@ class MainPage extends GetView<MainPageController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
+                            onTap: () => Get.toNamed(AppPages.BOOKING_PAGE),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10, right: 4),
                               child: Image.asset(
@@ -340,22 +341,22 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if (checking == false) {
       checking = true;
       IndexApi.checkVersion().then((value) {
-        // final profilePageController = ProfilePageController.instance();
-        // if (Platform.isIOS) {
-        //   StorageManager.setOnline(value.status);
-        // } else {
-        //   StorageManager.setOnline(true);
-        // }
-        // profilePageController.online.value = StorageManager.getOnline();
-        // if (value.upgrade) {
-        //   if (Get.context != null) {
-        //     UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));
-        //   }
-        // } else {
-        //   if (Get.context != null) {
-        //     checkAd(Get.context!);
-        //   }
-        // }
+      //  final profilePageController = ProfilePageController.instance();
+        if (Platform.isIOS) {
+          StorageManager.setOnline(value.status);
+        } else {
+          StorageManager.setOnline(true);
+        }
+      //  profilePageController.online.value = StorageManager.getOnline();
+        if (value.upgrade) {
+          if (Get.context != null) {
+            UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));
+          }
+        } else {
+          if (Get.context != null) {
+            checkAd(Get.context!);
+          }
+        }
       });
     }
   }

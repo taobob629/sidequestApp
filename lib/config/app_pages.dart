@@ -23,6 +23,8 @@ import 'package:wy/ui/profile/attention/bindings.dart';
 import 'package:wy/ui/profile/attention/tab_view.dart';
 import 'package:wy/ui/profile/bankcard/bindings.dart';
 import 'package:wy/ui/profile/bankcard/view.dart';
+import 'package:wy/ui/profile/booking/bindings.dart';
+import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/coupon/tab/bindings.dart';
 import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 import 'package:wy/ui/profile/grade/bindings.dart';
@@ -58,6 +60,7 @@ class AppPages {
   static const LANGUAGE_PAGE = '/language_page';
   static const ReleasePost = '/release_post_page';
   static const PostDetail = '/post_detail_page';
+  static const BOOKING_PAGE = '/booking_page';
 
   static final routes = [
     GetPage(
@@ -116,7 +119,10 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(
+        name: WALLET_PAGE,
+        page: () => PlayBalancePage(),
+        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -132,5 +138,10 @@ class AppPages {
     GetPage(name: VIP_PAGE, page: () => VipPage()),
     GetPage(name: ReleasePost, page: () => ReleasePostPage()),
     GetPage(name: PostDetail, page: () => PostDetailPage()),
+    GetPage(
+      name: BOOKING_PAGE,
+      page: () => BookingPage(),
+      binding: BookingBinding(),
+    ),
   ];
 }

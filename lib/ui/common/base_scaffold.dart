@@ -6,7 +6,8 @@ import 'page_title.dart';
 
 class BaseScaffold extends StatelessWidget {
   final String title;
-  final Color backgroundColor;
+  Color backgroundColor;
+  final Color appBarBackgroundColor;
   final List<Widget>? actions;
   final Widget body;
   final Widget? floatingActionButton;
@@ -15,6 +16,7 @@ class BaseScaffold extends StatelessWidget {
   BaseScaffold({
     required this.title,
     this.backgroundColor = AppColor.background,
+    this.appBarBackgroundColor = AppColor.background,
     required this.body,
     this.actions,
     this.floatingActionButton,
@@ -24,10 +26,14 @@ class BaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        backgroundColor: appBarBackgroundColor,
         elevation: 0,
-        title: PageTitle(title: title,),
+        title: PageTitle(
+          title: title,
+        ),
         actions: actions,
       ),
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
