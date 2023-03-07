@@ -5,6 +5,7 @@
  */
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
@@ -44,7 +45,6 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       ),
     );
   }
-
   items() {
     double priceRangeMax = controller.skillModel?.priceRangeMax ?? 0;
     double priceRangeMin = controller.skillModel?.priceRangeMin ?? 0;
@@ -99,7 +99,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 48, Color(0xff282640)],
-        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 45, AppColor.itemBg2],
+        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 }
