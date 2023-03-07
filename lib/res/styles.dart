@@ -23,9 +23,9 @@ class PageStyle {
     fontWeight: FontWeight.bold,
     color: Color(0xFFFFFFFF),
   );
-  static var itemPaddingNormal = EdgeInsets.all(15.r);
-}
 
+}
+ var itemPaddingNormal = EdgeInsets.all(15.r);
 inputHint() => TextStyle(color: Color(0xFFB2B9C9),fontSize: 14.sp);
 
 BoxDecoration itemDecoration() =>

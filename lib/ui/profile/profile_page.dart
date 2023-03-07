@@ -8,9 +8,7 @@ import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/im/play_detail.dart';
-import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/play_orders_page.dart';
-import 'package:wy/ui/playwith/skill/list/view.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/icon_menu.dart';
@@ -20,9 +18,7 @@ import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/utils/utils.dart';
 import '../common/dialog_input.dart';
-import 'balance/balance_page.dart';
 import 'developer/developer_page.dart';
 import 'notification/notification_page.dart';
 
@@ -316,7 +312,8 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Bookings".tr,
                 onTap: () {
-                  userController.checkLogin(() => Get.to(() => BookingPage())?.whenComplete(() => userController.updateInfo()));
+                  userController.checkLogin(() =>
+                      Get.toNamed(AppPages.BOOKING_PAGE)?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(

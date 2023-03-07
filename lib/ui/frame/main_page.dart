@@ -16,6 +16,7 @@ import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
@@ -80,7 +81,7 @@ class MainPage extends GetView<MainPageController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () => userController.checkLogin(() => Get.to(() => BookingPage())),
+                            onTap: () => Get.toNamed(AppPages.BOOKING_PAGE),
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10, right: 4),
                               child: Image.asset(

@@ -11,10 +11,9 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/booking/booking_item.dart';
 import 'package:wy/ui/profile/booking/reserve_page.dart';
 
-class BookingPage extends StatelessWidget {
+import 'controller.dart';
 
-  final controller = Get.put(BookingPageController());
-
+class BookingPage extends GetView<BookingPageController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -36,19 +35,18 @@ class BookingPage extends StatelessWidget {
                             BookingModel model = controller.list[index];
                             return BookingItem(
                               model: model,
-                  onCancel: (id)=>controller.cancelBook(id),
-                );
-              },
-              separatorBuilder: (context, index){
-                return Container(height: 15,);
-              },
-              itemCount: controller.list.length
-            ))
-          )
+                              onCancel: (id) => controller.cancelBook(id),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Container(
+                              height: 15,
+                            );
+                          },
+                          itemCount: controller.list.length)))
         ],
       ),
-      floatingActionButton: Obx(
-              () => controller.floatingActionButtonShow.value
+      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
           ? FloatingButton(
               label: "MAKE A NEW BOOKING".tr,
               onTap: () => gotoAddPage(),
@@ -58,64 +56,10 @@ class BookingPage extends StatelessWidget {
   }
 
   void gotoAddPage() {
-    Get.to(()=>ReservePage())?.then((value){
-      if(value != null && value == true) {
+    Get.to(() => ReservePage())?.then((value) {
+      if (value != null && value == true) {
         controller.reload();
       }
     });
-  }
-}
-
-class BookingPageController extends GetxListController<BookingModel> {
-
-  late ScrollController scrollController;
-  late var floatingActionButtonShow = true.obs;
-  late double offset = 0;
-
-  @override
-  void onInit() {
-    super.onInit();
-    scrollController = ScrollController();
-  }
-
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
-  }
-
-  @override
-  void onReady() {
-    scrollController.addListener(() {
-      if (scrollController.offset - offset > 0) { //down
-        if (floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = false;
-        }
-      } else { //up
-        if (!floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = true;
-        }
-      }
-      offset = scrollController.offset;
-    });
-    super.onReady();
-  }
-
-  Future<List<BookingModel>> loadData() async {
-    EasyLoading.show();
-    List<BookingModel> bookingList = await BookingApi.list();
-    EasyLoading.dismiss();
-    return bookingList;
-  }
-
-  Future <void> cancelBook(int id)async{
-    Get.dialog(ConfirmDialog(title: "Cancel Booking".tr, info: "Do you confirm to cancel this booking?".tr), barrierColor: Colors.black26).then((value) async{
-        if(value != null && value == true){
-          EasyLoading.show();
-          await BookingApi.cancel(id);
-          reload();
-        }
-    });
-
   }
 }
