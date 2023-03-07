@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_color.dart';
 
 class DropdownWithSearch<T> extends StatelessWidget {
   final String title;
@@ -67,6 +69,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
           });
         },
         child: Container(
+          height: 45.h,
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           decoration: !disabled
               ? decoration != null
@@ -80,8 +83,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
                   : BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       color: Colors.grey.shade300,
-                      border:
-                          Border.all(color: Colors.grey.shade300, width: 1)),
+                      border: Border.all(color: Colors.grey.shade300, width: 1)),
           child: Row(
             children: [
               Expanded(
@@ -89,7 +91,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: selectedItemStyle != null
                           ? selectedItemStyle
-                          : TextStyle(fontSize: 14))),
+                          : TextStyle(fontSize: 14.sp, color: AppColor.textSubtitle))),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: arrowColor,
@@ -140,10 +142,8 @@ class _SearchDialogState<T> extends State<SearchDialog> {
           filteredList = widget.items;
         } else {
           filteredList = widget.items
-              .where((element) => element
-                  .toString()
-                  .toLowerCase()
-                  .contains(textController.text.toLowerCase()))
+              .where((element) =>
+                  element.toString().toLowerCase().contains(textController.text.toLowerCase()))
               .toList();
         }
       });
@@ -178,7 +178,10 @@ class _SearchDialogState<T> extends State<SearchDialog> {
                     widget.title,
                     style: widget.titleStyle != null
                         ? widget.titleStyle
-                        : TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        : TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.textSubtitle),
                   ),
                 ),
                 IconButton(
@@ -213,25 +216,21 @@ class _SearchDialogState<T> extends State<SearchDialog> {
                   prefixIcon: Icon(Icons.search),
                   hintText: widget.placeHolder,
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        widget.searchInputRadius != null
-                            ? Radius.circular(widget.searchInputRadius!)
-                            : Radius.circular(5)),
+                    borderRadius: BorderRadius.all(widget.searchInputRadius != null
+                        ? Radius.circular(widget.searchInputRadius!)
+                        : Radius.circular(5)),
                     borderSide: const BorderSide(
                       color: Colors.black26,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        widget.searchInputRadius != null
-                            ? Radius.circular(widget.searchInputRadius!)
-                            : Radius.circular(5)),
+                    borderRadius: BorderRadius.all(widget.searchInputRadius != null
+                        ? Radius.circular(widget.searchInputRadius!)
+                        : Radius.circular(5)),
                     borderSide: const BorderSide(color: Colors.black12),
                   ),
                 ),
-                style: widget.itemStyle != null
-                    ? widget.itemStyle
-                    : TextStyle(fontSize: 14),
+                style: widget.itemStyle != null ? widget.itemStyle : TextStyle(fontSize: 14,color: AppColor.textSubtitle),
                 controller: textController,
               ),
             ),
@@ -258,13 +257,12 @@ class _SearchDialogState<T> extends State<SearchDialog> {
                                   ..['index'] = index2);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
                             child: Text(
                               filteredList[index].toString(),
                               style: widget.itemStyle != null
                                   ? widget.itemStyle
-                                  : TextStyle(fontSize: 14),
+                                  : TextStyle(fontSize: 14,color: AppColor.textSubtitle),
                             ),
                           ));
                     }),
@@ -287,8 +285,8 @@ class CustomDialog extends StatelessWidget {
     this.insetAnimationDuration = const Duration(milliseconds: 100),
     this.insetAnimationCurve = Curves.decelerate,
     this.shape,
-    this.constraints = const BoxConstraints(
-        minWidth: 280.0, minHeight: 280.0, maxHeight: 400.0, maxWidth: 400.0),
+    this.constraints =
+        const BoxConstraints(minWidth: 280.0, minHeight: 280.0, maxHeight: 400.0, maxWidth: 400.0),
   }) : super(key: key);
 
   /// The widget below this widget in the tree.
@@ -324,8 +322,7 @@ class CustomDialog extends StatelessWidget {
 
   // TODO(johnsonmh): Update default dialog border radius to 4.0 to match material spec.
   static const RoundedRectangleBorder _defaultDialogShape =
-      RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(2.0)));
+      RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
 
   @override
   Widget build(BuildContext context) {
