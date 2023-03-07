@@ -43,7 +43,7 @@ class ProfileDashboardPage extends StatelessWidget {
                   "assets/images/profile/icon_bookings.webp",
                   "Bookings",
                   onTap: () {
-                    Get.to(() => BookingPage());
+                    Get.toNamed(AppPages.BOOKING_PAGE);
                   },
                 ),
                 _dashboardLabelItem(
