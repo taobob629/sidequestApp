@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 class PostItemModel {
   int commentNum = 0;
   String images = "";
@@ -7,7 +9,7 @@ class PostItemModel {
   int praiseNum = 0;
   String head = "";
   String createTime = "";
-  int isPraise = 0;
+  RxBool isPraise = RxBool(false);
   String content = "";
   int uid = 0;
 
@@ -19,17 +21,7 @@ class PostItemModel {
     }
   }
 
-  PostItemModel({
-    this.commentNum = 0,
-    this.images = "",
-    this.nickname = "",
-    this.praiseNum = 0,
-    this.head = "",
-    this.createTime = "",
-    this.isPraise = 0,
-    this.content = "",
-    this.uid = 0,
-  });
+  PostItemModel();
 
   PostItemModel.fromJson(Map<String, dynamic> json) {
     commentNum = json["commentNum"] ?? 0;
@@ -38,7 +30,7 @@ class PostItemModel {
     praiseNum = json["praiseNum"] ?? 0;
     head = json["head"] ?? "";
     createTime = json["createTime"] ?? "";
-    isPraise = json["isPraise"] ?? 0;
+    isPraise.value = (json["isPraise"] ?? 0) == 1;
     content = json["content"] ?? "";
     uid = json["uid"] ?? 0;
   }

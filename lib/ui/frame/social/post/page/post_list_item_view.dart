@@ -1,12 +1,13 @@
 import 'dart:math';
 
-import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
+import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 
 class PostListItemView extends StatelessWidget {
   PostListItemView({Key? key, required this.model, this.onTap}) : super(key: key);
@@ -122,27 +123,39 @@ class PostListItemView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    // onTap: () => t.praisePost(model),
+                    onTap: () {
+                      PostListController.find.praisePost(model).then((value) {
+                        if (value) {
+                          model.isPraise.value = !model.isPraise.value;
+                          if (model.isPraise.value) {
+                            model.praiseNum += 1;
+                          } else {
+                            model.praiseNum -= 1;
+                          }
+                        }
+                      });
+                    },
                     child: Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Image.asset(
-                              "assets/images/profile/icon_dianzan.webp",
-                              width: 16,
-                              color: model.isPraise == 1 ? Colors.pink : null,
-                            ),
-                          ),
-                          Text(
-                            model.praiseNum.toString(),
-                            style: TextStyle(
-                              color: Color(0xff808388),
-                              fontSize: 11.sp,
-                            ),
-                          )
-                        ],
-                      ),
+                      width: 30,
+                      child: Obx(() => Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: Image.asset(
+                                  "assets/images/profile/icon_dianzan.webp",
+                                  width: 16,
+                                  color: model.isPraise.value ? Colors.pink : null,
+                                ),
+                              ),
+                              Text(
+                                model.praiseNum.toString(),
+                                style: TextStyle(
+                                  color: Color(0xff808388),
+                                  fontSize: 11.sp,
+                                ),
+                              )
+                            ],
+                          )),
                     ),
                   ),
                   Container(

@@ -80,7 +80,7 @@ class VipPage extends StatelessWidget {
                                         right: 10,
                                         child: Image.asset(
                                           "assets/images/profile/huizhang_${vipModel.name.toLowerCase()}.webp",
-                                          height: 93,
+                                          height: 93.h,
                                         )),
                                     Positioned(
                                         left: 15,

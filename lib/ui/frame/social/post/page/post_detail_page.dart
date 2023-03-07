@@ -10,6 +10,7 @@ import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
 
 import 'post_comments_page.dart';
+import 'post_favorators_page.dart';
 
 class PostDetailPage extends StatelessWidget {
   PostDetailPage({Key? key}) : super(key: key);
@@ -153,7 +154,7 @@ class PostDetailPage extends StatelessWidget {
                                     child: Image.asset(
                                       "assets/images/profile/icon_dianzan.webp",
                                       width: 16,
-                                      color: t.postItem.value.isPraise == 1 ? Colors.pink : null,
+                                      color: t.postItem.value.isPraise.value ? Colors.pink : null,
                                     ),
                                   ),
                                   Text(
@@ -173,7 +174,13 @@ class PostDetailPage extends StatelessWidget {
               ),
             ];
           },
-          body: TabBarView(controller: t.tabController, children: [PostCommentsPage(), Container()])),
+          body: TabBarView(
+            controller: t.tabController,
+            children: [
+              PostCommentsPage(),
+              PostFavoratorsPage(),
+            ],
+          )),
     );
   }
 }

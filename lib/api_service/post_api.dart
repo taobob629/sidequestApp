@@ -23,6 +23,12 @@ class PostApi {
   }
 
   /// Social-Post  帖子列表
+  static Future praisePost({required int postsId}) async {
+    var response = await http.get('/peiwan/app/posts/praise', queryParameters: {"postsId": postsId});
+    return response.data;
+  }
+
+  /// Social-Post  帖子列表
   static Future<List<PostCommentModel>> getPostCommentsList({int postsId = 0, int page = 0}) async {
     var response = await http.get('/peiwan/app/posts/comment/list', queryParameters: {
       "postsId": postsId,
@@ -41,5 +47,15 @@ class PostApi {
       "images": images,
     });
     return response.data;
+  }
+
+  /// Social-Post  帖子列表
+  static Future<List<PostCommentModel>> getFavoratorsList({int postsId = 0, int page = 0}) async {
+    var response = await http.get('/peiwan/app/posts/praise/list', queryParameters: {
+      "postsId": postsId,
+      "pageNum": page,
+      "pageSize": 20,
+    });
+    return response.data.map<PostCommentModel>((e) => PostCommentModel.fromJson(e)).toList();
   }
 }

@@ -30,7 +30,7 @@ class App extends StatelessWidget {
     final ThemeData theme = ThemeData();
     return RefreshConfiguration(
         headerBuilder: () => WaterDropHeader(
-              waterDropColor: AppColor.accent,
+              waterDropColor: AppColor.whiteGray,
             ),
         footerBuilder: () => ClassicFooter(
               noDataText: "",
@@ -65,7 +65,7 @@ class App extends StatelessWidget {
                     ),
                   ),
                   appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM)),
-                  primaryColor: AppColor.accent,
+                  // primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,
                   primaryIconTheme: IconThemeData(color: AppColor.iconColorPrimary),
