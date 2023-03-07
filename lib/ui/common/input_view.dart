@@ -16,7 +16,7 @@ class InputView extends StatelessWidget {
   final Widget? customInput;
   final Widget? customLabel;
   final bool autoHeight;
-
+  Decoration? decoration;
   InputView(
       {required this.label,
       required this.tips,
@@ -28,6 +28,7 @@ class InputView extends StatelessWidget {
       this.customInput,
       this.customLabel,
       this.height = 40,
+        this.decoration,
       this.autoHeight = false});
 
   @override
@@ -50,7 +51,7 @@ class InputView extends StatelessWidget {
             right: 15,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: inputDecoration(),
+          decoration: decoration??inputDecoration(),
           alignment: Alignment.center,
           child: customInput ??
               TextField(

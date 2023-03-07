@@ -7,15 +7,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/booking_api.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/booking_model.dart';
 import 'package:wy/model/selector_item.dart';
+import 'package:wy/res/dimens.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
+import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../common/select_view.dart';
 import '../balance/balance_page.dart';
@@ -25,22 +30,23 @@ class ReservePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      title: "Book A Room".tr,
-      body: Stack(
-        children: [
-          _buildMouth(),
-          _buildShadow(),
-          _buildContent(context),
-          _buildDashLine(),
-          _buildHoleShadow(),
-          _buildHole()
-        ],
-      ),
-      floatingActionButton: FloatingButton(
-        label: "BOOK".tr,
-        onTap: () => controller.book(),
-      ),
+    return Stack(
+      children: [
+        Container(
+          decoration: pageDecoration(),
+        ),
+        NestedScrollView(
+            headerSliverBuilder: (context, _) => [
+                  SliverAppBar(
+                    title: PageTitle(
+                      title: "Book A Room".tr,
+                    ),
+                    pinned: true,
+                    backgroundColor: Colors.transparent,
+                  )
+                ],
+            body: _buildContent(context))
+      ],
     );
   }
 
@@ -92,119 +98,113 @@ class ReservePage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    return Obx(() => Container(
-          margin: const EdgeInsets.only(left: 26, right: 26, top: 16),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.4, 0.8],
-                  colors: [Color(0xff28263c), AppColor.background]),
-              borderRadius:
-                  BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5))),
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [0.0, 0.4],
-                        colors: [Color(0xff312f49), Color(0xff28263c)])),
-              ),
-              SelectView(
-                label: "Store".tr,
-                tips: "Select One Store".tr,
-                value: controller.store.value.name,
-                onTap: () async {
-                  controller.showSelectLocation();
-                },
-              ),
-              SelectView(
-                label: "Area".tr,
-                tips: "Select One Area".tr,
-                value: controller.area.value.name,
-                onTap: () async {
-                  if (controller.store.value.id == 0) {
+    return Container(
+        child: Obx(() => ListView(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Container(
+                //   height: 50,
+                //   decoration: BoxDecoration(
+                //       gradient: LinearGradient(
+                //           begin: Alignment.topCenter,
+                //           end: Alignment.bottomCenter,
+                //           stops: [0.0, 0.4],
+                //           colors: [Color(0xff312f49), Color(0xff28263c)])),
+                // ),
+                SelectView(
+                  label: "Store".tr,
+                  tips: "Select One Store".tr,
+                  value: controller.store.value.name,
+                  onTap: () async {
                     controller.showSelectLocation();
-                  } else {
-                    controller.showSelectArea();
-                  }
-                },
-              ),
-              // SelectView(
-              //   label: "Number of People",
-              //   tips: "Number of people",
-              //   value: controller.people.value.name,
-              //   onTap: () async {
-              //     controller.showSelectPeople();
-              //   },
-              // ),
-              SelectView(
-                label: "What Time".tr,
-                tips: "What Time".tr,
-                value: controller.timeSelect.value
-                    ? formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn])
-                    : "",
-                onTap: () {
-                  controller.showSelectTime();
-                },
-              ),
-              SelectView(
-                label: "How Long".tr,
-                tips: "How Long".tr,
-                value: controller.duration.value.name,
-                onTap: () async {
-                  controller.showSelectDuration();
-                },
-              ),
-              InputView(
-                height: 45.h,
-                label: "Phone".tr,
-                tips: "Contact Phone".tr,
-                textInputType: TextInputType.phone,
-                controller: controller.phoneController,
-                focusNode: controller.focusNode,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                child: Text(
-                  "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly."
-                      .tr,
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                child: Text(
-                  "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms."
-                      .tr,
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                SelectView(
+                  label: "Area".tr,
+                  tips: "Select One Area".tr,
+                  value: controller.area.value.name,
+                  onTap: () async {
+                    if (controller.store.value.id == 0) {
+                      controller.showSelectLocation();
+                    } else {
+                      controller.showSelectArea();
+                    }
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                child: Text(
-                  "* If you arrive more than half an hour after your booking time, your reservation will be invalidated."
-                      .tr,
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                // SelectView(
+                //   label: "Number of People",
+                //   tips: "Number of people",
+                //   value: controller.people.value.name,
+                //   onTap: () async {
+                //     controller.showSelectPeople();
+                //   },
+                // ),
+                SelectView(
+                  label: "What Time".tr,
+                  tips: "What Time".tr,
+                  value: controller.timeSelect.value
+                      ? formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn])
+                      : "",
+                  onTap: () {
+                    controller.showSelectTime();
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
-                child: Text(
-                  "* Please note that if you don't meet the above criteria, the deposit will not be refundable."
-                      .tr,
-                  style: TextStyle(color: Colors.white54, fontSize: 12),
+                SelectView(
+                  label: "How Long".tr,
+                  tips: "How Long".tr,
+                  value: controller.duration.value.name,
+                  onTap: () async {
+                    controller.showSelectDuration();
+                  },
                 ),
-              )
-            ],
-          ),
-        ));
+                InputView(
+                  decoration: ShapeDecoration(
+                      color: Color(0xff48464a),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r)),
+                  height: 45.h,
+                  label: "Phone".tr,
+                  tips: "Contact Phone".tr,
+                  textInputType: TextInputType.phone,
+                  controller: controller.phoneController,
+                  focusNode: controller.focusNode,
+                ),
+                15.verticalSpace,
+                FloatingButton(
+                  label: "BOOK".tr,
+                  onTap: () => controller.book(),
+                ),
+                contentPadding(
+                    child: Text.rich(
+                  TextSpan(children: [
+                    TextSpan(
+                        text:
+                            "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly." +
+                                '\n'.tr,
+                        style: introduce_text_style()),
+                    TextSpan(
+                        text:
+                            "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms." +
+                                '\n'.tr,
+                        style: introduce_text_style()),
+                    TextSpan(
+                        text:
+                            "* If you arrive more than half an hour after your booking time, your reservation will be invalidated." +
+                                '\n'.tr,
+                        style: introduce_text_style()),
+                    TextSpan(
+                        text:
+                            "* Please note that if you don't meet the above criteria, the deposit will not be refundable." +
+                                '\n'.tr,
+                        style: introduce_text_style()),
+                  ]),
+                  strutStyle: StrutStyle(height: 1.1, fontFamily: FONT_LIGHT),
+                )),
+              ],
+            )));
   }
+
+  TextStyle introduce_text_style() =>
+      TextStyle(color: Color(0xFFC5C3C6), fontSize: 12.sp, fontFamily: FONT_LIGHT);
 
   Widget _buildDashLine() {
     return Positioned(

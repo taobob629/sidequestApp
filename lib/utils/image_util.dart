@@ -16,7 +16,7 @@ class ImageUtil {
 
   static final _package = "sidequest_hub_app";
 
-  static String imageResStr(var name, int type) =>
+  static String imageResStr(var name, {int type = IMG_WEBP}) =>
       "assets/images/$name${type == IMG_WEBP ? '.webp' : '.png'}";
 
   static Widget svg(
@@ -38,7 +38,7 @@ class ImageUtil {
   static Widget assetImage(String res,
       {double? width, double? height, BoxFit? fit, Color? color, int imageType = IMG_WEBP}) {
     return Image.asset(
-      imageResStr(res, imageType),
+      imageResStr(res, type: imageType),
       width: width,
       height: height,
       fit: fit,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wy/config/icon_font.dart';
 
 class PageTitle extends StatelessWidget {
 
@@ -18,6 +19,7 @@ class PageTitle extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontSize: 16,
+        fontFamily: FONT_MEDIUM,
         color: color
       ),
     );

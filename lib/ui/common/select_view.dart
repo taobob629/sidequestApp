@@ -26,7 +26,11 @@ class SelectView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+              padding: const EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 10,
+              ).h,
               child: Text(
                 label,
                 style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM),
@@ -34,7 +38,7 @@ class SelectView extends StatelessWidget {
             ),
             Container(
                 height: 45.h,
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 5),
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 3),
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
                     color: Color(0xff48464a), borderRadius: BorderRadius.circular(10).r),
