@@ -40,7 +40,7 @@ class VipBenefitItem extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: [Color(0x00262731), Color(0x21FFF2D3)],
+            colors: [Color(0x77262731), Color(0x21FFF2D3)],
           )),
       child: Column(
         children: [
