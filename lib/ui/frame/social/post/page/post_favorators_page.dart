@@ -142,7 +142,7 @@ class PostFavoratorsController extends GetxRefreshController<PostCommentModel> {
   @override
   Future<List<PostCommentModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await PostApi.getFavoratorsList(page: pageNum, postsId: postItem.uid);
+    return await PostApi.getFavoratorsList(page: pageNum, postsId: postItem.id);
     throw UnimplementedError();
   }
 }
