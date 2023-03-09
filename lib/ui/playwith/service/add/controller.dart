@@ -21,16 +21,18 @@ class AddGamePageController extends GetxController {
     priceRanges.addAll(result);
   }
 
-  onPriceUnitChange(int index,PriceRangeModel model){
-    if(mPriceRanges.contains(model)){
+  onPriceUnitChange(int index, PriceRangeModel model) {
+    if (mPriceRanges.contains(model)) {
       EasyLoading.showToast('已经存在改类型');
       return;
     }
-    mPriceRanges[index-1]=model;
+    mPriceRanges[index - 1] = model;
   }
+
   addPriceRange() {
-    if (mPriceRanges.isEmpty) {
+    if (mPriceRanges.isEmpty || mPriceRanges.length >= priceRanges.length) {
       mPriceRanges.add(priceRanges.first);
+      EasyLoading.showToast('${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
       return;
     }
     //查看还有什么类型的没有被添加
