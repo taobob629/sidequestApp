@@ -58,14 +58,14 @@ class DeveloperPage extends StatelessWidget {
                     children: [
                       Radio<String>(
                           activeColor: AppColor.accent,
-                          value: "dev220",
+                          value: "dev184",
                           groupValue: controller.env.value,
                           onChanged: (value) {
                             controller.env.value = value!;
                           }),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("dev220", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev184", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),
@@ -73,7 +73,7 @@ class DeveloperPage extends StatelessWidget {
               children: [
                 Radio<String>(
                   activeColor: AppColor.accent,
-                  value: "dev201",
+                  value: "dev127",
                   groupValue: controller.env.value,
                   onChanged: (value) {
                     controller.env.value = value!;
@@ -81,7 +81,7 @@ class DeveloperPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("dev201", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev127", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),
@@ -89,7 +89,7 @@ class DeveloperPage extends StatelessWidget {
               children: [
                 Radio<String>(
                   activeColor: AppColor.accent,
-                  value: "test",
+                  value: "dev198",
                   groupValue: controller.env.value,
                   onChanged: (value) {
                     controller.env.value = value!;
@@ -97,7 +97,7 @@ class DeveloperPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("test121", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev198", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),

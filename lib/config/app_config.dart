@@ -34,8 +34,8 @@ class AppConfig {
   static String? name;
 
   static String _devServer = 'http://162.14.123.184:8081';
-  static String _devServer2 = 'http://43.138.104.201:8081';
-  static String _testServer = 'http://139.186.179.121:8081';
+  static String _devServer2 = 'http://1.14.75.127:8081';
+  static String _testServer = 'http://43.136.135.198:8081';
   static String _prodServer = 'https://sidequestmeta.com';
 
   static final isProd = const bool.fromEnvironment('dart.vm.product');
@@ -98,11 +98,11 @@ class AppConfig {
   static String getBaseServer() {
     String env = StorageManager.getEnv();
   //  return _devServer;
-    if (env == "dev220") {
+    if (env == "dev184") {
       return _devServer;
-    } else if (env == "dev201") {
+    } else if (env == "dev127") {
       return _devServer2;
-    } else if (env == "test") {
+    } else if (env == "dev198") {
       return _testServer;
     }
     return _prodServer;

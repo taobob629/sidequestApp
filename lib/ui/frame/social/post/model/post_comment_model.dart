@@ -7,6 +7,7 @@ class PostCommentModel {
   int replyId = 0;
   String replyHead = "";
   String replyNickname = "";
+  int postId=0;
 
   bool get isReply => replyId > 0;
 
@@ -27,5 +28,7 @@ class PostCommentModel {
     replyId = json["replyId"] ?? 0;
     replyHead = json["replyHead"] ?? "";
     replyNickname = json["replyNickname"] ?? "";
+    postId= json["postId"] ?? 0;
+
   }
 }

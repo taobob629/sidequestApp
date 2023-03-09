@@ -173,7 +173,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   }
 
   postComment() {
-    PostApi.postComment(postsId: postItem.uid, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
+    PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
       onRefresh();
       replyModel.value = PostCommentModel();
       commentController.clear();
@@ -198,7 +198,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   @override
   Future<List<PostCommentModel>> loadData({int pageNum = 1}) async {
     // TODO: implement loadData
-    return await PostApi.getPostCommentsList(page: pageNum, postsId: postItem.uid);
+    return await PostApi.getPostCommentsList(page: pageNum, postsId: postItem.id);
     throw UnimplementedError();
   }
 }

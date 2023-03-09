@@ -29,7 +29,7 @@ class PostListController extends GetxRefreshController<PostItemModel> {
 
   Future<bool> praisePost(PostItemModel post) async {
     try {
-      var resp = await PostApi.praisePost(postsId: post.uid);
+      var resp = await PostApi.praisePost(postsId: post.id);
       return true;
     } catch (e) {
       return false;
