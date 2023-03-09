@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/post_api.dart';
@@ -8,6 +7,7 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
+import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
 
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
@@ -137,16 +137,21 @@ class PostCommentsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.only(left: 10),
-                          decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/post/icon_gift.png",
-                            width: 24,
-                            height: 24,
+                        GestureDetector(
+                          onTap: () {
+                            Get.bottomSheet(GiveGiftsDialog(), ignoreSafeArea: true);
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            margin: EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              "assets/images/post/icon_gift.png",
+                              width: 24,
+                              height: 24,
+                            ),
                           ),
                         )
                       ],
@@ -176,16 +181,9 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
     PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
       onRefresh();
       replyModel.value = PostCommentModel();
-      commentController.clear();
-    });
-  }
-
-  @override
-  Future<List<PostCommentModel>> onRefresh({bool init = false}) {
-    // TODO: implement onRefresh
-    return super.onRefresh().whenComplete(() {
-      PostDetailController.find.postItem.value.commentNum = list.length;
+      PostDetailController.find.postItem.value.commentNum += 1;
       PostDetailController.find.postItem.refresh();
+      commentController.clear();
     });
   }
 

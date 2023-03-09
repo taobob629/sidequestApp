@@ -104,24 +104,25 @@ class ReleasePostPage extends StatelessWidget {
                           );
                         },
                       ).toList(),
-                      GestureDetector(
-                        onTap: t.pickUploadPhoto,
-                        child: Container(
-                          width: (Get.width - 40 - 20) / 3,
-                          height: (Get.width - 40 - 20) / 3,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(11),
-                            color: Color(0xff313033),
+                      if (t.photoList.length >= 9)
+                        GestureDetector(
+                          onTap: t.pickUploadPhoto,
+                          child: Container(
+                            width: (Get.width - 40 - 20) / 3,
+                            height: (Get.width - 40 - 20) / 3,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: Color(0xff313033),
+                            ),
+                            child: Image.asset(
+                              "assets/images/paly_add.png",
+                              fit: BoxFit.fitWidth,
+                              width: 60,
+                              height: 60,
+                            ),
                           ),
-                          child: Image.asset(
-                            "assets/images/paly_add.png",
-                            fit: BoxFit.fitWidth,
-                            width: 60,
-                            height: 60,
-                          ),
-                        ),
-                      )
+                        )
                     ],
                   )),
             ),

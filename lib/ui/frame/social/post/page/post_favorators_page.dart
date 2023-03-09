@@ -125,15 +125,6 @@ class PostFavoratorsController extends GetxRefreshController<PostCommentModel> {
   }
 
   @override
-  Future<List<PostCommentModel>> onRefresh({bool init = false}) {
-    // TODO: implement onRefresh
-    return super.onRefresh().whenComplete(() {
-      PostDetailController.find.postItem.value.commentNum = list.length;
-      PostDetailController.find.postItem.refresh();
-    });
-  }
-
-  @override
   void onClose() {
     // TODO: implement onClose
     super.onClose();

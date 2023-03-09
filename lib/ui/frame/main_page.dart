@@ -9,8 +9,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
-import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation.dart';
 
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -31,14 +29,10 @@ import 'package:wy/ui/index/Index_page.dart';
 import 'package:wy/ui/login/qr_login_page.dart';
 import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
-import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/scan/scan_page.dart';
-import 'package:wy/ui/shop/shop_page.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/storage_manager.dart';
 
-import '../im/conversation.dart';
 import 'drawer.dart';
 import 'messages/messages_page.dart';
 import 'sidekick/view.dart';
@@ -341,13 +335,13 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
     if (checking == false) {
       checking = true;
       IndexApi.checkVersion().then((value) {
-      //  final profilePageController = ProfilePageController.instance();
+        //  final profilePageController = ProfilePageController.instance();
         if (Platform.isIOS) {
           StorageManager.setOnline(value.status);
         } else {
           StorageManager.setOnline(true);
         }
-      //  profilePageController.online.value = StorageManager.getOnline();
+        //  profilePageController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
           if (Get.context != null) {
             UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));

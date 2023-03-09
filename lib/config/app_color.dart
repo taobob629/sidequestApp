@@ -23,6 +23,9 @@ class AppColor {
 
   static const Color color3033 = Color(0xFF313033);
   static const Color color302D = Color(0xFF30302D);
+  static const Color color2E3C = Color(0xFF2D2E3C);
+
+  static const Color color8388 = Color(0xFF808388);
 
   /// 主色 - 渐变
   static List<Color> get buttonGradientBg {

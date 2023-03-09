@@ -8,6 +8,7 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
+import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 
 import 'post_comments_page.dart';
 import 'post_favorators_page.dart';
@@ -18,12 +19,17 @@ class PostDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: PageTitle(title: "Post Detail"),
-        elevation: 0,
-      ),
-      body: NestedScrollView(
+    return WillPopScope(
+      onWillPop: () {
+        PostListController.find.onRefresh();
+        return Future(() => true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: PageTitle(title: "Post Detail"),
+          elevation: 0,
+        ),
+        body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverToBoxAdapter(
@@ -180,7 +186,9 @@ class PostDetailPage extends StatelessWidget {
               PostCommentsPage(),
               PostFavoratorsPage(),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

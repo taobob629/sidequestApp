@@ -2,6 +2,8 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/model/post_comment_model.dart';
 
+import '../ui/frame/social/post/view/give_gifts_dialog.dart';
+
 class PostApi {
   PostApi._();
   //Social-发布post
@@ -57,5 +59,14 @@ class PostApi {
       "pageSize": 20,
     });
     return response.data.map<PostCommentModel>((e) => PostCommentModel.fromJson(e)).toList();
+  }
+
+  /// Social-Post  帖子列表
+  static Future<List<GiftModel>> getGiftsList({int pageNum = 0}) async {
+    var response = await http.get('/peiwan/app/new/home/postGifts', queryParameters: {
+      "pageNum": pageNum,
+      "pageSize": 20,
+    });
+    return response.data["rows"].map<GiftModel>((e) => GiftModel.fromJson(e)).toList();
   }
 }
