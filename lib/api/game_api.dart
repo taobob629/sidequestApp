@@ -3,6 +3,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
+import 'package:wy/model/price_range_model.dart';
 
 class GamesApi {
   static Future<List<SimpleGameModel>> getRecommendGames() async {
@@ -12,6 +13,14 @@ class GamesApi {
     if (response.data == null) return [];
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
+
+  static Future<List<PriceRangeModel>> getPriceRange(var gameId) async {
+    Response response =
+        await http.get('/peiwan/app/service/priceRange', queryParameters: {'gameId': '$gameId'});
+    if (response.data == null) return [];
+    return response.data.map<PriceRangeModel>((item) => PriceRangeModel.fromJson(item)).toList();
+  }
+
   static Future<List<SimpleGameModel>> getTopPlayers() async {
     Response response = await http.get(
       '/peiwan/app/new/home/topPlayers',

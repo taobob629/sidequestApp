@@ -8,7 +8,7 @@ import 'package:wy/model/game_service_model.dart';
 import 'package:wy/model/skill_item_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 
 /*

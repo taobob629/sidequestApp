@@ -17,7 +17,7 @@ import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/play_game_widget.dart';
 import 'package:wy/ui/im/play_order.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/ui/playwith/game_comment.dart';
 import 'package:wy/ui/playwith/photo_wall_widget.dart';
 import 'package:wy/ui/playwith/play_profile_page.dart';

@@ -8,7 +8,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_custom_scroll.dart';
 import 'package:wy/widget/paixs_widget.dart';

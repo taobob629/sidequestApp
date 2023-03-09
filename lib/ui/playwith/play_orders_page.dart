@@ -7,7 +7,7 @@ import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/order_detail.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/my_custom_scroll.dart';

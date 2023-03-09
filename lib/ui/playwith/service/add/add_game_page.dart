@@ -8,9 +8,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
+import 'package:wy/api/game_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/res/styles.dart';
@@ -28,6 +30,9 @@ import 'package:wy/widget/lable.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+
+import 'controller.dart';
+import 'widget/price_slider.dart';
 
 ///添加游戏
 class AddGamePage extends StatefulWidget {
@@ -49,6 +54,7 @@ class _AddGamePageState extends State<AddGamePage> {
   var gameLvIndex;
   var isWswitch = 0;
   PrivacyCheckController privacyCheckController = new PrivacyCheckController();
+  AddGamePageController controller = Get.put(AddGamePageController());
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -60,13 +66,15 @@ class _AddGamePageState extends State<AddGamePage> {
     this.initData();
     super.initState();
   }
-
+@override
+  void dispose() {
+    super.dispose();
+    Get.delete<AddGamePageController>();
+  }
   ///初始化函数
   Future initData() async {
     isEdit = widget.data.isNotEmpty;
     await this.skill();
-    if (isEdit) this.skillInfo();
-    mapFlog(widget.data, 'isEdit');
   }
 
   ///技能详情
@@ -240,7 +248,7 @@ class _AddGamePageState extends State<AddGamePage> {
 
   Widget itemBg(view, {Function? fun}) {
     return PWidget.container(view, [null, 45.h, AppColor.itemBg2],
-        {'br': 10.r, 'pd': PFun.lg(0, 0, 16,  14.sp), 'fun': fun});
+        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14.sp), 'fun': fun});
   }
 
   List<Widget> get item {
@@ -272,7 +280,9 @@ class _AddGamePageState extends State<AddGamePage> {
       print('No image selected.');
     }
   }
-var textColor=Color(0xFFB2B9C9);
+
+  var textColor = Color(0xFFB2B9C9);
+
   Widget itemLable(var lable) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10).h,
@@ -291,9 +301,9 @@ var textColor=Color(0xFFB2B9C9);
         PWidget.row([
           PWidget.text('Category'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(platform == null ? 'Please select'.tr : platform['name'],
-              [textColor, 12.sp], {'ali': 1, 'exp': true}),
-          rightJtView( 14.sp, textColor),
+          PWidget.text(platform == null ? 'Please select'.tr : platform['name'], [textColor, 12.sp],
+              {'ali': 1, 'exp': true}),
+          rightJtView(14.sp, textColor),
         ]),
         fun: () async {
           if (isEdit) return;
@@ -327,9 +337,9 @@ var textColor=Color(0xFFB2B9C9);
         PWidget.row([
           PWidget.text('Service'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select'.tr : game['name'], [textColor,  12.sp],
+          PWidget.text(game == null ? 'Please select'.tr : game['name'], [textColor, 12.sp],
               {'ali': 1, 'exp': true}),
-          rightJtView( 14.sp, textColor),
+          rightJtView(14.sp, textColor),
         ]),
         fun: () async {
           if (isEdit) return;
@@ -356,6 +366,7 @@ var textColor=Color(0xFFB2B9C9);
               gameLv = null;
             });
             this.config();
+            controller.getPriceRange(game['id']);
           }
         },
       ),
@@ -365,7 +376,7 @@ var textColor=Color(0xFFB2B9C9);
         if (gameIndex == null) return PWidget.boxh(0);
         var levels = list[gameIndex]['level'] as List;
         if (levels.isEmpty) return PWidget.boxh(0);
-        return PWidget.boxh( 14.sp);
+        return PWidget.boxh(14.sp);
       }),
       Builder(builder: (context) {
         if (platformIndex == null) return PWidget.boxh(0);
@@ -377,8 +388,8 @@ var textColor=Color(0xFFB2B9C9);
           PWidget.row([
             PWidget.text('Level'.tr, [textColor]),
             PWidget.boxw(8),
-            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'],
-                [textColor,  12.sp], {'ali': 1, 'exp': true}),
+            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'], [textColor, 12.sp],
+                {'ali': 1, 'exp': true}),
             rightJtView(16, textColor),
           ]),
           fun: () async {
@@ -406,18 +417,9 @@ var textColor=Color(0xFFB2B9C9);
           },
         );
       }),
-      if (configDm.object?.isNotEmpty ?? false) PWidget.boxh(16),
-      if (configDm.object?.isNotEmpty ?? false)
-        itemBg(PWidget.row([
-          PWidget.text('Price range'.tr, [textColor]),
-          PriceSlider(
-            min: double.parse('${configDm.object?['gameCoinMin'] ?? '0.0'}'),
-            max: double.parse('${configDm.object?['gameCoinMax'] ?? '0.0'}'),
-            value: int.parse('${priceRangeCon.text}').toDouble(),
-            fun: (v) => priceRangeCon.text = '${v.toInt()}',
-          ),
-        ])),
-      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) PWidget.boxh(16),
+      if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
+      if (configDm.object?.isNotEmpty ?? false) PriceSliderWidget(),
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) 16.verticalSpace,
       if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
         itemBg(PWidget.row([
           PWidget.text('Enable'.tr, [textColor]),
@@ -441,12 +443,52 @@ var textColor=Color(0xFFB2B9C9);
     ]);
   }
 
+  priceRange(BuildContext? context) {
+    return MediaQuery.removePadding(
+        removeTop: true,
+        context: context!,
+        child: Obx(() => ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.priceRanges.length + 1,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    itemLable('Price Range'.tr),
+                    InkWell(
+                        onTap: () => {},
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.green,
+                        ))
+                  ]);
+                }
+                var item = controller.priceRanges[index - 1];
+                return PriceSlider(
+                  min: item.gameCoinMin.toDouble(),
+                  max: item.gameCoinMax.toDouble(),
+                  value: item.gameCoinMin.toDouble(),
+                  index: index,
+                  model: item,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => index == 0
+                  ? Divider(
+                      height: 0,
+                    )
+                  : Divider(
+                      color: Colors.transparent,
+                      height: 16.h,
+                    ),
+            )));
+  }
+
   var gamePhotos = [];
 
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      itemLable('${'Screenshot'.tr}(${20 - gamePhotos.length}'),
+      itemLable('${'Screenshot'.tr}(${20 - gamePhotos.length})'),
       GridView.builder(
         padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -499,77 +541,5 @@ var textColor=Color(0xFFB2B9C9);
         },
       ),
     ]);
-  }
-}
-
-// 价格滑块
-class PriceSlider extends StatefulWidget {
-  final double? max;
-  final double? min;
-  final double? value;
-  final Function(double)? fun;
-
-  const PriceSlider({Key? key, this.max, this.min, this.fun, this.value}) : super(key: key);
-
-  @override
-  _PriceSliderState createState() => _PriceSliderState();
-}
-
-class _PriceSliderState extends State<PriceSlider> {
-  var value = 0.0;
-
-  @override
-  void initState() {
-    this.initData();
-    super.initState();
-  }
-
-  ///初始化函数
-  Future initData() async => value = widget.value!;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: FlutterSlider(
-        values: [value],
-        max: widget.max!,
-        min: widget.min!,
-        handlerWidth: 80,
-        trackBar: FlutterSliderTrackBar(
-          inactiveTrackBar:
-              BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-          activeTrackBar:
-              BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-        ),
-        tooltip: FlutterSliderTooltip(
-          positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
-          custom: (v) => PWidget.container(
-            PWidget.row([
-              Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
-              PWidget.boxw(4),
-              PWidget.text('${double.parse('$v').toInt()}'),
-              PWidget.boxw(4),
-              PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
-            ]),
-            [null, null, Colors.white],
-            {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
-          ),
-        ),
-        handler: FlutterSliderHandler(
-          child: PWidget.container(
-              PWidget.text('${value.toInt()}', [Colors.black.withOpacity(0.75)]),
-              [null, null, Colors.white],
-              {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
-          foregroundDecoration: BoxDecoration(),
-          decoration: BoxDecoration(),
-        ),
-        handlerAnimation: FlutterSliderHandlerAnimation(
-            curve: Curves.elasticOut,
-            reverseCurve: Curves.elasticIn,
-            duration: Duration(milliseconds: 250)),
-        onDragging: (i, v1, v2) => setState(() => value = v1),
-        onDragCompleted: (i, v1, v2) => widget.fun!(v1),
-      ),
-    );
   }
 }

@@ -6,7 +6,7 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/ui/playwith/scroll_monitor_widget.dart';
 import 'package:wy/ui/playwith/swiper_widget.dart';
 import 'package:wy/utils/utils.dart';

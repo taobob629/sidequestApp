@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/add_game_page.dart';
+import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/paixs_widget.dart';
