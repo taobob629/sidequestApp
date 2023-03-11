@@ -42,12 +42,15 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                 if (index == 0) {
                   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     itemLable('Price Range'.tr),
-                    InkWell(
-                        onTap: () => {controller.addPriceRange()},
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.green,
-                        ))
+                    Visibility(
+                      child: InkWell(
+                          onTap: () => {controller.addPriceRange()},
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          )),
+                      visible: controller.mPriceRanges.length <= controller.priceRanges.length,
+                    )
                   ]);
                 }
                 var item = controller.mPriceRanges[index - 1];
@@ -55,7 +58,7 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                   min: item.gameCoinMin.toDouble(),
                   max: item.gameCoinMax.toDouble(),
                   value: item.gameCoinMin.toDouble(),
-                  index: index,
+                  index: index - 1,
                   model: item,
                 );
               },
@@ -97,19 +100,29 @@ class PriceSlider extends GetView<AddGamePageController> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-    controller.addListener(() {
-      model?.name = controller.text;
+    TextEditingController textController = TextEditingController();
+    textController.addListener(() {
+      model?.name = textController.text;
     });
     return Column(
       children: [
         InputView(
-          controller: controller,
+          controller: textController,
           label: 'ServiceType_${model?.unit}',
           tips: 'Please input Service Name'.tr,
           margin: EdgeInsets.only(top: 2).h,
           padding: EdgeInsets.all(0),
           height: 45.h,
+          rightActionWidget: InkWell(
+            onTap: () {
+              controller.removePriceRange(index);
+            },
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+              size: 18,
+            ),
+          ),
         ),
         5.verticalSpace,
         Container(

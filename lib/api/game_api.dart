@@ -4,6 +4,7 @@ import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/model/price_range_model.dart';
+import 'package:wy/model/service_info_model.dart';
 
 class GamesApi {
   static Future<List<SimpleGameModel>> getRecommendGames() async {
@@ -19,6 +20,13 @@ class GamesApi {
         await http.get('/peiwan/app/service/priceRange', queryParameters: {'gameId': '$gameId'});
     if (response.data == null) return [];
     return response.data.map<PriceRangeModel>((item) => PriceRangeModel.fromJson(item)).toList();
+  }
+
+  static Future<List<ServiceInfoModel>> getGameServicesInfo(var isEdit) async {
+    Response response =
+        await http.get('/peiwan/app/service/skillInit?edit=${isEdit ? 1 : 0}');
+    if (response.data == null) return [];
+    return response.data.map<ServiceInfoModel>((item) => ServiceInfoModel.fromJson(item)).toList();
   }
 
   static Future<List<SimpleGameModel>> getTopPlayers() async {

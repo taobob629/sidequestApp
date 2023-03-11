@@ -15,6 +15,7 @@ class InputView extends StatelessWidget {
   double height;
   final Widget? customInput;
   final Widget? customLabel;
+  final Widget? rightActionWidget;
   EdgeInsets padding;
   EdgeInsets? margin;
   final bool autoHeight;
@@ -32,6 +33,7 @@ class InputView extends StatelessWidget {
       this.customLabel,
       this.height = 40,
       this.decoration,
+      this.rightActionWidget,
       this.padding = const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
       this.margin = const EdgeInsets.only(left: 15, right: 15),
       this.autoHeight = false});
@@ -44,10 +46,12 @@ class InputView extends StatelessWidget {
         Padding(
           padding: padding,
           child: customLabel ??
-              Text(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Text(
                 label,
                 style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
-              ),
+              ),rightActionWidget??Container()],),
         ),
         Container(
           height: autoHeight ? null : height,

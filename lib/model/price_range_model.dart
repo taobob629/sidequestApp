@@ -32,6 +32,8 @@ class PriceRangeModel {
         'gameCoinMax': gameCoinMax,
         'id': id,
         'unit': unit,
+        'name': name,
+        'price': _curPrice.value,
       };
 
   @override
@@ -44,6 +46,6 @@ class PriceRangeModel {
 
   @override
   String toString() {
-    return 'PriceRangeModel{gameCoinMin: $gameCoinMin, gameCoinMax: $gameCoinMax, id: $id, unit: $unit}';
+    return 'PriceRangeModel{gameCoinMin: $gameCoinMin, gameCoinMax: $gameCoinMax, id: $id, unit: $unit, name: $name, _curPrice: $_curPrice}';
   }
 }

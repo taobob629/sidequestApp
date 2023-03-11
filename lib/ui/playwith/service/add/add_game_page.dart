@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/model/service_info_model.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -46,11 +48,11 @@ class AddGamePage extends StatefulWidget {
 
 class _AddGamePageState extends State<AddGamePage> {
   TextEditingController priceRangeCon = TextEditingController();
-  var platform;
+  ServiceInfoModel? platform;
   var platformIndex;
-  var game;
+  SkillItem? game;
   var gameIndex;
-  var gameLv;
+  LevelItem? gameLv;
   var gameLvIndex;
   var isWswitch = 0;
   PrivacyCheckController privacyCheckController = new PrivacyCheckController();
@@ -64,17 +66,24 @@ class _AddGamePageState extends State<AddGamePage> {
   @override
   void initState() {
     this.initData();
+
     super.initState();
   }
-@override
+
+  @override
   void dispose() {
     super.dispose();
     Get.delete<AddGamePageController>();
   }
+
   ///初始化函数
   Future initData() async {
-    isEdit = widget.data.isNotEmpty;
-    await this.skill();
+    controller.isEdit = widget.data.isNotEmpty;
+    await controller.initData();
+    if (controller.isEdit) {
+      skillInfo();
+    }
+    //  await this.skill();
   }
 
   ///技能详情
@@ -83,16 +92,16 @@ class _AddGamePageState extends State<AddGamePage> {
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
     await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
       skillInfoDm.addObject(res.data);
-      if (isEdit) {
+      if (controller.isEdit) {
         isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
         platformIndex =
-            skillDm.list.indexWhere((w) => w['id'] == skillInfoDm.object?['platfromId']);
-        platform = skillDm.list[platformIndex];
-        gameIndex = platform['skill'].indexWhere((w) => w['id'] == skillInfoDm.object?['gameId']);
-        game = platform['skill'][gameIndex];
+            controller.services.indexWhere((w) => w.id == skillInfoDm.object?['platfromId']);
+        platform = controller.services[platformIndex];
+        gameIndex = platform?.skill?.indexWhere((item) => item.id == skillInfoDm.object?['gameId']);
+        game = platform?.skill[gameIndex];
         gameLvIndex =
-            (game['level'] ?? []).indexWhere((w) => w['id'] == skillInfoDm.object?['levelId']);
-        if (gameLvIndex != -1) gameLv = (game['level'] ?? [])[gameLvIndex];
+            game?.level?.indexWhere((w) => w.id == skillInfoDm.object?['levelId']);
+        if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
         priceRangeCon.text = '';
         if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
           gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
@@ -106,26 +115,26 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   ///游戏
-  var skillDm = DataModel();
+  // var skillDm = DataModel();
 
-  Future<int> skill({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/skill?edit=${isEdit ? 1 : 0}').then((res) async {
-      skillDm.addList(res.data, true, 0);
-    }).catchError((e) {
-      skillDm.toError(e.toString());
-    });
-    setState(() {});
-    return skillDm.flag;
-  }
+  // Future<int> skill({int page = 1, bool isRef = false}) async {
+  //   await http.get('/peiwan/app/home/skill?edit=${controller.isEdit ? 1 : 0}').then((res) async {
+  //   //  skillDm.addList(res.data, true, 0);
+  //   }).catchError((e) {
+  //   //  skillDm.toError(e.toString());
+  //   });
+  //   setState(() {});
+  // //  return skillDm.flag;
+  // }
 
   ///游戏价格区间
   var configDm = DataModel<Map>(object: {});
 
   Future<int> config({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/config?gameId=${game['id']}').then((res) async {
+    await http.get('/peiwan/app/home/config?gameId=${game?.id}').then((res) async {
       configDm.addObject(res.data);
       var gameCoinMin = configDm.object?['gameCoinMin'];
-      if (isEdit) {
+      if (controller.isEdit) {
         var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
         priceRangeCon.text = '${coin < gameCoinMin ? gameCoinMin : coin}';
       } else {
@@ -138,15 +147,12 @@ class _AddGamePageState extends State<AddGamePage> {
     return configDm.flag;
   }
 
-  ///是否编辑
-  bool isEdit = false;
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
         title: PageTitle(
-          title: isEdit ? 'edit service'.tr : 'add service'.tr,
+          title: controller.isEdit ? 'edit service'.tr : 'add service'.tr,
         ),
         centerTitle: true,
         elevation: 0,
@@ -188,62 +194,63 @@ class _AddGamePageState extends State<AddGamePage> {
           ),
           FloatingButton(
             label: "OK",
-            onTap: () async {
-              if (isUploadFile)
-                return EasyLoading.showToast('Uploading failed, please try again later'.tr);
-              if (isSending) return EasyLoading.showToast('Submitting');
-              if (privacyCheckController.check() == false) return;
-              if (platform == null) return EasyLoading.showToast('Please select category'.tr);
-              if (game == null) return EasyLoading.showToast('Please select service'.tr);
-              if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
-              var list = skillDm.list[platformIndex]['skill'] as List;
-              if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
-              var levels = list[gameIndex]['level'] as List;
-              if (levels.isNotEmpty) {
-                if (gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
-              }
-              // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
-              if (priceRangeCon.text.isEmpty)
-                return EasyLoading.showToast('Please enter the price'.tr);
-              if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
-                return EasyLoading.showToast('The price cannot be less than the minimum value'.tr);
-              }
-              if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
-                return EasyLoading.showToast(
-                    'The price cannot be greater than the maximum value'.tr);
-              }
-              if (levels.isNotEmpty) {
-                if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
-              }
-              flog(gameLv);
-              var data = {
-                if (isEdit) "id": widget.data['id'],
-                "skillid": game['id'],
-                "thumb": gamePhotos.join(','),
-                "levelid": gameLv == null ? '' : gameLv['id'],
-                "wswitch": isWswitch,
-                "coinid": 0,
-                "coin": priceRangeCon.text,
-                // "des": beGoodAtCon.text,
-              };
-              flog(data, 'data');
-              isSending = true;
-              await http
-                  .post(isEdit ? '/peiwan/app/home/editSkill' : '/peiwan/app/user/setSkillAuth',
-                      data: data)
-                  .then((v) {
-                isSending = false;
-                EasyLoading.showToast('Submitted successfully'.tr);
-                Get.back(result: true);
-              }).catchError((e) {
-                isSending = false;
-                EasyLoading.showToast('Network exception'.tr);
-              });
-            },
+            onTap: () => update(),
           )
         ],
       ),
     );
+  }
+
+  update() async {
+    if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
+    if (isSending) return EasyLoading.showToast('Submitting');
+    if (privacyCheckController.check() == false) return;
+    if (platform == null) return EasyLoading.showToast('Please select category'.tr);
+    if (game == null) return EasyLoading.showToast('Please select service'.tr);
+    if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
+    var list = controller.services[platformIndex].skill;
+    if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
+    var levels = list[gameIndex].level;
+    if (levels.isNotEmpty) {
+      if (gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
+    }
+    // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
+    if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price'.tr);
+    if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
+      return EasyLoading.showToast('The price cannot be less than the minimum value'.tr);
+    }
+    if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
+      return EasyLoading.showToast('The price cannot be greater than the maximum value'.tr);
+    }
+    if (levels.isNotEmpty) {
+      if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
+    }
+    flog(json.encode(controller.mPriceRanges));
+    var priceRanges = json.encode(controller.mPriceRanges);
+    var data = {
+      if (controller.isEdit) "id": widget.data['id'],
+      "skillid": game?.id,
+      "thumb": gamePhotos.join(','),
+      "levelid": gameLv == null ? '' : gameLv?.id,
+      "wswitch": isWswitch,
+      "coinid": 0,
+      "coin": priceRangeCon.text,
+      'serviceTypes': priceRanges
+      // "des": beGoodAtCon.text,
+    };
+    flog(data);
+    isSending = true;
+    await http
+        .post(controller.isEdit ? '/peiwan/app/service/skill' : '/peiwan/app/service/addService',
+            data: data)
+        .then((v) {
+      isSending = false;
+      EasyLoading.showToast('Submitted successfully'.tr);
+      Get.back(result: true);
+    }).catchError((e) {
+      isSending = false;
+      EasyLoading.showToast('Network exception'.tr);
+    });
   }
 
   Widget itemBg(view, {Function? fun}) {
@@ -301,28 +308,30 @@ class _AddGamePageState extends State<AddGamePage> {
         PWidget.row([
           PWidget.text('Category'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(platform == null ? 'Please select'.tr : platform['name'], [textColor, 12.sp],
+          PWidget.text(platform == null ? 'Please select'.tr : platform?.name, [textColor, 12.sp],
               {'ali': 1, 'exp': true}),
           rightJtView(14.sp, textColor),
         ]),
         fun: () async {
-          if (isEdit) return;
-          if (skillDm.list.isEmpty)
+          if (controller.isEdit) return;
+          flog('${controller.services.isEmpty}');
+          if (controller.services.isEmpty)
             return EasyLoading.showToast('Please check the network settings'.tr);
           var res = await Get.dialog(
-            SelectorDialog(
-              items: List.generate(skillDm.list.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': skillDm.list[i]['name']});
-              }),
-              title: "Select Category".tr,
-              showInfo: true,
-            ),
+            Obx(() => SelectorDialog(
+                  items: List.generate(controller.services.length, (i) {
+                    return VerifyField.fromJson(
+                        {'name': '$i', 'label': controller.services[i].name});
+                  }),
+                  title: "Select Category".tr,
+                  showInfo: true,
+                )),
             barrierColor: Colors.black26,
           );
           if (res != null) {
             setState(() {
               platformIndex = int.parse(res.name);
-              platform = skillDm.list[platformIndex];
+              platform = controller.services[platformIndex];
               configDm.object?.clear();
               gameIndex = null;
               game = null;
@@ -337,21 +346,20 @@ class _AddGamePageState extends State<AddGamePage> {
         PWidget.row([
           PWidget.text('Service'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select'.tr : game['name'], [textColor, 12.sp],
+          PWidget.text(game == null ? 'Please select'.tr : game?.name, [textColor, 12.sp],
               {'ali': 1, 'exp': true}),
           rightJtView(14.sp, textColor),
         ]),
         fun: () async {
-          if (isEdit) return;
+         if (controller.isEdit) return;
           if (platformIndex == null)
             return EasyLoading.showToast('Please select category first'.tr);
-          flog(skillDm.list[platformIndex], 'platformIndex');
-          var list = skillDm.list[platformIndex]['skill'] as List;
+          var list = controller.services[platformIndex].skill;
           if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(list.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': list[i]['name']});
+                return VerifyField.fromJson({'name': '$i', 'label': list[i].name});
               }),
               title: "Select Service".tr,
               showInfo: true,
@@ -366,42 +374,42 @@ class _AddGamePageState extends State<AddGamePage> {
               gameLv = null;
             });
             this.config();
-            controller.getPriceRange(game['id']);
+            controller.getPriceRange(game?.id);
           }
         },
       ),
       Builder(builder: (context) {
         if (platformIndex == null) return PWidget.boxh(0);
-        var list = skillDm.list[platformIndex]['skill'] as List;
+        var list = controller.services[platformIndex].skill;
         if (gameIndex == null) return PWidget.boxh(0);
-        var levels = list[gameIndex]['level'] as List;
+        var levels = list[gameIndex].level;
         if (levels.isEmpty) return PWidget.boxh(0);
         return PWidget.boxh(14.sp);
       }),
       Builder(builder: (context) {
         if (platformIndex == null) return PWidget.boxh(0);
-        var list = skillDm.list[platformIndex]['skill'] as List;
+        var list = controller.services[platformIndex].skill;
         if (gameIndex == null) return PWidget.boxh(0);
-        var levels = list[gameIndex]['level'] as List;
+        var levels = list[gameIndex].level;
         if (levels.isEmpty) return PWidget.boxh(0);
         return itemBg(
           PWidget.row([
             PWidget.text('Level'.tr, [textColor]),
             PWidget.boxw(8),
-            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv['name'], [textColor, 12.sp],
+            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv?.name, [textColor, 12.sp],
                 {'ali': 1, 'exp': true}),
             rightJtView(16, textColor),
           ]),
           fun: () async {
             if (platformIndex == null)
               return EasyLoading.showToast('Please select category first'.tr);
-            var list = skillDm.list[platformIndex]['skill'] as List;
+            var list = controller.services[platformIndex].skill;
             if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
-            var levels = list[gameIndex]['level'] as List;
+            var levels = list[gameIndex].level;
             var res = await Get.dialog(
               SelectorDialog(
                 items: List.generate(levels.length, (i) {
-                  return VerifyField.fromJson({'name': '$i', 'label': levels[i]['name']});
+                  return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
                 }),
                 title: "Select Level".tr,
                 showInfo: true,
@@ -419,8 +427,8 @@ class _AddGamePageState extends State<AddGamePage> {
       }),
       if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
       if (configDm.object?.isNotEmpty ?? false) PriceSliderWidget(),
-      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit) 16.verticalSpace,
-      if ((skillInfoDm.object?.isNotEmpty ?? false) && isEdit)
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit) 16.verticalSpace,
+      if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit)
         itemBg(PWidget.row([
           PWidget.text('Enable'.tr, [textColor]),
           PWidget.spacer(),
