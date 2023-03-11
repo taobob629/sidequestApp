@@ -49,7 +49,7 @@ class PayPageController extends GetxController {
   var havePayPassword = false.obs;
 
   PayPageController({required this.payOrderModel}) {
-    if (payOrderModel.type == -2) {
+    if (payOrderModel.type == -2 || payOrderModel.type == -3) {
       payType.value = 2;
     }
   }
@@ -86,7 +86,7 @@ class PayPageController extends GetxController {
 
   ///硬币
   var coin = 0.obs;
-  RxString _balance=RxString('');
+  RxString _balance = RxString('');
 
   String get balance => _balance.value;
 
@@ -94,22 +94,21 @@ class PayPageController extends GetxController {
     _balance.value = value;
   }
 
-  isSufficient(){
-    try{
-      double balanceValue=double.parse(balance);
-      double amount=double.parse(payOrderModel.totalAmount);
-      if(amount<balanceValue)return true;
+  isSufficient() {
+    try {
+      double balanceValue = double.parse(balance);
+      double amount = double.parse(payOrderModel.totalAmount);
+      if (amount < balanceValue) return true;
       return false;
-    }catch(e){
+    } catch (e) {
       return false;
     }
-
   }
 
   Future<int> getCoin() async {
     await http.get('/peiwan/app/user/getCoin').then((res) async {
       coin.value = res.data['coin'];
-      balance=res.data['balance'];
+      balance = res.data['balance'];
     }).catchError((e) {});
     return coin.value;
   }
@@ -176,9 +175,7 @@ class PayPageController extends GetxController {
         EasyLoading.showError("Server response error!".tr);
         return;
       }
-      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-              barrierColor: Colors.black26)
-          .whenComplete(() {
+      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr), barrierColor: Colors.black26).whenComplete(() {
         _timer?.cancel();
         Get.find<UserController>().updateInfo();
       });
@@ -202,13 +199,12 @@ class PayPageController extends GetxController {
       String env = StorageManager.getEnv();
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
 
-      PaymentSheetApplePay? applePay =
-      payInfoModel.applePay ? PaymentSheetApplePay(merchantCountryCode: 'GB') : null;
+      PaymentSheetApplePay? applePay = payInfoModel.applePay ? PaymentSheetApplePay(merchantCountryCode: 'GB') : null;
       PaymentSheetGooglePay? googlePay = payInfoModel.googlePay
           ? PaymentSheetGooglePay(
-        merchantCountryCode: 'GB',
-        testEnv: env == "prod" ? false : true,
-      )
+              merchantCountryCode: 'GB',
+              testEnv: env == "prod" ? false : true,
+            )
           : null;
 
       await Stripe.instance.initPaymentSheet(
@@ -249,17 +245,14 @@ class PayPageController extends GetxController {
         // Get.dialog(
         //   ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
         // ).then((value) => Get.back(result: true));
-        Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr),
-                barrierColor: Colors.black26)
-            .whenComplete(() {
+        Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr), barrierColor: Colors.black26).whenComplete(() {
           _timer?.cancel();
           Get.find<UserController>().updateInfo();
         });
         startTimer(payInfoModel);
       } on Exception catch (e) {
         if (e is StripeException) {
-          EasyLoading.showInfo(
-              e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
+          EasyLoading.showInfo(e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
         }
       }
     } else if (payType.value == 2) {
@@ -268,7 +261,7 @@ class PayPageController extends GetxController {
         flog(payOrderModel.code, 'payOrderModel.code');
         PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
         flog(payOrderModel.type, 'payOrderModel.type');
-        if (payOrderModel.type == -2) {
+        if (payOrderModel.type == -2 || payOrderModel.type == -3) {
           if (payInfoModel.insufficient) {
             Get.dialog(
               ConfirmDialog(
@@ -283,9 +276,7 @@ class PayPageController extends GetxController {
               barrierColor: Colors.black26,
             );
           } else {
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
-                barrierColor: Colors.black26)
-                .whenComplete(() {
+            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
               if (!isPlay) Get.back();
               Get.back(result: payInfoModel.orderNo);
               Get.find<UserController>().updateInfo();
@@ -299,12 +290,10 @@ class PayPageController extends GetxController {
               var cartController = Get.find<CartController>();
               cartController.clearCart();
             }
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
-                    barrierColor: Colors.black26)
-                .whenComplete(() {
-                  Get.back();
-                  Get.find<UserController>().updateInfo();
-                });
+            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
+              Get.back();
+              Get.find<UserController>().updateInfo();
+            });
           }
         }
       });
@@ -337,8 +326,7 @@ class PayPageController extends GetxController {
       if ((now.millisecondsSinceEpoch - checkTime.millisecondsSinceEpoch) / 1000 < 300) {
         checkDone.call();
       } else {
-        Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26)
-            .then((value) {
+        Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
           if (value == true) {
             StorageManager.setPayPasswordCheckTime(now);
             checkDone.call();
@@ -385,9 +373,7 @@ class PayPageController extends GetxController {
           ConfirmDialog(
             cancelable: true,
             title: "Payment Result".tr,
-            info:
-                "The payment result still can not be confirmed, please contact our customer service."
-                    .tr,
+            info: "The payment result still can not be confirmed, please contact our customer service.".tr,
             onConfirm: () => Get.back(),
           ),
           barrierColor: Colors.black26);
@@ -400,9 +386,7 @@ class PayPageController extends GetxController {
       cartController.clearCart();
     }
     Get.back();
-    Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
-            barrierColor: Colors.black26)
-        .then((value) => Get.back(result: true));
+    Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
   }
 
   //原生返回事件调用
@@ -415,9 +399,7 @@ class PayPageController extends GetxController {
         _timer?.cancel();
         _timer = null;
         Get.back(result: true);
-        Get.dialog(
-            ConfirmDialog(title: "Payment Result".tr, info: "The payment has been canceled.".tr),
-            barrierColor: Colors.black26);
+        Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "The payment has been canceled.".tr), barrierColor: Colors.black26);
       }
     } else if (payType.value == 1) {
       var result = content as Map;
@@ -445,9 +427,7 @@ class PayPageController extends GetxController {
         cartController.clearCart();
       }
       EasyLoading.dismiss();
-      Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr),
-              barrierColor: Colors.black26)
-          .then((value) => Get.back(result: true));
+      Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
     }
   }
 }

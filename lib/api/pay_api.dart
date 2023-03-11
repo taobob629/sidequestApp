@@ -8,7 +8,7 @@ import 'package:wy/utils/utils.dart';
 class PayApi {
   static Future<PayInfoModel> pay(PayOrderModel model) async {
     int type = model.type;
-   // flog('type $type payType ${model.payType}');
+    // flog('type $type payType ${model.payType}');
     switch (type) {
       case PayType.BUY_GOODS:
         return await _buy(model);
@@ -17,6 +17,8 @@ class PayApi {
         return await _charge(model);
       case PayType.PW_RECHARGE:
         return await _play(model);
+      case PayType.PAY_GIFTS:
+        return await _payGifts(model);
       default:
         return await _openVip(model);
     }
@@ -24,8 +26,8 @@ class PayApi {
 
   static Future<PayInfoModel> _charge(PayOrderModel model) async {
     var formData = {
-      "type" : model.type,
-      "addressId" : 0,
+      "type": model.type,
+      "addressId": 0,
       "goodsPrice": model.goodsPrice,
       "freightPrice": "0",
       "tax": "0",
@@ -42,12 +44,12 @@ class PayApi {
   }
 
   static getUrlByPayType(int paytype, int type) {
-   // flog('paytype $paytype type $type');
+    // flog('paytype $paytype type $type');
     switch (paytype) {
       case 1:
         return '/app/order/stripe/charge';
       case 2:
-         return type==PayType.PW_STRIP_ACCOUNT?'/app/order/balanceToCoin':'/app/order/charge';
+        return type == PayType.PW_STRIP_ACCOUNT ? '/app/order/balanceToCoin' : '/app/order/charge';
       case 4:
         return type == PayType.WB ? '/app/order/charge' : '/app/order/alipay/coincharge';
       default:
@@ -64,59 +66,53 @@ class PayApi {
       "tax": "0",
       "couponPrice": "0",
       "couponCode": "",
-      "payType" : model.payType,
-      "orderShot" : "",
-      "phrase" : model.phrase,
+      "payType": model.payType,
+      "orderShot": "",
+      "phrase": model.phrase,
     };
-    var response = await http.post('/app/order/stripe/member',
-      data: formData
-    );
+    var response = await http.post('/app/order/stripe/member', data: formData);
 
     return PayInfoModel.fromJson(response.data);
   }
 
   static Future<PayInfoModel> _buy(PayOrderModel model) async {
     var formData = {
-      "type" : 2,
-      "addressId" : model.addressId,
-      "goodsPrice" : model.goodsPrice,
-      "freightPrice" : model.freightPrice,
-      "tax" : model.tax,
-      "couponId" : model.couponId,
-      "couponPrice" : model.couponPrice,
-      "couponCode" : model.couponCode,
-      "payType" : model.payType,
-      "orderShot" : model.orderShot,
-      "phrase" : 0,
+      "type": 2,
+      "addressId": model.addressId,
+      "goodsPrice": model.goodsPrice,
+      "freightPrice": model.freightPrice,
+      "tax": model.tax,
+      "couponId": model.couponId,
+      "couponPrice": model.couponPrice,
+      "couponCode": model.couponCode,
+      "payType": model.payType,
+      "orderShot": model.orderShot,
+      "phrase": 0,
     };
-    var response = await http.post(model.payType == 1 ? '/app/order/stripe/goods' : '/app/order/goods',
-      data: formData
-    );
+    var response = await http.post(model.payType == 1 ? '/app/order/stripe/goods' : '/app/order/goods', data: formData);
 
     return PayInfoModel.fromJson(response.data);
   }
 
   static Future<PayInfoModel> _play(PayOrderModel model) async {
     var formData = {
-      "liveuid" : model.liveuid,
-      "skillid" : model.skillid,
-      "svctm" : model.svctm,
-      "nums" : model.nums,
-      "des" : model.des,
-      "type" : model.payType,
-      "serviceItemId":model.serviceItemId,
-      "code":model.code,
+      "liveuid": model.liveuid,
+      "skillid": model.skillid,
+      "svctm": model.svctm,
+      "nums": model.nums,
+      "des": model.des,
+      "type": model.payType,
+      "serviceItemId": model.serviceItemId,
+      "code": model.code,
       'couponId': model.couponId
     };
-    var response = await http.post('/peiwan/app/order/setorder',
-      data: formData
-    );
+    var response = await http.post('/peiwan/app/order/setorder', data: formData);
 
     PayInfoModel payInfoModel = PayInfoModel();
-    if(model.payType == 2){
-      if(response.data == -1){
+    if (model.payType == 2) {
+      if (response.data == -1) {
         payInfoModel.insufficient = true;
-      }else{
+      } else {
         payInfoModel.insufficient = false;
         payInfoModel.orderNo = response.data;
       }
@@ -125,76 +121,86 @@ class PayApi {
     return PayInfoModel.fromJson(response.data);
   }
 
+  static Future<PayInfoModel> _payGifts(PayOrderModel model) async {
+    var formData = {
+      "liveId": model.liveId,
+      "giftId": model.giftId,
+      "uid": model.uid,
+      "postId": model.postId,
+      "nums": model.nums,
+    };
+    var response = await http.post('/peiwan/app/new/orders/postGiftOrder', data: formData);
+
+    PayInfoModel payInfoModel = PayInfoModel();
+    if (model.payType == 2) {
+      if (response.data == -1) {
+        payInfoModel.insufficient = true;
+      } else {
+        payInfoModel.insufficient = false;
+        if (response.data != null) {
+          payInfoModel.orderNo = response.data;
+        }
+      }
+      return payInfoModel;
+    }
+    return PayInfoModel.fromJson(response.data);
+  }
+
   static Future<bool> checkPassword(String password) async {
-    var response = await http.get('/app/pay/checkPassword',
-      queryParameters: ({"password":password})
-    );
+    var response = await http.get('/app/pay/checkPassword', queryParameters: ({"password": password}));
     return response.data['data'];
   }
 
   static Future<bool> status(int type, String orderNo) async {
     String url = '/app/order/status';
-    if(type == -2){
+    if (type == -2) {
       url = '/peiwan/app/order/status';
     }
-    var response = await http.get(url,
-      queryParameters: ({"orderNo":orderNo})
-    );
+    var response = await http.get(url, queryParameters: ({"orderNo": orderNo}));
     return response.data["status"];
   }
 
   static Future<String> genToken() async {
-    var response = await http.get('/app/pay/auth',
-      queryParameters: ({})
-    );
+    var response = await http.get('/app/pay/auth', queryParameters: ({}));
 
-    Map<String,dynamic> map = jsonDecode(response.data["auth"]) as Map<String,dynamic>;
+    Map<String, dynamic> map = jsonDecode(response.data["auth"]) as Map<String, dynamic>;
     return map["clientToken"];
   }
 
   static Future<String> getShippingFee() async {
-    var response = await http.get('/app/address/deliverFee',
-      queryParameters: ({})
-    );
+    var response = await http.get('/app/address/deliverFee', queryParameters: ({}));
     return response.data["deliverFee"];
   }
 
   static Future<OrderPriceModel> getPrice(PayOrderModel model) async {
     var formData = {
-      "type" : 2,
-      "addressId" : model.addressId,
-      "goodsPrice" : model.goodsPrice,
-      "freightPrice" : model.freightPrice,
-      "tax" : model.tax,
-      "couponPrice" : model.couponPrice,
-      "couponCode" : model.couponCode,
-      "couponId" : model.couponId,
-      "payType" : model.payType,
-      "orderShot" : model.orderShot,
-      "phrase" : 0,
+      "type": 2,
+      "addressId": model.addressId,
+      "goodsPrice": model.goodsPrice,
+      "freightPrice": model.freightPrice,
+      "tax": model.tax,
+      "couponPrice": model.couponPrice,
+      "couponCode": model.couponCode,
+      "couponId": model.couponId,
+      "payType": model.payType,
+      "orderShot": model.orderShot,
+      "phrase": 0,
     };
-    var response = await http.post('/app/order/calculate',
-      data: formData
-    );
+    var response = await http.post('/app/order/calculate', data: formData);
 
     return OrderPriceModel.fromJson(response.data);
   }
 
-  static Future<void> notifyCardPay(String orderId,String tranId) async {
-    var response = await http.get('/app/pay/notify',
-      queryParameters: ({"orderId":orderId,"tranId":tranId})
-    );
+  static Future<void> notifyCardPay(String orderId, String tranId) async {
+    var response = await http.get('/app/pay/notify', queryParameters: ({"orderId": orderId, "tranId": tranId}));
   }
 
-  static Future<bool> backgroundNotify(String orderId,String tranId) async {
-    var response = await http.get('/app/pay/appChargeNotify',
-      queryParameters: ({"orderId":orderId,"tranId":tranId})
-    );
+  static Future<bool> backgroundNotify(String orderId, String tranId) async {
+    var response = await http.get('/app/pay/appChargeNotify', queryParameters: ({"orderId": orderId, "tranId": tranId}));
     print(response);
-    if(response.data != null){
+    if (response.data != null) {
       return response.data;
     }
     return false;
   }
-
 }

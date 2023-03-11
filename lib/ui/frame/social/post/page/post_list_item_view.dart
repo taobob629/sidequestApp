@@ -9,6 +9,8 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 
+import '../view/give_gifts_dialog.dart';
+
 class PostListItemView extends StatelessWidget {
   PostListItemView({Key? key, required this.model, this.onTap}) : super(key: key);
   final PostItemModel model;
@@ -158,24 +160,34 @@ class PostListItemView extends StatelessWidget {
                           )),
                     ),
                   ),
-                  Container(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: Image.asset(
-                            "assets/images/profile/icon_liwu.webp",
-                            width: 16,
+                  GestureDetector(
+                    onTap: () {
+                      Get.bottomSheet(
+                          GiveGiftsDialog(
+                            receiverId: model.uid.toString(),
+                            postId: model.id.toString(),
                           ),
-                        ),
-                        // Text(
-                        //   model.commentNum.toString(),
-                        //   style: TextStyle(
-                        //     color: Color(0xff808388),
-                        //     fontSize: 11.sp,
-                        //   ),
-                        // )
-                      ],
+                          ignoreSafeArea: true);
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Image.asset(
+                              "assets/images/profile/icon_liwu.webp",
+                              width: 16,
+                            ),
+                          ),
+                          // Text(
+                          //   model.commentNum.toString(),
+                          //   style: TextStyle(
+                          //     color: Color(0xff808388),
+                          //     fontSize: 11.sp,
+                          //   ),
+                          // )
+                        ],
+                      ),
                     ),
                   ),
                 ],

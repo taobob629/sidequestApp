@@ -2,12 +2,13 @@ class PayType {
   static const BUY_GOODS = -1; //购买商品
   static const WB = 0; //网吧账户充值
   static const PW_RECHARGE = -2; //陪玩支付
+  static const PAY_GIFTS = -3; //送礼物
   static const PW_STRIP_ACCOUNT = 2; //陪玩账户充值
   static const PW_ALIPAY_ACCOUNT = 3; //陪玩金币账户充值
 }
 
 class PayOrderModel {
-  // 订单类型 -1购买商品 0网吧账户充值  >=5 开会员 -2陪玩支付 2陪玩账户充值
+  // 订单类型 -1购买商品 0网吧账户充值  >=5 开会员 -2陪玩支付 2陪玩账户充值 -3打赏/送礼物
   late int type = 0;
 
   // 地址id
@@ -33,7 +34,7 @@ class PayOrderModel {
   late int phrase = 0;
   //优惠券ID
   late int couponId = 0;
-  late int chargeid = 0;//金币兑换规则id
+  late int chargeid = 0; //金币兑换规则id
 
   //陪玩使用
   late int svctm = 0;
@@ -45,6 +46,12 @@ class PayOrderModel {
   late String code = "";
 
   late String totalAmount = "0";
+
+  ///送礼物 receiverId,id,postId,nums
+  late String liveId = "";
+  late String giftId = "";
+  late String postId = "";
+  late String uid = "";
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = new Map<String, dynamic>();

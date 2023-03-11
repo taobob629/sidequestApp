@@ -139,7 +139,12 @@ class PostCommentsPage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.bottomSheet(GiveGiftsDialog(), ignoreSafeArea: true);
+                            Get.bottomSheet(
+                                GiveGiftsDialog(
+                                  receiverId: t.postItem.uid.toString(),
+                                  postId: t.postItem.id.toString(),
+                                ),
+                                ignoreSafeArea: true);
                           },
                           child: Container(
                             width: 50,

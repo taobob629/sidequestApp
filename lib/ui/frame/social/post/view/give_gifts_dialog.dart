@@ -4,13 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:get/get.dart';
+import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/utils/index.dart';
+
+import '../../../../controller/user_controller.dart';
+import '../../../../pay/controller.dart';
 
 class GiveGiftsDialog extends StatelessWidget {
-  GiveGiftsDialog({Key? key}) : super(key: key);
+  GiveGiftsDialog({Key? key, required this.receiverId, required this.postId}) : super(key: key);
+  final String receiverId;
+  final String postId;
 
   @override
   Widget build(BuildContext context) {
-    final t = Get.put(GiveGiftController());
+    final t = Get.put(GiveGiftController(receiverId: receiverId, postId: postId));
 
     return Obx(() {
       return Container(
@@ -122,15 +129,18 @@ class GiveGiftsDialog extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    width: 116,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFD49C21), Color(0xFFE96524)]),
+                  GestureDetector(
+                    onTap: () => t.payGift(),
+                    child: Container(
+                      width: 116,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFD49C21), Color(0xFFE96524)]),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text("Submit"),
                     ),
-                    alignment: Alignment.center,
-                    child: Text("Submit"),
                   )
                 ],
               ),
@@ -148,6 +158,14 @@ class GiveGiftController extends GetxController {
   final selectGift = GiftModel().obs;
 
   final buyNum = 1.obs;
+
+  String _receiverId = "";
+  String _postId = "";
+
+  GiveGiftController({required String receiverId, required String postId}) {
+    _receiverId = receiverId;
+    _postId = postId;
+  }
 
   @override
   void onInit() {
@@ -169,15 +187,26 @@ class GiveGiftController extends GetxController {
     } else {
       buyNum.value += 1;
     }
-    // if (buyNum.value > 0) {
-    //   if (isAdd) {
-    //     buyNum.value += 1;
-    //   } else {
-    //     buyNum.value -= 1;
-    //   }
-    // } else {
+  }
 
-    // }
+  ///送礼物
+  payGift() {
+    PayOrderModel orderModel = PayOrderModel()
+      ..payType = -2
+      ..type = -3
+      ..giftId = selectGift.value.id
+      ..liveId = _receiverId
+      ..postId = _postId
+      ..uid = UserController.find.user.value.id.toString()
+      ..nums = buyNum.value;
+
+    final payController = Get.put(PayPageController(payOrderModel: orderModel));
+    payController.confirmPay().whenComplete(() {
+      if (Get.isBottomSheetOpen ?? false) {
+        Get.back();
+      }
+    });
+    // NavigatorHelper.gotoPayPage(orderModel);
   }
 
   @override
