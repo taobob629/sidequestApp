@@ -6,6 +6,7 @@ import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/attention_model.dart';
+import 'package:wy/utils/image_util.dart';
 
 class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
@@ -30,12 +31,7 @@ class FansListPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
-                        ExtendedImage.network(
-                          model.avatar,
-                          width: 48,
-                          height: 48,
-                          enableLoadState: false,
-                        ),
+                        ImageUtil.networkImage(url: model.avatar, width: 48, height: 48, fit: BoxFit.cover),
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),

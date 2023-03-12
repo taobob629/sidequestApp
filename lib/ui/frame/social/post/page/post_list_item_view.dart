@@ -8,6 +8,7 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
+import 'package:wy/utils/image_util.dart';
 
 import '../view/give_gifts_dialog.dart';
 
@@ -33,8 +34,8 @@ class PostListItemView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipOval(
-                    child: ExtendedImage.network(
-                      model.head,
+                    child: ImageUtil.networkImage(
+                      url: model.head,
                       fit: BoxFit.cover,
                       width: 50,
                       height: 50,
@@ -91,8 +92,8 @@ class PostListItemView extends StatelessWidget {
                           // margin: EdgeInsets.only(top: 10, bottom: 10),
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
                           clipBehavior: Clip.antiAlias,
-                          child: ExtendedImage.network(
-                            imgUrl,
+                          child: ImageUtil.networkImage(
+                            url: imgUrl,
                             fit: BoxFit.cover,
                           ),
                         ))

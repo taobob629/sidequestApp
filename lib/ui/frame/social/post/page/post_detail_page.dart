@@ -9,6 +9,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
+import 'package:wy/utils/index.dart';
 
 import 'post_comments_page.dart';
 import 'post_favorators_page.dart';
@@ -43,8 +44,8 @@ class PostDetailPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ClipOval(
-                              child: ExtendedImage.network(
-                                t.postItem.value.head,
+                              child: ImageUtil.networkImage(
+                                url: t.postItem.value.head,
                                 fit: BoxFit.cover,
                                 width: 50,
                                 height: 50,
@@ -101,8 +102,8 @@ class PostDetailPage extends StatelessWidget {
                                     // margin: EdgeInsets.only(top: 10, bottom: 10),
                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
                                     clipBehavior: Clip.antiAlias,
-                                    child: ExtendedImage.network(
-                                      imgUrl,
+                                    child: ImageUtil.networkImage(
+                                      url: imgUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ))

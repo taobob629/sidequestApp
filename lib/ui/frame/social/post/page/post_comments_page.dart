@@ -8,6 +8,7 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
+import 'package:wy/utils/image_util.dart';
 
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
@@ -42,8 +43,8 @@ class PostCommentsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ClipOval(
-                              child: ExtendedImage.network(
-                                model.isReply ? model.replyHead : model.head,
+                              child: ImageUtil.networkImage(
+                                url: model.isReply ? model.replyHead : model.head,
                                 fit: BoxFit.cover,
                                 width: 50,
                                 height: 50,

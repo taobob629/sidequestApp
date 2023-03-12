@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 class ProfileModel {
+  int memberId = 0;
+  int pwId = 0;
+  String backGround = "";
   String language = "";
   int isAuth = 0;
   int sidekickLevel = 0;
@@ -51,7 +54,9 @@ class ProfileModel {
     language = json["language"] ?? "";
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 0;
-
+    memberId = json["memberId"] ?? 0;
+    backGround = json["backGround"] ?? "";
+    pwId = json["pwId"] ?? 0;
     if ((json["country"] is String) && json["country"].toString().contains("\\")) {
       country = CountryModel.fromJson(jsonDecode(json["country"].replaceAll("""\\""", """\\\\""")));
     } else {

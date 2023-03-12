@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
+import 'package:wy/utils/image_util.dart';
 
 class ReleasePostPage extends StatelessWidget {
   ReleasePostPage({Key? key}) : super(key: key);
@@ -14,8 +15,10 @@ class ReleasePostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      title: "Post".tr,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Post".tr),
+      ),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +77,7 @@ class ReleasePostPage extends StatelessWidget {
                             width: (Get.width - 40 - 20) / 3,
                             height: (Get.width - 40 - 20) / 3,
                             alignment: Alignment.center,
+                            clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(11),
                               color: Color(0xff313033),
@@ -82,9 +86,9 @@ class ReleasePostPage extends StatelessWidget {
                               alignment: AlignmentDirectional.center,
                               fit: StackFit.expand,
                               children: [
-                                ExtendedImage.network(
-                                  photoUrl,
-                                  fit: BoxFit.fitWidth,
+                                ImageUtil.networkImage(
+                                  url: photoUrl,
+                                  fit: BoxFit.cover,
                                 ),
                                 Positioned(
                                     right: 0,
@@ -104,7 +108,7 @@ class ReleasePostPage extends StatelessWidget {
                           );
                         },
                       ).toList(),
-                      if (t.photoList.length >= 9)
+                      if (t.photoList.length <= 9)
                         GestureDetector(
                           onTap: t.pickUploadPhoto,
                           child: Container(
@@ -116,10 +120,10 @@ class ReleasePostPage extends StatelessWidget {
                               color: Color(0xff313033),
                             ),
                             child: Image.asset(
-                              "assets/images/paly_add.png",
-                              fit: BoxFit.fitWidth,
-                              width: 60,
-                              height: 60,
+                              "assets/images/add_pic.png",
+                              fit: BoxFit.cover,
+                              width: 30,
+                              height: 30,
                             ),
                           ),
                         )

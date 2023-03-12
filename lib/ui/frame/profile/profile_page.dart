@@ -2,11 +2,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/api_service/profile_api.dart';
-import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/index.dart';
@@ -31,15 +28,9 @@ class ProfilePage extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Obx(() => ExtendedImage.network(
-                      t.background.value,
+                Obx(() => ImageUtil.networkImage(
+                      url: t.background.value,
                       fit: BoxFit.cover,
-                      loadStateChanged: (state) {
-                        if (state.extendedImageLoadState == LoadState.completed) {
-                          return null;
-                        }
-                        return ExtendedImage.asset("assets/images/profile/profile_head_bg.webp");
-                      },
                     )),
                 Padding(
                   padding: EdgeInsets.only(left: 20, bottom: 15),
@@ -182,13 +173,11 @@ class ProfilePage extends StatelessWidget {
                                       height: 64,
                                       alignment: Alignment.bottomCenter,
                                       child: ClipOval(
-                                        child: ExtendedImage.network(
-                                          userController.userProfile.value.avatar,
-                                          enableMemoryCache: true,
+                                        child: ImageUtil.networkImage(
+                                          url: userController.userProfile.value.avatar,
                                           width: 60,
                                           height: 60,
                                           fit: BoxFit.cover,
-                                          enableLoadState: false,
                                         ),
                                       ),
                                     )),
@@ -197,7 +186,7 @@ class ProfilePage extends StatelessWidget {
                                   width: 64,
                                 ),
                                 Obx(() => Visibility(
-                                      visible: userController.userProfile.value.vipLevel < 5,
+                                      visible: userController.userProfile.value.vipLevel > 5 && userController.userProfile.value.isAuth == 1,
                                       child: Positioned(
                                           bottom: -10,
                                           child: Image.asset(
@@ -327,12 +316,17 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   // final vm = ProfileModel().obs;
   final background = "".obs;
 
+  final userController = UserController.find;
+
   int devCount = 0;
   @override
   void onInit() {
     super.onInit();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value = StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
+    if (userController.userProfile.value.backGround.isNotEmpty) {
+      background.value = userController.userProfile.value.backGround;
+    }
     // getProfileInfo();
   }
 

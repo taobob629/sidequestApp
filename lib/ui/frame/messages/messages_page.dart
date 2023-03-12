@@ -6,6 +6,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
+import 'package:wy/utils/image_util.dart';
 import 'package:wy/widget/tab_widget.dart';
 
 import '../../../common/keep_alive_wrapper.dart';
@@ -25,10 +26,9 @@ class MessagesPage extends StatelessWidget {
       children: [
         AspectRatio(
           aspectRatio: 750.0 / 365,
-          child: ExtendedImage.asset(
+          child: Image.asset(
             "assets/images/message/msg_head_bg.webp",
             fit: BoxFit.fitWidth,
-            cacheWidth: Get.width.toInt(),
             width: Get.width,
           ),
         ),

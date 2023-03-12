@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/profile_api.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/utils/index.dart';
 
@@ -35,14 +36,15 @@ class ProfileAlbumPage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.color7070),
                       borderRadius: BorderRadius.circular(11),
-                      color: Color(0xff707070),
+                      color: AppColor.color3033,
                     ),
                     child: Image.asset(
-                      "assets/images/paly_add.png",
-                      fit: BoxFit.fitWidth,
-                      width: 60,
-                      height: 60,
+                      "assets/images/add_pic.png",
+                      fit: BoxFit.cover,
+                      width: 30,
+                      height: 30,
                     ),
                   ),
                 );
@@ -131,11 +133,110 @@ class ProfileAlbumPage extends StatelessWidget {
                       ignoreSafeArea: true);
                 },
                 child: Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(11)),
+                  decoration: BoxDecoration(
+                    // border: Border.all(color: AppColor.color7070),
+                    borderRadius: BorderRadius.circular(11),
+                    color: AppColor.color3033,
+                  ),
                   clipBehavior: Clip.antiAlias,
-                  child: ExtendedImage.network(
-                    t.list[index].thumb,
-                    fit: BoxFit.fitWidth,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ImageUtil.networkImage(
+                        url: t.list[index].thumb,
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                          right: 5,
+                          top: 5,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.bottomSheet(
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFF262731)),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                            t.setBackground(t.list[index]);
+                                          },
+                                          child: Container(
+                                            height: 52,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Set as background picture",
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: Color(0xFF2D2E3A),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Container(
+                                            height: 52,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Block Picture",
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: Color(0xFF2D2E3A),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                            t.delPhoto(t.list[index]);
+                                          },
+                                          child: Container(
+                                            height: 52,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Delete Picture",
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 10,
+                                          color: Color(0xFF2D2E3A),
+                                        ),
+                                        SafeArea(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            child: Container(
+                                              height: 52,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Cancel",
+                                                style: TextStyle(fontSize: 16, color: Color(0xFFFFD20E)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ignoreSafeArea: true);
+                            },
+                            child: Image.asset(
+                              "assets/images/ic_edit_new.webp",
+                              width: 20,
+                              height: 20,
+                              color: AppColor.yellow,
+                            ),
+                          ))
+                    ],
                   ),
                 ),
               );

@@ -9,6 +9,7 @@ import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
+import 'package:wy/utils/image_util.dart';
 
 class ProfileDashboardPage extends StatelessWidget {
   ProfileDashboardPage({Key? key}) : super(key: key);
@@ -122,26 +123,19 @@ class ProfileDashboardPage extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         children: UserController.find.userProfile.value.trophies.map((e) {
                           if (e.lighted) {
-                            return ExtendedImage.network(
-                              e.iconImage,
+                            return ImageUtil.networkImage(
+                              url: e.iconImage,
                               width: 36,
                               height: 36,
                               fit: BoxFit.fitHeight,
-                              loadStateChanged: (state) => null,
                             );
                           } else {
                             return ColorFiltered(
                               colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
-                              child: ExtendedImage.network(
-                                e.iconImage,
+                              child: ImageUtil.networkImage(
+                                url: e.iconImage,
                                 width: 36,
                                 height: 36,
-                                loadStateChanged: (state) {
-                                  if (state.extendedImageLoadState == LoadState.completed) {
-                                    return null;
-                                  }
-                                  return Container();
-                                },
                               ),
                             );
                           }

@@ -7,6 +7,7 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
+import 'package:wy/utils/image_util.dart';
 
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
@@ -39,8 +40,8 @@ class PostFavoratorsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ClipOval(
-                          child: ExtendedImage.network(
-                            model.isReply ? model.replyHead : model.head,
+                          child: ImageUtil.networkImage(
+                            url: model.isReply ? model.replyHead : model.head,
                             fit: BoxFit.cover,
                             width: 50,
                             height: 50,

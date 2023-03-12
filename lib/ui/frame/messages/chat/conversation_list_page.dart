@@ -20,9 +20,9 @@ class ConversationListPage extends StatelessWidget {
               ),
             ));
       }),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        MessagesPageController.find.configIMTheme();
-      }),
+      // floatingActionButton: FloatingActionButton(onPressed: () {
+      //   MessagesPageController.find.configIMTheme();
+      // }),
     );
   }
 }

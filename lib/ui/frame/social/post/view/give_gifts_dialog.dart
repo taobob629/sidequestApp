@@ -74,8 +74,8 @@ class GiveGiftsDialog extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ExtendedImage.network(
-                            "https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/13-SVIP4.png",
+                          ImageUtil.networkImage(
+                            url: "https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/13-SVIP4.png",
                             fit: BoxFit.cover,
                             width: 60,
                             height: 70,
@@ -204,7 +204,7 @@ class GiveGiftController extends GetxController {
       ..giftId = selectGift.value.id
       ..liveId = _receiverId
       ..postId = _postId
-      ..uid = UserController.find.user.value.id.toString()
+      ..uid = UserController.find.userProfile.value.pwId.toString()
       ..nums = buyNum.value;
 
     final payController = Get.put(PayPageController(payOrderModel: orderModel));
