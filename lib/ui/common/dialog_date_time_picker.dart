@@ -55,6 +55,7 @@ class DateTimePickerDialog extends StatelessWidget {
         dateFormat: format,
         minDateTime: minDateTime,
         initDateTime: initDateTime,
+        maxDateTime: maxDateTime,
         minuteDivider: minuteDivider == null ? 1 : minuteDivider!,
         pickerTheme: DateTimePickerTheme(
           showTitle: false,
