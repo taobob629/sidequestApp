@@ -34,7 +34,10 @@ class GiveGiftsDialog extends StatelessWidget {
                 children: [
                   Text("Gift List", style: TextStyle(color: Colors.white, fontSize: 21)),
                   Spacer(),
-                  Text("Cancel", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Text("Cancel", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                  ),
                 ],
               ),
             ),
@@ -54,7 +57,7 @@ class GiveGiftsDialog extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        border: isSelect ? Border.all(color: Color(0xFFDE37CD)) : null,
+                        border: isSelect ? Border.all(color: AppColor.yellow) : null,
                         boxShadow: isSelect
                             ? [
                                 BoxShadow(
@@ -130,7 +133,11 @@ class GiveGiftsDialog extends StatelessWidget {
                   ),
                   Spacer(),
                   GestureDetector(
-                    onTap: () => t.payGift(),
+                    onTap: () {
+                      if (t.selectGift.value.id.isNotEmpty) {
+                        t.payGift();
+                      }
+                    },
                     child: Container(
                       width: 116,
                       height: 40,

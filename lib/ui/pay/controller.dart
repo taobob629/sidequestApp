@@ -257,46 +257,46 @@ class PayPageController extends GetxController {
       }
     } else if (payType.value == 2) {
       //余额支付
-      checkPayPin(() async {
-        flog(payOrderModel.code, 'payOrderModel.code');
-        PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-        flog(payOrderModel.type, 'payOrderModel.type');
-        if (payOrderModel.type == -2 || payOrderModel.type == -3) {
-          if (payInfoModel.insufficient) {
-            Get.dialog(
-              ConfirmDialog(
-                title: "Payment Result".tr,
-                info: "Insufficient coin, Please recharge first!".tr,
-                onConfirm: () {
-                  Get.back();
-                  Get.back();
-                  Get.toNamed(AppPages.WALLET_PAGE);
-                },
-              ),
-              barrierColor: Colors.black26,
-            );
-          } else {
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
-              if (!isPlay) Get.back();
-              Get.back(result: payInfoModel.orderNo);
-              Get.find<UserController>().updateInfo();
-            });
-          }
+      // checkPayPin(() async {
+      flog(payOrderModel.code, 'payOrderModel.code');
+      PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
+      flog(payOrderModel.type, 'payOrderModel.type');
+      if (payOrderModel.type == -2 || payOrderModel.type == -3) {
+        if (payInfoModel.insufficient) {
+          Get.dialog(
+            ConfirmDialog(
+              title: "Payment Result".tr,
+              info: "Insufficient coin, Please recharge first!".tr,
+              onConfirm: () {
+                Get.back();
+                Get.back();
+                Get.toNamed(AppPages.WALLET_PAGE);
+              },
+            ),
+            barrierColor: Colors.black26,
+          );
         } else {
-          if (payInfoModel.orderNo.isEmpty) {
-            EasyLoading.showError("Server response error!".tr);
-          } else {
-            if (payOrderModel.type == -1) {
-              var cartController = Get.find<CartController>();
-              cartController.clearCart();
-            }
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
-              Get.back();
-              Get.find<UserController>().updateInfo();
-            });
-          }
+          Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
+            if (!isPlay) Get.back();
+            Get.back(result: payInfoModel.orderNo);
+            Get.find<UserController>().updateInfo();
+          });
         }
-      });
+      } else {
+        if (payInfoModel.orderNo.isEmpty) {
+          EasyLoading.showError("Server response error!".tr);
+        } else {
+          if (payOrderModel.type == -1) {
+            var cartController = Get.find<CartController>();
+            cartController.clearCart();
+          }
+          Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
+            Get.back();
+            Get.find<UserController>().updateInfo();
+          });
+        }
+      }
+      // });
     }
   }
 
