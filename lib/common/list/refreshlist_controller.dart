@@ -94,11 +94,9 @@ abstract class RefreshListController<T> extends BasePageController
       }
       pageState = PageState.sucess;
       if (paged()) {
-        var hasMore = newList.length >pageSize;
+        var hasMore = newList.length >=pageSize;
         if (!hasMore) {
-          if (refreshController != null) {
-            refreshController.loadNoData();
-          }
+          refreshController?.loadNoData();
         }
       }
     }).catchError((e) {

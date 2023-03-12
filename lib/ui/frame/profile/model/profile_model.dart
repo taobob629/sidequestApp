@@ -26,9 +26,17 @@ class ProfileModel {
   int postNum = 0;
   String diamond = "";
   bool vipCanceled = false;
+  int totalmins = 0;
+  int avamins = 0;
+
+  balanceMoney() {
+    return '£$balance';
+  }
 
   ProfileModel(
       {this.language = "",
+      this.totalmins = 0,
+      this.avamins = 0,
       this.isAuth = 0,
       this.sidekickLevel = 0,
       this.nickName = "",
@@ -69,16 +77,22 @@ class ProfileModel {
     followers = json["followers"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
-    trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
+    trophies = json["trophies"] != null
+        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
+        : [];
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
-    vips = json["vips"] != null ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList() : [];
+    vips = json["vips"] != null
+        ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
+        : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 0;
     postNum = json["postNum"] ?? 0;
+    avamins = json["avamins"] ?? 0;
+    totalmins = json["totalmins"] ?? 0;
     diamond = json["diamond"] ?? "";
     vipCanceled = json["vipCanceled"] ?? false;
   }

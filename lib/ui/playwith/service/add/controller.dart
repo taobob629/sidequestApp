@@ -45,6 +45,9 @@ class AddGamePageController extends GetxController {
   }
 
   addPriceRange() {
+    if(priceRanges.isEmpty){
+      return;
+    }
     if (mPriceRanges.isEmpty) {
       mPriceRanges.add(priceRanges.first);
       EasyLoading.showToast('${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');

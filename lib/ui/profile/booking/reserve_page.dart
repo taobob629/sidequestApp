@@ -21,6 +21,7 @@ import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/time_utils.dart';
 
 import '../../common/select_view.dart';
 import '../balance/balance_page.dart';
@@ -464,13 +465,14 @@ class ReservePageController extends GetxController {
         .add(Duration(minutes: 0 - tomorrow.minute));
     this.time.value = this.timeSelect.value == true ? this.time.value : tomorrow;
     Get.dialog<DateTime?>(
-            DateTimePickerDialog(
-              format: "dd-MMM-yyyy HH:mm",
-              initDateTime: this.timeSelect.value == true ? this.time.value : tomorrow,
-              minDateTime: tomorrow,
-              minuteDivider: 30,
-            ),
-            barrierColor: Colors.black26)
+        DateTimePickerDialog(
+          format: "dd-MMM-yyyy HH:mm",
+          initDateTime: this.timeSelect.value == true ? this.time.value : tomorrow,
+          minDateTime: tomorrow,
+          maxDateTime:TimeUtils.getSomeDay(tomorrow, 15),
+          minuteDivider: 30,
+        ),
+        barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         this.timeSelect.value = true;
@@ -525,7 +527,7 @@ class ReservePageController extends GetxController {
       j++;
     }
     Get.dialog(SelectorDialog(items: this.durationList, title: "How Long".tr),
-            barrierColor: Colors.black26)
+        barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         BookingSelectModel duration = value as BookingSelectModel;
@@ -578,12 +580,12 @@ class ReservePageController extends GetxController {
       EasyLoading.dismiss();
 
       Get.dialog(
-              ConfirmDialog(
-                title: "Congratulations!".tr,
-                info: "Your room is reserved. An confirmation email will send to you shortly.".tr,
-                cancelable: false,
-              ),
-              barrierColor: Colors.black26)
+          ConfirmDialog(
+            title: "Congratulations!".tr,
+            info: "Your room is reserved. An confirmation email will send to you shortly.".tr,
+            cancelable: false,
+          ),
+          barrierColor: Colors.black26)
           .whenComplete(() => Get.back(result: true));
     });
   }
@@ -596,9 +598,11 @@ class ReservePageController extends GetxController {
     }
     if (price > 0) {
       String tips =
-          "${'We will charge a deposit of'.tr} £ ${price.toStringAsFixed(2)} ${'from your balance for booking this area, Please make sure that you have enough balance.'.tr}";
+          "${'We will charge a deposit of'.tr} £ ${price.toStringAsFixed(
+          2)} ${'from your balance for booking this area, Please make sure that you have enough balance.'
+          .tr}";
       Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips),
-              barrierColor: Colors.black26)
+          barrierColor: Colors.black26)
           .then((value) {
         if (value == true) {
           UserController userController = Get.find<UserController>();
@@ -606,7 +610,8 @@ class ReservePageController extends GetxController {
           if (userBalance >= price) {
             checkDone.call();
           } else {
-            Get.to(() => BalancePage(
+            Get.to(() =>
+                BalancePage(
                   amount: price,
                 ));
           }

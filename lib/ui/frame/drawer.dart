@@ -52,13 +52,13 @@ List<Map> legals = [
 ];
 
 class HomeDrawer extends StatelessWidget {
-  final user = Get.find<UserController>().userInfoModel?.value;
+  final user = Get.find<UserController>().userProfile?.value;
   double drawerWidth = Get.width - 40.w;
 
   @override
   Widget build(BuildContext context) {
-    double total = user?.total.toDouble() ?? 0;
-    int remain = user?.remain ?? 1;
+    double total = user?.totalmins.toDouble() ?? 0;
+    int remain = user?.avamins ?? 1;
     return Drawer(
       width: drawerWidth,
       backgroundColor: Color(0xFF262731),
@@ -85,7 +85,7 @@ class HomeDrawer extends StatelessWidget {
                 contentPadding(EnergyView(
                   width: drawerWidth - 20 * 2.r,
                   percent: total == 0 ? 0 : remain / total,
-                  remaining: user?.remain ?? 0,
+                  remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
                 _listItem('My sidequest subscription',
@@ -138,7 +138,7 @@ class HomeDrawer extends StatelessWidget {
             text: 'Remaining game time:',
             style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
         TextSpan(
-            text: '${user?.remain}',
+            text: '${user?.avamins}',
             style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );
@@ -161,11 +161,11 @@ class HomeDrawer extends StatelessWidget {
         ],
       ),
       title: Text(
-        '${user?.nick}',
+        '${user?.nickName}',
         style: PageStyle.ts_FFFFFF_16sp,
       ),
       dense: true,
-      onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
+      onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
       subtitle: Text(
         'View profile',
         style: TextStyle(fontSize: 12.sp, color: AppColor.textC5C5),
@@ -173,7 +173,7 @@ class HomeDrawer extends StatelessWidget {
       trailing: ClickIcon(
         icon: Icons.arrow_forward_ios,
         size: 13.0,
-        onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwuserId}")),
+        onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
       ),
     );
   }
@@ -227,8 +227,8 @@ class HomeDrawer extends StatelessWidget {
         children: [
           achievementItem(user?.coin, 'ic_balance_money'),
           achievementItem(user?.coupons, 'ic_coupons_new'),
-          achievementItem(user?.votes, 'diamonds_red'),
-          achievementItem(user?.balance, 'ic_corns_new'),
+          achievementItem(user?.diamond, 'diamonds_red'),
+          achievementItem(user?.balanceMoney(), 'ic_corns_new'),
         ],
       ),
     );
