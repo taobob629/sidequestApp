@@ -17,6 +17,7 @@ import 'package:wy/ui/common/match_item.dart';
 import 'package:wy/ui/common/news_item.dart';
 import 'package:wy/ui/common/promotion_item.dart';
 import 'package:wy/ui/frame/home/widget/home_horizontal_widget.dart';
+import 'package:wy/utils/index.dart';
 
 class TabHeadlinesPage extends StatelessWidget {
   final controller = Get.put(TabHeadlinesPageController());
@@ -36,7 +37,7 @@ class TabHeadlinesPage extends StatelessWidget {
               expandedHeight: height,
               flexibleSpace: FlexibleSpaceBar(
                   background: Obx(() => controller.banners.isEmpty
-                      ? Container()
+                      ? Container(color: Colors.yellow,)
                       : BannerView(
                           banners: controller.banners,
                         ))),
@@ -103,14 +104,15 @@ class TabHeadlinesPageController extends GetxRefreshController<HeadlineModel> {
 
   Future<void> _loadBanner() async {
     List<custom.BannerModel> bannerList = await IndexApi.getBanners(5);
+    flog('baners${banners.length}');
     if (bannerList.isNotEmpty) {
       banners.clear();
       banners.addAll(bannerList);
     }
   }
 
-  Future<List<HeadlineModel>> loadData({int pageNum = 1}) async {
-    if (pageNum == 1) {
+  Future<List<HeadlineModel>> loadData({int pageNum =  GetxRefreshController.pageNumFirst}) async {
+    if (pageNum ==  GetxRefreshController.pageNumFirst) {
       _loadBanner();
     }
     List<HeadlineModel> list = await IndexApi.getHeadlines(pageNum, pageSize);
