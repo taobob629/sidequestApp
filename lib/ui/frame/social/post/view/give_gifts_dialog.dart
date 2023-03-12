@@ -202,9 +202,9 @@ class GiveGiftController extends GetxController {
 
     final payController = Get.put(PayPageController(payOrderModel: orderModel));
     payController.confirmPay().whenComplete(() {
-      if (Get.isBottomSheetOpen ?? false) {
-        Get.back();
-      }
+      // if (Get.isBottomSheetOpen ?? false) {
+      //   Get.back();
+      // }
     });
     // NavigatorHelper.gotoPayPage(orderModel);
   }
