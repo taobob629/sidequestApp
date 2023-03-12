@@ -52,7 +52,7 @@ class ImageUtil {
     double? width,
     double? height,
   }) =>
-      assetImage('ic_dialog', height: height, width: width, color: Color(0x8F999999));
+      assetImage('default_logo', height: height, width: width, color: Color(0x8F999999));
 
   static Widget notDisturb() => assetImage(
         'ic_not_disturb',
@@ -135,7 +135,13 @@ class ImageUtil {
               fit: fit,
               // memCacheWidth: _calculateCacheWidth(width),
               // memCacheHeight: _calculateCacheHeight(height),
-              // placeholder: placeholder,
+              // placeholder: (context,index){
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       strokeWidth: 1.5,
+              //     ),
+              //   );
+              // },
               progressIndicatorBuilder: (context, url, progress) => Container(
                 width: 10.0,
                 height: 10.0,

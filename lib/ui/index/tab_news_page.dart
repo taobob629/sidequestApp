@@ -65,8 +65,8 @@ class TabNewsPageController extends GetxRefreshController<NewsItemModel> {
     }
   }
 
-  Future<List<NewsItemModel>> loadData({int pageNum = 1}) async {
-    if (pageNum == 1) {
+  Future<List<NewsItemModel>> loadData({int pageNum = GetxRefreshController.pageNumFirst}) async {
+    if (pageNum ==  GetxRefreshController.pageNumFirst) {
       _loadBanner();
     }
     List<NewsItemModel> list = await IndexApi.getNews(pageNum, pageSize);
