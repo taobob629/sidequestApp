@@ -1,4 +1,5 @@
 import 'package:wy/api/game_api.dart';
+import 'package:wy/common/page/empty_view.dart';
 import 'package:wy/model/banner_model.dart' as custom;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class TabHeadlinesPage extends StatelessWidget {
               expandedHeight: height,
               flexibleSpace: FlexibleSpaceBar(
                   background: Obx(() => controller.banners.isEmpty
-                      ? Container(color: Colors.yellow,)
+                      ? EmptyView()
                       : BannerView(
                           banners: controller.banners,
                         ))),

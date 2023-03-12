@@ -138,7 +138,7 @@ class UserController extends GetxController {
 
   Future<void> updateInfo() async {
     if (StorageManager.getToken().isNotEmpty) {
-      userInfoModel.value = await UserApi.info();
+    //  userInfoModel.value = await UserApi.info();
       userProfile.value = await ProfileApi.getProfileInfo();
     }
   }

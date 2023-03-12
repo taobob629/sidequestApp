@@ -10,7 +10,7 @@ class UserInfoModel {
   late String avatar = "";
   late int uid = 0;
   late int vipLevel = 0;
-  late String balance = "£0.00";
+  late String balance = "0.00";
   late String coin = "0";
   late String votes = "0.00";
   late int coupons = 0;
@@ -24,7 +24,9 @@ class UserInfoModel {
   late Location location;
 
   UserInfoModel();
-
+  balanceMoney(){
+    return '£$balance';
+  }
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     level = json['level'];
