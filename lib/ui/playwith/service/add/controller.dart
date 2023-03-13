@@ -13,22 +13,25 @@ import 'package:wy/utils/utils.dart';
 
 class AddGamePageController extends GetxController {
   RxList<PriceRangeModel> priceRanges = RxList([]);
+  RxList<FieldsItem> fieldItems = RxList([]);
   RxList<PriceRangeModel> mPriceRanges = RxList([]); //我选择的技能列表
   RxList<ServiceInfoModel> services = RxList([]);
+
   ///是否编辑
   bool isEdit = false;
 
   initData() async {
-   var result=await GamesApi.getGameServicesInfo(isEdit);
-   services.addAll(result);
-
+    var result = await GamesApi.getGameServicesInfo(isEdit);
+    services.addAll(result);
   }
+
   getPriceRange(var gameId) async {
-    var result = await GamesApi.getPriceRange(7);
-    flog('priceResult $result');
+    var result = await GamesApi.getPriceRange(gameId);
     priceRanges.clear();
     mPriceRanges.clear();
-    priceRanges.addAll(result);
+    priceRanges.addAll(result?.priceRange ?? []);
+    fieldItems.clear();
+    fieldItems.addAll(result?.fields ?? []);
   }
 
   onPriceUnitChange(int index, PriceRangeModel model) {
@@ -45,12 +48,11 @@ class AddGamePageController extends GetxController {
   }
 
   addPriceRange() {
-    if(priceRanges.isEmpty){
+    if (priceRanges.isEmpty) {
       return;
     }
     if (mPriceRanges.isEmpty) {
       mPriceRanges.add(priceRanges.first);
-      EasyLoading.showToast('${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
       return;
     }
     if (mPriceRanges.length >= priceRanges.length) {

@@ -226,7 +226,8 @@ class _AddGamePageState extends State<AddGamePage> {
       if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
     }
     flog(json.encode(controller.mPriceRanges));
-    var priceRanges = json.encode(controller.mPriceRanges);
+    //var priceRanges = json.encode(controller.mPriceRanges);
+    var priceRanges =controller.mPriceRanges;
     var data = {
       if (controller.isEdit) "id": widget.data['id'],
       "skillid": game?.id,
@@ -250,7 +251,7 @@ class _AddGamePageState extends State<AddGamePage> {
     }).catchError((e) {
       isSending = false;
       EasyLoading.showToast('Network exception'.tr);
-    });
+    }).whenComplete(() => isSending=false);
   }
 
   Widget itemBg(view, {Function? fun}) {

@@ -1,5 +1,47 @@
 import 'package:get/get.dart';
 import 'package:wy/model/safe_convert.dart';
+class GameConfig {
+  final List<FieldsItem> fields;
+  final List<PriceRangeModel> priceRange;
+
+  GameConfig({
+    required this.fields,
+    required this.priceRange,
+  });
+
+  factory GameConfig.fromJson(Map<String, dynamic>? json) => GameConfig(
+    fields: asT<List>(json, 'fields').map((e) => FieldsItem.fromJson(e)).toList(),
+    priceRange: asT<List>(json, 'priceRange').map((e) => PriceRangeModel.fromJson(e)).toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'fields': fields.map((e) => e.toJson()).toList(),
+    'priceRange': priceRange.map((e) => e.toJson()).toList(),
+  };
+}
+
+class FieldsItem {
+  // Style
+  final String name;
+  final List<String> value;
+
+  FieldsItem({
+    this.name = "",
+    required this.value,
+  });
+
+  factory FieldsItem.fromJson(Map<String, dynamic>? json) => FieldsItem(
+    name: asT<String>(json, 'name'),
+    value: asT<List>(json, 'value').map((e) => e.toString()).toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'value': value.map((e) => e).toList(),
+  };
+}
+
+
 
 class PriceRangeModel {
   // 18
@@ -15,6 +57,12 @@ class PriceRangeModel {
   final String unit;
   String name;
   RxDouble _curPrice = RxDouble(0);
+
+  double get curPrice => _curPrice.value;
+
+  set curPrice(double value) {
+    _curPrice.value = value;
+  }
 
   PriceRangeModel(
       {this.gameCoinMin = 0, this.gameCoinMax = 0, this.id = 0, this.unit = "", this.name = ''});
@@ -33,7 +81,7 @@ class PriceRangeModel {
         'id': id,
         'unit': unit,
         'name': name,
-        'price': _curPrice.value,
+        'price': curPrice==0?gameCoinMin:curPrice,
       };
 
   @override

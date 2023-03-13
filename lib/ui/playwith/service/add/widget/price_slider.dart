@@ -175,7 +175,10 @@ class PriceSlider extends GetView<AddGamePageController> {
                                 curve: Curves.elasticOut,
                                 reverseCurve: Curves.elasticIn,
                                 duration: Duration(milliseconds: 250)),
-                            onDragging: (i, v1, v2) => price = v1,
+                            onDragging: (i, v1, v2) {
+                              price = v1;
+                              model?.curPrice=price;
+                            },
                             //    onDragCompleted: (i, v1, v2) => price = v1,
                           )))),
               20.horizontalSpace,
