@@ -154,8 +154,7 @@ class HomeDrawer extends StatelessWidget {
                 width: 40,
                 height: 40,
                 fit: BoxFit.cover,
-                url:
-                    'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/Tundra-Thursdays---Website-main-image.png'),
+                url:'${user?.avatar}'),
             borderRadius: BorderRadius.circular(20),
           )
         ],
@@ -167,7 +166,7 @@ class HomeDrawer extends StatelessWidget {
       dense: true,
       onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
       subtitle: Text(
-        'View profile',
+        '${user?.uk}',
         style: TextStyle(fontSize: 12.sp, color: AppColor.textC5C5),
       ),
       trailing: ClickIcon(

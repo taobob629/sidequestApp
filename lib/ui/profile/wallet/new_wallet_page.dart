@@ -36,7 +36,7 @@ class NewWalletPage extends StatelessWidget {
                 children: [
                   _balanceItem(
                     imgName: "assets/images/coin_red.webp",
-                    title: "SideKick Coin".tr,
+                    title: '${userController.userProfile.value.coin}'+" SideKick Coin".tr,
                     subTitle: "These coins are only used for SideKick".tr,
                     btnTitle: "TOP UP".tr,
                     onTap: () {
@@ -45,7 +45,7 @@ class NewWalletPage extends StatelessWidget {
                   ),
                   _balanceItem(
                     imgName: "assets/images/diamonds_red.webp",
-                    title: "Diamonds".tr,
+                    title: "${userController.userProfile.value.diamond} Diamonds".tr,
                     subTitle: "6 Diamonds for £1".tr,
                     btnTitle: "WITHDRAW".tr,
                     onTap: () {
@@ -54,7 +54,7 @@ class NewWalletPage extends StatelessWidget {
                   ),
                   _balanceItem(
                     imgName: "assets/images/ic_corns_new.webp",
-                    title: "Credits".tr,
+                    title: "£${userController.userProfile.value.balance} Credits".tr,
                     subTitle: "These credits are only used for SideQuest Hub".tr,
                     btnTitle: "TOP UP".tr,
                     onTap: () {
