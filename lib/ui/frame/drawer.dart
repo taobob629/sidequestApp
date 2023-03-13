@@ -88,7 +88,7 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                _listItem('My sidequest subscription',
+                _listItem('My Subscription',
                     onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
                         ?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
@@ -135,10 +135,10 @@ class HomeDrawer extends StatelessWidget {
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
         TextSpan(
-            text: 'Remaining game time:',
+            text: 'Remaining game time: ',
             style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
         TextSpan(
-            text: '${user?.avamins}',
+            text: '${user?.avamins}mins',
             style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );
