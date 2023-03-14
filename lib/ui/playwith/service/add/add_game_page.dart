@@ -34,6 +34,7 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 import 'controller.dart';
+import 'widget/fields_widget.dart';
 import 'widget/price_slider.dart';
 
 ///添加游戏
@@ -256,7 +257,7 @@ class _AddGamePageState extends State<AddGamePage> {
 
   Widget itemBg(view, {Function? fun}) {
     return PWidget.container(view, [null, 45.h, AppColor.itemBg2],
-        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14.sp), 'fun': fun});
+        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14), 'fun': fun});
   }
 
   List<Widget> get item {
@@ -426,6 +427,8 @@ class _AddGamePageState extends State<AddGamePage> {
           },
         );
       }),
+      if (configDm.object?.isNotEmpty ?? false)16.verticalSpace,
+      if (configDm.object?.isNotEmpty ?? false)fieldsRange(context),
       if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
       if (configDm.object?.isNotEmpty ?? false) PriceSliderWidget(),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit) 16.verticalSpace,
@@ -452,6 +455,7 @@ class _AddGamePageState extends State<AddGamePage> {
     ]);
   }
 
+  fieldsRange(BuildContext? context)=>FieldsWidget();
   priceRange(BuildContext? context) {
     return MediaQuery.removePadding(
         removeTop: true,

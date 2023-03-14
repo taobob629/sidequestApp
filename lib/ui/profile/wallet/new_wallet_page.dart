@@ -63,7 +63,7 @@ class NewWalletPage extends StatelessWidget {
                   ),
                   _balanceItem(
                     imgName: "assets/images/ic_coupons_new.webp",
-                    title: (userController.userInfoModel.value.coupons > 0 ? "${userController.userInfoModel.value.coupons} " : "") + "Vouchers".tr,
+                    title: (userController.userProfile.value.coupons > 0 ? "${userController.userProfile.value.coupons} " : "") + "Vouchers".tr,
                     subTitle: "View/Add your vouchers".tr,
                     btnTitle: "VIEW".tr,
                     onTap: () {

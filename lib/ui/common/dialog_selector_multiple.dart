@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
+import 'package:wy/utils/utils.dart';
 
-class SelectorDialog extends StatelessWidget {
+class SelectorMutipleDialog extends StatelessWidget {
   final List<SelectorItem> items;
 
   final bool showActions;
@@ -11,9 +14,14 @@ class SelectorDialog extends StatelessWidget {
   final bool showInfo;
 
   final String title;
+  final int mode;
 
-  SelectorDialog(
-      {required this.items, this.showActions = false, this.showInfo = false, this.title = ""});
+  SelectorMutipleDialog(
+      {required this.items,
+      this.mode = single,
+      this.showActions = false,
+      this.showInfo = false,
+      this.title = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +46,8 @@ class SelectorDialog extends StatelessWidget {
     );
   }
 
+  RxList<SelectorItem> selects = RxList();
+
   Widget _buildItems(BuildContext context) {
     double height = MediaQuery.of(context).size.height * 0.4;
     return Container(
@@ -46,32 +56,32 @@ class SelectorDialog extends StatelessWidget {
       child: ListView.separated(
           itemBuilder: (context, index) {
             SelectorItem item = items[index];
-            return InkWell(
-              onTap: () => item.selectable() ? Navigator.pop(context, item) : null,
-              child: Container(
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Text(
-                          item.displayLabel(),
-                          style: TextStyle(
-                              color: item.selectable() ? Colors.white : Colors.grey, fontSize: 14),
-                        ),
-                      ),
-                      this.showInfo
-                          ? Text(
-                              item.displayInfo(),
-                              style: TextStyle(color: Colors.white38, fontSize: 10),
-                            )
-                          : Container(),
-                    ],
-                  )),
-            );
+            if (mode == single) {
+              return ListTile(
+                onTap: () {
+                  Get.back(result: [item.displayLabel()]);
+                },
+                title: Text(
+                  '${item.displayLabel()}',
+                  style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                ),
+              );
+            }
+            return Obx(() => CheckboxListTile(
+                  value: selects.contains(item),
+                  title: Text(
+                    '${item.displayLabel()}',
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                  ),
+                  onChanged: (bool? value) {
+                    flog('value $value');
+                    if (value == true) {
+                      selects.add(item);
+                    } else {
+                      selects.remove(item);
+                    }
+                  },
+                ));
           },
           separatorBuilder: (context, index) {
             return Divider(
@@ -84,32 +94,31 @@ class SelectorDialog extends StatelessWidget {
   }
 
   Widget _buildActions() {
-    if (showActions) {
+    if (mode == multiple) {
       return Container(
         height: 50,
         decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.black12))),
         child: Row(
           children: [
             Expanded(
-                child: Container(
-              color: Colors.transparent,
-              child: Center(
-                  child: Text(
-                "Cancel".tr,
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              )),
+                child: TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('Cancle'.tr, style: TextStyle(color: Colors.grey, fontSize: 16.sp)),
             )),
             Container(
               decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black12)),
             ),
             Expanded(
-                child: Container(
-              color: Colors.transparent,
-              child: Center(
-                  child: Text(
+                child: TextButton(
+              onPressed: () {
+                Get.back(result: selects.map((e) => e.displayLabel()).toList());
+              },
+              child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              )),
+                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              ),
             ))
           ],
         ),
@@ -128,7 +137,7 @@ class SelectorDialog extends StatelessWidget {
         barrierColor: Colors.black26,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return SelectorDialog(
+          return SelectorMutipleDialog(
             items: items,
             title: title,
           );

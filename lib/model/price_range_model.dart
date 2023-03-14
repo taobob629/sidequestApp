@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:get/get.dart';
 import 'package:wy/model/safe_convert.dart';
+
 class GameConfig {
   final List<FieldsItem> fields;
   final List<PriceRangeModel> priceRange;
@@ -10,38 +13,46 @@ class GameConfig {
   });
 
   factory GameConfig.fromJson(Map<String, dynamic>? json) => GameConfig(
-    fields: asT<List>(json, 'fields').map((e) => FieldsItem.fromJson(e)).toList(),
-    priceRange: asT<List>(json, 'priceRange').map((e) => PriceRangeModel.fromJson(e)).toList(),
-  );
+        fields: asT<List>(json, 'fields').map((e) => FieldsItem.fromJson(e)).toList(),
+        priceRange: asT<List>(json, 'priceRange').map((e) => PriceRangeModel.fromJson(e)).toList(),
+      );
 
   Map<String, dynamic> toJson() => {
-    'fields': fields.map((e) => e.toJson()).toList(),
-    'priceRange': priceRange.map((e) => e.toJson()).toList(),
-  };
+        'fields': fields.map((e) => e.toJson()).toList(),
+        'priceRange': priceRange.map((e) => e.toJson()).toList(),
+      };
 }
+
+const int single = 1;
+const int multiple = 2;
 
 class FieldsItem {
   // Style
   final String name;
+  final int type;
   final List<String> value;
-
+  RxList mSelects = RxList();
+  displaySelect(){
+    return mSelects.join(',');
+  }
   FieldsItem({
     this.name = "",
+    this.type = 1,
     required this.value,
   });
 
   factory FieldsItem.fromJson(Map<String, dynamic>? json) => FieldsItem(
-    name: asT<String>(json, 'name'),
-    value: asT<List>(json, 'value').map((e) => e.toString()).toList(),
-  );
+        name: asT<String>(json, 'name'),
+        type: asT<int>(json, 'type', defaultValue: single),
+        value: asT<List>(json, 'value').map((e) => e.toString()).toList(),
+      );
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'value': value.map((e) => e).toList(),
-  };
+        'name': name,
+        'type': type,
+        'value': value.map((e) => e).toList(),
+      };
 }
-
-
 
 class PriceRangeModel {
   // 18
@@ -81,7 +92,7 @@ class PriceRangeModel {
         'id': id,
         'unit': unit,
         'name': name,
-        'price': curPrice==0?gameCoinMin:curPrice,
+        'price': curPrice == 0 ? gameCoinMin : curPrice,
       };
 
   @override
