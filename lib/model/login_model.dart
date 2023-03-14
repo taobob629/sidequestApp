@@ -45,9 +45,22 @@ class VerifyField extends SelectorItem{
   }
 
   @override
+  String toString() {
+    return 'VerifyField{name: $name, label: $label}';
+  }
+
+  @override
   String displayLabel() {
     return label;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is VerifyField && runtimeType == other.runtimeType && name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 
   @override
   bool selectable() {

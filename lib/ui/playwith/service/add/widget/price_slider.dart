@@ -104,6 +104,7 @@ class PriceSlider extends GetView<AddGamePageController> {
     textController.addListener(() {
       model?.name = textController.text;
     });
+    textController.text=model?.name??'';
     return Column(
       children: [
         InputView(
