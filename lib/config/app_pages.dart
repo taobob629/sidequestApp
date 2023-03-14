@@ -32,6 +32,7 @@ import 'package:wy/ui/profile/grade/index.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/profile/settings/language/bindings.dart';
 import 'package:wy/ui/profile/settings/language/view.dart';
+import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
 import '../ui/frame/social/post/page/release_post_page.dart';
@@ -61,6 +62,7 @@ class AppPages {
   static const ReleasePost = '/release_post_page';
   static const PostDetail = '/post_detail_page';
   static const BOOKING_PAGE = '/booking_page';
+  static const Setting = '/setting_page';
 
   static final routes = [
     GetPage(
@@ -119,10 +121,7 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(
-        name: WALLET_PAGE,
-        page: () => PlayBalancePage(),
-        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -135,6 +134,10 @@ class AppPages {
     ),
 
     ///profile
+    GetPage(
+      name: Setting,
+      page: () => SettingsPage(),
+    ),
     GetPage(name: VIP_PAGE, page: () => VipPage()),
     GetPage(name: ReleasePost, page: () => ReleasePostPage()),
     GetPage(name: PostDetail, page: () => PostDetailPage()),

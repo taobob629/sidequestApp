@@ -343,7 +343,7 @@ class VipPageController extends GetxController {
   void onInit() {
     scrollController = ScrollController();
     swiperController = SwiperController();
-    vipIndex.value = Get.arguments;
+    vipIndex.value = Get.arguments ?? 0;
     vipLevel.value = UserController.find.userProfile.value.vipLevel;
     getVipDetail();
     super.onInit();

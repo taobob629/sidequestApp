@@ -8,6 +8,7 @@ import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/index.dart';
 
+import '../main_page.dart';
 import 'profile_album_page.dart';
 import 'profile_dashboard_page.dart';
 import 'profile_posts_page.dart';
@@ -32,6 +33,18 @@ class ProfilePage extends StatelessWidget {
                       url: t.background.value,
                       fit: BoxFit.cover,
                     )),
+                Opacity(
+                  opacity: 0.5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0x00131010), Color(0xFF1B1A1E)],
+                      ),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(left: 20, bottom: 15),
                   child: Column(
@@ -41,7 +54,8 @@ class ProfilePage extends StatelessWidget {
                       SafeArea(
                         child: GestureDetector(
                           onTap: () {
-                            Get.to(() => SettingsPage());
+                            // Get.to(() => SettingsPage());
+                            homeDrawerKey.currentState?.openDrawer();
                           },
                           child: Container(
                             alignment: Alignment.centerRight,

@@ -65,7 +65,7 @@ class ProfileModel {
     memberId = json["memberId"] ?? 0;
     backGround = json["backGround"] ?? "";
     pwId = json["pwId"] ?? 0;
-    if ((json["country"] is String) && json["country"].toString().contains("\\")) {
+    if ((json["country"] is String)) {
       country = CountryModel.fromJson(jsonDecode(json["country"].replaceAll("""\\""", """\\\\""")));
     } else {
       country = CountryModel();
@@ -77,17 +77,13 @@ class ProfileModel {
     followers = json["followers"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
-    trophies = json["trophies"] != null
-        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
-        : [];
+    trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
-    vips = json["vips"] != null
-        ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
-        : [];
+    vips = json["vips"] != null ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList() : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 0;
     postNum = json["postNum"] ?? 0;

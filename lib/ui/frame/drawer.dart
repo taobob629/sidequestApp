@@ -72,9 +72,9 @@ class HomeDrawer extends StatelessWidget {
                 ListTile(
                   dense: true,
                   trailing: ClickIcon(
-                    onTap: () => Get.toNamed(AppPages.NOTICE_PAGE),
+                    onTap: () => Get.toNamed(AppPages.Setting),
                     customIcon: ImageUtil.assetImage(
-                      'icon_notice',
+                      'profile_setting',
                       width: 18.w,
                     ),
                   ),
@@ -88,9 +88,7 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                _listItem('My Subscription',
-                    onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
-                        ?.whenComplete(() => UserController.instance().updateInfo())),
+                _listItem('My Subscription', onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -134,12 +132,8 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: 'Remaining game time: ',
-            style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
-        TextSpan(
-            text: '${user?.avamins}mins',
-            style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
+        TextSpan(text: 'Remaining game time: ', style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
+        TextSpan(text: '${user?.avamins}mins', style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );
   }
@@ -150,11 +144,7 @@ class HomeDrawer extends StatelessWidget {
       leading: Stack(
         children: [
           ClipRRect(
-            child: ImageUtil.networkImage(
-                width: 40,
-                height: 40,
-                fit: BoxFit.cover,
-                url:'${user?.avatar}'),
+            child: ImageUtil.networkImage(width: 40, height: 40, fit: BoxFit.cover, url: '${user?.avatar}'),
             borderRadius: BorderRadius.circular(20),
           )
         ],
@@ -216,12 +206,8 @@ class HomeDrawer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
       padding: EdgeInsets.all(15).r,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(11),
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(11), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
       child: Row(
         children: [
           achievementItem(user?.coin, 'ic_balance_money'),
@@ -260,22 +246,16 @@ class HomeDrawer extends StatelessWidget {
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
-            if (StorageManager.getOnline())
-              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+            if (StorageManager.getOnline()) Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
             break;
           case 'ic_coupons_new':
-            NavigatorHelper.gotoCouponTabPage(
-                whenComplete: () => UserController.instance().updateInfo());
+            NavigatorHelper.gotoCouponTabPage(whenComplete: () => UserController.instance().updateInfo());
             break;
           case 'diamonds_red':
-            StorageManager.getOnline()
-                ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1)
-                : null;
+            StorageManager.getOnline() ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1) : null;
             break;
           case 'ic_corns_new':
-            if (StorageManager.getOnline())
-              Get.to(() => BalancePage())
-                  ?.whenComplete(() => UserController.instance().updateInfo());
+            if (StorageManager.getOnline()) Get.to(() => BalancePage())?.whenComplete(() => UserController.instance().updateInfo());
             break;
         }
       },
