@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/widget/views.dart';
 
 import '../utils/utils.dart';
@@ -265,5 +267,13 @@ class PrecisionLimitFormatter extends TextInputFormatter {
     }
     return newValue;
   }
-
+}
+Widget itemLable(var lable) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: 10).h,
+    child: Text(
+      "$lable",
+      style: PageStyle.labelStyle,
+    ),
+  );
 }

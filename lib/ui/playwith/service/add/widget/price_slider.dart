@@ -13,12 +13,18 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/input_view.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/ui/playwith/service/add/controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 class PriceSliderWidget extends GetView<AddGamePageController> {
+  bool showLable = false;
+  bool showAdd = false;
+
+  PriceSliderWidget({this.showLable = true, this.showAdd = true});
+
   Widget itemLable(var lable) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10).h,
@@ -37,14 +43,18 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
         child: Obx(() => ListView.separated(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: controller.mPriceRanges.length + 1,
+              itemCount:
+                  showLable ? controller.mPriceRanges.length + 1 : controller.mPriceRanges.length,
               itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
+                if (showLable && index == 0) {
                   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     itemLable('Price Range'.tr),
                     Visibility(
                       child: InkWell(
-                          onTap: () => {controller.addPriceRange()},
+                          onTap: () {
+                           // controller.addPriceRange();
+                            controller.toAddServiceTypePage();
+                          },
                           child: Icon(
                             Icons.add,
                             color: Colors.green,
@@ -53,16 +63,16 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                     )
                   ]);
                 }
-                var item = controller.mPriceRanges[index - 1];
+                var item = controller.mPriceRanges[showLable ? index - 1 : index];
                 return PriceSlider(
                   min: item.gameCoinMin.toDouble(),
                   max: item.gameCoinMax.toDouble(),
                   value: item.gameCoinMin.toDouble(),
-                  index: index - 1,
+                  index: showLable ? index - 1 : index,
                   model: item,
                 );
               },
-              separatorBuilder: (BuildContext context, int index) => index == 0
+              separatorBuilder: (BuildContext context, int index) => showLable && index == 0
                   ? Divider(
                       height: 0,
                     )
@@ -92,7 +102,6 @@ class PriceSlider extends GetView<AddGamePageController> {
   final Function(double)? fun;
 
   PriceSlider({this.max, this.min, this.fun, this.value = 0, this.model, this.index = 0}) {
-    flog('price==$value $min max $max');
     this.price = value;
   }
 
@@ -104,25 +113,22 @@ class PriceSlider extends GetView<AddGamePageController> {
     textController.addListener(() {
       model?.name = textController.text;
     });
-    textController.text=model?.name??'';
-    return Column(
+    textController.text = model?.name ?? '';
+    return outerBg(Column(
       children: [
         InputView(
+          decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
           controller: textController,
           label: 'ServiceType_${model?.unit}',
           tips: 'Please input Service Name'.tr,
           margin: EdgeInsets.only(top: 2).h,
-          padding: EdgeInsets.all(0),
+          padding: EdgeInsets.only(bottom: 8.h),
           height: 45.h,
           rightActionWidget: InkWell(
             onTap: () {
               controller.removePriceRange(index);
             },
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 18,
-            ),
+            child: ImageUtil.assetImage('ic_delete2', width: 18),
           ),
         ),
         5.verticalSpace,
@@ -133,61 +139,56 @@ class PriceSlider extends GetView<AddGamePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                  child: Container(
-                      constraints: BoxConstraints(minWidth: 100.w),
-                      decoration: listItemDecoration(),
-                      child: Obx(() => FlutterSlider(
-                            values: [price],
-                            max: max!,
-                            min: min!,
-                            handlerWidth: 80,
-                            trackBar: FlutterSliderTrackBar(
-                              inactiveTrackBar: BoxDecoration(
-                                  color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-                              activeTrackBar: BoxDecoration(
-                                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                            ),
-                            tooltip: FlutterSliderTooltip(
-                              positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
-                              custom: (v) => PWidget.container(
-                                PWidget.row([
-                                  Image.asset("assets/images/ic_balance_money.webp",
-                                      width: 16, height: 16),
-                                  PWidget.boxw(4),
-                                  PWidget.text('${double.parse('$v').toInt()}'),
-                                  PWidget.boxw(4),
-                                  PWidget.text(
-                                      '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
-                                ]),
-                                [null, null, Colors.white],
-                                {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
-                              ),
-                            ),
-                            handler: FlutterSliderHandler(
-                              child: PWidget.container(
-                                  PWidget.text(
-                                      '${price.toInt()}', [Colors.black.withOpacity(0.75)]),
-                                  [null, null, Colors.white],
-                                  {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
-                              foregroundDecoration: BoxDecoration(),
-                              decoration: BoxDecoration(),
-                            ),
-                            handlerAnimation: FlutterSliderHandlerAnimation(
-                                curve: Curves.elasticOut,
-                                reverseCurve: Curves.elasticIn,
-                                duration: Duration(milliseconds: 250)),
-                            onDragging: (i, v1, v2) {
-                              price = v1;
-                              model?.curPrice=price;
-                            },
-                            //    onDragCompleted: (i, v1, v2) => price = v1,
-                          )))),
+                  child: innnerBg(Obx(() => FlutterSlider(
+                        values: [price],
+                        max: max!,
+                        min: min!,
+                        handlerWidth: 80,
+                        trackBar: FlutterSliderTrackBar(
+                          inactiveTrackBar: BoxDecoration(
+                              color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+                          activeTrackBar: BoxDecoration(
+                              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                        ),
+                        tooltip: FlutterSliderTooltip(
+                          positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+                          custom: (v) => PWidget.container(
+                            PWidget.row([
+                              Image.asset("assets/images/ic_balance_money.webp",
+                                  width: 16, height: 16),
+                              PWidget.boxw(4),
+                              PWidget.text('${double.parse('$v').toInt()}'),
+                              PWidget.boxw(4),
+                              PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+                            ]),
+                            [null, null, Colors.white],
+                            {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
+                          ),
+                        ),
+                        handler: FlutterSliderHandler(
+                          child: PWidget.container(
+                              PWidget.text('${price.toInt()}', [Colors.black.withOpacity(0.75)]),
+                              [null, null, Colors.white],
+                              {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+                          foregroundDecoration: BoxDecoration(),
+                          decoration: BoxDecoration(),
+                        ),
+                        handlerAnimation: FlutterSliderHandlerAnimation(
+                            curve: Curves.elasticOut,
+                            reverseCurve: Curves.elasticIn,
+                            duration: Duration(milliseconds: 250)),
+                        onDragging: (i, v1, v2) {
+                          price = v1;
+                          model?.curPrice = price;
+                        },
+                        //    onDragCompleted: (i, v1, v2) => price = v1,
+                      )))),
               20.horizontalSpace,
               Container(
                 height: 45.h,
                 width: 50.w,
                 constraints: BoxConstraints(minWidth: 100.w),
-                decoration: listItemDecoration(),
+                decoration: innerDecoration(),
                 alignment: Alignment.center,
                 padding: itemPadding(),
                 child: dropDownButton(index, model?.unit),
@@ -196,12 +197,11 @@ class PriceSlider extends GetView<AddGamePageController> {
           ),
         )
       ],
-    );
+    ));
   }
 
   dropDownButton(int index, var init) {
     var seclet = controller.priceRanges.firstWhereOrNull((element) => element.unit == init);
-    flog('seclet $seclet');
     return DropdownButtonHideUnderline(
         child: DropdownButton<PriceRangeModel>(
             value: seclet,

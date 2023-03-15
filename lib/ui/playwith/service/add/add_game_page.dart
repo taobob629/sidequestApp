@@ -16,7 +16,9 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_info_model.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -49,9 +51,7 @@ class AddGamePage extends StatefulWidget {
 
 class _AddGamePageState extends State<AddGamePage> {
   TextEditingController priceRangeCon = TextEditingController();
-  ServiceInfoModel? platform;
   var platformIndex;
-  SkillItem? game;
   var gameIndex;
   LevelItem? gameLv;
   var gameLvIndex;
@@ -91,18 +91,19 @@ class _AddGamePageState extends State<AddGamePage> {
   var skillInfoDm = DataModel<Map>(object: {});
 
   Future<int> skillInfo({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/skill/${widget.data['id']}').then((res) async {
+    await http.get('/peiwan/app/service/skill?id=${widget.data['id']}').then((res) async {
       skillInfoDm.addObject(res.data);
       if (controller.isEdit) {
         isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
         platformIndex =
             controller.services.indexWhere((w) => w.id == skillInfoDm.object?['platfromId']);
-        platform = controller.services[platformIndex];
-        gameIndex = platform?.skill?.indexWhere((item) => item.id == skillInfoDm.object?['gameId']);
-        game = platform?.skill[gameIndex];
+        controller.platform = controller.services[platformIndex];
+        gameIndex = controller.platform?.skill
+            ?.indexWhere((item) => item.id == skillInfoDm.object?['gameId']);
+        controller.game = controller.platform?.skill[gameIndex];
         gameLvIndex =
-            game?.level?.indexWhere((w) => w.id == skillInfoDm.object?['levelId']);
-        if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
+            controller.game?.level?.indexWhere((w) => w.id == skillInfoDm.object?['levelId']);
+        if (gameLvIndex != -1) gameLv = controller.game?.level[gameLvIndex];
         priceRangeCon.text = '';
         if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
           gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
@@ -132,7 +133,7 @@ class _AddGamePageState extends State<AddGamePage> {
   var configDm = DataModel<Map>(object: {});
 
   Future<int> config({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/config?gameId=${game?.id}').then((res) async {
+    await http.get('/peiwan/app/home/config?gameId=${controller.game?.id}').then((res) async {
       configDm.addObject(res.data);
       var gameCoinMin = configDm.object?['gameCoinMin'];
       if (controller.isEdit) {
@@ -202,12 +203,28 @@ class _AddGamePageState extends State<AddGamePage> {
     );
   }
 
+  List? buildFiledsParams() {
+    if (controller.fieldItems.isEmpty) return [];
+    var list = [];
+    controller.fieldItems.forEach((item) {
+      if (item.mSelects.isNotEmpty) {
+        var itemCopy = FieldsItem.fromJson(item.toJson2());
+        list.add(itemCopy);
+      }
+    });
+    flog(' fielditems ${list}');
+    return list;
+  }
+
   update() async {
+    var fields = buildFiledsParams();
+    flog('fields ${json.encode(fields)}');
+    // return;
     if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
-    if (isSending) return EasyLoading.showToast('Submitting');
+    //  if (isSending) return EasyLoading.showToast('Submitting');
     if (privacyCheckController.check() == false) return;
-    if (platform == null) return EasyLoading.showToast('Please select category'.tr);
-    if (game == null) return EasyLoading.showToast('Please select service'.tr);
+    if (controller.platform == null) return EasyLoading.showToast('Please select category'.tr);
+    if (controller.game == null) return EasyLoading.showToast('Please select service'.tr);
     if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
     var list = controller.services[platformIndex].skill;
     if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
@@ -228,16 +245,18 @@ class _AddGamePageState extends State<AddGamePage> {
     }
     flog(json.encode(controller.mPriceRanges));
     //var priceRanges = json.encode(controller.mPriceRanges);
-    var priceRanges =controller.mPriceRanges;
+    var priceRanges = controller.mPriceRanges;
+
     var data = {
       if (controller.isEdit) "id": widget.data['id'],
-      "skillid": game?.id,
+      "skillid": controller.game?.id,
       "thumb": gamePhotos.join(','),
       "levelid": gameLv == null ? '' : gameLv?.id,
       "wswitch": isWswitch,
       "coinid": 0,
       "coin": priceRangeCon.text,
-      'serviceTypes': priceRanges
+      'serviceTypes': priceRanges,
+      'fieldItems': fields
       // "des": beGoodAtCon.text,
     };
     flog(data);
@@ -252,11 +271,11 @@ class _AddGamePageState extends State<AddGamePage> {
     }).catchError((e) {
       isSending = false;
       EasyLoading.showToast('Network exception'.tr);
-    }).whenComplete(() => isSending=false);
+    }).whenComplete(() => isSending = false);
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 45.h, AppColor.itemBg2],
+    return PWidget.container(view, [null, 45.h, Color(0xFF2D2E3C)],
         {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14), 'fun': fun});
   }
 
@@ -310,8 +329,8 @@ class _AddGamePageState extends State<AddGamePage> {
         PWidget.row([
           PWidget.text('Category'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(platform == null ? 'Please select'.tr : platform?.name, [textColor, 12.sp],
-              {'ali': 1, 'exp': true}),
+          PWidget.text(controller.platform == null ? 'Please select'.tr : controller.platform?.name,
+              [textColor, 12.sp], {'ali': 1, 'exp': true}),
           rightJtView(14.sp, textColor),
         ]),
         fun: () async {
@@ -333,10 +352,10 @@ class _AddGamePageState extends State<AddGamePage> {
           if (res != null) {
             setState(() {
               platformIndex = int.parse(res.name);
-              platform = controller.services[platformIndex];
+              controller.platform = controller.services[platformIndex];
               configDm.object?.clear();
               gameIndex = null;
-              game = null;
+              controller.game = null;
               gameLvIndex = null;
               gameLv = null;
             });
@@ -348,12 +367,12 @@ class _AddGamePageState extends State<AddGamePage> {
         PWidget.row([
           PWidget.text('Service'.tr, [textColor]),
           PWidget.boxw(8),
-          PWidget.text(game == null ? 'Please select'.tr : game?.name, [textColor, 12.sp],
-              {'ali': 1, 'exp': true}),
+          PWidget.text(controller.game == null ? 'Please select'.tr : controller.game?.name,
+              [textColor, 12.sp], {'ali': 1, 'exp': true}),
           rightJtView(14.sp, textColor),
         ]),
         fun: () async {
-         if (controller.isEdit) return;
+          if (controller.isEdit) return;
           if (platformIndex == null)
             return EasyLoading.showToast('Please select category first'.tr);
           var list = controller.services[platformIndex].skill;
@@ -371,12 +390,12 @@ class _AddGamePageState extends State<AddGamePage> {
           if (res != null) {
             setState(() {
               gameIndex = int.parse(res.name);
-              game = list[gameIndex];
+              controller.game = list[gameIndex];
               gameLvIndex = null;
               gameLv = null;
             });
             this.config();
-            controller.getPriceRange(game?.id);
+            controller.getPriceRange(controller.game?.id);
           }
         },
       ),
@@ -427,8 +446,8 @@ class _AddGamePageState extends State<AddGamePage> {
           },
         );
       }),
-      if (configDm.object?.isNotEmpty ?? false)16.verticalSpace,
-      if (configDm.object?.isNotEmpty ?? false)fieldsRange(context),
+      if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
+      if (configDm.object?.isNotEmpty ?? false) fieldsRange(context),
       if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
       if (configDm.object?.isNotEmpty ?? false) PriceSliderWidget(),
       if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit) 16.verticalSpace,
@@ -455,7 +474,8 @@ class _AddGamePageState extends State<AddGamePage> {
     ]);
   }
 
-  fieldsRange(BuildContext? context)=>FieldsWidget();
+  fieldsRange(BuildContext? context) => FieldsWidget();
+
   priceRange(BuildContext? context) {
     return MediaQuery.removePadding(
         removeTop: true,
@@ -518,7 +538,7 @@ class _AddGamePageState extends State<AddGamePage> {
               Stack(children: [
                 Positioned.fill(
                     child: CachedNetworkImage(imageUrl: gamePhotos[i], fit: BoxFit.cover)),
-                Positioned.fill(child: Container(color: Colors.black54)),
+                Positioned.fill(child: Container(color:  Color(0xFF2D2E3C))),
                 PWidget.positioned(
                   PWidget.icon(
                     Icons.highlight_remove_rounded,
@@ -542,7 +562,7 @@ class _AddGamePageState extends State<AddGamePage> {
                 width: 105.h,
                 padding: EdgeInsets.all(35).r,
                 decoration: BoxDecoration(
-                    color: AppColor.itemBg2, borderRadius: BorderRadius.all(Radius.circular(10).r)),
+                    color: Color(0xFF2D2E3C), borderRadius: BorderRadius.all(Radius.circular(10).r)),
                 child: ImageUtil.assetImage(
                   'add_pic',
                   imageType: IMG_PNG,
@@ -555,4 +575,20 @@ class _AddGamePageState extends State<AddGamePage> {
       ),
     ]);
   }
+}
+
+Widget outerBg(Widget view) {
+  return Container(
+    padding: itemPaddingNormal,
+    decoration: itemDecoration(color: Color(0xFF262731)),
+    child: view,
+  );
+}
+BoxDecoration innerDecoration()=>itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r);
+Widget innnerBg(Widget view) {
+  return Container(
+    padding: itemPaddingNormal,
+    decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+    child: view,
+  );
 }

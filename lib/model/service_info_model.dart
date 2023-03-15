@@ -1,5 +1,6 @@
 
 import 'package:wy/model/safe_convert.dart';
+
 class ServiceInfoModel {
   final List<SkillItem> skill;
   // Mobile

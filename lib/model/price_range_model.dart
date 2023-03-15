@@ -31,10 +31,12 @@ class FieldsItem {
   final String name;
   final int type;
   final List<String> value;
-  RxList mSelects = RxList();
-  displaySelect(){
+  RxList<String> mSelects = RxList<String>([]);
+
+  displaySelect() {
     return mSelects.join(',');
   }
+
   FieldsItem({
     this.name = "",
     this.type = 1,
@@ -46,6 +48,23 @@ class FieldsItem {
         type: asT<int>(json, 'type', defaultValue: single),
         value: asT<List>(json, 'value').map((e) => e.toString()).toList(),
       );
+
+  @override
+  String toString() {
+    return 'FieldsItem{name: $name, type: $type, value: $value}';
+  }
+
+  factory FieldsItem.fromJson2(Map<String, dynamic>? json) => FieldsItem(
+        name: asT<String>(json, 'name'),
+        type: asT<int>(json, 'type', defaultValue: single),
+        value: asT<List>(json, 'value').map((e) => e.toString()).toList(),
+      );
+
+  Map<String, dynamic> toJson2() => {
+        'name': name,
+        'type': type,
+        'value': mSelects.map((e) => e).toList(),
+      };
 
   Map<String, dynamic> toJson() => {
         'name': name,

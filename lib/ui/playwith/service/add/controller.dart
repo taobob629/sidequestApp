@@ -11,11 +11,21 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_info_model.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../../../config/app_pages.dart';
+
 class AddGamePageController extends GetxController {
   RxList<PriceRangeModel> priceRanges = RxList([]);
   RxList<FieldsItem> fieldItems = RxList([]);
   RxList<PriceRangeModel> mPriceRanges = RxList([]); //我选择的技能列表
   RxList<ServiceInfoModel> services = RxList([]);
+  Rxn<ServiceInfoModel?> _platform = Rxn();
+
+  ServiceInfoModel? get platform => _platform.value;
+  SkillItem? game;
+
+  set platform(ServiceInfoModel? value) {
+    _platform.value = value;
+  }
 
   ///是否编辑
   bool isEdit = false;
@@ -45,6 +55,10 @@ class AddGamePageController extends GetxController {
 
   removePriceRange(int index) {
     mPriceRanges.removeAt(index);
+  }
+
+  toAddServiceTypePage() {
+    Get.toNamed(AppPages.AddServiceType, arguments:game?.name);
   }
 
   addPriceRange() {

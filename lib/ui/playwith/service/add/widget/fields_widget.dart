@@ -14,6 +14,7 @@ import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/dialog_selector_multiple.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/index.dart';
 
 import '../controller.dart';
@@ -46,7 +47,7 @@ class FieldsWidget extends GetView<AddGamePageController> {
     return Container(
       constraints: BoxConstraints(minHeight: 45.h),
       padding: itemPadding(),
-      decoration: listItemDecoration(),
+      decoration: innerDecoration(),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +103,7 @@ class FieldsWidget extends GetView<AddGamePageController> {
     );
     if (result != null) {
       field.mSelects.clear();
-      field.mSelects.add(result);
+      field.mSelects.addAll(result);
     }
     flog('result $result');
   }

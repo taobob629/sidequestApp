@@ -13,6 +13,7 @@ import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
+import 'package:wy/ui/playwith/service/add/service_type/view.dart';
 import 'package:wy/ui/playwith/service/bindings.dart';
 import 'package:wy/ui/playwith/service/view.dart';
 import 'package:wy/ui/playwith/skill/list/bindings.dart';
@@ -63,6 +64,7 @@ class AppPages {
   static const PostDetail = '/post_detail_page';
   static const BOOKING_PAGE = '/booking_page';
   static const Setting = '/setting_page';
+  static const AddServiceType = '/add_service_type_page';
 
   static final routes = [
     GetPage(
@@ -121,7 +123,10 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(
+        name: WALLET_PAGE,
+        page: () => PlayBalancePage(),
+        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -146,5 +151,6 @@ class AppPages {
       page: () => BookingPage(),
       binding: BookingBinding(),
     ),
+    GetPage(name: AddServiceType, page: ()=>AddServiceTypePage())
   ];
 }

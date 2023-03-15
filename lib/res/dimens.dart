@@ -18,7 +18,9 @@ class Dimens {
   static double radius10 = 10.0.r;
 
   static double dividerNomarl = 16;
+  static Widget dVerticalNomarl = 15.verticalSpace;
   static double dividerSmall = 10;
+  static Widget dVerticalSmall = 10.verticalSpace;
 
   static double paddingLarge = 24.w;
   static double paddingNormal_10 = 10;
