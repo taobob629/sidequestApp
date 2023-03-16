@@ -130,4 +130,9 @@ class AddGamePageController extends GetxController {
       mPriceRanges.add(item);
     }
   }
+
+  confirm() {
+    Get.back();
+    this.mPriceRanges.refresh();
+  }
 }

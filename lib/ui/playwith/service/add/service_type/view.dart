@@ -10,31 +10,41 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
+import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/stadium_button.dart';
 
 import '../controller.dart';
 
 class AddServiceTypePage extends GetView<AddGamePageController> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('${Get.arguments}'),
-        ),
-        body: contentPadding(
-            child: ListView(
-          padding: EdgeInsets.all(0),
-          children: [
-            itemLable('Service Types'),
-            PriceSliderWidget(
-              showLable: false,
-            ),
-            10.verticalSpace,
-            _addButton()
-          ],
-        )),
+  Widget build(BuildContext context) =>
+      Scaffold(
+          appBar: AppBar(
+            title: Text('${Get.arguments}'),
+          ),
+          body: contentPadding(
+              child: ListView(
+                padding: EdgeInsets.all(0),
+                children: [
+                  itemLable('Service Types'),
+                  PriceSliderWidget(
+                    showLable: false,
+                  ),
+                  10.verticalSpace,
+                  _addButton()
+                ],
+              )),
+          floatingActionButton: StadiumButton(
+            'CONFIRM'.tr,
+            width: Get.width-30.w,
+            height: 40.h,
+            onTap: () {
+            controller.confirm();
+          },)
       );
 
   _addButton() {
@@ -43,7 +53,9 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
       borderType: BorderType.RRect,
       radius: Radius.circular(12.r),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12).r),
+        borderRadius: BorderRadius.all(Radius
+            .circular(12)
+            .r),
         child: InkWell(
           child: Container(
             // padding: EdgeInsets.all(6),

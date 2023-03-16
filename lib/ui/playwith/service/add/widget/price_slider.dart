@@ -64,9 +64,9 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                 }
                 var item = controller.mPriceRanges[showLable ? index - 1 : index];
                 return PriceSlider(
-                  min: item.gameCoinMin.toDouble(),
-                  max: item.gameCoinMax.toDouble(),
-                  value: item.curPrice.toDouble(),
+                  min: item.gameCoinMin,
+                  max: item.gameCoinMax,
+                  value: item.curPrice==0?item.gameCoinMin:item.curPrice,
                   index: showLable ? index - 1 : index,
                   model: item,
                 );
