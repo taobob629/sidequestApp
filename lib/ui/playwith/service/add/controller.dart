@@ -51,6 +51,7 @@ class AddGamePageController extends GetxController {
 
   set isEdit(bool value) {
     _isEdit.value = value;
+    _isEdit.refresh();
   }
 
   var platformIndex;

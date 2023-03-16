@@ -63,11 +63,13 @@ class _AddGamePageState extends State<AddGamePage> {
   bool isUploadFile = false;
 
   bool isSending = false;
+  bool isEdit = false;
 
   @override
   void initState() {
-    this.initData();
     controller.id = widget.data['id'];
+    isEdit = controller.isEdit = widget.data.isNotEmpty;
+    this.initData();
     super.initState();
   }
 
@@ -79,7 +81,6 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///初始化函数
   Future initData() async {
-    controller.isEdit = widget.data.isNotEmpty;
     await controller.initData();
     // if (controller.isEdit) {
     //   skillInfo();
@@ -312,6 +313,86 @@ class _AddGamePageState extends State<AddGamePage> {
         itemLable('Service detail'.tr),
         outerBg(Column(
           children: [
+            if (isEdit == false)
+              Visibility(
+                  child: itemBg(
+                PWidget.row([
+                  PWidget.text('Category'.tr, [textColor]),
+                  PWidget.boxw(8),
+                  PWidget.text(
+                      controller.platform == null ? 'Please select'.tr : controller.platform?.name,
+                      [textColor, 12.sp],
+                      {'ali': 1, 'exp': true}),
+                  rightJtView(14.sp, textColor),
+                ]),
+                fun: () async {
+                  if (controller.isEdit) return;
+                  flog('${controller.services.isEmpty}');
+                  if (controller.services.isEmpty)
+                    return EasyLoading.showToast('Please check the network settings'.tr);
+                  var res = await Get.dialog(
+                    Obx(() => SelectorDialog(
+                          items: List.generate(controller.services.length, (i) {
+                            return VerifyField.fromJson(
+                                {'name': '$i', 'label': controller.services[i].name});
+                          }),
+                          title: "Select Category".tr,
+                          showInfo: true,
+                        )),
+                    barrierColor: Colors.black26,
+                  );
+                  if (res != null) {
+                    setState(() {
+                      controller.platformIndex = int.parse(res.name);
+                      controller.platform = controller.services[controller.platformIndex];
+                      controller.priceRanges.clear();
+                      controller.gameIndex = null;
+                      controller.game = null;
+                      controller.gameLvIndex = null;
+                      controller.gameLv = null;
+                    });
+                  }
+                },
+              )),
+            10.verticalSpace,
+            // if (controller.isEdit!)
+            if (isEdit == false)
+              itemBg(
+                PWidget.row([
+                  PWidget.text('Service'.tr, [textColor]),
+                  PWidget.boxw(8),
+                  PWidget.text(controller.game == null ? 'Please select'.tr : controller.game?.name,
+                      [textColor, 12.sp], {'ali': 1, 'exp': true}),
+                  rightJtView(14.sp, textColor),
+                ]),
+                fun: () async {
+                  if (controller.isEdit) return;
+                  if (controller.platformIndex == null)
+                    return EasyLoading.showToast('Please select category first'.tr);
+                  var list = controller.services[controller.platformIndex].skill;
+                  if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
+                  var res = await Get.dialog(
+                    SelectorDialog(
+                      items: List.generate(list.length, (i) {
+                        return VerifyField.fromJson({'name': '$i', 'label': list[i].name});
+                      }),
+                      title: "Select Service".tr,
+                      showInfo: true,
+                    ),
+                    barrierColor: Colors.black26,
+                  );
+                  if (res != null) {
+                    setState(() {
+                      controller.gameIndex = int.parse(res.name);
+                      controller.game = list[controller.gameIndex];
+                      controller.gameLvIndex = null;
+                      controller.gameLv = null;
+                    });
+                    // this.config();
+                    controller.getPriceRange(controller.game?.id);
+                  }
+                },
+              ),
             Builder(builder: (context) {
               if (controller.platformIndex == null) return PWidget.boxh(0);
               var list = controller.services[controller.platformIndex].skill;
