@@ -50,15 +50,15 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     itemLable('Price Range'.tr),
                     Visibility(
+                      visible: showLable,
                       child: InkWell(
                           onTap: () {
                             controller.toAddServiceTypePage();
                           },
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.green,
+                          child: Text(
+                            'Edit'.tr,
+                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
                           )),
-                      visible: controller.mPriceRanges.length <= controller.priceRanges.length,
                     )
                   ]);
                 }
@@ -66,7 +66,7 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                 return PriceSlider(
                   min: item.gameCoinMin,
                   max: item.gameCoinMax,
-                  value: item.curPrice==0?item.gameCoinMin:item.curPrice,
+                  value: item.curPrice == 0 ? item.gameCoinMin : item.curPrice,
                   index: showLable ? index - 1 : index,
                   model: item,
                 );

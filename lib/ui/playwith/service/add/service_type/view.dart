@@ -10,8 +10,6 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
-import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/view/views.dart';
@@ -39,7 +37,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
                 ],
               )),
           floatingActionButton: StadiumButton(
-            'CONFIRM'.tr,
+            'Next'.tr,
             width: Get.width-30.w,
             height: 40.h,
             onTap: () {
