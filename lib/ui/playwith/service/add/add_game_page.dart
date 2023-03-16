@@ -180,14 +180,17 @@ class _AddGamePageState extends State<AddGamePage> {
         Expanded(
           child: Obx(() => controller.isEdit && controller.serviceModel == null
               ? buildLoad()
-              : MyListView(
-                  isShuaxin: false,
-                  flag: false,
-                  item: (i) => item[i],
-                  itemCount: item.length,
-                  padding: EdgeInsets.all(20).w,
-                  divider: Divider(height: 15.h, color: Colors.transparent),
-                )),
+              : MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: MyListView(
+                    isShuaxin: false,
+                    flag: false,
+                    item: (i) => item[i],
+                    itemCount: item.length,
+                    padding: EdgeInsets.all(20).w,
+                    divider: Divider(height: 15.h, color: Colors.transparent),
+                  ))),
         ),
       ]),
       btnBar: Column(
@@ -311,9 +314,10 @@ class _AddGamePageState extends State<AddGamePage> {
     return Column(
       children: [
         itemLable('Service detail'.tr),
-        outerBg(Column(
+        outerBg(
+            Column(
           children: [
-            if (isEdit == false)
+            if (!isEdit)
               Visibility(
                   child: itemBg(
                 PWidget.row([
@@ -354,9 +358,9 @@ class _AddGamePageState extends State<AddGamePage> {
                   }
                 },
               )),
-            10.verticalSpace,
+            if (!isEdit) 10.verticalSpace,
             // if (controller.isEdit!)
-            if (isEdit == false)
+            if (!isEdit)
               itemBg(
                 PWidget.row([
                   PWidget.text('Service'.tr, [textColor]),
@@ -464,7 +468,7 @@ class _AddGamePageState extends State<AddGamePage> {
             16.verticalSpace,
             iDPhotoView()
           ],
-        ))
+        ),padding: EdgeInsets.fromLTRB(15, 5, 15, 15).r)
       ],
     );
   }
