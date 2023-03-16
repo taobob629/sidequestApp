@@ -66,7 +66,7 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                 return PriceSlider(
                   min: item.gameCoinMin.toDouble(),
                   max: item.gameCoinMax.toDouble(),
-                  value: item.gameCoinMin.toDouble(),
+                  value: item.curPrice.toDouble(),
                   index: showLable ? index - 1 : index,
                   model: item,
                 );

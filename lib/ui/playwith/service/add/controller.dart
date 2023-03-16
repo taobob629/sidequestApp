@@ -51,7 +51,6 @@ class AddGamePageController extends GetxController {
   LevelItem? gameLv;
   var isWswitch = 0;
   RxList gamePhotos = RxList();
-  TextEditingController priceRangeCon = TextEditingController();
 
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
@@ -64,7 +63,6 @@ class AddGamePageController extends GetxController {
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
-    priceRangeCon.text = '';
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
       var item = fieldItems?.firstWhereOrNull((item) => item.type == field.type);
@@ -72,6 +70,13 @@ class AddGamePageController extends GetxController {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
       }
+    });
+//    mPriceRanges.addAll(serviceModel?.serviceTypes ?? []);
+    flog(' serviceModel?.serviceTypes ${serviceModel?.serviceTypes}');
+    serviceModel?.serviceTypes?.forEach((e) {
+      e.curPrice = e.price;
+      mPriceRanges?.add(e);
+      flog('priceRange $e');
     });
     if (serviceModel?.pwSkillAuth?.thumb != null) {
       var result = '${serviceModel?.pwSkillAuth?.thumb}'.split(',');

@@ -91,6 +91,8 @@ class PriceRangeModel {
   // 42
   final double gameCoinMax;
 
+  final double price; //设置的价格
+
   // 26
   final int id;
 
@@ -106,11 +108,17 @@ class PriceRangeModel {
   }
 
   PriceRangeModel(
-      {this.gameCoinMin = 0, this.gameCoinMax = 0, this.id = 0, this.unit = "", this.name = ''});
+      {this.gameCoinMin = 0,
+      this.gameCoinMax = 0,
+      this.id = 0,
+      this.unit = "",
+      this.name = '',
+      this.price = 0});
 
   factory PriceRangeModel.fromJson(Map<String, dynamic>? json) => PriceRangeModel(
         gameCoinMin: asT<double>(json, 'gameCoinMin'),
         gameCoinMax: asT<double>(json, 'gameCoinMax'),
+        price: asT<double>(json, 'price'),
         id: asT<int>(json, 'id'),
         unit: asT<String>(json, 'unit'),
         name: asT<String>(json, 'name'),
@@ -119,6 +127,7 @@ class PriceRangeModel {
   Map<String, dynamic> toJson() => {
         'gameCoinMin': gameCoinMin,
         'gameCoinMax': gameCoinMax,
+        'price': price,
         'id': id,
         'unit': unit,
         'name': name,
