@@ -220,8 +220,10 @@ class _AddGamePageState extends State<AddGamePage> {
 
   update() async {
     var fields = buildFiledsParams();
-    flog('fields ${json.encode(fields)}');
-    // return;
+   // flog('fields ${json.encode(fields)}');
+    var priceRanges = controller.mPriceRanges;
+   // flog('priceRanges ${json.encode(priceRanges)}');
+  //   return;
     if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
     //  if (isSending) return EasyLoading.showToast('Submitting');
     if (privacyCheckController.check() == false) return;
@@ -240,7 +242,7 @@ class _AddGamePageState extends State<AddGamePage> {
     }
     flog(json.encode(controller.mPriceRanges));
     //var priceRanges = json.encode(controller.mPriceRanges);
-    var priceRanges = controller.mPriceRanges;
+
     var data = {
       if (controller.isEdit) "id": widget.data['id'],
       "skillid": controller.game?.id,
@@ -256,7 +258,7 @@ class _AddGamePageState extends State<AddGamePage> {
     flog(data);
     isSending = true;
     await http
-        .post(controller.isEdit ? '/peiwan/app/service/skill' : '/peiwan/app/service/addService',
+        .post('/peiwan/app/service/addService',
             data: data)
         .then((v) {
       isSending = false;
