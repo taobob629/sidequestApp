@@ -33,6 +33,17 @@ class FieldsItem {
   final List<String> value;
   RxList<String> mSelects = RxList<String>([]);
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FieldsItem &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          type == other.type;
+
+  @override
+  int get hashCode => name.hashCode ^ type.hashCode;
+
   displaySelect() {
     return mSelects.join(',');
   }

@@ -89,6 +89,9 @@ class FieldsWidget extends GetView<AddGamePageController> {
     var dialog;
     dialog = SelectorMutipleDialog(
       mode: field.type,
+      initSelects:List.generate(field.mSelects.length, (i) {
+        return VerifyField.fromJson({'name': '$i', 'label': field.value[i]});
+      }),
       items: List.generate(field.value.length, (i) {
         return VerifyField.fromJson({'name': '$i', 'label': field.value[i]});
       }),

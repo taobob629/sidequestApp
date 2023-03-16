@@ -4,6 +4,7 @@ import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/model/price_range_model.dart';
+import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
 
 class GamesApi {
@@ -24,8 +25,7 @@ class GamesApi {
   }
 
   static Future<List<ServiceInfoModel>> getGameServicesInfo(var isEdit) async {
-    Response response =
-        await http.get('/peiwan/app/service/skillInit?edit=${isEdit ? 1 : 0}');
+    Response response = await http.get('/peiwan/app/service/skillInit?edit=${isEdit ? 1 : 0}');
     if (response.data == null) return [];
     return response.data.map<ServiceInfoModel>((item) => ServiceInfoModel.fromJson(item)).toList();
   }
@@ -67,5 +67,20 @@ class GamesApi {
     Response response =
         await http.get('/peiwan/app/new/filter', queryParameters: Map()..['gameId'] = gameId);
     return GameSectionModel.fromJson(response.data);
+  }
+
+  /**
+   * skillDetail
+   */
+  static Future<ServiceDetailModel> getSkillDetail(var id) async {
+    Response response = await http.get('/peiwan/app/service/skill?id=$id');
+    return ServiceDetailModel.fromJson(response.data);
+  }
+  /**
+   * skillDetail
+   */
+  static Future<PriceRangeModel> getConfig(var id) async {
+    Response response = await http.get('/peiwan/app/home/config?gameId=$id');
+    return PriceRangeModel.fromJson(response.data);
   }
 }

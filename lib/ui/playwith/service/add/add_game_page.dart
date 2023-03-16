@@ -34,6 +34,7 @@ import 'package:wy/widget/lable.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
 import 'widget/fields_widget.dart';
@@ -50,12 +51,11 @@ class AddGamePage extends StatefulWidget {
 }
 
 class _AddGamePageState extends State<AddGamePage> {
-  TextEditingController priceRangeCon = TextEditingController();
-  var platformIndex;
-  var gameIndex;
-  LevelItem? gameLv;
-  var gameLvIndex;
-  var isWswitch = 0;
+  // var platformIndex;
+  // var gameIndex;
+  // LevelItem? gameLv;
+  // var gameLvIndex;
+  // var isWswitch = 0;
   PrivacyCheckController privacyCheckController = new PrivacyCheckController();
   AddGamePageController controller = Get.put(AddGamePageController());
 
@@ -67,7 +67,7 @@ class _AddGamePageState extends State<AddGamePage> {
   @override
   void initState() {
     this.initData();
-
+    controller.id = widget.data['id'];
     super.initState();
   }
 
@@ -81,40 +81,40 @@ class _AddGamePageState extends State<AddGamePage> {
   Future initData() async {
     controller.isEdit = widget.data.isNotEmpty;
     await controller.initData();
-    if (controller.isEdit) {
-      skillInfo();
-    }
+    // if (controller.isEdit) {
+    //   skillInfo();
+    // }
     //  await this.skill();
   }
 
-  ///技能详情
-  var skillInfoDm = DataModel<Map>(object: {});
-
-  Future<int> skillInfo({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/service/skill?id=${widget.data['id']}').then((res) async {
-      skillInfoDm.addObject(res.data);
-      if (controller.isEdit) {
-        isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
-        platformIndex =
-            controller.services.indexWhere((w) => w.id == skillInfoDm.object?['platfromId']);
-        controller.platform = controller.services[platformIndex];
-        gameIndex = controller.platform?.skill
-            ?.indexWhere((item) => item.id == skillInfoDm.object?['gameId']);
-        controller.game = controller.platform?.skill[gameIndex];
-        gameLvIndex =
-            controller.game?.level?.indexWhere((w) => w.id == skillInfoDm.object?['levelId']);
-        if (gameLvIndex != -1) gameLv = controller.game?.level[gameLvIndex];
-        priceRangeCon.text = '';
-        if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
-          gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
-        this.config();
-      }
-    }).catchError((e) {
-      skillInfoDm.toError(e.toString());
-    });
-    setState(() {});
-    return skillInfoDm.flag;
-  }
+  // ///技能详情
+  // var skillInfoDm = DataModel<Map>(object: {});
+  //
+  // Future<int> skillInfo({int page = 1, bool isRef = false}) async {
+  //   await http.get('/peiwan/app/service/skill?id=${widget.data['id']}').then((res) async {
+  //     skillInfoDm.addObject(res.data);
+  //     if (controller.isEdit) {
+  //      // isWswitch = skillInfoDm.object?['pwSkillAuth']['wswitch'];
+  //       platformIndex =
+  //           controller.services.indexWhere((w) => w.id == skillInfoDm.object?['platfromId']);
+  //       controller.platform = controller.services[platformIndex];
+  //       gameIndex = controller.platform?.skill
+  //           ?.indexWhere((item) => item.id == skillInfoDm.object?['gameId']);
+  //       controller.game = controller.platform?.skill[gameIndex];
+  //       gameLvIndex =
+  //           controller.game?.level?.indexWhere((w) => w.id == skillInfoDm.object?['levelId']);
+  //       if (gameLvIndex != -1) gameLv = controller.game?.level[gameLvIndex];
+  //     //  priceRangeCon.text = '';
+  //       if (skillInfoDm.object?['pwSkillAuth']['thumb'] != null)
+  //         gamePhotos = '${skillInfoDm.object?['pwSkillAuth']['thumb']}'.split(',');
+  //     //  this.config();
+  //     }
+  //   }).catchError((e) {
+  //     skillInfoDm.toError(e.toString());
+  //   });
+  //   setState(() {});
+  //   return skillInfoDm.flag;
+  // }
 
   ///游戏
   // var skillDm = DataModel();
@@ -129,25 +129,25 @@ class _AddGamePageState extends State<AddGamePage> {
   // //  return skillDm.flag;
   // }
 
-  ///游戏价格区间
-  var configDm = DataModel<Map>(object: {});
-
-  Future<int> config({int page = 1, bool isRef = false}) async {
-    await http.get('/peiwan/app/home/config?gameId=${controller.game?.id}').then((res) async {
-      configDm.addObject(res.data);
-      var gameCoinMin = configDm.object?['gameCoinMin'];
-      if (controller.isEdit) {
-        var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
-        priceRangeCon.text = '${coin < gameCoinMin ? gameCoinMin : coin}';
-      } else {
-        priceRangeCon.text = '${configDm.object?['gameCoinMin']}';
-      }
-    }).catchError((e) {
-      configDm.toError(e.toString());
-    });
-    setState(() {});
-    return configDm.flag;
-  }
+  // ///游戏价格区间
+  // var configDm = DataModel<Map>(object: {});
+  //
+  // Future<int> config({int page = 1, bool isRef = false}) async {
+  //   await http.get('/peiwan/app/home/config?gameId=${controller.game?.id}').then((res) async {
+  //     configDm.addObject(res.data);
+  //     var gameCoinMin = configDm.object?['gameCoinMin'];
+  //     if (controller.isEdit) {
+  //       var coin = skillInfoDm.object?['pwSkillAuth']['coin'];
+  //      priceRangeCon.text = '${coin < gameCoinMin ? gameCoinMin : coin}';
+  //     } else {
+  //       priceRangeCon.text = '${configDm.object?['gameCoinMin']}';
+  //     }
+  //   }).catchError((e) {
+  //     configDm.toError(e.toString());
+  //   });
+  //   setState(() {});
+  //   return configDm.flag;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -177,14 +177,16 @@ class _AddGamePageState extends State<AddGamePage> {
             {'pd': 8},
           ),
         Expanded(
-          child: MyListView(
-            isShuaxin: false,
-            flag: false,
-            item: (i) => item[i],
-            itemCount: item.length,
-            padding: EdgeInsets.all(20).w,
-            divider: Divider(height: 15.h, color: Colors.transparent),
-          ),
+          child: Obx(() => controller.serviceModel == null
+              ? buildLoad()
+              : MyListView(
+                  isShuaxin: false,
+                  flag: false,
+                  item: (i) => item[i],
+                  itemCount: item.length,
+                  padding: EdgeInsets.all(20).w,
+                  divider: Divider(height: 15.h, color: Colors.transparent),
+                )),
         ),
       ]),
       btnBar: Column(
@@ -225,36 +227,28 @@ class _AddGamePageState extends State<AddGamePage> {
     if (privacyCheckController.check() == false) return;
     if (controller.platform == null) return EasyLoading.showToast('Please select category'.tr);
     if (controller.game == null) return EasyLoading.showToast('Please select service'.tr);
-    if (platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
-    var list = controller.services[platformIndex].skill;
-    if (gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
-    var levels = list[gameIndex].level;
+    if (controller.platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
+    var list = controller.services[controller.platformIndex].skill;
+    if (controller.gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
+    var levels = list[controller.gameIndex].level;
     if (levels.isNotEmpty) {
-      if (gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
-    }
-    // if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter beGoodAt');
-    if (priceRangeCon.text.isEmpty) return EasyLoading.showToast('Please enter the price'.tr);
-    if (double.parse(priceRangeCon.text) < configDm.object?['gameCoinMin']) {
-      return EasyLoading.showToast('The price cannot be less than the minimum value'.tr);
-    }
-    if (double.parse(priceRangeCon.text) > configDm.object?['gameCoinMax']) {
-      return EasyLoading.showToast('The price cannot be greater than the maximum value'.tr);
+      if (controller.gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
     }
     if (levels.isNotEmpty) {
-      if (gamePhotos.isEmpty) return EasyLoading.showToast('Please upload screenshot'.tr);
+      if (controller.gamePhotos.isEmpty)
+        return EasyLoading.showToast('Please upload screenshot'.tr);
     }
     flog(json.encode(controller.mPriceRanges));
     //var priceRanges = json.encode(controller.mPriceRanges);
     var priceRanges = controller.mPriceRanges;
-
     var data = {
       if (controller.isEdit) "id": widget.data['id'],
       "skillid": controller.game?.id,
-      "thumb": gamePhotos.join(','),
-      "levelid": gameLv == null ? '' : gameLv?.id,
-      "wswitch": isWswitch,
+      "thumb": controller.gamePhotos.join(','),
+      "levelid": controller.gameLv == null ? '' : controller.gameLv?.id,
+      "wswitch": controller.isWswitch,
       "coinid": 0,
-      "coin": priceRangeCon.text,
+      // "coin": priceRangeCon.text,
       'serviceTypes': priceRanges,
       'fieldItems': fields
       // "des": beGoodAtCon.text,
@@ -301,7 +295,7 @@ class _AddGamePageState extends State<AddGamePage> {
         EasyLoading.dismiss();
         isUploadFile = false;
         // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
-        setState(() => gamePhotos.add('$url'));
+        setState(() => controller.gamePhotos.add('$url'));
         // controller.setAvatar(value);
       });
     } else {
@@ -323,205 +317,163 @@ class _AddGamePageState extends State<AddGamePage> {
 
   ///技能录入
   Widget gameMaterialsView() {
-    return PWidget.column([
-      itemLable('Service detail'.tr),
-      itemBg(
-        PWidget.row([
-          PWidget.text('Category'.tr, [textColor]),
-          PWidget.boxw(8),
-          PWidget.text(controller.platform == null ? 'Please select'.tr : controller.platform?.name,
-              [textColor, 12.sp], {'ali': 1, 'exp': true}),
-          rightJtView(14.sp, textColor),
-        ]),
-        fun: () async {
-          if (controller.isEdit) return;
-          flog('${controller.services.isEmpty}');
-          if (controller.services.isEmpty)
-            return EasyLoading.showToast('Please check the network settings'.tr);
-          var res = await Get.dialog(
-            Obx(() => SelectorDialog(
-                  items: List.generate(controller.services.length, (i) {
-                    return VerifyField.fromJson(
-                        {'name': '$i', 'label': controller.services[i].name});
-                  }),
-                  title: "Select Category".tr,
-                  showInfo: true,
-                )),
-            barrierColor: Colors.black26,
-          );
-          if (res != null) {
-            setState(() {
-              platformIndex = int.parse(res.name);
-              controller.platform = controller.services[platformIndex];
-              configDm.object?.clear();
-              gameIndex = null;
-              controller.game = null;
-              gameLvIndex = null;
-              gameLv = null;
-            });
-          }
-        },
-      ),
-      10.verticalSpace,
-      itemBg(
-        PWidget.row([
-          PWidget.text('Service'.tr, [textColor]),
-          PWidget.boxw(8),
-          PWidget.text(controller.game == null ? 'Please select'.tr : controller.game?.name,
-              [textColor, 12.sp], {'ali': 1, 'exp': true}),
-          rightJtView(14.sp, textColor),
-        ]),
-        fun: () async {
-          if (controller.isEdit) return;
-          if (platformIndex == null)
-            return EasyLoading.showToast('Please select category first'.tr);
-          var list = controller.services[platformIndex].skill;
-          if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
-          var res = await Get.dialog(
-            SelectorDialog(
-              items: List.generate(list.length, (i) {
-                return VerifyField.fromJson({'name': '$i', 'label': list[i].name});
-              }),
-              title: "Select Service".tr,
-              showInfo: true,
-            ),
-            barrierColor: Colors.black26,
-          );
-          if (res != null) {
-            setState(() {
-              gameIndex = int.parse(res.name);
-              controller.game = list[gameIndex];
-              gameLvIndex = null;
-              gameLv = null;
-            });
-            this.config();
-            controller.getPriceRange(controller.game?.id);
-          }
-        },
-      ),
-      Builder(builder: (context) {
-        if (platformIndex == null) return PWidget.boxh(0);
-        var list = controller.services[platformIndex].skill;
-        if (gameIndex == null) return PWidget.boxh(0);
-        var levels = list[gameIndex].level;
-        if (levels.isEmpty) return PWidget.boxh(0);
-        return PWidget.boxh(14.sp);
-      }),
-      Builder(builder: (context) {
-        if (platformIndex == null) return PWidget.boxh(0);
-        var list = controller.services[platformIndex].skill;
-        if (gameIndex == null) return PWidget.boxh(0);
-        var levels = list[gameIndex].level;
-        if (levels.isEmpty) return PWidget.boxh(0);
-        return itemBg(
-          PWidget.row([
-            PWidget.text('Level'.tr, [textColor]),
-            PWidget.boxw(8),
-            PWidget.text(gameLv == null ? 'Please select'.tr : gameLv?.name, [textColor, 12.sp],
-                {'ali': 1, 'exp': true}),
-            rightJtView(16, textColor),
-          ]),
-          fun: () async {
-            if (platformIndex == null)
-              return EasyLoading.showToast('Please select category first'.tr);
-            var list = controller.services[platformIndex].skill;
-            if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
-            var levels = list[gameIndex].level;
-            var res = await Get.dialog(
-              SelectorDialog(
-                items: List.generate(levels.length, (i) {
-                  return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
-                }),
-                title: "Select Level".tr,
-                showInfo: true,
-              ),
-              barrierColor: Colors.black26,
-            );
-            if (res != null) {
-              setState(() {
-                gameLvIndex = int.parse(res.name);
-                gameLv = levels[gameLvIndex];
-              });
-            }
-          },
-        );
-      }),
-      if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
-      if (configDm.object?.isNotEmpty ?? false) fieldsRange(context),
-      if (configDm.object?.isNotEmpty ?? false) 16.verticalSpace,
-      if (configDm.object?.isNotEmpty ?? false) PriceSliderWidget(),
-      if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit) 16.verticalSpace,
-      if ((skillInfoDm.object?.isNotEmpty ?? false) && controller.isEdit)
-        itemBg(PWidget.row([
-          PWidget.text('Enable'.tr, [textColor]),
-          PWidget.spacer(),
-          Builder(builder: (context) {
-            return CupertinoSwitch(
-              value: isWswitch == 1,
-              onChanged: (v) async {
-                setState(() => isWswitch = (isWswitch == 1 ? 0 : 1));
-                // var jsonData = {"skillid": skillInfoDm.object?['pwSkillAuth']['skillid'], "wswitch": wswitch};
-                // await http.post('/peiwan/app/user/setSwitch', data: jsonData).then((v) {}).catchError((e) {
-                //   setState(() => skillInfoDm.object?['pwSkillAuth']['wswitch'] = (wswitch == 1 ? 0 : 1));
-                //   EasyLoading.showToast('Network exception');
-                // }).then((v) {
-                //   EasyLoading.showToast('Operation succeeded');
-                // });
+    return controller.serviceModel == null
+        ? buildLoad()
+        : PWidget.column([
+            itemLable('Service detail'.tr),
+            itemBg(
+              PWidget.row([
+                PWidget.text('Category'.tr, [textColor]),
+                PWidget.boxw(8),
+                PWidget.text(
+                    controller.platform == null ? 'Please select'.tr : controller.platform?.name,
+                    [textColor, 12.sp],
+                    {'ali': 1, 'exp': true}),
+                rightJtView(14.sp, textColor),
+              ]),
+              fun: () async {
+                if (controller.isEdit) return;
+                flog('${controller.services.isEmpty}');
+                if (controller.services.isEmpty)
+                  return EasyLoading.showToast('Please check the network settings'.tr);
+                var res = await Get.dialog(
+                  Obx(() => SelectorDialog(
+                        items: List.generate(controller.services.length, (i) {
+                          return VerifyField.fromJson(
+                              {'name': '$i', 'label': controller.services[i].name});
+                        }),
+                        title: "Select Category".tr,
+                        showInfo: true,
+                      )),
+                  barrierColor: Colors.black26,
+                );
+                if (res != null) {
+                  setState(() {
+                    controller.platformIndex = int.parse(res.name);
+                    controller.platform = controller.services[controller.platformIndex];
+                    controller.priceRanges.clear();
+                    controller.gameIndex = null;
+                    controller.game = null;
+                    controller.gameLvIndex = null;
+                    controller.gameLv = null;
+                  });
+                }
               },
-            );
-          }),
-        ])),
-    ]);
+            ),
+            10.verticalSpace,
+            itemBg(
+              PWidget.row([
+                PWidget.text('Service'.tr, [textColor]),
+                PWidget.boxw(8),
+                PWidget.text(controller.game == null ? 'Please select'.tr : controller.game?.name,
+                    [textColor, 12.sp], {'ali': 1, 'exp': true}),
+                rightJtView(14.sp, textColor),
+              ]),
+              fun: () async {
+                if (controller.isEdit) return;
+                if (controller.platformIndex == null)
+                  return EasyLoading.showToast('Please select category first'.tr);
+                var list = controller.services[controller.platformIndex].skill;
+                if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
+                var res = await Get.dialog(
+                  SelectorDialog(
+                    items: List.generate(list.length, (i) {
+                      return VerifyField.fromJson({'name': '$i', 'label': list[i].name});
+                    }),
+                    title: "Select Service".tr,
+                    showInfo: true,
+                  ),
+                  barrierColor: Colors.black26,
+                );
+                if (res != null) {
+                  setState(() {
+                    controller.gameIndex = int.parse(res.name);
+                    controller.game = list[controller.gameIndex];
+                    controller.gameLvIndex = null;
+                    controller.gameLv = null;
+                  });
+                  // this.config();
+                  controller.getPriceRange(controller.game?.id);
+                }
+              },
+            ),
+            Builder(builder: (context) {
+              if (controller.platformIndex == null) return PWidget.boxh(0);
+              var list = controller.services[controller.platformIndex].skill;
+              if (controller.gameIndex == null) return PWidget.boxh(0);
+              var levels = list[controller.gameIndex].level;
+              if (levels.isEmpty) return PWidget.boxh(0);
+              return PWidget.boxh(14.sp);
+            }),
+            Builder(builder: (context) {
+              if (controller.platformIndex == null) return PWidget.boxh(0);
+              var list = controller.services[controller.platformIndex].skill;
+              if (controller.gameIndex == null) return PWidget.boxh(0);
+              var levels = list[controller.gameIndex].level;
+              if (levels.isEmpty) return PWidget.boxh(0);
+              return itemBg(
+                PWidget.row([
+                  PWidget.text('Level'.tr, [textColor]),
+                  PWidget.boxw(8),
+                  PWidget.text(
+                      controller.gameLv == null ? 'Please select'.tr : controller.gameLv?.name,
+                      [textColor, 12.sp],
+                      {'ali': 1, 'exp': true}),
+                  rightJtView(16, textColor),
+                ]),
+                fun: () async {
+                  if (controller.platformIndex == null)
+                    return EasyLoading.showToast('Please select category first'.tr);
+                  var list = controller.services[controller.platformIndex].skill;
+                  if (controller.gameIndex == null)
+                    return EasyLoading.showToast('Please select service first'.tr);
+                  var levels = list[controller.gameIndex].level;
+                  var res = await Get.dialog(
+                    SelectorDialog(
+                      items: List.generate(levels.length, (i) {
+                        return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
+                      }),
+                      title: "Select Level".tr,
+                      showInfo: true,
+                    ),
+                    barrierColor: Colors.black26,
+                  );
+                  if (res != null) {
+                    setState(() {
+                      controller.gameLvIndex = int.parse(res.name);
+                      controller.gameLv = levels[controller.gameLvIndex];
+                    });
+                  }
+                },
+              );
+            }),
+            if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
+            if (controller.priceRanges.isNotEmpty) fieldsRange(context),
+            if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
+            if (controller.priceRanges.isNotEmpty) PriceSliderWidget(),
+            if (controller.priceRanges.isNotEmpty && controller.isEdit) 16.verticalSpace,
+            if (controller.priceRanges.isNotEmpty && controller.isEdit)
+              itemBg(PWidget.row([
+                PWidget.text('Enable'.tr, [textColor]),
+                PWidget.spacer(),
+                Builder(builder: (context) {
+                  return CupertinoSwitch(
+                    value: controller.isWswitch == 1,
+                    onChanged: (v) async {
+                      setState(() => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
+                    },
+                  );
+                }),
+              ])),
+          ]);
   }
 
   fieldsRange(BuildContext? context) => FieldsWidget();
 
-  priceRange(BuildContext? context) {
-    return MediaQuery.removePadding(
-        removeTop: true,
-        context: context!,
-        child: Obx(() => ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: controller.priceRanges.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    itemLable('Price Range'.tr),
-                    InkWell(
-                        onTap: () => {},
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.green,
-                        ))
-                  ]);
-                }
-                var item = controller.priceRanges[index - 1];
-                return PriceSlider(
-                  min: item.gameCoinMin.toDouble(),
-                  max: item.gameCoinMax.toDouble(),
-                  value: item.gameCoinMin.toDouble(),
-                  index: index,
-                  model: item,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => index == 0
-                  ? Divider(
-                      height: 0,
-                    )
-                  : Divider(
-                      color: Colors.transparent,
-                      height: 16.h,
-                    ),
-            )));
-  }
-
-  var gamePhotos = [];
-
   ///游戏图像
   iDPhotoView() {
     return PWidget.column([
-      itemLable('${'Screenshot'.tr}(${20 - gamePhotos.length})'),
+      itemLable('${'Screenshot'.tr}(${20 - controller.gamePhotos.length})'),
       GridView.builder(
         padding: EdgeInsets.only(top: 0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -529,21 +481,24 @@ class _AddGamePageState extends State<AddGamePage> {
           crossAxisSpacing: 13,
           mainAxisSpacing: 13,
         ),
-        itemCount: (gamePhotos.length == 20) ? gamePhotos.length : gamePhotos.length + 1,
+        itemCount: (controller.gamePhotos.length == 20)
+            ? controller.gamePhotos.length
+            : controller.gamePhotos.length + 1,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
-          if (gamePhotos.length > i) {
+          if (controller.gamePhotos.length > i) {
             return PWidget.container(
               Stack(children: [
                 Positioned.fill(
-                    child: CachedNetworkImage(imageUrl: gamePhotos[i], fit: BoxFit.cover)),
-                Positioned.fill(child: Container(color:  Color(0xFF2D2E3C))),
+                    child:
+                        CachedNetworkImage(imageUrl: controller.gamePhotos[i], fit: BoxFit.cover)),
+                Positioned.fill(child: Container(color: Color(0xFF2D2E3C))),
                 PWidget.positioned(
                   PWidget.icon(
                     Icons.highlight_remove_rounded,
                     [textColor],
-                    {'pd': 8, 'fun': () => setState(() => gamePhotos.removeAt(i))},
+                    {'pd': 8, 'fun': () => setState(() => controller.gamePhotos.removeAt(i))},
                   ),
                   [0, null, null, 0],
                 ),
@@ -562,7 +517,8 @@ class _AddGamePageState extends State<AddGamePage> {
                 width: 105.h,
                 padding: EdgeInsets.all(35).r,
                 decoration: BoxDecoration(
-                    color: Color(0xFF2D2E3C), borderRadius: BorderRadius.all(Radius.circular(10).r)),
+                    color: Color(0xFF2D2E3C),
+                    borderRadius: BorderRadius.all(Radius.circular(10).r)),
                 child: ImageUtil.assetImage(
                   'add_pic',
                   imageType: IMG_PNG,
@@ -584,7 +540,9 @@ Widget outerBg(Widget view) {
     child: view,
   );
 }
-BoxDecoration innerDecoration()=>itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r);
+
+BoxDecoration innerDecoration() => itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r);
+
 Widget innnerBg(Widget view) {
   return Container(
     padding: itemPaddingNormal,

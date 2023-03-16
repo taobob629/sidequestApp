@@ -52,7 +52,6 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                     Visibility(
                       child: InkWell(
                           onTap: () {
-                           // controller.addPriceRange();
                             controller.toAddServiceTypePage();
                           },
                           child: Icon(
@@ -139,51 +138,55 @@ class PriceSlider extends GetView<AddGamePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                  child: innnerBg(Obx(() => FlutterSlider(
-                        values: [price],
-                        max: max!,
-                        min: min!,
-                        handlerWidth: 80,
-                        trackBar: FlutterSliderTrackBar(
-                          inactiveTrackBar: BoxDecoration(
-                              color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-                          activeTrackBar: BoxDecoration(
-                              color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                        ),
-                        tooltip: FlutterSliderTooltip(
-                          positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
-                          custom: (v) => PWidget.container(
-                            PWidget.row([
-                              Image.asset("assets/images/ic_balance_money.webp",
-                                  width: 16, height: 16),
-                              PWidget.boxw(4),
-                              PWidget.text('${double.parse('$v').toInt()}'),
-                              PWidget.boxw(4),
-                              PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
-                            ]),
-                            [null, null, Colors.white],
-                            {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
-                          ),
-                        ),
-                        handler: FlutterSliderHandler(
-                          child: PWidget.container(
-                              PWidget.text('${price.toInt()}', [Colors.black.withOpacity(0.75)]),
-                              [null, null, Colors.white],
-                              {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
-                          foregroundDecoration: BoxDecoration(),
-                          decoration: BoxDecoration(),
-                        ),
-                        handlerAnimation: FlutterSliderHandlerAnimation(
-                            curve: Curves.elasticOut,
-                            reverseCurve: Curves.elasticIn,
-                            duration: Duration(milliseconds: 250)),
-                        onDragging: (i, v1, v2) {
-                          price = v1;
-                          model?.curPrice = price;
-                        },
-                        //    onDragCompleted: (i, v1, v2) => price = v1,
-                      )))),
-              20.horizontalSpace,
+                  child: Container(
+                      decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                      child: Obx(() => FlutterSlider(
+                            values: [price],
+                            max: max!,
+                            min: min!,
+                            handlerWidth: 40.w,
+                            trackBar: FlutterSliderTrackBar(
+                              inactiveTrackBar: BoxDecoration(
+                                  color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+                              activeTrackBar: BoxDecoration(
+                                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                            ),
+                            tooltip: FlutterSliderTooltip(
+                              positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+                              custom: (v) => PWidget.container(
+                                PWidget.row([
+                                  Image.asset("assets/images/ic_balance_money.webp",
+                                      width: 16, height: 16),
+                                  PWidget.boxw(4),
+                                  PWidget.text('${double.parse('$v').toInt()}'),
+                                  PWidget.boxw(4),
+                                  PWidget.text(
+                                      '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+                                ]),
+                                [null, null, Colors.white],
+                                {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
+                              ),
+                            ),
+                            handler: FlutterSliderHandler(
+                              child: PWidget.container(
+                                  PWidget.text(
+                                      '${price.toInt()}', [Colors.black.withOpacity(0.75)]),
+                                  [null, null, Colors.white],
+                                  {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+                              foregroundDecoration: BoxDecoration(),
+                              decoration: BoxDecoration(),
+                            ),
+                            handlerAnimation: FlutterSliderHandlerAnimation(
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.elasticIn,
+                                duration: Duration(milliseconds: 250)),
+                            onDragging: (i, v1, v2) {
+                              price = v1;
+                              model?.curPrice = price;
+                            },
+                            //    onDragCompleted: (i, v1, v2) => price = v1,
+                          )))),
+              10.horizontalSpace,
               Container(
                 height: 45.h,
                 width: 50.w,

@@ -8,6 +8,7 @@ import 'package:wy/utils/utils.dart';
 
 class SelectorMutipleDialog extends StatelessWidget {
   final List<SelectorItem> items;
+  List<SelectorItem>? initSelects;
 
   final bool showActions;
 
@@ -21,10 +22,12 @@ class SelectorMutipleDialog extends StatelessWidget {
       this.mode = single,
       this.showActions = false,
       this.showInfo = false,
+      this.initSelects,
       this.title = ""});
 
   @override
   Widget build(BuildContext context) {
+    selects.addAll(initSelects??[]);
     return WyDialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,

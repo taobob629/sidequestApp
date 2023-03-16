@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/model/price_range_model.dart';
+import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
 import 'package:wy/utils/utils.dart';
 
@@ -19,9 +20,17 @@ class AddGamePageController extends GetxController {
   RxList<PriceRangeModel> mPriceRanges = RxList([]); //我选择的技能列表
   RxList<ServiceInfoModel> services = RxList([]);
   Rxn<ServiceInfoModel?> _platform = Rxn();
+  Rxn<ServiceDetailModel?> _serviceModel = Rxn();
 
   ServiceInfoModel? get platform => _platform.value;
   SkillItem? game;
+  var id;
+
+  ServiceDetailModel? get serviceModel => _serviceModel.value;
+
+  set serviceModel(ServiceDetailModel? value) {
+    _serviceModel.value = value;
+  }
 
   set platform(ServiceInfoModel? value) {
     _platform.value = value;
@@ -29,10 +38,46 @@ class AddGamePageController extends GetxController {
 
   ///是否编辑
   bool isEdit = false;
+  var platformIndex;
 
   initData() async {
     var result = await GamesApi.getGameServicesInfo(isEdit);
     services.addAll(result);
+    if (isEdit) getSkillInfo();
+  }
+
+  var gameIndex;
+  var gameLvIndex;
+  LevelItem? gameLv;
+  var isWswitch = 0;
+  RxList gamePhotos = RxList();
+  TextEditingController priceRangeCon = TextEditingController();
+
+  getSkillInfo() async {
+    serviceModel = await GamesApi.getSkillDetail(id);
+    await getPriceRange(serviceModel?.gameId);
+    flog('serviceModel $serviceModel');
+    isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
+    platformIndex = services.indexWhere((w) => w.id == serviceModel?.platfromId);
+    platform = services[platformIndex];
+    gameIndex = platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
+    game = platform?.skill[gameIndex];
+    gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
+    if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
+    priceRangeCon.text = '';
+    // fieldItems.addAll(serviceModel?.fieldItems ?? []);
+    serviceModel?.fieldItems?.forEach((field) {
+      var item = fieldItems?.firstWhereOrNull((item) => item.type == field.type);
+      if (item != null) {
+        flog('value ${field.value}');
+        item.mSelects.addAll(field.value);
+      }
+    });
+    if (serviceModel?.pwSkillAuth?.thumb != null) {
+      var result = '${serviceModel?.pwSkillAuth?.thumb}'.split(',');
+      gamePhotos.addAll(result);
+    }
+    flog('gamePhotos ${gamePhotos}');
   }
 
   getPriceRange(var gameId) async {
@@ -58,7 +103,7 @@ class AddGamePageController extends GetxController {
   }
 
   toAddServiceTypePage() {
-    Get.toNamed(AppPages.AddServiceType, arguments:game?.name);
+    Get.toNamed(AppPages.AddServiceType, arguments: game?.name);
   }
 
   addPriceRange() {
