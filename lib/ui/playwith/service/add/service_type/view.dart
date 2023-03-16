@@ -19,31 +19,57 @@ import '../controller.dart';
 
 class AddServiceTypePage extends GetView<AddGamePageController> {
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
-          appBar: AppBar(
-            title: Text('${Get.arguments}'),
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: Text('${Get.arguments}'),
+      ),
+      body: contentPadding(
+          child: ListView(
+        padding: EdgeInsets.all(0),
+        children: [
+          itemLable('Service Types'),
+          PriceSliderWidget(
+            showLable: false,
           ),
-          body: contentPadding(
-              child: ListView(
-                padding: EdgeInsets.all(0),
-                children: [
-                  itemLable('Service Types'),
-                  PriceSliderWidget(
-                    showLable: false,
-                  ),
-                  10.verticalSpace,
-                  _addButton()
-                ],
+          10.verticalSpace,
+          _addButton()
+        ],
+      )),
+      floatingActionButton: contentPadding(
+          width: Get.width,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                  child: StadiumButton(
+                'Previous'.tr,
+                textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColor.yellow,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(20).r)),
+                onTap: () {
+                  Get.back();
+                },
               )),
-          floatingActionButton: StadiumButton(
-            'Next'.tr,
-            width: Get.width-30.w,
-            height: 40.h,
-            onTap: () {
-            controller.confirm();
-          },)
-      );
+              SizedBox(
+                width: 17,
+              ),
+              Expanded(
+                  child: StadiumButton(
+                'Submit'.tr,
+                onTap: () {
+                  controller.updateService();
+                },
+              )),
+            ],
+          )));
 
   _addButton() {
     return DottedBorder(
@@ -51,9 +77,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
       borderType: BorderType.RRect,
       radius: Radius.circular(12.r),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius
-            .circular(12)
-            .r),
+        borderRadius: BorderRadius.all(Radius.circular(12).r),
         child: InkWell(
           child: Container(
             // padding: EdgeInsets.all(6),

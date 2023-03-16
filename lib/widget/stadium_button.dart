@@ -8,11 +8,13 @@ class StadiumButton extends StatelessWidget {
   final EdgeInsets? padding;
   final TextStyle textStyle;
   final Function() onTap;
+  Decoration? decoration;
 
   StadiumButton(this.text,
       {this.width,
       this.height,
       this.padding,
+      this.decoration,
       this.textStyle = const TextStyle(color: Colors.white, fontSize: 16),
       required this.onTap});
 
@@ -20,10 +22,11 @@ class StadiumButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         height: height,
         width: width,
-        decoration: ShapeDecoration(
-          shape: StadiumBorder(),
-          gradient: LinearGradient(colors: AppColor.buttonGradientBg, tileMode: TileMode.decal),
-        ),
+        decoration: decoration ??
+            ShapeDecoration(
+              shape: StadiumBorder(),
+              gradient: LinearGradient(colors: AppColor.buttonGradientBg, tileMode: TileMode.decal),
+            ),
         child: ElevatedButton(
           onPressed: onTap,
           child: Text(

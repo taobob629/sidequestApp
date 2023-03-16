@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
@@ -23,7 +24,14 @@ class AddGamePageController extends GetxController {
   Rxn<ServiceDetailModel?> _serviceModel = Rxn();
 
   ServiceInfoModel? get platform => _platform.value;
-  SkillItem? game;
+  Rxn<SkillItem?> _game = Rxn();
+
+  SkillItem? get game => _game.value;
+
+  set game(SkillItem? value) {
+    _game.value = value;
+  }
+
   var id;
 
   ServiceDetailModel? get serviceModel => _serviceModel.value;
@@ -37,7 +45,14 @@ class AddGamePageController extends GetxController {
   }
 
   ///是否编辑
-  bool isEdit = false;
+  RxBool _isEdit = RxBool(false);
+
+  bool get isEdit => _isEdit.value;
+
+  set isEdit(bool value) {
+    _isEdit.value = value;
+  }
+
   var platformIndex;
 
   initData() async {
@@ -134,5 +149,45 @@ class AddGamePageController extends GetxController {
   confirm() {
     Get.back();
     this.mPriceRanges.refresh();
+  }
+
+  updateService() async {
+    if (mPriceRanges.isEmpty) {
+      EasyLoading.showToast('Please select service!');
+      return;
+    }
+    EasyLoading.show();
+    var data = {
+      if (isEdit) "id": id,
+      "skillid": game?.id,
+      "thumb": gamePhotos.join(','),
+      "levelid": gameLv == null ? '' : gameLv?.id,
+      "wswitch": isWswitch,
+      "coinid": 0,
+      // "coin": priceRangeCon.text,
+      'serviceTypes': mPriceRanges,
+      'fieldItems': buildFiledsParams()
+      // "des": beGoodAtCon.text,
+    };
+    await http.post('/peiwan/app/service/addService', data: data).then((v) {
+      EasyLoading.showToast('Submitted successfully'.tr);
+      EasyLoading.dismiss();
+      Get.offNamedUntil(AppPages.SkillList, ModalRoute.withName('/skillList'));
+    }).catchError((e) {
+      EasyLoading.showToast('Network exception'.tr);
+    }).whenComplete(() {});
+  }
+
+  List? buildFiledsParams() {
+    if (fieldItems.isEmpty) return [];
+    var list = [];
+    fieldItems.forEach((item) {
+      if (item.mSelects.isNotEmpty) {
+        var itemCopy = FieldsItem.fromJson(item.toJson2());
+        list.add(itemCopy);
+      }
+    });
+    flog(' fielditems ${list}');
+    return list;
   }
 }
