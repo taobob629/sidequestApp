@@ -316,6 +316,7 @@ class _AddGamePageState extends State<AddGamePage> {
         itemLable('Service detail'.tr),
         outerBg(
             Column(
+              mainAxisSize: MainAxisSize.min,
           children: [
             if (!isEdit)
               Visibility(
@@ -393,7 +394,7 @@ class _AddGamePageState extends State<AddGamePage> {
                       controller.gameLv = null;
                     });
                     // this.config();
-                    controller.getPriceRange(controller.game?.id);
+                    controller.getPriceRange();
                   }
                 },
               ),
@@ -442,6 +443,7 @@ class _AddGamePageState extends State<AddGamePage> {
                     setState(() {
                       controller.gameLvIndex = int.parse(res.name);
                       controller.gameLv = levels[controller.gameLvIndex];
+                      controller.getPriceRange();
                     });
                   }
                 },

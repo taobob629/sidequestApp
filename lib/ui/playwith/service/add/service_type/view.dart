@@ -13,13 +13,14 @@ import 'package:wy/res/index.dart';
 import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/stadium_button.dart';
 
 import '../controller.dart';
 
 class AddServiceTypePage extends GetView<AddGamePageController> {
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => ScaffoldWidget(
       appBar: AppBar(
         title: Text('${Get.arguments}'),
       ),
@@ -35,15 +36,12 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
           _addButton()
         ],
       )),
-      floatingActionButton: contentPadding(
+      btnBar: contentPadding(
           width: Get.width,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 30,
-              ),
               Expanded(
                   child: StadiumButton(
                 'Previous'.tr,
@@ -58,9 +56,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
                   Get.back();
                 },
               )),
-              SizedBox(
-                width: 17,
-              ),
+              16.horizontalSpace,
               Expanded(
                   child: StadiumButton(
                 'Submit'.tr,

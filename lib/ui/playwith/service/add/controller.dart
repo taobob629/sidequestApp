@@ -70,15 +70,16 @@ class AddGamePageController extends GetxController {
 
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
-    await getPriceRange(serviceModel?.gameId);
     flog('serviceModel $serviceModel');
-    isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
     platformIndex = services.indexWhere((w) => w.id == serviceModel?.platfromId);
     platform = services[platformIndex];
     gameIndex = platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
+    await getPriceRange(gameId:serviceModel?.gameId);
+    isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
+
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
       var item = fieldItems?.firstWhereOrNull((item) => item.type == field.type);
@@ -92,17 +93,15 @@ class AddGamePageController extends GetxController {
     serviceModel?.serviceTypes?.forEach((e) {
       e.curPrice = e.price;
       mPriceRanges?.add(e);
-      flog('priceRange $e');
     });
     if (serviceModel?.pwSkillAuth?.thumb != null) {
       var result = '${serviceModel?.pwSkillAuth?.thumb}'.split(',');
       gamePhotos.addAll(result);
     }
-    flog('gamePhotos ${gamePhotos}');
   }
 
-  getPriceRange(var gameId) async {
-    var result = await GamesApi.getPriceRange(gameId);
+  getPriceRange({var gameId}) async {
+    var result = await GamesApi.getPriceRange(gameId??game?.id,levelId:gameLv?.id );
     priceRanges.clear();
     mPriceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
