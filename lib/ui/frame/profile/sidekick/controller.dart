@@ -1,0 +1,15 @@
+/**
+    author:mac
+    创建日期:2023/2/22
+    描述:
+ */
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wy/common/base_tab_controller.dart';
+
+class ServiceAndOrdersTabController extends BaseTabContoller {
+  @override
+  initTabs() {
+    tabs = ['My services', 'My Orders'];
+  }
+}

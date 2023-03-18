@@ -9,10 +9,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/model/price_range_model.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
+import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
@@ -35,9 +38,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       body: Padding(
           padding: EdgeInsets.all(16),
           child: Obx(
-            () => controller.skillModel == null
-                ? buildLoad()
-                : PWidget.column(items()),
+            () => controller.skillModel == null ? buildLoad() : PWidget.column(items()),
           )),
       btnBar: FloatingButton(
         onTap: () => controller.addGame(),
@@ -45,13 +46,13 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       ),
     );
   }
+
   items() {
     double priceRangeMax = controller.skillModel?.priceRangeMax ?? 0;
     double priceRangeMin = controller.skillModel?.priceRangeMin ?? 0;
-    var value =
-        (controller.price > priceRangeMax || controller.price < priceRangeMin)
-            ? 0
-            : controller.price;
+    var value = (controller.price > priceRangeMax || controller.price < priceRangeMin)
+        ? 0
+        : controller.price;
     return [
       PWidget.boxh(16),
       itemBg(PWidget.row([
@@ -74,14 +75,14 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       PWidget.boxh(10),
       itemBg(PWidget.row([
         PWidget.text('${'Price range'.tr} :', [Colors.white]),
-        PriceSlider(
-            min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
-            max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
-            value: (controller.price > priceRangeMax ||
-                    controller.price < priceRangeMin)
-                ? priceRangeMin
-                : controller.price,
-            fun: (v) => controller.price = v),
+        Expanded(
+            child: PriceSlider(
+                min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
+                max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
+                value: (controller.price > priceRangeMax || controller.price < priceRangeMin)
+                    ? priceRangeMin
+                    : controller.price,
+                fun: (v) => controller.price = v)),
       ])),
       PWidget.boxh(10),
       itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -99,7 +100,83 @@ class SkillItemPage extends GetView<SkillItemPageController> {
   }
 
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 45, AppColor.itemBg2],
-        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(
+        view, [null, 45, AppColor.itemBg2], {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+  }
+}
+
+// 价格滑块
+class PriceSlider extends GetView<SkillItemPageController> {
+  PriceRangeModel? model;
+  int index = 0;
+  final double? max;
+  final double? min;
+  double value;
+  RxDouble _price = RxDouble(0);
+
+  double get price => _price.value;
+  set price(double value) {
+    _price.value = value;
+  }
+
+  final Function(double)? fun;
+
+  PriceSlider({this.max, this.min, this.fun, this.value = 0, this.model, this.index = 0}) {
+    this.price = value;
+  }
+
+  var textColor = Color(0xFFB2B9C9);
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController textController = TextEditingController();
+    textController.addListener(() {
+      model?.name = textController.text;
+    });
+    textController.text = model?.name ?? '';
+    return Obx(() => FlutterSlider(
+          values: [price],
+          max: max!,
+          min: min!,
+          handlerWidth: 40.w,
+          trackBar: FlutterSliderTrackBar(
+            inactiveTrackBar:
+                BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+            activeTrackBar:
+                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          ),
+          tooltip: FlutterSliderTooltip(
+            positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+            custom: (v) => PWidget.container(
+              PWidget.row([
+                Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
+                PWidget.boxw(4),
+                PWidget.text('${double.parse('$v').toInt()}'),
+                PWidget.boxw(4),
+                PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+              ]),
+              [null, null, Colors.white],
+              {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
+            ),
+          ),
+          handler: FlutterSliderHandler(
+            child: PWidget.container(
+                PWidget.text('${price.toInt()}', [Colors.black.withOpacity(0.75)]),
+                [null, null, Colors.white],
+                {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+            foregroundDecoration: BoxDecoration(),
+            decoration: BoxDecoration(),
+          ),
+          handlerAnimation: FlutterSliderHandlerAnimation(
+              curve: Curves.elasticOut,
+              reverseCurve: Curves.elasticIn,
+              duration: Duration(milliseconds: 250)),
+          onDragging: (i, v1, v2) {
+            fun?.call(v1);
+            price = v1;
+            // model?.curPrice = price;
+          },
+          //    onDragCompleted: (i, v1, v2) => price = v1,
+        ));
   }
 }

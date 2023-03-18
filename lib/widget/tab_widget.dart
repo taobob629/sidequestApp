@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/utils/index.dart';
 
 import '../ui/common/home_indicator.dart';
@@ -122,24 +123,24 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
   TextStyle selectTabStyle() {
     switch (widget.tabstyle) {
       case TAB_STYLE_2:
-        return TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold);
+        return TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold,fontFamily: FONT_MEDIUM);
       case TAB_STYLE_1:
-        return const TextStyle(fontSize: 14);
+        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
       case TAB_STYLE_DEFAULT:
       default:
-        return const TextStyle(fontSize: 14);
+        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
     }
   }
 
   TextStyle unSelectTabStyle() {
     switch (widget.tabstyle) {
       case TAB_STYLE_2:
-        return const TextStyle(fontSize: 14);
+        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
       case TAB_STYLE_1:
-        return const TextStyle(fontSize: 14);
+        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
       case TAB_STYLE_DEFAULT:
       default:
-        return const TextStyle(fontSize: 14);
+        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
     }
   }
 

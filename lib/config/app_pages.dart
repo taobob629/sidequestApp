@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/frame/profile/sidekick/bindings.dart';
+import 'package:wy/ui/frame/profile/sidekick/view.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/frame/sidekick/search/bindings.dart';
 import 'package:wy/ui/frame/sidekick/search/search_page.dart';
@@ -65,6 +67,7 @@ class AppPages {
   static const BOOKING_PAGE = '/booking_page';
   static const Setting = '/setting_page';
   static const AddServiceType = '/add_service_type_page';
+  static const ServiceAndOrders = '/service_and_orders_page';
 
   static final routes = [
     GetPage(
@@ -151,6 +154,10 @@ class AppPages {
       page: () => BookingPage(),
       binding: BookingBinding(),
     ),
-    GetPage(name: AddServiceType, page: ()=>AddServiceTypePage())
+    GetPage(name: AddServiceType, page: () => AddServiceTypePage()),
+    GetPage(
+        name: ServiceAndOrders,
+        page: () => ServiceAndOrdersPage(),
+        binding: ServiceAndOrdersTabBinding())
   ];
 }

@@ -34,6 +34,7 @@ class SideKickPage extends StatelessWidget {
               fit: BoxFit.fitWidth,
               alignment: Alignment.topCenter)),
       child: NestedScrollView(
+        physics: NeverScrollableScrollPhysics(),
         headerSliverBuilder: (context, index) => [
           SliverAppBar(
             backgroundColor: Colors.transparent,

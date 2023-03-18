@@ -58,7 +58,8 @@ class ProfileDashboardPage extends StatelessWidget {
                   "assets/images/profile/icon_sidekick.webp",
                   "Sidekick",
                   onTap: () {
-                    Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+                  //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+                    Get.toNamed(AppPages.ServiceAndOrders);
                   },
                 ),
               ],
