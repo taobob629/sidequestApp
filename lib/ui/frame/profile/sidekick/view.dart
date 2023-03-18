@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/home_indicator.dart';
+import 'package:wy/ui/order/view.dart';
+import 'package:wy/ui/playwith/play_orders_page.dart';
 import 'package:wy/ui/playwith/skill/list/controller.dart';
 import 'package:wy/ui/playwith/skill/list/view.dart';
 import 'package:wy/widget/tab_widget.dart';
@@ -44,7 +46,7 @@ class _State extends State<ServiceAndOrdersPage> with SingleTickerProviderStateM
         tabList: controller.tabs,
         tabPage: [
           KeepAliveWrapper(child: SkillListPage(tabWidget: true,)),
-          KeepAliveWrapper(child: Container()),
+          KeepAliveWrapper(child: OrderTabPage()),
         ],
       ),
     );
