@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/ui/frame/profile/sidekick/bindings.dart';
 import 'package:wy/ui/frame/profile/sidekick/view.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
@@ -68,6 +70,7 @@ class AppPages {
   static const Setting = '/setting_page';
   static const AddServiceType = '/add_service_type_page';
   static const ServiceAndOrders = '/service_and_orders_page';
+  static const OtherProfile = '/other_profile_page';
 
   static final routes = [
     GetPage(
@@ -126,10 +129,7 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(
-        name: WALLET_PAGE,
-        page: () => PlayBalancePage(),
-        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -141,7 +141,7 @@ class AppPages {
       page: () => NotificationPage(),
     ),
 
-    ///profile
+    ///profile setting
     GetPage(
       name: Setting,
       page: () => SettingsPage(),
@@ -155,9 +155,8 @@ class AppPages {
       binding: BookingBinding(),
     ),
     GetPage(name: AddServiceType, page: () => AddServiceTypePage()),
-    GetPage(
-        name: ServiceAndOrders,
-        page: () => ServiceAndOrdersPage(),
-        binding: ServiceAndOrdersTabBinding())
+    GetPage(name: ServiceAndOrders, page: () => ServiceAndOrdersPage(), binding: ServiceAndOrdersTabBinding()),
+
+    GetPage(name: OtherProfile, page: () => OtherProfilePage()),
   ];
 }

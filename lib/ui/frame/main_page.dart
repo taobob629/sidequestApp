@@ -22,7 +22,6 @@ import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/events_page.dart';
-import 'package:wy/ui/frame/profile/profile_page.dart';
 import 'package:wy/ui/frame/social/view.dart';
 import 'package:wy/ui/frame/tab_button.dart';
 import 'package:wy/ui/index/Index_page.dart';
@@ -35,6 +34,7 @@ import 'package:wy/utils/index.dart';
 
 import 'drawer.dart';
 import 'messages/messages_page.dart';
+import 'profile/my_profile/my_profile_page.dart';
 import 'sidekick/view.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -68,7 +68,7 @@ class MainPage extends GetView<MainPageController> {
               backgroundColor: AppColor.background,
               key: homeDrawerKey,
               drawer: HomeDrawer(),
-              appBar: controller.currentIndex == 0
+              appBar: controller.currentIndex.value == 0
                   ? AppBar(
                       elevation: 0,
                       title: Row(
@@ -140,7 +140,7 @@ class MainPage extends GetView<MainPageController> {
                             return KeepAliveWrapper(child: MessagesPage());
 
                           case 4:
-                            return ProfilePage();
+                            return MyProfilePage();
                           default:
                             return IndexPage();
                         }

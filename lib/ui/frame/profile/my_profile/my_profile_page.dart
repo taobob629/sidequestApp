@@ -1,20 +1,18 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
-import 'package:wy/ui/profile/settings/settings_page.dart';
 import 'package:wy/utils/index.dart';
 
-import '../main_page.dart';
-import 'profile_album_page.dart';
-import 'profile_dashboard_page.dart';
-import 'profile_posts_page.dart';
+import '../../main_page.dart';
+import 'my_album_page.dart';
+import 'my_dashboard_page.dart';
+import 'my_posts_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  ProfilePage({Key? key}) : super(key: key);
+class MyProfilePage extends StatelessWidget {
+  MyProfilePage({Key? key}) : super(key: key);
   final t = Get.put(ProfileController());
   final userController = UserController.find;
 
@@ -316,9 +314,9 @@ class ProfilePage extends StatelessWidget {
     // pages.add(KeepAliveWrapper(child: ProfileDashboardPage()));
     // pages.add(KeepAliveWrapper(child: ProfilePostsPage()));
     // pages.add(KeepAliveWrapper(child: ProfileAlbumPage()));
-    pages.add(ProfileDashboardPage());
-    pages.add(ProfilePostsPage());
-    pages.add(ProfileAlbumPage());
+    pages.add(MyDashboardPage());
+    pages.add(MyPostsPage());
+    pages.add(MyAlbumPage());
     return pages;
   }
 }
@@ -341,6 +339,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     if (userController.userProfile.value.backGround.isNotEmpty) {
       background.value = userController.userProfile.value.backGround;
     }
+
+    userController.userProfile.listen((info) {
+      background.value = info.backGround;
+    });
     // getProfileInfo();
   }
 

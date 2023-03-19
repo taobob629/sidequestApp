@@ -33,6 +33,11 @@ class AppColor {
   static List<Color> get buttonGradientBg {
     return [hexColor("#FFD0A920"), hexColor("#FFED5A24")];
   }
+
+  /// 按钮 - 渐变
+  static List<Color> get yellowGradient {
+    return [hexColor("#FFCFAB21"), hexColor("#FFED5A24")];
+  }
 }
 
 Color hexColor(String hexString) {

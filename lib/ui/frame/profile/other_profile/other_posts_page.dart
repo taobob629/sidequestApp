@@ -1,18 +1,17 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 
-import '../social/post/page/post_list_item_view.dart';
-import 'model/post_item_model.dart';
+import '../../social/post/view/post_list_item_view.dart';
+import '../model/post_item_model.dart';
+import 'mdoel/player_info_mdoel.dart';
 
-class ProfilePostsPage extends StatelessWidget {
-  ProfilePostsPage({Key? key}) : super(key: key);
+class OtherPostsPage extends StatelessWidget {
+  OtherPostsPage({Key? key}) : super(key: key);
 
-  final t = Get.put(ProfilePostsController());
+  final t = Get.put(OtherPostsController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +38,16 @@ class ProfilePostsPage extends StatelessWidget {
   }
 }
 
-class ProfilePostsController extends GetxRefreshController<PostItemModel> with GetSingleTickerProviderStateMixin {
-  static ProfilePostsController get find => Get.find();
+class OtherPostsController extends GetxRefreshController<PostItemModel> with GetSingleTickerProviderStateMixin {
+  static OtherPostsController get find => Get.find();
 
   final list = <PostItemModel>[].obs;
+  PlayerInfoModel player = PlayerInfoModel();
 
   @override
   void onInit() {
+    player = Get.arguments;
+
     super.onInit();
   }
 
@@ -68,7 +70,7 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
   @override
   Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await ProfileApi.getPostList(page: pageNum);
+    return await ProfileApi.getPostList(page: pageNum, uid: player.uid);
 
     throw UnimplementedError();
   }

@@ -1,26 +1,30 @@
-import 'dart:io';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/profile_api.dart';
+import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/ui/frame/profile/profile_page.dart';
+import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/index.dart';
 
-import 'model/album_item_model.dart';
+import '../model/album_item_model.dart';
 
-class ProfileAlbumPage extends StatelessWidget {
-  ProfileAlbumPage({Key? key}) : super(key: key);
+class MyAlbumPage extends StatelessWidget {
+  MyAlbumPage({Key? key}) : super(key: key);
   final t = Get.put(ProfileAlbumController());
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Obx(() => GridView.builder(
+    return Obx(() {
+      return SmartRefresher(
+          controller: t.refreshController,
+          onRefresh: () => t.onRefresh(),
+          onLoading: () => t.loadMore(),
+          enablePullUp: true,
+          child: GridView.builder(
             padding: EdgeInsets.all(15),
             itemCount: t.list.length + 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -241,17 +245,8 @@ class ProfileAlbumPage extends StatelessWidget {
                 ),
               );
             },
-          )),
-    );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+          ));
+    });
   }
 }
 
@@ -292,14 +287,14 @@ class PhotoViewPage extends StatelessWidget {
   }
 }
 
-class ProfileAlbumController extends GetxController with GetSingleTickerProviderStateMixin {
+class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
   static ProfileAlbumController get find => Get.find();
   final ImagePicker _picker = ImagePicker();
   final list = <AlbumItemModel>[].obs;
   @override
   void onInit() {
+    initialRefresh = true;
     super.onInit();
-    getPostList();
   }
 
   @override
@@ -316,7 +311,7 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
           EasyLoading.dismiss();
           if (val.isNotEmpty) {
             ProfileApi.addPhoto(val).then((value) {
-              getPostList();
+              onRefresh();
             });
           }
         }).whenComplete(() => EasyLoading.dismiss());
@@ -326,11 +321,11 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
     });
   }
 
-  getPostList() {
-    ProfileApi.getPhotoList().then((value) {
-      list.value = value;
-    });
-  }
+  // getPostList() {
+  //   ProfileApi.getPhotoList().then((value) {
+  //     list.value = value;
+  //   });
+  // }
 
   setBackground(AlbumItemModel model) {
     ProfileApi.setBackground(model.id).then((value) {
@@ -342,9 +337,7 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
 
   delPhoto(AlbumItemModel model) {
     ProfileApi.delPhoto(model.id).then((value) {
-      getPostList();
-      // StorageManager.sharedPreferences.setString("ProfileBackground", model.thumb);
-      // ProfileController.find.background.value = model.thumb;
+      onRefresh();
     });
   }
 
@@ -352,5 +345,12 @@ class ProfileAlbumController extends GetxController with GetSingleTickerProvider
   void onClose() {
     // TODO: implement onClose
     super.onClose();
+  }
+
+  @override
+  Future<List<AlbumItemModel>> loadData({int pageNum = 0}) async {
+    // TODO: implement loadData
+    return await ProfileApi.getPhotoList(page: pageNum);
+    throw UnimplementedError();
   }
 }

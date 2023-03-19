@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
-import 'package:wy/ui/frame/social/post/page/post_list_item_view.dart';
+import 'package:wy/ui/frame/social/post/view/post_list_item_view.dart';
 
 class PostListPage extends StatelessWidget {
   PostListPage({Key? key}) : super(key: key);

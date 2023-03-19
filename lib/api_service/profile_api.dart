@@ -4,6 +4,7 @@ import 'package:wy/ui/frame/profile/model/vip_info_model.dart';
 
 import '../api/wy_http.dart';
 import '../ui/frame/profile/model/post_item_model.dart';
+import '../ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 
 abstract class ProfileApi {
   ProfileApi._();
@@ -15,11 +16,8 @@ abstract class ProfileApi {
   }
 
   /// profile-post  帖子列表
-  static Future<List<PostItemModel>> getPostList({int page = 0}) async {
-    var response = await http.post('/peiwan/app/profile/listPost', data: {
-      "pageNum": page,
-      "pageSize": 20,
-    });
+  static Future<List<PostItemModel>> getPostList({int page = 0, uid}) async {
+    var response = await http.post('/peiwan/app/profile/listPost', data: {"pageNum": page, "pageSize": 20, "uid": uid});
     return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
   }
 
@@ -32,9 +30,9 @@ abstract class ProfileApi {
   }
 
   /// profile-album  相册列表
-  static Future<List<AlbumItemModel>> getPhotoList() async {
-    var response = await http.get('/peiwan/app/profile/getPhotos');
-    return response.data.map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
+  static Future<List<AlbumItemModel>> getPhotoList({int page = 0}) async {
+    var response = await http.get('/peiwan/app/profile/getPhotos', queryParameters: {"pageNum": page, "pageSize": 20});
+    return response.data["rows"].map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
   }
 
   /// profile-album  添加图片到相册
@@ -59,5 +57,17 @@ abstract class ProfileApi {
   static Future getVipDetail() async {
     var response = await http.get('/peiwan/app/profile/vipDetail');
     return response.data.map<VipInfoModel>((e) => VipInfoModel.fromJson(e)).toList();
+  }
+
+  /// player profile player用户信息
+  static Future<PlayerInfoModel> getPlayerInfo({required int playerId}) async {
+    var response = await http.get('/peiwan/app/profile/player', queryParameters: {"id": playerId});
+    return PlayerInfoModel.fromJson(response.data);
+  }
+
+  /// others-album  相册列表
+  static Future<List<AlbumItemModel>> getOtherPhotos({int page = 0, required uid}) async {
+    var response = await http.get('/peiwan/app/profile/getOtherPhotos', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data["rows"].map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
   }
 }

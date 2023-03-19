@@ -1,16 +1,21 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:math';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 
-import '../view/give_gifts_dialog.dart';
+import 'give_gifts_dialog.dart';
 
 class PostListItemView extends StatelessWidget {
   PostListItemView({Key? key, required this.model, this.onTap}) : super(key: key);
@@ -33,12 +38,17 @@ class PostListItemView extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipOval(
-                    child: ImageUtil.networkImage(
-                      url: model.head,
-                      fit: BoxFit.cover,
-                      width: 50,
-                      height: 50,
+                  GestureDetector(
+                    onTap: () {
+                      NavigatorHelper.toOtherProfile(model.uid);
+                    },
+                    child: ClipOval(
+                      child: ImageUtil.networkImage(
+                        url: model.head,
+                        fit: BoxFit.cover,
+                        width: 50,
+                        height: 50,
+                      ),
                     ),
                   ),
                   Expanded(

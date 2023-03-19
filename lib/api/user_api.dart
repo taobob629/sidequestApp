@@ -138,7 +138,7 @@ class UserApi {
     return list;
   }
 
-  static Future<Response> attention(var touid) async {
+  static Future<Response> attention(touid) async {
     var response = await http.get('/peiwan/app/users/attention/', queryParameters: ({"touid": touid}));
     return response;
   }
