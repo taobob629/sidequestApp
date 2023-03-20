@@ -99,7 +99,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                     style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 14.sp),
                   ),
                   Text(
-                    '${data.skillName}',
+                    '${data.levelName}',
                     style:
                         TextStyle(fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: AppColor.textC3),
                   ),

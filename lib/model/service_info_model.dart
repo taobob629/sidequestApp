@@ -58,20 +58,24 @@ class LevelItem {
   final String name;
   // 36
   final int id;
+  final int levelid;
 
   LevelItem({
     this.name = "",
     this.id = 0,
+    this.levelid = 0,
   });
 
   factory LevelItem.fromJson(Map<String, dynamic>? json) => LevelItem(
     name: asT<String>(json, 'name'),
+    levelid: asT<int>(json, 'levelid'),
     id: asT<int>(json, 'id'),
   );
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'id': id,
+    'levelid': levelid,
   };
 
   @override
