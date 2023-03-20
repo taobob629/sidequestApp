@@ -15,6 +15,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
+import 'list/view.dart';
 
 class OrderTabPage extends StatefulWidget {
   @override
@@ -68,7 +69,8 @@ class _OrderTabPageState extends State<OrderTabPage> with SingleTickerProviderSt
 
   List<Widget> tabPages() {
     return controller.tabs
-        .map((tab) => KeepAliveWrapper(child: PlayOrdersChild(tab['type'])))
+        .map((tab) => KeepAliveWrapper(child: OrderListListPage(tab['type'])))
+       // .map((tab) =>OrderListListPage(tab['type']))
         .toList();
   }
 

@@ -101,7 +101,7 @@ class AddGamePageController extends GetxController {
   }
 
   getPriceRange({var gameId}) async {
-    var result = await GamesApi.getPriceRange(gameId??game?.id,levelId:gameLv?.id );
+    var result = await GamesApi.getPriceRange(gameId??game?.id,levelId:gameLv?.levelid );
     priceRanges.clear();
     mPriceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
