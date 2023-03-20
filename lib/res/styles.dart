@@ -33,11 +33,15 @@ class PageStyle {
 
 var itemPaddingNormal = EdgeInsets.all(15.r);
 var itemPadding10 = EdgeInsets.all(10.r);
+var listDivider = Divider(
+  color: Color(0xFF2D2E3A),
+  height: 1,
+);
 
 inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
 
-BoxDecoration itemDecoration({var color,var radius}) =>
-    BoxDecoration(color: color??AppColor.itemBg, borderRadius: BorderRadius.circular(radius??16.r));
+BoxDecoration itemDecoration({var color, var radius}) => BoxDecoration(
+    color: color ?? AppColor.itemBg, borderRadius: BorderRadius.circular(radius ?? 16.r));
 
 itemPadding({var l, var r, var b, var t}) {
   return EdgeInsets.only(left: l ?? 10, right: r ?? 10, bottom: b ?? 10, top: t ?? 10).r;

@@ -1,0 +1,47 @@
+/**
+    author:mac
+    创建日期:2023/2/17
+    描述:
+ */
+import 'dart:convert';
+
+import 'package:wy/api/network_method.dart';
+import 'package:wy/common/list/index.dart';
+import 'package:wy/model/activity_list_model.dart';
+import 'package:dio/src/response.dart' as dio;
+import 'package:wy/model/service_list_model.dart';
+import 'package:wy/utils/index.dart';
+
+class OrderListController extends RefreshListController<ServiceListModel> {
+ late var type;
+
+ OrderListController(this.type);
+
+  @override
+  buildMethodType() {
+    return NWMethod.GET;
+  }
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  Map<String, dynamic> buildParams() => {};
+
+  @override
+  String buildUrl() {
+    return '/peiwan/app/new/orders/list?type=$type';
+  }
+
+  @override
+  bool paged() => true;
+
+  @override
+  List<ServiceListModel> dealData(dio.Response<dynamic> response) {
+    return response.data['rows'].map<ServiceListModel>((item) => ServiceListModel.fromJson(item)).toList();
+  }
+
+  @override
+  needAutoLoadData() => true;
+}
