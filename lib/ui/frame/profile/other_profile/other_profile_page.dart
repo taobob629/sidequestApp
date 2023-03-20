@@ -100,9 +100,9 @@ class OtherProfilePage extends StatelessWidget {
                                                                     height: 30,
                                                                     padding: const EdgeInsets.only(left: 10),
                                                                     child: Image.asset(
-                                                                      "assets/images/profile/icon_dianzan.webp",
+                                                                      "assets/images/profile/follow.webp",
                                                                       width: 20,
-                                                                      color: t.player.value.follow ? Colors.pink : null,
+                                                                      color: t.player.value.follow ? Colors.pink : Color(0xFF707070),
                                                                     ),
                                                                   ),
                                                                 )
