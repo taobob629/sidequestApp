@@ -336,11 +336,9 @@ class SkillListPage extends GetView<SkillListPageController> {
               width: 32.w,
               margin: EdgeInsets.only(right: 15.w),
               height: 32.w,
+              padding: EdgeInsets.all(10),
               decoration: itemDecoration(color: AppColor.yellow, radius: 16.w),
-              child: Icon(
-                Icons.edit_outlined,
-                size: 20.w,
-              ),
+              child: ImageUtil.assetImage('ic_edit2', width: 13.w,height: 13.w),
             ),
           )
         : Container();
@@ -447,9 +445,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                       TextSpan(
                           text: '${item?.price?.floor()}',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontFamily: FONT_MEDIUM)),
+                              color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
                       TextSpan(
                           text: '/${item?.unit}',
                           style: TextStyle(
@@ -460,14 +456,11 @@ class SkillListPage extends GetView<SkillListPageController> {
               PWidget.boxw(5),
               if (item != null)
                 GestureDetector(
-                    onTap: () => item.isDefault == 0
-                        ? controller.addSkillItem(data, skillItemModel: item)
-                        : null,
-                    child: Icon(
-                      Icons.edit,
-                      size: icon_size,
-                      color: item.isDefault == 1 ? Colors.grey : Colors.white,
-                    )),
+                    onTap: () => controller.addSkillItem(data, skillItemModel: item),
+                    child: Container(
+                      height: 13.w,
+                      width: 13.w,
+                      child:  ImageUtil.assetImage('ic_edit2', width: 13.w,height: 13.w,color: Color(0xFF6F6F75)),)),
             ],
           ),
         ],
