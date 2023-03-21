@@ -11,6 +11,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
+import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/home/index.dart';
 
@@ -22,10 +23,12 @@ class GameListItemWidget extends GetView<SideKickController> {
   @override
   Widget build(BuildContext context) {
     var badgeColor = Color(0xFF87EEB6);
-    return Container(
+    return InkWell(
+      onTap: ()=>Get.to(() => PlayDetail(userId: "${model?.id}")),
+      child: Container(
       height: 80.h,
       padding: EdgeInsets.only(
-        left: 15,right: 15,top: 10,bottom: 10
+          left: 15,right: 15,top: 10,bottom: 10
       ).r,
       margin: EdgeInsets.only(top: 10.r),
       decoration: BoxDecoration(
@@ -42,8 +45,8 @@ class GameListItemWidget extends GetView<SideKickController> {
               height: 50.h,
               decoration: model.online == ONLINE
                   ? BoxDecoration(
-                      border: Border.all(color: badgeColor, width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(25.h)))
+                  border: Border.all(color: badgeColor, width: 1),
+                  borderRadius: BorderRadius.all(Radius.circular(25.h)))
                   : null,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(25)).h,
@@ -112,6 +115,6 @@ class GameListItemWidget extends GetView<SideKickController> {
           )
         ],
       ),
-    );
+    ),);
   }
 }
