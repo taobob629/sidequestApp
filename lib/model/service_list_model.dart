@@ -7,7 +7,7 @@ import 'package:wy/model/safe_convert.dart';
 var orderStatusMap = {
   -4: 'Overdue'.tr,
   -3: 'Rejected'.tr,
-  -2: 'Completed'.tr,
+  -2: 'To be evaluated'.tr,
   -1: 'Canceled'.tr,
   0: 'Pending'.tr,
   1: 'Paid'.tr,
@@ -18,7 +18,7 @@ var orderStatusMap = {
   6: 'Refund Dispute'.tr,
   7: 'Refund Rejected'.tr,
   8: 'Refunded'.tr,
-  9: 'To be evaluated'
+  9: 'Ongoing'.tr
 };
 
 class ServiceListModel {
