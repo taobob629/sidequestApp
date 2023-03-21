@@ -57,7 +57,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   height: 13.h,
                                 ),
                             itemCount: 2))))),
-        btnBar: contentPadding(
+        btnBar: Obx(()=>controller.model==null?buildLoad():contentPadding(
             width: Get.width,
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -65,26 +65,26 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               children: [
                 Expanded(
                     child: StadiumButton(
-                  'Reject'.tr,
-                  textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColor.yellow,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(20).r)),
-                  onTap: () {
-                    Get.back();
-                  },
-                )),
+                      'Reject'.tr,
+                      textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColor.yellow,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20).r)),
+                      onTap: () {
+                        Get.back();
+                      },
+                    )),
                 16.horizontalSpace,
                 Expanded(
                     child: StadiumButton(
-                  'Accept'.tr,
-                  onTap: () {},
-                )),
+                      'Accept'.tr,
+                      onTap: () {},
+                    )),
               ],
-            )));
+            ))));
   }
 
   var textStyle2 = TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp);
@@ -299,7 +299,6 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         child: Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
-        readOnly: true,
         maxLines: null,
         textAlign: TextAlign.start,
         keyboardType: TextInputType.text,
