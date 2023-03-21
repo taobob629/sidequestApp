@@ -55,7 +55,7 @@ class ImApi {
       "reason" : ""
     };
     await http.put(
-      '/peiwan/app/order/cancel',
+      '/peiwan/app/new/orders/cancel',
       queryParameters: ({'orderId':orderId}),
       data: formData
     );
@@ -66,7 +66,7 @@ class ImApi {
       "orderId" : orderId
     };
     return await http.put(
-      '/peiwan/app/order/accept',
+      '/peiwan/app/new/orders/accept',
       queryParameters: ({'orderId':orderId}),
       data: formData
     );
@@ -92,7 +92,7 @@ class ImApi {
       "orderId" : orderId
     };
     return await http.put(
-      '/peiwan/app/order/reject',
+      '/peiwan/app/new/orders/reject',
       queryParameters: ({'orderId':orderId,'reason':reason}),
       data: formData
     );
@@ -103,7 +103,7 @@ class ImApi {
       "orderId" : orderId
     };
     return await http.put(
-      '/peiwan/app/order/refund',
+      '/peiwan/app/new/orders/player/refund',
       queryParameters: ({'orderId':orderId,'reason':reason}),
       data: formData
     );
@@ -116,7 +116,7 @@ class ImApi {
       "comments" : comments
     };
     await http.put(
-      '/peiwan/app/order/complete',
+      '/peiwan/app/new/orders/complete',
       queryParameters: ({'orderId':orderId}),
       data: formData
     );

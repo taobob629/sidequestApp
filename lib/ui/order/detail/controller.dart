@@ -29,6 +29,7 @@ class OrderDetailPageController extends BasePageController {
   // }
 
   var id;
+  var type;
   Rxn<OrderDetailModel?> _model = Rxn();
 
   OrderDetailModel? get model => _model.value;
@@ -39,7 +40,9 @@ class OrderDetailPageController extends BasePageController {
 
   @override
   void onInit() {
-    id = Get.arguments;
+    var params = Get.arguments as Map;
+    id = params['id'];
+    type = params['type'];
     pageState = PageState.initialing;
     initData();
     super.onInit();
@@ -104,24 +107,38 @@ class OrderDetailPageController extends BasePageController {
     EasyLoading.dismiss();
     Get.back();
   }
+
   ///大神拒绝退款
   Future<void> dsRejectOrder() async {
     Get.dialog(RejectDialog()).then((value) async {
-      flog('value $value');
       if (value == null) return;
       EasyLoading.show();
-      var res = await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value)
-          .catchError((v) {});
+      var res =
+          await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
       EasyLoading.showToast('${res.statusMessage}');
       EasyLoading.dismiss();
       Get.back();
     });
   }
+
   void cancelOrderRequest() {
     Get.back();
     EasyLoading.show();
     ImApi.cancelOrder(id);
     EasyLoading.dismiss();
     Get.back();
+  }
+
+  ///大神同意退款
+  Future<void> dsRefundOrder() async {
+    EasyLoading.show();
+    var res = await ImApi.dsRefundOrder(id, '5').catchError((v) {});
+    EasyLoading.showToast('${res.statusMessage}');
+    EasyLoading.dismiss();
+    Get.back();
+  }
+
+  void finishOrder() {
+    OrderApi.finishOrder(id);
   }
 }

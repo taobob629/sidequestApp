@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
 import 'package:wy/model/activity_tab.dart';
 
+const TYPE_ORDER_RECEIVED = 2;
+const TYPE_ORDER_PROVIDED = 1;
+
 class OrderTabController extends BaseTabContoller {
   RxInt _curTab = RxInt(0);
 
@@ -19,8 +22,8 @@ class OrderTabController extends BaseTabContoller {
   @override
   initTabs() {
     tabs = [
-      {'type': 2, 'index': 0, 'title': 'Received'.tr},
-      {'type': 1, 'index': 1, 'title': 'Provided'.tr}
+      {'type': TYPE_ORDER_RECEIVED, 'index': 0, 'title': 'Received'.tr},
+      {'type': TYPE_ORDER_PROVIDED, 'index': 1, 'title': 'Provided'.tr}
     ];
     return tabs;
   }

@@ -51,6 +51,9 @@ class OrderListController extends RefreshListController<ServiceListModel> {
   needAutoLoadData() => true;
 
   toDetail(ServiceListModel item) {
-    Get.toNamed(AppPages.OrderDetail, arguments: item.id);
+    Get.toNamed(AppPages.OrderDetail,
+        arguments: Map()
+          ..['id'] = item.id
+          ..['type'] = type);
   }
 }

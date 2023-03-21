@@ -1,3 +1,4 @@
+import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/model/order_model.dart';
@@ -18,5 +19,11 @@ class OrderApi {
     var response =
         await http.get('/peiwan/app/new/orders/orderDetail', queryParameters: ({"orderId": id}));
     return OrderDetailModel.fromJson(response.data);
+  }
+
+  static finishOrder(var id) async {
+    var response =
+        await http.get('/peiwan/app/new/orders/player/finish', queryParameters: ({"orderId": id}));
+    return response;
   }
 }

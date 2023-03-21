@@ -14,8 +14,11 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
-import 'package:wy/ui/common/base_scaffold.dart';
-import 'package:wy/ui/common/page_title.dart';
+import 'package:wy/ui/common/colorful_button.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/ui/im/dialog_comment.dart';
+import 'package:wy/ui/order/controller.dart';
+import 'package:wy/ui/order/detail/widgets/widgets.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -23,6 +26,7 @@ import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
+import 'widgets/acticon_widget.dart';
 
 class OrderDetailPage extends GetView<OrderDetailPageController> {
   @override
@@ -57,37 +61,118 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   height: 13.h,
                                 ),
                             itemCount: 2))))),
-        btnBar: Obx(()=>controller.model==null?buildLoad():contentPadding(
-            width: Get.width,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: StadiumButton(
-                      'Reject'.tr,
-                      textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppColor.yellow,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(20).r)),
-                      onTap: () {
-                        Get.back();
-                      },
-                    )),
-                16.horizontalSpace,
-                Expanded(
-                    child: StadiumButton(
-                      'Accept'.tr,
-                      onTap: () {},
-                    )),
-              ],
-            ))));
+        btnBar: bottom_bar()
+    );
   }
 
-  var textStyle2 = TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp);
+  Widget bottom_bar() {
+    return Obx(() => controller.model == null
+        ? buildLoad()
+        :  ActionWidget());
+  }
+
+  // Widget actions() {
+  //   switch(controller.model?.status){
+  //     case 1:
+  //       switch(controller.type){
+  //         case TYPE_ORDER_PROVIDED:
+  //           return ColorfulButton(
+  //             child: Padding(
+  //               padding: const EdgeInsets.only(top: 4),
+  //               child: Text(
+  //                 "CANCEL".tr,
+  //                 style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+  //               ),
+  //             ),
+  //             height: 48,
+  //             onTap: () {
+  //               Get.dialog(
+  //                   ConfirmDialog(
+  //                     title: "Cancel Order".tr,
+  //                     info: "Do you want to cancel this order?".tr,
+  //                     confirmBtn: "CONFIRM".tr,
+  //                     onConfirm: () async {
+  //                       controller.cancleOrder();
+  //                     },
+  //                   ),
+  //                   barrierColor: Colors.black26);
+  //             },
+  //           );
+  //         case TYPE_ORDER_RECEIVED:
+  //           return Row(
+  //             children: [
+  //               Expanded(
+  //                 child: ColorfulButton(
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.only(top: 4),
+  //                     child: Text(
+  //                       "ACCEPT".tr,
+  //                       style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+  //                     ),
+  //                   ),
+  //                   height: 48,
+  //                   onTap: () {
+  //                     controller.acceptOrder();
+  //                   },
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: 15,
+  //               ),
+  //               Expanded(
+  //                 child: GestureDetector(
+  //                   onTap: () {
+  //                     Get.dialog(CommentDialog(controller.id, () => Get.back(), isRehect: true),
+  //                         barrierColor: Colors.black26);
+  //                   },
+  //                   child: Container(
+  //                       decoration: BoxDecoration(
+  //                           color: Colors.white24, borderRadius: BorderRadius.circular(30)),
+  //                       child: Center(
+  //                         child: Padding(
+  //                           padding: const EdgeInsets.only(top: 4),
+  //                           child: Text(
+  //                             "REJECT".tr,
+  //                             style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       height: 48),
+  //                 ),
+  //               )
+  //             ],
+  //           );
+  //       }
+  //       break;
+  //     case 2:
+  //   }
+  //   return Row(
+  //             mainAxisSize: MainAxisSize.max,
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Expanded(
+  //                   child: StadiumButton(
+  //                 'Reject'.tr,
+  //                 textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
+  //                 decoration: BoxDecoration(
+  //                     border: Border.all(
+  //                       color: AppColor.yellow,
+  //                       width: 1,
+  //                     ),
+  //                     borderRadius: BorderRadius.all(Radius.circular(20).r)),
+  //                 onTap: () {
+  //                   Get.back();
+  //                 },
+  //               )),
+  //               16.horizontalSpace,
+  //               Expanded(
+  //                   child: StadiumButton(
+  //                 'Accept'.tr,
+  //                 onTap: () {},
+  //               )),
+  //             ],
+  //           );
+  // }
 
   orderDetailWidget(BuildContext context) {
     var item = controller.model;
@@ -196,38 +281,6 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
     ));
   }
 
-  rowLine(var leftText, var rightText) {
-    return Padding(
-      padding: EdgeInsets.only(top: 8, bottom: 8).h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '$leftText',
-            style: TextStyle(color: Color(0xFFB2B9C9), fontSize: 12.sp, fontFamily: FONT_LIGHT),
-          ),
-          Text('$rightText', style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT)),
-        ],
-      ),
-    );
-  }
-
-  rowLine2(var leftText, Widget rightWidget) {
-    return Padding(
-      padding: EdgeInsets.only(top: 8, bottom: 8).h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '$leftText',
-            style: textStyle2,
-          ),
-          rightWidget
-        ],
-      ),
-    );
-  }
-
   evaluateWidget() {
     return innnerBg(Column(
       children: [
@@ -266,8 +319,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   Obx startItem(RxDouble defaultStar, {var type}) {
     return Obx(() => FFStars(
-          normalStar: Image.asset("assets/images/play/score0.png"),
-          selectedStar: Image.asset("assets/images/play/score1.png"),
+          normalStar: ImageUtil.assetImage('score0'),
+          selectedStar: ImageUtil.assetImage('score1'),
           step: starSteps,
           defaultStars: defaultStar.value,
           starHeight: 20,
@@ -295,8 +348,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   comments() {
-    return contentPadding(
-        child: Container(
+    return Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
         maxLines: null,
@@ -310,21 +362,6 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
             // labelText: 'Please write down your comments'.tr,
             hintStyle: TextStyle(color: Color(0xFFB2B9C9), fontSize: 13.sp)),
       ),
-    ));
+    );
   }
-}
-
-divider() {
-  return Container(
-    child: listDivider,
-    padding: EdgeInsets.only(top: 15.h, bottom: 20.h),
-  );
-}
-
-Widget innnerBg(Widget view) {
-  return Container(
-    padding: itemPaddingNormal,
-    decoration: itemDecoration(color: Color(0xFF262731), radius: 17.r),
-    child: view,
-  );
 }
