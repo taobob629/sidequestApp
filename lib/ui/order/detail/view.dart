@@ -248,6 +248,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
     return Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
+        controller: controller.etCommnetController,
         maxLines: null,
         textAlign: TextAlign.start,
         keyboardType: TextInputType.text,

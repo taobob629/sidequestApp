@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
 import 'package:wy/model/activity_tab.dart';
 
-const TYPE_ORDER_RECEIVED = 2;
-const TYPE_ORDER_PROVIDED = 1;
+const int TYPE_ORDER_RECEIVED = 2;
+const int TYPE_ORDER_PROVIDED = 1;
 
 class OrderTabController extends BaseTabContoller {
   RxInt _curTab = RxInt(0);

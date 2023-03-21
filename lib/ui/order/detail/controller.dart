@@ -14,14 +14,16 @@ import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/im/chat.dart';
 import 'package:wy/ui/im/dialog_reject.dart';
+import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 
 class OrderDetailPageController extends BasePageController {
-  RxDouble starPer = RxDouble(1);
-  RxDouble starRes = RxDouble(1);
-  RxDouble starEnj = RxDouble(1);
-  RxDouble starFri = RxDouble(1);
+  static const double starInit = 5;
+  RxDouble starPer = RxDouble(starInit);
+  RxDouble starRes = RxDouble(starInit);
+  RxDouble starEnj = RxDouble(starInit);
+  RxDouble starFri = RxDouble(starInit);
 
   // double get starPer => _starPer.value;
   //
@@ -31,6 +33,7 @@ class OrderDetailPageController extends BasePageController {
 
   var id;
   var type;
+  TextEditingController etCommnetController = TextEditingController();
   Rxn<OrderDetailModel?> _model = Rxn();
 
   OrderDetailModel? get model => _model.value;
@@ -141,11 +144,28 @@ class OrderDetailPageController extends BasePageController {
 
   Future<void> finishOrder() async {
     EasyLoading.show();
-    var response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
+    var response;
+    if (type == TYPE_ORDER_RECEIVED) {
+      response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
+    } else {
+      response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
+            ..['performance'] = starPer.value
+            ..['responsive'] = starRes.value
+            ..['enjoyment'] = starEnj.value
+            ..['friendless'] = starFri.value
+            ..['id'] = id
+            ..['comments'] = etCommnetController.text)
+          .whenComplete(() => EasyLoading.dismiss());
+    }
     if (response.statusCode != 200) {
       EasyLoading.showToast('${response.statusMessage}');
     }
     //todo 刷新列表
-    Get.find<OrderListController>(tag: 'OrderList_$type').refresh();
+    try{
+      Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
+    }catch(e){
+
+    }
+    Get.back();
   }
 }
