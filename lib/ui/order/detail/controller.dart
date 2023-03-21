@@ -5,9 +5,11 @@
  */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/order_detail.dart';
+import 'package:wy/ui/im/chat.dart';
 
 class OrderDetailPageController extends BasePageController {
   RxDouble starPer = RxDouble(1);
@@ -43,7 +45,23 @@ class OrderDetailPageController extends BasePageController {
     pageState = PageState.sucess;
   }
 
-  /*double get starRes => _starRes.value;
+  toChat(BuildContext context) async {
+    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+    V2TimValueCallback<V2TimConversation> conv =
+        await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
+    if (conv.data != null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Chat(
+            selectedConversation: conv.data!,
+            orderSn: '${model?.orderSn}',
+          ),
+        ),
+      );
+    }
+  }
+/*double get starRes => _starRes.value;
 
   set starRes(double value) {
     _starRes.value = value;

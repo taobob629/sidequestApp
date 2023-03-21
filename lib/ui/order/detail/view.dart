@@ -47,7 +47,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                           itemBuilder: (context, index) {
                             switch (index) {
                               case 0:
-                                return orderDetailWidget();
+                                return orderDetailWidget(context);
                               case 1:
                                 return evaluateWidget();
                               default:
@@ -64,7 +64,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   var textStyle2 = TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp);
 
-  orderDetailWidget() {
+  orderDetailWidget(BuildContext context) {
     var item = controller.model;
     return innnerBg(Column(
       children: [
@@ -73,7 +73,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           children: [
             ImageUtil.networkImage(
                 url: '${item?.userAvatar}', width: 32.w, height: 32.w, border: 16.w),
-            ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w)
+            InkWell(
+              child: ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w),
+              onTap: () => controller.toChat(context),
+            )
           ],
         ),
         divider(),
