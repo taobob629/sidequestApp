@@ -91,6 +91,23 @@ class ActionWidget extends GetView<OrderDetailPageController> {
             ));
         }
         break;
+      case 9:
+        if (controller.type == TYPE_ORDER_RECEIVED) {
+          return container( ColorfulButton(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                "FINISHED".tr,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+              ),
+            ),
+            height: 48,
+            onTap: () {
+              controller.finishOrder();
+            },
+          ));
+        }
+        break;
       case 2:
         if (controller.type == TYPE_ORDER_RECEIVED) {
           return container(Row(
