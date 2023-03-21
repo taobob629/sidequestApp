@@ -61,7 +61,7 @@ class ImApi {
     );
   }
 
-  static Future<Response> acceptOrder(String orderId) async {
+  static Future<Response> acceptOrder(var orderId) async {
     var formData = {
       "orderId" : orderId
     };
@@ -73,7 +73,7 @@ class ImApi {
   }
 
   ///大神是否同意退款
-  static Future<Response> dsRefundOrder(String orderId, String status,
+  static Future<Response> dsRefundOrder(var orderId, String status,
       {var playerRejectRefundReason}) async {
     var formData = {
       "orderId": orderId,

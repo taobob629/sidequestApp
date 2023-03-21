@@ -4,12 +4,17 @@
     描述:
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/order_detail.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/im/chat.dart';
+import 'package:wy/ui/im/dialog_reject.dart';
+import 'package:wy/utils/utils.dart';
 
 class OrderDetailPageController extends BasePageController {
   RxDouble starPer = RxDouble(1);
@@ -61,6 +66,7 @@ class OrderDetailPageController extends BasePageController {
       );
     }
   }
+
 /*double get starRes => _starRes.value;
 
   set starRes(double value) {
@@ -78,4 +84,44 @@ class OrderDetailPageController extends BasePageController {
   set starFri(double value) {
     _starFri.value = value;
   }*/
+  cancleOrder() {
+    Get.dialog(
+        ConfirmDialog(
+          title: "Cancel Order".tr,
+          info: "Do you want to cancel this order?".tr,
+          confirmBtn: "CONFIRM".tr,
+          onConfirm: () async {
+            cancelOrderRequest();
+          },
+        ),
+        barrierColor: Colors.black26);
+  }
+
+  Future<void> acceptOrder() async {
+    EasyLoading.show();
+    var res = await ImApi.acceptOrder(id).catchError((v) {});
+    EasyLoading.showToast('${res.statusMessage}');
+    EasyLoading.dismiss();
+    Get.back();
+  }
+  ///大神拒绝退款
+  Future<void> dsRejectOrder() async {
+    Get.dialog(RejectDialog()).then((value) async {
+      flog('value $value');
+      if (value == null) return;
+      EasyLoading.show();
+      var res = await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value)
+          .catchError((v) {});
+      EasyLoading.showToast('${res.statusMessage}');
+      EasyLoading.dismiss();
+      Get.back();
+    });
+  }
+  void cancelOrderRequest() {
+    Get.back();
+    EasyLoading.show();
+    ImApi.cancelOrder(id);
+    EasyLoading.dismiss();
+    Get.back();
+  }
 }

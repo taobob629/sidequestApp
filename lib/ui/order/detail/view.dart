@@ -14,10 +14,12 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
+import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
@@ -25,41 +27,64 @@ import 'controller.dart';
 class OrderDetailPage extends GetView<OrderDetailPageController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: NestedScrollView(
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverAppBar(
-                pinned: true,
-                title: Text('Order details'.tr),
-              )
-            ];
-          },
-          body: Obx(() => controller.pageState == PageState.initialing
-              ? buildLoad()
-              : contentPadding(
-                  child: MediaQuery.removePadding(
-                      context: context,
-                      removeTop: true,
-                      child: ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return orderDetailWidget(context);
-                              case 1:
-                                return evaluateWidget();
-                              default:
-                                return Container();
-                            }
-                          },
-                          separatorBuilder: (context, index) => Divider(
-                                color: Colors.transparent,
-                                height: 13.h,
-                              ),
-                          itemCount: 2))))),
-    );
+    return ScaffoldWidget(
+        appBar: AppBar(
+          title: Text('Order details'.tr),
+        ),
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+            child: Obx(() => controller.pageState == PageState.initialing
+                ? buildLoad()
+                : contentPadding(
+                    child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              switch (index) {
+                                case 0:
+                                  return orderDetailWidget(context);
+                                case 1:
+                                  return evaluateWidget();
+                                default:
+                                  return Container();
+                              }
+                            },
+                            separatorBuilder: (context, index) => Divider(
+                                  color: Colors.transparent,
+                                  height: 13.h,
+                                ),
+                            itemCount: 2))))),
+        btnBar: contentPadding(
+            width: Get.width,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: StadiumButton(
+                  'Reject'.tr,
+                  textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColor.yellow,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20).r)),
+                  onTap: () {
+                    Get.back();
+                  },
+                )),
+                16.horizontalSpace,
+                Expanded(
+                    child: StadiumButton(
+                  'Accept'.tr,
+                  onTap: () {},
+                )),
+              ],
+            )));
   }
 
   var textStyle2 = TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp);
@@ -274,6 +299,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         child: Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
+        readOnly: true,
         maxLines: null,
         textAlign: TextAlign.start,
         keyboardType: TextInputType.text,
