@@ -35,7 +35,7 @@ class OrderListListPage extends BasePage {
         var model = pageController().mDatas[index];
         return Container(
           width: Get.width,
-          child: item(model),
+          child: InkWell(child: item(model),onTap: ()=>controller?.toDetail(model),),
         );
       },
       itemCount: pageController().mDatas.length,
