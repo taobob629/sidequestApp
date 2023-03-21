@@ -17,7 +17,8 @@ var orderStatusMap = {
   5: 'Refunded'.tr,
   6: 'Refund Dispute'.tr,
   7: 'Refund Rejected'.tr,
-  8: 'Refunded'.tr
+  8: 'Refunded'.tr,
+  9: 'To be evaluated'
 };
 
 class ServiceListModel {
