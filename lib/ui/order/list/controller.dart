@@ -15,6 +15,7 @@ import 'package:wy/model/service_list_model.dart';
 import 'package:wy/utils/index.dart';
 
 class OrderListController extends RefreshListController<ServiceListModel> {
+
   late var type;
 
   OrderListController(this.type);

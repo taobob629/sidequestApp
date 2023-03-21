@@ -14,6 +14,7 @@ import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/im/chat.dart';
 import 'package:wy/ui/im/dialog_reject.dart';
+import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 
 class OrderDetailPageController extends BasePageController {
@@ -87,7 +88,7 @@ class OrderDetailPageController extends BasePageController {
   set starFri(double value) {
     _starFri.value = value;
   }*/
-  cancleOrder() {
+  cancelOrder() {
     Get.dialog(
         ConfirmDialog(
           title: "Cancel Order".tr,
@@ -138,7 +139,13 @@ class OrderDetailPageController extends BasePageController {
     Get.back();
   }
 
-  void finishOrder() {
-    OrderApi.finishOrder(id);
+  Future<void> finishOrder() async {
+    EasyLoading.show();
+    var response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
+    if (response.statusCode != 200) {
+      EasyLoading.showToast('${response.statusMessage}');
+    }
+    //todo 刷新列表
+    Get.find<OrderListController>(tag: 'OrderList_$type').refresh();
   }
 }

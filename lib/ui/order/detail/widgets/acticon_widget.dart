@@ -38,7 +38,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                       info: "Do you want to cancel this order?".tr,
                       confirmBtn: "CONFIRM".tr,
                       onConfirm: () async {
-                        controller.cancleOrder();
+                        controller.cancelOrder();
                       },
                     ),
                     barrierColor: Colors.black26);
@@ -93,7 +93,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
         break;
       case 9:
         if (controller.type == TYPE_ORDER_RECEIVED) {
-          return container( ColorfulButton(
+          return container(ColorfulButton(
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
@@ -109,7 +109,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
         }
         break;
       case 2:
-        if (controller.type == TYPE_ORDER_RECEIVED) {
+        if (controller.type == TYPE_ORDER_PROVIDED) {
           return container(Row(
             children: [
               Expanded(
