@@ -17,7 +17,7 @@ Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
     bool enablePullUp = true,
     Color textColor = AppColor.textC5C5,
     Widget header = const WaterDropHeader(
-        complete: Center(child: Text("刷新完成", style: TextStyle(color: AppColor.textC5C5))))}) {
+        complete: Center(child: Text("", style: TextStyle(color: AppColor.textC5C5))))}) {
   return SmartRefresher(
     controller: refreshController,
     enablePullUp: enablePullUp,
