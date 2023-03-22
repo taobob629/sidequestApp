@@ -97,7 +97,7 @@ class OrderDetailPageController extends BasePageController {
           title: "Cancel Order".tr,
           info: "Do you want to cancel this order?".tr,
           confirmBtn: "CONFIRM".tr,
-          onConfirm: () async {
+          onConfirm: () {
             cancelOrderRequest();
           },
         ),
@@ -125,10 +125,11 @@ class OrderDetailPageController extends BasePageController {
     });
   }
 
-  void cancelOrderRequest() {
+  Future<void> cancelOrderRequest() async {
     Get.back();
     EasyLoading.show();
-    ImApi.cancelOrder(id);
+    await ImApi.cancelOrder(id);
+    refreshList();
     EasyLoading.dismiss();
     Get.back();
   }
@@ -161,11 +162,15 @@ class OrderDetailPageController extends BasePageController {
       EasyLoading.showToast('${response.statusMessage}');
     }
     //todo 刷新列表
-    try{
-      Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
-    }catch(e){
-
-    }
+    refreshList();
     Get.back();
+  }
+
+  void refreshList() {
+   /* try {
+      Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
+    } catch (e) {
+      flog('e $e');
+    }*/
   }
 }

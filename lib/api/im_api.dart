@@ -80,7 +80,7 @@ class ImApi {
 
   static Future<Response> refundOrder(String orderId, String reason) async {
     var formData = {"orderId": orderId};
-    return await http.post('/peiwan/app/new/orders/player/refund',
+    return await http.post('/peiwan/app/new/orders/askRefund',
         queryParameters: ({'orderId': orderId, 'reason': reason}), data: formData);
   }
 

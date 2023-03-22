@@ -62,6 +62,7 @@ class OrderListListPage extends BasePage {
       controller = Get.find<OrderListController>(tag: 'OrderList_$type');
       return controller!;
     } catch (e) {
+      flog('$e');
       controller = Get.put(OrderListController(type), tag: 'OrderList_$type');
       controller!.refreshController = RefreshController(initialRefresh: false);
       return controller!;

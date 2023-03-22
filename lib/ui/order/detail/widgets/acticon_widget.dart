@@ -32,16 +32,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
               ),
               height: 48,
               onTap: () {
-                Get.dialog(
-                    ConfirmDialog(
-                      title: "Cancel Order".tr,
-                      info: "Do you want to cancel this order?".tr,
-                      confirmBtn: "CONFIRM".tr,
-                      onConfirm: () async {
-                        controller.cancelOrder();
-                      },
-                    ),
-                    barrierColor: Colors.black26);
+                controller.cancelOrder();
               },
             ));
           case TYPE_ORDER_RECEIVED:
