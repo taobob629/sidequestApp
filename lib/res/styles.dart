@@ -37,7 +37,10 @@ var listDivider = Divider(
   color: Color(0xFF2D2E3A),
   height: 1,
 );
-
+var listDivider10 = Divider(
+  color: Colors.transparent,
+  height: 10,
+);
 inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
 
 BoxDecoration itemDecoration({var color, var radius}) => BoxDecoration(

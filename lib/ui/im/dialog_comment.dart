@@ -1,6 +1,7 @@
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/im_api.dart';
 
@@ -46,30 +47,30 @@ class CommentDialog extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (title == 'Comment'.tr)
-                SizedBox(
-                  height: 20,
-                ),
-              if (title == 'Comment'.tr)
-                FFStars(
-                  normalStar: Image.asset("assets/images/play/score0.png"),
-                  selectedStar: Image.asset("assets/images/play/score1.png"),
-                  starsChanged: (realStars, selectedStars) {
-                    controller.star = realStars;
-                  },
-                  step: 0.01,
-                  defaultStars: 5,
-                  miniStars: 1,
-                  starHeight: 20,
-                  starWidth: 20,
-                starMargin: 16,
-                followChange: true,
-              ),
+              // if (title == 'Comment'.tr)
+              //   SizedBox(
+              //     height: 20,
+              //   ),
+             // if (title == 'Comment'.tr)
+             //    FFStars(
+             //      normalStar: Image.asset("assets/images/play/score0.png"),
+             //      selectedStar: Image.asset("assets/images/play/score1.png"),
+             //      starsChanged: (realStars, selectedStars) {
+             //        controller.star = realStars;
+             //      },
+             //      step: 0.01,
+             //      defaultStars: 5,
+             //      miniStars: 1,
+             //      starHeight: 20,
+             //      starWidth: 20,
+             //    starMargin: 16,
+             //    followChange: true,
+             //  ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 30),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10).r,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(16).r,
                   color: Colors.white10
                 ),
                 child: TextField(

@@ -5,22 +5,26 @@
  */
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:wy/api/network_method.dart';
 import 'package:wy/common/list/index.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/activity_list_model.dart';
 import 'package:dio/src/response.dart' as dio;
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/utils/index.dart';
 
 class OrderListController extends RefreshListController<ServiceListModel> {
- late var type;
 
- OrderListController(this.type);
+  late var type;
+
+  OrderListController(this.type);
 
   @override
   buildMethodType() {
     return NWMethod.GET;
   }
+
   @override
   void onInit() {
     super.onInit();
@@ -39,9 +43,18 @@ class OrderListController extends RefreshListController<ServiceListModel> {
 
   @override
   List<ServiceListModel> dealData(dio.Response<dynamic> response) {
-    return response.data['rows'].map<ServiceListModel>((item) => ServiceListModel.fromJson(item)).toList();
+    return response.data['rows']
+        .map<ServiceListModel>((item) => ServiceListModel.fromJson(item))
+        .toList();
   }
 
   @override
   needAutoLoadData() => true;
+
+  toDetail(ServiceListModel item) {
+    Get.toNamed(AppPages.OrderDetail,
+        arguments: Map()
+          ..['id'] = item.id
+          ..['type'] = type);
+  }
 }

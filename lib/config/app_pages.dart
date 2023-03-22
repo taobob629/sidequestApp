@@ -15,6 +15,8 @@ import 'package:wy/ui/login/register/bindings.dart';
 import 'package:wy/ui/login/register/register_page.dart';
 import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
+import 'package:wy/ui/order/detail/bindings.dart';
+import 'package:wy/ui/order/detail/view.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/service/add/service_type/view.dart';
@@ -71,6 +73,7 @@ class AppPages {
   static const AddServiceType = '/add_service_type_page';
   static const ServiceAndOrders = '/service_and_orders_page';
   static const OtherProfile = '/other_profile_page';
+  static const OrderDetail = '/order_detail_page';
 
   static final routes = [
     GetPage(
@@ -129,7 +132,10 @@ class AppPages {
     ),
     GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
     GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
-    GetPage(name: WALLET_PAGE, page: () => PlayBalancePage(), middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
+    GetPage(
+        name: WALLET_PAGE,
+        page: () => PlayBalancePage(),
+        middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
     GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
@@ -155,8 +161,12 @@ class AppPages {
       binding: BookingBinding(),
     ),
     GetPage(name: AddServiceType, page: () => AddServiceTypePage()),
-    GetPage(name: ServiceAndOrders, page: () => ServiceAndOrdersPage(), binding: ServiceAndOrdersTabBinding()),
+    GetPage(
+        name: ServiceAndOrders,
+        page: () => ServiceAndOrdersPage(),
+        binding: ServiceAndOrdersTabBinding()),
 
     GetPage(name: OtherProfile, page: () => OtherProfilePage()),
+    GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
   ];
 }
