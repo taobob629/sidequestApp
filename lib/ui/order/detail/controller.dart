@@ -17,6 +17,7 @@ import 'package:wy/ui/im/dialog_reject.dart';
 import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/dialog/dialog_comment.dart';
 
 class OrderDetailPageController extends BasePageController {
   static const double starInit = 5;
@@ -104,6 +105,27 @@ class OrderDetailPageController extends BasePageController {
         barrierColor: Colors.black26);
   }
 
+  appealOrder() {
+    Get.dialog(DialogComment(
+      title: 'Appeal'.tr,
+      hint: 'Please input reason'.tr,
+      onConfirm: (text) {
+        apealOrderRequest(text);
+      },
+    ));
+  }
+
+  //申诉
+  Future<void> apealOrderRequest(var text) async {
+    EasyLoading.show();
+    var res = await OrderApi.apealOrder(id, text).catchError((err) {
+      flog('err $err');
+    });
+    EasyLoading.showToast('${res?.statusMessage}');
+    EasyLoading.dismiss();
+    Get.back(result: true);
+  }
+
   Future<void> acceptOrder() async {
     EasyLoading.show();
     var res = await ImApi.acceptOrder(id).catchError((v) {});
@@ -165,7 +187,7 @@ class OrderDetailPageController extends BasePageController {
   }
 
   void refreshList() {
-   /* try {
+    /* try {
       Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
     } catch (e) {
       flog('e $e');

@@ -42,6 +42,7 @@ var listDivider10 = Divider(
   height: 10,
 );
 inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
+bottomBtnText() => TextStyle(color: Colors.white, fontSize: 15.sp,fontFamily: FONT_BLACK);
 
 BoxDecoration itemDecoration({var color, var radius}) => BoxDecoration(
     color: color ?? AppColor.itemBg, borderRadius: BorderRadius.circular(radius ?? 16.r));

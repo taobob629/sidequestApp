@@ -25,9 +25,19 @@ class OrderApi {
     return await http.get('/peiwan/app/new/orders/player/finish',
         queryParameters: ({"orderId": id}));
   }
+
+  static Future<Response> apealOrder(var id, var reason) async {
+    var response = await http
+        .post('/peiwan/app/new/orders/allege',
+            queryParameters: ({"orderId": id, 'reason': reason}))
+        .catchError((err) {
+      return null;
+    });
+    return response;
+  }
+
   //顾客完成订单
   static Future<Response> custumFinishOrder(var params) async {
-    return await http.post('/peiwan/app/new/orders/complete',
-        data: params);
+    return await http.post('/peiwan/app/new/orders/complete', data: params);
   }
 }
