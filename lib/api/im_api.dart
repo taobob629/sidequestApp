@@ -45,15 +45,15 @@ class ImApi {
     return PlayOrderDetailModel.fromJson(response.data);
   }
 
-  static Future<void> cancelOrder(String orderId) async {
+  static Future<void> cancelOrder(var orderId) async {
     var formData = {"orderId": orderId, "reason": ""};
-    await http.put('/peiwan/app/new/orders/cancel',
+    await http.post('/peiwan/app/new/orders/cancel',
         queryParameters: ({'orderId': orderId}), data: formData);
   }
 
   static Future<Response> acceptOrder(var orderId) async {
     var formData = {"orderId": orderId};
-    return await http.put('/peiwan/app/new/orders/accept',
+    return await http.post('/peiwan/app/new/orders/accept',
         queryParameters: ({'orderId': orderId}), data: formData);
   }
 
@@ -63,7 +63,7 @@ class ImApi {
     var formData = {
       "orderId": orderId,
     };
-    return await http.put('/peiwan/app/order/god/refund',
+    return await http.post('/peiwan/app/order/god/refund',
         queryParameters: ({
           'orderId': orderId,
           'status': status,
@@ -74,19 +74,19 @@ class ImApi {
 
   static Future<Response> rejectOrder(String orderId, String reason) async {
     var formData = {"orderId": orderId};
-    return await http.put('/peiwan/app/new/orders/reject',
+    return await http.post('/peiwan/app/new/orders/reject',
         queryParameters: ({'orderId': orderId, 'reason': reason}), data: formData);
   }
 
   static Future<Response> refundOrder(String orderId, String reason) async {
     var formData = {"orderId": orderId};
-    return await http.put('/peiwan/app/new/orders/player/refund',
+    return await http.post('/peiwan/app/new/orders/player/refund',
         queryParameters: ({'orderId': orderId, 'reason': reason}), data: formData);
   }
 
   static Future<void> finishOrder(String orderId, double star, String comments) async {
     var formData = {"id": orderId, "star": star, "comments": comments};
-    await http.put('/peiwan/app/new/orders/complete',
+    await http.post('/peiwan/app/new/orders/complete',
         queryParameters: ({'orderId': orderId}), data: formData);
   }
 }
