@@ -17,6 +17,7 @@ import 'package:wy/ui/im/dialog_reject.dart';
 import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/dialog/dialog_comment.dart';
 
 class OrderDetailPageController extends BasePageController {
   static const double starInit = 5;
@@ -97,11 +98,32 @@ class OrderDetailPageController extends BasePageController {
           title: "Cancel Order".tr,
           info: "Do you want to cancel this order?".tr,
           confirmBtn: "CONFIRM".tr,
-          onConfirm: () async {
+          onConfirm: () {
             cancelOrderRequest();
           },
         ),
         barrierColor: Colors.black26);
+  }
+
+  appealOrder() {
+    Get.dialog(DialogComment(
+      title: 'Appeal'.tr,
+      hint: 'Please input reason'.tr,
+      onConfirm: (text) {
+        apealOrderRequest(text);
+      },
+    ));
+  }
+
+  //申诉
+  Future<void> apealOrderRequest(var text) async {
+    EasyLoading.show();
+    var res = await OrderApi.apealOrder(id, text).catchError((err) {
+      flog('err $err');
+    });
+    EasyLoading.showToast('${res?.statusMessage}');
+    EasyLoading.dismiss();
+    Get.back(result: true);
   }
 
   Future<void> acceptOrder() async {
@@ -109,7 +131,7 @@ class OrderDetailPageController extends BasePageController {
     var res = await ImApi.acceptOrder(id).catchError((v) {});
     EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
-    Get.back();
+    Get.back(result: true);
   }
 
   ///大神拒绝退款
@@ -121,16 +143,17 @@ class OrderDetailPageController extends BasePageController {
           await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
       EasyLoading.showToast('${res.statusMessage}');
       EasyLoading.dismiss();
-      Get.back();
+      Get.back(result: true);
     });
   }
 
-  void cancelOrderRequest() {
+  Future<void> cancelOrderRequest() async {
     Get.back();
     EasyLoading.show();
-    ImApi.cancelOrder(id);
+    await ImApi.cancelOrder(id);
+    refreshList();
     EasyLoading.dismiss();
-    Get.back();
+    Get.back(result: true);
   }
 
   ///大神同意退款
@@ -160,12 +183,14 @@ class OrderDetailPageController extends BasePageController {
     if (response.statusCode != 200) {
       EasyLoading.showToast('${response.statusMessage}');
     }
-    //todo 刷新列表
-    try{
-      Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
-    }catch(e){
+    Get.back(result: true);
+  }
 
-    }
-    Get.back();
+  void refreshList() {
+    /* try {
+      Get.find<OrderListController>(tag: 'OrderList_$type')?.refresh();
+    } catch (e) {
+      flog('e $e');
+    }*/
   }
 }

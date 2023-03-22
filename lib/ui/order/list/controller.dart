@@ -55,6 +55,8 @@ class OrderListController extends RefreshListController<ServiceListModel> {
     Get.toNamed(AppPages.OrderDetail,
         arguments: Map()
           ..['id'] = item.id
-          ..['type'] = type);
+          ..['type'] = type)?.then((value) {
+            if(value) onRefresh();
+    });
   }
 }

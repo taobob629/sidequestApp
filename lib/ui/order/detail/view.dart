@@ -61,14 +61,11 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   height: 13.h,
                                 ),
                             itemCount: 2))))),
-        btnBar: bottom_bar()
-    );
+        btnBar: bottom_bar());
   }
 
   Widget bottom_bar() {
-    return Obx(() => controller.model == null
-        ? buildLoad()
-        :  ActionWidget());
+    return Obx(() => controller.model == null ? buildLoad() : ActionWidget());
   }
 
   orderDetailWidget(BuildContext context) {
@@ -179,25 +176,27 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   evaluateWidget() {
-    return innnerBg(Column(
-      children: [
-        rowLine2(
-            'User Rating'.tr,
-            InkWell(
-                onTap: () {},
-                child: Text(
-                  'Submit'.tr,
-                  style: TextStyle(
-                      color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
-                ))),
-        listDivider,
-        10.verticalSpace,
-        ...starLine(),
-        10.verticalSpace,
-        listDivider,
-        comments()
-      ],
-    ));
+    if (controller.model?.status == -2 || controller.model?.status == -2)
+      return innnerBg(Column(
+        children: [
+          rowLine2(
+              'User Rating'.tr,
+              InkWell(
+                  onTap: () {},
+                  child: Text(
+                    'Submit'.tr,
+                    style: TextStyle(
+                        color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                  ))),
+          listDivider,
+          10.verticalSpace,
+          ...starLine(),
+          10.verticalSpace,
+          listDivider,
+          comments()
+        ],
+      ));
+    return Container();
   }
 
   double starSteps = 1;
@@ -216,6 +215,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   Obx startItem(RxDouble defaultStar, {var type}) {
     return Obx(() => FFStars(
+          justShow: controller.model?.status != -2,
           normalStar: ImageUtil.assetImage('score0'),
           selectedStar: ImageUtil.assetImage('score1'),
           step: starSteps,
@@ -248,6 +248,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
     return Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
+        readOnly: controller.model?.status != -2,
+        //只有-2可以编辑
         controller: controller.etCommnetController,
         maxLines: null,
         textAlign: TextAlign.start,

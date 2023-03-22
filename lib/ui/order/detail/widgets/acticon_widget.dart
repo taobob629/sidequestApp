@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -18,7 +19,25 @@ class ActionWidget extends GetView<OrderDetailPageController> {
   Widget build(BuildContext context) => actions();
 
   Widget actions() {
+    double btnHeight = 40.h;
     switch (controller.model?.status) {
+      case 4:
+        //显示申诉
+        if (controller.type == TYPE_ORDER_PROVIDED)
+          return container(ColorfulButton(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                "Appeal".tr,
+                style: bottomBtnText(),
+              ),
+            ),
+            height: btnHeight,
+            onTap: () {
+              controller.appealOrder();
+            },
+          ));
+        break;
       case 1:
         switch (controller.type) {
           case TYPE_ORDER_PROVIDED:
@@ -27,21 +46,12 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
                   "CANCEL".tr,
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                  style:bottomBtnText(),
                 ),
               ),
-              height: 48,
+              height: btnHeight,
               onTap: () {
-                Get.dialog(
-                    ConfirmDialog(
-                      title: "Cancel Order".tr,
-                      info: "Do you want to cancel this order?".tr,
-                      confirmBtn: "CONFIRM".tr,
-                      onConfirm: () async {
-                        controller.cancelOrder();
-                      },
-                    ),
-                    barrierColor: Colors.black26);
+                controller.cancelOrder();
               },
             ));
           case TYPE_ORDER_RECEIVED:
@@ -53,10 +63,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         "ACCEPT".tr,
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                        style:bottomBtnText(),
                       ),
                     ),
-                    height: 48,
+                    height: btnHeight,
                     onTap: () {
                       controller.acceptOrder();
                     },
@@ -79,12 +89,11 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
                               "REJECT".tr,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                              style: bottomBtnText(),
                             ),
                           ),
                         ),
-                        height: 48),
+                        height: btnHeight),
                   ),
                 )
               ],
@@ -98,10 +107,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 "FINISHED".tr,
-                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                style: bottomBtnText(),
               ),
             ),
-            height: 48,
+            height: btnHeight,
             onTap: () {
               controller.finishOrder();
             },
@@ -118,10 +127,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       "FINISHED".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      style: bottomBtnText(),
                     ),
                   ),
-                  height: 48,
+                  height: btnHeight,
                   onTap: () {
                     controller.finishOrder();
                   },
@@ -134,10 +143,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       "REFUND".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      style: bottomBtnText(),
                     ),
                   ),
-                  height: 48,
+                  height: btnHeight,
                   onTap: () {
                     Get.dialog(CommentDialog(controller.id, () => Get.back(), isRefund: true),
                         barrierColor: Colors.black26);
@@ -158,10 +167,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       "REJECT".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      style: bottomBtnText(),
                     ),
                   ),
-                  height: 48,
+                  height: btnHeight,
                   onTap: () => controller.dsRejectOrder(),
                 ),
               ),
@@ -172,10 +181,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       "REFUND".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                      style: bottomBtnText(),
                     ),
                   ),
-                  height: 48,
+                  height: btnHeight,
                   onTap: () => controller.dsRefundOrder(),
                 ),
               ),
