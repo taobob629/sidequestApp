@@ -363,9 +363,10 @@ class OtherProfilePage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text(
-      "Dashboard".tr,
-    ));
+    if (t.player.value.isAuth)
+      tabs.add(Text(
+        "Dashboard".tr,
+      ));
     tabs.add(Text(
       "Posts".tr,
     ));
@@ -378,7 +379,7 @@ class OtherProfilePage extends StatelessWidget {
 
   List<Widget> createPages() {
     List<Widget> pages = [];
-    pages.add(OtherDashboardPage());
+    if (t.player.value.isAuth) pages.add(OtherDashboardPage());
     pages.add(OtherPostsPage());
     pages.add(OtherAlbumPage());
     return pages;
@@ -393,6 +394,8 @@ class OtherProfileController extends GetxController with GetSingleTickerProvider
   final showTitle = false.obs;
 
   final player = PlayerInfoModel().obs;
+
+  final selGame = GamesItem().obs;
 
   ScrollController scrollController = ScrollController();
 

@@ -10,6 +10,7 @@ class PlayerInfoModel {
   int sex = 0;
   int fans = 0;
   int followers = 0;
+  bool isAuth = false;
   String backGround = "";
   int userLevel = 0;
   List<GamesItem> games = [];
@@ -41,7 +42,7 @@ class PlayerInfoModel {
       });
     }
     trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
-
+    isAuth = json['isAuth'] == 1;
     online = json['online'] == 1;
     ranking = json['ranking'] ?? ranking;
     age = json['age'] ?? age;
