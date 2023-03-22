@@ -63,7 +63,7 @@ class ImApi {
     var formData = {
       "orderId": orderId,
     };
-    return await http.post('/peiwan/app/order/god/refund',
+    return await http.post('/peiwan/app/new/orders/player/refund',
         queryParameters: ({
           'orderId': orderId,
           'status': status,
