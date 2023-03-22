@@ -29,7 +29,7 @@ Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
         Widget body;
         if (mode == LoadStatus.idle) {
           body = Text(
-            "上拉加载",
+            "Loading",
             style: TextStyle(color: textColor),
           );
         } else if (mode == LoadStatus.loading) {
@@ -46,12 +46,12 @@ Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
                   height: 16,
                 ),
                 Padding(padding: EdgeInsets.only(left: 10)),
-                Text("加载中...", style: TextStyle(fontSize: 12, color: textColor))
+                Text("Loading...", style: TextStyle(fontSize: 12, color: textColor))
               ],
             ),
           );
         } else if (mode == LoadStatus.canLoading) {
-          body = Text("松开加载", style: TextStyle(color: textColor));
+          body = Text("", style: TextStyle(color: textColor));
         } else {
           body = Text("");
         }
