@@ -56,8 +56,7 @@ class OrderListController extends RefreshListController<ServiceListModel> {
         arguments: Map()
           ..['id'] = item.id
           ..['type'] = type)?.then((value) {
-            flog('回调 $value');
-            refresh();
+            if(value) onRefresh();
     });
   }
 }

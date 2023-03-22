@@ -29,44 +29,43 @@ class OrderListListPage extends BasePage {
   OrderListListPage(this.type);
 
   body(BuildContext context) {
-    return contentPadding(
-        child: ListView.separated(
+    return ListView.separated(
       itemBuilder: (context, index) {
-        var model = pageController().mDatas[index];
+        var model = controller?.mDatas[index];
         return Container(
           width: Get.width,
-          child: InkWell(child: item(model),onTap: ()=>controller?.toDetail(model),),
+          child: InkWell(
+            child: item(model!),
+            onTap: () => controller?.toDetail(model!),
+          ),
         );
       },
-      itemCount: pageController().mDatas.length,
-      separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.transparent,height: 15.h,),
-    ));
+      itemCount: controller?.mDatas.length ?? 0,
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        color: Colors.transparent,
+        height: 15.h,
+      ),
+    );
   }
 
   @override
   Widget buildBody(BuildContext context) {
-    return biuldSmartRefresh(
-        pageController().refreshController!!,
-        pageController().pageState == PageState.sucess
-            ? body(context)
-            : pageController().buildEmpty(),
+    return biuldSmartRefresh(controller?.refreshController,
+        controller?.pageState == PageState.sucess ? body(context) : controller?.buildEmpty(),
         onRefresh: () {
-          pageController().onRefresh();
+          controller?.onRefresh();
         },
-        onLoad: () => pageController().onLoadMore());
+        onLoad: () => controller?.onLoadMore());
   }
 
   @override
   RefreshListController pageController() {
-    try {
-      controller = Get.find<OrderListController>(tag: 'OrderList_$type');
-      return controller!;
-    } catch (e) {
-      flog('$e');
-      controller = Get.put(OrderListController(type), tag: 'OrderList_$type');
-      controller!.refreshController = RefreshController(initialRefresh: false);
-      return controller!;
-    }
+    if (controller != null) return controller!;
+    flog('OrderList_$type');
+    controller = Get.put(OrderListController(type), tag: 'OrderList_$type');
+    controller?.refreshController = RefreshController(initialRefresh: false);
+    return controller!;
+    //  }
   }
 
   item(ServiceListModel model) {
@@ -96,7 +95,8 @@ class OrderListListPage extends BasePage {
         10.verticalSpace,
         Row(
           children: [
-            ImageUtil.networkImage(url: model.icon, border: 17.r, width: 70.w, height: 70.w,fit: BoxFit.cover),
+            ImageUtil.networkImage(
+                url: model.icon, border: 17.r, width: 70.w, height: 70.w, fit: BoxFit.cover),
             10.horizontalSpace,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,6 +143,7 @@ class OrderListListPage extends BasePage {
 
   Widget innnerBg(Widget view) {
     return Container(
+      margin: EdgeInsets.only(left: 15,right: 15).r,
       padding: itemPadding10,
       decoration: itemDecoration(color: Color(0xFF262731), radius: 17.r),
       child: view,

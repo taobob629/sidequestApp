@@ -109,7 +109,7 @@ class OrderDetailPageController extends BasePageController {
     var res = await ImApi.acceptOrder(id).catchError((v) {});
     EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
-    Get.back();
+    Get.back(result: true);
   }
 
   ///大神拒绝退款
@@ -121,7 +121,7 @@ class OrderDetailPageController extends BasePageController {
           await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
       EasyLoading.showToast('${res.statusMessage}');
       EasyLoading.dismiss();
-      Get.back();
+      Get.back(result: true);
     });
   }
 
@@ -131,7 +131,7 @@ class OrderDetailPageController extends BasePageController {
     await ImApi.cancelOrder(id);
     refreshList();
     EasyLoading.dismiss();
-    Get.back();
+    Get.back(result: true);
   }
 
   ///大神同意退款
@@ -161,9 +161,7 @@ class OrderDetailPageController extends BasePageController {
     if (response.statusCode != 200) {
       EasyLoading.showToast('${response.statusMessage}');
     }
-    //todo 刷新列表
-    refreshList();
-    Get.back();
+    Get.back(result: true);
   }
 
   void refreshList() {

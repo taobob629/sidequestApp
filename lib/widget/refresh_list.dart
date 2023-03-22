@@ -10,7 +10,7 @@ import 'package:wy/config/app_color.dart';
 
 typedef buildContent = Widget Function();
 
-Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
+Widget biuldSmartRefresh(RefreshController? refreshController, Widget content,
     {required VoidCallback onRefresh,
     VoidCallback? onLoad,
     bool enablePullDown = true,
@@ -19,7 +19,7 @@ Widget biuldSmartRefresh(RefreshController refreshController, Widget content,
     Widget header = const WaterDropHeader(
         complete: Center(child: Text("", style: TextStyle(color: AppColor.textC5C5))))}) {
   return SmartRefresher(
-    controller: refreshController,
+    controller: refreshController!,
     enablePullUp: enablePullUp,
     enablePullDown: enablePullDown,
     header: header,
