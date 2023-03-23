@@ -3,6 +3,7 @@ import 'package:wy/model/safe_convert.dart';
 class OrderDetailModel {
   // 1
   final int amount;
+  List<CommentsModel> history = [];
 
   // PA20230321167586
   final String orderSn;
@@ -48,9 +49,10 @@ class OrderDetailModel {
   final int status;
 
   OrderDetailModel({
+    required this.history,
     this.amount = 0,
-    this.skillThumb='',
-    this.userAvatar='',
+    this.skillThumb = '',
+    this.userAvatar = '',
     this.orderSn = "",
     this.nickName = "",
     this.discount = 0,
@@ -83,9 +85,11 @@ class OrderDetailModel {
         subtotal: asT<int>(json, 'subtotal'),
         time: asT<String>(json, 'time'),
         status: asT<int>(json, 'status'),
+        history: asT<List>(json, 'history').map((e) => CommentsModel.fromJson(e)).toList(),
       );
 
   Map<String, dynamic> toJson() => {
+        'history': history,
         'amount': amount,
         'orderSn': orderSn,
         'nickName': nickName,
@@ -100,5 +104,28 @@ class OrderDetailModel {
         'subtotal': subtotal,
         'time': time,
         'status': status,
+      };
+}
+
+class CommentsModel {
+  // Mar 23,2023 12:50 PM
+  final String time;
+
+  // bob-prod2 accept the order!
+  final String content;
+
+  CommentsModel({
+    this.time = "",
+    this.content = "",
+  });
+
+  factory CommentsModel.fromJson(Map<String, dynamic>? json) => CommentsModel(
+        time: asT<String>(json, 'time'),
+        content: asT<String>(json, 'content'),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'time': time,
+        'content': content,
       };
 }

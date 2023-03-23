@@ -20,10 +20,10 @@ import 'package:wy/utils/utils.dart';
 import 'package:dio/src/response.dart' as dio;
 
 List<KeyMap> gameInitFilter = [
-  KeyMap('语言'.tr, null),
-  KeyMap('性别'.tr, null),
-  KeyMap('等级'.tr, null),
-  KeyMap('段位'.tr, null)
+  KeyMap('Language'.tr, null),
+  KeyMap('Gender'.tr, null),
+  KeyMap('Rank'.tr, null),
+  KeyMap('Level'.tr, null)
 ];
 
 class SideKickController extends RefreshListController<GameUserModel> {

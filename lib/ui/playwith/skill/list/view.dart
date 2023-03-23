@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/common/page/empty_view.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
@@ -51,7 +52,7 @@ class SkillListPage extends GetView<SkillListPageController> {
         body: Obx(() => controller.pageState == SkillListPageController.INIT
             ? buildLoad()
             : controller.list.isEmpty
-                ? PWidget.text('No more'.tr, [Colors.white54], {'ct': true, 'pd': 8})
+                ? EmptyView()
                 : MediaQuery.removePadding(
                     context: context,
                     removeTop: true,

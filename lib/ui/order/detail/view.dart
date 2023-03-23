@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:timelines/timelines.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/order_detail.dart';
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
@@ -52,6 +54,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   return orderDetailWidget(context);
                                 case 1:
                                   return evaluateWidget();
+                                case 2:
+                                  return commentsWidget();
                                 default:
                                   return Container();
                               }
@@ -60,7 +64,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   color: Colors.transparent,
                                   height: 13.h,
                                 ),
-                            itemCount: 2))))),
+                            itemCount: controller.model?.history?.isNotEmpty == true ? 3 : 2))))),
         btnBar: bottom_bar());
   }
 
@@ -181,13 +185,32 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         children: [
           rowLine2(
               'User Rating'.tr,
-              InkWell(
-                  onTap: () {},
+              Visibility(
+                  visible: controller.model?.status==-2,
+                  child: InkWell(
+                  onTap: () {
+                    var comments = controller.etCommnetController.text;
+                    if (comments.isEmpty) {
+                      Get.dialog(
+                        ConfirmDialog(
+                          title: 'Confirm'.tr,
+                          concelBtn: 'Cancel'.tr,
+                          cancelable: true,
+                          info: 'Are you sure not to submit any evaluation content? ',
+                          onConfirm: () {
+                            controller.finishOrder();
+                          },
+                        ),
+                      );
+                      return;
+                    }
+                    controller.finishOrder();
+                  },
                   child: Text(
                     'Submit'.tr,
                     style: TextStyle(
                         color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
-                  ))),
+                  )))),
           listDivider,
           10.verticalSpace,
           ...starLine(),
@@ -197,6 +220,54 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         ],
       ));
     return Container();
+  }
+
+  commentsWidget() {
+    List<CommentsModel> history = controller.model?.history ?? [];
+    if (history.isEmpty == true) return Container();
+    return innnerBg(Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      rowLine2('Comments'.tr, Container()),
+      10.verticalSpace,
+      FixedTimeline.tileBuilder(
+          //  contentsAlign: ContentsAlign.basic,
+          mainAxisSize: MainAxisSize.min,
+          theme: TimelineThemeData(color: AppColor.yellow),
+          builder: TimelineTileBuilder.connectedFromStyle(
+              contentsAlign: ContentsAlign.basic,
+              oppositeContentsBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${history[index].time}',
+                      style: TextStyle(
+                          fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: Colors.white60),
+                    ),
+                  ),
+              connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
+              indicatorStyleBuilder: (context, index) => IndicatorStyle.dot,
+              contentsBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('${history[index].content}',
+                        style: TextStyle(
+                            fontFamily: FONT_MEDIUM, fontSize: 12.sp, color: Colors.white)),
+                  ),
+              itemCount: history.length))
+    ]));
+    // children: history
+    //     .map((e) => TimelineTile(
+    //   oppositeContents: Padding(
+    //     padding: const EdgeInsets.all(8.0),
+    //     child: Text('${e.time}',style: TextStyle(color: Colors.white60,fontSize: 10.sp),),
+    //   ),
+    //   contents: Padding(padding: EdgeInsets.all(8).r,
+    //   child: Text('${e.content}'),),
+    //   node: TimelineNode(
+    //     indicator: DotIndicator(),
+    //     startConnector: SolidLineConnector(),
+    //     endConnector: SolidLineConnector(),
+    //   ),
+    // ))
+    //     .toList(),
+    // )
   }
 
   double starSteps = 1;
