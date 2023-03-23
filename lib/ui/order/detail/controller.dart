@@ -57,10 +57,12 @@ class OrderDetailPageController extends BasePageController {
     model = await OrderApi.getOrderDetail(id);
     pageState = PageState.sucess;
     etCommnetController.text=model?.comments?.content??'';
-    starFri.value=model?.comments?.friendless??5.0;
-    starPer.value=model?.comments?.performance??5.0;
-    starRes.value=model?.comments?.responsive??5.0;
-    starEnj.value=model?.comments?.enjoyment??5.0;
+    if(model?.comments!=null) {
+      starFri.value = model?.comments?.friendless ?? 5.0;
+      starPer.value = model?.comments?.performance ?? 5.0;
+      starRes.value = model?.comments?.responsive ?? 5.0;
+      starEnj.value = model?.comments?.enjoyment ?? 5.0;
+    }
   }
 
   toChat(BuildContext context) async {

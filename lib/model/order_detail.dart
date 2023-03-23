@@ -70,7 +70,7 @@ class OrderDetailModel {
     this.status = 0,
   });
 
-  factory OrderDetailModel.fromJson(Map<String, dynamic>? json) => OrderDetailModel(
+  factory OrderDetailModel.fromJson(Map<String, dynamic> json) => OrderDetailModel(
         amount: asT<int>(json, 'amount'),
         orderSn: asT<String>(json, 'orderSn'),
         skillThumb: asT<String>(json, 'skillThumb'),
@@ -88,7 +88,7 @@ class OrderDetailModel {
         time: asT<String>(json, 'time'),
         status: asT<int>(json, 'status'),
         history: asT<List>(json, 'history').map((e) => CommentsModel.fromJson(e)).toList(),
-        comments: EnvaluateModel.fromJson(asT<Map<String, dynamic>>(json, 'comments')),
+        comments:json['comments']!=null? EnvaluateModel.fromJson(asT<Map<String, dynamic>>(json, 'comments')):null,
       );
 
   Map<String, dynamic> toJson() => {
