@@ -56,6 +56,11 @@ class OrderDetailPageController extends BasePageController {
   initData() async {
     model = await OrderApi.getOrderDetail(id);
     pageState = PageState.sucess;
+    etCommnetController.text=model?.comments?.content??'';
+    starFri.value=model?.comments?.friendless??5.0;
+    starPer.value=model?.comments?.performance??5.0;
+    starRes.value=model?.comments?.responsive??5.0;
+    starEnj.value=model?.comments?.enjoyment??5.0;
   }
 
   toChat(BuildContext context) async {
@@ -170,20 +175,53 @@ class OrderDetailPageController extends BasePageController {
     var response;
     if (type == TYPE_ORDER_RECEIVED) {
       response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
+      if (response.statusCode != 200) {
+        EasyLoading.showToast('${response.statusMessage}');
+      }
+      Get.back(result: true);
     } else {
+      var comments = etCommnetController.text;
+      if (comments.isEmpty) {
+        Get.dialog(
+          ConfirmDialog(
+            title: 'Confirm'.tr,
+            concelBtn: 'Cancel'.tr,
+            cancelable: true,
+            info: 'Are you sure not to submit any evaluation content? ',
+            onConfirm: () async {
+              response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
+                ..['performance'] = starPer.value
+                ..['responsive'] = starRes.value
+                ..['enjoyment'] = starEnj.value
+                ..['friendless'] = starFri.value
+                ..['id'] = id
+                ..['comments'] = etCommnetController.text)
+                  .whenComplete(() => EasyLoading.dismiss());
+              if (response.statusCode != 200) {
+                EasyLoading.showToast('${response.statusMessage}');
+              }
+              EasyLoading.dismiss();
+              Get.back(result: true);
+            },
+          ),
+        );
+        return;
+      }
       response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
-            ..['performance'] = starPer.value
-            ..['responsive'] = starRes.value
-            ..['enjoyment'] = starEnj.value
-            ..['friendless'] = starFri.value
-            ..['id'] = id
-            ..['comments'] = etCommnetController.text)
+        ..['performance'] = starPer.value
+        ..['responsive'] = starRes.value
+        ..['enjoyment'] = starEnj.value
+        ..['friendless'] = starFri.value
+        ..['id'] = id
+        ..['comments'] = etCommnetController.text)
           .whenComplete(() => EasyLoading.dismiss());
+      if (response.statusCode != 200) {
+        EasyLoading.showToast('${response.statusMessage}');
+      }
+      EasyLoading.dismiss();
+      Get.back(result: true);
     }
-    if (response.statusCode != 200) {
-      EasyLoading.showToast('${response.statusMessage}');
-    }
-    Get.back(result: true);
+
   }
 
   void refreshList() {

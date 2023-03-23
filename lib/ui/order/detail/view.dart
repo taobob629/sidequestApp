@@ -180,13 +180,13 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   evaluateWidget() {
-    if (controller.model?.status == -2 || controller.model?.status == -2)
+    if (controller.model?.status == -2 || controller.model?.status == 2)
       return innnerBg(Column(
         children: [
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                  visible: controller.model?.status==-2,
+                  visible: false,
                   child: InkWell(
                   onTap: () {
                     var comments = controller.etCommnetController.text;
@@ -286,7 +286,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   Obx startItem(RxDouble defaultStar, {var type}) {
     return Obx(() => FFStars(
-          justShow: controller.model?.status != -2,
+          justShow: controller.model?.status != 2,
           normalStar: ImageUtil.assetImage('score0'),
           selectedStar: ImageUtil.assetImage('score1'),
           step: starSteps,
@@ -319,7 +319,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
     return Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
-        readOnly: controller.model?.status != -2,
+        readOnly: controller.model?.status != 2,
         //只有-2可以编辑
         controller: controller.etCommnetController,
         maxLines: null,
@@ -328,7 +328,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         maxLength: 150,
         decoration: InputDecoration(
             border: InputBorder.none,
-            label: ImageUtil.assetImage('ic_edit_yellow', width: 17.w),
+            label:controller.model?.status== 2 ?ImageUtil.assetImage('ic_edit_yellow', width: 17.w):null,
             counterStyle: TextStyle(color: Colors.white60),
             // labelText: 'Please write down your comments'.tr,
             hintStyle: TextStyle(color: Color(0xFFB2B9C9), fontSize: 13.sp)),
