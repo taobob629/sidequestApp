@@ -59,8 +59,9 @@ class SideKickController extends RefreshListController<GameUserModel> {
     initData();
   }
 
-  void choseSelect(index) {
+  Future<void> choseSelect(index) async {
     currentSelectIndex = index;
+    await getGameSection();
     onRefresh();
   }
 
