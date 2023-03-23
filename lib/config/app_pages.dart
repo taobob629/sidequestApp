@@ -7,6 +7,7 @@ import 'package:wy/ui/frame/profile/sidekick/view.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/frame/sidekick/search/bindings.dart';
 import 'package:wy/ui/frame/sidekick/search/search_page.dart';
+import 'package:wy/ui/frame/sidekick/view.dart';
 import 'package:wy/ui/frame/social/post/page/post_detail_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
@@ -74,6 +75,7 @@ class AppPages {
   static const ServiceAndOrders = '/service_and_orders_page';
   static const OtherProfile = '/other_profile_page';
   static const OrderDetail = '/order_detail_page';
+  static const SideKick = '/sidekick_page';
 
   static final routes = [
     GetPage(
@@ -167,6 +169,7 @@ class AppPages {
         binding: ServiceAndOrdersTabBinding()),
 
     GetPage(name: OtherProfile, page: () => OtherProfilePage()),
+    GetPage(name: SideKick, page: () => SideKickPage()),
     GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
   ];
 }
