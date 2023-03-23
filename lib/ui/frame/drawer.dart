@@ -183,15 +183,24 @@ class HomeDrawer extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Text(
-              '${user?.nickName}',
-              style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
+              Text(
+                '${user?.nickName}',
+                style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
+              ),
+              5.verticalSpace,
+              Text(
+                '${user?.uk}',
+                style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT, color: AppColor.textC5C5),
+              )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Image(
+              image: AssetImage(UserController.find.gradeImg()),
+              height: 25,
             ),
-            Text(
-              '${user?.uk}',
-              style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT, color: AppColor.textC5C5),
-            )
-          ],),
+          ),
           Spacer(),
           ClickIcon(
             icon: Icons.arrow_forward_ios,

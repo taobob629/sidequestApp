@@ -303,4 +303,13 @@ class UserController extends GetxController {
     EasyLoading.dismiss();
     logout(done: () => Get.offAllNamed(AppPages.Login));
   }
+  String gradeImg() {
+    int isauth=userInfoModel.value.isauth;
+    int level=userInfoModel.value.level;
+    if (level== 0) {
+      if (isauth == TYPE_VIP)
+        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+    }
+    return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
+  }
 }
