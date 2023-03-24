@@ -180,7 +180,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   evaluateWidget() {
-    if (controller.model?.status == -2 || controller.model?.status == 2)
+    if (controller.model?.status == -2 ||
+        (controller.model?.status == 2 && controller.type == TYPE_ORDER_PROVIDED)) {
       return innnerBg(Column(
         children: [
           rowLine2(
@@ -188,29 +189,29 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               Visibility(
                   visible: false,
                   child: InkWell(
-                  onTap: () {
-                    var comments = controller.etCommnetController.text;
-                    if (comments.isEmpty) {
-                      Get.dialog(
-                        ConfirmDialog(
-                          title: 'Confirm'.tr,
-                          concelBtn: 'Cancel'.tr,
-                          cancelable: true,
-                          info: 'Are you sure not to submit any evaluation content? ',
-                          onConfirm: () {
-                            controller.finishOrder();
-                          },
-                        ),
-                      );
-                      return;
-                    }
-                    controller.finishOrder();
-                  },
-                  child: Text(
-                    'Submit'.tr,
-                    style: TextStyle(
-                        color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
-                  )))),
+                      onTap: () {
+                        var comments = controller.etCommnetController.text;
+                        if (comments.isEmpty) {
+                          Get.dialog(
+                            ConfirmDialog(
+                              title: 'Confirm'.tr,
+                              concelBtn: 'Cancel'.tr,
+                              cancelable: true,
+                              info: 'Are you sure not to submit any evaluation content? ',
+                              onConfirm: () {
+                                controller.finishOrder();
+                              },
+                            ),
+                          );
+                          return;
+                        }
+                        controller.finishOrder();
+                      },
+                      child: Text(
+                        'Submit'.tr,
+                        style: TextStyle(
+                            color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                      )))),
           listDivider,
           10.verticalSpace,
           ...starLine(),
@@ -219,6 +220,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           comments()
         ],
       ));
+    }
     return Container();
   }
 
@@ -286,7 +288,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   Obx startItem(RxDouble defaultStar, {var type}) {
     return Obx(() => FFStars(
-          justShow: controller.model?.status != 2,
+          justShow: readOnly(),
           normalStar: ImageUtil.assetImage('score0'),
           selectedStar: ImageUtil.assetImage('score1'),
           step: starSteps,
@@ -315,12 +317,16 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         ));
   }
 
+  readOnly() {
+    if (controller.type == TYPE_ORDER_RECEIVED) return true; //下单人都只是展示
+    return controller.model?.status != -2;
+  }
+
   comments() {
     return Container(
       constraints: BoxConstraints(minHeight: 100.h),
       child: TextField(
-        readOnly: controller.model?.status != 2,
-        //只有-2可以编辑
+        readOnly: readOnly(),
         controller: controller.etCommnetController,
         maxLines: null,
         textAlign: TextAlign.start,
@@ -328,7 +334,9 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         maxLength: 150,
         decoration: InputDecoration(
             border: InputBorder.none,
-            label:controller.model?.status== 2 ?ImageUtil.assetImage('ic_edit_yellow', width: 17.w):null,
+            label: controller.model?.status == 2
+                ? ImageUtil.assetImage('ic_edit_yellow', width: 17.w)
+                : null,
             counterStyle: TextStyle(color: Colors.white60),
             // labelText: 'Please write down your comments'.tr,
             hintStyle: TextStyle(color: Color(0xFFB2B9C9), fontSize: 13.sp)),
