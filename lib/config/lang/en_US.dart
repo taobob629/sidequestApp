@@ -555,10 +555,7 @@ const Map<String, String> en_US = {
   'Withdrawal': 'Withdrawal',
   'Are you sure to delete this?': 'Are you sure to delete this?',
   'Service Name': 'Service Name',
-  '语言': 'Language',
-  '性别': 'Gender',
-  '等级': 'Grade',
-  '段位': 'Rank',
+  'Rank': 'Rank',
   '暂无': 'None',
   'the service price not in the price range':'the service price not in the price range',
   'Play': 'Play',
@@ -668,6 +665,7 @@ const Map<String, String> en_US = {
   "Input nickname,UK account or email":"Input nickname,UK account or email",
   "Up to Four":"Up to Four",
   "Please input Service Name":"Please input Service Name",
+  "Order Timeline":"Order Timeline",
 
 
 };

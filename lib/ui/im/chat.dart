@@ -13,6 +13,7 @@ import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_chat_controller
 import 'package:tencent_cloud_chat_uikit/ui/utils/permission.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/tim_uikit_call_invite_list.dart';
 import 'package:wy/api/im_api.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/ui/im/play_detail.dart';
 import 'package:intl/intl.dart';
@@ -251,7 +252,10 @@ class _ChatState extends State<Chat> {
             print(data);
             return GestureDetector(
               onTap: () {
-                Get.to(() => OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
+                Get.to(() =>Get.toNamed(AppPages.OrderDetail,
+                    arguments: Map()
+                      ..['id'] = data['orderId'])?.then((value) {
+                }).whenComplete(() => _getPlayOrder()));
               },
               child: Container(
                 height: height,
@@ -398,7 +402,9 @@ class _ChatState extends State<Chat> {
       return Container();
     }
     return GestureDetector(
-      onTap: () => Get.to(() => OrderDetail(orderId: playOrderDetailModel!.orderId))!.whenComplete(() => _getPlayOrder()),
+      onTap: () =>Get.toNamed(AppPages.OrderDetail,
+          arguments: Map()
+            ..['id'] = playOrderDetailModel!.orderId)?.whenComplete(() => _getPlayOrder()),
       child: Container(
         height: 80,
         color: Colors.white12,

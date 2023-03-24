@@ -78,15 +78,15 @@ class WithDrawMainPage extends StatelessWidget {
   }
 
   List<Widget> createPages() {
-    var userType = userController.userInfoModel.value.isauth;
-    if (userType == TYPE_VIP) {
+    // var userType = userController.userInfoModel.value.isauth;
+    // if (userType == TYPE_VIP) {
       return [
         KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH)),
         KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN)),
         KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS))
       ];
-    }
-    return [KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN))];
+    // }
+    // return [KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN))];
   }
 }
 

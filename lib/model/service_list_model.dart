@@ -7,7 +7,7 @@ import 'package:wy/model/safe_convert.dart';
 var orderStatusMap = {
   -4: 'Overdue'.tr,
   -3: 'Rejected'.tr,
-  -2: 'To be evaluated'.tr,
+  -2: 'Completed'.tr,
   -1: 'Canceled'.tr,
   0: 'Pending'.tr,
   1: 'Paid'.tr,

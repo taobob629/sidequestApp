@@ -554,10 +554,7 @@ const Map<String, String> zh_CN = {
   'Withdrawal': '提现',
   'Are you sure to delete this?': '确定要删除吗?',
   'Service Name': '服务项目',
-  '语言': '语言',
-  '性别': '性别',
-  '等级': '等级',
-  '段位': '段位',
+  'Rank': '等级',
   '暂无': '暂无',
   'the service price not in the price range': '服务价格不在价格区间内',
   'Play': '下单',
@@ -667,6 +664,7 @@ const Map<String, String> zh_CN = {
   "Input nickname,UK account or email":"请输入昵称,UK账户或者Email",
   "Up to Four":"最多选择四个",
   "Please input Service Name":"请输入服务名字",
+  "Order Timeline":"订单状态",
 
 
 };

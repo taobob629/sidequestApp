@@ -172,7 +172,7 @@ class AddGamePageController extends GetxController {
     await http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
-      Get.offNamedUntil(AppPages.SkillList, ModalRoute.withName('/skillList'));
+      Get.offNamedUntil(AppPages.ServiceAndOrders, ModalRoute.withName('/service_and_orders_page'));
     }).catchError((e) {
       EasyLoading.showToast('Network exception'.tr);
     }).whenComplete(() {});

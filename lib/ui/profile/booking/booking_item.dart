@@ -7,6 +7,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/booking_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/utils/time_utils.dart';
 
 class BookingItem extends StatelessWidget {
   final BookingModel model;
@@ -49,7 +50,7 @@ class BookingItem extends StatelessWidget {
                   ),
                   5.horizontalSpace,
                   Text(
-                    "${model.timeString}",
+                    "${TimeUtils.getYYYYMMDDHHMM(DateTime.fromMillisecondsSinceEpoch(model.time*1000), '-', ':')}",
                     style: TextStyle(
                         fontSize: 10.sp, fontFamily: FONT_MEDIUM, color: AppColor.textYellow),
                   ),

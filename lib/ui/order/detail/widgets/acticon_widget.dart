@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
@@ -148,8 +149,9 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                   ),
                   height: btnHeight,
                   onTap: () {
-                    Get.dialog(CommentDialog(controller.id, () => Get.back(), isRefund: true),
-                        barrierColor: Colors.black26);
+                    Get.toNamed(AppPages.Refound,arguments: controller.model);
+                    // Get.dialog(CommentDialog(controller.id, () => Get.back(), isRefund: true),
+                    //     barrierColor: Colors.black26);
                   },
                 ),
               ),

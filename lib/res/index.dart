@@ -6,3 +6,4 @@
 library res;
 export 'dimens.dart';
 export 'styles.dart';
+export 'widgets.dart';
