@@ -58,6 +58,14 @@ class SkillListPageController extends GetxController {
     if (data.status != SkillModel.PASS) {
       return;
     }
+    if (skillItemModel == null) {
+      Get.toNamed(AppPages.AddSkillItem,
+          arguments: Map<String, dynamic>()
+            ..['skillName'] = data.skillName
+            ..['gameId'] = data.skillid
+            ..['levelId'] = data.levelid);
+      return;
+    }
     Get.toNamed(AppPages.SkillItem,
             arguments: Map()
               ..['id'] = skillItemModel?.id

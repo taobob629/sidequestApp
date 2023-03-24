@@ -1,0 +1,111 @@
+/**
+    author:mac
+    创建日期:2023/3/24
+    描述:
+ */
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/res/index.dart';
+import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/common/input_view.dart';
+import 'package:wy/ui/playwith/service/add/add_game_page.dart';
+import 'package:wy/widget/another_xlider.dart';
+import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/views.dart';
+
+import 'controller.dart';
+
+class SkillItemAddPage extends GetView<SkillItemAddPageController> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${Get.arguments['skillName']}'),
+      ),
+      body: Obx(() => controller.priceRanges.isEmpty ? buildLoad() : _buildBody()),
+      bottomNavigationBar: FloatingButton(
+        label: 'Confirm'.tr,
+        onTap: () => null,
+      ),
+    );
+  }
+
+  _buildBody() {
+    var model = controller.priceRanges.first;
+    return outerBg(Column(
+      children: [
+        InputView(
+          decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+          controller: controller.teContent,
+          label: 'ServiceType_${model?.unit}',
+          tips: 'Please input Service Name'.tr,
+          margin: EdgeInsets.only(top: 2).h,
+          padding: EdgeInsets.only(bottom: 8.h),
+          height: 45.h,
+        ),
+        5.verticalSpace,
+        Container(
+          height: 45.h,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                  child: Container(
+                      decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                      child: Obx(() => FlutterSlider(
+                            values: [controller.price],
+                            max: model.gameCoinMax!,
+                            min: model.gameCoinMin!,
+                            handlerWidth: 40.w,
+                            trackBar: FlutterSliderTrackBar(
+                              inactiveTrackBar: BoxDecoration(
+                                  color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+                              activeTrackBar: BoxDecoration(
+                                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                            ),
+                            tooltip: FlutterSliderTooltip(
+                              positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+                              custom: (v) => PWidget.container(
+                                PWidget.row([
+                                  Image.asset("assets/images/ic_balance_money.webp",
+                                      width: 16, height: 16),
+                                  PWidget.boxw(4),
+                                  PWidget.text('${double.parse('$v').toInt()}'),
+                                  PWidget.boxw(4),
+                                  PWidget.text(
+                                      '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+                                ]),
+                                [null, null, Colors.white],
+                                {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
+                              ),
+                            ),
+                            handler: FlutterSliderHandler(
+                              child: PWidget.container(
+                                  PWidget.text('${controller.price.toInt()}',
+                                      [Colors.black.withOpacity(0.75)]),
+                                  [null, null, Colors.white],
+                                  {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+                              foregroundDecoration: BoxDecoration(),
+                              decoration: BoxDecoration(),
+                            ),
+                            handlerAnimation: FlutterSliderHandlerAnimation(
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.elasticIn,
+                                duration: Duration(milliseconds: 250)),
+                            onDragging: (i, v1, v2) {
+                              controller.price = v1;
+                              model?.curPrice = controller.price;
+                            },
+                            //    onDragCompleted: (i, v1, v2) => price = v1,
+                          )))),
+              10.horizontalSpace,
+            ],
+          ),
+        )
+      ],
+    ));
+  }
+}

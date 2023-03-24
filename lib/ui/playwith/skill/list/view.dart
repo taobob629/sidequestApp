@@ -185,7 +185,7 @@ class SkillListPage extends GetView<SkillListPageController> {
   }
 
   Widget addStatus(SkillModel data) {
-    return data.status == SkillModel.PASS
+    return data.status == SkillModel.PASS && data.addServiceItem == 0
         ? InkWell(
             onTap: () => controller.addSkillItem(data),
             child: Container(
@@ -268,22 +268,19 @@ class SkillListPage extends GetView<SkillListPageController> {
           //   PWidget.textIs('${item?.name}', [Colors.white]),
           //   // if (item.enabled == 0) PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
           // ]),
+          Transform.scale(
+            scale: 0.6,
+            child: CupertinoSwitch(
+                activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {}),
+          ),
           Container(
-            width: 60.w,
+            constraints: BoxConstraints(maxWidth: 150.w),
             child: Text(
               '${item?.name}',
-              style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT),
+              style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT,overflow: TextOverflow.ellipsis),
             ),
           ),
           10.horizontalSpace,
-          Container(
-            height: 20,
-            child: Transform.scale(
-              scale: 0.6,
-              child: CupertinoSwitch(
-                  activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {}),
-            ),
-          ),
           Spacer(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,

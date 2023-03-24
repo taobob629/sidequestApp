@@ -68,6 +68,7 @@ class SkillModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
+    map['addServiceItem'] = addServiceItem;
     map['uid'] = uid;
     map['sex'] = sex;
     map['skillid'] = skillid;
@@ -101,6 +102,7 @@ class SkillModel {
   }
   SkillModel.fromJson(dynamic json) {
     id = json['id'];
+    addServiceItem = json['addServiceItem'];
     uid = json['uid'];
     sex = json['sex'];
     skillid = json['skillid'];
@@ -160,6 +162,7 @@ class SkillModel {
   int? orders;
   double? stars;
   int? edit;
+  int? addServiceItem;
   dynamic backGround;
   List<SkillItemModel> childItemVoList = [];
   dynamic uname;
