@@ -201,8 +201,8 @@ class _AddGamePageState extends State<AddGamePage> {
             type: TYPE_ADD_BANK,
           ),
           FloatingButton(
-            label: "Next",
-            onTap: () => update(),
+            label: '${controller.isEdit?'Confirm'.tr:'Next'.tr}',
+            onTap: () => controller.isEdit?controller.updateService():update(),
           )
         ],
       ),
