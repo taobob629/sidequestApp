@@ -37,6 +37,8 @@ class OrderDetailModel {
   // 65926
   final int pwId;
 
+  final int pwuserId; //下单人
+
   // 60
   final int price;
 
@@ -64,6 +66,7 @@ class OrderDetailModel {
     this.serviceItemName = "",
     this.uk = "",
     this.pwId = 0,
+    this.pwuserId = 0,
     this.price = 0,
     this.subtotal = 0,
     this.time = "",
@@ -83,12 +86,15 @@ class OrderDetailModel {
         serviceItemName: asT<String>(json, 'serviceItemName'),
         uk: asT<String>(json, 'uk'),
         pwId: asT<int>(json, 'pwId'),
+        pwuserId: asT<int>(json, 'pwuserId'),
         price: asT<int>(json, 'price'),
         subtotal: asT<int>(json, 'subtotal'),
         time: asT<String>(json, 'time'),
         status: asT<int>(json, 'status'),
         history: asT<List>(json, 'history').map((e) => CommentsModel.fromJson(e)).toList(),
-        comments:json['comments']!=null? EnvaluateModel.fromJson(asT<Map<String, dynamic>>(json, 'comments')):null,
+        comments: json['comments'] != null
+            ? EnvaluateModel.fromJson(asT<Map<String, dynamic>>(json, 'comments'))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

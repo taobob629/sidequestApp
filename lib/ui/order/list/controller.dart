@@ -56,7 +56,7 @@ class OrderListController extends RefreshListController<ServiceListModel> {
         arguments: Map()
           ..['id'] = item.id
           ..['type'] = type)?.then((value) {
-            if(value) onRefresh();
+            if(value==true) onRefresh();
     });
   }
 }

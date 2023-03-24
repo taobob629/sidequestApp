@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/im/order_detail.dart';
@@ -63,7 +64,10 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
                                 if (model.actionid! <= 0) {
                                   return;
                                 }
-                                Get.to(() => OrderDetail(orderId: model.actionid!));
+                                Get.toNamed(AppPages.OrderDetail,
+                                arguments: Map()
+                                ..['id'] = model.actionid);
+                              //  Get.to(() => OrderDetail(orderId: model.actionid!));
                               },
                               child: recordItem(model),
                             );

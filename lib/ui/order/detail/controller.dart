@@ -12,6 +12,7 @@ import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/chat.dart';
 import 'package:wy/ui/im/dialog_reject.dart';
 import 'package:wy/ui/order/controller.dart';
@@ -55,9 +56,15 @@ class OrderDetailPageController extends BasePageController {
 
   initData() async {
     model = await OrderApi.getOrderDetail(id);
+    if (type == null) {
+      type = UserController.find.userProfile?.value.pwId == model?.pwuserId
+          ? TYPE_ORDER_PROVIDED
+          : TYPE_ORDER_RECEIVED;
+      flog('type $type');
+    }
     pageState = PageState.sucess;
-    etCommnetController.text=model?.comments?.content??'';
-    if(model?.comments!=null) {
+    etCommnetController.text = model?.comments?.content ?? '';
+    if (model?.comments != null) {
       starFri.value = model?.comments?.friendless ?? 5.0;
       starPer.value = model?.comments?.performance ?? 5.0;
       starRes.value = model?.comments?.responsive ?? 5.0;
@@ -192,12 +199,12 @@ class OrderDetailPageController extends BasePageController {
             info: 'Are you sure not to submit any evaluation content? ',
             onConfirm: () async {
               response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
-                ..['performance'] = starPer.value
-                ..['responsive'] = starRes.value
-                ..['enjoyment'] = starEnj.value
-                ..['friendless'] = starFri.value
-                ..['id'] = id
-                ..['comments'] = etCommnetController.text)
+                    ..['performance'] = starPer.value
+                    ..['responsive'] = starRes.value
+                    ..['enjoyment'] = starEnj.value
+                    ..['friendless'] = starFri.value
+                    ..['id'] = id
+                    ..['comments'] = etCommnetController.text)
                   .whenComplete(() => EasyLoading.dismiss());
               if (response.statusCode != 200) {
                 EasyLoading.showToast('${response.statusMessage}');
@@ -210,12 +217,12 @@ class OrderDetailPageController extends BasePageController {
         return;
       }
       response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
-        ..['performance'] = starPer.value
-        ..['responsive'] = starRes.value
-        ..['enjoyment'] = starEnj.value
-        ..['friendless'] = starFri.value
-        ..['id'] = id
-        ..['comments'] = etCommnetController.text)
+            ..['performance'] = starPer.value
+            ..['responsive'] = starRes.value
+            ..['enjoyment'] = starEnj.value
+            ..['friendless'] = starFri.value
+            ..['id'] = id
+            ..['comments'] = etCommnetController.text)
           .whenComplete(() => EasyLoading.dismiss());
       if (response.statusCode != 200) {
         EasyLoading.showToast('${response.statusMessage}');
@@ -223,7 +230,6 @@ class OrderDetailPageController extends BasePageController {
       EasyLoading.dismiss();
       Get.back(result: true);
     }
-
   }
 
   void refreshList() {
