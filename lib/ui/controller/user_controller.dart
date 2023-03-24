@@ -29,6 +29,7 @@ import 'package:wy/utils/utils.dart';
 
 import '../../api_service/profile_api.dart';
 import '../../utils/db_helper.dart';
+import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
 import '../im/chat.dart';
 
@@ -226,6 +227,19 @@ class UserController extends GetxController {
     }
   }
 
+  jumpChat(tid) async {
+    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${tid}");
+    if (conv.data != null)
+      Navigator.push(
+          Get.context!,
+          MaterialPageRoute(
+            builder: (context) => ChatPage(
+              selectedConversation: conv.data!,
+            ),
+          ));
+  }
+
   initOfflinePush() async {
     await ChannelPush.init(handleClickNotification);
     uploadOfflinePushInfoToken();
@@ -303,12 +317,12 @@ class UserController extends GetxController {
     EasyLoading.dismiss();
     logout(done: () => Get.offAllNamed(AppPages.Login));
   }
+
   String gradeImg() {
-    int isauth=userInfoModel.value.isauth;
-    int level=userInfoModel.value.level;
-    if (level== 0) {
-      if (isauth == TYPE_VIP)
-        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+    int isauth = userInfoModel.value.isauth;
+    int level = userInfoModel.value.level;
+    if (level == 0) {
+      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }

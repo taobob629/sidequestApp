@@ -11,6 +11,7 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../../../model/pay_info_model.dart';
 import '../../messages/chat/chat_page.dart';
@@ -337,30 +338,35 @@ class OtherProfilePage extends StatelessWidget {
               body: TabBarView(controller: t.tabController, children: createPages())),
           Positioned(
               bottom: Get.mediaQuery.padding.bottom + 20,
-              child: Container(
-                width: 240,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: AppColor.yellowGradient),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Image.asset(
-                        "assets/images/profile/icon_pinlun.webp",
-                        width: 16,
-                        color: Colors.white,
+              child: GestureDetector(
+                onTap: () {
+                  t.jumpChat(t.player.value.uk);
+                },
+                child: Container(
+                  width: 240,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: AppColor.yellowGradient),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Image.asset(
+                          "assets/images/profile/icon_pinlun.webp",
+                          width: 16,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "Message",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                  ],
+                      Text(
+                        "Message",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                    ],
+                  ),
                 ),
               ))
         ],
@@ -450,31 +456,26 @@ class OtherProfileController extends GetxController with GetSingleTickerProvider
     if (isSelf) {
       Get.toNamed(AppPages.ServiceAndOrders);
     } else {
-      var memberId = await Get.to(() {
+      var uk = await Get.to(() {
         return MulitablePlayOrderPage(
           serviceItemList: [serviceItem],
         );
       });
       // flog('$res', 'Get.to(()=>PlayOrder');
-      if (memberId != null) {
-        if (memberId == 0) {
+      if (uk != null) {
+        if (uk == 0) {
           Get.back();
           MainPageController.find.currentIndex.value = 3;
           MainPageController.find.controller.jumpToPage(3);
         } else {
-          var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-          V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${memberId}");
-          if (conv.data != null)
-            Navigator.push(
-                Get.context!,
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    selectedConversation: conv.data!,
-                  ),
-                ));
+          jumpChat(uk);
         }
       }
     }
+  }
+
+  jumpChat(uk) {
+    UserController.find.jumpChat(uk);
   }
 
   @override

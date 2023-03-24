@@ -104,7 +104,7 @@ class PayApi {
       } else {
         payInfoModel.insufficient = false;
         if (response.data is int) {
-          payInfoModel.memberId = response.data as int;
+          payInfoModel.uk = response.data;
         }
         // payInfoModel.orderNo = response.data;
       }

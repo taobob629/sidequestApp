@@ -8,7 +8,7 @@ class PayInfoModel {
   late String ephemeralKeySecret;
   late bool applePay;
   late bool googlePay;
-  int memberId = 0;
+  String uk = "";
   bool insufficient = false;
 
   PayInfoModel();

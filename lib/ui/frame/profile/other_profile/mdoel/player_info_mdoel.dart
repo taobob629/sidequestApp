@@ -21,6 +21,7 @@ class PlayerInfoModel {
   double ranking = 0.0;
   int age = 0;
   int uid = 0;
+  String uk = "";
   List<TrophieModel> trophies = [];
 
   PlayerInfoModel();
@@ -34,6 +35,7 @@ class PlayerInfoModel {
     follow = json['follow'] == 1;
     fans = json['fans'] ?? fans;
     sex = json['sex'] ?? sex;
+    uk = json['uk'] ?? uk;
     followers = json['followers'] ?? followers;
     backGround = json['backGround'] ?? backGround;
     userLevel = json['userLevel'] ?? userLevel;
