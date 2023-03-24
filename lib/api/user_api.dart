@@ -90,7 +90,7 @@ class UserApi {
 
   static Future<List<SkillModel>> myauthlist() async {
     List<SkillModel> list = [];
-    var response = await http.get('/peiwan/app/user/myauthlist');
+    var response = await http.get('/peiwan/app/service/myauthlist');
     if (response.data == null) {
       return list;
     }
@@ -99,7 +99,7 @@ class UserApi {
   }
 
   static Future<SkillItemConfigModel?> skillItemConfig(var id) async {
-    var response = await http.get('/peiwan/app/skillItem/getItems/$id');
+    var response = await http.get('/peiwan/app/service/getItems?gid=$id');
     return SkillItemConfigModel.fromJson(response.data);
   }
 
