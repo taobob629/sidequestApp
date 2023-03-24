@@ -18,6 +18,8 @@ import 'package:wy/ui/middleware/login_middleware.dart';
 import 'package:wy/ui/middleware/strip_middleware.dart';
 import 'package:wy/ui/order/detail/bindings.dart';
 import 'package:wy/ui/order/detail/view.dart';
+import 'package:wy/ui/order/refound/bindings.dart';
+import 'package:wy/ui/order/refound/view.dart';
 import 'package:wy/ui/playwith/balance/withdraw/view.dart';
 import 'package:wy/ui/playwith/play_balance_page.dart';
 import 'package:wy/ui/playwith/service/add/service_type/view.dart';
@@ -76,6 +78,7 @@ class AppPages {
   static const OtherProfile = '/other_profile_page';
   static const OrderDetail = '/order_detail_page';
   static const SideKick = '/sidekick_page';
+  static const Refound = '/refound_page';
 
   static final routes = [
     GetPage(
@@ -170,6 +173,12 @@ class AppPages {
 
     GetPage(name: OtherProfile, page: () => OtherProfilePage()),
     GetPage(name: SideKick, page: () => SideKickPage()),
+    GetPage(name: SideKick, page: () => SideKickPage()),
     GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
+    GetPage(
+      name: Refound,
+      page: () => OrderRefoundPage(),
+      binding: OrderRefoundPageBinding(),
+    ),
   ];
 }
