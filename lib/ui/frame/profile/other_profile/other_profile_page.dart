@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
+import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/utils/image_util.dart';
 
+import '../../../../model/pay_info_model.dart';
+import '../../messages/chat/chat_page.dart';
+import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
 import 'other_dashboard_page.dart';
 import 'other_posts_page.dart';
@@ -437,6 +444,37 @@ class OtherProfileController extends GetxController with GetSingleTickerProvider
     }).catchError((e) {
       print(e);
     });
+  }
+
+  editService(GamesItem game, ServiceItem serviceItem) async {
+    if (isSelf) {
+      Get.toNamed(AppPages.ServiceAndOrders);
+    } else {
+      var memberId = await Get.to(() {
+        return MulitablePlayOrderPage(
+          serviceItemList: [serviceItem],
+        );
+      });
+      // flog('$res', 'Get.to(()=>PlayOrder');
+      if (memberId != null) {
+        if (memberId == 0) {
+          Get.back();
+          MainPageController.find.currentIndex.value = 3;
+          MainPageController.find.controller.jumpToPage(3);
+        } else {
+          var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+          V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${memberId}");
+          if (conv.data != null)
+            Navigator.push(
+                Get.context!,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    selectedConversation: conv.data!,
+                  ),
+                ));
+        }
+      }
+    }
   }
 
   @override

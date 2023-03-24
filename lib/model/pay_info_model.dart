@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
-class PayInfoModel{
+
+class PayInfoModel {
   late PayDataModel? result;
   late String orderNo;
   late String customerId;
@@ -7,22 +8,22 @@ class PayInfoModel{
   late String ephemeralKeySecret;
   late bool applePay;
   late bool googlePay;
-
+  int memberId = 0;
   bool insufficient = false;
 
   PayInfoModel();
 
   PayInfoModel.fromJson(Map<String, dynamic> json) {
-    orderNo = json["orderNo"] == null? "":json["orderNo"];
-    customerId = json["customerId"] == null ? "":json["customerId"];
-    clientSecret = json["clientSecret"] == null ? "":json["clientSecret"];
-    ephemeralKeySecret = json["ephemeralKeySecret"] == null ? "":json["ephemeralKeySecret"];
-    applePay = json["applePay"] == null ? false:json["applePay"];
-    googlePay = json["googlePay"] == null ? false:json["googlePay"];
-    String resultString = json["result"] == null ? "":json["result"];
-    if(resultString.isNotEmpty && resultString.contains("app_data")) {
+    orderNo = json["orderNo"] == null ? "" : json["orderNo"];
+    customerId = json["customerId"] == null ? "" : json["customerId"];
+    clientSecret = json["clientSecret"] == null ? "" : json["clientSecret"];
+    ephemeralKeySecret = json["ephemeralKeySecret"] == null ? "" : json["ephemeralKeySecret"];
+    applePay = json["applePay"] == null ? false : json["applePay"];
+    googlePay = json["googlePay"] == null ? false : json["googlePay"];
+    String resultString = json["result"] == null ? "" : json["result"];
+    if (resultString.isNotEmpty && resultString.contains("app_data")) {
       result = PayDataModel.fromJson(convert.jsonDecode(json["result"]));
-    }else{
+    } else {
       result = null;
     }
   }

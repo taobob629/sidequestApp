@@ -278,7 +278,7 @@ class PayPageController extends GetxController {
           } else {
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
               if (!isPlay) Get.back();
-              Get.back(result: payInfoModel.orderNo);
+              Get.back(result: payInfoModel.memberId);
               Get.find<UserController>().updateInfo();
             });
           }

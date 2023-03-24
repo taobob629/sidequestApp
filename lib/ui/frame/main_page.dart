@@ -249,6 +249,8 @@ class MainPageBinding extends Bindings {
 }
 
 class MainPageController extends FullLifeCycleController with FullLifeCycleMixin {
+  static MainPageController get find => Get.find();
+
   late PageController controller;
   var currentIndex = 2.obs;
 

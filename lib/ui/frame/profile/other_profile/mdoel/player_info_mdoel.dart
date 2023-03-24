@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 class PlayerInfoModel {
   String voice = "";
   String signature = "";
@@ -115,7 +117,8 @@ class ServiceItem {
   int skillAuthid = 0;
   String createTime = "";
   bool isDefault = false;
-
+  String avatar = "";
+  RxInt num = RxInt(1);
   ServiceItem();
 
   ServiceItem.fromJson(Map<String, dynamic> json) {
@@ -130,6 +133,8 @@ class ServiceItem {
     enabled = json['enabled'] == 1;
     skillAuthid = json['skillAuthid'] ?? skillAuthid;
     createTime = json['createTime'] ?? createTime;
+    avatar = json['avatar'] ?? avatar;
+
     isDefault = json['isDefault'] == 1;
   }
 
@@ -147,6 +152,7 @@ class ServiceItem {
     data['skillAuthid'] = this.skillAuthid;
     data['createTime'] = this.createTime;
     data['isDefault'] = this.isDefault;
+    data["avatar"] = this.avatar;
     return data;
   }
 }

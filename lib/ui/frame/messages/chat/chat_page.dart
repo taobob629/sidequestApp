@@ -52,6 +52,9 @@ class ChatPage extends StatelessWidget {
             style: TextStyle(fontSize: 12, color: Colors.white24),
           );
         }
+        if (data["message"] != null) {
+          data = data['message'];
+        }
         print(data);
         return GestureDetector(
           onTap: () {

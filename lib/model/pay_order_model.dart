@@ -53,6 +53,8 @@ class PayOrderModel {
   late String postId = "";
   late String uid = "";
 
+  List<dynamic> preOrdersBos = [];
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = new Map<String, dynamic>();
     json['type'] = type;

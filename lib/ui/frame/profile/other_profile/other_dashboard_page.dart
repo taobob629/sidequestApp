@@ -120,20 +120,12 @@ class OtherDashboardPage extends StatelessWidget {
                                                       ],
                                                     ),
                                                   ),
-                                                  Container(
-                                                    width: 52,
-                                                    height: 26,
-                                                    margin: EdgeInsets.only(bottom: 13),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(13),
-                                                      color: AppColor.yellow,
-                                                    ),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "Play",
-                                                      style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold),
-                                                    ),
-                                                  )
+                                                  EditPlayBtn(
+                                                    isEdit: t.isSelf,
+                                                    onTap: () {
+                                                      t.editService(game, game.serviceItem.first);
+                                                    },
+                                                  ).marginOnly(bottom: 13)
                                                 ],
                                               ),
                                             )
@@ -164,18 +156,11 @@ class OtherDashboardPage extends StatelessWidget {
                                                 3.horizontalSpace,
                                                 Text("${double.tryParse(service.price)}", style: TextStyle(fontSize: 14, color: Colors.white)),
                                                 10.horizontalSpace,
-                                                Container(
-                                                  width: 52,
-                                                  height: 26,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(13),
-                                                    color: AppColor.yellow,
-                                                  ),
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Play",
-                                                    style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold),
-                                                  ),
+                                                EditPlayBtn(
+                                                  isEdit: t.isSelf,
+                                                  onTap: () {
+                                                    t.editService(game, service);
+                                                  },
                                                 )
                                               ],
                                             )
@@ -194,5 +179,33 @@ class OtherDashboardPage extends StatelessWidget {
             ),
           ],
         ));
+  }
+}
+
+class EditPlayBtn extends StatelessWidget {
+  EditPlayBtn({Key? key, this.isEdit = false, this.onTap}) : super(key: key);
+  bool isEdit = false;
+  Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap?.call();
+      },
+      child: Container(
+        width: 52,
+        height: 26,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13),
+          color: AppColor.yellow,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          isEdit ? "Edit" : "Play",
+          style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
   }
 }

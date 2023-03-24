@@ -17,49 +17,46 @@ class MessagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // MediaQuery.removePadding(
-        //     removeTop: true,
-        //     context: context,
-        //     child:
-        Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 750.0 / 365,
-          child: Image.asset(
-            "assets/images/message/msg_head_bg.webp",
-            fit: BoxFit.fitWidth,
-            width: Get.width,
-          ),
-        ),
-        Positioned(
-          top: kToolbarHeight,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: TabWidget(
-              tabstyle: TAB_STYLE_2,
-              indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
-              alignment: Alignment.centerLeft,
-              tabController: controller.tabController,
-              tabList: [
-                "Message".tr,
-                "Follow".tr,
-                "Fans".tr,
-              ],
-              tabPage: [
-                KeepAliveWrapper(child: ConversationListPage()),
-                FollowListPage(),
-                FansListPage(),
-              ],
+    return MediaQuery.removePadding(
+        removeTop: true,
+        context: context,
+        child: Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 750.0 / 365,
+              child: Image.asset(
+                "assets/images/message/msg_head_bg.webp",
+                fit: BoxFit.fitWidth,
+                width: Get.width,
+              ),
             ),
-          ),
-        ),
-      ],
-      // )
-    );
+            Positioned(
+              top: kToolbarHeight,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: TabWidget(
+                  tabstyle: TAB_STYLE_2,
+                  indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
+                  alignment: Alignment.centerLeft,
+                  tabController: controller.tabController,
+                  tabList: [
+                    "Message".tr,
+                    "Follow".tr,
+                    "Fans".tr,
+                  ],
+                  tabPage: [
+                    KeepAliveWrapper(child: ConversationListPage()),
+                    FollowListPage(),
+                    FansListPage(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
 

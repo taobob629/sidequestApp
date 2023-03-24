@@ -95,18 +95,7 @@ class PayApi {
   }
 
   static Future<PayInfoModel> _play(PayOrderModel model) async {
-    var formData = {
-      "liveuid": model.liveuid,
-      "skillid": model.skillid,
-      "svctm": model.svctm,
-      "nums": model.nums,
-      "des": model.des,
-      "type": model.payType,
-      "serviceItemId": model.serviceItemId,
-      "code": model.code,
-      'couponId': model.couponId
-    };
-    var response = await http.post('/peiwan/app/order/setorder', data: formData);
+    var response = await http.post('/peiwan/app/new/orders/setMulitOrder', data: {"preOrdersBos": model.preOrdersBos});
 
     PayInfoModel payInfoModel = PayInfoModel();
     if (model.payType == 2) {
@@ -114,11 +103,38 @@ class PayApi {
         payInfoModel.insufficient = true;
       } else {
         payInfoModel.insufficient = false;
-        payInfoModel.orderNo = response.data;
+        if (response.data is int) {
+          payInfoModel.memberId = response.data as int;
+        }
+        // payInfoModel.orderNo = response.data;
       }
       return payInfoModel;
     }
     return PayInfoModel.fromJson(response.data);
+    // var formData = {
+    //   "liveuid": model.liveuid,
+    //   "skillid": model.skillid,
+    //   "svctm": model.svctm,
+    //   "nums": model.nums,
+    //   "des": model.des,
+    //   "type": model.payType,
+    //   "serviceItemId": model.serviceItemId,
+    //   "code": model.code,
+    //   'couponId': model.couponId
+    // };
+    // var response = await http.post('/peiwan/app/order/setorder', data: formData);
+
+    // PayInfoModel payInfoModel = PayInfoModel();
+    // if (model.payType == 2) {
+    //   if (response.data == -1) {
+    //     payInfoModel.insufficient = true;
+    //   } else {
+    //     payInfoModel.insufficient = false;
+    //     payInfoModel.orderNo = response.data;
+    //   }
+    //   return payInfoModel;
+    // }
+    // return PayInfoModel.fromJson(response.data);
   }
 
   static Future<PayInfoModel> _payGifts(PayOrderModel model) async {
