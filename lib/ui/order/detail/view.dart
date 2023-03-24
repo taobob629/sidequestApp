@@ -106,7 +106,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                 ),
                 10.verticalSpace,
                 Text(
-                  '${item?.serviceItemName}  /${item?.unit}/ X${item?.amount}',
+                  '${item?.serviceItemName}  ${item?.price}/${item?.unit}      X${item?.amount}',
                   style: TextStyle(fontFamily: FONT_LIGHT, fontSize: 12.sp),
                 )
               ],
@@ -132,13 +132,13 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               3.horizontalSpace,
               Text.rich(TextSpan(children: [
                 TextSpan(
-                    text: '${item?.price}',
+                    text: '${item?.subtotal}',
                     style:
                         TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
-                TextSpan(
-                    text: '/${item?.unit}',
-                    style:
-                        TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                // TextSpan(
+                //     text: '/${item?.unit}',
+                //     style:
+                //         TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
               ])),
               //  Spacer(),
             ],
@@ -228,7 +228,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
     List<CommentsModel> history = controller.model?.history ?? [];
     if (history.isEmpty == true) return Container();
     return innnerBg(Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      rowLine2('Comments'.tr, Container()),
+      rowLine2('Order Timeline'.tr, Container()),
       10.verticalSpace,
       FixedTimeline.tileBuilder(
           //  contentsAlign: ContentsAlign.basic,
