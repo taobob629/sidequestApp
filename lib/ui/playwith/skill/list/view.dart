@@ -185,7 +185,7 @@ class SkillListPage extends GetView<SkillListPageController> {
   }
 
   Widget addStatus(SkillModel data) {
-    return data.status == SkillModel.PASS
+    return data.status == SkillModel.PASS && data.addServiceItem == 0
         ? InkWell(
             onTap: () => controller.addSkillItem(data),
             child: Container(
