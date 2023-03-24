@@ -28,6 +28,8 @@ import 'package:wy/ui/playwith/service/view.dart';
 import 'package:wy/ui/playwith/skill/list/bindings.dart';
 import 'package:wy/ui/playwith/skill/list/view.dart';
 import 'package:wy/ui/playwith/skill/skill_item/bindings.dart';
+import 'package:wy/ui/playwith/skill/skill_item/edit/bindings.dart';
+import 'package:wy/ui/playwith/skill/skill_item/edit/view.dart';
 import 'package:wy/ui/playwith/skill/skill_item/view.dart';
 import 'package:wy/ui/profile/attention/bindings.dart';
 import 'package:wy/ui/profile/attention/tab_view.dart';
@@ -79,6 +81,7 @@ class AppPages {
   static const OrderDetail = '/order_detail_page';
   static const SideKick = '/sidekick_page';
   static const Refound = '/refound_page';
+  static const AddSkillItem = '/add_skill_item_page';
 
   static final routes = [
     GetPage(
@@ -179,6 +182,11 @@ class AppPages {
       name: Refound,
       page: () => OrderRefoundPage(),
       binding: OrderRefoundPageBinding(),
+    ),
+    GetPage(
+      name: AddSkillItem,
+      page: () => SkillItemAddPage(),
+      binding: SkillItemAddBinding(),
     ),
   ];
 }
