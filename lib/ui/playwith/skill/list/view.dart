@@ -276,7 +276,7 @@ class SkillListPage extends GetView<SkillListPageController> {
           Container(
             constraints: BoxConstraints(maxWidth: 150.w),
             child: Text(
-              '${item?.name}qwqwqwqwqwqwqwqwqw',
+              '${item?.name}',
               style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT,overflow: TextOverflow.ellipsis),
             ),
           ),
