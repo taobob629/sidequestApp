@@ -11,6 +11,14 @@ class OrderApi {
     return list;
   }
 
+  static Future<List<RefoundReasonModel>> getRefoundReasons() async {
+    var response = await http.get('/peiwan/app/new/orders/refundList');
+    List<RefoundReasonModel> list = response.data['reasonList']
+        .map<RefoundReasonModel>((item) => RefoundReasonModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
   static Future<void> delete(String id) async {
     await http.get('/app/order/delete', queryParameters: ({"orderId": id}));
   }
@@ -28,8 +36,7 @@ class OrderApi {
 
   static Future<Response> apealOrder(var id, var reason) async {
     var response = await http
-        .post('/peiwan/app/new/orders/allege',
-            queryParameters: ({"orderId": id, 'reason': reason}))
+        .post('/peiwan/app/new/orders/allege', queryParameters: ({"orderId": id, 'reason': reason}))
         .catchError((err) {
       return null;
     });

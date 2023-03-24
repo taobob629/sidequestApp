@@ -73,10 +73,8 @@ abstract class RefreshListController<T> extends BasePageController
         .request(url,
             options: Options(method: NWMethodValues[method]), data: params, queryParameters: params)
         .then((res) {
-      if (refreshController != null) {
-        refreshController.refreshCompleted();
-        refreshController.loadComplete();
-      }
+        refreshController?.refreshCompleted();
+        refreshController?.loadComplete();
       if (_isRefresh) {
         mDatas.clear();
       }

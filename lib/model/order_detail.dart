@@ -42,6 +42,10 @@ class OrderDetailModel {
   // 60
   final int price;
 
+  priceWithSufix() {
+    return '\$ $price';
+  }
+
   // 60
   final int subtotal;
 
@@ -235,5 +239,28 @@ class EnvaluateModel {
         'friendless': friendless,
         'nickName': nickName,
         'userAvatar': userAvatar,
+      };
+}
+
+class RefoundReasonModel {
+  // 态度恶劣
+  final String reason;
+
+  // 2
+  final String id;
+
+  RefoundReasonModel({
+    this.reason = "",
+    this.id = "",
+  });
+
+  factory RefoundReasonModel.fromJson(Map<String, dynamic>? json) => RefoundReasonModel(
+        reason: asT<String>(json, 'reason'),
+        id: asT<String>(json, 'id'),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'reason': reason,
+        'id': id,
       };
 }

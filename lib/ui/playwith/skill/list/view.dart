@@ -7,6 +7,7 @@
 */
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -160,168 +161,6 @@ class SkillListPage extends GetView<SkillListPageController> {
           _skill_items(data)
         ],
       ),
-      // child: Stack(
-      //   children: [
-      //     Positioned(
-      //         top: 0,
-      //         left: 0,
-      //         right: 0,
-      //         child: Container(
-      //           width: Get.width,
-      //           height: 100,
-      //           padding: EdgeInsets.only(right: 16),
-      //           decoration: BoxDecoration(
-      //               image: DecorationImage(
-      //                   image: AssetImage('assets/images/skill_rect_bg.webp'), fit: BoxFit.fill)),
-      //         )),
-      //     Row(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         mainAxisAlignment: MainAxisAlignment.start,
-      //         children: [
-      //           Container(
-      //             padding: EdgeInsets.all(10),
-      //             decoration: BoxDecoration(
-      //                 image: DecorationImage(
-      //                     image: AssetImage('assets/images/skill_circle_bg.webp'),
-      //                     fit: BoxFit.fill)),
-      //             child: CircleAvatar(
-      //               radius: 32,
-      //               child: ClipOval(
-      //                 child: CachedNetworkImage(
-      //                     imageUrl: data.skillThumb ?? '',
-      //                     fit: BoxFit.cover,
-      //                     width: 64,
-      //                     height: 64),
-      //               ),
-      //             ),
-      //           ),
-      //           Expanded(
-      //               child: Container(
-      //             padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-      //             child: Column(children: [
-      //               Row(
-      //                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [
-      //                   PWidget.text('', [], {
-      //                     'ff': 'DIN',
-      //                     'exp': true
-      //                   }, [
-      //                     PWidget.textIs(
-      //                       '${data.skillName}',
-      //                       [Colors.yellow, 18, true],
-      //                     ),
-      //                     if (data.wswitch == 0)
-      //                       PWidget.textIs(
-      //                         '\t\t' + 'Disabled'.tr,
-      //                         [Colors.red],
-      //                       ),
-      //                   ]),
-      //                   Row(
-      //                     children: [
-      //                       if (data.status == SkillModel.ONGOING)
-      //                         PWidget.text(
-      //                             {
-      //                               '2': 'edit'.tr,
-      //                               '0': 'under review'.tr,
-      //                               '1': 'edit'.tr
-      //                             }['${data.status}'],
-      //                             [
-      //                               {
-      //                                 '2': Colors.black.withOpacity(0.75),
-      //                                 '0': Colors.white24,
-      //                                 '1': Colors.black
-      //                               }['${data.status}'],
-      //                               14,
-      //                             ],
-      //                             {
-      //                               'pd': PFun.lg(2, 2, 8, 8),
-      //                               'fun': () {
-      //                                 if ([SkillModel.DENIED, SkillModel.PASS]
-      //                                     .contains(data.status))
-      //                                   return jumpPage(AddGamePage(data.toJson()),
-      //                                       callback: (res) {
-      //                                     if (res != null) controller.onRefresh();
-      //                                   });
-      //                                 ; //todo
-      //                               }
-      //                             }),
-      //                       if (data.status != SkillModel.ONGOING)
-      //                         GestureDetector(
-      //                             onTap: () =>
-      //                                 jumpPage(AddGamePage(data.toJson()), callback: (res) {
-      //                                   if (res != null) controller.onRefresh();
-      //                                 }),
-      //                             child: Icon(
-      //                               Icons.edit_note_rounded,
-      //                               size: 30,
-      //                               color: Colors.white,
-      //                             )),
-      //                       if (data.status == SkillModel.PASS) PWidget.boxw(2),
-      //                       if (data.status == SkillModel.PASS)
-      //                         GestureDetector(
-      //                             onTap: () => controller.addSkillItem(data),
-      //                             child: Icon(
-      //                               Icons.add,
-      //                               size: 24,
-      //                               color: Colors.white,
-      //                             )),
-      //                       PWidget.boxw(16),
-      //                     ],
-      //                   )
-      //                 ],
-      //               ),
-      //               PWidget.boxh(4),
-      //               Row(
-      //                 children: [
-      //                   Text(
-      //                     '${data.levelName}',
-      //                     style: TextStyle(color: Colors.white60, fontWeight: FontWeight.bold),
-      //                   )
-      //                 ],
-      //               ),
-      //               // PWidget.boxh(6),
-      //               if (data.status == SkillModel.DENIED) PWidget.boxh(4),
-      //               if (data.status == SkillModel.DENIED)
-      //                 Row(
-      //                   children: [
-      //                     PWidget.text('${'REJECT'.tr}', [Colors.red, 12]),
-      //                     Visibility(
-      //                       visible: data.status == 2,
-      //                       child: GestureDetector(
-      //                         onTapDown: (details) {
-      //                           print(details.globalPosition);
-      //                           Get.dialog(TipsDialog(
-      //                             offset: details.globalPosition,
-      //                             tips: data.reason ?? "",
-      //                           ));
-      //                         },
-      //                         child: Container(
-      //                           margin: EdgeInsets.only(left: 6),
-      //                           width: 20,
-      //                           height: 20,
-      //                           alignment: Alignment.center,
-      //                           decoration: BoxDecoration(
-      //                               borderRadius: BorderRadius.circular(12),
-      //                               gradient: LinearGradient(
-      //                                   begin: Alignment.centerLeft,
-      //                                   end: Alignment.centerRight,
-      //                                   colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
-      //                           child: Text(
-      //                             "?".tr,
-      //                             style: TextStyle(
-      //                                 color: Colors.white, fontFamily: "DIN", fontSize: 16),
-      //                           ),
-      //                         ),
-      //                       ),
-      //                     )
-      //                   ],
-      //                 ),
-      //               _skill_items(data)
-      //             ]),
-      //           )),
-      //         ]),
-      //   ],
-      // ),
     );
   }
 
@@ -339,7 +178,7 @@ class SkillListPage extends GetView<SkillListPageController> {
               height: 32.w,
               padding: EdgeInsets.all(10),
               decoration: itemDecoration(color: AppColor.yellow, radius: 16.w),
-              child: ImageUtil.assetImage('ic_edit2', width: 13.w,height: 13.w),
+              child: ImageUtil.assetImage('ic_edit2', width: 13.w, height: 13.w),
             ),
           )
         : Container();
@@ -423,13 +262,29 @@ class SkillListPage extends GetView<SkillListPageController> {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (item != null)
-            PWidget.text('', [], {
-              'exp': true
-            }, [
-              PWidget.textIs('${item?.name}', [Colors.white]),
-              if (item.enabled == 0) PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
-            ]),
+          // PWidget.text('', [], {
+          //   'exp': true
+          // }, [
+          //   PWidget.textIs('${item?.name}', [Colors.white]),
+          //   // if (item.enabled == 0) PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
+          // ]),
+          Container(
+            width: 60.w,
+            child: Text(
+              '${item?.name}',
+              style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT),
+            ),
+          ),
+          10.horizontalSpace,
+          Container(
+            height: 20,
+            child: Transform.scale(
+              scale: 0.6,
+              child: CupertinoSwitch(
+                  activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {}),
+            ),
+          ),
+          Spacer(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -461,7 +316,9 @@ class SkillListPage extends GetView<SkillListPageController> {
                     child: Container(
                       height: 13.w,
                       width: 13.w,
-                      child:  ImageUtil.assetImage('ic_edit2', width: 13.w,height: 13.w,color: Color(0xFF6F6F75)),)),
+                      child: ImageUtil.assetImage('ic_edit2',
+                          width: 13.w, height: 13.w, color: Color(0xFF6F6F75)),
+                    )),
             ],
           ),
         ],
