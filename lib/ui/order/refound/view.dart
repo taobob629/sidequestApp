@@ -32,11 +32,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
               visible: controller.list.isNotEmpty,
               child: FloatingButton(
                   label: "CONFIRM".tr,
-                  onTap: () => Get.dialog(ConfirmDialog(
-                        title: 'Warning'.tr,
-                        info: 'These Coins are only used for SideKick.'.tr,
-                        // onConfirm: () => controller.pay(),
-                      ))),
+                  onTap: () => controller.submit()),
             )));
   }
 
@@ -44,6 +40,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
     return contentPadding(
         child: SingleChildScrollView(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           lable('Reason for application'),

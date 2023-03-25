@@ -4,9 +4,11 @@
     描述:
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/utils/utils.dart';
 
@@ -24,6 +26,7 @@ class OrderRefoundController extends BasePageController {
     Map params = Get.arguments;
     order = params['order'];
     orderId = params['orderId'];
+    flog('orderid $orderId');
     initReasons();
   }
 
@@ -71,9 +74,13 @@ class OrderRefoundController extends BasePageController {
       toast('Select reason first!');
       return;
     }
+    showLoadding();
     await OrderApi.askRefund(Map<String, dynamic>()
       ..['label'] = reason?.reason
       ..['reason'] = etCommnetController.text
       ..['orderId'] = orderId);
+    toast('Success'.tr);
+    dismissLoadding();
+    Get.until((route) => route.settings.name == AppPages.ServiceAndOrders);
   }
 }
