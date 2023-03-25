@@ -671,5 +671,8 @@ const Map<String, String> en_US = {
   "Post":"Post",
   "Social":"Social",
   "Activity":"Activity",
+  "Subscriptions":"Subscriptions",
+  "Trophies":"Trophies",
+  "Sidekick":"SideKick"
 
 };
