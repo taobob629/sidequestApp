@@ -202,6 +202,7 @@ class SkillListPage extends GetView<SkillListPageController> {
     var skillItems = data.childItemVoList;
     if (skillItems.isEmpty) return Container();
     return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         var item = skillItems[index];
