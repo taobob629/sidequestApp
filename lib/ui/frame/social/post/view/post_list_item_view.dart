@@ -12,6 +12,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
+import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
@@ -136,12 +137,14 @@ class PostListItemView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTapDown: (details) {
+                      print(details.localPosition);
                       PostListController.find.praisePost(model).then((value) {
                         if (value) {
                           model.isPraise.value = !model.isPraise.value;
                           if (model.isPraise.value) {
                             model.praiseNum += 1;
+                            showHearts(context, details.globalPosition);
                           } else {
                             model.praiseNum -= 1;
                           }

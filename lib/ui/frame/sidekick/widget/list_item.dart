@@ -25,7 +25,7 @@ class GameListItemWidget extends GetView<SideKickController> {
   Widget build(BuildContext context) {
     var badgeColor = Color(0xFF87EEB6);
     return InkWell(
-      onTap: () => Get.to(() => PlayDetail(userId: "${model?.id}")),
+      onTap: () => NavigatorHelper.toOtherProfile(model.id),
       child: Container(
         height: 80.h,
         padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10).r,
@@ -39,7 +39,7 @@ class GameListItemWidget extends GetView<SideKickController> {
               position: BadgePosition(bottom: 0, end: 10),
               alignment: Alignment.bottomRight,
               child: GestureDetector(
-                onTap: () => UserController.find.jumpChat(model.uk),
+                onTap: () => NavigatorHelper.toOtherProfile(model.id),
                 child: Container(
                   width: 50.h,
                   height: 50.h,
