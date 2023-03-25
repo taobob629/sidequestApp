@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/messages/messages_page.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
 
@@ -232,16 +233,30 @@ class MyProfilePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: Text(
-                      "Followers: ${userController.userProfile.value.followers}",
-                      style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      MainPageController.find.updateCurrentIndex(3);
+                      MainPageController.find.controller.jumpToPage(3);
+                      MessagesPageController.find.tabController.animateTo(1);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Text(
+                        "Followers: ${userController.userProfile.value.followers}",
+                        style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                  Text(
-                    "Fans: ${userController.userProfile.value.fans}",
-                    style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      MainPageController.find.updateCurrentIndex(3);
+                      MainPageController.find.controller.jumpToPage(3);
+                      MessagesPageController.find.tabController.animateTo(2);
+                    },
+                    child: Text(
+                      "Fans: ${userController.userProfile.value.fans}",
+                      style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Visibility(
                     visible: userController.userProfile.value.isAuth == 1,

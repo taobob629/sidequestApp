@@ -50,14 +50,17 @@ class GameUserModel {
   // 25
   final int age;
 
+  // uk123455
+  final String uk;
+
   final List<SimpleGameInfo> games;
   RxList<SimpleGameInfo> showGames = RxList();
 
-   initShowGames() {
+  initShowGames() {
     showGames.clear();
     if (games.length > 3) {
       showGames.addAll(games.sublist(0, 3));
-    }else{
+    } else {
       showGames.addAll(games);
     }
   }
@@ -92,6 +95,7 @@ class GameUserModel {
     this.orders = 0,
     this.id = 0,
     this.age = 0,
+    this.uk = "",
     required this.games,
   });
 
@@ -110,6 +114,7 @@ class GameUserModel {
         orders: asT<int>(json, 'orders'),
         id: asT<int>(json, 'id'),
         age: asT<int>(json, 'age'),
+        uk: asT<String>(json, 'uk'),
         games: asT<List>(json, 'games').map((e) => SimpleGameInfo.fromJson(e)).toList(),
       );
 

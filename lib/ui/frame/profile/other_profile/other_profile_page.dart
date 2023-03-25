@@ -213,35 +213,42 @@ class OtherProfilePage extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.only(right: 25),
-                                                child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                                                  Obx(() => Container(
-                                                        height: 64,
-                                                        alignment: Alignment.bottomCenter,
-                                                        child: ClipOval(
-                                                          child: ImageUtil.networkImage(
-                                                            url: t.player.value.avatar,
-                                                            width: 60,
-                                                            height: 60,
-                                                            fit: BoxFit.cover,
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (!t.isSelf) {
+                                                    UserController.find.jumpChat(t.player.value.uk);
+                                                  }
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.only(right: 25),
+                                                  child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
+                                                    Obx(() => Container(
+                                                          height: 64,
+                                                          alignment: Alignment.bottomCenter,
+                                                          child: ClipOval(
+                                                            child: ImageUtil.networkImage(
+                                                              url: t.player.value.avatar,
+                                                              width: 60,
+                                                              height: 60,
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      )),
-                                                  Image.asset(
-                                                    "assets/images/profile_avatar_border.webp",
-                                                    width: 64,
-                                                  ),
-                                                  // Obx(() => Visibility(
-                                                  //       visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
-                                                  //       child: Positioned(
-                                                  //           bottom: -10,
-                                                  //           child: Image.asset(
-                                                  //             "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
-                                                  //             height: 28,
-                                                  //           )),
-                                                  //     )),
-                                                ]),
+                                                        )),
+                                                    Image.asset(
+                                                      "assets/images/profile_avatar_border.webp",
+                                                      width: 64,
+                                                    ),
+                                                    // Obx(() => Visibility(
+                                                    //       visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
+                                                    //       child: Positioned(
+                                                    //           bottom: -10,
+                                                    //           child: Image.asset(
+                                                    //             "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
+                                                    //             height: 28,
+                                                    //           )),
+                                                    //     )),
+                                                  ]),
+                                                ),
                                               )
                                             ],
                                           ),
@@ -336,39 +343,42 @@ class OtherProfilePage extends StatelessWidget {
                 ];
               },
               body: TabBarView(controller: t.tabController, children: createPages())),
-          Positioned(
-              bottom: Get.mediaQuery.padding.bottom + 20,
-              child: GestureDetector(
-                onTap: () {
-                  t.jumpChat(t.player.value.uk);
-                },
-                child: Container(
-                  width: 240,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: AppColor.yellowGradient),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: Image.asset(
-                          "assets/images/profile/icon_pinlun.webp",
-                          width: 16,
-                          color: Colors.white,
-                        ),
+          if (!t.isSelf)
+            Positioned(
+                bottom: Get.mediaQuery.padding.bottom + 20,
+                child: GestureDetector(
+                  onTap: () {
+                    t.jumpChat(t.player.value.uk);
+                  },
+                  child: Visibility(
+                    child: Container(
+                      width: 240,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: AppColor.yellowGradient),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      Text(
-                        "Message",
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Image.asset(
+                              "assets/images/profile/icon_pinlun.webp",
+                              width: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "Message",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ))
+                ))
         ],
       ),
     );

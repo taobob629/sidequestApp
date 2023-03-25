@@ -227,9 +227,12 @@ class UserController extends GetxController {
     }
   }
 
-  jumpChat(tid) async {
+  jumpChat(uk) async {
+    if (uk == null) {
+      return;
+    }
     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${tid}");
+    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
     if (conv.data != null)
       Navigator.push(
           Get.context!,

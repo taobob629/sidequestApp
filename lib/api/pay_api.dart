@@ -103,7 +103,7 @@ class PayApi {
         payInfoModel.insufficient = true;
       } else {
         payInfoModel.insufficient = false;
-        if (response.data is int) {
+        if (response.data is String) {
           payInfoModel.uk = response.data;
         }
         // payInfoModel.orderNo = response.data;
