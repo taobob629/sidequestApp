@@ -277,7 +277,7 @@ class PayPageController extends GetxController {
             );
           } else {
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
-              if (!isPlay) Get.back();
+              if (!isPlay) Get.back(result: true);
               Get.back(result: payInfoModel.uk);
               Get.find<UserController>().updateInfo();
             });
@@ -307,7 +307,6 @@ class PayPageController extends GetxController {
         timer.cancel();
         return;
       }
-      ;
       autoCheckPay(payInfoModel.orderNo);
     });
   }

@@ -175,13 +175,18 @@ class PostListItemView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTapDown: (details) {
                       Get.bottomSheet(
-                          GiveGiftsDialog(
-                            receiverId: model.uid.toString(),
-                            postId: model.id.toString(),
-                          ),
-                          ignoreSafeArea: true);
+                              GiveGiftsDialog(
+                                receiverId: model.uid.toString(),
+                                postId: model.id.toString(),
+                              ),
+                              ignoreSafeArea: true)
+                          .then((value) {
+                        if (value) {
+                          showHearts(context, details.globalPosition);
+                        }
+                      });
                     },
                     child: Container(
                       child: Row(

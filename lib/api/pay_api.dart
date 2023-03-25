@@ -154,7 +154,7 @@ class PayApi {
       } else {
         payInfoModel.insufficient = false;
         if (response.data != null) {
-          payInfoModel.orderNo = response.data;
+          // payInfoModel.orderNo = response.data;
         }
       }
       return payInfoModel;

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void showHearts(BuildContext context, Offset offset) {
@@ -11,7 +9,7 @@ void showHearts(BuildContext context, Offset offset) {
   double randomX = canvasOffset.dx + offset.dx; //+ Random().nextInt((width ~/ 2).round());
   double randomY = offset.dy; //+ Random().nextInt((height ~/ 2).round());
 
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
       left: randomX,
@@ -21,12 +19,13 @@ void showHearts(BuildContext context, Offset offset) {
       child: Heart(),
     ),
   );
-
-  Overlay.of(context).insert(overlayEntry);
-  Future.delayed(
-    Duration(seconds: 2),
-    () => overlayEntry.remove(),
-  );
+  if (overlayEntry != null) {
+    Overlay.of(context)?.insert(overlayEntry!);
+    Future.delayed(
+      Duration(seconds: 2),
+      () => overlayEntry?.remove(),
+    );
+  }
 }
 
 class Heart extends StatefulWidget {
