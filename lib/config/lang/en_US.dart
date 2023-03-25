@@ -666,6 +666,10 @@ const Map<String, String> en_US = {
   "Up to Four":"Up to Four",
   "Please input Service Name":"Please input Service Name",
   "Order Timeline":"Order Timeline",
-
+  "Posts":"Posts",
+  "Dashboard":"Dashboard",
+  "Post":"Post",
+  "Social":"Social",
+  "Activity":"Activity",
 
 };

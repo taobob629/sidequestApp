@@ -665,6 +665,10 @@ const Map<String, String> zh_CN = {
   "Up to Four":"最多选择四个",
   "Please input Service Name":"请输入服务名字",
   "Order Timeline":"订单状态",
-
+  "Posts":"动态",
+  "Dashboard":"主页",
+  "Post":"动态",
+  "Social":"广场",
+  "Activity":"活动",
 
 };
