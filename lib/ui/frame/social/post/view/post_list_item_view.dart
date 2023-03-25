@@ -138,13 +138,11 @@ class PostListItemView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTapDown: (details) {
-                      print(details.localPosition);
                       PostListController.find.praisePost(model).then((value) {
                         if (value) {
                           model.isPraise.value = !model.isPraise.value;
                           if (model.isPraise.value) {
                             model.praiseNum += 1;
-                            showHearts(context, details.globalPosition);
                           } else {
                             model.praiseNum -= 1;
                           }
@@ -175,18 +173,20 @@ class PostListItemView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTapDown: (details) {
-                      Get.bottomSheet(
-                              GiveGiftsDialog(
-                                receiverId: model.uid.toString(),
-                                postId: model.id.toString(),
-                              ),
-                              ignoreSafeArea: true)
-                          .then((value) {
-                        if (value) {
-                          showHearts(context, details.globalPosition);
-                        }
-                      });
+                    onTapDown: (details) async {
+                      var heartNum = await Get.bottomSheet(
+                          GiveGiftsDialog(
+                            receiverId: model.uid.toString(),
+                            postId: model.id.toString(),
+                          ),
+                          ignoreSafeArea: true);
+                      if (heartNum != null) {
+                        Future.delayed(Duration(milliseconds: 300)).then(
+                          (v) {
+                            showHearts(context, details.globalPosition, heartNum);
+                          },
+                        );
+                      }
                     },
                     child: Container(
                       child: Row(
@@ -198,13 +198,6 @@ class PostListItemView extends StatelessWidget {
                               width: 16,
                             ),
                           ),
-                          // Text(
-                          //   model.commentNum.toString(),
-                          //   style: TextStyle(
-                          //     color: Color(0xff808388),
-                          //     fontSize: 11.sp,
-                          //   ),
-                          // )
                         ],
                       ),
                     ),

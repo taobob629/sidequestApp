@@ -9,6 +9,8 @@ class PayInfoModel {
   late bool applePay;
   late bool googlePay;
   String uk = "";
+  String desc = "";
+
   bool insufficient = false;
 
   PayInfoModel();

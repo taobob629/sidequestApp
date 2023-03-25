@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showHearts(BuildContext context, Offset offset) {
+void showHearts(BuildContext context, Offset offset, String heartNum) {
   RenderBox canvas = context.findRenderObject() as RenderBox;
   Offset canvasOffset = canvas.localToGlobal(Offset.zero);
   double width = MediaQuery.of(context).size.width;
@@ -16,7 +16,9 @@ void showHearts(BuildContext context, Offset offset) {
       top: randomY,
       width: width,
       height: height,
-      child: Heart(),
+      child: Heart(
+        heartNum: heartNum,
+      ),
     ),
   );
   if (overlayEntry != null) {
@@ -29,6 +31,9 @@ void showHearts(BuildContext context, Offset offset) {
 }
 
 class Heart extends StatefulWidget {
+  String heartNum = "";
+  Heart({Key? key, this.heartNum = ""}) : super(key: key);
+
   @override
   _HeartState createState() => _HeartState();
 }
@@ -43,13 +48,13 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
     super.initState();
 
     _animationController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       vsync: this,
     );
 
     _sizeAnimation = Tween<double>(
-      begin: 30,
-      end: 60,
+      begin: 40,
+      end: 70,
     ).animate(_animationController);
 
     _opacityAnimation = Tween<double>(
@@ -91,11 +96,12 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
                         child: Icon(
                           Icons.favorite,
                           color: Colors.white,
+                          size: _sizeAnimation.value,
                         ),
                       ),
                       Text(
-                        "+1",
-                        style: TextStyle(color: Colors.red, fontSize: 8),
+                        "+${widget.heartNum}",
+                        style: TextStyle(color: Colors.red, fontSize: 8 + (_sizeAnimation.value - 40) / 10),
                       )
                     ],
                   ),

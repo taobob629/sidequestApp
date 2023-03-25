@@ -162,7 +162,9 @@ class PayPageController extends GetxController {
     }*/
   }
 
-  Future<void> confirmPay({bool isPlay = false}) async {
+  Future<void> confirmPay({
+    bool isPlay = false,
+  }) async {
     checkCount = 0;
     payOrderModel.payType = payType.value;
     if (payType.value == 4) {
@@ -277,9 +279,13 @@ class PayPageController extends GetxController {
             );
           } else {
             Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
-              if (!isPlay) Get.back(result: true);
-              Get.back(result: payInfoModel.uk);
-              Get.find<UserController>().updateInfo();
+              if (payOrderModel.type == -3) {
+                Get.back(result: payInfoModel.desc);
+              } else {
+                if (!isPlay) Get.back(result: true);
+                Get.back(result: payInfoModel.uk);
+                Get.find<UserController>().updateInfo();
+              }
             });
           }
         } else {

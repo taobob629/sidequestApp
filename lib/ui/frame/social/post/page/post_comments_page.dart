@@ -12,6 +12,7 @@ import 'package:wy/utils/image_util.dart';
 
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
+import '../view/gift_animation.dart';
 
 class PostCommentsPage extends StatelessWidget {
   PostCommentsPage({Key? key}) : super(key: key);
@@ -109,59 +110,72 @@ class PostCommentsPage extends StatelessWidget {
                 left: 0,
                 right: 0,
                 bottom: 30,
-                child: SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                            padding: EdgeInsets.only(left: 20),
-                            child: Row(
-                              children: [
-                                Obx(() => Expanded(
-                                        child: TextFormField(
-                                      controller: t.commentController,
-                                      decoration: InputDecoration(
-                                          hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:" + t.replyModel.value.nickname : "Comment",
-                                          hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
-                                    ))),
-                                GestureDetector(
-                                  onTap: () => t.postComment(),
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 10),
-                                    child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
-                                  ),
-                                )
-                              ],
-                            ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                          padding: EdgeInsets.only(left: 20),
+                          child: Row(
+                            children: [
+                              Obx(() => Expanded(
+                                      child: TextFormField(
+                                    controller: t.commentController,
+                                    decoration: InputDecoration(
+                                        hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:" + t.replyModel.value.nickname : "Comment",
+                                        hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
+                                  ))),
+                              GestureDetector(
+                                onTap: () => t.postComment(),
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.bottomSheet(
-                                GiveGiftsDialog(
-                                  receiverId: t.postItem.uid.toString(),
-                                  postId: t.postItem.id.toString(),
-                                ),
-                                ignoreSafeArea: true);
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            margin: EdgeInsets.only(left: 10),
-                            decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/post/icon_gift.png",
-                              width: 24,
-                              height: 24,
-                            ),
+                      ),
+                      GestureDetector(
+                        // onTap: () {
+                        //   Get.bottomSheet(
+                        //       GiveGiftsDialog(
+                        //         receiverId: t.postItem.uid.toString(),
+                        //         postId: t.postItem.id.toString(),
+                        //       ),
+                        //       ignoreSafeArea: true);
+                        // },
+                        onTapDown: (details) async {
+                          var heartNum = await Get.bottomSheet(
+                              GiveGiftsDialog(
+                                receiverId: t.postItem.uid.toString(),
+                                postId: t.postItem.id.toString(),
+                              ),
+                              ignoreSafeArea: true);
+                          if (heartNum != null) {
+                            Future.delayed(Duration(milliseconds: 300)).then(
+                              (v) {
+                                showHearts(context, details.globalPosition, heartNum);
+                              },
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            "assets/images/post/icon_gift.png",
+                            width: 24,
+                            height: 24,
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ))
           ],
