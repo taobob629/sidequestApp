@@ -47,4 +47,11 @@ class OrderApi {
   static Future<Response> custumFinishOrder(var params) async {
     return await http.post('/peiwan/app/new/orders/complete', data: params);
   }
+
+  //顾客完成订单
+  static Future<Response> askRefund(var params) async {
+    var response =
+        await http.post('/peiwan/app/new/orders/askRefund', data: params, queryParameters: params);
+    return response;
+  }
 }

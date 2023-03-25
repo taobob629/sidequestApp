@@ -169,12 +169,13 @@ class AddGamePageController extends GetxController {
       'fieldItems': buildFiledsParams()
       // "des": beGoodAtCon.text,
     };
-    await http.post('/peiwan/app/service/addService', data: data).then((v) {
+     http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
-      Get.offNamedUntil(AppPages.ServiceAndOrders, ModalRoute.withName('/service_and_orders_page'));
+      Get.offAllNamed(AppPages.ServiceAndOrders,arguments: true);
     }).catchError((e) {
-      EasyLoading.showToast('Network exception'.tr);
+      flog('e $e');
+      EasyLoading.showToast(e);
     }).whenComplete(() {});
   }
 
