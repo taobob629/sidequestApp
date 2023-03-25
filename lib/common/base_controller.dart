@@ -25,6 +25,13 @@ class BasePageController extends GetxController {
     _pageState.value = value;
   }
 
+  showLoadding() {
+    EasyLoading.show();
+  }
+
+  dismissLoadding() {
+    EasyLoading.dismiss();
+  }
   toast(var msg) {
     EasyLoading.showToast(msg);
   }

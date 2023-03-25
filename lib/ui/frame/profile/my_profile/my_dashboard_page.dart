@@ -33,28 +33,28 @@ class MyDashboardPage extends StatelessWidget {
               children: [
                 _dashboardLabelItem(
                   "assets/images/profile/icon_wallet.webp",
-                  "Wallet",
+                  "Wallet".tr,
                   onTap: () {
                     Get.to(() => NewWalletPage());
                   },
                 ),
                 _dashboardLabelItem(
                   "assets/images/profile/icon_bookings.webp",
-                  "Bookings",
+                  "Bookings".tr,
                   onTap: () {
                     Get.toNamed(AppPages.BOOKING_PAGE);
                   },
                 ),
                 _dashboardLabelItem(
                   "assets/images/profile/icon_activities.webp",
-                  "Activities",
+                  "Activities".tr,
                   onTap: () {
                     Get.to(() => MyEventsPage());
                   },
                 ),
                 _dashboardLabelItem(
                   "assets/images/profile/icon_sidekick.webp",
-                  "Sidekick",
+                  "SideKick".tr,
                   onTap: () {
                     //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
                     Get.toNamed(AppPages.ServiceAndOrders);
@@ -74,7 +74,7 @@ class MyDashboardPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 38),
                   child: Text(
-                    "Subscriptions",
+                    "Subscriptions".tr,
                     style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -101,7 +101,7 @@ class MyDashboardPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 38),
                   child: Text(
-                    "Trophies",
+                    "Trophies".tr,
                     style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
                 ),

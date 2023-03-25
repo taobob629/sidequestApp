@@ -22,6 +22,7 @@ import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -169,6 +170,7 @@ class SkillListPage extends GetView<SkillListPageController> {
         ? InkWell(
             onTap: () {
               jumpPage(AddGamePage(data.toJson()), callback: (res) {
+                flog('Get.ard ${Get.arguments}');
                 if (res != null) controller.onRefresh();
               });
             },
@@ -202,6 +204,7 @@ class SkillListPage extends GetView<SkillListPageController> {
     var skillItems = data.childItemVoList;
     if (skillItems.isEmpty) return Container();
     return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         var item = skillItems[index];

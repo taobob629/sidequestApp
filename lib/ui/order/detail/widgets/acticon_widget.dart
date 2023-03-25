@@ -47,7 +47,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
                   "CANCEL".tr,
-                  style:bottomBtnText(),
+                  style: bottomBtnText(),
                 ),
               ),
               height: btnHeight,
@@ -64,7 +64,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         "ACCEPT".tr,
-                        style:bottomBtnText(),
+                        style: bottomBtnText(),
                       ),
                     ),
                     height: btnHeight,
@@ -149,7 +149,10 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                   ),
                   height: btnHeight,
                   onTap: () {
-                    Get.toNamed(AppPages.Refound,arguments: controller.model);
+                    Get.toNamed(AppPages.Refound,
+                        arguments: Map()
+                          ..['order'] = controller.model
+                          ..['orderId'] = controller.id);
                     // Get.dialog(CommentDialog(controller.id, () => Get.back(), isRefund: true),
                     //     barrierColor: Colors.black26);
                   },

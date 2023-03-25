@@ -530,7 +530,7 @@ const Map<String, String> zh_CN = {
   'Vouchers': '优惠券',
   'Free Time': '免费时长',
   'Play Function': 'Play Function',
-  'Wallet': '我的钱包',
+  'Wallet': '钱包',
   'Store Section': 'Store Section',
   'My Balance': '我的账户',
   'Scan QR code': '扫描二维码',
@@ -665,6 +665,13 @@ const Map<String, String> zh_CN = {
   "Up to Four":"最多选择四个",
   "Please input Service Name":"请输入服务名字",
   "Order Timeline":"订单状态",
-
+  "Posts":"动态",
+  "Dashboard":"主页",
+  "Post":"动态",
+  "Social":"广场",
+  "Activity":"活动",
+  "Subscriptions":"订阅",
+  "Trophies":"勋章",
+  "Sidekick":"陪玩"
 
 };
