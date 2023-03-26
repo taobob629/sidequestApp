@@ -91,7 +91,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
             children: [
               Row(
                 children: [
-                  ImageUtil.assetImage('ic_dial', width: 18, height: 18),
+                  ImageUtil.assetImage('ic_server', width: 18, height: 18),
                   5.horizontalSpace,
                   Text(
                     'Contact number'.tr,
