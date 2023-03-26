@@ -19,6 +19,7 @@ import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/dialog/dialog_comment.dart';
+import 'package:dio/src/response.dart';
 
 class OrderDetailPageController extends BasePageController {
   static const double starInit = 5;
@@ -180,9 +181,9 @@ class OrderDetailPageController extends BasePageController {
   }
 
   Future<void> finishOrder() async {
-    EasyLoading.show();
     var response;
     if (type == TYPE_ORDER_RECEIVED) {
+      EasyLoading.show();
       response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
       if (response.statusCode != 200) {
         EasyLoading.showToast('${response.statusMessage}');
@@ -191,45 +192,41 @@ class OrderDetailPageController extends BasePageController {
     } else {
       var comments = etCommnetController.text;
       if (comments.isEmpty) {
-        Get.dialog(
+        var result =await Get.dialog(
           ConfirmDialog(
             title: 'Confirm'.tr,
             concelBtn: 'Cancel'.tr,
             cancelable: true,
             info: 'Are you sure not to submit any evaluation content? ',
             onConfirm: () async {
-              response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
-                    ..['performance'] = starPer.value
-                    ..['responsive'] = starRes.value
-                    ..['enjoyment'] = starEnj.value
-                    ..['friendless'] = starFri.value
-                    ..['id'] = id
-                    ..['comments'] = etCommnetController.text)
-                  .whenComplete(() => EasyLoading.dismiss());
-              if (response.statusCode != 200) {
-                EasyLoading.showToast('${response.statusMessage}');
-              }
-              EasyLoading.dismiss();
               Get.back(result: true);
             },
           ),
         );
-        return;
+        flog('result--$result');
+        if (result == null) {
+          return;
+        }
       }
-      response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
-            ..['performance'] = starPer.value
-            ..['responsive'] = starRes.value
-            ..['enjoyment'] = starEnj.value
-            ..['friendless'] = starFri.value
-            ..['id'] = id
-            ..['comments'] = etCommnetController.text)
-          .whenComplete(() => EasyLoading.dismiss());
-      if (response.statusCode != 200) {
-        EasyLoading.showToast('${response.statusMessage}');
-      }
+      response = await custumFinishOrderRequest(response);
       EasyLoading.dismiss();
       Get.back(result: true);
     }
+  }
+
+  Future<dynamic> custumFinishOrderRequest(response) async {
+    response = await OrderApi.custumFinishOrder(Map<String, dynamic>()
+          ..['performance'] = starPer.value
+          ..['responsive'] = starRes.value
+          ..['enjoyment'] = starEnj.value
+          ..['friendless'] = starFri.value
+          ..['id'] = id
+          ..['comments'] = etCommnetController.text)
+        .whenComplete(() => EasyLoading.dismiss());
+    if (response.statusCode != 200) {
+      EasyLoading.showToast('${response.statusMessage}');
+    }
+    return response;
   }
 
   void refreshList() {

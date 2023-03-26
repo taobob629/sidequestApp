@@ -11,6 +11,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
+import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../../../config/app_pages.dart';
@@ -35,6 +36,7 @@ class AddGamePageController extends GetxController {
   var id;
 
   ServiceDetailModel? get serviceModel => _serviceModel.value;
+ late PrivacyCheckController privacyCheckController;
 
   set serviceModel(ServiceDetailModel? value) {
     _serviceModel.value = value;
@@ -42,6 +44,18 @@ class AddGamePageController extends GetxController {
 
   set platform(ServiceInfoModel? value) {
     _platform.value = value;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    privacyCheckController.dispose();
+    flog('onClose ---${privacyCheckController.check()}');
   }
 
   ///是否编辑
@@ -77,7 +91,7 @@ class AddGamePageController extends GetxController {
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
-    await getPriceRange(gameId:serviceModel?.gameId);
+    await getPriceRange(gameId: serviceModel?.gameId);
     isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
@@ -152,6 +166,7 @@ class AddGamePageController extends GetxController {
   }
 
   updateService() async {
+    flog('priceRanges $mPriceRanges');
     if (mPriceRanges.isEmpty) {
       EasyLoading.showToast('Please select service!');
       return;

@@ -13,6 +13,7 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/service/add/add_game_page.dart';
+import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/another_xlider.dart';
@@ -32,7 +33,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
           if (Get.arguments['id'] != null)
             TextButton(
                 onPressed: () => controller.delete(),
-                child: PWidget.text('Delete'.tr, [Colors.white, 14, true]))
+                child: ImageUtil.assetImage('ic_delete2',width: 18))
         ],
       ),
       body: Padding(

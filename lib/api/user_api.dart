@@ -26,12 +26,14 @@ class UserApi {
       //这里写其他需要传递的参数
       "file": await MultipartFile.fromFile(path, filename: name)
     });
-    var response = await http.post('/app/user/uploadAvatar', data: formData, onSendProgress: sendCallback);
+    var response =
+        await http.post('/app/user/uploadAvatar', data: formData, onSendProgress: sendCallback);
 
     return response.data['url'];
   }
 
-  static Future<void> updateProfile(String nick, String birthday, String firstName, String lastName, String phone) async {
+  static Future<void> updateProfile(
+      String nick, String birthday, String firstName, String lastName, String phone) async {
     await http.get('/app/user/updateProfile',
         queryParameters: ({
           'nick': nick,
@@ -80,7 +82,8 @@ class UserApi {
 
   static Future<List<AttentionModel>> attentionList(int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
-    var response = await http.get('/peiwan/app/user/followlist', queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    var response = await http.get('/peiwan/app/user/followlist',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
@@ -114,13 +117,15 @@ class UserApi {
   }
 
   static Future<Response> deleteSkillItem(var id) async {
-    var response = await http.get('/peiwan/app/skillItem/delete/$id');
+    var response = await http.get('/peiwan/app/service/deleteItem/?id=$id',
+    );
     return response;
   }
 
   static Future<List<AttentionModel>> fansList(int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
-    var response = await http.get('/peiwan/app/users/fanslist', queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    var response = await http.get('/peiwan/app/users/fanslist',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
@@ -130,7 +135,8 @@ class UserApi {
 
   static Future<List<AttentionModel>> followList(int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
-    var response = await http.get('/peiwan/app/users/followlist', queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    var response = await http.get('/peiwan/app/users/followlist',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
@@ -139,7 +145,8 @@ class UserApi {
   }
 
   static Future<Response> attention(touid) async {
-    var response = await http.get('/peiwan/app/users/attention/', queryParameters: ({"touid": touid}));
+    var response =
+        await http.get('/peiwan/app/users/attention/', queryParameters: ({"touid": touid}));
     return response;
   }
 
@@ -147,13 +154,17 @@ class UserApi {
    * 玩家爵位查询
    */
   static Future<LevelModel> level(var type) async {
-    var response = await http.get(type == TYPE_VIP ? '/peiwan/app/order/live/level' : '/peiwan/app/order/user/level', queryParameters: ({}));
+    var response = await http.get(
+        type == TYPE_VIP ? '/peiwan/app/order/live/level' : '/peiwan/app/order/user/level',
+        queryParameters: ({}));
     return LevelModel.fromJson(response.data);
   }
 
   static Future<List<GameUserModel>> search(String key) async {
-    var response = await http.get('/peiwan/app/new/search', queryParameters: ({"searchParams": key}));
-    List<GameUserModel> list = response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+    var response =
+        await http.get('/peiwan/app/new/search', queryParameters: ({"searchParams": key}));
+    List<GameUserModel> list =
+        response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
     return list;
   }
 }

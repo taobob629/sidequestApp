@@ -104,6 +104,7 @@ class SkillItemPageController extends GetxController {
             EasyLoading.dismiss();
             Get.back();
             Get.back(result: true);
+
           },
           concelBtn: 'CANCEL'.tr,
         ),
