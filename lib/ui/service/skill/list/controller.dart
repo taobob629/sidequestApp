@@ -66,7 +66,7 @@ class SkillListPageController extends GetxController {
                 ..['service'] = data
                 ..['levelId'] = data.levelid)
           ?.then((res) {
-        if (res) onRefresh();
+        if (res==true) onRefresh();
       });
       return;
     }
@@ -81,7 +81,7 @@ class SkillListPageController extends GetxController {
               ..['skillAuthid'] = data.id
               ..['skillName'] = data.skillName)
         ?.then((res) {
-      if (res) onRefresh();
+      if (res==true) onRefresh();
     });
   }
 

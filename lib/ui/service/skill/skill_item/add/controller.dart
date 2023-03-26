@@ -88,7 +88,6 @@ class SkillItemAddPageController extends BasePageController {
  onTypeChange(PriceRangeModel? item){
     priceRange=item;
     price=priceRange?.gameCoinMin??0;
-    flog('priceRange ${priceRange?.unit}');
  }
   @override
   void onClose() {
