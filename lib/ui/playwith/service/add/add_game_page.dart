@@ -51,7 +51,6 @@ class AddGamePage extends StatefulWidget {
 }
 
 class _AddGamePageState extends State<AddGamePage> {
-
   AddGamePageController controller = Get.put(AddGamePageController());
 
   ///是否正在上传文件
@@ -76,7 +75,7 @@ class _AddGamePageState extends State<AddGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    controller.privacyCheckController=PrivacyCheckController();
+    controller.privacyCheckController = PrivacyCheckController();
     return ScaffoldWidget(
       appBar: AppBar(
         title: Obx(() => PageTitle(
@@ -411,22 +410,24 @@ class _AddGamePageState extends State<AddGamePage> {
           itemBuilder: (_, i) {
             if (controller.gamePhotos.length > i) {
               flog('controller.gamePhotos[i] ${controller.gamePhotos[i]}');
-              return PWidget.container(
-                Stack(children: [
-                  Positioned.fill(
-                      child: CachedNetworkImage(
-                          imageUrl: controller.gamePhotos[i], fit: BoxFit.cover)),
-                  PWidget.positioned(
-                    PWidget.icon(
-                      Icons.highlight_remove_rounded,
-                      [textColor],
-                      {'pd': 8, 'fun': () => setState(() => controller.gamePhotos.removeAt(i))},
-                    ),
-                    [0, null, null, 0],
+              return Stack(children: [
+                Positioned.fill(
+                    child: Container(
+                  child: CachedNetworkImage(imageUrl: controller.gamePhotos[i], fit: BoxFit.cover),
+                  margin: EdgeInsets.only(top: 10),
+                  decoration: itemDecoration(),
+                )),
+                Positioned(
+                  child: IconButton(
+                    icon: ImageUtil.assetImage('ic_delete', width: 30),
+                    onPressed: () {
+                      controller.gamePhotos.removeAt(i);
+                    },
                   ),
-                ]),
-                {'crr': 16},
-              );
+                  top: -10,
+                  right: -10,
+                ),
+              ]);
             }
             return GestureDetector(
                 onTap: () {
@@ -435,9 +436,10 @@ class _AddGamePageState extends State<AddGamePage> {
                   this.selectAvatar(context!);
                 },
                 child: Container(
+                  margin: EdgeInsets.only(top: 10, right: 10),
                   height: 105.h,
                   width: 105.h,
-                  padding: EdgeInsets.all(35).r,
+                  padding: EdgeInsets.all(30).r,
                   decoration: BoxDecoration(
                       color: Color(0xFF2D2E3C),
                       borderRadius: BorderRadius.all(Radius.circular(10).r)),
