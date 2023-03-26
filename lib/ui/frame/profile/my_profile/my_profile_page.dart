@@ -242,7 +242,7 @@ class MyProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Text(
-                        "Followers: ${userController.userProfile.value.followers}",
+                        "Followers".tr+": ${userController.userProfile.value.followers}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -254,7 +254,7 @@ class MyProfilePage extends StatelessWidget {
                       MessagesPageController.find.tabController.animateTo(2);
                     },
                     child: Text(
-                      "Fans: ${userController.userProfile.value.fans}",
+                      "Fans".tr+ ":${userController.userProfile.value.fans}",
                       style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -263,7 +263,7 @@ class MyProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Rating: ${userController.userProfile.value.ranking}",
+                        "Rating".tr+":${userController.userProfile.value.ranking}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),

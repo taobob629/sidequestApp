@@ -672,6 +672,7 @@ const Map<String, String> zh_CN = {
   "Activity":"活动",
   "Subscriptions":"订阅",
   "Trophies":"勋章",
-  "Sidekick":"陪玩"
+  "Sidekick":"陪玩",
+  "Followers":"关注",
 
 };
