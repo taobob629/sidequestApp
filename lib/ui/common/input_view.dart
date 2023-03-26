@@ -16,6 +16,7 @@ class InputView extends StatelessWidget {
   final Widget? customInput;
   final Widget? customLabel;
   final Widget? rightActionWidget;
+  final Widget? inputLable;
   EdgeInsets padding;
   EdgeInsets? margin;
   final bool autoHeight;
@@ -31,6 +32,7 @@ class InputView extends StatelessWidget {
       this.maxLength,
       this.customInput,
       this.customLabel,
+      this.inputLable,
       this.height = 40,
       this.decoration,
       this.rightActionWidget,
@@ -41,6 +43,7 @@ class InputView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -48,42 +51,48 @@ class InputView extends StatelessWidget {
           child: customLabel ??
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text(
-                label,
-                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
-              ),rightActionWidget??Container()],),
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                  ),
+                  rightActionWidget ?? Container()
+                ],
+              ),
         ),
-        Container(
-          height: autoHeight ? null : height,
-          margin: margin ??
-              const EdgeInsets.only(
-                left: 15,
-                right: 15,
-              ),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: decoration ?? inputDecoration(),
-          alignment: Alignment.center,
-          child: customInput ??
-              TextField(
-                maxLines: 1,
-                focusNode: focusNode,
-                controller: controller,
-                cursorColor: Colors.white70,
-                textAlign: TextAlign.start,
-                keyboardType: textInputType,
-                inputFormatters: inputFormatters,
-                maxLength: maxLength,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                onSubmitted: (text) => {},
-                decoration: InputDecoration(
-                  hintText: tips,
-                  counterText: '',
-                  hintStyle: inputHint(),
-                  border: InputBorder.none,
-                  //  contentPadding: EdgeInsets.only(bottom: 8)
-                ),
-              ),
-        )
+        Row(children: [
+          if(inputLable!=null)inputLable!,
+         Expanded(child:  Container(
+           height: autoHeight ? null : height,
+           margin: margin ??
+               const EdgeInsets.only(
+                 left: 15,
+                 right: 15,
+               ),
+           padding: const EdgeInsets.symmetric(horizontal: 15),
+           decoration: decoration ?? inputDecoration(),
+           alignment: Alignment.center,
+           child: customInput ??
+               TextField(
+                 maxLines: 1,
+                 focusNode: focusNode,
+                 controller: controller,
+                 cursorColor: Colors.white70,
+                 textAlign: TextAlign.start,
+                 keyboardType: textInputType,
+                 inputFormatters: inputFormatters,
+                 maxLength: maxLength,
+                 style: const TextStyle(color: Colors.white, fontSize: 14),
+                 onSubmitted: (text) => {},
+                 decoration: InputDecoration(
+                   hintText: tips,
+                   counterText: '',
+                   hintStyle: inputHint(),
+                   border: InputBorder.none,
+                   //  contentPadding: EdgeInsets.only(bottom: 8)
+                 ),
+               ),
+         ))],)
       ],
     );
   }
