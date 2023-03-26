@@ -39,7 +39,7 @@ class SkillItemAddPageController extends GetxController {
   }
 
   initData() async {
-    var result = await GamesApi.getPriceRange(gameId, levelId: levelId);
+    var result = await GamesApi.getPriceRange(gameId, levelId: levelId,addServiceItem: true);
     priceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
     if(priceRanges.isEmpty){

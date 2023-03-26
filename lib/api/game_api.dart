@@ -16,9 +16,9 @@ class GamesApi {
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
 
-  static Future<GameConfig?> getPriceRange(var gameId,{var levelId}) async {
+  static Future<GameConfig?> getPriceRange(var gameId,{var levelId,var addServiceItem=false}) async {
     Response response =
-        await http.get('/peiwan/app/service/priceRange', queryParameters: {'gameId': '$gameId','levelid':levelId});
+        await http.get('${addServiceItem?'/peiwan/app/service/getItemRange':'/peiwan/app/service/priceRange'}', queryParameters: {'gameId': '$gameId','levelid':levelId});
     if (response.data == null) return null;
     return GameConfig.fromJson(response.data);
     //return response.data.map<PriceRangeModel>((item) => PriceRangeModel.fromJson(item)).toList();

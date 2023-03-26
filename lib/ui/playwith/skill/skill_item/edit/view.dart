@@ -39,7 +39,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
         InputView(
           decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
           controller: controller.teContent,
-          label: 'ServiceType_${model?.unit}',
+          label: 'ServiceType / ${model?.unit}',
           tips: 'Please input Service Name'.tr,
           margin: EdgeInsets.only(top: 2).h,
           padding: EdgeInsets.only(bottom: 8.h),
@@ -102,6 +102,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                             //    onDragCompleted: (i, v1, v2) => price = v1,
                           )))),
               10.horizontalSpace,
+              innnerBg(Text('${ model?.unit}'))
             ],
           ),
         )
