@@ -107,12 +107,12 @@ class UserApi {
   }
 
   static Future<SkillItemConfigModel?> skillItemDetail(var id) async {
-    var response = await http.get('/peiwan/app/skillItem/$id');
+    var response = await http.get('/peiwan/app/service/serviceItem?id=$id');
     return SkillItemConfigModel.fromJson(response.data);
   }
 
   static Future<Response> addSkillItem(Map<String, dynamic> params) async {
-    var response = await http.post('/peiwan/app/skillItem/addItem', queryParameters: params);
+    var response = await http.post('/peiwan/app/service/addItem', queryParameters: params);
     return response;
   }
 

@@ -314,7 +314,7 @@ class _AddGamePageState extends State<AddGamePage> {
                   if (levels.isEmpty) return PWidget.boxh(0);
                   return itemBg(
                     PWidget.row([
-                      PWidget.text('Level'.tr, [textColor]),
+                      PWidget.text('Rank'.tr, [textColor]),
                       PWidget.boxw(8),
                       PWidget.text(
                           controller.gameLv == null ? 'Please select'.tr : controller.gameLv?.name,
@@ -334,7 +334,7 @@ class _AddGamePageState extends State<AddGamePage> {
                           items: List.generate(levels.length, (i) {
                             return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
                           }),
-                          title: "Select Level".tr,
+                          title: "Select Rank".tr,
                           showInfo: true,
                         ),
                         barrierColor: Colors.black26,

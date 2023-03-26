@@ -35,7 +35,6 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
   }
 
   _buildBody() {
-    var model = controller.priceRanges.first;
     return Container(
       padding: itemPadding10,
       child: Column(
@@ -79,8 +78,8 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                         decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
                         child: Obx(() => FlutterSlider(
                               values: [controller.price],
-                              max: model.gameCoinMax!,
-                              min: model.gameCoinMin!,
+                              max: controller.priceRange?.gameCoinMax!,
+                              min: controller.priceRange?.gameCoinMin!,
                               handlerWidth: 40.w,
                               trackBar: FlutterSliderTrackBar(
                                 inactiveTrackBar: BoxDecoration(
@@ -119,7 +118,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                                   duration: Duration(milliseconds: 250)),
                               onDragging: (i, v1, v2) {
                                 controller.price = v1;
-                                model?.curPrice = controller.price;
+                                controller.priceRange?.curPrice = controller.price;
                               },
                               //    onDragCompleted: (i, v1, v2) => price = v1,
                             )))),
@@ -131,7 +130,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                   decoration: innerDecoration(),
                   alignment: Alignment.center,
                   padding: itemPadding(),
-                  child: dropDownButton( model?.unit),
+                  child: dropDownButton( controller.priceRange?.unit),
                 )
               ],
             ),

@@ -12,7 +12,7 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/utils/utils.dart';
 
-const contact_emal = '1277389320@qq.com';
+const contact_emal = 'support@sidequestmeta.com';
 
 class OrderRefoundController extends BasePageController {
   RxList<RefoundReasonModel> list = RxList();

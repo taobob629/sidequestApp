@@ -673,6 +673,7 @@ const Map<String, String> en_US = {
   "Activity":"Activity",
   "Subscriptions":"Subscriptions",
   "Trophies":"Trophies",
-  "Sidekick":"SideKick"
+  "Sidekick":"SideKick",
+  "Followers":"Followers",
 
 };
