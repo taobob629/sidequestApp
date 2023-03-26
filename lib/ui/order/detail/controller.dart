@@ -177,7 +177,7 @@ class OrderDetailPageController extends BasePageController {
     var res = await ImApi.dsRefundOrder(id, '5').catchError((v) {});
     EasyLoading.showToast('${res.statusMessage}');
     EasyLoading.dismiss();
-    Get.back();
+    Get.back(result: true);
   }
 
   Future<void> finishOrder() async {

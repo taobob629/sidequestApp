@@ -80,7 +80,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ImageUtil.networkImage(
-                url: '${item?.userAvatar}', width: 32.w, height: 32.w, border: 16.w),
+                url: '${item?.userAvatar}',fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
             InkWell(
               child: ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w),
               onTap: () => controller.toChat(context),
@@ -239,22 +239,6 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                   ),
               itemCount: history.length))
     ]));
-    // children: history
-    //     .map((e) => TimelineTile(
-    //   oppositeContents: Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: Text('${e.time}',style: TextStyle(color: Colors.white60,fontSize: 10.sp),),
-    //   ),
-    //   contents: Padding(padding: EdgeInsets.all(8).r,
-    //   child: Text('${e.content}'),),
-    //   node: TimelineNode(
-    //     indicator: DotIndicator(),
-    //     startConnector: SolidLineConnector(),
-    //     endConnector: SolidLineConnector(),
-    //   ),
-    // ))
-    //     .toList(),
-    // )
   }
 
   double starSteps = 1;
