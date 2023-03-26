@@ -334,7 +334,7 @@ class _AddGamePageState extends State<AddGamePage> {
                           items: List.generate(levels.length, (i) {
                             return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
                           }),
-                          title: "Select Level".tr,
+                          title: "Select Rank".tr,
                           showInfo: true,
                         ),
                         barrierColor: Colors.black26,
