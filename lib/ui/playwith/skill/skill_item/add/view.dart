@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
@@ -39,24 +40,24 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
       padding: itemPadding10,
       child: Column(
         children: [
-          InputView(
-            maxLength: 15,
-            inputLable: Container(
-              width: 60.w,
-              padding: EdgeInsets.only(right: 10.w),
-              child: Text(
-                'Name'.tr,
-                style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
-              ),
-            ),
-            decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
-            controller: controller.teContent,
-            label: 'ServiceType / ${model?.unit}',
-            tips: 'Please input Service Name'.tr,
-            margin: EdgeInsets.only(top: 2).h,
-            padding: EdgeInsets.only(bottom: 8.h),
-            height: 45.h,
-          ),
+         Obx(()=> InputView(
+           maxLength: 15,
+           inputLable: Container(
+             width: 60.w,
+             padding: EdgeInsets.only(right: 10.w),
+             child: Text(
+               'Name'.tr,
+               style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
+             ),
+           ),
+           decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+           controller: controller.teContent,
+           label: 'ServiceType / ${controller.priceRange?.unit}',
+           tips: 'Please input Service Name'.tr,
+           margin: EdgeInsets.only(top: 2).h,
+           padding: EdgeInsets.only(bottom: 8.h),
+           height: 45.h,
+         )),
           5.verticalSpace,
           Container(
             height: 45.h,
@@ -122,11 +123,40 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                               },
                               //    onDragCompleted: (i, v1, v2) => price = v1,
                             )))),
+                10.horizontalSpace,
+                Container(
+                  height: 45.h,
+                  width: 50.w,
+                  constraints: BoxConstraints(minWidth: 100.w),
+                  decoration: innerDecoration(),
+                  alignment: Alignment.center,
+                  padding: itemPadding(),
+                  child: dropDownButton( model?.unit),
+                )
               ],
             ),
           )
         ],
       ),
     );
+  }
+  var textColor = Color(0xFFB2B9C9);
+  dropDownButton( var init) {
+    return Obx(()=>DropdownButtonHideUnderline(
+        child: DropdownButton<PriceRangeModel>(
+            value: controller.priceRange,
+            items: controller.priceRanges
+                .map((item) => DropdownMenuItem<PriceRangeModel>(
+              value: item,
+              child: Text(
+                '${item.unit}',
+                style: TextStyle(color: textColor),
+              ),
+            ))
+                .toList(),
+            onChanged: (item) {
+              controller.onTypeChange(item);
+              //   controller.onPriceUnitChange(index, item!);
+            })));
   }
 }

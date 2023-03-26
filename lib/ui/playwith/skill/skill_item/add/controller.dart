@@ -8,6 +8,7 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/utils/utils.dart';
 
 /*
     controller
@@ -22,6 +23,14 @@ class SkillItemAddPageController extends BasePageController {
   var gameId;
   var levelId;
   SkillModel? model;
+  Rxn<PriceRangeModel?> _priceRange=Rxn();
+
+  PriceRangeModel? get priceRange => _priceRange.value;
+
+  set priceRange(PriceRangeModel? value) {
+    _priceRange.value = value;
+  }
+
   RxDouble _price = RxDouble(0);
 
   double get price => _price.value;
@@ -52,7 +61,8 @@ class SkillItemAddPageController extends BasePageController {
       Get.back();
       return;
     }
-    price = priceRanges.first.gameCoinMin;
+    priceRange=priceRanges.first;
+    price = priceRange?.gameCoinMin??0;
   }
 
   onConfirm() async {
@@ -75,7 +85,11 @@ class SkillItemAddPageController extends BasePageController {
       Get.back(result: true);
     }
   }
-
+ onTypeChange(PriceRangeModel? item){
+    priceRange=item;
+    price=priceRange?.gameCoinMin??0;
+    flog('priceRange ${priceRange?.unit}');
+ }
   @override
   void onClose() {
     teContent.dispose();
