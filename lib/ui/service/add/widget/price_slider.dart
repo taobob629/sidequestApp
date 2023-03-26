@@ -49,7 +49,7 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
               itemBuilder: (BuildContext context, int index) {
                 if (showLable && index == 0) {
                   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    itemLable('Price Range'.tr),
+                    itemLable('Price'.tr),
                     Visibility(
                       visible: showLable,
                       child: InkWell(

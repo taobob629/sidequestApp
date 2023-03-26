@@ -554,7 +554,7 @@ const Map<String, String> zh_CN = {
   'Withdrawal': '提现',
   'Are you sure to delete this?': '确定要删除吗?',
   'Service Name': '服务项目',
-  'Rank': '等级',
+  'Rank': '段位',
   '暂无': '暂无',
   'the service price not in the price range': '服务价格不在价格区间内',
   'Play': '下单',

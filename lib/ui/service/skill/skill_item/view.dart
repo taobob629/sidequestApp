@@ -68,13 +68,13 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([
-        PWidget.text('${'Level'.tr} :', [Colors.white]),
+        PWidget.text('${'Rank'.tr} :', [Colors.white]),
         PWidget.boxw(16),
         PWidget.text('${controller.skillModel?.level}'.tr, [Colors.white]),
       ])),
       PWidget.boxh(10),
       itemBg(PWidget.row([
-        PWidget.text('${'Price range'.tr} :', [Colors.white]),
+        PWidget.text('${'Price'.tr} :', [Colors.white]),
         Expanded(
             child: PriceSlider(
                 min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
