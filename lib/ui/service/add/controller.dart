@@ -36,7 +36,7 @@ class AddGamePageController extends GetxController {
   var id;
 
   ServiceDetailModel? get serviceModel => _serviceModel.value;
- late PrivacyCheckController privacyCheckController;
+  late PrivacyCheckController privacyCheckController;
 
   set serviceModel(ServiceDetailModel? value) {
     _serviceModel.value = value;
@@ -187,8 +187,15 @@ class AddGamePageController extends GetxController {
     http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
-      Get.back(result: true);
-     // Get.until((route) => route.settings.name == AppPages.ServiceAndOrders,);
+      if (isEdit) {
+        Get.back(result: true);
+      } else {
+        Get.back();
+        Get.back(result: true);
+      }
+      Get.until(
+        (route) => route.settings.name == AppPages.ServiceAndOrders,
+      );
     }).catchError((e) {
       flog('e $e');
       EasyLoading.showToast(e);
