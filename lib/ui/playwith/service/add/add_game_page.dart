@@ -410,12 +410,12 @@ class _AddGamePageState extends State<AddGamePage> {
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (_, i) {
             if (controller.gamePhotos.length > i) {
+              flog('controller.gamePhotos[i] ${controller.gamePhotos[i]}');
               return PWidget.container(
                 Stack(children: [
                   Positioned.fill(
                       child: CachedNetworkImage(
                           imageUrl: controller.gamePhotos[i], fit: BoxFit.cover)),
-                  Positioned.fill(child: Container(color: Color(0xFF2D2E3C))),
                   PWidget.positioned(
                     PWidget.icon(
                       Icons.highlight_remove_rounded,
