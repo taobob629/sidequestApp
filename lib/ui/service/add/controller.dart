@@ -187,7 +187,8 @@ class AddGamePageController extends GetxController {
     http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
-      Get.until((route) => route.settings.name == AppPages.ServiceAndOrders);
+      Get.back(result: true);
+     // Get.until((route) => route.settings.name == AppPages.ServiceAndOrders,);
     }).catchError((e) {
       flog('e $e');
       EasyLoading.showToast(e);
