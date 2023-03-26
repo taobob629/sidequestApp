@@ -2,7 +2,9 @@ import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
@@ -41,7 +43,9 @@ class CouponItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => model.available == CouponModel.AVILABLE ? onTap?.call(model) : {EasyLoading.showToast('Voucher Unavailable'.tr)},
+      onTap: () => model.available == CouponModel.AVILABLE
+          ? onTap?.call(model)
+          : {EasyLoading.showToast('Voucher Unavailable'.tr)},
       child: Stack(
         children: [
           Container(
@@ -61,30 +65,41 @@ class CouponItem extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          //   Spacer(),
                           Flexible(
                               flex: 7,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  PWidget.text('${model.discount}', [
-                                    model.available == CouponModel.AVILABLE
-                                        ? Colors.white
-                                        : Colors.grey,
-                                    45
-                                  ]),
+                                  Text(
+                                    '${model.discount}',
+                                    style: TextStyle(
+                                        color: model.available == CouponModel.AVILABLE
+                                            ? Colors.white
+                                            : Colors.grey,
+                                        fontFamily: FONT_LIGHT,
+                                        fontSize: 35.sp),
+                                  ),
+                                  // PWidget.text('${model.discount}', [
+                                  //   model.available == CouponModel.AVILABLE
+                                  //       ? Colors.white
+                                  //       : Colors.grey,
+                                  //   45
+                                  // ]),
                                   if (model.unit.isNotEmpty)
                                     Container(
                                       child: Transform.rotate(
                                         angle: Math.pi / 2,
                                         child: Container(
                                             padding: EdgeInsets.only(top: 20),
-                                            child: PWidget.text('${model.unit}', [
-                                              model.available == CouponModel.AVILABLE
-                                                  ? Colors.white
-                                                  : Colors.grey,
-                                              23
-                                            ])),
+                                            child: Text(
+                                              '${model.unit}',
+                                              style: TextStyle(
+                                                  color: model.available == CouponModel.AVILABLE
+                                                      ? Colors.white
+                                                      : Colors.grey,
+                                                  fontFamily: FONT_LIGHT,
+                                                  fontSize: 20.sp),
+                                            )),
                                       ),
                                     ),
                                 ],
@@ -96,12 +111,27 @@ class CouponItem extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  PWidget.text('${model.typeName}', [model.available == CouponModel.AVILABLE ? Colors.yellow : Colors.grey, 25], {'ff': 'DIN'}),
-                                  PWidget.text('${model.name}', [model.available == CouponModel.AVILABLE ? Colors.yellow : Colors.grey, 15], {'ff': 'DIN'}),
+                                  PWidget.text('${model.typeName}', [
+                                    model.available == CouponModel.AVILABLE
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                    25
+                                  ],),
+                                  PWidget.text('${model.name}', [
+                                    model.available == CouponModel.AVILABLE
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                    15
+                                  ]),
                                   PWidget.boxh(3),
                                   Text(
                                     '${model.description}',
-                                    style: TextStyle(color: model.available == CouponModel.AVILABLE ? Colors.white70 : Colors.grey, fontSize: 14, fontFamily: 'DIN'),
+                                    style: TextStyle(
+                                        color: model.available == CouponModel.AVILABLE
+                                            ? Colors.white70
+                                            : Colors.grey,
+                                        fontSize: 14,
+                                        fontFamily: FONT_LIGHT),
                                     maxLines: 2,
                                   ),
                                 ],
@@ -111,8 +141,6 @@ class CouponItem extends StatelessWidget {
                           //  Spacer(),
                         ],
                       ),
-                      // PWidget.text('${'Available'.tr} : ${model.expireTime}',
-                      //     [Colors.white, 14], {'ff': 'DIN'})
                     ],
                   ),
                 )
@@ -123,7 +151,10 @@ class CouponItem extends StatelessWidget {
             Positioned(
               top: 15,
               right: 15,
-              child: PWidget.text('${'Available'.tr} : ${model.usedCount}', [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14], {'ff': 'DIN'}),
+              child: PWidget.text(
+                  '${'Available'.tr} : ${model.usedCount}',
+                  [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14],
+                  {'ff': 'DIN'}),
             ),
           Positioned(
             bottom: 15,
@@ -131,7 +162,10 @@ class CouponItem extends StatelessWidget {
             // left: 20,
             child: Container(
               //    alignment: Alignment.center,
-              child: PWidget.text('${'Expire Date'.tr} : ${model.expireTime}', [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14], {'ff': 'DIN'}),
+              child: PWidget.text(
+                  '${'Expire Date'.tr} : ${model.expireTime}',
+                  [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14],
+                  {'ff': 'DIN'}),
             ),
           )
         ],
