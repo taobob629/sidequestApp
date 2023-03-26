@@ -12,7 +12,7 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
-import 'package:wy/ui/playwith/service/add/add_game_page.dart';
+import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';

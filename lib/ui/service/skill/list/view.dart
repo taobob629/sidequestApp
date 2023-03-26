@@ -20,7 +20,8 @@ import 'package:wy/model/skill_item_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/playwith/service/add/add_game_page.dart';
+import 'package:wy/ui/playwith/balance/widget/tips_dialog.dart';
+import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -28,7 +29,6 @@ import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
-import '../../balance/widget/tips_dialog.dart';
 import 'controller.dart';
 
 class SkillListPage extends GetView<SkillListPageController> {

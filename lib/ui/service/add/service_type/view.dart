@@ -10,13 +10,13 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
-import 'package:wy/ui/playwith/service/add/widget/price_slider.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/stadium_button.dart';
 
 import '../controller.dart';
+import '../widget/price_slider.dart';
 
 class AddServiceTypePage extends GetView<AddGamePageController> {
   @override

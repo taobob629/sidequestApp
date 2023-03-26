@@ -14,9 +14,9 @@ import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/dialog_selector_multiple.dart';
-import 'package:wy/ui/playwith/service/add/add_game_page.dart';
 import 'package:wy/utils/index.dart';
 
+import '../add_game_page.dart';
 import '../controller.dart';
 
 class FieldsWidget extends GetView<AddGamePageController> {

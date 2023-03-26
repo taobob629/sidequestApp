@@ -10,9 +10,10 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/model/game_service_model.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/playwith/service/controller.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
+
+import 'controller.dart';
 
 class MoreGamesPage extends GetView<MoreGamesPageController> {
   @override

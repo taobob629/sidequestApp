@@ -13,11 +13,12 @@ import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/input_view.dart';
-import 'package:wy/ui/playwith/service/add/add_game_page.dart';
-import 'package:wy/ui/playwith/service/add/controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/paixs_widget.dart';
+
+import '../add_game_page.dart';
+import '../controller.dart';
 
 class PriceSliderWidget extends GetView<AddGamePageController> {
   bool showLable = false;
