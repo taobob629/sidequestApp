@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
-import 'package:wy/api/game_api.dart';
-import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
-import 'package:wy/config/app_color.dart';
-import 'package:wy/config/icon_font.dart';
-import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
-import 'package:wy/model/price_range_model.dart';
-import 'package:wy/model/service_info_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
@@ -29,8 +23,6 @@ import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
-import 'package:wy/widget/another_xlider.dart';
-import 'package:wy/widget/lable.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -38,7 +30,6 @@ import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
 import 'widget/fields_widget.dart';
-import 'widget/price_slider.dart';
 
 ///添加游戏
 class AddGamePage extends StatefulWidget {
@@ -57,13 +48,12 @@ class _AddGamePageState extends State<AddGamePage> {
   bool isUploadFile = false;
 
   bool isSending = false;
-  bool isEdit = false;
 
   @override
   void initState() {
     super.initState();
     controller.id = widget.data['id'];
-    isEdit = controller.isEdit = widget.data.isNotEmpty;
+    controller.isEdit = widget.data.isNotEmpty;
     controller.initData();
   }
 
@@ -224,7 +214,7 @@ class _AddGamePageState extends State<AddGamePage> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!isEdit)
+                if (!controller.isEdit)
                   Visibility(
                       child: itemBg(
                     PWidget.row([
@@ -267,9 +257,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       }
                     },
                   )),
-                if (!isEdit) 10.verticalSpace,
+                if (!controller.isEdit) 10.verticalSpace,
                 // if (controller.isEdit!)
-                if (!isEdit)
+                if (!controller.isEdit)
                   itemBg(
                     PWidget.row([
                       PWidget.text('Service'.tr, [textColor]),
@@ -353,6 +343,7 @@ class _AddGamePageState extends State<AddGamePage> {
                         setState(() {
                           controller.gameLvIndex = int.parse(res.name);
                           controller.gameLv = levels[controller.gameLvIndex];
+                          if(!controller.isEdit)
                           controller.getPriceRange();
                         });
                       }
