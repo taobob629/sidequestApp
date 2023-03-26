@@ -27,7 +27,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
       body: Obx(() => controller.priceRanges.isEmpty ? buildLoad() : _buildBody()),
       bottomNavigationBar: FloatingButton(
         label: 'Confirm'.tr,
-        onTap: () => null,
+        onTap: () => controller.onConfirm(),
       ),
     );
   }

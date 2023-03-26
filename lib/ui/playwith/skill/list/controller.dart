@@ -60,10 +60,14 @@ class SkillListPageController extends GetxController {
     }
     if (skillItemModel == null) {
       Get.toNamed(AppPages.AddSkillItem,
-          arguments: Map<String, dynamic>()
-            ..['skillName'] = data.skillName
-            ..['gameId'] = data.skillid
-            ..['levelId'] = data.levelid);
+              arguments: Map<String, dynamic>()
+                ..['skillName'] = data.skillName
+                ..['gameId'] = data.skillid
+                ..['service'] = data
+                ..['levelId'] = data.levelid)
+          ?.then((res) {
+        if (res) onRefresh();
+      });
       return;
     }
     Get.toNamed(AppPages.SkillItem,
