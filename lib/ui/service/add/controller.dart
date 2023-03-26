@@ -193,9 +193,6 @@ class AddGamePageController extends GetxController {
         Get.back();
         Get.back(result: true);
       }
-      Get.until(
-        (route) => route.settings.name == AppPages.ServiceAndOrders,
-      );
     }).catchError((e) {
       flog('e $e');
       EasyLoading.showToast(e);
