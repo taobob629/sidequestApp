@@ -187,25 +187,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                  visible: false,
+                  visible: !readOnly(),
                   child: InkWell(
                       onTap: () {
-                        var comments = controller.etCommnetController.text;
-                        if (comments.isEmpty) {
-                          Get.dialog(
-                            ConfirmDialog(
-                              title: 'Confirm'.tr,
-                              concelBtn: 'Cancel'.tr,
-                              cancelable: true,
-                              info: 'Are you sure not to submit any evaluation content? ',
-                              onConfirm: () {
-                                controller.finishOrder();
-                              },
-                            ),
-                          );
-                          return;
-                        }
-                        controller.finishOrder();
+                          controller.finishOrder();
                       },
                       child: Text(
                         'Submit'.tr,
