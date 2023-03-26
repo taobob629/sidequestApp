@@ -84,15 +84,13 @@ class App extends StatelessWidget {
                 const Locale('en', 'US'),
                 const Locale('zh', 'CN'),
               ],
-              locale: DevicePreview.locale(context),
+              // locale: DevicePreview.locale(context),
               translations: Messages(),
               //跟随系统语言
               fallbackLocale: const Locale('en', 'US'),
               getPages: AppPages.routes,
               initialRoute: AppPages.Main,
-              builder: EasyLoading.init(
-                builder: (context, child) => DevicePreview.appBuilder(context, child),
-              ),
+              builder: EasyLoading.init(),
             );
           },
         ));

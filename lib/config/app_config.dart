@@ -97,7 +97,7 @@ class AppConfig {
 
   static String getBaseServer() {
     String env = StorageManager.getEnv();
-  //  return _devServer;
+    //  return _devServer;
     if (env == "dev184") {
       return _devServer;
     } else if (env == "dev127") {
@@ -109,10 +109,6 @@ class AppConfig {
   }
 
   static Future<Widget> createApp() async {
-    return DevicePreview(
-      // enabled:!kReleaseMode
-      enabled: false,
-      builder: (context) => App(), // Wrap your app
-    );
+    return App();
   }
 }
