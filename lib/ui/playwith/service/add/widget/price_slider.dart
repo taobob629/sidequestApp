@@ -116,6 +116,7 @@ class PriceSlider extends GetView<AddGamePageController> {
     return outerBg(Column(
       children: [
         InputView(
+          maxLength: 15,
           decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
           controller: textController,
           label: 'ServiceType_${model?.unit}',

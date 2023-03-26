@@ -40,6 +40,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
       child: Column(
         children: [
           InputView(
+            maxLength: 15,
             inputLable: Container(
               width: 60.w,
               padding: EdgeInsets.only(right: 10.w),
