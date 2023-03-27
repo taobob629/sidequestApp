@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/post_api.dart';
@@ -30,6 +31,7 @@ class PostCommentsPage extends StatelessWidget {
               onRefresh: () => t.onRefresh(),
               onLoading: () => t.loadData(),
               child: ListView.separated(
+                padding: EdgeInsets.only(bottom: 80),
                 itemCount: t.list.length,
                 itemBuilder: (context, index) {
                   final model = t.list[index];
@@ -139,14 +141,6 @@ class PostCommentsPage extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        // onTap: () {
-                        //   Get.bottomSheet(
-                        //       GiveGiftsDialog(
-                        //         receiverId: t.postItem.uid.toString(),
-                        //         postId: t.postItem.id.toString(),
-                        //       ),
-                        //       ignoreSafeArea: true);
-                        // },
                         onTapDown: (details) async {
                           var heartNum = await Get.bottomSheet(
                               GiveGiftsDialog(
@@ -198,6 +192,10 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   }
 
   postComment() {
+    if (commentController.text.trim().isEmpty) {
+      EasyLoading.showInfo("Please enter comment!");
+      return;
+    }
     PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
       onRefresh();
       replyModel.value = PostCommentModel();

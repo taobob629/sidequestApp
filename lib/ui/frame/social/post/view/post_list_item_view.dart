@@ -116,89 +116,99 @@ class PostListItemView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: Image.asset(
-                            "assets/images/profile/icon_pinlun.webp",
-                            width: 16,
-                          ),
-                        ),
-                        Text(
-                          model.commentNum.toString(),
-                          style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 11.sp,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTapDown: (details) {
-                      PostListController.find.praisePost(model).then((value) {
-                        if (value) {
-                          model.isPraise.value = !model.isPraise.value;
-                          if (model.isPraise.value) {
-                            model.praiseNum += 1;
-                          } else {
-                            model.praiseNum -= 1;
-                          }
-                        }
-                      });
-                    },
+                  Expanded(
                     child: Container(
-                      width: 30,
-                      child: Obx(() => Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Image.asset(
-                                  "assets/images/profile/icon_dianzan.webp",
-                                  width: 16,
-                                  color: model.isPraise.value ? Colors.pink : null,
-                                ),
-                              ),
-                              Text(
-                                model.praiseNum.toString(),
-                                style: TextStyle(
-                                  color: Color(0xff808388),
-                                  fontSize: 11.sp,
-                                ),
-                              )
-                            ],
-                          )),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTapDown: (details) async {
-                      var heartNum = await Get.bottomSheet(
-                          GiveGiftsDialog(
-                            receiverId: model.uid.toString(),
-                            postId: model.id.toString(),
-                          ),
-                          ignoreSafeArea: true);
-                      if (heartNum != null) {
-                        Future.delayed(Duration(milliseconds: 300)).then(
-                          (v) {
-                            showHearts(context, details.globalPosition, heartNum);
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
+                      alignment: Alignment.center,
                       child: Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: Image.asset(
-                              "assets/images/profile/icon_liwu.webp",
+                              "assets/images/profile/icon_pinlun.webp",
                               width: 16,
                             ),
                           ),
+                          Text(
+                            model.commentNum.toString(),
+                            style: TextStyle(
+                              color: Color(0xff808388),
+                              fontSize: 11.sp,
+                            ),
+                          )
                         ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTapDown: (details) {
+                        PostListController.find.praisePost(model).then((value) {
+                          if (value) {
+                            model.isPraise.value = !model.isPraise.value;
+                            if (model.isPraise.value) {
+                              model.praiseNum += 1;
+                            } else {
+                              model.praiseNum -= 1;
+                            }
+                          }
+                        });
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Obx(() => Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: Image.asset(
+                                    "assets/images/profile/icon_dianzan.webp",
+                                    width: 16,
+                                    color: model.isPraise.value ? Colors.pink : null,
+                                  ),
+                                ),
+                                Text(
+                                  model.praiseNum.toString(),
+                                  style: TextStyle(
+                                    color: Color(0xff808388),
+                                    fontSize: 11.sp,
+                                  ),
+                                )
+                              ],
+                            )),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTapDown: (details) async {
+                        var heartNum = await Get.bottomSheet(
+                            GiveGiftsDialog(
+                              receiverId: model.uid.toString(),
+                              postId: model.id.toString(),
+                            ),
+                            ignoreSafeArea: true);
+                        if (heartNum != null) {
+                          Future.delayed(Duration(milliseconds: 300)).then(
+                            (v) {
+                              showHearts(context, details.globalPosition, heartNum);
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Image.asset(
+                                "assets/images/profile/icon_liwu.webp",
+                                width: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

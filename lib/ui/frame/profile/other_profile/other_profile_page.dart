@@ -328,7 +328,7 @@ class OtherProfilePage extends StatelessWidget {
                             controller: t.tabController,
                             isScrollable: false,
                             labelColor: Colors.white,
-                            unselectedLabelColor: Colors.white38,
+                            unselectedLabelColor: Colors.white,
                             indicatorColor: Color(0xFFFFCB0D),
                             indicatorSize: TabBarIndicatorSize.label,
                             indicatorWeight: 2,

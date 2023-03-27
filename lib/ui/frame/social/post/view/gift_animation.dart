@@ -81,6 +81,7 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
           builder: (context, child) {
             return Positioned(
                 top: -_sizeAnimation.value,
+                left: -_sizeAnimation.value / 2,
                 child: Opacity(
                   opacity: _opacityAnimation.value,
                   child: Stack(

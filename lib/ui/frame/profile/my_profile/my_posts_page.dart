@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../social/post/view/post_list_item_view.dart';
@@ -29,6 +30,9 @@ class MyPostsPage extends StatelessWidget {
                     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                   return PostListItemView(
                     model: t.list[index],
+                    onTap: () {
+                      Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
+                    },
                   );
                 }, childCount: t.list.length));
               })

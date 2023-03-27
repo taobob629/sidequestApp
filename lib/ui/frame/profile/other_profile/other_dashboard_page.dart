@@ -123,7 +123,7 @@ class OtherDashboardPage extends StatelessWidget {
                                                   EditPlayBtn(
                                                     isEdit: t.isSelf,
                                                     onTap: () {
-                                                      t.editService(game, game.serviceItem.first);
+                                                      t.selGame.value = game;
                                                     },
                                                   ).marginOnly(bottom: 13)
                                                 ],
