@@ -32,6 +32,7 @@ class StorageManager {
   static const String kPayPasswordCheckTime = 'kPayPasswordCheckTime';
   static const String kLocal = 'kLocal';
   static const String kFirstUse = 'firstUse'; //是否首次安装
+  static const String kCountDown = 'kCountDown';
 
   /// 必备数据的初始化操作
   ///
@@ -218,5 +219,14 @@ class StorageManager {
 
   static void setFirstUse(bool value) {
     sharedPreferences.setBool(kFirstUse, value);
+  }
+
+  static String? getCountDown() {
+    String? value = sharedPreferences.getString(kCountDown);
+    return value;
+  }
+
+  static void setCountDown(String value) {
+    sharedPreferences.setString(kCountDown, value);
   }
 }

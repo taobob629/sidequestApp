@@ -23,7 +23,7 @@ class SideKickMatchPage extends StatelessWidget {
           backgroundColor: AppColor.background,
           elevation: 0,
           title: Text(
-            'Sidekick Match',
+            'Sidekick Match'.tr,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -79,7 +79,7 @@ class SideKickMatchPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Game',
+                          'Game'.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         ),
@@ -117,7 +117,7 @@ class SideKickMatchPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Price Range',
+                          'Price Range'.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         ),
@@ -151,7 +151,7 @@ class SideKickMatchPage extends StatelessWidget {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: 'min price',
+                                          hintText: 'min price'.tr,
                                           hintStyle: TextStyle(
                                               color: Color(0xffb2b9c9),
                                               fontSize: 14.sp),
@@ -205,7 +205,7 @@ class SideKickMatchPage extends StatelessWidget {
                                         ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: 'max price',
+                                          hintText: 'max price'.tr,
                                           hintStyle: TextStyle(
                                               color: Color(0xffb2b9c9),
                                               fontSize: 14.sp),
@@ -226,7 +226,7 @@ class SideKickMatchPage extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          'Unit',
+                          'Unit'.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         ),
@@ -263,7 +263,7 @@ class SideKickMatchPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Language',
+                          'Language'.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         ),
@@ -324,11 +324,11 @@ class SideKickMatchPage extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Sidekick Types ',
+                'Sidekick Types '.tr,
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
               Text(
-                '(Optional)',
+                '(Optional)'.tr,
                 style: TextStyle(color: Color(0x80ffffff), fontSize: 16.sp),
               ),
             ],
@@ -369,11 +369,11 @@ class SideKickMatchPage extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Additional Requests ',
+                'Additional Requests '.tr,
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
               Text(
-                '(Optional)',
+                '(Optional)'.tr,
                 style: TextStyle(color: Color(0x80ffffff), fontSize: 16.sp),
               ),
             ],
@@ -390,15 +390,15 @@ class SideKickMatchPage extends StatelessWidget {
               controller: _ctr.requestsPriceCtr,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Service, Ranking, roles etc.',
+                hintText: 'Service, Ranking, roles etc.'.tr,
                 hintStyle: TextStyle(color: Color(0xffb2b9c9), fontSize: 14.sp),
                 helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
                 labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
               ),
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
               maxLength: 100,
-              maxLines: 4,
-              minLines: 4,
+              maxLines: 6,
+              minLines: 6,
             ),
           )
         ],

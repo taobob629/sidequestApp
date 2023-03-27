@@ -17,6 +17,7 @@ import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/db_model.dart';
 import 'package:wy/model/im_sig_model.dart';
 import 'package:wy/model/login_model.dart';
@@ -28,6 +29,7 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../api_service/profile_api.dart';
+import '../../event_bus/beans/match_event.dart';
 import '../../utils/db_helper.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
@@ -279,6 +281,7 @@ class UserController extends GetxController {
         TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           FlutterRingtonePlayer.playNotification();
+          eventBus.fire(MatchEvent(msg: msg));
         }));
 
         ///获取未读数量

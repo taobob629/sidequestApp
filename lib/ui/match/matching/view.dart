@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 
 import '../../../image_utils.dart';
 import '../../common/colorful_button.dart';
+import '../view/sphere_rotation.dart';
 import '../view/tag/simple_tags.dart';
 import 'controller.dart';
 
@@ -22,12 +22,51 @@ class SideKickMatchingPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                ImageUtils.picDengDaiHuaMian,
-                width: 280.w,
+              Container(
                 height: 280.w,
+                margin: EdgeInsets.only(bottom: 20.h, top: 20.h),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        ImageUtils.picDengDaiHuaMian,
+                        width: 280.w,
+                        height: 280.w,
+                      ),
+                    ),
+                    RotatingBallWidget(
+                      marginX: 106,
+                      marginY: 106,
+                      seconds: 3,
+                      imgSrc: ImageUtils.iconYuanBai,
+                    ),
+                    RotatingBallWidget(
+                      marginX: 106,
+                      marginY: 106,
+                      seconds: 2,
+                      imgSrc: ImageUtils.iconYuanFen,
+                    ),
+                    RotatingBallWidget(
+                      marginX: 140,
+                      marginY: 140,
+                      seconds: 4,
+                      imgSrc: ImageUtils.iconYuanLan,
+                    ),
+                    RotatingBallWidget(
+                      marginX: 72,
+                      marginY: 72,
+                      seconds: 2,
+                      imgSrc: ImageUtils.iconYuanLv,
+                    ),
+                    RotatingBallWidget(
+                      marginX: 50,
+                      marginY: 50,
+                      seconds: 1,
+                      imgSrc: ImageUtils.iconYuanLv02,
+                    ),
+                  ],
+                ),
               ),
-              22.verticalSpace,
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -58,144 +97,125 @@ class SideKickMatchingPage extends StatelessWidget {
         ));
   }
 
-  Widget _matchingRequirementsWidget() => Obx(() => Container(
-    decoration: BoxDecoration(
-      color: Color(0xff262731),
-      borderRadius: BorderRadius.circular(15.r),
-    ),
-    margin: EdgeInsets.all(16.r),
-    padding: EdgeInsets.all(16.r),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+  Widget _matchingRequirementsWidget() => Container(
+        decoration: BoxDecoration(
+          color: Color(0xff262731),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        margin: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(16.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              ImageUtils.iconZhuansghi,
-              width: 17.w,
-              height: 17.w,
+            Row(
+              children: [
+                Image.asset(
+                  ImageUtils.iconZhuansghi,
+                  width: 17.w,
+                  height: 17.w,
+                ),
+                10.horizontalSpace,
+                Text(
+                  'Matching Requirements'.tr,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: FONT_MEDIUM),
+                )
+              ],
             ),
-            10.horizontalSpace,
+            Container(
+              height: 1.h,
+              color: Color(0xff2D2E3A),
+              margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
+            ),
+            _commonWidget('Categroy'.tr, 'pc'),
+            20.verticalSpace,
+            _commonWidget('Game'.tr, 'League of Legends'.tr),
+            20.verticalSpace,
+            _commonWidget('Price Range'.tr, '10.00~ 20.00'.tr, showIcon: true),
+            20.verticalSpace,
+            _commonWidget(
+              'Unit'.tr,
+              '/Game'.tr,
+            ),
+            20.verticalSpace,
+            _commonWidget(
+              'Language'.tr,
+              'English,Français '.tr,
+            ),
+            20.verticalSpace,
+            SimpleTags(
+              content: _ctr.others,
+              wrapSpacing: 10.w,
+              wrapRunSpacing: 10.h,
+              onTagPress: null,
+              tagContainerPadding:
+                  EdgeInsets.symmetric(vertical: 6.h, horizontal: 15.w),
+              tagTextStyle:
+                  TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
+              tagSelectTextStyle:
+                  TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
+              tagContainerDecoration: BoxDecoration(
+                color: Color(0xff3a3627),
+                border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              tagContainerSelectDecoration: BoxDecoration(
+                color: Color(0xff3a3627),
+                border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+            ),
+            Container(
+              height: 1.h,
+              color: Color(0xff2D2E3A),
+              margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
+            ),
             Text(
-              'Matching Requirements'.tr,
+              'I want the sound to cute',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 14.sp,
                   fontFamily: FONT_MEDIUM),
-            )
+            ),
+            20.verticalSpace,
+            ColorfulButton(
+              child: Text(
+                "Stop Matching".tr,
+                style: TextStyle(
+                    color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
+              ),
+              height: 40.h,
+              borderRadius: 20.r,
+              onTap: () => _ctr.stopMatching(),
+            ),
           ],
         ),
-        Container(
-          height: 1.h,
-          color: Color(0xff2D2E3A),
-          margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
-        ),
-        _commonWidget('Categroy'.tr, 'pc'),
-        20.verticalSpace,
-        _commonWidget('Game'.tr, 'League of Legends'.tr),
-        20.verticalSpace,
-        _commonWidget('Price Range'.tr, '10.00~ 20.00'.tr, showIcon: true),
-        20.verticalSpace,
-        _commonWidget(
-          'Unit'.tr,
-          '/Game'.tr,
-        ),
-        20.verticalSpace,
-        _languageWidget(
-          'Language'.tr,
-          'English,Français '.tr,
-        ),
-        20.verticalSpace,
-        SimpleTags(
-          content: [],
-          wrapSpacing: 10.w,
-          wrapRunSpacing: 10.h,
-          onTagPress: null,
-          tagContainerPadding:
-          EdgeInsets.symmetric(vertical: 6.h, horizontal: 15.w),
-          tagTextStyle:
-          TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
-          tagSelectTextStyle:
-          TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
-          tagContainerDecoration: BoxDecoration(
-            color: Color(0xff3a3627),
-            border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          tagContainerSelectDecoration: BoxDecoration(
-            color: Color(0xff3a3627),
-            border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-        ),
-        Container(
-          height: 1.h,
-          color: Color(0xff2D2E3A),
-          margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
-        ),
-        Text(
-          'I want the sound to cute',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontFamily: FONT_MEDIUM),
-        ),
-        20.verticalSpace,
-        ColorfulButton(
-          child: Text(
-            "Stop Matching".tr,
-            style: TextStyle(
-                color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
-          ),
-          height: 40.h,
-          borderRadius: 20.r,
-          onTap: () => Get.toNamed(AppPages.side_kick_match_suc_page),
-        ),
-      ],
-    ),
-  ));
-
-  Widget _languageWidget(String leftStr, String rightStr,
-          {bool showIcon = false}) =>
-      Row(
-        children: [
-          5.horizontalSpace,
-          Text(
-            rightStr,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontFamily: FONT_MEDIUM,
-            ),
-          ),
-        ],
       );
 
   Widget _commonWidget(String leftStr, String rightStr,
           {bool showIcon = false}) =>
-      Container(
-        height: 95.h,
-        child: Row(
-          children: [
-            Text(
-              leftStr,
-              style: TextStyle(
-                  color: Colors.white, fontSize: 14.sp, fontFamily: FONT_MEDIUM),
+      Row(
+        children: [
+          Text(
+            leftStr,
+            style: TextStyle(
+                color: Colors.white, fontSize: 14.sp, fontFamily: FONT_MEDIUM),
+          ),
+          Expanded(child: SizedBox()),
+          if (showIcon)
+            Image.asset(
+              "assets/images/coin_red.webp",
+              width: 15.w,
+              height: 15.w,
             ),
-            Expanded(child: SizedBox()),
-            if (showIcon)
-              Image.asset(
-                "assets/images/coin_red.webp",
-                width: 15.w,
-                height: 15.w,
-              ),
-            5.horizontalSpace,
-            Text(
-              rightStr,
-              style: TextStyle(
-                  color: Colors.white, fontSize: 14.sp, fontFamily: FONT_MEDIUM),
-            ),
-          ],
-        ),
+          5.horizontalSpace,
+          Text(
+            rightStr,
+            style: TextStyle(
+                color: Colors.white, fontSize: 14.sp, fontFamily: FONT_MEDIUM),
+          ),
+        ],
       );
 }

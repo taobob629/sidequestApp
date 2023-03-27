@@ -11,6 +11,7 @@ import '../../../image_utils.dart';
 import '../../../model/login_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../common/dialog_selector.dart';
+import '../view/sphere_rotation.dart';
 
 class SideKickMatchController extends GetxController {
 
@@ -103,9 +104,10 @@ class SideKickMatchController extends GetxController {
       "types": json.encode(tagsMap),
       "requests": requestsPriceCtr.text,
     };
-    final result = await MatchApi.sendMatch(params);
+    // final result = await MatchApi.sendMatch(params);
+    EasyLoading.dismiss();
 
-    // Get.toNamed(AppPages.side_kick_matching_page);
+    Get.toNamed(AppPages.side_kick_matching_page);
   }
 
   Widget selectLanguage() {
