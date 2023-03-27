@@ -75,7 +75,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
                       child: StadiumButton(
                     'Submit'.tr,
                     onTap: () {
-                      controller.updateService();
+                      if (controller.privacyCheckController.check()) controller.updateService();
                     },
                   )),
                 ],
