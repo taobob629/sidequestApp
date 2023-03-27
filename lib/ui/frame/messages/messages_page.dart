@@ -83,6 +83,7 @@ class MessagesPageController extends GetxController with GetSingleTickerProvider
           conversationItemTitleTextColor: Colors.white,
           conversationItemBorderColor: Colors.transparent,
           conversationItemBgColor: Colors.transparent,
+          conversationItemPinedBgColor: Colors.transparent,
           lightPrimaryColor: AppColor.background,
           inputFillColor: AppColor.color3033,
           chatMessageItemFromSelfBgColor: AppColor.color302D,

@@ -44,7 +44,7 @@ class App extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return GetMaterialApp(
-              useInheritedMediaQuery: true,
+              // useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
