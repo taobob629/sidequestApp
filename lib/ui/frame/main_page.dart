@@ -26,7 +26,6 @@ import 'package:wy/ui/frame/social/view.dart';
 import 'package:wy/ui/frame/tab_button.dart';
 import 'package:wy/ui/index/Index_page.dart';
 import 'package:wy/ui/login/qr_login_page.dart';
-import 'package:wy/ui/playwith/play_with_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/scan/scan_page.dart';
@@ -135,7 +134,6 @@ class MainPage extends GetView<MainPageController> {
                             return KeepAliveWrapper(
                               child: SideKickPage(),
                             );
-                            return PlayWithPage();
                           case 3:
                             return KeepAliveWrapper(child: MessagesPage());
 

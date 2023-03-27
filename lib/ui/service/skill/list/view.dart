@@ -55,20 +55,17 @@ class SkillListPage extends GetView<SkillListPageController> {
             ? buildLoad()
             : controller.list.isEmpty
                 ? EmptyView()
-                : MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => item(index),
-                        separatorBuilder: (context, index) => Container(
-                          height: 10.h,
-                        ),
-                        itemCount: controller.list.length,
-                      ),
-                    ))));
+                : Container(
+          padding: EdgeInsets.all(20),
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (context, index) => item(index),
+            separatorBuilder: (context, index) => Container(
+              height: 10.h,
+            ),
+            itemCount: controller.list.length,
+          ),
+        )));
   }
 
   Divider divider = Divider(color: Color(0xFF54555d), height: 1.h);

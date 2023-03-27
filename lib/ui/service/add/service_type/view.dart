@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
+import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -20,52 +21,69 @@ import '../widget/price_slider.dart';
 
 class AddServiceTypePage extends GetView<AddGamePageController> {
   @override
-  Widget build(BuildContext context) => ScaffoldWidget(
-      appBar: AppBar(
-        title: Text('${Get.arguments}'),
-      ),
-      body: contentPadding(
-          child: ListView(
-        padding: EdgeInsets.all(0),
-        children: [
-          itemLable('Service Types'),
-          PriceSliderWidget(
-            showLable: false,
-          ),
-          10.verticalSpace,
-          _addButton()
-        ],
-      )),
-      btnBar: contentPadding(
-          width: Get.width,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget build(BuildContext context) {
+    controller.privacyCheckController = PrivacyCheckController();
+    return ScaffoldWidget(
+        appBar: AppBar(
+          title: Text('${Get.arguments}'),
+        ),
+        body: contentPadding(
+            child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // physics: NeverScrollableScrollPhysics(),
+            // padding: EdgeInsets.all(0),
             children: [
-              Expanded(
-                  child: StadiumButton(
-                'Previous'.tr,
-                textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColor.yellow,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20).r)),
-                onTap: () {
-                  Get.back();
-                },
-              )),
-              16.horizontalSpace,
-              Expanded(
-                  child: StadiumButton(
-                'Submit'.tr,
-                onTap: () {
-                  controller.updateService();
-                },
-              )),
+              itemLable('Service Types'),
+              PriceSliderWidget(
+                showLable: false,
+              ),
+              10.verticalSpace,
+              _addButton()
             ],
-          )));
+          ),
+        )),
+        btnBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrivacyCheck(
+              controller: controller.privacyCheckController,
+              type: TYPE_ADD_BANK,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16, right: 16).w,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: StadiumButton(
+                    'Previous'.tr,
+                    textStyle: const TextStyle(color: AppColor.yellow, fontSize: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColor.yellow,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20).r)),
+                    onTap: () {
+                      Get.back();
+                    },
+                  )),
+                  16.horizontalSpace,
+                  Expanded(
+                      child: StadiumButton(
+                    'Submit'.tr,
+                    onTap: () {
+                      if (controller.privacyCheckController.check()) controller.updateService();
+                    },
+                  )),
+                ],
+              ),
+            )
+          ],
+        ));
+  }
 
   _addButton() {
     return DottedBorder(

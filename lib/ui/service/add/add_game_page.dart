@@ -343,8 +343,7 @@ class _AddGamePageState extends State<AddGamePage> {
                         setState(() {
                           controller.gameLvIndex = int.parse(res.name);
                           controller.gameLv = levels[controller.gameLvIndex];
-                          if(!controller.isEdit)
-                          controller.getPriceRange();
+                          if (!controller.isEdit) controller.getPriceRange();
                         });
                       }
                     },
@@ -404,7 +403,8 @@ class _AddGamePageState extends State<AddGamePage> {
               return Stack(children: [
                 Positioned.fill(
                     child: Container(
-                  child: CachedNetworkImage(imageUrl: controller.gamePhotos[i], fit: BoxFit.cover),
+                  child: ImageUtil.networkImage(
+                      url: controller.gamePhotos[i], fit: BoxFit.cover, border: 10.r),
                   margin: EdgeInsets.only(top: 10),
                   decoration: itemDecoration(),
                 )),
