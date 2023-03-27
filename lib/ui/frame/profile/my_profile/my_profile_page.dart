@@ -59,10 +59,11 @@ class MyProfilePage extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.only(right: 40),
-                            child: Image.asset(
-                              "assets/images/profile_setting.webp",
-                              width: 26,
-                            ),
+                            child: Icon(Icons.menu, color: Colors.white),
+                            // child: Image.asset(
+                            //   "assets/images/profile_setting.webp",
+                            //   width: 26,
+                            // ),
                           ),
                         ),
                       ),
@@ -242,7 +243,7 @@ class MyProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Text(
-                        "Followers".tr+": ${userController.userProfile.value.followers}",
+                        "Followers".tr + ": ${userController.userProfile.value.followers}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -254,7 +255,7 @@ class MyProfilePage extends StatelessWidget {
                       MessagesPageController.find.tabController.animateTo(2);
                     },
                     child: Text(
-                      "Fans".tr+ ":${userController.userProfile.value.fans}",
+                      "Fans".tr + ":${userController.userProfile.value.fans}",
                       style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -263,7 +264,7 @@ class MyProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Rating".tr+":${userController.userProfile.value.ranking}",
+                        "Rating".tr + ":${userController.userProfile.value.ranking}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -286,7 +287,7 @@ class MyProfilePage extends StatelessWidget {
               controller: t.tabController,
               isScrollable: false,
               labelColor: Colors.white,
-              unselectedLabelColor: Colors.white38,
+              unselectedLabelColor: Colors.white,
               indicatorColor: Color(0xFFFFCB0D),
               indicatorSize: TabBarIndicatorSize.label,
               indicatorWeight: 2,

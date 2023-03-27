@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -27,7 +26,7 @@ class App extends StatelessWidget {
       DeviceOrientation.portraitUp, //只能纵向
       DeviceOrientation.portraitDown, //只能纵向
     ]);
-    final ThemeData theme = ThemeData();
+    final ThemeData theme = ThemeData(fontFamily: FONT_LIGHT);
     return RefreshConfiguration(
         headerBuilder: () => WaterDropHeader(
               waterDropColor: AppColor.whiteGray,

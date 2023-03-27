@@ -1,20 +1,12 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/core/core_services.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
-import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/app.dart';
 import 'package:wy/api/wy_http.dart';
-import 'package:wy/provider/custom_sticker_package_data.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/tim_ui/my_constant.dart';
 
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'app_color.dart';

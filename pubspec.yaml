@@ -109,7 +109,7 @@ dependencies:
 
   
   # device preview for test
-  device_preview: ^1.1.0
+  # device_preview: ^1.1.0
 
 dependency_overrides:
   permission_handler: ^10.0.0

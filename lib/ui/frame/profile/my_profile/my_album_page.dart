@@ -152,7 +152,7 @@ class MyAlbumPage extends StatelessWidget {
                       ),
                       Positioned(
                           right: 5,
-                          top: 5,
+                          bottom: 5,
                           child: GestureDetector(
                             onTap: () {
                               Get.bottomSheet(
@@ -233,12 +233,13 @@ class MyAlbumPage extends StatelessWidget {
                                   ),
                                   ignoreSafeArea: true);
                             },
-                            child: Image.asset(
-                              "assets/images/ic_edit_new.webp",
-                              width: 20,
-                              height: 20,
-                              color: AppColor.yellow,
-                            ),
+                            child: Icon(Icons.more_horiz, color: Colors.white),
+                            // child: Image.asset(
+                            //   "assets/images/ic_edit_new.webp",
+                            //   width: 20,
+                            //   height: 20,
+                            //   color: AppColor.yellow,
+                            // ),
                           ))
                     ],
                   ),
