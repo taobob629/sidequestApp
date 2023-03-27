@@ -65,7 +65,7 @@ class _AddGamePageState extends State<AddGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    controller.privacyCheckController = PrivacyCheckController();
+
     return ScaffoldWidget(
       appBar: AppBar(
         title: Obx(() => PageTitle(

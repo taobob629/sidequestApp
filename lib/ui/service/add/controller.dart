@@ -167,9 +167,18 @@ class AddGamePageController extends GetxController {
 
   updateService() async {
     flog('priceRanges $mPriceRanges');
-    if (mPriceRanges.isEmpty) {
-      EasyLoading.showToast('Please select service!');
-      return;
+    if (!isEdit) {
+      if (mPriceRanges.isEmpty) {
+        EasyLoading.showToast('Please select service!'.tr);
+        return;
+      }
+      var nameEmpty = mPriceRanges.firstWhereOrNull((element) {
+        return element.name.isEmpty;
+      });
+      if (nameEmpty != null) {
+        EasyLoading.showToast('Please input a name!'.tr);
+        return;
+      }
     }
     EasyLoading.show();
     var data = {
