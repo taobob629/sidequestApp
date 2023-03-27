@@ -48,6 +48,12 @@ import 'package:wy/ui/service/view.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
 import '../ui/frame/social/post/page/release_post_page.dart';
+import '../ui/match/filter/bindings.dart';
+import '../ui/match/filter/view.dart';
+import '../ui/match/match_suc/bindings.dart';
+import '../ui/match/match_suc/view.dart';
+import '../ui/match/matching/bindings.dart';
+import '../ui/match/matching/view.dart';
 import 'app_config.dart';
 
 class AppPages {
@@ -82,6 +88,9 @@ class AppPages {
   static const SideKick = '/sidekick_page';
   static const Refound = '/refound_page';
   static const AddSkillItem = '/add_skill_item_page';
+  static const side_kick_match_page = '/side_kick_match_page';
+  static const side_kick_match_suc_page = '/side_kick_match_suc_page';
+  static const side_kick_matching_page = '/side_kick_matching_page';
 
   static final routes = [
     GetPage(
@@ -187,6 +196,21 @@ class AppPages {
       name: AddSkillItem,
       page: () => SkillItemAddPage(),
       binding: SkillItemAddBinding(),
+    ),
+    GetPage(
+      name: side_kick_match_page,
+      page: () => SideKickMatchPage(),
+      binding: SideKickMatchBinding(),
+    ),
+    GetPage(
+      name: side_kick_match_suc_page,
+      page: () => SideKickMatchSucPage(),
+      binding: SideKickMatchSucBinding(),
+    ),
+    GetPage(
+      name: side_kick_matching_page,
+      page: () => SideKickMatchingPage(),
+      binding: SideKickMatchingBinding(),
     ),
   ];
 }

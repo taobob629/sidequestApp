@@ -18,6 +18,7 @@ import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../../widget/refresh_list.dart';
+import '../../match/filter/view.dart';
 import 'widget/list_item.dart';
 import 'widget/section.dart';
 
@@ -40,7 +41,9 @@ class SideKickPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             leadingWidth: 200,
             leading: TextButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => SideKickMatchPage());
+              },
               icon: Container(),
               label: Text(
                 'Sidekick',
