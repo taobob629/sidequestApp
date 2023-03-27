@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
+import 'package:wy/ui/frame/messages/chat/conversation_list_page.dart';
 import '../../common/keep_alive_wrapper.dart';
 import '../common/home_indicator.dart';
 import '../controller/user_controller.dart';
-import 'conversation.dart';
 
 class PlayPage extends StatelessWidget {
-
   final controller = Get.put(PlayPageController());
   final UserController userController = Get.find<UserController>();
 
@@ -16,10 +15,10 @@ class PlayPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: Container(
-          child: SafeArea(
-            child: Column(
+          preferredSize: const Size.fromHeight(40),
+          child: Container(
+            child: SafeArea(
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Spacer(),
@@ -46,21 +45,16 @@ class PlayPage extends StatelessWidget {
                   ),
                 )
               ],
-            )
-          ),
-        )
-      ),
-      body: TabBarView(
-        controller: controller.tabController,
-        children: createPages()
-      ),
+            )),
+          )),
+      body: TabBarView(controller: controller.tabController, children: createPages()),
     );
   }
 
   List<Widget> createPages() {
     List<Widget> pages = [];
 
-    Widget page = Obx(()=>userController.imLoginDone.value?ConversationPage(conversationController: controller.conversationController,):Container());
+    Widget page = Obx(() => userController.imLoginDone.value ? ConversationListPage() : Container());
     pages.add(KeepAliveWrapper(child: page));
     return pages;
   }
@@ -74,7 +68,7 @@ class PlayPage extends StatelessWidget {
   }
 }
 
-class PlayPageController extends GetxController with GetSingleTickerProviderStateMixin{
+class PlayPageController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
 
   TIMUIKitConversationController conversationController = TIMUIKitConversationController();

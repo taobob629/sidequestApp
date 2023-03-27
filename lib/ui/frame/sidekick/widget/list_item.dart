@@ -12,7 +12,6 @@ import 'package:wy/model/game_user_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
-import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/home/index.dart';
 

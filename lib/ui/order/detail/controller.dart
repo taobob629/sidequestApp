@@ -13,7 +13,7 @@ import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/im/chat.dart';
+import 'package:wy/ui/frame/messages/chat/chat_page.dart';
 import 'package:wy/ui/im/dialog_reject.dart';
 import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/list/controller.dart';
@@ -58,9 +58,7 @@ class OrderDetailPageController extends BasePageController {
   initData() async {
     model = await OrderApi.getOrderDetail(id);
     if (type == null) {
-      type = UserController.find.userProfile?.value.pwId == model?.pwuserId
-          ? TYPE_ORDER_PROVIDED
-          : TYPE_ORDER_RECEIVED;
+      type = UserController.find.userProfile?.value.pwId == model?.pwuserId ? TYPE_ORDER_PROVIDED : TYPE_ORDER_RECEIVED;
       flog('type $type');
     }
     pageState = PageState.sucess;
@@ -75,13 +73,12 @@ class OrderDetailPageController extends BasePageController {
 
   toChat(BuildContext context) async {
     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv =
-        await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
+    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
     if (conv.data != null) {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Chat(
+          builder: (context) => ChatPage(
             selectedConversation: conv.data!,
             orderSn: '${model?.orderSn}',
           ),
@@ -154,8 +151,7 @@ class OrderDetailPageController extends BasePageController {
     Get.dialog(RejectDialog()).then((value) async {
       if (value == null) return;
       EasyLoading.show();
-      var res =
-          await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
+      var res = await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
       EasyLoading.showToast('${res.statusMessage}');
       EasyLoading.dismiss();
       Get.back(result: true);
@@ -192,7 +188,7 @@ class OrderDetailPageController extends BasePageController {
     } else {
       var comments = etCommnetController.text;
       if (comments.isEmpty) {
-        var result =await Get.dialog(
+        var result = await Get.dialog(
           ConfirmDialog(
             title: 'Confirm'.tr,
             concelBtn: 'Cancel'.tr,

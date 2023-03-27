@@ -7,9 +7,7 @@ import 'package:wy/model/vip_info_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
-import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/playwith/play_orders_page.dart';
-import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/icon_menu.dart';
 import 'package:wy/ui/profile/orders/orders_page.dart';
@@ -49,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                     onTap: () {
                       var userInfoModel = userController.userInfoModel.value;
                       // if (userInfoModel.isauth == 1) {
-                      userController.checkLogin(() => Get.to(() => PlayDetail(userId: "${userInfoModel.pwuserId}")));
+                      userController.checkLogin(() => NavigatorHelper.toOtherProfile(userInfoModel.pwuserId));
                       // } else {
                       //   userController.checkLogin(() => NavigatorHelper.gotoEditProfilePage());
                       // }
@@ -312,8 +310,7 @@ class ProfilePage extends StatelessWidget {
                 icon: "assets/images/ic_booking_new.webp",
                 title: "Bookings".tr,
                 onTap: () {
-                  userController.checkLogin(() =>
-                      Get.toNamed(AppPages.BOOKING_PAGE)?.whenComplete(() => userController.updateInfo()));
+                  userController.checkLogin(() => Get.toNamed(AppPages.BOOKING_PAGE)?.whenComplete(() => userController.updateInfo()));
                 },
               ),
               IconMenu(

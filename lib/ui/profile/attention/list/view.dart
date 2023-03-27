@@ -8,13 +8,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
-import 'package:wy/ui/im/play_detail.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
@@ -64,7 +62,7 @@ class AttentionUserListPage extends GetView<AttentionListPageController> {
     return ListTile(
       leading: GestureDetector(
         onTap: () {
-          Get.to(() => PlayDetail(userId: '${user.id}'));
+          Get.to(() => NavigatorHelper.toOtherProfile(user.id));
         },
         child: CircleAvatar(
             backgroundColor: Colors.white,

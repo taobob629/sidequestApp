@@ -31,7 +31,6 @@ import '../../api_service/profile_api.dart';
 import '../../utils/db_helper.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
-import '../im/chat.dart';
 
 class UserController extends GetxController {
   static UserController instance() {
@@ -221,7 +220,7 @@ class UserController extends GetxController {
         var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
         V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
-          Get.to(Chat(selectedConversation: conv.data!));
+          Get.to(ChatPage(selectedConversation: conv.data!));
         }
       });
     }

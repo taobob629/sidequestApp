@@ -12,24 +12,14 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/frame/home/view.dart';
-import 'package:wy/ui/im/play_detail.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/energy_view.dart';
-import 'package:wy/ui/profile/profile_page.dart';
-import 'package:wy/ui/profile/vip/vip_page.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
-import 'package:wy/widget/lable.dart';
-import 'package:wy/widget/stadium_button.dart';
-
-import '../index/Index_page.dart';
 
 List<Map> supports = [
   Map()
@@ -88,9 +78,7 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                _listItem('My Subscription',
-                    onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
-                        ?.whenComplete(() => UserController.instance().updateInfo())),
+                _listItem('My Subscription', onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -134,12 +122,8 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: 'Remaining game time: ',
-            style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
-        TextSpan(
-            text: '${user?.avamins}mins',
-            style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
+        TextSpan(text: 'Remaining game time: ', style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
+        TextSpan(text: '${user?.avamins}mins', style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );
   }
@@ -155,19 +139,11 @@ class HomeDrawer extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(bottom: 15).h,
                 padding: EdgeInsets.all(3).r,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/profile_avatar_border.webp'))),
-                child: ImageUtil.networkImage(
-                    width: iconSize,
-                    height: iconSize,
-                    fit: BoxFit.cover,
-                    url: '${user?.avatar}',
-                    border: iconSize / 2),
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/profile_avatar_border.webp'))),
+                child: ImageUtil.networkImage(width: iconSize, height: iconSize, fit: BoxFit.cover, url: '${user?.avatar}', border: iconSize / 2),
               ),
               Obx(() => Visibility(
-                    visible: UserController.find.userProfile.value.vipLevel >= 5 &&
-                        UserController.find.userProfile.value.isAuth == 1,
+                    visible: UserController.find.userProfile.value.vipLevel >= 5 && UserController.find.userProfile.value.isAuth == 1,
                     child: Positioned(
                         left: 0,
                         right: 0,
@@ -205,51 +181,9 @@ class HomeDrawer extends StatelessWidget {
           ClickIcon(
             icon: Icons.arrow_forward_ios,
             size: 13.0,
-            onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
+            onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
           )
         ],
-      ),
-    );
-    return ListTile(
-      contentPadding: EdgeInsets.only(left: 16, right: 16).r,
-      leading: Stack(
-        children: [
-          ClipRRect(
-            child: ImageUtil.networkImage(
-                width: iconSize, height: iconSize, fit: BoxFit.cover, url: '${user?.avatar}'),
-            borderRadius: BorderRadius.circular(iconSize / 2),
-          ),
-          Image.asset(
-            "assets/images/profile_avatar_border.webp",
-            width: iconSize,
-            fit: BoxFit.cover,
-          ),
-          Obx(() => Visibility(
-                visible: UserController.find.userProfile.value.vipLevel >= 5 &&
-                    UserController.find.userProfile.value.isAuth == 1,
-                child: Positioned(
-                    bottom: -iconSize / 2,
-                    child: Image.asset(
-                      "assets/images/profile/icon_level_${UserController.find.userProfile.value.vipLevel == 0 ? 5 : UserController.find.userProfile.value.vipLevel}.webp",
-                      height: iconSize / 2,
-                    )),
-              )),
-        ],
-      ),
-      title: Text(
-        '${user?.nickName}',
-        style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
-      ),
-      dense: true,
-      onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
-      subtitle: Text(
-        '${user?.uk}',
-        style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT, color: AppColor.textC5C5),
-      ),
-      trailing: ClickIcon(
-        icon: Icons.arrow_forward_ios,
-        size: 13.0,
-        onTap: () => Get.to(() => PlayDetail(userId: "${user?.pwId}")),
       ),
     );
   }
@@ -293,12 +227,8 @@ class HomeDrawer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 10).r,
       padding: EdgeInsets.all(15).r,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(11),
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(11), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
       child: Row(
         children: [
           achievementItem(user?.coin, 'ic_balance_money'),
@@ -337,22 +267,16 @@ class HomeDrawer extends StatelessWidget {
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
-            if (StorageManager.getOnline())
-              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+            if (StorageManager.getOnline()) Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
             break;
           case 'ic_coupons_new':
-            NavigatorHelper.gotoCouponTabPage(
-                whenComplete: () => UserController.instance().updateInfo());
+            NavigatorHelper.gotoCouponTabPage(whenComplete: () => UserController.instance().updateInfo());
             break;
           case 'diamonds_red':
-            StorageManager.getOnline()
-                ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1)
-                : null;
+            StorageManager.getOnline() ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1) : null;
             break;
           case 'ic_corns_new':
-            if (StorageManager.getOnline())
-              Get.to(() => BalancePage())
-                  ?.whenComplete(() => UserController.instance().updateInfo());
+            if (StorageManager.getOnline()) Get.to(() => BalancePage())?.whenComplete(() => UserController.instance().updateInfo());
             break;
         }
       },

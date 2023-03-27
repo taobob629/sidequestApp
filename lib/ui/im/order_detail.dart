@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:timelines/timelines.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/im/play_detail.dart';
+import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
@@ -45,9 +45,7 @@ class OrderDetail extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: _buildActionButton()));
+        floatingActionButton: Padding(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10), child: _buildActionButton()));
   }
 
   List<Widget> items(BuildContext context) {
@@ -101,8 +99,7 @@ class OrderDetail extends StatelessWidget {
     UserController userController = Get.find<UserController>();
     return Obx(() {
       if (controller.playOrderDetailModel.value.status == 1) {
-        if (userController.userInfoModel.value.pwuserId ==
-            controller.playOrderDetailModel.value.fromUid) {
+        if (userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.fromUid) {
           //发起人
           return ColorfulButton(
             child: Padding(
@@ -126,8 +123,7 @@ class OrderDetail extends StatelessWidget {
                   barrierColor: Colors.black26);
             },
           );
-        } else if (userController.userInfoModel.value.pwuserId ==
-            controller.playOrderDetailModel.value.toUid) {
+        } else if (userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.toUid) {
           return Row(
             children: [
               Expanded(
@@ -151,8 +147,7 @@ class OrderDetail extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRehect: true),
-                        barrierColor: Colors.black26);
+                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRehect: true), barrierColor: Colors.black26);
                     // Get.dialog(ConfirmDialog(
                     //   title: "Reject Order",
                     //   info: "Do you want to reject this order?",
@@ -163,8 +158,7 @@ class OrderDetail extends StatelessWidget {
                     // ),barrierColor: Colors.black26);
                   },
                   child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white24, borderRadius: BorderRadius.circular(30)),
+                      decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 4),
@@ -181,8 +175,7 @@ class OrderDetail extends StatelessWidget {
           );
         }
       } else if (controller.playOrderDetailModel.value.status == 2) {
-        if (userController.userInfoModel.value.pwuserId ==
-            controller.playOrderDetailModel.value.fromUid) {
+        if (userController.userInfoModel.value.pwuserId == controller.playOrderDetailModel.value.fromUid) {
           return Row(
             children: [
               Expanded(
@@ -217,8 +210,7 @@ class OrderDetail extends StatelessWidget {
                   ),
                   height: 48,
                   onTap: () {
-                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRefund: true),
-                        barrierColor: Colors.black26);
+                    Get.dialog(CommentDialog(controller.orderId, () => Get.back(), isRefund: true), barrierColor: Colors.black26);
                   },
                 ),
               ),
@@ -299,8 +291,7 @@ class OrderDetail extends StatelessWidget {
                 children: [
                   Text(
                     "",
-                    style:
-                        TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "",
@@ -331,8 +322,7 @@ class OrderDetail extends StatelessWidget {
           //_infoItem("Order Time","2022-09-12 23:00:00"),
           _infoItem("Order Number".tr, "${palymodel.orderno}"),
           _infoItem(userLable(palymodel), userName(palymodel), isClickable: true),
-          _infoItem("Service Time".tr,
-              "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
+          _infoItem("Service Time".tr, "${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(palymodel.addtime * 1000))}"),
           _infoItem("Quantity".tr, "${palymodel.nums} ${palymodel.unit}"),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -494,12 +484,13 @@ class OrderDetail extends StatelessWidget {
             onTap: () async {
               if (!isClickable) return;
               var model = controller.playOrderDetailModel.value;
-              bool isMe =
-                  (Get.find<UserController>().userInfoModel.value.pwuserId == model.liveuid);
+              bool isMe = (Get.find<UserController>().userInfoModel.value.pwuserId == model.liveuid);
               if (isMe) {
-                Get.to(() => PlayDetail(userId: '${model.uid}'));
+                NavigatorHelper.toOtherProfile(model.uid);
+                // Get.to(() => PlayDetail(userId: '${model.uid}'));
               } else {
-                Get.to(() => PlayDetail(userId: '${model.liveuid}'));
+                NavigatorHelper.toOtherProfile(model.liveuid);
+                // Get.to(() => PlayDetail(userId: '${model.liveuid}'));
               }
             },
             child: Text(
@@ -550,9 +541,7 @@ class OrderDetail extends StatelessWidget {
               );
             },
             contentsBuilder: (_, index) {
-              return PWidget.text(
-                  '${controller.playOrderDetailModel.value.statusArray[index].displayLable}',
-                  [Colors.white, 11, true]);
+              return PWidget.text('${controller.playOrderDetailModel.value.statusArray[index].displayLable}', [Colors.white, 11, true]);
             },
             connectorBuilder: (_, index, type) {
               return SolidLineConnector(
@@ -623,11 +612,8 @@ class OrderDetail extends StatelessWidget {
           ? Text.rich(TextSpan(children: [
               TextSpan(text: '${'Refund Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
               TextSpan(text: '${model.reason}\n', style: TextStyle(color: Colors.white54)),
-              TextSpan(
-                  text: '${'Refund Reject Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
-              TextSpan(
-                  text: '${model.playerRejectRefundReason}\n',
-                  style: TextStyle(color: Colors.white54))
+              TextSpan(text: '${'Refund Reject Reason'.tr}:\n', style: TextStyle(color: Colors.white)),
+              TextSpan(text: '${model.playerRejectRefundReason}\n', style: TextStyle(color: Colors.white54))
             ]))
           : Text(
               getCommentText(),
@@ -711,8 +697,7 @@ class OrderDetailController extends GetxController {
       flog('value $value');
       if (value == null) return;
       EasyLoading.show();
-      var res = await ImApi.dsRefundOrder(orderId.toString(), '4', playerRejectRefundReason: value)
-          .catchError((v) {});
+      var res = await ImApi.dsRefundOrder(orderId.toString(), '4', playerRejectRefundReason: value).catchError((v) {});
       EasyLoading.showToast('${res.statusMessage}');
       EasyLoading.dismiss();
       Get.back();
