@@ -2,26 +2,22 @@
 
 import 'dart:math';
 
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends StatelessWidget {
-  PostListItemView({Key? key, required this.model, this.onTap}) : super(key: key);
+  PostListItemView({Key? key, required this.model, this.onTap, this.isSelf = false}) : super(key: key);
   final PostItemModel model;
-
+  bool isSelf = false;
   Function()? onTap;
 
   @override
@@ -41,7 +37,9 @@ class PostListItemView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      NavigatorHelper.toOtherProfile(model.uid);
+                      if (!isSelf) {
+                        NavigatorHelper.toOtherProfile(model.uid);
+                      }
                     },
                     child: ClipOval(
                       child: ImageUtil.networkImage(
@@ -142,16 +140,18 @@ class PostListItemView extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTapDown: (details) {
-                        PostListController.find.praisePost(model).then((value) {
-                          if (value) {
-                            model.isPraise.value = !model.isPraise.value;
-                            if (model.isPraise.value) {
-                              model.praiseNum += 1;
-                            } else {
-                              model.praiseNum -= 1;
+                        if (!isSelf) {
+                          PostListController.find.praisePost(model).then((value) {
+                            if (value) {
+                              model.isPraise.value = !model.isPraise.value;
+                              if (model.isPraise.value) {
+                                model.praiseNum += 1;
+                              } else {
+                                model.praiseNum -= 1;
+                              }
                             }
-                          }
-                        });
+                          });
+                        }
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -181,18 +181,20 @@ class PostListItemView extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTapDown: (details) async {
-                        var heartNum = await Get.bottomSheet(
-                            GiveGiftsDialog(
-                              receiverId: model.uid.toString(),
-                              postId: model.id.toString(),
-                            ),
-                            ignoreSafeArea: true);
-                        if (heartNum != null) {
-                          Future.delayed(Duration(milliseconds: 300)).then(
-                            (v) {
-                              showHearts(context, details.globalPosition, heartNum);
-                            },
-                          );
+                        if (!isSelf) {
+                          var heartNum = await Get.bottomSheet(
+                              GiveGiftsDialog(
+                                receiverId: model.uid.toString(),
+                                postId: model.id.toString(),
+                              ),
+                              ignoreSafeArea: true);
+                          if (heartNum != null) {
+                            Future.delayed(Duration(milliseconds: 300)).then(
+                              (v) {
+                                showHearts(context, details.globalPosition, heartNum);
+                              },
+                            );
+                          }
                         }
                       },
                       child: Container(

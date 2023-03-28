@@ -14,10 +14,11 @@ import '../model/post_comment_model.dart';
 
 class PostFavoratorsPage extends StatelessWidget {
   PostFavoratorsPage({Key? key}) : super(key: key);
-  final t = Get.put(PostFavoratorsController());
 
   @override
   Widget build(BuildContext context) {
+    final t = Get.put(PostFavoratorsController());
+
     return Obx(() {
       return Scaffold(
         body: SmartRefresher(

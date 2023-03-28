@@ -7,6 +7,7 @@ import 'package:wy/api_service/post_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
 import 'package:wy/utils/image_util.dart';
@@ -17,10 +18,11 @@ import '../view/gift_animation.dart';
 
 class PostCommentsPage extends StatelessWidget {
   PostCommentsPage({Key? key}) : super(key: key);
-  final t = Get.put(PostCommentController());
 
   @override
   Widget build(BuildContext context) {
+    final t = Get.put(PostCommentController());
+
     return Obx(() {
       return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -36,8 +38,11 @@ class PostCommentsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final model = t.list[index];
                   return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      t.replyModel.value = model;
+                      if (UserController.find.userProfile.value.pwId != model.uid) {
+                        t.replyModel.value = model;
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -140,32 +145,35 @@ class PostCommentsPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTapDown: (details) async {
-                          var heartNum = await Get.bottomSheet(
-                              GiveGiftsDialog(
-                                receiverId: t.postItem.uid.toString(),
-                                postId: t.postItem.id.toString(),
-                              ),
-                              ignoreSafeArea: true);
-                          if (heartNum != null) {
-                            Future.delayed(Duration(milliseconds: 300)).then(
-                              (v) {
-                                showHearts(context, details.globalPosition, heartNum);
-                              },
-                            );
-                          }
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.only(left: 10),
-                          decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            "assets/images/post/icon_gift.png",
-                            width: 24,
-                            height: 24,
+                      Visibility(
+                        visible: !t.isSelf,
+                        child: GestureDetector(
+                          onTapDown: (details) async {
+                            var heartNum = await Get.bottomSheet(
+                                GiveGiftsDialog(
+                                  receiverId: t.postItem.uid.toString(),
+                                  postId: t.postItem.id.toString(),
+                                ),
+                                ignoreSafeArea: true);
+                            if (heartNum != null) {
+                              Future.delayed(Duration(milliseconds: 300)).then(
+                                (v) {
+                                  showHearts(context, details.globalPosition, heartNum);
+                                },
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            margin: EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              "assets/images/post/icon_gift.png",
+                              width: 24,
+                              height: 24,
+                            ),
                           ),
                         ),
                       )
@@ -184,10 +192,13 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   TextEditingController commentController = TextEditingController();
 
   final replyModel = PostCommentModel().obs;
+  bool isSelf = false;
+
   @override
   void onInit() {
     // TODO: implement onInit
     postItem = Get.arguments;
+    isSelf = UserController.find.userProfile.value.pwId == postItem.uid;
     super.onInit();
   }
 
