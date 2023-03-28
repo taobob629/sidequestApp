@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/order/detail/widgets/acticon_widget.dart';
 import 'package:wy/utils/index.dart';
 
@@ -24,7 +25,7 @@ class OtherDashboardPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     margin: EdgeInsets.only(bottom: 12),
                     child: Row(
-                      children: [Text("Badge", style: TextStyle(fontSize: 14, color: Colors.white))],
+                      children: [Text("Badge", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
                     ),
                   ),
                   Container(
@@ -46,7 +47,7 @@ class OtherDashboardPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     margin: EdgeInsets.only(bottom: 12),
                     child: Row(
-                      children: [Text("Services", style: TextStyle(fontSize: 14, color: Colors.white))],
+                      children: [Text("Services", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
                     ),
                   ),
                   ...t.player.value.games
@@ -82,19 +83,29 @@ class OtherDashboardPage extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(game.name, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)),
-                                                    Row(
-                                                      children: [
-                                                        if (game.serviceItem.isNotEmpty) ...[
+                                                    if (game.serviceItem.isNotEmpty) ...[
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            game.level.toString(),
+                                                            style: TextStyle(fontSize: 10.sp, color: AppColor.textC3, fontWeight: FontWeight.bold),
+                                                          ),
+                                                          13.horizontalSpace,
                                                           Image(
                                                             image: AssetImage('assets/images/ic_balance_money.webp'),
                                                             width: 15,
                                                             height: 15,
                                                           ),
                                                           3.horizontalSpace,
-                                                          Text("${double.tryParse(game.serviceItem.first.price)}", style: TextStyle(fontSize: 14, color: Colors.white)),
-                                                        ]
-                                                      ],
-                                                    )
+                                                          Text.rich(TextSpan(children: [
+                                                            TextSpan(
+                                                                text: '${double.parse(game.serviceItem.first.price).floor()}',
+                                                                style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
+                                                            TextSpan(text: '/${game.serviceItem.first.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
+                                                          ])),
+                                                        ],
+                                                      )
+                                                    ]
                                                   ],
                                                 ),
                                               ),
@@ -123,7 +134,11 @@ class OtherDashboardPage extends StatelessWidget {
                                                   EditPlayBtn(
                                                     isEdit: t.isSelf,
                                                     onTap: () {
-                                                      t.selGame.value = game;
+                                                      if (game.serviceItem.length == 1) {
+                                                        t.editService(game, game.serviceItem.first);
+                                                      } else {
+                                                        t.selGame.value = game;
+                                                      }
                                                     },
                                                   ).marginOnly(bottom: 13)
                                                 ],
@@ -154,7 +169,10 @@ class OtherDashboardPage extends StatelessWidget {
                                                   height: 15,
                                                 ),
                                                 3.horizontalSpace,
-                                                Text("${double.tryParse(service.price)}", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                                Text.rich(TextSpan(children: [
+                                                  TextSpan(text: '${double.parse(service.price).floor()}', style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
+                                                  TextSpan(text: '/${service.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
+                                                ])),
                                                 10.horizontalSpace,
                                                 EditPlayBtn(
                                                   isEdit: t.isSelf,
@@ -202,8 +220,8 @@ class EditPlayBtn extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          isEdit ? "Edit" : "Play",
-          style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold),
+          isEdit ? "EDIT" : "PLAY",
+          style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
         ),
       ),
     );
