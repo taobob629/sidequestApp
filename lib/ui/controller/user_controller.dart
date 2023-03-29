@@ -30,7 +30,9 @@ import 'package:wy/utils/utils.dart';
 
 import '../../api_service/profile_api.dart';
 import '../../event_bus/beans/match_event.dart';
+import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
+import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
 
@@ -281,7 +283,7 @@ class UserController extends GetxController {
         TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           FlutterRingtonePlayer.playNotification();
-          eventBus.fire(MatchEvent(msg: msg));
+          _dealMsg(msg);
         }));
 
         ///获取未读数量
@@ -300,6 +302,23 @@ class UserController extends GetxController {
         }
       });
     }
+  }
+
+  void _dealMsg(V2TimMessage msg) {
+    Map<String, dynamic> map = json.decode(msg.textElem!.text!);
+
+    switch (map["type"]) {
+      case 'match_order_player':
+        MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
+        
+        Get.dialog(
+          MatchTopDialog(player: player),
+          barrierColor: Colors.black26,
+        );
+        break;
+    }
+
+    eventBus.fire(MatchEvent(msg: msg));
   }
 
   void logout({Function? done}) async {

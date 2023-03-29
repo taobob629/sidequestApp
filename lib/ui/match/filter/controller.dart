@@ -10,11 +10,10 @@ import 'package:wy/config/app_pages.dart';
 import '../../../image_utils.dart';
 import '../../../model/login_model.dart';
 import '../../../model/match_init_model.dart';
+import '../../../model/send_match_model.dart';
 import '../../common/dialog_selector.dart';
-import '../view/sphere_rotation.dart';
 
 class SideKickMatchController extends GetxController {
-
   late MatchInitModel _matchInitModel;
 
   var category = ''.obs;
@@ -61,7 +60,9 @@ class SideKickMatchController extends GetxController {
   }
 
   void selectSideKickTypes(tag) {
-    if (!selectTags.contains(tag)) {
+    if (selectTags.contains(tag)) {
+      selectTags.remove(tag);
+    } else {
       selectTags.add(tag);
     }
   }
@@ -104,10 +105,23 @@ class SideKickMatchController extends GetxController {
       "types": json.encode(tagsMap),
       "requests": requestsPriceCtr.text,
     };
-    // final result = await MatchApi.sendMatch(params);
+    final result = await MatchApi.sendMatch(params);
     EasyLoading.dismiss();
 
-    Get.toNamed(AppPages.side_kick_matching_page);
+    SendMatchModel model = SendMatchModel(
+      types: json.encode(tagsMap),
+      gid: gid == null ? 0 : int.parse(gid!),
+      category: category.value,
+      language: languageStr.toString(),
+      unit: unit.value,
+      game: game.value,
+      minPrice: minPriceCtr.text,
+      maxPrice: maxPriceCtr.text,
+      optional: requestsPriceCtr.text,
+      orderId: result,
+      tags: selectTags,
+    );
+    Get.toNamed(AppPages.side_kick_matching_page, arguments: model);
   }
 
   Widget selectLanguage() {
