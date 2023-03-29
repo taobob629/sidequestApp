@@ -274,6 +274,7 @@ class MatchTopDialog extends StatelessWidget {
       MatchOperationModel model = MatchOperationModel.fromJson(result.data);
 
       JumpMatchSucBean bean = JumpMatchSucBean(
+        memberCode: model.memberCode,
         orderId: model.orderId.toString(),
         avatar: model.avatar,
         nickname: model.nickname,

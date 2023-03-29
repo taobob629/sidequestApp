@@ -77,9 +77,9 @@ class SideKickMatchSucPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (_ctr.playerList[0].ifPlayer == false)
+                    if (_ctr.bean.ifPlayer == false)
                       15.horizontalSpace,
-                    if (_ctr.playerList[0].ifPlayer == false)
+                    if (_ctr.bean.ifPlayer == false)
                       Expanded(
                         child: GestureDetector(
                           behavior: HitTestBehavior.translucent,
@@ -228,7 +228,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                                   _ctr.playerList[i].sex == 0
                                       ? ImageUtils.iconSex0
                                       : ImageUtils.iconSex1,
-                                  width: 5.w,
+                                  width: 7.w,
                                   height: 7.h,
                                 ),
                                 3.horizontalSpace,
@@ -275,13 +275,17 @@ class SideKickMatchSucPage extends StatelessWidget {
                               color: Color(0xffc3c3c3),
                             ),
                             8.horizontalSpace,
-                            Text(
-                              '${_ctr.playerList[i].levelNameEn}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: Text(
+                                '${_ctr.playerList[i].levelNameEn}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
