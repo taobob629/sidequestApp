@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/event_bus/beans/match_event.dart';
 import 'package:wy/event_bus/event_bus.dart';
@@ -61,6 +63,7 @@ class SideKickMatchingController extends GetxController {
             MatchOperationModel.fromJson(map["message"]);
 
         JumpMatchSucBean bean = JumpMatchSucBean(
+          memberCode: matchOperationModel.memberCode,
           orderId: matchOperationModel.orderId.toString(),
           avatar: matchOperationModel.avatar,
           nickname: matchOperationModel.nickname,
@@ -69,11 +72,9 @@ class SideKickMatchingController extends GetxController {
           stars: matchOperationModel.stars,
           levelNameEn: matchOperationModel.levelNameEn,
           tags: matchOperationModel.orderInfo.types,
-
           skillAuthId: matchOperationModel.skillAuthId,
           liveuid: matchOperationModel.liveuid,
           serviceItemId: matchOperationModel.serviceItemId,
-
           category: model.category,
           game: model.game,
           priceRange: '${model.minPrice}~${model.maxPrice}',
@@ -97,13 +98,12 @@ class SideKickMatchingController extends GetxController {
     subscription = null;
   }
 
-  void stopMatching() {
+  void stopMatching() async {
+    EasyLoading.show();
+    MatchApi.stopMatch(model.orderId).whenComplete(() => EasyLoading.dismiss());
+
     StorageManager.clear(StorageManager.kCountDown);
     Get.back();
-
-    // String text =
-    //     '{"type":"match_order_boss","message":{"memberCode":"UK20021778","birthday":425692800,"levelNameEn":"Silver","sex":2,"nickname":"bob-prod2","avatar":"https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/header_1671808367645.jpg","stars":0.00,"label":[],"age":39}}';
-    // _dealMatchSuc(text);
   }
 
   void _formatTime() {

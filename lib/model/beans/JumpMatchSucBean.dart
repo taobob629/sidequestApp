@@ -3,6 +3,7 @@ import '../match_init_model.dart';
 class JumpMatchSucBean {
   bool? ifPlayer;
 
+  String memberCode;
   String orderId;
   String avatar;
   String nickname;
@@ -23,6 +24,7 @@ class JumpMatchSucBean {
   int serviceItemId;
 
   JumpMatchSucBean({
+    required this.memberCode,
     required this.orderId,
     required this.avatar,
     required this.nickname,
