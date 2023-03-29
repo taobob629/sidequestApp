@@ -21,37 +21,15 @@ class EnergyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int num = (width / 10.w).ceil();
+    int num = ((width-25.w) / 10.w).round();//显示的个数
     flog('num$num');
     return GestureDetector(
       onTap: () {
         NavigatorHelper.gotoCouponPage(couponType: 5);
       },
-      child: Container(
-          // height: 42,
-         padding: EdgeInsets.only(left: 10,right: 5).r,
-          child: Column(
-            children: [
-              // Row(
-              //   children: [
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 4),
-              //       child: Text("Free Gaming Time".tr,
-              //           style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
-              //     ),
-              //     Spacer(),
-              //     Padding(
-              //       padding: const EdgeInsets.only(top: 5, right: 10),
-              //       child: Text("${'Remaining'.tr}: $remainingText",
-              //           style: TextStyle(fontSize: 14, color: Colors.white, fontFamily: "DIN")),
-              //     ),
-              //   ],
-              // ),
-              Row(
-                children: _buildEnergyList(num),
-              ),
-            ],
-          )),
+      child: Row(
+        children: _buildEnergyList(num),
+      ),
     );
   }
 
@@ -59,8 +37,8 @@ class EnergyView extends StatelessWidget {
     int full = (num * percent).round();
     List<Widget> energyList = [];
     energyList.add(Container(
-        width: 25,
-        height: 25,
+        width: 25.w,
+        height: 25.w,
         child: Image.asset("assets/images/ic_battery.png", fit: BoxFit.contain)));
     for (int i = 0; i < num; i++) {
       energyList.add(_buildEnergy(i < full));
@@ -71,7 +49,7 @@ class EnergyView extends StatelessWidget {
   Widget _buildEnergy(bool full) {
     return Container(
       width: 10,
-      height: 21,
+      height: 21.h,
       child: Stack(
         children: [
           Image.asset(
