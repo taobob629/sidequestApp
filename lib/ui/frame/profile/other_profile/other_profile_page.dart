@@ -44,200 +44,202 @@ class OtherProfilePage extends StatelessWidget {
                           style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: 269 + 42 + 40,
+                    expandedHeight: 358 - Get.mediaQuery.padding.top,
                     toolbarHeight: 44,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
-                        // color: Colors.amber,
+                        // color: Colors.lightBlue,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: 208.h,
-                              width: double.infinity,
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  Obx(() => ImageUtil.networkImage(
-                                        url: t.player.value.backGround,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  Opacity(
-                                    opacity: 0.9,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [Color(0x00131010), Color(0xFF1B1A1E)],
+                            Expanded(
+                              child: Container(
+                                // height: 208,
+                                width: double.infinity,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    Obx(() => ImageUtil.networkImage(
+                                          url: t.player.value.backGround,
+                                          fit: BoxFit.cover,
+                                        )),
+                                    Opacity(
+                                      opacity: 0.9,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [Color(0x00131010), Color(0xFF1B1A1E)],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20, bottom: 15.h),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Spacer(),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Container(
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      /// nickname
-                                                      Obx(() => Container(
-                                                            height: 30.h,
-                                                            child: Row(
-                                                              children: [
-                                                                SizedBox(
-                                                                  height: 30.h,
-                                                                  child: Text(
-                                                                    t.player.value.nickName,
-                                                                    style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
-                                                                  ),
-                                                                ),
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    t.followOrNot();
-                                                                  },
-                                                                  child: Container(
-                                                                    height: 30,
-                                                                    padding: const EdgeInsets.only(left: 10),
-                                                                    child: Image.asset(
-                                                                      t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
-                                                                      width: 20,
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 20, bottom: 15.h),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Spacer(),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        /// nickname
+                                                        Obx(() => Container(
+                                                              height: 30.h,
+                                                              child: Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: 30.h,
+                                                                    child: Text(
+                                                                      t.player.value.nickName,
+                                                                      style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                                                                     ),
                                                                   ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )),
+                                                                  GestureDetector(
+                                                                    onTap: () {
+                                                                      t.followOrNot();
+                                                                    },
+                                                                    child: Container(
+                                                                      height: 30,
+                                                                      padding: const EdgeInsets.only(left: 10),
+                                                                      child: Image.asset(
+                                                                        t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
+                                                                        width: 20,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )),
 
-                                                      /// labels: sex、language、location
-                                                      Obx(() => Padding(
-                                                            padding: const EdgeInsets.only(top: 5),
-                                                            child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              children: [
-                                                                Container(
-                                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                  margin: EdgeInsets.only(right: 10),
-                                                                  height: 16.h,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(3),
-                                                                      gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                                        Color(0xFF1F84C9),
-                                                                        Color(0xFF7CB9D5),
-                                                                      ])),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      if (t.player.value.sex != 2)
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(right: 3),
-                                                                          child: Image.asset(
-                                                                            "assets/images/profile/icon_sex_${t.player.value.sex}.png",
-                                                                            width: 8,
+                                                        /// labels: sex、language、location
+                                                        Obx(() => Padding(
+                                                              padding: const EdgeInsets.only(top: 5),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                    margin: EdgeInsets.only(right: 10),
+                                                                    height: 16.h,
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius: BorderRadius.circular(3),
+                                                                        gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                                                          Color(0xFF1F84C9),
+                                                                          Color(0xFF7CB9D5),
+                                                                        ])),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        if (t.player.value.sex != 2)
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(right: 3),
+                                                                            child: Image.asset(
+                                                                              "assets/images/profile/icon_sex_${t.player.value.sex}.png",
+                                                                              width: 8,
+                                                                            ),
                                                                           ),
+                                                                        Text(
+                                                                          "${t.player.value.age}",
+                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                                         ),
-                                                                      Text(
-                                                                        "${t.player.value.age}",
-                                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                      ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                                Container(
-                                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                  margin: EdgeInsets.only(right: 10),
-                                                                  height: 16.h,
-                                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                        t.player.value.language,
-                                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                      ),
-                                                                    ],
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                    margin: EdgeInsets.only(right: 10),
+                                                                    height: 16.h,
+                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          t.player.value.language,
+                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                        ),
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                                Container(
-                                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                  margin: EdgeInsets.only(right: 10),
-                                                                  height: 16.h,
-                                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Image.asset(
-                                                                        "assets/images/profile/icon_dibiao.webp",
-                                                                        width: 8,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width: 5,
-                                                                      ),
-                                                                      Text(
-                                                                        t.player.value.location.country,
-                                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )),
-                                                    ],
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                    margin: EdgeInsets.only(right: 10),
+                                                                    height: 16.h,
+                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Image.asset(
+                                                                          "assets/images/profile/icon_dibiao.webp",
+                                                                          width: 8,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 5,
+                                                                        ),
+                                                                        Text(
+                                                                          t.player.value.location.country,
+                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  if (!t.isSelf) {
-                                                    UserController.find.jumpChat(t.player.value.uk);
-                                                  }
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.only(right: 25),
-                                                  child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                                                    Obx(() => Container(
-                                                          height: 64,
-                                                          alignment: Alignment.bottomCenter,
-                                                          child: ClipOval(
-                                                            child: ImageUtil.networkImage(
-                                                              url: t.player.value.avatar,
-                                                              width: 60,
-                                                              height: 60,
-                                                              fit: BoxFit.cover,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (!t.isSelf) {
+                                                      UserController.find.jumpChat(t.player.value.uk);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(right: 25),
+                                                    child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
+                                                      Obx(() => Container(
+                                                            height: 64,
+                                                            alignment: Alignment.bottomCenter,
+                                                            child: ClipOval(
+                                                              child: ImageUtil.networkImage(
+                                                                url: t.player.value.avatar,
+                                                                width: 60,
+                                                                height: 60,
+                                                                fit: BoxFit.cover,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        )),
-                                                    Image.asset(
-                                                      "assets/images/profile_avatar_border.webp",
-                                                      width: 64,
-                                                    ),
-                                                    // Obx(() => Visibility(
-                                                    //       visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
-                                                    //       child: Positioned(
-                                                    //           bottom: -10,
-                                                    //           child: Image.asset(
-                                                    //             "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
-                                                    //             height: 28,
-                                                    //           )),
-                                                    //     )),
-                                                  ]),
-                                                ),
-                                              )
-                                            ],
+                                                          )),
+                                                      Image.asset(
+                                                        "assets/images/profile_avatar_border.webp",
+                                                        width: 64,
+                                                      ),
+                                                      // Obx(() => Visibility(
+                                                      //       visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
+                                                      //       child: Positioned(
+                                                      //           bottom: -10,
+                                                      //           child: Image.asset(
+                                                      //             "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
+                                                      //             height: 28,
+                                                      //           )),
+                                                      //     )),
+                                                    ]),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             Container(
@@ -276,7 +278,7 @@ class OtherProfilePage extends StatelessWidget {
                               children: [
                                 Obx(
                                   () => Container(
-                                    height: 40.h,
+                                    height: 40,
                                     margin: const EdgeInsets.only(left: 20, right: 20),
                                     decoration: BoxDecoration(
                                         border: Border(
@@ -309,6 +311,9 @@ class OtherProfilePage extends StatelessWidget {
                                   ),
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 40,
                             )
                           ],
                         ),
@@ -316,21 +321,24 @@ class OtherProfilePage extends StatelessWidget {
                     ),
                     bottom: PreferredSize(
                         preferredSize: Size(double.infinity, 40),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
-                          child: TabBar(
-                            controller: t.tabController,
-                            isScrollable: false,
-                            labelColor: Colors.white,
-                            unselectedLabelColor: AppColor.textC5C5,
-                            indicatorColor: Color(0xFFFFCB0D),
-                            indicatorSize: TabBarIndicatorSize.label,
-                            indicatorWeight: 2,
-                            indicatorPadding: EdgeInsets.only(bottom: 5),
-                            labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                            labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
-                            unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
-                            tabs: createTabs(),
+                        child: Container(
+                          // color: Colors.amber,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
+                            child: TabBar(
+                              controller: t.tabController,
+                              isScrollable: false,
+                              labelColor: Colors.white,
+                              unselectedLabelColor: AppColor.textC5C5,
+                              indicatorColor: Color(0xFFFFCB0D),
+                              indicatorSize: TabBarIndicatorSize.label,
+                              indicatorWeight: 2,
+                              indicatorPadding: EdgeInsets.only(bottom: 5),
+                              labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                              labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                              unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                              tabs: createTabs(),
+                            ),
                           ),
                         )),
                   ),

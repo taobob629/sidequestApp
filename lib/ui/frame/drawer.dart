@@ -73,7 +73,7 @@ class HomeDrawer extends StatelessWidget {
                 achievements(),
                 remainingTimes(),
                 contentPadding(EnergyView(
-                  width: drawerWidth - 20 * 2.r,
+                  width: drawerWidth - 15 * 2.r,
                   percent: total == 0 ? 0 : remain / total,
                   remaining: user?.avamins ?? 0,
                 )),
