@@ -17,27 +17,30 @@ class OtherDashboardPage extends StatelessWidget {
     return Obx(() => ListView(
           padding: EdgeInsets.zero,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 20, top: 20),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [Text("Badge", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
+            Visibility(
+              visible: t.player.value.trophies.isNotEmpty,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20, top: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      margin: EdgeInsets.only(bottom: 12),
+                      child: Row(
+                        children: [Text("Badge", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 40,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: GridView.count(
-                      scrollDirection: Axis.horizontal,
-                      crossAxisCount: 1,
-                      children: t.player.value.trophies.map((e) => ImageUtil.networkImage(url: e.iconImage)).toList(),
+                    Container(
+                      height: 40,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: GridView.count(
+                        scrollDirection: Axis.horizontal,
+                        crossAxisCount: 1,
+                        children: t.player.value.trophies.map((e) => ImageUtil.networkImage(url: e.iconImage)).toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Container(
