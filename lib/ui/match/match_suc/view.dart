@@ -33,69 +33,16 @@ class SideKickMatchSucPage extends StatelessWidget {
                       mainAxisSpacing: 15.h,
                       childAspectRatio: 0.6 / 1.0),
                   itemBuilder: (c, i) {
-                    if (i < 2) {
+                    if (i != _ctr.playerList.length) {
                       return _itemWidget(i);
                     } else {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xff262731),
-                          borderRadius: BorderRadius.circular(15.r),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 8.w,
-                              height: 8.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xffFFCB0E),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                            Container(
-                              width: 8.w,
-                              height: 8.w,
-                              margin: EdgeInsets.only(
-                                left: 8.w,
-                                right: 8.w,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0x99FFCB0E),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                            Container(
-                              width: 8.w,
-                              height: 8.w,
-                              decoration: BoxDecoration(
-                                color: Color(0x33FFCB0E),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return _blankWidget();
                     }
                   },
-                  itemCount: 3,
+                  itemCount: _ctr.playerList.length + 1,
                 ),
               ),
             ),
-            if (_ctr.showOrHide.value)
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                child: ColorfulButton(
-                  child: Text(
-                    "Stop Matching".tr,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "DIN",
-                        fontSize: 18.sp),
-                  ),
-                  height: 40.h,
-                  borderRadius: 20.r,
-                ),
-              ),
             Visibility(
               visible: _ctr.selectItemList.isNotEmpty,
               child: Container(
@@ -106,49 +53,59 @@ class SideKickMatchSucPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Expanded(
-                      child: Container(
-                        height: 40.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40.r),
-                          border: Border.all(
-                            color: Color(0xffF4C708),
-                            width: 1.w,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => _ctr.cancelOrder(),
+                        child: Container(
+                          height: 40.h,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40.r),
+                            border: Border.all(
+                              color: Color(0xffF4C708),
+                              width: 1.w,
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Cancel'.tr,
-                          style: TextStyle(
-                            color: Color(0xffF4C708),
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                      ),
-                    ),
-                    15.horizontalSpace,
-                    Expanded(
-                      child: Container(
-                        height: 40.h,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40.r),
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Color(0xFFD49C21), Color(0xFFE96524)],
-                          ),
-                        ),
-                        child: Text(
-                          'Play'.tr,
-                          style: TextStyle(
-                            color: Color(0xffF4C708),
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
+                          child: Text(
+                            'Cancel'.tr,
+                            style: TextStyle(
+                              color: Color(0xffF4C708),
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    if (_ctr.playerList[0].ifPlayer == false)
+                      15.horizontalSpace,
+                    if (_ctr.playerList[0].ifPlayer == false)
+                      Expanded(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => _ctr.playGame(),
+                          child: Container(
+                            height: 40.h,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.r),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [Color(0xFFD49C21), Color(0xFFE96524)],
+                              ),
+                            ),
+                            child: Text(
+                              'Play'.tr,
+                              style: TextStyle(
+                                color: Color(0xffF4C708),
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -158,6 +115,46 @@ class SideKickMatchSucPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _blankWidget() => Container(
+        decoration: BoxDecoration(
+          color: Color(0xff262731),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 8.w,
+              height: 8.w,
+              decoration: BoxDecoration(
+                color: Color(0xffFFCB0E),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+            ),
+            Container(
+              width: 8.w,
+              height: 8.w,
+              margin: EdgeInsets.only(
+                left: 8.w,
+                right: 8.w,
+              ),
+              decoration: BoxDecoration(
+                color: Color(0x99FFCB0E),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+            ),
+            Container(
+              width: 8.w,
+              height: 8.w,
+              decoration: BoxDecoration(
+                color: Color(0x33FFCB0E),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget _itemWidget(int i) => Obx(
         () => GestureDetector(
@@ -171,7 +168,7 @@ class SideKickMatchSucPage extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: _ctr.selectItemList.contains(i)
+                    border: _ctr.selectItemList.contains(_ctr.playerList[i])
                         ? Border.all(color: Color(0xffF4C708), width: 1.w)
                         : Border.all(color: Colors.transparent, width: 1.w),
                     borderRadius: BorderRadius.circular(15.r),
@@ -187,8 +184,9 @@ class SideKickMatchSucPage extends StatelessWidget {
                             topLeft: Radius.circular(15.r),
                           ),
                           image: DecorationImage(
-                              image: AssetImage('assets/images/bg_vip5.webp'),
-                              fit: BoxFit.fill),
+                            image: NetworkImage(_ctr.playerList[i].avatar),
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                       Row(
@@ -196,7 +194,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(left: 10.w, top: 7.h),
                             child: Text(
-                              'Name',
+                              _ctr.playerList[i].nickname,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
@@ -225,14 +223,17 @@ class SideKickMatchSucPage extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
+                                // 0男 1女 2未知
                                 Image.asset(
-                                  ImageUtils.iconSex1,
+                                  _ctr.playerList[i].sex == 0
+                                      ? ImageUtils.iconSex0
+                                      : ImageUtils.iconSex1,
                                   width: 5.w,
                                   height: 7.h,
                                 ),
                                 3.horizontalSpace,
                                 Text(
-                                  '26',
+                                  '${_ctr.playerList[i].age}',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 9.sp,
@@ -259,7 +260,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                             ),
                             5.horizontalSpace,
                             Text(
-                              '4.8',
+                              '${_ctr.playerList[i].stars}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.sp,
@@ -275,7 +276,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                             ),
                             8.horizontalSpace,
                             Text(
-                              'Diamond 2',
+                              '${_ctr.playerList[i].levelNameEn}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.sp,
@@ -286,36 +287,35 @@ class SideKickMatchSucPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            left: 10.w,
-                            top: 7.h,
-                            bottom: 7.h,
-                          ),
-                          child: SimpleTags(
-                            content: [],
-                            // content: _ctr.sideKickTypes,
-                            wrapSpacing: 4.w,
-                            wrapRunSpacing: 4.w,
-                            onTagPress: null,
-                            tagContainerPadding: EdgeInsets.symmetric(
-                                vertical: 6.h, horizontal: 10.w),
-                            tagTextStyle: TextStyle(
-                                color: Color(0xffc3c3c3), fontSize: 11.sp),
-                            tagSelectTextStyle: TextStyle(
-                                color: Color(0xffc3c3c3), fontSize: 11.sp),
-                            tagContainerDecoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            tagContainerSelectDecoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: Container(
+                      //     margin: EdgeInsets.only(
+                      //       left: 10.w,
+                      //       top: 7.h,
+                      //       bottom: 7.h,
+                      //     ),
+                      //     child: SimpleTags(
+                      //       content: _ctr.bean.sendMatchModel.tags,
+                      //       wrapSpacing: 4.w,
+                      //       wrapRunSpacing: 4.w,
+                      //       onTagPress: null,
+                      //       tagContainerPadding: EdgeInsets.symmetric(
+                      //           vertical: 6.h, horizontal: 10.w),
+                      //       tagTextStyle: TextStyle(
+                      //           color: Color(0xffc3c3c3), fontSize: 11.sp),
+                      //       tagSelectTextStyle: TextStyle(
+                      //           color: Color(0xffc3c3c3), fontSize: 11.sp),
+                      //       tagContainerDecoration: BoxDecoration(
+                      //         color: Color(0xff313033),
+                      //         borderRadius: BorderRadius.circular(20.r),
+                      //       ),
+                      //       tagContainerSelectDecoration: BoxDecoration(
+                      //         color: Color(0xff313033),
+                      //         borderRadius: BorderRadius.circular(20.r),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -325,7 +325,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                     width: 15.w,
                     height: 15.w,
                     margin: EdgeInsets.only(top: 10.w, right: 10.w),
-                    decoration: _ctr.selectItemList.contains(i)
+                    decoration: _ctr.selectItemList.contains(_ctr.playerList[i])
                         ? BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage(ImageUtils.iconYixuanzhe),
@@ -393,56 +393,72 @@ class SideKickMatchSucPage extends StatelessWidget {
                     color: Color(0xff2D2E3A),
                     margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
                   ),
-                  _commonWidget('Categroy'.tr, 'PC'.tr),
+                  _commonWidget('Categroy'.tr, _ctr.bean.category),
                   20.verticalSpace,
-                  _commonWidget('Game'.tr, 'League of Legends'.tr),
+                  _commonWidget('Game'.tr, _ctr.bean.game),
                   20.verticalSpace,
-                  _commonWidget('Price Range'.tr, '10.00~ 20.00'.tr,
+                  _commonWidget('Price Range'.tr, _ctr.bean.priceRange,
                       showIcon: true),
                   20.verticalSpace,
                   _commonWidget(
                     'Unit'.tr,
-                    '/Game'.tr,
+                    _ctr.bean.unit,
                   ),
                   20.verticalSpace,
                   _commonWidget(
                     'Language'.tr,
-                    'English,Français '.tr,
+                    _ctr.bean.launguage,
                   ),
                   20.verticalSpace,
-                  SimpleTags(
-                    content: [],
-                    wrapSpacing: 10.w,
-                    wrapRunSpacing: 10.h,
-                    onTagPress: null,
-                    tagContainerPadding:
-                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 15.w),
-                    tagTextStyle:
-                        TextStyle(color: Color(0xffFFCB0E), fontSize: 14.sp),
-                    tagContainerDecoration: BoxDecoration(
-                      color: Color(0xff3a3627),
-                      border:
-                          Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-                      borderRadius: BorderRadius.circular(20.r),
+                  if (_ctr.bean.tags.isNotEmpty)
+                    SimpleTags(
+                      content: _ctr.bean.tags,
+                      wrapSpacing: 10.w,
+                      wrapRunSpacing: 10.h,
+                      onTagPress: null,
+                      tagContainerPadding: EdgeInsets.symmetric(
+                        vertical: 6.h,
+                        horizontal: 15.w,
+                      ),
+                      tagTextStyle: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      tagSelectTextStyle: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      tagContainerDecoration: BoxDecoration(
+                        color: Color(0xff3a3627),
+                        border: Border.all(
+                          color: Color(0xffFFCB0E),
+                          width: 0.5.w,
+                        ),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      tagContainerSelectDecoration: BoxDecoration(
+                        color: Color(0xff3a3627),
+                        border: Border.all(
+                          color: Color(0xffFFCB0E),
+                          width: 0.5.w,
+                        ),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
                     ),
-                    tagContainerSelectDecoration: BoxDecoration(
-                      color: Color(0xff3a3627),
-                      border:
-                          Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                  ),
                   Container(
                     height: 1.h,
                     color: Color(0xff2D2E3A),
                     margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
                   ),
                   Text(
-                    'I want the sound to cute',
+                    'I want the sound to cute'.tr,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM),
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
                   ),
                 ],
               ),

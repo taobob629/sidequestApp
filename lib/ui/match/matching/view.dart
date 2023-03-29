@@ -129,44 +129,49 @@ class SideKickMatchingPage extends StatelessWidget {
               color: Color(0xff2D2E3A),
               margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
             ),
-            _commonWidget('Categroy'.tr, 'pc'),
+            _commonWidget('Categroy'.tr, _ctr.model.category),
             20.verticalSpace,
-            _commonWidget('Game'.tr, 'League of Legends'.tr),
+            _commonWidget('Game'.tr, _ctr.model.game),
             20.verticalSpace,
-            _commonWidget('Price Range'.tr, '10.00~ 20.00'.tr, showIcon: true),
+            _commonWidget(
+              'Price Range'.tr,
+              '${_ctr.model.minPrice}~${_ctr.model.maxPrice}',
+              showIcon: true,
+            ),
             20.verticalSpace,
             _commonWidget(
               'Unit'.tr,
-              '/Game'.tr,
+              _ctr.model.unit,
             ),
             20.verticalSpace,
             _commonWidget(
               'Language'.tr,
-              'English,Français '.tr,
+              _ctr.model.language,
             ),
-            20.verticalSpace,
-            SimpleTags(
-              content: _ctr.others,
-              wrapSpacing: 10.w,
-              wrapRunSpacing: 10.h,
-              onTagPress: null,
-              tagContainerPadding:
-                  EdgeInsets.symmetric(vertical: 6.h, horizontal: 15.w),
-              tagTextStyle:
-                  TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
-              tagSelectTextStyle:
-                  TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
-              tagContainerDecoration: BoxDecoration(
-                color: Color(0xff3a3627),
-                border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-                borderRadius: BorderRadius.circular(20.r),
+            if (_ctr.model.tags.isNotEmpty) 20.verticalSpace,
+            if (_ctr.model.tags.isNotEmpty)
+              SimpleTags(
+                content: _ctr.model.tags,
+                wrapSpacing: 10.w,
+                wrapRunSpacing: 10.h,
+                onTagPress: null,
+                tagContainerPadding:
+                    EdgeInsets.symmetric(vertical: 6.h, horizontal: 15.w),
+                tagTextStyle:
+                    TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
+                tagSelectTextStyle:
+                    TextStyle(color: Color(0xffFFCB0E), fontSize: 12.sp),
+                tagContainerDecoration: BoxDecoration(
+                  color: Color(0xff3a3627),
+                  border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                tagContainerSelectDecoration: BoxDecoration(
+                  color: Color(0xff3a3627),
+                  border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
               ),
-              tagContainerSelectDecoration: BoxDecoration(
-                color: Color(0xff3a3627),
-                border: Border.all(color: Color(0xffFFCB0E), width: 0.5.w),
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-            ),
             Container(
               height: 1.h,
               color: Color(0xff2D2E3A),

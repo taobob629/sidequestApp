@@ -38,6 +38,14 @@ class Language {
     "name": name,
     "value": value,
   };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Language && runtimeType == other.runtimeType && name == other.name && value == other.value;
+
+  @override
+  int get hashCode => name.hashCode ^ value.hashCode;
 }
 
 class Service {
