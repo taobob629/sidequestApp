@@ -16,14 +16,16 @@ import 'post_favorators_page.dart';
 
 class PostDetailPage extends StatelessWidget {
   PostDetailPage({Key? key}) : super(key: key);
-  final t = Get.put(PostDetailController());
 
   @override
   Widget build(BuildContext context) {
+    final t = Get.put(PostDetailController());
+
     return WillPopScope(
       onWillPop: () {
-        PostListController.find.onRefresh();
-        return Future(() => true);
+        // PostListController.find.onRefresh();
+        Get.back(result: "Reload");
+        return Future(() => false);
       },
       child: Scaffold(
         appBar: AppBar(

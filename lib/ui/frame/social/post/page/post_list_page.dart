@@ -8,10 +8,10 @@ import 'package:wy/ui/frame/social/post/view/post_list_item_view.dart';
 class PostListPage extends StatelessWidget {
   PostListPage({Key? key}) : super(key: key);
 
-  final t = Get.put(PostListController());
-
   @override
   Widget build(BuildContext context) {
+    final t = Get.put(PostListController());
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -31,7 +31,7 @@ class PostListPage extends StatelessWidget {
                       return PostListItemView(
                         model: t.list[index],
                         onTap: () {
-                          Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
+                          Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
                         },
                       );
                     }, childCount: t.list.length));

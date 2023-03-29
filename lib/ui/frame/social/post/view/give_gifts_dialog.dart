@@ -23,7 +23,7 @@ class GiveGiftsDialog extends StatelessWidget {
 
     return Obx(() {
       return Container(
-        height: 420.h,
+        height: 420,
         decoration: BoxDecoration(
           color: AppColor.itemBg,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -109,54 +109,6 @@ class GiveGiftsDialog extends StatelessWidget {
                 );
               },
             )),
-            // Expanded(
-            //   child: GridView.count(
-            //     padding: EdgeInsets.only(top: 18, left: 20, right: 20),
-            //     scrollDirection: Axis.horizontal,
-            //     crossAxisCount: 2,
-            //     childAspectRatio: 120 / 105.0,
-            //     mainAxisSpacing: 10,
-            //     crossAxisSpacing: 10,
-            //     children: t.giftList.map((gift) {
-            //       bool isSelect = gift.id == t.selectGift.value.id;
-            //       return GestureDetector(
-            //         onTap: () {
-            //           t.selectGift.value = gift;
-            //         },
-            //         child: Container(
-            //           decoration: BoxDecoration(
-            //             border: isSelect ? Border.all(color: AppColor.yellow) : null,
-            //             boxShadow: isSelect
-            //                 ? [
-            //                     BoxShadow(
-            //                       offset: Offset(0, 10),
-            //                       blurRadius: 10,
-            //                       spreadRadius: 0.5,
-            //                       color: Color(0x337524C3),
-            //                     )
-            //                   ]
-            //                 : null,
-            //             color: AppColor.color2E3C,
-            //             borderRadius: BorderRadius.circular(15),
-            //           ),
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //             children: [
-            //               ImageUtil.networkImage(
-            //                 url: "https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/13-SVIP4.png",
-            //                 fit: BoxFit.cover,
-            //                 width: 60,
-            //                 height: 70,
-            //               ),
-            //               Text(gift.giftname, style: TextStyle(color: Colors.white, fontSize: 14)),
-            //               Text(gift.needcoin, style: TextStyle(color: AppColor.color8388, fontSize: 14)),
-            //             ],
-            //           ),
-            //         ),
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
             Container(
               height: 40,
               margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),

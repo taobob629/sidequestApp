@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/config/app_color.dart';
@@ -17,46 +18,53 @@ class MessagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-        removeTop: true,
-        context: context,
-        child: Stack(
-          children: [
-            AspectRatio(
-              aspectRatio: 750.0 / 365,
-              child: Image.asset(
-                "assets/images/message/msg_head_bg.webp",
-                fit: BoxFit.fitWidth,
-                width: Get.width,
-              ),
-            ),
-            Positioned(
-              top: kToolbarHeight,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: TabWidget(
-                  tabstyle: TAB_STYLE_2,
-                  indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
-                  alignment: Alignment.centerLeft,
-                  tabController: controller.tabController,
-                  tabList: [
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: 750.0 / 365,
+          child: Image.asset(
+            "assets/images/message/msg_head_bg.webp",
+            fit: BoxFit.fitWidth,
+            width: Get.width,
+          ),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            flexibleSpace: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Spacer(),
+                TabBar(
+                  controller: controller.tabController,
+                  isScrollable: true,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
+                  indicatorColor: AppColor.yellow,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 3,
+                  indicatorPadding: const EdgeInsets.only(bottom: 0),
+                  labelPadding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                  labelStyle: TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold),
+                  unselectedLabelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal),
+                  tabs: [
                     "Message".tr,
                     "Follow".tr,
                     "Fans".tr,
-                  ],
-                  tabPage: [
-                    KeepAliveWrapper(child: ConversationListPage()),
-                    FollowListPage(),
-                    FansListPage(),
-                  ],
-                ),
-              ),
+                  ].map((e) => Text(e)).toList(),
+                ).paddingOnly(left: 15),
+              ],
             ),
-          ],
-        ));
+          ),
+          backgroundColor: Colors.transparent,
+          body: TabBarView(controller: controller.tabController, children: [
+            KeepAliveWrapper(child: ConversationListPage()),
+            FollowListPage(),
+            FansListPage(),
+          ]),
+        ),
+      ],
+    );
   }
 }
 

@@ -43,11 +43,12 @@ class OtherProfilePage extends StatelessWidget {
                           style: TextStyle(fontSize: 16),
                         ))),
                     centerTitle: true,
-                    expandedHeight: 215 + 100,
-                    toolbarHeight: 44,
+                    expandedHeight: 267.h - Get.mediaQuery.padding.top - 22,
+                    // toolbarHeight: 267.h - Get.mediaQuery.padding.top,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
+                        // color: Colors.amber,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -189,26 +190,6 @@ class OtherProfilePage extends StatelessWidget {
                                                               ],
                                                             ),
                                                           )),
-
-                                                      /// email
-                                                      // Obx(() => Padding(
-                                                      //       padding: const EdgeInsets.only(top: 8),
-                                                      //       child: Row(
-                                                      //         children: [
-                                                      //           Padding(
-                                                      //             padding: const EdgeInsets.only(right: 15),
-                                                      //             child: Text(
-                                                      //               "ID:${userController.userProfile.value.uk}",
-                                                      //               style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
-                                                      //             ),
-                                                      //           ),
-                                                      //           // Text(
-                                                      //           //   t.vm.value.email,
-                                                      //           //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                                      //           // )
-                                                      //         ],
-                                                      //       ),
-                                                      //     )),
                                                     ],
                                                   ),
                                                 ),
@@ -321,21 +302,21 @@ class OtherProfilePage extends StatelessWidget {
                       ),
                     ),
                     bottom: PreferredSize(
-                        preferredSize: Size(double.infinity, 44),
+                        preferredSize: Size(double.infinity, 40),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 7, left: 30, right: 20),
+                          padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
                           child: TabBar(
                             controller: t.tabController,
                             isScrollable: false,
                             labelColor: Colors.white,
-                            unselectedLabelColor: Colors.white,
+                            unselectedLabelColor: AppColor.textC5C5,
                             indicatorColor: Color(0xFFFFCB0D),
                             indicatorSize: TabBarIndicatorSize.label,
                             indicatorWeight: 2,
                             indicatorPadding: EdgeInsets.only(bottom: 5),
                             labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                            labelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: "din"),
-                            unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "din"),
+                            labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: "Medium-7"),
+                            unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "Medium-7"),
                             tabs: createTabs(),
                           ),
                         )),
