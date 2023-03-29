@@ -1,18 +1,21 @@
 class MatchInitModel {
 
   MatchInitModel({
+    required this.orderId,
     required this.unit,
     required this.language,
     required this.services,
     required this.others,
   });
 
+  int orderId;
   List<Language> unit;
   List<Language> language;
   List<Service> services;
   List<Language> others;
 
   factory MatchInitModel.fromJson(Map<String, dynamic> json) => MatchInitModel(
+    orderId: json["orderId"],
     unit: List<Language>.from(json["unit"].map((x) => Language.fromJson(x))),
     language: List<Language>.from(json["language"].map((x) => Language.fromJson(x))),
     services: List<Service>.from(json["services"].map((x) => Service.fromJson(x))),

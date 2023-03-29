@@ -8,7 +8,9 @@ import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
 
 import '../../../image_utils.dart';
+import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/login_model.dart';
+import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../../model/send_match_model.dart';
 import '../../common/dialog_selector.dart';
@@ -38,24 +40,75 @@ class SideKickMatchController extends GetxController {
   }
 
   void requestData() async {
-    _matchInitModel = await MatchApi.selfOrder();
+    final result = await MatchApi.selfOrder();
     EasyLoading.dismiss();
 
-    others.value = _matchInitModel.others;
-    if (others.isNotEmpty) {
-      selectTags.add(others[0]);
-    }
-    if (_matchInitModel.services.isNotEmpty == true) {
-      category.value = _matchInitModel.services[0].category;
-      games = _matchInitModel.services[0].games;
-      game.value = games[0].name;
-      gid = games[0].id;
-    }
-    if (_matchInitModel.unit.isNotEmpty == true) {
-      unit.value = _matchInitModel.unit[0].value;
-    }
-    if (_matchInitModel.language.isNotEmpty == true) {
-      language.assign(_matchInitModel.language[0].value);
+    if (result['orderId'] > 0) {
+      // 已经有订单了，只是匹配中的时候出去了，再次回来
+      MatchingModel matchingModel = MatchingModel.fromJson(result);
+      if (matchingModel.players.isNotEmpty) {
+        // 已经有匹配好的接单人了
+        List<JumpMatchSucBean> beans = [];
+        matchingModel.players.forEach((element) {
+          JumpMatchSucBean bean = JumpMatchSucBean(
+            memberCode: element.memberCode,
+            orderId: matchingModel.orderId.toString(),
+            avatar: element.avatar,
+            nickname: element.nickname,
+            sex: element.sex,
+            age: element.age,
+            stars: element.stars,
+            levelNameEn: element.levelNameEn,
+            tags: matchingModel.types,
+            category: matchingModel.category,
+            game: matchingModel.game,
+            priceRange: '${matchingModel.minPrice}~${matchingModel.maxPrice}',
+            unit: matchingModel.unit,
+            launguage: matchingModel.language,
+
+            skillAuthId: element.skillAuthId,
+            liveuid: element.liveuid,
+            serviceItemId: element.serviceItemId,
+          );
+          beans.add(bean);
+        });
+        Get.offAndToNamed(
+          AppPages.side_kick_match_suc_page,
+          arguments: beans,
+        );
+      } else {
+        // 继续在倒计时界面
+        _jumpMatchingPage(
+          language: matchingModel.language,
+          orderId: matchingModel.orderId,
+          tags: matchingModel.types,
+          category: matchingModel.category,
+          unit: matchingModel.unit,
+          game: matchingModel.game,
+          minPrice: matchingModel.minPrice.toString(),
+          maxPrice: matchingModel.maxPrice.toString(),
+          optional: '',
+        );
+      }
+    } else {
+      _matchInitModel = MatchInitModel.fromJson(result);
+
+      others.value = _matchInitModel.others;
+      if (others.isNotEmpty) {
+        selectTags.add(others[0]);
+      }
+      if (_matchInitModel.services.isNotEmpty == true) {
+        category.value = _matchInitModel.services[0].category;
+        games = _matchInitModel.services[0].games;
+        game.value = games[0].name;
+        gid = games[0].id;
+      }
+      if (_matchInitModel.unit.isNotEmpty == true) {
+        unit.value = _matchInitModel.unit[0].value;
+      }
+      if (_matchInitModel.language.isNotEmpty == true) {
+        language.assign(_matchInitModel.language[0].value);
+      }
     }
   }
 
@@ -108,20 +161,70 @@ class SideKickMatchController extends GetxController {
     final result = await MatchApi.sendMatch(params);
     EasyLoading.dismiss();
 
-    SendMatchModel model = SendMatchModel(
-      types: json.encode(tagsMap),
-      gid: gid == null ? 0 : int.parse(gid!),
-      category: category.value,
+    _jumpMatchingPage(
       language: languageStr.toString(),
+      orderId: result,
+      tags: selectTags,
+      category: category.value,
       unit: unit.value,
       game: game.value,
       minPrice: minPriceCtr.text,
       maxPrice: maxPriceCtr.text,
       optional: requestsPriceCtr.text,
-      orderId: result,
-      tags: selectTags,
     );
-    Get.toNamed(AppPages.side_kick_matching_page, arguments: model);
+  }
+
+  void _jumpMatchSucPage(String language, int orderId) {
+    // JumpMatchSucBean bean = JumpMatchSucBean(
+    //   memberCode: matchOperationModel.memberCode,
+    //   orderId: orderId.toString(),
+    //   avatar: matchOperationModel.avatar,
+    //   nickname: matchOperationModel.nickname,
+    //   sex: matchOperationModel.sex,
+    //   age: matchOperationModel.age,
+    //   stars: matchOperationModel.stars,
+    //   levelNameEn: matchOperationModel.levelNameEn,
+    //   tags: matchOperationModel.orderInfo.types,
+    //   skillAuthId: matchOperationModel.skillAuthId,
+    //   liveuid: matchOperationModel.liveuid,
+    //   serviceItemId: matchOperationModel.serviceItemId,
+    //   category: model.category,
+    //   game: model.game,
+    //   priceRange: '${model.minPrice}~${model.maxPrice}',
+    //   unit: model.unit,
+    //   launguage: model.language,
+    // );
+    // bean.ifPlayer = false;
+    // Get.offAndToNamed(
+    //   AppPages.side_kick_match_suc_page,
+    //   arguments: bean,
+    // );
+  }
+
+  void _jumpMatchingPage({
+    required String language,
+    required int orderId,
+    required List<Language> tags,
+    required String category,
+    required String unit,
+    required String game,
+    required String minPrice,
+    required String maxPrice,
+    required String optional,
+  }) {
+    SendMatchModel model = SendMatchModel(
+      gid: gid == null ? 0 : int.parse(gid!),
+      category: category,
+      language: language,
+      unit: unit,
+      game: game,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      optional: optional,
+      orderId: orderId,
+      tags: tags,
+    );
+    Get.offAndToNamed(AppPages.side_kick_matching_page, arguments: model);
   }
 
   Widget selectLanguage() {

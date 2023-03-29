@@ -28,8 +28,10 @@ class SideKickMatchSucController extends GetxController {
   void onInit() {
     super.onInit();
 
-    bean = Get.arguments as JumpMatchSucBean;
-    playerList.add(bean);
+    final beans = Get.arguments as List<JumpMatchSucBean>;
+    playerList.assignAll(beans);
+
+    bean = playerList[0];
 
     subscription = eventBus.on<MatchEvent>().listen((event) {
       _dealMsg(event.msg.textElem!.text!);
@@ -104,7 +106,7 @@ class SideKickMatchSucController extends GetxController {
 
   void cancelOrder() async {
     EasyLoading.show();
-    await MatchApi.cancelAcceptMatchOrder(bean.orderId, bean.ifPlayer);
+    await MatchApi.cancelAcceptMatchOrder(playerList[0].orderId, playerList[0].ifPlayer);
     EasyLoading.dismiss();
 
     Get.back();

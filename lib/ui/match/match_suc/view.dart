@@ -397,7 +397,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                     color: Color(0xff2D2E3A),
                     margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
                   ),
-                  _commonWidget('Categroy'.tr, _ctr.bean.category),
+                  _commonWidget('Category'.tr, _ctr.bean.category),
                   20.verticalSpace,
                   _commonWidget('Game'.tr, _ctr.bean.game),
                   20.verticalSpace,

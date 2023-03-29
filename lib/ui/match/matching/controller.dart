@@ -82,9 +82,12 @@ class SideKickMatchingController extends GetxController {
           launguage: model.language,
         );
         bean.ifPlayer = false;
+
+        List<JumpMatchSucBean> beans = [];
+        beans.add(bean);
         Get.offAndToNamed(
           AppPages.side_kick_match_suc_page,
-          arguments: bean,
+          arguments: beans,
         );
         break;
     }

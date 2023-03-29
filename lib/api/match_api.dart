@@ -7,9 +7,9 @@ import '../model/match_init_model.dart';
 import '../model/send_match_model.dart';
 
 class MatchApi {
-  static Future<MatchInitModel> selfOrder() async {
+  static Future<dynamic> selfOrder() async {
     var response = await http.get('/peiwan/app/selfOrder/init');
-    return MatchInitModel.fromJson(response.data);
+    return response.data;
   }
 
   static Future<int> sendMatch(Map params) async {

@@ -129,7 +129,7 @@ class SideKickMatchingPage extends StatelessWidget {
               color: Color(0xff2D2E3A),
               margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
             ),
-            _commonWidget('Categroy'.tr, _ctr.model.category),
+            _commonWidget('Category'.tr, _ctr.model.category),
             20.verticalSpace,
             _commonWidget('Game'.tr, _ctr.model.game),
             20.verticalSpace,

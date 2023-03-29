@@ -294,9 +294,12 @@ class MatchTopDialog extends StatelessWidget {
         serviceItemId: model.serviceItemId,
       );
       bean.ifPlayer = true;
+
+      List<JumpMatchSucBean> beans = [];
+      beans.add(bean);
       Get.offAndToNamed(
         AppPages.side_kick_match_suc_page,
-        arguments: bean,
+        arguments: beans,
       );
     } else {
       Get.back();

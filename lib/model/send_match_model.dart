@@ -2,7 +2,6 @@ import 'package:wy/model/match_init_model.dart';
 
 class SendMatchModel {
   SendMatchModel({
-    required this.types,
     required this.gid,
     required this.category,
     required this.language,
@@ -22,7 +21,6 @@ class SendMatchModel {
   String maxPrice;
   String unit;
   String language;
-  String types;
   String optional;
   int orderId;
   List<Language> tags;
