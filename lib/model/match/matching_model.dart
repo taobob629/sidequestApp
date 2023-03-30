@@ -57,7 +57,7 @@ class MatchingModel {
     minPrice: json["minPrice"],
     id: json["id"],
     maxPrice: json["maxPrice"],
-    distance: json["distance"],
+    distance: json["distance"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
