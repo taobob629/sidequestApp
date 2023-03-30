@@ -32,6 +32,7 @@ class SkillItemAddPageController extends BasePageController {
   }
 
   RxDouble _price = RxDouble(0);
+  String unit="";
 
   double get price => _price.value;
 
@@ -63,6 +64,7 @@ class SkillItemAddPageController extends BasePageController {
     }
     priceRange=priceRanges.first;
     price = priceRange?.gameCoinMin??0;
+    unit=priceRange?.unit??"";
   }
 
   onConfirm() async {
@@ -73,7 +75,8 @@ class SkillItemAddPageController extends BasePageController {
     EasyLoading.show();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = teContent.text
-      ..['skillId'] = model?.skillid
+      ..['skillid'] = model?.skillid
+      ..['unit'] = unit
       ..['skillAuthid']=model?.id
       ..['id'] = null
       ..['skillName'] = model?.skillName
