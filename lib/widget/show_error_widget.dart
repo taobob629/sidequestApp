@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../config/icon_font.dart';
 import '../image_utils.dart';
 
-void showErrorWidget(String err) {
-  Get.dialog(
-    Center(
+void showErrorWidget(String message) {
+  final overlayState = Overlay.of(Get.context!);
+  final overlayEntry = OverlayEntry(
+    builder: (BuildContext context) => Center(
       child: Container(
         width: 250.w,
         decoration: BoxDecoration(
@@ -53,7 +53,7 @@ void showErrorWidget(String err) {
               padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 10.w),
               alignment: Alignment.center,
               child: Text(
-                err,
+                message,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14.sp,
@@ -66,5 +66,9 @@ void showErrorWidget(String err) {
       ),
     ),
   );
-  Future.delayed(Duration(seconds: 3), () => Get.back());
+
+  overlayState.insert(overlayEntry);
+  Future.delayed(const Duration(seconds: 3)).then((_) {
+    overlayEntry.remove();
+  });
 }

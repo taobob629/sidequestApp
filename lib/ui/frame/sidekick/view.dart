@@ -46,9 +46,7 @@ class SideKickPage extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 leadingWidth: 200,
                 leading: TextButton.icon(
-                  onPressed: () {
-                    showErrorWidget('err');
-                  },
+                  onPressed: () {},
                   icon: Container(),
                   label: Text(
                     'Sidekick',
