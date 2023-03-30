@@ -82,7 +82,9 @@ class SideKickMatchSucController extends GetxController {
           launguage: bean.launguage,
         );
 
-        playerList.add(sucBean);
+        if (!playerList.contains(sucBean)) {
+          playerList.add(sucBean);
+        }
         break;
     }
   }

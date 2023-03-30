@@ -243,13 +243,13 @@ class MatchTopDialog extends StatelessWidget {
   }
 
   void joinGame(int operation) async {
+    countDownUtil.stopCountDown();
+
     EasyLoading.show();
     Map<String, dynamic> params = {"operation": operation};
     final result =
         await MatchApi.acceptMatchOrder(player.orderId.toString(), params);
     EasyLoading.dismiss();
-
-    countDownUtil.stopCountDown();
 
     if (result != null && result.data != null) {
       MatchOperationModel model = MatchOperationModel.fromJson(result.data);
