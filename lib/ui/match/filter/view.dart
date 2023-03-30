@@ -4,7 +4,6 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/res/dimens.dart';
-import 'package:wy/ui/common/base_scaffold.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
@@ -152,6 +151,9 @@ class SideKickMatchPage extends StatelessWidget {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: 'min price'.tr,
+
+                                          /// 让文字垂直居中
+                                          isCollapsed: true,
                                           hintStyle: TextStyle(
                                               color: Color(0xffb2b9c9),
                                               fontSize: 14.sp),
@@ -206,6 +208,9 @@ class SideKickMatchPage extends StatelessWidget {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: 'max price'.tr,
+
+                                          /// 让文字垂直居中
+                                          isCollapsed: true,
                                           hintStyle: TextStyle(
                                               color: Color(0xffb2b9c9),
                                               fontSize: 14.sp),
@@ -290,6 +295,38 @@ class SideKickMatchPage extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        Text(
+                          'Quantity'.tr,
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
+                          height: 45.h,
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          decoration: BoxDecoration(
+                            color: Color(0xff313033),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8)).w,
+                          ),
+                          alignment: Alignment.center,
+                          child: TextField(
+                            controller: _ctr.quantityCtr,
+                            style: TextStyle(
+                              color: Color(0xffB2B9C9),
+                              fontSize: 14.sp,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              // 让文字垂直居中
+                              isCollapsed: true,
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                           ),
                         ),
                         _sideKickTypesWidget(),

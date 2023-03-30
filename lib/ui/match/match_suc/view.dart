@@ -77,8 +77,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (_ctr.bean.ifPlayer == false)
-                      15.horizontalSpace,
+                    if (_ctr.bean.ifPlayer == false) 15.horizontalSpace,
                     if (_ctr.bean.ifPlayer == false)
                       Expanded(
                         child: GestureDetector(
@@ -187,6 +186,25 @@ class SideKickMatchSucPage extends StatelessWidget {
                             image: NetworkImage(_ctr.playerList[i].avatar),
                             fit: BoxFit.fill,
                           ),
+                        ),
+                        padding: EdgeInsets.only(right: 5.w, bottom: 8.h),
+                        alignment: Alignment.bottomRight,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Color(0xffF9D11B),
+                              size: 16.sp,
+                            ),
+                            Text(
+                              '<100km',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Row(
@@ -451,19 +469,6 @@ class SideKickMatchSucPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                     ),
-                  Container(
-                    height: 1.h,
-                    color: Color(0xff2D2E3A),
-                    margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
-                  ),
-                  Text(
-                    'I want the sound to cute'.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
-                    ),
-                  ),
                 ],
               ),
             ),

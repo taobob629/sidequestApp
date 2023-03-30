@@ -33,6 +33,9 @@ class SideKickController extends RefreshListController<GameUserModel> {
 
   int get currentSelectIndex => _currentSelectIndex.value;
 
+  var bottom = 0.0.obs;
+  var right = 0.0.obs;
+
   set currentSelectIndex(int value) {
     _currentSelectIndex.value = value;
   }

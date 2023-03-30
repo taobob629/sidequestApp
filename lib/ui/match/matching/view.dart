@@ -16,85 +16,114 @@ class SideKickMatchingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: 'Sidekick Match',
-        resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 280.w,
-                margin: EdgeInsets.only(bottom: 20.h, top: 20.h),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Image.asset(
-                        ImageUtils.picDengDaiHuaMian,
-                        width: 280.w,
-                        height: 280.w,
-                      ),
-                    ),
-                    RotatingBallWidget(
-                      marginX: 106,
-                      marginY: 106,
-                      seconds: 3,
-                      imgSrc: ImageUtils.iconYuanBai,
-                    ),
-                    RotatingBallWidget(
-                      marginX: 106,
-                      marginY: 106,
-                      seconds: 2,
-                      imgSrc: ImageUtils.iconYuanFen,
-                    ),
-                    RotatingBallWidget(
-                      marginX: 140,
-                      marginY: 140,
-                      seconds: 4,
-                      imgSrc: ImageUtils.iconYuanLan,
-                    ),
-                    RotatingBallWidget(
-                      marginX: 72,
-                      marginY: 72,
-                      seconds: 2,
-                      imgSrc: ImageUtils.iconYuanLv,
-                    ),
-                    RotatingBallWidget(
-                      marginX: 50,
-                      marginY: 50,
-                      seconds: 1,
-                      imgSrc: ImageUtils.iconYuanLv02,
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
+      title: 'Sidekick Match',
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 60.h,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Waiting for ',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM),
-                  ),
-                  Obx(
-                    () => Text(
-                      _ctr.countTime.value,
-                      style: TextStyle(
-                        color: Color(0xffFFCB0E),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM,
-                      ),
+                  Container(
+                    height: 280.w,
+                    margin: EdgeInsets.only(bottom: 20.h, top: 20.h),
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            ImageUtils.picDengDaiHuaMian,
+                            width: 280.w,
+                            height: 280.w,
+                          ),
+                        ),
+                        RotatingBallWidget(
+                          marginX: 106,
+                          marginY: 106,
+                          seconds: 3,
+                          imgSrc: ImageUtils.iconYuanBai,
+                        ),
+                        RotatingBallWidget(
+                          marginX: 106,
+                          marginY: 106,
+                          seconds: 2,
+                          imgSrc: ImageUtils.iconYuanFen,
+                        ),
+                        RotatingBallWidget(
+                          marginX: 140,
+                          marginY: 140,
+                          seconds: 4,
+                          imgSrc: ImageUtils.iconYuanLan,
+                        ),
+                        RotatingBallWidget(
+                          marginX: 72,
+                          marginY: 72,
+                          seconds: 2,
+                          imgSrc: ImageUtils.iconYuanLv,
+                        ),
+                        RotatingBallWidget(
+                          marginX: 50,
+                          marginY: 50,
+                          seconds: 1,
+                          imgSrc: ImageUtils.iconYuanLv02,
+                        ),
+                      ],
                     ),
                   ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Waiting for ',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                      Obx(
+                        () => Text(
+                          _ctr.countTime.value,
+                          style: TextStyle(
+                            color: Color(0xffFFCB0E),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  _matchingRequirementsWidget(),
                 ],
               ),
-              _matchingRequirementsWidget(),
-            ],
+            ),
           ),
-        ));
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 30.w),
+              child: ColorfulButton(
+                child: Text(
+                  "Stop Matching".tr,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
+                ),
+                height: 40.h,
+                borderRadius: 20.r,
+                onTap: () => _ctr.stopMatching(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _matchingRequirementsWidget() => Container(
@@ -172,29 +201,6 @@ class SideKickMatchingPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20.r),
                 ),
               ),
-            Container(
-              height: 1.h,
-              color: Color(0xff2D2E3A),
-              margin: EdgeInsets.only(top: 15.h, bottom: 10.h),
-            ),
-            Text(
-              'I want the sound to cute',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontFamily: FONT_MEDIUM),
-            ),
-            20.verticalSpace,
-            ColorfulButton(
-              child: Text(
-                "Stop Matching".tr,
-                style: TextStyle(
-                    color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
-              ),
-              height: 40.h,
-              borderRadius: 20.r,
-              onTap: () => _ctr.stopMatching(),
-            ),
           ],
         ),
       );

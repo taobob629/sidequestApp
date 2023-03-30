@@ -27,6 +27,7 @@ class SideKickMatchController extends GetxController {
   List<Language> selectTags = [];
   String? gid;
 
+  TextEditingController quantityCtr = TextEditingController(text: '1');
   TextEditingController minPriceCtr = TextEditingController(text: '2');
   TextEditingController maxPriceCtr = TextEditingController(text: '20');
   TextEditingController requestsPriceCtr = TextEditingController();
@@ -122,15 +123,19 @@ class SideKickMatchController extends GetxController {
 
   void matching() async {
     if (minPriceCtr.text.isEmpty) {
-      EasyLoading.showToast('Please enter the min price');
+      EasyLoading.showToast('Please enter the min price'.tr);
       return;
     }
     if (maxPriceCtr.text.isEmpty) {
-      EasyLoading.showToast('Please enter the max price');
+      EasyLoading.showToast('Please enter the max price'.tr);
       return;
     }
     if (double.parse(maxPriceCtr.text) < double.parse(minPriceCtr.text)) {
-      EasyLoading.showToast('The max price cannot be lower than the min price');
+      EasyLoading.showToast('The max price cannot be lower than the min price'.tr);
+      return;
+    }
+    if (quantityCtr.text.isEmpty) {
+      EasyLoading.showToast('Please enter the quantity'.tr);
       return;
     }
 
@@ -151,6 +156,7 @@ class SideKickMatchController extends GetxController {
 
     Map params = {
       "gid": gid,
+      "quantity": quantityCtr.text,
       "minPrice": minPriceCtr.text,
       "maxPrice": maxPriceCtr.text,
       "unit": unit.value,
