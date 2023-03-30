@@ -5,7 +5,9 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 
 import '../../../image_utils.dart';
+import '../../../widget/home/sex_age_widget.dart';
 import '../../common/colorful_button.dart';
+import '../../controller/user_controller.dart';
 import '../view/tag/simple_tags.dart';
 import 'controller.dart';
 
@@ -43,33 +45,73 @@ class SideKickMatchSucPage extends StatelessWidget {
                 ),
               ),
             ),
-            Visibility(
-              visible: _ctr.selectItemList.isNotEmpty,
-              child: Container(
-                color: Color(0xff1b1a1e),
-                height: 96.h,
-                margin: EdgeInsets.symmetric(horizontal: 30.w),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+            Container(
+              color: Color(0xff1b1a1e),
+              height: 96.h,
+              margin: EdgeInsets.symmetric(horizontal: 30.w),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _ctr.cancelOrder(),
+                      child: Container(
+                        height: 40.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40.r),
+                          border: Border.all(
+                            color: Color(0xffF4C708),
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel'.tr,
+                          style: TextStyle(
+                            color: Color(0xffF4C708),
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (_ctr.bean.uid ==
+                      UserController.find.userProfile.value.pwId)
+                    15.horizontalSpace,
+                  if (_ctr.bean.uid ==
+                      UserController.find.userProfile.value.pwId)
                     Expanded(
                       child: GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () => _ctr.cancelOrder(),
+                        onTap: _ctr.selectItemList.isNotEmpty
+                            ? () => _ctr.playGame()
+                            : null,
                         child: Container(
                           height: 40.h,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40.r),
-                            border: Border.all(
-                              color: Color(0xffF4C708),
-                              width: 1.w,
-                            ),
-                          ),
+                          decoration: _ctr.selectItemList.isNotEmpty
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.r),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    colors: [
+                                      Color(0xFFD49C21),
+                                      Color(0xFFE96524)
+                                    ],
+                                  ),
+                                )
+                              : BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.r),
+                                  color: Colors.grey),
                           child: Text(
-                            'Cancel'.tr,
+                            'Play'.tr,
                             style: TextStyle(
-                              color: Color(0xffF4C708),
+                              color: _ctr.selectItemList.isNotEmpty
+                                  ? Color(0xffF4C708)
+                                  : Colors.grey[350],
                               fontSize: 14.sp,
                               fontFamily: FONT_MEDIUM,
                             ),
@@ -77,36 +119,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (_ctr.bean.ifPlayer == false) 15.horizontalSpace,
-                    if (_ctr.bean.ifPlayer == false)
-                      Expanded(
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => _ctr.playGame(),
-                          child: Container(
-                            height: 40.h,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40.r),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFFD49C21), Color(0xFFE96524)],
-                              ),
-                            ),
-                            child: Text(
-                              'Play'.tr,
-                              style: TextStyle(
-                                color: Color(0xffF4C708),
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+                ],
               ),
             ),
           ],
@@ -207,61 +220,29 @@ class SideKickMatchSucPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.w, top: 7.h),
-                            child: Text(
-                              _ctr.playerList[i].nickname,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontFamily: FONT_MEDIUM),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                              left: 10.w,
-                              top: 7.h,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 4.h,
-                              horizontal: 7.w,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.r),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  Color(0xFFF351BD),
-                                  Color(0xFFFF1549),
-                                ],
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.w, top: 7.h),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                _ctr.playerList[i].nickname,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                // 0男 1女 2未知
-                                Image.asset(
-                                  _ctr.playerList[i].sex == 0
-                                      ? ImageUtils.iconSex0
-                                      : ImageUtils.iconSex1,
-                                  width: 7.w,
-                                  height: 7.h,
-                                ),
-                                3.horizontalSpace,
-                                Text(
-                                  '${_ctr.playerList[i].age}',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 9.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                            5.horizontalSpace,
+                            SexAndAgeWidget(
+                              age: _ctr.playerList[i].age,
+                              sex: _ctr.playerList[i].sex,
+                            )
+                          ],
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -286,27 +267,39 @@ class SideKickMatchSucPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            8.horizontalSpace,
-                            Container(
-                              width: 1.w,
-                              height: 10.h,
-                              color: Color(0xffc3c3c3),
-                            ),
-                            8.horizontalSpace,
-                            Expanded(
-                              child: Text(
-                                '${_ctr.playerList[i].levelNameEn}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
                           ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 10.w,
+                          bottom: 7.h,
+                        ),
+                        child: Text(
+                          '${_ctr.playerList[i].levelNameEn}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 10.w,
+                          bottom: 7.h,
+                        ),
+                        child: Text(
+                          '${_ctr.playerList[i].pirce.toString()}/${_ctr.playerList[i].unit}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       // Expanded(

@@ -28,8 +28,8 @@ class SideKickMatchController extends GetxController {
   String? gid;
 
   TextEditingController quantityCtr = TextEditingController(text: '1');
-  TextEditingController minPriceCtr = TextEditingController(text: '2');
-  TextEditingController maxPriceCtr = TextEditingController(text: '20');
+  TextEditingController minPriceCtr = TextEditingController(text: '10');
+  TextEditingController maxPriceCtr = TextEditingController(text: '240');
   TextEditingController requestsPriceCtr = TextEditingController();
 
   @override
@@ -49,34 +49,7 @@ class SideKickMatchController extends GetxController {
       MatchingModel matchingModel = MatchingModel.fromJson(result);
       if (matchingModel.players.isNotEmpty) {
         // 已经有匹配好的接单人了
-        List<JumpMatchSucBean> beans = [];
-        matchingModel.players.forEach((element) {
-          JumpMatchSucBean bean = JumpMatchSucBean(
-            memberCode: element.memberCode,
-            orderId: matchingModel.orderId.toString(),
-            avatar: element.avatar,
-            nickname: element.nickname,
-            sex: element.sex,
-            age: element.age,
-            stars: element.stars,
-            levelNameEn: element.levelNameEn,
-            tags: matchingModel.types,
-            category: matchingModel.category,
-            game: matchingModel.game,
-            priceRange: '${matchingModel.minPrice}~${matchingModel.maxPrice}',
-            unit: matchingModel.unit,
-            launguage: matchingModel.language,
-
-            skillAuthId: element.skillAuthId,
-            liveuid: element.liveuid,
-            serviceItemId: element.serviceItemId,
-          );
-          beans.add(bean);
-        });
-        Get.offAndToNamed(
-          AppPages.side_kick_match_suc_page,
-          arguments: beans,
-        );
+        _jumpMatchSucPage(matchingModel);
       } else {
         // 继续在倒计时界面
         _jumpMatchingPage(
@@ -96,7 +69,7 @@ class SideKickMatchController extends GetxController {
 
       others.value = _matchInitModel.others;
       if (others.isNotEmpty) {
-        selectTags.add(others[0]);
+        selectTags.assignAll(others.value);
       }
       if (_matchInitModel.services.isNotEmpty == true) {
         category.value = _matchInitModel.services[0].category;
@@ -134,6 +107,10 @@ class SideKickMatchController extends GetxController {
       EasyLoading.showToast('The max price cannot be lower than the min price'.tr);
       return;
     }
+    if (double.parse(maxPriceCtr.text) > 240.0 || double.parse(minPriceCtr.text) < 10.0) {
+      EasyLoading.showToast('The Price Range is 10~240'.tr);
+      return;
+    }
     if (quantityCtr.text.isEmpty) {
       EasyLoading.showToast('Please enter the quantity'.tr);
       return;
@@ -151,7 +128,11 @@ class SideKickMatchController extends GetxController {
 
     Map tagsMap = {};
     selectTags.forEach((element) {
-      tagsMap[element.name] = element.value;
+      if (tagsMap.containsKey(element.name)) {
+        tagsMap[element.name] = '${tagsMap[element.name]},${element.value}';
+      } else {
+        tagsMap[element.name] = element.value;
+      }
     });
 
     Map params = {
@@ -180,31 +161,37 @@ class SideKickMatchController extends GetxController {
     );
   }
 
-  void _jumpMatchSucPage(String language, int orderId) {
-    // JumpMatchSucBean bean = JumpMatchSucBean(
-    //   memberCode: matchOperationModel.memberCode,
-    //   orderId: orderId.toString(),
-    //   avatar: matchOperationModel.avatar,
-    //   nickname: matchOperationModel.nickname,
-    //   sex: matchOperationModel.sex,
-    //   age: matchOperationModel.age,
-    //   stars: matchOperationModel.stars,
-    //   levelNameEn: matchOperationModel.levelNameEn,
-    //   tags: matchOperationModel.orderInfo.types,
-    //   skillAuthId: matchOperationModel.skillAuthId,
-    //   liveuid: matchOperationModel.liveuid,
-    //   serviceItemId: matchOperationModel.serviceItemId,
-    //   category: model.category,
-    //   game: model.game,
-    //   priceRange: '${model.minPrice}~${model.maxPrice}',
-    //   unit: model.unit,
-    //   launguage: model.language,
-    // );
-    // bean.ifPlayer = false;
-    // Get.offAndToNamed(
-    //   AppPages.side_kick_match_suc_page,
-    //   arguments: bean,
-    // );
+  void _jumpMatchSucPage(MatchingModel matchingModel) {
+    List<JumpMatchSucBean> beans = [];
+    matchingModel.players.forEach((element) {
+      JumpMatchSucBean bean = JumpMatchSucBean(
+        uid: matchingModel.uid,
+        pirce: element.pirce,
+        memberCode: element.memberCode,
+        orderId: matchingModel.orderId.toString(),
+        avatar: element.avatar,
+        nickname: element.nickname,
+        sex: element.sex,
+        age: element.age,
+        stars: element.stars,
+        levelNameEn: element.levelNameEn,
+        tags: matchingModel.types,
+        category: matchingModel.category,
+        game: matchingModel.game,
+        priceRange: '${matchingModel.minPrice}~${matchingModel.maxPrice}',
+        unit: matchingModel.unit,
+        launguage: matchingModel.language,
+
+        skillAuthId: element.skillAuthId,
+        liveuid: element.liveuid,
+        serviceItemId: element.serviceItemId,
+      );
+      beans.add(bean);
+    });
+    Get.offAndToNamed(
+      AppPages.side_kick_match_suc_page,
+      arguments: beans,
+    );
   }
 
   void _jumpMatchingPage({
@@ -316,7 +303,7 @@ class SideKickMatchController extends GetxController {
     final result = await Get.dialog(
       SelectorDialog(
         items: items,
-        title: "Select $flag".tr,
+        title: 'Select $flag',
         showInfo: true,
       ),
       barrierColor: Colors.black26,

@@ -48,8 +48,8 @@ class SideKickMatchSucController extends GetxController {
         break;
 
       case 'match_order_boss_cancel':
-        // 发单人取消
-        if (bean.ifPlayer == true) {
+        // 发单人取消，接单人如果还在这个页面则关闭
+        if (bean.uid != UserController.find.userProfile.value.pwId) {
           Get.back();
         }
         break;
@@ -60,6 +60,8 @@ class SideKickMatchSucController extends GetxController {
             MatchOperationModel.fromJson(map["message"]);
 
         JumpMatchSucBean sucBean = JumpMatchSucBean(
+          uid: matchOperationModel.orderInfo.uid,
+          pirce: matchOperationModel.pirce,
           memberCode: matchOperationModel.memberCode,
           orderId: matchOperationModel.orderId.toString(),
           avatar: matchOperationModel.avatar,
@@ -78,7 +80,6 @@ class SideKickMatchSucController extends GetxController {
           unit: bean.unit,
           launguage: bean.launguage,
         );
-        bean.ifPlayer = false;
 
         playerList.addIf(!playerList.contains(sucBean), sucBean);
         break;
@@ -106,7 +107,8 @@ class SideKickMatchSucController extends GetxController {
 
   void cancelOrder() async {
     EasyLoading.show();
-    await MatchApi.cancelAcceptMatchOrder(playerList[0].orderId, playerList[0].ifPlayer);
+    await MatchApi.cancelAcceptMatchOrder(playerList[0].orderId,
+        playerList[0].uid == UserController.find.userProfile.value.pwId);
     EasyLoading.dismiss();
 
     Get.back();
@@ -114,7 +116,6 @@ class SideKickMatchSucController extends GetxController {
 
   void playGame() async {
     EasyLoading.show();
-
     List<Map<String, int>> params = [];
     selectItemList.forEach((item) {
       Map<String, int> map = {

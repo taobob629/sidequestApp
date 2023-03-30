@@ -63,6 +63,7 @@ class SideKickMatchingController extends GetxController {
             MatchOperationModel.fromJson(map["message"]);
 
         JumpMatchSucBean bean = JumpMatchSucBean(
+          uid: matchOperationModel.orderInfo.uid,
           memberCode: matchOperationModel.memberCode,
           orderId: matchOperationModel.orderId.toString(),
           avatar: matchOperationModel.avatar,
@@ -80,8 +81,8 @@ class SideKickMatchingController extends GetxController {
           priceRange: '${model.minPrice}~${model.maxPrice}',
           unit: model.unit,
           launguage: model.language,
+          pirce: matchOperationModel.pirce,
         );
-        bean.ifPlayer = false;
 
         List<JumpMatchSucBean> beans = [];
         beans.add(bean);

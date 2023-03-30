@@ -17,6 +17,8 @@ class MatchOrderPlayer {
     required this.id,
     required this.maxPrice,
     required this.age,
+    required this.quantity,
+    required this.requests,
   });
 
   String memberCode;
@@ -31,11 +33,13 @@ class MatchOrderPlayer {
   String unit;
   String game;
   String createTime;
+  String requests;
   int minPrice;
   String nickname;
   int id;
   int maxPrice;
   int age;
+  int quantity;
 
   factory MatchOrderPlayer.fromJson(Map<String, dynamic> json) => MatchOrderPlayer(
     memberCode: json["memberCode"],
@@ -55,6 +59,8 @@ class MatchOrderPlayer {
     id: json["id"],
     maxPrice: json["maxPrice"],
     age: json["age"],
+    quantity: json["quantity"],
+    requests: json["requests"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

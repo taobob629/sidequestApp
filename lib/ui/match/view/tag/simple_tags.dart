@@ -90,7 +90,9 @@ class SimpleTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    selectStr.assign(content[0].value);
+    content.forEach((element) {
+      selectStr.add(element.value);
+    });
 
     return Obx(
       () => Wrap(

@@ -5,7 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/model/match_init_model.dart';
 
 import '../../api/match_api.dart';
 import '../../config/icon_font.dart';
@@ -92,21 +91,20 @@ class MatchTopDialog extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 50.w,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 50.w,
-                      height: 50.w,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          player.avatar,
-                        ),
+              Row(
+                children: [
+                  Container(
+                    width: 50.w,
+                    height: 50.w,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        player.avatar,
                       ),
                     ),
-                    6.horizontalSpace,
-                    Column(
+                  ),
+                  6.horizontalSpace,
+                  Expanded(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -165,44 +163,47 @@ class MatchTopDialog extends StatelessWidget {
                             ),
                           ],
                         ),
-                        4.verticalSpace,
-                        Row(
-                          children: [
-                            Text(
-                              player.language,
-                              style: TextStyle(
-                                color: Color(0xff666666),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                            Container(
-                              width: 1.w,
-                              height: 8.h,
-                              color: Color(0xffC1A3DB),
-                              margin: EdgeInsets.symmetric(horizontal: 5.w),
-                            ),
-                            Text(
-                              player.unit,
-                              style: TextStyle(
-                                color: Color(0xff666666),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          '${player.game}',
+                          style: TextStyle(
+                            color: Color(0xff666666),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          '${player.minPrice}~${player.maxPrice}/${player.unit} ${player.quantity} quantity',
+                          style: TextStyle(
+                            color: Color(0xff666666),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Expanded(
+                      child: Text(
+                        player.requests,
+                        style: TextStyle(
+                          color: Color(0xff666666),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () => joinGame(1),
@@ -274,6 +275,8 @@ class MatchTopDialog extends StatelessWidget {
       MatchOperationModel model = MatchOperationModel.fromJson(result.data);
 
       JumpMatchSucBean bean = JumpMatchSucBean(
+        uid: model.orderInfo.uid,
+        pirce: model.pirce,
         memberCode: model.memberCode,
         orderId: model.orderId.toString(),
         avatar: model.avatar,
@@ -293,7 +296,6 @@ class MatchTopDialog extends StatelessWidget {
         liveuid: model.liveuid,
         serviceItemId: model.serviceItemId,
       );
-      bean.ifPlayer = true;
 
       List<JumpMatchSucBean> beans = [];
       beans.add(bean);

@@ -32,7 +32,7 @@ class MatchApi {
   static Future<dynamic> cancelAcceptMatchOrder(
       String id, bool? ifPlayer) async {
     var response;
-    if (ifPlayer == true) {
+    if (ifPlayer == false) {
       // 接单人取消
       response = await http.get(
         '/peiwan/app/selfOrder/cancelAcceptMatchOrder/$id',

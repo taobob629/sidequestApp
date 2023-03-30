@@ -433,9 +433,9 @@ class SideKickMatchPage extends StatelessWidget {
                 labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
               ),
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
-              maxLength: 100,
-              maxLines: 6,
-              minLines: 6,
+              maxLength: 50,
+              maxLines: 3,
+              minLines: 3,
             ),
           )
         ],
