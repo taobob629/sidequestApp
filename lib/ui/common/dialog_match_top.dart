@@ -57,7 +57,7 @@ class MatchTopDialog extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'I want to play games with you'.tr,
+                      'I want to invite you to play the games'.tr,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
