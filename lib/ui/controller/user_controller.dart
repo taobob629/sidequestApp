@@ -310,7 +310,7 @@ class UserController extends GetxController {
     switch (map["type"]) {
       case 'match_order_player':
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
-        
+
         Get.dialog(
           MatchTopDialog(player: player),
           barrierColor: Colors.black26,

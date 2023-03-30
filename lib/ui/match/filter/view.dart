@@ -7,6 +7,7 @@ import 'package:wy/res/dimens.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
+import '../../../image_utils.dart';
 import '../../common/colorful_button.dart';
 import '../view/tag/simple_tags.dart';
 import 'controller.dart';
@@ -193,7 +194,7 @@ class SideKickMatchPage extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Image.asset(
-                                      "assets/images/coin_red.webp",
+                                      ImageUtils.coinRed,
                                       width: 15.w,
                                       height: 15.w,
                                     ),

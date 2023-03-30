@@ -3,7 +3,7 @@ import 'package:wy/model/match_init_model.dart';
 class MatchOperationModel {
   MatchOperationModel({
     required this.memberCode,
-    required this.pirce,
+    required this.price,
     required this.serviceItemId,
     required this.birthday,
     required this.levelNameEn,
@@ -18,11 +18,13 @@ class MatchOperationModel {
     required this.liveuid,
     required this.orderInfo,
     required this.age,
+    required this.distance,
   });
 
   String memberCode;
-  dynamic pirce;
+  dynamic price;
   int serviceItemId;
+  int distance;
   int birthday;
   String levelNameEn;
   int orderId;
@@ -39,9 +41,9 @@ class MatchOperationModel {
 
   factory MatchOperationModel.fromJson(Map<String, dynamic> json) => MatchOperationModel(
     memberCode: json["memberCode"],
-    pirce: json["pirce"],
+    price: json["price"],
     serviceItemId: json["serviceItemId"],
-    birthday: json["birthday"],
+    birthday: json["birthday"] ?? 0,
     levelNameEn: json["levelNameEn"],
     orderId: json["orderId"],
     skillAuthId: json["skillAuthId"],
@@ -54,11 +56,12 @@ class MatchOperationModel {
     liveuid: json["liveuid"],
     orderInfo: OrderInfo.fromJson(json["orderInfo"]),
     age: json["age"],
+    distance: json["distance"],
   );
 
   Map<String, dynamic> toJson() => {
     "memberCode": memberCode,
-    "pirce": pirce,
+    "price": price,
     "serviceItemId": serviceItemId,
     "birthday": birthday,
     "levelNameEn": levelNameEn,

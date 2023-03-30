@@ -60,8 +60,9 @@ class SideKickMatchSucController extends GetxController {
             MatchOperationModel.fromJson(map["message"]);
 
         JumpMatchSucBean sucBean = JumpMatchSucBean(
+          distance: matchOperationModel.distance,
           uid: matchOperationModel.orderInfo.uid,
-          pirce: matchOperationModel.pirce,
+          price: matchOperationModel.price,
           memberCode: matchOperationModel.memberCode,
           orderId: matchOperationModel.orderId.toString(),
           avatar: matchOperationModel.avatar,
@@ -81,7 +82,7 @@ class SideKickMatchSucController extends GetxController {
           launguage: bean.launguage,
         );
 
-        playerList.addIf(!playerList.contains(sucBean), sucBean);
+        playerList.add(sucBean);
         break;
     }
   }

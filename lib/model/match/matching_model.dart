@@ -25,10 +25,12 @@ class MatchingModel {
     required this.minPrice,
     required this.id,
     required this.maxPrice,
+    required this.distance,
   });
 
   List<Language> types;
   int gid;
+  int distance;
   String category;
   int orderId;
   List<Player> players;
@@ -55,6 +57,7 @@ class MatchingModel {
     minPrice: json["minPrice"],
     id: json["id"],
     maxPrice: json["maxPrice"],
+    distance: json["distance"],
   );
 
   Map<String, dynamic> toJson() => {

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/widget/home/index.dart';
 
 import '../../../image_utils.dart';
 import '../../../widget/home/sex_age_widget.dart';
@@ -202,23 +203,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                         ),
                         padding: EdgeInsets.only(right: 5.w, bottom: 8.h),
                         alignment: Alignment.bottomRight,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Color(0xffF9D11B),
-                              size: 16.sp,
-                            ),
-                            Text(
-                              '<100km',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: LocationWidget(_ctr.playerList[i].distance),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, top: 7.h),
@@ -293,7 +278,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                           bottom: 7.h,
                         ),
                         child: Text(
-                          '${_ctr.playerList[i].pirce.toString()}/${_ctr.playerList[i].unit}',
+                          '${_ctr.playerList[i].price.toString()}/${_ctr.playerList[i].unit}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.sp,

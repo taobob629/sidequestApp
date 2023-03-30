@@ -14,4 +14,5 @@ class ImageUtils {
   static const String iconYuanLv02 = 'assets/images/iconYuanLv02.webp';
   static const String matchTopBg = 'assets/images/matchTopBg.webp';
   static const String iconPicMatch = 'assets/images/iconPicMatch.webp';
+  static const String coinRed = 'assets/images/coin_red.webp';
 }

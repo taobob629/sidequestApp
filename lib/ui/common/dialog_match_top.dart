@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/widget/home/index.dart';
 
 import '../../api/match_api.dart';
 import '../../config/icon_font.dart';
@@ -38,7 +37,7 @@ class MatchTopDialog extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 134.h,
+          height: 150.h,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
@@ -50,6 +49,7 @@ class MatchTopDialog extends StatelessWidget {
           padding: EdgeInsets.only(left: 20.w, right: 6.w),
           margin: EdgeInsets.symmetric(horizontal: 10.w),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: 30.h,
@@ -67,16 +67,24 @@ class MatchTopDialog extends StatelessWidget {
                     ),
                     Expanded(child: SizedBox()),
                     Obx(
-                      () => Text(
-                        countTime.value,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                          fontFamily: FONT_MEDIUM,
+                      () => GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          countDownUtil.stopCountDown();
+                          Get.back();
+                        },
+                        child: Text(
+                          countTime.value,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
                         ),
                       ),
                     ),
                     GestureDetector(
+                      behavior: HitTestBehavior.translucent,
                       onTap: () {
                         countDownUtil.stopCountDown();
                         Get.back();
@@ -119,91 +127,63 @@ class MatchTopDialog extends StatelessWidget {
                                 fontFamily: FONT_MEDIUM,
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 10.w,
-                                top: 7.h,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 4.h,
-                                horizontal: 7.w,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.r),
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    Color(0xFFF351BD),
-                                    Color(0xFFFF1549),
-                                  ],
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  // 0男 1女 2未知
-                                  Image.asset(
-                                    player.sex == 0
-                                        ? ImageUtils.iconSex0
-                                        : ImageUtils.iconSex1,
-                                    width: 5.w,
-                                    height: 7.h,
-                                  ),
-                                  3.horizontalSpace,
-                                  Text(
-                                    '${player.age}',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 9.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                            6.horizontalSpace,
+                            SexAndAgeWidget(
+                              sex: player.sex,
+                              age: player.age,
                             ),
                           ],
                         ),
-                        Text(
-                          '${player.game}',
-                          style: TextStyle(
-                            color: Color(0xff666666),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 11.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          '${player.minPrice}~${player.maxPrice}/${player.unit} ${player.quantity} quantity',
-                          style: TextStyle(
-                            color: Color(0xff666666),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 11.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
+                        6.verticalSpace,
+                        Row(
+                          children: [
+                            Text(
+                              '${player.game}',
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Spacer(),
+                            Text(
+                              '${player.unit} x${player.quantity}',
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                            6.horizontalSpace,
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
+              Padding(
+                padding: EdgeInsets.only(left: 56.w),
+                child: Text(
+                  player.requests,
+                  style: TextStyle(
+                    color: Color(0xff666666),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               Expanded(
                 child: Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        player.requests,
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11.sp,
-                          fontFamily: FONT_MEDIUM,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    Spacer(),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () => joinGame(1),
@@ -275,8 +255,9 @@ class MatchTopDialog extends StatelessWidget {
       MatchOperationModel model = MatchOperationModel.fromJson(result.data);
 
       JumpMatchSucBean bean = JumpMatchSucBean(
+        distance: model.distance,
         uid: model.orderInfo.uid,
-        pirce: model.pirce,
+        price: model.price,
         memberCode: model.memberCode,
         orderId: model.orderId.toString(),
         avatar: model.avatar,
@@ -291,7 +272,6 @@ class MatchTopDialog extends StatelessWidget {
         priceRange: '${model.orderInfo.minPrice}~${model.orderInfo.maxPrice}',
         unit: model.orderInfo.unit,
         launguage: model.orderInfo.language,
-
         skillAuthId: model.skillAuthId,
         liveuid: model.liveuid,
         serviceItemId: model.serviceItemId,
@@ -303,8 +283,8 @@ class MatchTopDialog extends StatelessWidget {
         AppPages.side_kick_match_suc_page,
         arguments: beans,
       );
-    } else {
-      Get.back();
+      return;
     }
+    Get.back();
   }
 }

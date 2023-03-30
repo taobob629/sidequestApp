@@ -3,6 +3,7 @@ import '../match_init_model.dart';
 class JumpMatchSucBean {
 
   int uid;
+  int distance;
   String memberCode;
   String orderId;
   String avatar;
@@ -12,7 +13,7 @@ class JumpMatchSucBean {
   dynamic stars;
   String levelNameEn;
   List<Language> tags;
-  dynamic pirce;
+  dynamic price;
 
   String category;
   String game;
@@ -26,6 +27,7 @@ class JumpMatchSucBean {
 
   JumpMatchSucBean({
     required this.uid,
+    required this.distance,
     required this.memberCode,
     required this.orderId,
     required this.avatar,
@@ -35,7 +37,7 @@ class JumpMatchSucBean {
     required this.stars,
     required this.levelNameEn,
     required this.tags,
-    required this.pirce,
+    required this.price,
     required this.category,
     required this.game,
     required this.priceRange,
@@ -51,7 +53,7 @@ class JumpMatchSucBean {
       identical(this, other) ||
       other is JumpMatchSucBean &&
           runtimeType == other.runtimeType &&
-          orderId == other.orderId;
+          memberCode == other.memberCode;
 
   @override
   int get hashCode =>

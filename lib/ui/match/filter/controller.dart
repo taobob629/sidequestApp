@@ -165,8 +165,9 @@ class SideKickMatchController extends GetxController {
     List<JumpMatchSucBean> beans = [];
     matchingModel.players.forEach((element) {
       JumpMatchSucBean bean = JumpMatchSucBean(
+        distance: matchingModel.distance,
         uid: matchingModel.uid,
-        pirce: element.pirce,
+        price: element.pirce,
         memberCode: element.memberCode,
         orderId: matchingModel.orderId.toString(),
         avatar: element.avatar,
