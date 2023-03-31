@@ -218,7 +218,7 @@ class SideKickMatchController extends GetxController {
       orderId: orderId,
       tags: tags,
     );
-    Get.offAndToNamed(AppPages.side_kick_matching_page, arguments: model);
+    Get.toNamed(AppPages.side_kick_matching_page, arguments: model);
   }
 
   Widget selectLanguage() {

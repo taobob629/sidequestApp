@@ -62,15 +62,12 @@ class SideKickMatchSucPage extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40.r),
-                          border: Border.all(
-                            color: Color(0xffF4C708),
-                            width: 1.w,
-                          ),
+                          color: Colors.grey,
                         ),
                         child: Text(
                           'Cancel'.tr,
                           style: TextStyle(
-                            color: Color(0xffF4C708),
+                            color: Colors.grey[350],
                             fontSize: 14.sp,
                             fontFamily: FONT_MEDIUM,
                           ),
@@ -106,13 +103,15 @@ class SideKickMatchSucPage extends StatelessWidget {
                                 )
                               : BoxDecoration(
                                   borderRadius: BorderRadius.circular(40.r),
-                                  color: Colors.grey),
+                                  border: Border.all(
+                                    color: Color(0xffF4C708),
+                                    width: 1.w,
+                                  ),
+                                ),
                           child: Text(
                             'Play'.tr,
                             style: TextStyle(
-                              color: _ctr.selectItemList.isNotEmpty
-                                  ? Color(0xffF4C708)
-                                  : Colors.grey[350],
+                              color: Color(0xffF4C708),
                               fontSize: 14.sp,
                               fontFamily: FONT_MEDIUM,
                             ),
