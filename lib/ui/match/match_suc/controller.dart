@@ -110,8 +110,8 @@ class SideKickMatchSucController extends GetxController {
 
   void cancelOrder() async {
     EasyLoading.show();
-    await MatchApi.cancelAcceptMatchOrder(bean.orderId,
-        bean.uid == UserController.find.userProfile.value.pwId);
+    await MatchApi.cancelAcceptMatchOrder(
+        bean.orderId, bean.uid == UserController.find.userProfile.value.pwId);
     EasyLoading.dismiss();
 
     Get.back();
@@ -133,11 +133,11 @@ class SideKickMatchSucController extends GetxController {
     final result = await MatchApi.playGame(params);
     EasyLoading.dismiss();
     if (result != null) {
-      var uk = await Get.to(() {
-        return MulitablePlayOrderPage(
-          serviceItemList: result.serviceItems,
-        );
-      });
+      var uk = await Get.to(
+          () => MulitablePlayOrderPage(
+                serviceItemList: result.serviceItems,
+              ),
+          arguments: bean.orderId);
       // flog('$res', 'Get.to(()=>PlayOrder');
       if (uk != null) {
         if (uk == 0) {
