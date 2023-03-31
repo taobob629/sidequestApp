@@ -95,7 +95,7 @@ class PayApi {
   }
 
   static Future<PayInfoModel> _play(PayOrderModel model) async {
-    var response = await http.post('/peiwan/app/new/orders/setMulitOrder', data: {"preOrdersBos": model.preOrdersBos});
+    var response = await http.post('/peiwan/app/new/orders/setMulitOrder', data: {"orderId": model.orderId, "preOrdersBos": model.preOrdersBos});
 
     PayInfoModel payInfoModel = PayInfoModel();
     if (model.payType == 2) {
@@ -106,7 +106,6 @@ class PayApi {
         if (response.data is String) {
           payInfoModel.uk = response.data;
         }
-        // payInfoModel.orderNo = response.data;
       }
       return payInfoModel;
     }

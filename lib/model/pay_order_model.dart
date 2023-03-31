@@ -44,6 +44,7 @@ class PayOrderModel {
   late String des = "";
   late String serviceItemId = "";
   late String code = "";
+  late String orderId = "";
 
   late String totalAmount = "0";
 
