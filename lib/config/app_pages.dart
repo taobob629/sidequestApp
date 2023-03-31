@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/bindings.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/view.dart';
 import 'package:wy/ui/frame/profile/sidekick/bindings.dart';
 import 'package:wy/ui/frame/profile/sidekick/view.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
@@ -88,6 +90,7 @@ class AppPages {
   static const SideKick = '/sidekick_page';
   static const Refound = '/refound_page';
   static const AddSkillItem = '/add_skill_item_page';
+  static const Record = '/record_page';
   static const side_kick_match_page = '/side_kick_match_page';
   static const side_kick_match_suc_page = '/side_kick_match_suc_page';
   static const side_kick_matching_page = '/side_kick_matching_page';
@@ -187,6 +190,7 @@ class AppPages {
     GetPage(name: SideKick, page: () => SideKickPage()),
     GetPage(name: SideKick, page: () => SideKickPage()),
     GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
+    GetPage(name: Record, page: () => RecordViewPage(), binding: RecordBinding()),
     GetPage(
       name: Refound,
       page: () => OrderRefoundPage(),
