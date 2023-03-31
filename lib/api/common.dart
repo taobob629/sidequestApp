@@ -12,7 +12,7 @@ class Common {
     FormData formData = FormData.fromMap({
       //这里写其他需要传递的参数
       "file": await MultipartFile.fromFile(path,
-          filename: name, contentType: MediaType('audio', 'mpeg'))
+          filename: name, contentType: isVoiceFile?MediaType('audio', 'mp3'):null)
     });
     var response = await http.post(
         isVoiceFile ? '/peiwan/app/profile/uploadVoice' : '/peiwan/app/start/upload',
