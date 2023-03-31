@@ -16,6 +16,7 @@ import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/ui/frame/sidekick/widget/horizontal_list.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../../../image_utils.dart';
 import '../../../widget/refresh_list.dart';

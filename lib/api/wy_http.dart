@@ -9,6 +9,7 @@ import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
@@ -97,10 +98,14 @@ class ApiInterceptor extends InterceptorsWrapper {
       } else {
         EasyLoading.dismiss(animation: false);
         if (respData.msg.isEmpty) {
-          EasyLoading.showError("Server Failure", duration: Duration(seconds: 3));
+          showErrorWidget("Server Failure");
         } else {
-          EasyLoading.showError("${respData.msg}", duration: Duration(seconds: 3));
+          showErrorWidget("${respData.msg}");
         }
+
+        response.data = respData.data;
+        response.statusMessage = respData.msg;
+        return handler.next(response);
       }
     }
   }

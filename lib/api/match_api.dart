@@ -17,11 +17,19 @@ class MatchApi {
     return response.data;
   }
 
-  static Future<dynamic> acceptMatchOrder(
+  static Future<List<MatchOperationModel>?> acceptMatchOrder(
       String id, Map<String, dynamic> params) async {
     var response = await http.get('/peiwan/app/selfOrder/acceptMatchOrder/$id',
         queryParameters: params);
-    return response;
+
+    if (response.data == null) {
+      return null;
+    }
+    List<MatchOperationModel> list = response.data
+        .map<MatchOperationModel>((item) => MatchOperationModel.fromJson(item))
+        .toList();
+
+    return list;
   }
 
   static Future<dynamic> stopMatch(int id) async {

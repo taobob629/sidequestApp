@@ -243,48 +243,49 @@ class MatchTopDialog extends StatelessWidget {
   }
 
   void joinGame(int operation) async {
+    countDownUtil.stopCountDown();
+
     EasyLoading.show();
     Map<String, dynamic> params = {"operation": operation};
-    final result =
+    List<MatchOperationModel>? result =
         await MatchApi.acceptMatchOrder(player.orderId.toString(), params);
     EasyLoading.dismiss();
 
-    countDownUtil.stopCountDown();
-
-    if (result != null && result.data != null) {
-      MatchOperationModel model = MatchOperationModel.fromJson(result.data);
-
-      JumpMatchSucBean bean = JumpMatchSucBean(
-        distance: model.distance,
-        uid: model.orderInfo.uid,
-        price: model.price,
-        memberCode: model.memberCode,
-        orderId: model.orderId.toString(),
-        avatar: model.avatar,
-        nickname: model.nickname,
-        sex: model.sex,
-        age: model.age,
-        stars: model.stars,
-        levelNameEn: model.levelNameEn,
-        tags: model.orderInfo.types,
-        category: model.orderInfo.category,
-        game: model.orderInfo.game,
-        priceRange: '${model.orderInfo.minPrice}~${model.orderInfo.maxPrice}',
-        unit: model.orderInfo.unit,
-        launguage: model.orderInfo.language,
-        skillAuthId: model.skillAuthId,
-        liveuid: model.liveuid,
-        serviceItemId: model.serviceItemId,
-      );
-
-      List<JumpMatchSucBean> beans = [];
-      beans.add(bean);
-      Get.offAndToNamed(
-        AppPages.side_kick_match_suc_page,
-        arguments: beans,
-      );
+    if (result == null) {
+      Get.back();
       return;
     }
-    Get.back();
+
+    List<JumpMatchSucBean> beans = [];
+    result.forEach((element) {
+      JumpMatchSucBean bean = JumpMatchSucBean(
+        distance: element.distance,
+        uid: element.orderInfo.uid,
+        price: element.price,
+        memberCode: element.memberCode,
+        orderId: element.orderId.toString(),
+        avatar: element.avatar,
+        nickname: element.nickname,
+        sex: element.sex,
+        age: element.age,
+        stars: element.stars,
+        levelNameEn: element.levelNameEn,
+        tags: element.orderInfo.types,
+        category: element.orderInfo.category,
+        game: element.orderInfo.game,
+        priceRange: '${element.orderInfo.minPrice}~${element.orderInfo.maxPrice}',
+        unit: element.orderInfo.unit,
+        launguage: element.orderInfo.language,
+        skillAuthId: element.skillAuthId,
+        liveuid: element.liveuid,
+        serviceItemId: element.serviceItemId,
+      );
+
+      beans.add(bean);
+    });
+    Get.offAndToNamed(
+      AppPages.side_kick_match_suc_page,
+      arguments: beans,
+    );
   }
 }

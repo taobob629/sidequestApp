@@ -82,7 +82,9 @@ class SideKickMatchSucController extends GetxController {
           launguage: bean.launguage,
         );
 
-        playerList.add(sucBean);
+        if (!playerList.contains(sucBean)) {
+          playerList.add(sucBean);
+        }
         break;
     }
   }
@@ -108,8 +110,8 @@ class SideKickMatchSucController extends GetxController {
 
   void cancelOrder() async {
     EasyLoading.show();
-    await MatchApi.cancelAcceptMatchOrder(playerList[0].orderId,
-        playerList[0].uid == UserController.find.userProfile.value.pwId);
+    await MatchApi.cancelAcceptMatchOrder(bean.orderId,
+        bean.uid == UserController.find.userProfile.value.pwId);
     EasyLoading.dismiss();
 
     Get.back();
