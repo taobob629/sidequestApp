@@ -167,25 +167,28 @@ class OtherProfilePage extends StatelessWidget {
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  Container(
-                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                    margin: EdgeInsets.only(right: 10),
-                                                                    height: 16.h,
-                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Image.asset(
-                                                                          "assets/images/profile/icon_dibiao.webp",
-                                                                          width: 8,
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width: 5,
-                                                                        ),
-                                                                        Text(
-                                                                          t.player.value.location.country,
-                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                        ),
-                                                                      ],
+                                                                  Visibility(
+                                                                    visible: t.player.value.location.country.isNotEmpty,
+                                                                    child: Container(
+                                                                      padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                      margin: EdgeInsets.only(right: 10),
+                                                                      height: 16.h,
+                                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Image.asset(
+                                                                            "assets/images/profile/icon_dibiao.webp",
+                                                                            width: 8,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width: 5,
+                                                                          ),
+                                                                          Text(
+                                                                            t.player.value.location.country,
+                                                                            style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   )
                                                                 ],

@@ -12,6 +12,7 @@ import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/index.dart';
 
 import '../model/album_item_model.dart';
+import 'mdoel/player_info_mdoel.dart';
 
 class OtherAlbumPage extends StatelessWidget {
   OtherAlbumPage({Key? key}) : super(key: key);
@@ -292,9 +293,12 @@ class OtherAlbumController extends GetxRefreshController<AlbumItemModel> {
   static OtherAlbumController get find => Get.find();
   // final ImagePicker _picker = ImagePicker();
   final list = <AlbumItemModel>[].obs;
+  PlayerInfoModel player = PlayerInfoModel();
+
   @override
   void onInit() {
     initialRefresh = true;
+    player = Get.arguments;
     super.onInit();
   }
 
@@ -351,7 +355,7 @@ class OtherAlbumController extends GetxRefreshController<AlbumItemModel> {
   @override
   Future<List<AlbumItemModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await ProfileApi.getPhotoList(page: pageNum);
+    return await ProfileApi.getOtherPhotos(page: pageNum, uid: player.uid);
     throw UnimplementedError();
   }
 }

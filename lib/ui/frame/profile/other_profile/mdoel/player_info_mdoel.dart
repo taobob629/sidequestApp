@@ -50,8 +50,9 @@ class PlayerInfoModel {
     online = json['online'] == 1;
     ranking = json['ranking'] ?? ranking;
     age = json['age'] ?? age;
-    if ((json["country"] is String)) {
-      location = CountryModel.fromJson(jsonDecode(json["location"].replaceAll("""\\""", """\\\\""")));
+    var loc = json["country"].toString();
+    if (loc.isNotEmpty && loc != "null") {
+      location = CountryModel.fromJson(jsonDecode(loc.replaceAll("""\\""", """\\\\""")));
     } else {
       location = CountryModel();
     }

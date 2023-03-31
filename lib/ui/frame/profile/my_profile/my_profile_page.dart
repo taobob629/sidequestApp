@@ -7,10 +7,12 @@ import 'package:wy/ui/frame/messages/messages_page.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../profile/edit/edit_profile_page.dart';
 import '../../main_page.dart';
 import 'my_album_page.dart';
 import 'my_dashboard_page.dart';
 import 'my_posts_page.dart';
+import 'profile_edit_page.dart';
 
 class MyProfilePage extends StatelessWidget {
   MyProfilePage({Key? key}) : super(key: key);
@@ -131,25 +133,28 @@ class MyProfilePage extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                  margin: EdgeInsets.only(right: 10),
-                                                  height: 16.h,
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                  child: Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        "assets/images/profile/icon_dibiao.webp",
-                                                        width: 8,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        userController.userProfile.value.country.country,
-                                                        style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                      ),
-                                                    ],
+                                                Visibility(
+                                                  visible: userController.userProfile.value.location.country.isNotEmpty,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                                    margin: EdgeInsets.only(right: 10),
+                                                    height: 16.h,
+                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/images/profile/icon_dibiao.webp",
+                                                          width: 8,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          userController.userProfile.value.location.country,
+                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 )
                                               ],
@@ -180,35 +185,40 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(right: 25),
-                              child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                                Obx(() => Container(
-                                      height: 64,
-                                      alignment: Alignment.bottomCenter,
-                                      child: ClipOval(
-                                        child: ImageUtil.networkImage(
-                                          url: userController.userProfile.value.avatar,
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.cover,
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => ProfileEditPage());
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 25),
+                                child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
+                                  Obx(() => Container(
+                                        height: 64,
+                                        alignment: Alignment.bottomCenter,
+                                        child: ClipOval(
+                                          child: ImageUtil.networkImage(
+                                            url: userController.userProfile.value.avatar,
+                                            width: 60,
+                                            height: 60,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                    )),
-                                Image.asset(
-                                  "assets/images/profile_avatar_border.webp",
-                                  width: 64,
-                                ),
-                                Obx(() => Visibility(
-                                      visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
-                                      child: Positioned(
-                                          bottom: -10,
-                                          child: Image.asset(
-                                            "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
-                                            height: 28,
-                                          )),
-                                    )),
-                              ]),
+                                      )),
+                                  Image.asset(
+                                    "assets/images/profile_avatar_border.webp",
+                                    width: 64,
+                                  ),
+                                  Obx(() => Visibility(
+                                        visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
+                                        child: Positioned(
+                                            bottom: -10,
+                                            child: Image.asset(
+                                              "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
+                                              height: 28,
+                                            )),
+                                      )),
+                                ]),
+                              ),
                             )
                           ],
                         ),
