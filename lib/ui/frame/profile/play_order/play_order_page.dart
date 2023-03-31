@@ -344,6 +344,8 @@ class MulitablePlayOrderController extends GetxController {
 
   var fellv = 0.0.obs;
 
+  String orderId = "";
+
   MulitablePlayOrderController(List<ServiceItem> serviceItemList, String code) {
     remarksController = TextEditingController();
     this.serviceItemList.addAll(serviceItemList);
@@ -355,6 +357,7 @@ class MulitablePlayOrderController extends GetxController {
 
   @override
   void onInit() {
+    orderId = Get.arguments ?? "";
     super.onInit();
   }
 
@@ -526,6 +529,7 @@ class MulitablePlayOrderController extends GetxController {
     PayOrderModel model = PayOrderModel();
     model.type = -2;
     // model.totalAmount = totalAmount.value.toString();
+    model.orderId = orderId;
     model.svctm = this.time.value.millisecondsSinceEpoch;
     model.preOrdersBos = serviceItemList
         .map((item) => {
