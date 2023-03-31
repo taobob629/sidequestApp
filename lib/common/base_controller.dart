@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import 'page/empty_view.dart';
 
 class PageState {
-  static const  int initialing = 0;
-  static const  int loaded = 1;
+  static const int initialing = 0;
+  static const int loaded = 1;
   static const int err = 2;
   static const int empty = 3;
   static const int sucess = 4;
@@ -32,6 +32,7 @@ class BasePageController extends GetxController {
   dismissLoadding() {
     EasyLoading.dismiss();
   }
+
   toast(var msg) {
     EasyLoading.showToast(msg);
   }
@@ -44,6 +45,9 @@ class BasePageController extends GetxController {
     EasyLoading.showError(msg);
   }
 
+  progress(double progress){
+    EasyLoading.showProgress(progress);
+}
   buildEmpty() {
     return EmptyView();
   }

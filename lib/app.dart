@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/controller/bindings.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/storage_manager.dart';
@@ -45,6 +46,7 @@ class App extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return GetMaterialApp(
+              initialBinding:InitialBindings() ,
               // useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,
