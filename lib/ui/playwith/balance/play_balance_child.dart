@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
+import 'package:wy/image_utils.dart';
 import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/model/chage_rule_model.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -22,6 +24,8 @@ import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
+
+import '../../../model/paymethod/local_pay_method_bean.dart';
 
 class PlayBalanceChild extends StatefulWidget {
   @override
@@ -115,7 +119,8 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         padding: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.white24))),
         child: TextField(
           maxLines: 1,
           inputFormatters: [PrecisionLimitFormatter(2)],
@@ -124,10 +129,15 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
           cursorColor: Colors.white70,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 26, fontFamily: "DIN"),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration:
-              const InputDecoration(hintText: "£1", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(
+              hintText: "£1",
+              hintStyle: TextStyle(
+                  fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 0)),
         ));
   }
 
@@ -135,14 +145,36 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15),
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFFFF3BC1)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16), color: Color(0xFFFF3BC1)),
       child: AspectRatio(
         aspectRatio: 343 / 136,
         child: Stack(children: [
-          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: BottomPath(), child: Container(color: Colors.white30))),
-          Positioned(left: 0, right: 0, bottom: 0, height: 100, child: ClipPath(clipper: _Bottom2Path(), child: Container(color: Colors.white30))),
-          Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
-          Positioned(right: 0, top: -10, width: 100, child: Image.asset("assets/images/bg_balance.webp")),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 100,
+              child: ClipPath(
+                  clipper: BottomPath(),
+                  child: Container(color: Colors.white30))),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 100,
+              child: ClipPath(
+                  clipper: _Bottom2Path(),
+                  child: Container(color: Colors.white30))),
+          Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [Color(0xaaFF3BC2), Color(0x998B00FF)]))),
+          Positioned(
+              right: 0,
+              top: -10,
+              width: 100,
+              child: Image.asset("assets/images/bg_balance.webp")),
           Obx(() => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -153,7 +185,10 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
                     count: "${userController.userInfoModel.value.coin}",
                     icon: '',
                   ),
-                  CountView(icon: "votes", title: "Diamond".tr, count: "${controller.diamonds}"),
+                  CountView(
+                      icon: "votes",
+                      title: "Diamond".tr,
+                      count: "${controller.diamonds}"),
                 ],
               )),
         ]),
@@ -198,15 +233,18 @@ class BottomPath extends CustomClipper<Path> {
 
     controlPoint = Offset(size.width * 5 / 100, size.height * 80 / 100); //曲线开始点
     endPoint = Offset(size.width * 20 / 100, size.height * 45 / 100); // 曲线结束点
-    path.quadraticBezierTo(controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
+    path.quadraticBezierTo(
+        controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
 
     controlPoint = Offset(size.width * 38 / 100, 0); //曲线开始点
     endPoint = Offset(size.width * 60 / 100, size.height * 55 / 100); // 曲线结束点
-    path.quadraticBezierTo(controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
+    path.quadraticBezierTo(
+        controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
 
     controlPoint = Offset(size.width * 80 / 100, size.height); //曲线开始点
     endPoint = Offset(size.width, size.height * 75 / 100); // 曲线结束点
-    path.quadraticBezierTo(controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
+    path.quadraticBezierTo(
+        controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
 
     path.lineTo(size.width, size.height); // 第五个点
     return path;
@@ -224,7 +262,8 @@ class _Bottom2Path extends CustomClipper<Path> {
     var path = Path();
     path.moveTo(0, size.height);
     path.lineTo(0, size.height * 55 / 100);
-    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700, size.height * 1.3, size.width, size.height * 60 / 100);
+    path.cubicTo(size.width * 322 / 700, 0, size.width * 382 / 700,
+        size.height * 1.3, size.width, size.height * 60 / 100);
     path.lineTo(size.width, size.height); // 第五个点
     return path;
   }
@@ -253,6 +292,15 @@ class WalletBalancePageController extends GetxListController {
 
   var _coin = 0.obs;
   var _diamonds = 0.obs;
+
+  var payMethodIndex = 0.obs;
+  var localPayMethodBean = LocalPayMethodBean().obs;
+
+  List<LocalPayMethodBean> payMethodList = [
+    LocalPayMethodBean(icon: ImageUtils.icon_pay_pal, name: "Pay pal".tr, isSelect: true),
+    LocalPayMethodBean(icon: ImageUtils.icon_bank, name: "Bank Card".tr),
+    LocalPayMethodBean(icon: ImageUtils.icon_wechat, name: "WeChat Pay".tr),
+  ];
 
   get coin => _coin;
 
@@ -305,6 +353,7 @@ class WalletBalancePageController extends GetxListController {
   @override
   void onInit() {
     super.onInit();
+    localPayMethodBean.value = payMethodList[0];
     privacyCheckController = PrivacyCheckController();
     getBankList();
     amountController = TextEditingController()
@@ -475,7 +524,8 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, 600) && (type == 'withDraw' || type == 'paypal')) {
+    if (!isValidateAmount(votes, 600) &&
+        (type == 'withDraw' || type == 'paypal')) {
       EasyLoading.showInfo('Please enter an valid number greater than 600'.tr);
       return;
     }
@@ -489,7 +539,9 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('Please Enter paypal account!'.tr);
       return;
     }
-    Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) async {
+    Get.dialog(PasswordDialog(),
+            barrierDismissible: true, barrierColor: Colors.black26)
+        .then((value) async {
       if (value == true) {
         if (type == "paypal") {
           await paypalWithdrawRequest(paypalController.text, votes);
@@ -557,5 +609,119 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showSuccess(response.statusMessage!);
     }
     EasyLoading.dismiss();
+  }
+
+  void selectMethodReceipt() async {
+    FocusScope.of(Get.context!).requestFocus(FocusNode());
+    final result = await Get.bottomSheet(Container(
+      decoration: BoxDecoration(
+        color: Color(0xff262731),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15.r),
+          topRight: Radius.circular(15.r),
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 26.h),
+      child: Obx(
+        () => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Text(
+                  "Cancel".tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: "DIN",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            26.verticalSpace,
+            _commonWidget(payMethodIndex.value == 0, 0),
+            Container(
+              height: 1.h,
+              color: Color(0xff2D2E3A),
+              margin: EdgeInsets.symmetric(vertical: 20.h),
+            ),
+            _commonWidget(payMethodIndex.value == 1, 1),
+            Container(
+              height: 1.h,
+              color: Color(0xff2D2E3A),
+              margin: EdgeInsets.symmetric(vertical: 20.h),
+            ),
+            _commonWidget(payMethodIndex.value == 2, 2),
+            15.verticalSpace,
+            FloatingButton(
+              label: "Submit".tr,
+              onTap: () {
+                Get.back(result: payMethodList[payMethodIndex.value]);
+              },
+            ),
+          ],
+        ),
+      ),
+    ));
+    if (result != null) {
+      localPayMethodBean.value = result;
+    }
+  }
+
+  Widget _commonWidget(bool isSelect, int index) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        payMethodIndex.value = index;
+      },
+      child: Row(
+        children: [
+          Image.asset(
+            payMethodList[index].icon!,
+            width: 24.w,
+            height: 24.w,
+          ),
+          6.horizontalSpace,
+          Text(
+            payMethodList[index].name!,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "DIN",
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Spacer(),
+          isSelect
+              ? Container(
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.w),
+                    border: Border.all(color: Color(0xffFFD20E), width: 2.w),
+                  ),
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 12.w,
+                    height: 12.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.w),
+                        color: Color(0xffFFD20E)),
+                  ),
+                )
+              : Container(
+                  width: 20.w,
+                  height: 20.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.w),
+                    border: Border.all(color: Colors.white, width: 1.w),
+                  ),
+                ),
+        ],
+      ),
+    );
   }
 }

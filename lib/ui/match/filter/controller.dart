@@ -62,6 +62,7 @@ class SideKickMatchController extends GetxController {
           minPrice: matchingModel.minPrice.toString(),
           maxPrice: matchingModel.maxPrice.toString(),
           optional: '',
+          isFinish: true,
         );
       }
     } else {
@@ -104,10 +105,12 @@ class SideKickMatchController extends GetxController {
       return;
     }
     if (double.parse(maxPriceCtr.text) < double.parse(minPriceCtr.text)) {
-      EasyLoading.showToast('The max price cannot be lower than the min price'.tr);
+      EasyLoading.showToast(
+          'The max price cannot be lower than the min price'.tr);
       return;
     }
-    if (double.parse(maxPriceCtr.text) > 240.0 || double.parse(minPriceCtr.text) < 10.0) {
+    if (double.parse(maxPriceCtr.text) > 240.0 ||
+        double.parse(minPriceCtr.text) < 10.0) {
       EasyLoading.showToast('The Price Range is 10~240'.tr);
       return;
     }
@@ -158,6 +161,7 @@ class SideKickMatchController extends GetxController {
       minPrice: minPriceCtr.text,
       maxPrice: maxPriceCtr.text,
       optional: requestsPriceCtr.text,
+      isFinish: false,
     );
   }
 
@@ -182,7 +186,6 @@ class SideKickMatchController extends GetxController {
         priceRange: '${matchingModel.minPrice}~${matchingModel.maxPrice}',
         unit: matchingModel.unit,
         launguage: matchingModel.language,
-
         skillAuthId: element.skillAuthId,
         liveuid: element.liveuid,
         serviceItemId: element.serviceItemId,
@@ -205,6 +208,7 @@ class SideKickMatchController extends GetxController {
     required String minPrice,
     required String maxPrice,
     required String optional,
+    required bool isFinish,
   }) {
     SendMatchModel model = SendMatchModel(
       gid: gid == null ? 0 : int.parse(gid!),
@@ -218,7 +222,7 @@ class SideKickMatchController extends GetxController {
       orderId: orderId,
       tags: tags,
     );
-    Get.toNamed(AppPages.side_kick_matching_page, arguments: model);
+    Get.offAndToNamed(AppPages.side_kick_matching_page, arguments: model);
   }
 
   Widget selectLanguage() {
@@ -336,5 +340,15 @@ class SideKickMatchController extends GetxController {
           break;
       }
     }
+  }
+
+  void minQty() {
+    if (int.parse(quantityCtr.text) > 1) {
+      quantityCtr.text = "${int.parse(quantityCtr.text) - 1}";
+    }
+  }
+
+  void addQty() {
+    quantityCtr.text = "${int.parse(quantityCtr.text) + 1}";
   }
 }

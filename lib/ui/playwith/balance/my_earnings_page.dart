@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
@@ -16,6 +17,9 @@ import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
+
+import '../../../config/icon_font.dart';
+import '../../../image_utils.dart';
 
 class MyEarningsPage extends StatefulWidget {
   @override
@@ -50,151 +54,223 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
 
   List<Widget> get item {
     return [
-      PWidget.container(
-        PWidget.column([
-          PWidget.row([
-            PWidget.image('assets/images/ic_balance_votes.webp'),
-            PWidget.boxw(4),
-            PWidget.text('Total amount'.tr, [Color(0xffEEF3FF)], {'exp': true}),
-          ]),
-          PWidget.boxh(10),
-          Obx(() => PWidget.text('${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
-        ]),
-        [null, null, Color(0xff282640)],
-        {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
+      Stack(
+        children: [
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Image.asset(
+                ImageUtils.pic_amount,
+                fit: BoxFit.fill,
+              )),
+          PWidget.container(
+            PWidget.column([
+              PWidget.row([
+                PWidget.image('assets/images/ic_balance_votes.webp'),
+                PWidget.boxw(6),
+                PWidget.text('Total amount'.tr, [Color(0xffEEF3FF), 14, true],
+                    {'exp': true}),
+              ]),
+              PWidget.boxh(10),
+              Obx(() => PWidget.text(
+                  '${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
+            ]),
+            [null, null, null],
+            {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
+          ),
+        ],
       ),
-      // ItemTitle(
-      //     title: "Withdrawal amount".tr,
-      //     subTitle: "",
-      //     actions: Text(
-      //       '${'Min'.tr}:600',
-      //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-      //     )
-      //     ),
       Container(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
-        child: Row(
+        padding: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20.h),
+        margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: Color(0xff262731),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Column(
           children: [
-            Text(
-              "Withdrawal amount".tr,
-              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
-            ),
-            GestureDetector(
-              onTapDown: (details) {
-                print(details.globalPosition);
-                Get.dialog(WithdrawTipsDialog(
-                  offset: details.globalPosition,
-                ));
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 6),
-                width: 24,
-                height: 24,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
-                child: Text(
-                  "?".tr,
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 20),
+            Row(
+              children: [
+                Text(
+                  "Withdrawal amount".tr,
+                  style: TextStyle(
+                      color: Color(0xffb2b9c9),
+                      fontFamily: "DIN",
+                      fontSize: 13),
                 ),
-              ),
-            )
+                GestureDetector(
+                  onTapDown: (details) {
+                    print(details.globalPosition);
+                    Get.dialog(WithdrawTipsDialog(
+                      offset: details.globalPosition,
+                    ));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 6),
+                    width: 12.w,
+                    height: 12.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xffb2b9c9),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Image.asset(
+                      ImageUtils.icon_help,
+                      width: 10.w,
+                      height: 10.w,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            _buildCustomInput(),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: controller.selectMethodReceipt,
+              child: Obx(() => Row(
+                    children: [
+                      Text(
+                        "Method of receipt".tr,
+                        style: TextStyle(
+                          color: Color(0xffb2b9c9),
+                          fontFamily: "DIN",
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      Spacer(),
+                      Image.asset(
+                        controller.localPayMethodBean.value.icon!,
+                        width: 16.w,
+                        height: 16.w,
+                      ),
+                      8.horizontalSpace,
+                      Text(
+                        controller.localPayMethodBean.value.name!,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "DIN",
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      8.horizontalSpace,
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 16.sp,
+                      ),
+                    ],
+                  )),
+            ),
           ],
         ),
       ),
-      _buildCustomInput(),
       Obx(() => Column(
             children: [
-              // CupertinoSegmentedControl(
-              //   children: {
-              //     0: Text(
-              //       "credit",
-              //       style: TextStyle(color: Colors.white),
-              //     ),
-              //     1: Text(
-              //       "paypal",
-              //       style: TextStyle(color: Colors.white),
-              //     ),
-              //   },
-              //   groupValue: controller.withdrawType.value,
-              //   selectedColor: Colors.white,
-              //   unselectedColor: Colors.transparent,
-              //   onValueChanged: (int value) {
-              //     controller.withdrawType.value = value;
-              //   },
+              // Container(
+              //   margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+              //   clipBehavior: Clip.antiAlias,
+              //   decoration: BoxDecoration(
+              //       color: Color(0xff282640),
+              //       borderRadius: BorderRadius.circular(20)),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Radio(
+              //                 value: 0,
+              //                 groupValue: controller.withdrawType.value,
+              //                 onChanged: (value) {
+              //                   print(value);
+              //                   controller.withdrawType.value =
+              //                       int.parse(value.toString());
+              //                 }),
+              //             Text(
+              //               "Bank Card".tr,
+              //               style: TextStyle(color: Colors.white),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Expanded(
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Radio(
+              //                 value: 1,
+              //                 groupValue: controller.withdrawType.value,
+              //                 onChanged: (value) {
+              //                   print(value);
+              //                   controller.withdrawType.value =
+              //                       int.parse(value.toString());
+              //                 }),
+              //             Text(
+              //               "Paypal",
+              //               style: TextStyle(color: Colors.white),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
               // ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 20),
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(20)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio(
-                              value: 0,
-                              groupValue: controller.withdrawType.value,
-                              onChanged: (value) {
-                                print(value);
-                                controller.withdrawType.value = int.parse(value.toString());
-                              }),
-                          Text(
-                            "Bank Card".tr,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio(
-                              value: 1,
-                              groupValue: controller.withdrawType.value,
-                              onChanged: (value) {
-                                print(value);
-                                controller.withdrawType.value = int.parse(value.toString());
-                              }),
-                          Text(
-                            "Paypal",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               if (controller.withdrawType.value == 0) ...[
                 Column(
                   children: [
-                    ItemTitle(
-                      title: "Withdrawal Account".tr,
-                      subTitle: "",
-                      actions: TextButton(
-                        onPressed: () {
-                          if (controller.bankList.length >= 4) {
-                            EasyLoading.showToast('Only 4 bankcards allowed!'.tr);
-                            return;
-                          }
-                          Get.toNamed(AppPages.BindBankCard);
-                        },
-                        child: Row(
-                          children: [
-                            PWidget.image('assets/images/ic_add.webp', [16, 16, null, BoxFit.cover]),
-                            PWidget.boxw(3),
-                            Text(
-                              'Add Account'.tr,
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 16.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                        color: Color(0xff262731),
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Withdrawal amount".tr,
+                            style: TextStyle(
+                                color: Color(0xffb2b9c9),
+                                fontFamily: "DIN",
+                                fontSize: 13),
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.bankList.length >= 4) {
+                                EasyLoading.showToast(
+                                    'Only 4 bankcards allowed!'.tr);
+                                return;
+                              }
+                              Get.toNamed(AppPages.BindBankCard);
+                            },
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: Color(0xffFFCB0E),
+                            ),
+                          ),
+                          4.horizontalSpace,
+                          GestureDetector(
+                            onTap: () {
+                              if (controller.bankList.length >= 4) {
+                                EasyLoading.showToast(
+                                    'Only 4 bankcards allowed!'.tr);
+                                return;
+                              }
+                              Get.toNamed(AppPages.BindBankCard);
+                            },
+                            child: Text(
+                              'Add'.tr,
                               style: TextStyle(
-                                color: Colors.white,
-                                decoration: TextDecoration.underline,
+                                color: Color(0xffFFCB0E),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     //  _buildAccountSelect(context),
@@ -205,17 +281,26 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                 Container(
                     margin: const EdgeInsets.symmetric(horizontal: 15),
                     padding: const EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+                    decoration: BoxDecoration(
+                        border:
+                            Border(bottom: BorderSide(color: Colors.white24))),
                     child: TextField(
                       maxLines: 1,
                       controller: controller.paypalController,
                       cursorColor: Colors.white70,
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.text,
-                      style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 26, fontFamily: "DIN"),
                       // onSubmitted: (text) => controller.changeCustomAmount(text),
                       decoration: const InputDecoration(
-                          hintText: "paypal account", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+                          hintText: "paypal account",
+                          hintStyle: TextStyle(
+                              fontSize: 26,
+                              color: Colors.white30,
+                              fontFamily: "DIN"),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: 0)),
                     )),
               ]
             ],
@@ -231,7 +316,9 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
               controller.withDraw("paypal");
             }
           } else {
-            EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr);
+            EasyLoading.showInfo(
+                'You should read and agree to our seller payment terms first.'
+                    .tr);
           }
         },
       ),
@@ -249,33 +336,78 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       //     }
       //   },
       // ),
-      FloatingButton(
-        label: "Exchange To Coin".tr,
-        onTap: () => controller.privacyCheckController.check() ? controller.withDraw('exchange') : EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr),
+      GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => controller.privacyCheckController.check()
+            ? controller.withDraw('exchange')
+            : EasyLoading.showInfo(
+                'You should read and agree to our seller payment terms first.'
+                    .tr,
+              ),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          height: 40.h,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40.r),
+            border: Border.all(
+              color: Color(0xffF4C708),
+              width: 1.w,
+            ),
+          ),
+          child: Text(
+            'Exchange To Coin'.tr,
+            style: TextStyle(
+              color: Color(0xffF4C708),
+              fontSize: 14.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
+          ),
+        ),
       ),
 
       PWidget.boxh(8),
-      PrivacyCheck(controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
+      PrivacyCheck(
+          controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
     ];
   }
 
   Widget _buildCustomInput() {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        padding: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        margin: EdgeInsets.only(
+          top: 30.h,
+          bottom: 15.h,
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Color(0xff2d2e3a),
+            ),
+          ),
+        ),
         child: TextField(
           maxLines: 1,
           inputFormatters: [PrecisionLimitFormatter(2)],
           controller: controller.amountController,
           focusNode: controller.amountFocusNode,
           cursorColor: Colors.white70,
-          textAlign: TextAlign.center,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(color: Colors.white, fontSize: 26, fontFamily: "DIN"),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontFamily: "DIN",
+          ),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration:
-              const InputDecoration(hintText: "0", hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"), border: InputBorder.none, contentPadding: EdgeInsets.only(top: 0)),
+          decoration: const InputDecoration(
+            hintText: "\$0.00",
+            hintStyle: TextStyle(
+              fontSize: 26,
+              color: Colors.white,
+              fontFamily: "DIN",
+            ),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 0),
+          ),
         ));
   }
 
@@ -287,7 +419,8 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           Container(
             height: 50,
             padding: const EdgeInsets.only(left: 10, right: 15),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+                color: Colors.white10, borderRadius: BorderRadius.circular(12)),
             child: Obx(() {
               return Row(
                 children: [
@@ -303,7 +436,12 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                     padding: const EdgeInsets.only(top: 2),
                     child: Text(
                       "2930118234@qq.com",
-                      style: TextStyle(fontSize: 18, color: controller.accountType.value == 0 ? Colors.white : Colors.white30, fontFamily: "DIN"),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: controller.accountType.value == 0
+                              ? Colors.white
+                              : Colors.white30,
+                          fontFamily: "DIN"),
                     ),
                   )
                 ],
@@ -343,10 +481,13 @@ class WithdrawTipsDialog extends StatelessWidget {
           width: Get.width - offset.dx / 2,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: Color(0xff282640),
+                borderRadius: BorderRadius.circular(10)),
             child: PWidget.container(
               PWidget.column([
-                PWidget.text('Withdrawal and exchange instructions:'.tr, [Color(0xffEEF3FF)]),
+                PWidget.text('Withdrawal and exchange instructions:'.tr,
+                    [Color(0xffEEF3FF)]),
                 Text(
                   '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}\n3. ${'If you withdraw cash from us, you’ll be charged a handling fee of 3%.'.tr}''',
                   style: TextStyle(color: Color(0xff8291B4), height: 1.5),
@@ -363,7 +504,9 @@ class WithdrawTipsDialog extends StatelessWidget {
 
 class Triangle extends CustomClipper<Path> {
   double dir;
+
   Triangle({required this.dir});
+
   @override
   Path getClip(Size size) {
     var path = Path();

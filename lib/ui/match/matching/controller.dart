@@ -108,7 +108,7 @@ class SideKickMatchingController extends GetxController {
     MatchApi.stopMatch(model.orderId).whenComplete(() => EasyLoading.dismiss());
 
     StorageManager.clear(StorageManager.kCountDown);
-    Get.back();
+    Get.offAndToNamed(AppPages.side_kick_match_page);
   }
 
   void _formatTime() {

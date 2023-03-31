@@ -6,8 +6,6 @@ import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/widget/home/index.dart';
 
 import '../../../image_utils.dart';
-import '../../../widget/home/sex_age_widget.dart';
-import '../../common/colorful_button.dart';
 import '../../controller/user_controller.dart';
 import '../view/tag/simple_tags.dart';
 import 'controller.dart';
@@ -24,6 +22,31 @@ class SideKickMatchSucPage extends StatelessWidget {
         () => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (_ctr.bean.uid == UserController.find.userProfile.value.pwId)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Waiting for ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM),
+                  ),
+                  Obx(
+                    () => Text(
+                      _ctr.countTime.value,
+                      style: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             _matchingRequirementsWidget(),
             Expanded(
               child: Padding(

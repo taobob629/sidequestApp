@@ -16,4 +16,10 @@ class ImageUtils {
   static const String iconPicMatch = 'assets/images/iconPicMatch.webp';
   static const String coinRed = 'assets/images/coin_red.webp';
   static const String iconError = 'assets/images/iconError.webp';
+  static const String pic_amount = 'assets/images/pic_amount.webp';
+  static const String icon_help = 'assets/images/icon_help.webp';
+  static const String icon_pay_pal = 'assets/images/icon_pay_pal.webp';
+  static const String icon_bank = 'assets/images/icon_bank.webp';
+  static const String icon_wechat = 'assets/images/icon_wechat.webp';
+  static const String rg_select = 'assets/images/rg_select.png';
 }

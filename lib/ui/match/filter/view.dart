@@ -231,42 +231,118 @@ class SideKickMatchPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Text(
-                          'Unit'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        GestureDetector(
-                          onTap: () => _ctr.selectItem('Unit'),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                            height: 45.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            decoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)).w,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Obx(
-                                    () => Text(
-                                      _ctr.unit.value,
-                                      style: TextStyle(
-                                          color: Color(0xffB2B9C9),
-                                          fontSize: 14.sp),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Unit'.tr,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => _ctr.selectItem('Unit'),
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          top: 6.h, bottom: 20.h),
+                                      height: 45.h,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff313033),
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(8))
+                                                .w,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Obx(
+                                              () => Text(
+                                                _ctr.unit.value,
+                                                style: TextStyle(
+                                                    color: Color(0xffB2B9C9),
+                                                    fontSize: 14.sp),
+                                              ),
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_drop_down_sharp,
+                                            color: Colors.white,
+                                            size: 20.sp,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_sharp,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
+                            25.horizontalSpace,
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Quantity'.tr,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(top: 6.h, bottom: 20.h),
+                                    height: 45.h,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.w),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff313033),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8))
+                                              .w,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: _ctr.minQty,
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                            )),
+                                        Expanded(
+                                          child: TextField(
+                                            controller: _ctr.quantityCtr,
+                                            textAlign: TextAlign.center,
+                                            readOnly: true,
+                                            style: TextStyle(
+                                              color: Color(0xffB2B9C9),
+                                              fontSize: 14.sp,
+                                            ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              // 让文字垂直居中
+                                              isCollapsed: true,
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly
+                                            ],
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                            onTap: _ctr.addQty,
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
                           'Language'.tr,
@@ -296,38 +372,6 @@ class SideKickMatchPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Text(
-                          'Quantity'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                          height: 45.h,
-                          padding: EdgeInsets.symmetric(horizontal: 15.w),
-                          decoration: BoxDecoration(
-                            color: Color(0xff313033),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8)).w,
-                          ),
-                          alignment: Alignment.center,
-                          child: TextField(
-                            controller: _ctr.quantityCtr,
-                            style: TextStyle(
-                              color: Color(0xffB2B9C9),
-                              fontSize: 14.sp,
-                            ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              // 让文字垂直居中
-                              isCollapsed: true,
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
                           ),
                         ),
                         _sideKickTypesWidget(),
