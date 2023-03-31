@@ -67,7 +67,7 @@ void showErrorWidget(String message) {
     ),
   );
 
-  overlayState.insert(overlayEntry);
+  overlayState?.insert(overlayEntry);
   Future.delayed(const Duration(seconds: 3)).then((_) {
     overlayEntry.remove();
   });
