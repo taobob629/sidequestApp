@@ -7,7 +7,7 @@ class ProfileModel {
   String language = "";
   int isAuth = 0;
   int sidekickLevel = 0;
-  CountryModel country = CountryModel();
+  CountryModel location = CountryModel();
   String nickName = "";
   int fans = 0;
   int vipLevel = 0;
@@ -65,10 +65,11 @@ class ProfileModel {
     memberId = json["memberId"] ?? 0;
     backGround = json["backGround"] ?? "";
     pwId = json["pwId"] ?? 0;
-    if ((json["country"] is String)) {
-      country = CountryModel.fromJson(jsonDecode(json["country"].replaceAll("""\\""", """\\\\""")));
+    var loc = json["country"].toString();
+    if (loc.isNotEmpty && loc != "null") {
+      location = CountryModel.fromJson(jsonDecode(loc.replaceAll("""\\""", """\\\\""")));
     } else {
-      country = CountryModel();
+      location = CountryModel();
     }
 
     nickName = json["nickName"] ?? "";

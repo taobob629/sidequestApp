@@ -59,10 +59,8 @@ class ChatPage extends StatelessWidget {
         print(data);
         return GestureDetector(
           onTap: () {
-        //    Get.to(() => OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
-            Get.toNamed(AppPages.OrderDetail,
-                arguments: Map()
-                  ..['id'] =  data['orderId'])?.whenComplete(() => _getPlayOrder());
+            //    Get.to(() => OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
+            Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
           },
           child: Container(
             height: height,
@@ -139,18 +137,7 @@ class ChatPage extends StatelessWidget {
                       height: 15,
                     ),
                     // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
-                    Text(
-                        "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [
-                              d,
-                              '/',
-                              M,
-                              '/',
-                              yyyy,
-                              ' ',
-                              HH,
-                              ':',
-                              nn,
-                            ])}",
+                    Text("${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [d, '/', M, '/', yyyy, ' ', HH, ':', nn])}",
 
                         // Text("${data['addTime']}",
                         style: TextStyle(
