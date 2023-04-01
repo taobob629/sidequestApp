@@ -21,12 +21,14 @@ class SkillItemConfigModel {
       price = double.parse(json['price'].toString());
     }
     name = json['name'];
+    unit = json['unit'];
     enabled = json['enabled'] ?? 1;
   }
 
   double? priceRangeMin;
   String? level;
   double? price;
+  String? unit;//单位
   String? name;
   int? enabled;
   double? priceRangeMax;
@@ -46,6 +48,7 @@ class SkillItemConfigModel {
     final map = <String, dynamic>{};
     map['priceRangeMin'] = priceRangeMin;
     map['level'] = level;
+    map['unit'] = unit;
     map['priceRangeMax'] = priceRangeMax;
     return map;
   }

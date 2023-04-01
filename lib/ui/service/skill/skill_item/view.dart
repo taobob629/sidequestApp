@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
@@ -83,6 +84,10 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                     ? priceRangeMin
                     : controller.price,
                 fun: (v) => controller.price = v)),
+        Text(
+          '${controller.skillModel?.unit}',
+          style: TextStyle(fontFamily: FONT_LIGHT, fontSize: 12.sp),
+        )
       ])),
       PWidget.boxh(10),
       itemBg(Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

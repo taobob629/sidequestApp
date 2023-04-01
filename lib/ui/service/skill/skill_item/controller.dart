@@ -84,6 +84,7 @@ class SkillItemPageController extends GetxController {
       ..['id'] = id
       ..['skillName'] = Get.arguments['skillName']
       ..['price'] = price
+      ..['unit'] = Get.arguments['unit']
       ..['levelId'] = Get.arguments['levelid']
       ..['skillAuthid'] = Get.arguments['skillAuthid']
       ..['enabled'] = status ? 1 : 0);
