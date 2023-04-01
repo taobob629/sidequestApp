@@ -104,11 +104,15 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                                 ),
                               ),
                               handler: FlutterSliderHandler(
-                                child: PWidget.container(
-                                    PWidget.text('${controller.price.toInt()}',
-                                        [Colors.black.withOpacity(0.75)]),
-                                    [null, null, Colors.white],
-                                    {'pd': PFun.lg(1, 0, 8, 8), 'br': 56}),
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 2).r,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.white),
+                                  child: Text(
+                                    '${controller.price.toInt()}',
+                                    style: TextStyle(color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
+                                  ),
+                                ),
                                 foregroundDecoration: BoxDecoration(),
                                 decoration: BoxDecoration(),
                               ),
