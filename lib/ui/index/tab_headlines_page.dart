@@ -1,5 +1,6 @@
 import 'package:wy/api/game_api.dart';
 import 'package:wy/common/page/empty_view.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/banner_model.dart' as custom;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ import 'package:wy/ui/common/match_item.dart';
 import 'package:wy/ui/common/news_item.dart';
 import 'package:wy/ui/common/promotion_item.dart';
 import 'package:wy/ui/frame/home/widget/home_horizontal_widget.dart';
+import 'package:wy/ui/frame/sidekick/search/controller.dart';
 import 'package:wy/utils/index.dart';
 
 class TabHeadlinesPage extends StatelessWidget {
@@ -47,7 +49,12 @@ class TabHeadlinesPage extends StatelessWidget {
             //   visible: controller.topPlayers.isNotEmpty,
             //     child:
             //         HomeHorizontalWidget('Top Monthly Sidekick users'.tr, controller.topPlayers))),
-            HomeHorizontalWidget('Top Monthly Sidekick Users'.tr, controller.topPlayers),
+            HomeHorizontalWidget(
+              'Top Monthly Sidekick Users'.tr,
+              controller.topPlayers,
+              onTapMore: () => Get.toNamed(AppPages.SEARCH_USER_PAGE,
+                  arguments: Map()..['type'] = SEARCH_TYPE_TOP_MONTH),
+            ),
             Obx(() {
               return SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
@@ -112,8 +119,8 @@ class TabHeadlinesPageController extends GetxRefreshController<HeadlineModel> {
     }
   }
 
-  Future<List<HeadlineModel>> loadData({int pageNum =  GetxRefreshController.pageNumFirst}) async {
-    if (pageNum ==  GetxRefreshController.pageNumFirst) {
+  Future<List<HeadlineModel>> loadData({int pageNum = GetxRefreshController.pageNumFirst}) async {
+    if (pageNum == GetxRefreshController.pageNumFirst) {
       _loadBanner();
     }
     List<HeadlineModel> list = await IndexApi.getHeadlines(pageNum, pageSize);

@@ -160,9 +160,9 @@ class UserApi {
     return LevelModel.fromJson(response.data);
   }
 
-  static Future<List<GameUserModel>> search(String key) async {
+  static Future<List<GameUserModel>> search(String key,{var type}) async {
     var response =
-        await http.get('/peiwan/app/new/search', queryParameters: ({"searchParams": key}));
+        await http.get('/peiwan/app/new/search', queryParameters: ({"searchParams": key,'type':type}));
     List<GameUserModel> list =
         response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
     return list;
