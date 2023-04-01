@@ -40,8 +40,7 @@ class InputView extends StatelessWidget {
       this.showRightIcon = false,
       this.rightActionWidget,
       this.readOnly = false,
-      this.padding =
-          const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+      this.padding = const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
       this.margin = const EdgeInsets.only(left: 15, right: 15),
       this.autoHeight = false});
 
@@ -59,15 +58,13 @@ class InputView extends StatelessWidget {
                 children: [
                   Text(
                     label,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: FONT_MEDIUM),
+                    style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
                   ),
                   rightActionWidget ?? Container()
                 ],
               ),
         ),
+        5.verticalSpace,
         Row(
           children: [
             if (inputLable != null) inputLable!,
@@ -75,11 +72,11 @@ class InputView extends StatelessWidget {
               child: Container(
                 height: autoHeight ? null : height,
                 margin: margin ??
-                    const EdgeInsets.only(
+                    EdgeInsets.only(
                       left: 15,
                       right: 15,
                     ),
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
                 decoration: decoration ?? inputDecoration(),
                 alignment: Alignment.center,
                 child: customInput ??
@@ -96,8 +93,7 @@ class InputView extends StatelessWidget {
                             inputFormatters: inputFormatters,
                             maxLength: maxLength,
                             readOnly: readOnly,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 14),
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
                             onSubmitted: (text) => {},
                             decoration: InputDecoration(
                               hintText: tips,
