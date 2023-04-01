@@ -235,6 +235,7 @@ class SideKickMatchPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Unit'.tr,
@@ -282,6 +283,7 @@ class SideKickMatchPage extends StatelessWidget {
                             25.horizontalSpace,
                             Expanded(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Quantity'.tr,
@@ -479,8 +481,8 @@ class SideKickMatchPage extends StatelessWidget {
               ),
               style: TextStyle(color: Colors.white, fontSize: 14.sp),
               maxLength: 50,
-              maxLines: 3,
-              minLines: 3,
+              maxLines: 2,
+              minLines: 2,
             ),
           )
         ],
