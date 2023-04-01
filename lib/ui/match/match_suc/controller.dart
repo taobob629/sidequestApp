@@ -92,6 +92,7 @@ class SideKickMatchSucController extends GetxController {
         break;
 
       case 'match_order_boss':
+        seconds = 60 * 15;
         // 通知boos，有人进来了
         MatchOperationModel matchOperationModel =
             MatchOperationModel.fromJson(map["message"]);
