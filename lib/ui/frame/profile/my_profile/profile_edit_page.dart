@@ -46,13 +46,13 @@ class ProfileEditPage extends StatelessWidget {
                 ),
 
                 /// nickname，gender，country，language
-                InputView(controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.nickName}"),
+                InputView(autoHeight: true,controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.nickName}"),
                 8.verticalSpace,
-                InputView(controller: t.fistController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.gender}"),
+                InputView(autoHeight: true,controller: t.fistController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.gender}"),
                 8.verticalSpace,
-                InputView(controller: t.lastController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
+                InputView(autoHeight: true,controller: t.lastController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
                 8.verticalSpace,
-                InputView(controller: t.phoneController, label: "Language".tr, maxLength: 20, textInputType: TextInputType.phone, tips: "${UserController.find.userProfile.value.language}"),
+                InputView(autoHeight: true,controller: t.phoneController, label: "Language".tr, maxLength: 20, textInputType: TextInputType.phone, tips: "${UserController.find.userProfile.value.language}"),
                 20.verticalSpace,
                 AddressItem(
                   address: AddressModel(),
