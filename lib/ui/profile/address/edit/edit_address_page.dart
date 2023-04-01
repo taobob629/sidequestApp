@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/string_utils.dart';
 
 import 'controller.dart';
@@ -74,7 +76,9 @@ class EditAddressPage extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
           decoration: itemDecoration(),
-          margin: EdgeInsets.all(15).r,
+          margin: EdgeInsets
+              .all(15)
+              .r,
           child: Column(
             children: [
               InputView(
@@ -124,7 +128,9 @@ class EditAddressPage extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
           decoration: itemDecoration(),
-          margin: EdgeInsets.all(15).r,
+          margin: EdgeInsets
+              .all(15)
+              .r,
           child: Column(
             children: [
               InputView(
@@ -185,10 +191,11 @@ class EditAddressPage extends StatelessWidget {
             "Use this as default".tr,
             style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_LIGHT),
           ),
-          Switch(
-              activeColor: AppColor.accent,
-              value: controller.useAsDefault.value,
-              onChanged: (value) => controller.useAsDefault.value = value)
+          Obx(() =>
+              CupertinoSwitch(
+               //   activeColor: AppColor.accent,
+                  value: controller.useAsDefault.value,
+                  onChanged: (value) => controller.useAsDefault.value = value))
         ],
       ),
     );
