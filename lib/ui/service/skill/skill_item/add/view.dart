@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
@@ -39,24 +40,24 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
       padding: itemPadding10,
       child: Column(
         children: [
-         Obx(()=> InputView(
-           maxLength: 15,
-           inputLable: Container(
-             width: 60.w,
-             padding: EdgeInsets.only(right: 10.w),
-             child: Text(
-               'Name'.tr,
-               style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
-             ),
-           ),
-           decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
-           controller: controller.teContent,
-           label: 'ServiceType / ${controller.priceRange?.unit}',
-           tips: 'Please input Service Name'.tr,
-           margin: EdgeInsets.only(top: 2).h,
-           padding: EdgeInsets.only(bottom: 8.h),
-           height: 45.h,
-         )),
+          Obx(() => InputView(
+                maxLength: 15,
+                inputLable: Container(
+                  width: 60.w,
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: Text(
+                    'Name'.tr,
+                    style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
+                  ),
+                ),
+                decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                controller: controller.teContent,
+                label: 'ServiceType / ${controller.priceRange?.unit}',
+                tips: 'Please input Service Name'.tr,
+                margin: EdgeInsets.only(top: 2).h,
+                padding: EdgeInsets.only(bottom: 8.h),
+                height: 45.h,
+              )),
           5.verticalSpace,
           Container(
             height: 45.h,
@@ -70,9 +71,10 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                 Container(
                   width: 60.w,
                   child: Text(
-                  'Price'.tr,
-                  style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
-                ),),
+                    'Price'.tr,
+                    style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT),
+                  ),
+                ),
                 Expanded(
                     child: Container(
                         decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
@@ -107,10 +109,12 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                                 child: Container(
                                   padding: EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 2).r,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.white),
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.white),
                                   child: Text(
                                     '${controller.price.toInt()}',
-                                    style: TextStyle(color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
+                                    style: TextStyle(
+                                        color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
                                   ),
                                 ),
                                 foregroundDecoration: BoxDecoration(),
@@ -134,7 +138,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                   decoration: innerDecoration(),
                   alignment: Alignment.center,
                   padding: itemPadding(),
-                  child: dropDownButton( controller.priceRange?.unit),
+                  child: dropDownButton(controller.priceRange?.unit),
                 )
               ],
             ),
@@ -143,19 +147,23 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
       ),
     );
   }
+
   var textColor = Color(0xFFB2B9C9);
-  dropDownButton( var init) {
-    return Obx(()=>DropdownButtonHideUnderline(
+
+  dropDownButton(var init) {
+    return Obx(() => DropdownButtonHideUnderline(
         child: DropdownButton<PriceRangeModel>(
+            borderRadius: BorderRadius.all(Radius.circular(10)).r,
+            dropdownColor: AppColor.dropDownBtBg,
             value: controller.priceRange,
             items: controller.priceRanges
                 .map((item) => DropdownMenuItem<PriceRangeModel>(
-              value: item,
-              child: Text(
-                '${item.unit}',
-                style: TextStyle(color: textColor),
-              ),
-            ))
+                      value: item,
+                      child: Text(
+                        '${item.unit}',
+                        style: TextStyle(color: textColor),
+                      ),
+                    ))
                 .toList(),
             onChanged: (item) {
               controller.onTypeChange(item);

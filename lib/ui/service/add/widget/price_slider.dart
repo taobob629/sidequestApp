@@ -213,6 +213,8 @@ class PriceSlider extends GetView<AddGamePageController> {
     var seclet = controller.priceRanges.firstWhereOrNull((element) => element.unit == init);
     return DropdownButtonHideUnderline(
         child: DropdownButton<PriceRangeModel>(
+            borderRadius: BorderRadius.all(Radius.circular(10)).r,
+            dropdownColor: AppColor.dropDownBtBg,
             value: seclet,
             items: controller.priceRanges
                 .map((item) => DropdownMenuItem<PriceRangeModel>(

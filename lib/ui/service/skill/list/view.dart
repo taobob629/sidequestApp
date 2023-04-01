@@ -212,48 +212,6 @@ class SkillListPage extends GetView<SkillListPageController> {
     );
   }
 
-  _buildBottom(SkillModel data) {
-    List<Widget> items = [];
-    var skillItems = data.childItemVoList;
-    items.add(PWidget.boxh(6));
-    if (data.status == SkillModel.DENIED) items.add(PWidget.boxh(4));
-    if (data.status == SkillModel.DENIED)
-      items.add(Row(
-        children: [
-          PWidget.text('${'REJECT'.tr}: ${data.reason}', [Colors.red, 12])
-        ],
-      ));
-    if (data.status == SkillModel.DENIED) if (skillItems.isEmpty == false)
-      items.add(PWidget.boxh(4));
-    items.add(skill_item(data, skillItems.isEmpty ? null : skillItems.first, showAdd: true));
-    if (skillItems.isEmpty) return items;
-    var skillItemWidgets = skillItems
-        .getRange(1, skillItems.length)
-        .map(
-          (item) => skill_item(data, item, showAdd: false),
-        )
-        .toList();
-    items.add(Obx(() => Visibility(
-        visible: data.expanded,
-        child: Column(
-          children: skillItemWidgets,
-        ))));
-    if (skillItems.length > 1) {
-      items.add(Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-              onTap: () => data.changeExpanded(),
-              child: Obx(() => Icon(
-                    data.expanded ? Icons.expand_less_outlined : Icons.expand_more_outlined,
-                    color: Colors.white,
-                  )))
-        ],
-      ));
-    }
-    return items;
-  }
-
   Widget skill_item(SkillModel data, SkillItemModel? item, {bool showAdd = false}) {
     double icon_size = 13;
     return Container(
