@@ -25,6 +25,8 @@ class ProfileModel {
   int ranking = 0;
   int postNum = 0;
   String diamond = "";
+  String phone = "";
+
   bool vipCanceled = false;
   int totalmins = 0;
   int avamins = 0;
@@ -73,6 +75,8 @@ class ProfileModel {
     }
 
     nickName = json["nickName"] ?? "";
+    phone = json["phone"] ?? "";
+
     fans = json["fans"] ?? 0;
     vipLevel = json["vipLevel"] ?? 0;
     followers = json["followers"] ?? 0;
