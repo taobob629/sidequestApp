@@ -8,6 +8,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:get/get.dart';
 
+import '../../../profile/address/edit/edit_address_page.dart';
+
 class ProfileEditPage extends StatelessWidget {
   const ProfileEditPage({Key? key}) : super(key: key);
 
