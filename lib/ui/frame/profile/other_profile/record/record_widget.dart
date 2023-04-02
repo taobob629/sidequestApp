@@ -8,8 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/icon_text.dart';
 import 'package:wy/widget/views.dart';
 
 class RecordWidget extends GetView<OtherProfileController> {
@@ -28,14 +30,17 @@ class RecordWidget extends GetView<OtherProfileController> {
         child: Obx(() => playWidget()),
       ),
       onTap: () {
-        controller.play();
-        // Get.toNamed(AppPages.Record);
+        // controller.play();
       },
     );
   }
 
+  UserController userController = UserController.find;
+
   playWidget() {
-    flog('playWidget---');
+    var user = controller.player.value?.uid;
+    var loginUser = userController.userProfile?.value?.pwId;
+    var voice = controller.player.value.voice;
     switch (controller.playState) {
       case PlayState.loadding:
         return Lottie.asset(
@@ -53,11 +58,37 @@ class RecordWidget extends GetView<OtherProfileController> {
         );
       case PlayState.idle:
       default:
+        //判断是不是本人
+        if (voice.isEmpty) {
+          if (user != loginUser) {
+            return Center(
+              child: Text(
+                'No Voice'.tr,
+                style: TextStyle(fontSize: 12.sp),
+              ),
+            );
+          }
+        }
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ImageUtil.assetImage('profile/icon_voice_record', height: 14),
-            ImageUtil.assetImage('profile/icon_voice', height: 14),
+            GestureDetector(
+              onTap: () => controller.play(),
+              child: ImageUtil.assetImage('profile/icon_voice_record', height: 14),
+            ),
+            GestureDetector(
+              onTap: () => controller.play(),
+              child: ImageUtil.assetImage('profile/icon_voice', height: 14),
+            ),
+            if (user == loginUser)
+              GestureDetector(
+                onTap: () => controller.toRecordPage(),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10),
+                  child: ImageUtil.assetImage('ic_edit', width: 14),
+                ),
+              )
           ],
         );
     }

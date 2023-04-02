@@ -15,18 +15,21 @@ class IconTextWidget extends StatelessWidget {
   Color? textColor;
   String text;
   double? size;
+  MainAxisAlignment mainAxisAlignment;
 
   IconTextWidget(
       {this.spacing,
       this.size,
       required this.icon,
       this.iconColor,
+      this.mainAxisAlignment = MainAxisAlignment.start,
       this.textColor,
       required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: mainAxisAlignment,
       children: [
         ImageUtil.assetImage(icon, color: iconColor ?? Colors.white, width: size, height: size),
         spacing ?? 8.5.horizontalSpace,

@@ -49,9 +49,9 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
     _sec = sec;
     _path = path;
     if (isDeadLine) {
-      setState(() {
+      //setState(() {
         stopRecord();
-      });
+     // });
     }
   }
 
@@ -92,12 +92,14 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
 
   stopRecord() async {
     await _record.stop();
-    if (_selectedPressArea) {
-      _callback();
-    }
-    _showVoiceRecordView = false;
-    _selectedPressArea = false;
-    _selectedCancelArea = false;
+    setState(() {
+      if (_selectedPressArea) {
+        _callback();
+      }
+      _showVoiceRecordView = false;
+      _selectedPressArea = false;
+      _selectedCancelArea = false;
+    });
   }
 
   @override

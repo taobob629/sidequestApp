@@ -6,6 +6,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/base_controller.dart';
@@ -14,13 +15,10 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/chat_voice_record_view.dart';
 
 class RecordController extends BasePageController {
-
-
   @override
   void onInit() {
     super.onInit();
     Get.put(CountDownController());
-
   }
 
   @override
@@ -34,10 +32,10 @@ class RecordController extends BasePageController {
     if (await file.exists() == false) return;
     showLoadding();
     var url = await Common.uploadFile(File(path), (count, total) {
-      progress((count / total).floorToDouble());
+      //progress(count / total);
+      flog('(count / total ${count / total}');
     }, isVoiceFile: true);
     dismissLoadding();
+    Get.back(result: url);
   }
-
-
 }
