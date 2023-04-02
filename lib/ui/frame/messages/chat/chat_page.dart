@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/im/order_detail.dart';
 
@@ -186,6 +187,8 @@ class ChatPage extends StatelessWidget {
       deleteText: deleteText,
       addText: addText,
       addCustomEmojiText: addCustomEmojiText,
+      backgroundColor: AppColor.itemBg,
+      lightPrimaryColor: AppColor.itemBg,
       customStickerPackageList: [...defaultEmojiList],
     );
   }
