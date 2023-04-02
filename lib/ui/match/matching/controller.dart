@@ -16,7 +16,7 @@ import '../../../model/send_match_model.dart';
 class SideKickMatchingController extends GetxController {
   late Timer timer;
   int seconds = 60 * 15;
-  var countTime = "00:00".obs;
+  var countTime = "15:00".obs;
 
   late SendMatchModel model;
 
@@ -50,7 +50,7 @@ class SideKickMatchingController extends GetxController {
     });
   }
 
-  void _dealMatchSuc(String str) {
+  void _dealMatchSuc(String str) async {
     Map<String, dynamic> map = json.decode(str);
     switch (map["type"]) {
       case 'match_order_boss':
@@ -87,10 +87,11 @@ class SideKickMatchingController extends GetxController {
 
         List<JumpMatchSucBean> beans = [];
         beans.add(bean);
-        Get.offAndToNamed(
+        await Get.toNamed(
           AppPages.side_kick_match_suc_page,
           arguments: beans,
         );
+        Get.back();
         break;
     }
   }
@@ -105,10 +106,10 @@ class SideKickMatchingController extends GetxController {
 
   void stopMatching() async {
     EasyLoading.show();
-    MatchApi.stopMatch(model.orderId).whenComplete(() => EasyLoading.dismiss());
+    await MatchApi.stopMatch(model.orderId).whenComplete(() => EasyLoading.dismiss());
 
     StorageManager.clear(StorageManager.kCountDown);
-    Get.offAndToNamed(AppPages.side_kick_match_page);
+    Get.back(result: 'stopMatching');
   }
 
   void _formatTime() {

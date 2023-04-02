@@ -244,6 +244,7 @@ class MatchTopDialog extends StatelessWidget {
 
   void joinGame(int operation) async {
     countDownUtil.stopCountDown();
+    Get.back();
 
     EasyLoading.show();
     Map<String, dynamic> params = {"operation": operation};
@@ -252,7 +253,6 @@ class MatchTopDialog extends StatelessWidget {
     EasyLoading.dismiss();
 
     if (result == null) {
-      Get.back();
       return;
     }
 
@@ -283,7 +283,7 @@ class MatchTopDialog extends StatelessWidget {
 
       beans.add(bean);
     });
-    Get.offAndToNamed(
+    Get.toNamed(
       AppPages.side_kick_match_suc_page,
       arguments: beans,
     );
