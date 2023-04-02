@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-abstract class GetxListController<T> extends GetxController {
+import 'base_controller.dart';
+
+abstract class GetxListController<T> extends BasePageController {
 
   RxList<T> list = RxList();
   var initializing = true.obs;

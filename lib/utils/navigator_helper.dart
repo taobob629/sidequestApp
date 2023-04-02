@@ -11,7 +11,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/index/news/news_page.dart';
 import 'package:wy/ui/pay/pay_page.dart';
-import 'package:wy/ui/profile/address/address_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
@@ -21,6 +20,7 @@ import 'package:wy/ui/shop/product/product_page.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../api_service/profile_api.dart';
+import '../ui/profile/address/list/address_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();

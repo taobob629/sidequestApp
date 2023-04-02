@@ -8,7 +8,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:get/get.dart';
 
-import '../../../profile/address/edit_address_page.dart';
+import '../../../profile/address/edit/edit_address_page.dart';
 
 class ProfileEditPage extends StatelessWidget {
   const ProfileEditPage({Key? key}) : super(key: key);
@@ -46,13 +46,19 @@ class ProfileEditPage extends StatelessWidget {
                 ),
 
                 /// nickname，gender，country，language
-                InputView(controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.nickName}"),
+                InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.nickName}"),
                 8.verticalSpace,
-                InputView(controller: t.fistController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.gender}"),
+                InputView(autoHeight: true, controller: t.fistController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.gender}"),
                 8.verticalSpace,
-                InputView(controller: t.lastController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
+                InputView(autoHeight: true, controller: t.lastController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
                 8.verticalSpace,
-                InputView(controller: t.phoneController, label: "Language".tr, maxLength: 20, textInputType: TextInputType.phone, tips: "${UserController.find.userProfile.value.language}"),
+                InputView(
+                    autoHeight: true,
+                    controller: t.phoneController,
+                    label: "Language".tr,
+                    maxLength: 20,
+                    textInputType: TextInputType.phone,
+                    tips: "${UserController.find.userProfile.value.language}"),
                 20.verticalSpace,
                 AddressItem(
                   address: AddressModel(),
@@ -190,12 +196,12 @@ class ProfileEditController extends GetxController {
   }
 
   void jumpEditAddress(bool edit, {AddressModel? address}) {
-    Get.to(() => EditAddressPage(
-          edit: edit,
-          address: address,
-        ))?.then((value) {
-      if (value != null && value == true) {}
-    });
+    // Get.to(() => EditAddressPage(
+    //       edit: edit,
+    //       address: address,
+    //     ))?.then((value) {
+    //   if (value != null && value == true) {}
+    // });
   }
 
   @override

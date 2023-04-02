@@ -603,7 +603,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     flog('url $url');
     if (url.isEmpty) err('No Voice'.tr);
     //  url = '/data/user/0/uk.co.sidequest.wy/app_flutter/voice/1680251376753.m4a';
-    url = 'https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3';
+    // url = 'https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3';
     // url = 'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/1680256335369.m4a';
     final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
     flog('duration ${duration}');
