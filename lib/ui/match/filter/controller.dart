@@ -36,11 +36,11 @@ class SideKickMatchController extends GetxController {
   void onInit() {
     super.onInit();
 
-    EasyLoading.show();
     requestData();
   }
 
   void requestData() async {
+    EasyLoading.show();
     final result = await MatchApi.selfOrder();
     EasyLoading.dismiss();
 
@@ -62,7 +62,6 @@ class SideKickMatchController extends GetxController {
           minPrice: matchingModel.minPrice.toString(),
           maxPrice: matchingModel.maxPrice.toString(),
           optional: '',
-          isFinish: true,
         );
       }
     } else {
@@ -109,9 +108,8 @@ class SideKickMatchController extends GetxController {
           'The max price cannot be lower than the min price'.tr);
       return;
     }
-    if (double.parse(maxPriceCtr.text) > 240.0 ||
-        double.parse(minPriceCtr.text) < 10.0) {
-      EasyLoading.showToast('The Price Range is 10~240'.tr);
+    if (double.parse(minPriceCtr.text) < 1) {
+      EasyLoading.showToast('The min price is 1'.tr);
       return;
     }
     if (quantityCtr.text.isEmpty) {
@@ -161,7 +159,6 @@ class SideKickMatchController extends GetxController {
       minPrice: minPriceCtr.text,
       maxPrice: maxPriceCtr.text,
       optional: requestsPriceCtr.text,
-      isFinish: false,
     );
   }
 
@@ -208,8 +205,7 @@ class SideKickMatchController extends GetxController {
     required String minPrice,
     required String maxPrice,
     required String optional,
-    required bool isFinish,
-  }) {
+  }) async {
     SendMatchModel model = SendMatchModel(
       gid: gid == null ? 0 : int.parse(gid!),
       category: category,
@@ -222,7 +218,14 @@ class SideKickMatchController extends GetxController {
       orderId: orderId,
       tags: tags,
     );
-    Get.offAndToNamed(AppPages.side_kick_matching_page, arguments: model);
+    final result = await Get.toNamed(AppPages.side_kick_matching_page, arguments: model);
+    if (result == null) {
+      Get.back();
+    } else {
+      if (result == 'stopMatching') {
+        requestData();
+      }
+    }
   }
 
   Widget selectLanguage() {

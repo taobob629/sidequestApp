@@ -16,10 +16,6 @@ import '../../frame/profile/play_order/play_order_page.dart';
 
 class SideKickMatchSucController extends GetxController {
 
-  late Timer timer;
-  int seconds = 60 * 15;
-  var countTime = "00:00".obs;
-
   var showOrHide = false.obs;
 
   var selectItemList = <JumpMatchSucBean>[].obs;
@@ -42,37 +38,6 @@ class SideKickMatchSucController extends GetxController {
     subscription = eventBus.on<MatchEvent>().listen((event) {
       _dealMsg(event.msg.textElem!.text!);
     });
-
-    _startCountDown();
-  }
-
-  _startCountDown() {
-    String? count = StorageManager.getCountDown2();
-    if (count != null) {
-      seconds = (60 * 15) -
-          DateTime.now().difference(DateTime.parse(count)).inSeconds;
-    } else {
-      StorageManager.setCountDown2(DateTime.now().toString());
-    }
-    timer = Timer.periodic(const Duration(seconds: 1), (v) {
-      if (seconds > 0) {
-        seconds--;
-        _formatTime();
-      } else {
-        timer.cancel();
-        if (bean.uid == UserController.find.userProfile.value.pwId) {
-          cancelOrder();
-        }
-      }
-    });
-  }
-
-  void _formatTime() {
-    int minutes = seconds ~/ 60;
-    int remainingSeconds = seconds % 60;
-    String formattedMinutes = minutes.toString().padLeft(2, '0');
-    String formattedSeconds = remainingSeconds.toString().padLeft(2, '0');
-    countTime.value = '$formattedMinutes:$formattedSeconds';
   }
 
   void _dealMsg(String str) {
@@ -92,7 +57,6 @@ class SideKickMatchSucController extends GetxController {
         break;
 
       case 'match_order_boss':
-        seconds = 60 * 15;
         // 通知boos，有人进来了
         MatchOperationModel matchOperationModel =
             MatchOperationModel.fromJson(map["message"]);

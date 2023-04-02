@@ -36,7 +36,7 @@ class NewWalletPage extends StatelessWidget {
                 children: [
                   _balanceItem(
                     imgName: "assets/images/coin_red.webp",
-                    title: '${userController.userProfile.value.coin}'+" SideKick Coin".tr,
+                    title: '${userController.userProfile.value.coin}'+" Coin".tr,
                     subTitle: "These coins are only used for SideKick".tr,
                     btnTitle: "TOP UP".tr,
                     onTap: () {
