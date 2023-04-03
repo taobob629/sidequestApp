@@ -105,7 +105,7 @@ dependencies:
      git:
        url: https://github.com/sikandernoori/flutter_app_badger.git
 
-  libphonenumber_plugin: ^0.3.1
+  libphonenumber_plugin: 0.3.1
   equatable: ^2.0.5
   collection: ^1.16.0
   
@@ -118,7 +118,7 @@ dependency_overrides:
   firebase_core_platform_interface: 4.5.0
   firebase_core: 1.20.0
   firebase_messaging: 12.0.1
-  libphonenumber_plugin: ^0.3.0
+  js: 0.6.4
 #  path_provider: 2.0.11
 #  uuid: 3.0.6
 dev_dependencies:

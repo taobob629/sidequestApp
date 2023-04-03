@@ -224,7 +224,7 @@ class GiveGiftController extends GetxController {
       ..giftId = selectGift.value.id
       ..liveId = _receiverId
       ..postId = _postId
-      ..uid = UserController.find.userProfile.value.pwId.toString()
+      ..uid = UserController.find.userProfile.pwId.toString()
       ..nums = buyNum.value;
 
     final payController = Get.put(PayPageController(payOrderModel: orderModel));

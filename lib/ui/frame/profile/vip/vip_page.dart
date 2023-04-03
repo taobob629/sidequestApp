@@ -101,9 +101,9 @@ class VipPage extends StatelessWidget {
                                         left: 15,
                                         right: 15,
                                         child: Obx(() {
-                                          var vipCanceled = userController.userProfile.value.vipCanceled;
-                                          var diff = userController.userProfile.value.vipLevel - controller.vipInfoList[controller.vipIndex.value].level;
-                                          var showNextRenewal = (diff == 0) && !userController.userProfile.value.vipCanceled;
+                                          var vipCanceled = userController.userProfile.vipCanceled;
+                                          var diff = userController.userProfile.vipLevel - controller.vipInfoList[controller.vipIndex.value].level;
+                                          var showNextRenewal = (diff == 0) && !userController.userProfile.vipCanceled;
                                           var btnTitle = "";
                                           if (diff > 0) {
                                             // btnTitle = "Subscribed".tr;
@@ -146,7 +146,7 @@ class VipPage extends StatelessWidget {
                                                     width: 124,
                                                     alignment: Alignment.center,
                                                     decoration: BoxDecoration(
-                                                        color: userController.userProfile.value.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
+                                                        color: userController.userProfile.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
                                                             ? Color(0xff707070)
                                                             : Color(0xFFEDA82D),
                                                         borderRadius: BorderRadius.circular(20)),
@@ -344,7 +344,7 @@ class VipPageController extends GetxController {
     scrollController = ScrollController();
     swiperController = SwiperController();
     vipIndex.value = Get.arguments ?? 0;
-    vipLevel.value = UserController.find.userProfile.value.vipLevel;
+    vipLevel.value = UserController.find.userProfile.vipLevel;
     getVipDetail();
     super.onInit();
   }
@@ -397,7 +397,7 @@ class VipPageController extends GetxController {
   void openMonth() {
     VipInfoModel vipInfoModel = vipInfoList[vipIndex.value];
     var userController = Get.find<UserController>();
-    if (userController.userInfoModel.value.vipLevel >= vipInfoModel.level) {
+    if (userController.userProfile.vipLevel >= vipInfoModel.level) {
       return;
     }
 
@@ -419,7 +419,7 @@ class VipPageController extends GetxController {
       if (value != null && value == true) {
         NavigatorHelper.gotoPayPage(model, whenComplete: () {
           userController.updateInfo();
-          userController.userProfile.refresh();
+          userController.getRxuserProfile().refresh();
           getVipDetail();
         });
         // Get.dialog(SubscribeDialog(), barrierColor: Colors.black26);

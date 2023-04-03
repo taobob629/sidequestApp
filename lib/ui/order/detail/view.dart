@@ -305,7 +305,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   readOnly() {
     if (controller.type == TYPE_ORDER_RECEIVED) return true; //下单人都只是展示
-    return controller.model?.status != -2;
+    return controller.model?.status != 2;
   }
 
   comments() {

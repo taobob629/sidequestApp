@@ -163,7 +163,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
         }
         break;
       case 3:
-        if (UserController.find.userInfoModel?.value.isauth == 1 &&
+        if (UserController.find.userProfile.isAuth == 1 &&
             controller.type == TYPE_ORDER_RECEIVED) {
           return container(Row(
             children: [

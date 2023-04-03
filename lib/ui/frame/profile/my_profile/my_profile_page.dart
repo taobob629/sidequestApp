@@ -82,7 +82,7 @@ class MyProfilePage extends StatelessWidget {
                                     children: [
                                       /// nickname
                                       Obx(() => Text(
-                                            userController.userProfile.value.nickName,
+                                            userController.userProfile.nickName,
                                             style: TextStyle(fontSize: 19.sp, color: Colors.white, fontWeight: FontWeight.normal, height: 22.5 / 19),
                                           )),
 
@@ -104,16 +104,16 @@ class MyProfilePage extends StatelessWidget {
                                                       ])),
                                                   child: Row(
                                                     children: [
-                                                      if (userController.userProfile.value.gender != 2)
+                                                      if (userController.userProfile.gender != 2)
                                                         Padding(
                                                           padding: const EdgeInsets.only(right: 3),
                                                           child: Image.asset(
-                                                            "assets/images/profile/icon_sex_${userController.userProfile.value.gender}.png",
+                                                            "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
                                                             width: 8,
                                                           ),
                                                         ),
                                                       Text(
-                                                        "${userController.userProfile.value.age}",
+                                                        "${userController.userProfile.age}",
                                                         style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                       ),
                                                     ],
@@ -127,14 +127,14 @@ class MyProfilePage extends StatelessWidget {
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        userController.userProfile.value.language,
+                                                        userController.userProfile.language,
                                                         style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                                 Visibility(
-                                                  visible: userController.userProfile.value.location.country.isNotEmpty,
+                                                  visible: userController.userProfile.location.country.isNotEmpty,
                                                   child: Container(
                                                     padding: EdgeInsets.symmetric(horizontal: 5),
                                                     margin: EdgeInsets.only(right: 10),
@@ -150,7 +150,7 @@ class MyProfilePage extends StatelessWidget {
                                                           width: 5,
                                                         ),
                                                         Text(
-                                                          userController.userProfile.value.location.country,
+                                                          userController.userProfile.location.country,
                                                           style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                         ),
                                                       ],
@@ -169,7 +169,7 @@ class MyProfilePage extends StatelessWidget {
                                                 Padding(
                                                   padding: const EdgeInsets.only(right: 15),
                                                   child: Text(
-                                                    "ID:${userController.userProfile.value.uk}",
+                                                    "ID:${userController.userProfile.uk}",
                                                     style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
                                                   ),
                                                 ),
@@ -197,7 +197,7 @@ class MyProfilePage extends StatelessWidget {
                                         alignment: Alignment.bottomCenter,
                                         child: ClipOval(
                                           child: ImageUtil.networkImage(
-                                            url: userController.userProfile.value.avatar,
+                                            url: userController.userProfile.avatar,
                                             width: 60,
                                             height: 60,
                                             fit: BoxFit.cover,
@@ -209,11 +209,11 @@ class MyProfilePage extends StatelessWidget {
                                     width: 64,
                                   ),
                                   Obx(() => Visibility(
-                                        visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
+                                        visible: userController.userProfile.vipLevel >= 5 && userController.userProfile.isAuth == 1,
                                         child: Positioned(
                                             bottom: -10,
                                             child: Image.asset(
-                                              "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
+                                              "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
                                               height: 28,
                                             )),
                                       )),
@@ -253,7 +253,7 @@ class MyProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Text(
-                        "Followers".tr + ": ${userController.userProfile.value.followers}",
+                        "Followers".tr + ": ${userController.userProfile.followers}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -265,16 +265,16 @@ class MyProfilePage extends StatelessWidget {
                       MessagesPageController.find.tabController.animateTo(2);
                     },
                     child: Text(
-                      "Fans".tr + ":${userController.userProfile.value.fans}",
+                      "Fans".tr + ":${userController.userProfile.fans}",
                       style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Visibility(
-                    visible: userController.userProfile.value.isAuth == 1,
+                    visible: userController.userProfile.isAuth == 1,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        "Rating".tr + ":${userController.userProfile.value.ranking}",
+                        "Rating".tr + ":${userController.userProfile.ranking}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -362,11 +362,11 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     super.onInit();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value = StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
-    if (userController.userProfile.value.backGround.isNotEmpty) {
-      background.value = userController.userProfile.value.backGround;
+    if (userController.userProfile.backGround.isNotEmpty) {
+      background.value = userController.userProfile.backGround;
     }
 
-    userController.userProfile.listen((info) {
+    userController.getRxuserProfile().listen((info) {
       background.value = info.backGround;
     });
     // getProfileInfo();

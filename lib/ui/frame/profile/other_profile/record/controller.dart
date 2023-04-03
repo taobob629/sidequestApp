@@ -36,6 +36,7 @@ class RecordController extends BasePageController {
       flog('(count / total ${count / total}');
     }, isVoiceFile: true);
     dismissLoadding();
+    toast('Upload success!'.tr);
     Get.back(result: url);
   }
 }

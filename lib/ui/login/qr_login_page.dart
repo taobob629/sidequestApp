@@ -57,7 +57,7 @@ class QrLoginPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: CachedNetworkImage(
-                      imageUrl: userController.userInfoModel.value.avatar,
+                      imageUrl: userController.userProfile.avatar,
                       fit: BoxFit.cover,
                       imageBuilder: (context,provider){
                         return Container(
@@ -81,7 +81,7 @@ class QrLoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "${userController.userInfoModel.value.nick}",
+                      "${userController.userProfile.nickName}",
                       style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
                     ),
                     _buildLevelIcon()
@@ -91,7 +91,7 @@ class QrLoginPage extends StatelessWidget {
                   height: 30,
                 ),
                 Text(
-                  "${userController.userInfoModel.value.email}",
+                  "${userController.userProfile.email}",
                   style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 )
               ],
@@ -107,10 +107,10 @@ class QrLoginPage extends StatelessWidget {
   }
 
   Widget _buildLevelIcon(){
-    if(userController.userInfoModel.value.vipLevel == 0){
+    if(userController.userProfile.vipLevel == 0){
       return Container();
     }else{
-      return Image.asset("assets/images/ic_level${userController.userInfoModel.value.vipLevel}.webp",width: 30,height: 30,);
+      return Image.asset("assets/images/ic_level${userController.userProfile.vipLevel}.webp",width: 30,height: 30,);
     }
   }
 }

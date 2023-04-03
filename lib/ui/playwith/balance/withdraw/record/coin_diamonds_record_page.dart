@@ -7,7 +7,6 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
-import 'package:wy/ui/im/order_detail.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 

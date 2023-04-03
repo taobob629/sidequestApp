@@ -772,7 +772,7 @@ class _PlayLevelWidgetState extends State<PlayLevelWidget> {
         ? Container()
         : GestureDetector(
             onTap: () =>
-                widget.userId == Get.find<UserController>().userInfoModel.value.pwuserId.toString()
+                widget.userId == Get.find<UserController>().userProfile.pwId.toString()
                     ? Get.toNamed(AppPages.Grade)
                     : null,
             child: Stack(alignment: Alignment.bottomRight, children: [

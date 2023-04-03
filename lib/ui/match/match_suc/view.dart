@@ -74,10 +74,10 @@ class SideKickMatchSucPage extends StatelessWidget {
                     ),
                   ),
                   if (_ctr.bean.uid ==
-                      UserController.find.userProfile.value.pwId)
+                      UserController.find.userProfile.pwId)
                     15.horizontalSpace,
                   if (_ctr.bean.uid ==
-                      UserController.find.userProfile.value.pwId)
+                      UserController.find.userProfile.pwId)
                     Expanded(
                       child: GestureDetector(
                         behavior: HitTestBehavior.translucent,

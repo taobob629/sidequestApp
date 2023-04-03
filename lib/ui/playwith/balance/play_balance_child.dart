@@ -180,7 +180,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
                     customIcon: "assets/images/coin_red.webp",
                     title: "Coin".tr,
                     // count: "${controller.coin}",
-                    count: "${userController.userInfoModel.value.coin}",
+                    count: "${userController.userProfile.coin}",
                     icon: '',
                   ),
                   CountView(
@@ -537,7 +537,7 @@ class WalletBalancePageController extends GetxListController {
       return;
     }
     double votesDouble = double.parse(votes);
-    double votesSum = double.parse(userController.userInfoModel.value.votes);
+    double votesSum = double.parse(userController.userProfile.diamond);
     if (votesDouble.isGreaterThan(votesSum)) {
       EasyLoading.showInfo('${'Lack of diamonds'.tr}!');
       return;

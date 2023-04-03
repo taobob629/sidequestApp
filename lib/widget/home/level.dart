@@ -18,15 +18,15 @@ class GameLevelWidget extends StatelessWidget {
   var isAuth;
 
   GameLevelWidget({this.level = 1, this.userId, this.isAuth =TYPE_VIP });
-  var user = Get.find<UserController>().userInfoModel.value;
+  var user = Get.find<UserController>().userProfile;
 
   @override
   Widget build(BuildContext context) {
-    var isauth = user.isauth;
+    var isauth = user.isAuth;
     return isauth != TYPE_VIP
         ? Container()
         : GestureDetector(
-            onTap: () => userId == user.pwuserId ? Get.toNamed(AppPages.Grade) : null,
+            onTap: () => userId == user.pwId ? Get.toNamed(AppPages.Grade) : null,
             child: ImageUtil.assetImage(
                 (isAuth == TYPE_VIP ? 'play/level_$level' : 'play/titles_$level'),
                 imageType: IMG_PNG,width: 15.w,height: 15.w));

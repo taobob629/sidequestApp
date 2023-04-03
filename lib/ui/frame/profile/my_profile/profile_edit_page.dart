@@ -48,7 +48,7 @@ class ProfileEditPage extends StatelessWidget {
                             child: Container(
                               clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(34), border: Border.all(color: Colors.white)),
-                              child: ImageUtil.networkImage(url: UserController.find.userProfile.value.avatar, width: 68, height: 68, fit: BoxFit.cover),
+                              child: ImageUtil.networkImage(url: UserController.find.userProfile.avatar, width: 68, height: 68, fit: BoxFit.cover),
                             ),
                           )),
                       12.verticalSpace,
@@ -61,7 +61,7 @@ class ProfileEditPage extends StatelessWidget {
                 ),
 
                 /// nickname，gender，country，language
-                InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.nickName}"),
+                InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -99,7 +99,7 @@ class ProfileEditPage extends StatelessWidget {
                         ],
                       )),
                 ),
-                // InputView(autoHeight: true, controller: t.phoneController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.gender}"),
+                // InputView(autoHeight: true, controller: t.phoneController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.gender}"),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -222,7 +222,7 @@ class ProfileEditPage extends StatelessWidget {
                           ))),
                 ),
                 // 8.verticalSpace,
-                // InputView(autoHeight: true, controller: t.countryController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
+                // InputView(autoHeight: true, controller: t.countryController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.location.country}"),
                 // 8.verticalSpace,
                 InputView(
                     autoHeight: true,
@@ -230,7 +230,7 @@ class ProfileEditPage extends StatelessWidget {
                     label: "Language".tr,
                     maxLength: 20,
                     textInputType: TextInputType.phone,
-                    tips: "${UserController.find.userProfile.value.language}"),
+                    tips: "${UserController.find.userProfile.language}"),
                 AddressItemView(
                   address: AddressModel(),
                   onEdit: () => t.jumpEditAddress(true),

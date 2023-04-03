@@ -605,7 +605,7 @@ class ReservePageController extends GetxController {
           barrierColor: Colors.black26)
           .then((value) {
         if (value == true) {
-          final user = Get.find<UserController>().userProfile?.value;
+          final user = Get.find<UserController>().userProfile;
           double userBalance = double.parse(user?.balance??'0');
           if (userBalance >= price) {
             checkDone.call();

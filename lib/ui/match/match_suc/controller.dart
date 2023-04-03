@@ -9,7 +9,6 @@ import '../../../event_bus/beans/match_event.dart';
 import '../../../event_bus/event_bus.dart';
 import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/match/match_operation_model.dart';
-import '../../../utils/storage_manager.dart';
 import '../../controller/user_controller.dart';
 import '../../frame/main_page.dart';
 import '../../frame/profile/play_order/play_order_page.dart';
@@ -51,7 +50,7 @@ class SideKickMatchSucController extends GetxController {
 
       case 'match_order_boss_cancel':
         // 发单人取消，接单人如果还在这个页面则关闭
-        if (bean.uid != UserController.find.userProfile.value.pwId) {
+        if (bean.uid != UserController.find.userProfile.pwId) {
           Get.back();
         }
         break;
@@ -113,7 +112,7 @@ class SideKickMatchSucController extends GetxController {
   void cancelOrder() async {
     EasyLoading.show();
     await MatchApi.cancelAcceptMatchOrder(
-        bean.orderId, bean.uid == UserController.find.userProfile.value.pwId);
+        bean.orderId, bean.uid == UserController.find.userProfile.pwId);
     EasyLoading.dismiss();
 
     Get.back();
