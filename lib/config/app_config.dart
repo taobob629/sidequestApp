@@ -82,8 +82,20 @@ class AppConfig {
         language: LanguageEnum.en,
         listener: V2TimSDKListener());
     if (initDone == true) {
-      TUITheme timTheme = TUITheme(primaryColor: AppColor.accent, weakBackgroundColor: Colors.white12, weakDividerColor: Colors.white12, darkTextColor: Colors.white);
-      _coreInstance.setTheme(theme: timTheme);
+      _coreInstance.setTheme(
+        theme: TUITheme(
+            textColor: Colors.white,
+            chatBgColor: Colors.transparent,
+            conversationItemTitleTextColor: Colors.white,
+            conversationItemBorderColor: Colors.transparent,
+            conversationItemBgColor: Colors.transparent,
+            conversationItemPinedBgColor: Colors.transparent,
+            chatMessageTongueBgColor: AppColor.color3033,
+            lightPrimaryColor: AppColor.background,
+            inputFillColor: AppColor.color3033,
+            chatMessageItemFromSelfBgColor: AppColor.color302D,
+            chatMessageItemFromOthersBgColor: AppColor.itemBg),
+      );
     }
   }
 
