@@ -42,12 +42,13 @@ class NavigatorHelper {
 
   static void toOtherProfile(uid) {
     EasyLoading.show();
-    ProfileApi.getPlayerInfo(playerId: uid)
+    ProfileApi.getPlayerInfo(playerId: uid.toString())
         .then((playerInfo) {
-          Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = uid);
+          Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
         })
         .whenComplete(() => EasyLoading.dismiss())
         .catchError((err) {
+          print(err);
           EasyLoading.dismiss();
         });
   }
