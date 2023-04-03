@@ -44,9 +44,19 @@ class UserController extends GetxController {
   static UserController get find => Get.find();
 
   Rx<UserModel> user = Rx(UserModel());
-  Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
+ // Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
 
-  final userProfile = ProfileModel().obs;
+  var _userProfile = ProfileModel().obs;
+
+  getRxuserProfile(){
+    return _userProfile;
+  }
+
+  ProfileModel get userProfile => _userProfile.value;
+
+  set userProfile(ProfileModel value) {
+    _userProfile.value = value;
+  }
 
   RxList<String> imBlackList = RxList();
 
@@ -146,8 +156,8 @@ class UserController extends GetxController {
     if (StorageManager
         .getToken()
         .isNotEmpty) {
-      userInfoModel.value = await UserApi.info();
-      userProfile.value = await ProfileApi.getProfileInfo();
+  //    userInfoModel.value = await UserApi.info();
+      userProfile = await ProfileApi.getProfileInfo();
     }
   }
 
@@ -361,7 +371,7 @@ class UserController extends GetxController {
 
       case 'match_order_completed':
         // 陪玩老板点击play后，player从这里跳转进去
-        if (userProfile.value.pwId != map["message"]["uid"]) {
+        if (userProfile?.pwId != map["message"]["uid"]) {
           String str = Get.routing.current;
           if (AppPages.side_kick_match_suc_page == str) {
             Get.back();
@@ -376,7 +386,7 @@ class UserController extends GetxController {
 
   void logout({Function? done}) async {
     user.value = UserModel();
-    userInfoModel.value = UserInfoModel();
+    userProfile = ProfileModel();
     StorageManager.clear(StorageManager.kUser);
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
@@ -396,8 +406,8 @@ class UserController extends GetxController {
   }
 
   String gradeImg() {
-    int isauth = userInfoModel.value.isauth;
-    int level = userInfoModel.value.level;
+    int isauth = userProfile?.isAuth??0;
+    int level = userProfile?.sidekickLevel??0;
     if (level == 0) {
       if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP
           ? 'v_'

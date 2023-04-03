@@ -58,7 +58,7 @@ class OrderDetailPageController extends BasePageController {
   initData() async {
     model = await OrderApi.getOrderDetail(id);
     if (type == null) {
-      type = UserController.find.userProfile?.value.pwId == model?.pwuserId ? TYPE_ORDER_PROVIDED : TYPE_ORDER_RECEIVED;
+      type = UserController.find.userProfile?.pwId == model?.pwuserId ? TYPE_ORDER_PROVIDED : TYPE_ORDER_RECEIVED;
     }
     pageState = PageState.sucess;
     etCommnetController.text = model?.comments?.content ?? '';

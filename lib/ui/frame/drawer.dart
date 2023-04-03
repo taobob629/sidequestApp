@@ -42,7 +42,7 @@ List<Map> legals = [
 ];
 
 class HomeDrawer extends StatelessWidget {
-  final user = Get.find<UserController>().userProfile?.value;
+  final user = Get.find<UserController>().userProfile;
   double drawerWidth = Get.width - 40.w;
 
   @override
@@ -143,13 +143,13 @@ class HomeDrawer extends StatelessWidget {
                 child: ImageUtil.networkImage(width: iconSize, height: iconSize, fit: BoxFit.cover, url: '${user?.avatar}', border: iconSize / 2),
               ),
               Obx(() => Visibility(
-                    visible: UserController.find.userProfile.value.vipLevel >= 5 && UserController.find.userProfile.value.isAuth == 1,
+                    visible: UserController.find.userProfile.vipLevel >= 5 && UserController.find.userProfile.isAuth == 1,
                     child: Positioned(
                         left: 0,
                         right: 0,
                         bottom: 10.h,
                         child: Image.asset(
-                          "assets/images/profile/icon_level_${UserController.find.userProfile.value.vipLevel == 0 ? 5 : UserController.find.userProfile.value.vipLevel}.webp",
+                          "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                           height: iconSize / 2,
                         )),
                   )),

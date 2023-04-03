@@ -84,7 +84,7 @@ class MyDashboardPage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 10),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: UserController.find.userProfile.value.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
+                        children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
                       ),
                     ))
               ],
@@ -120,7 +120,7 @@ class MyDashboardPage extends StatelessWidget {
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
                         padding: EdgeInsets.zero,
-                        children: UserController.find.userProfile.value.trophies.map((e) {
+                        children: UserController.find.userProfile.trophies.map((e) {
                           if (e.lighted) {
                             return ImageUtil.networkImage(
                               url: e.iconImage,
@@ -210,7 +210,7 @@ class MyDashboardPage extends StatelessWidget {
               margin: EdgeInsets.only(left: 10, right: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                gradient: vipModel.level <= UserController.find.userProfile.value.vipLevel
+                gradient: vipModel.level <= UserController.find.userProfile.vipLevel
                     ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xff707070), Color(0xff707070)])
                     : LinearGradient(
                         begin: Alignment.centerLeft,

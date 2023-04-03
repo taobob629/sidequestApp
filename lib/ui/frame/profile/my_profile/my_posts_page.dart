@@ -72,7 +72,7 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
   @override
   Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.value.pwId);
+    return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.pwId);
 
     throw UnimplementedError();
   }

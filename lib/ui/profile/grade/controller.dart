@@ -28,7 +28,7 @@ class GradeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    isauth = userController.userInfoModel.value.isauth;
+    isauth = userController.userProfile.isAuth;
     initData();
   }
 

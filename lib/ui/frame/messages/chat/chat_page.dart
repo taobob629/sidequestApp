@@ -8,7 +8,6 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/ui/im/order_detail.dart';
 
 import '../../../../model/play_order_detail_model.dart';
 
