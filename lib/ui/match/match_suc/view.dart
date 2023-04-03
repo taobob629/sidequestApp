@@ -32,7 +32,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 15.w,
                       mainAxisSpacing: 15.h,
-                      childAspectRatio: 0.6 / 1.0),
+                      childAspectRatio: 0.7 / 1.0),
                   itemBuilder: (c, i) {
                     if (i != _ctr.playerList.length) {
                       return _itemWidget(i);
@@ -274,14 +274,24 @@ class SideKickMatchSucPage extends StatelessWidget {
                           left: 10.w,
                           bottom: 7.h,
                         ),
-                        child: Text(
-                          '${_ctr.playerList[i].price.toString()}/${_ctr.playerList[i].unit}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12.sp,
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              ImageUtils.coinRed,
+                              width: 15.w,
+                              height: 15.w,
+                            ),
+                            4.horizontalSpace,
+                            Text(
+                              '${_ctr.playerList[i].price.toString()}/${_ctr.playerList[i].unit}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       // Expanded(

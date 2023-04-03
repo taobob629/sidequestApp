@@ -142,8 +142,8 @@ class SideKickMatchSucController extends GetxController {
           arguments: bean.orderId);
       // flog('$res', 'Get.to(()=>PlayOrder');
       if (uk != null) {
+        Get.back();
         if (uk == 0) {
-          Get.back();
           MainPageController.find.currentIndex.value = 3;
           MainPageController.find.controller.jumpToPage(3);
         } else {
