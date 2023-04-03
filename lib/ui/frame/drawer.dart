@@ -20,6 +20,7 @@ import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
+import 'package:wy/widget/home/index.dart';
 
 List<Map> supports = [
   Map()
@@ -172,9 +173,9 @@ class HomeDrawer extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: 5),
-            child: Image(
-              image: AssetImage(UserController.find.gradeImg()),
-              height: 25,
+            child:  GameLevelWidget(
+              level: user.sidekickLevel,
+              userId: user.pwId,
             ),
           ),
           Spacer(),
