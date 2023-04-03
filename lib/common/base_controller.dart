@@ -46,7 +46,7 @@ class BasePageController extends GetxController {
   }
 
   progress(double progress){
-    EasyLoading.showProgress(progress);
+    EasyLoading.showProgress(progress,status: 'uploadding..');
 }
   buildEmpty() {
     return EmptyView();

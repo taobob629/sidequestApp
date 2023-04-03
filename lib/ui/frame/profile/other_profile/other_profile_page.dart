@@ -27,7 +27,7 @@ import 'package:just_audio/just_audio.dart';
 class PlayState {
   static const int idle = 0;
   static const int playing = 1;
-  static  const int loadding = 2;
+  static const int loadding = 2;
 }
 
 class OtherProfilePage extends StatelessWidget {
@@ -580,7 +580,8 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
         case ProcessingState.ready:
           break;
         case ProcessingState.completed:
-        //  isPlaying=false;
+          stop();
+          break;
       }
     });
   }
@@ -596,21 +597,21 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   Future<void> play() async {
     if (audioPlayer?.playing == true) {
       await audioPlayer.stop();
-      //isPlaying = false;
       return;
     }
     var url = OtherProfileController.find.player.value.voice;
-    flog('url $url');
     if (url.isEmpty) err('No Voice'.tr);
-    //  url = '/data/user/0/uk.co.sidequest.wy/app_flutter/voice/1680251376753.m4a';
-    // url = 'https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3';
-    // url = 'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/1680256335369.m4a';
     final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
-    flog('duration ${duration}');
     audioPlayer.play();
   }
+  toRecordPage(){
+    Get.toNamed(AppPages.Record)?.then((result) {
+      if (result != null) player.value.voice = result;
+    });
+  }
 
-  stop() {
-    audioPlayer?.stop();
+  stop() async {
+    playState=PlayState.idle;
+    await audioPlayer?.stop();
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/permission_util.dart';
 
 import 'chat_voice_record_view.dart';
@@ -55,10 +56,9 @@ class VoiceRecord {
     timerTask?.cancel();
     _long = (_now() - _long) ~/ 1000;
     if (_long == 61 || _long == 59) _long = 60;
-//    IHLog.d('-----------time:${_long}');
     bool isRecording = await Record.isRecording();
     if (isRecording) {
-      Record.stop();
+      await Record.stop();
       callback(_long, _path);
     }
   }

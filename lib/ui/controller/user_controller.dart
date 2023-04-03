@@ -311,10 +311,27 @@ class UserController extends GetxController {
       case 'match_order_player':
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
 
-        Get.dialog(
-          MatchTopDialog(player: player),
-          barrierColor: Colors.black26,
-        );
+        if (Get.isRegistered<DialogMatchTopController>()) {
+          // 防止多次弹窗
+          DialogMatchTopController ctr = Get.find<DialogMatchTopController>();
+          if (ctr.countDownUtil.isShow) {
+            ctr.player = player;
+            ctr.countDownUtil.updateSeconds(10);
+            ctr.update();
+          } else {
+            Get.dialog(
+              MatchTopDialog(),
+              arguments: {'seconds': 10, 'player': player},
+              barrierColor: Colors.black26,
+            );
+          }
+        } else {
+          Get.dialog(
+            MatchTopDialog(),
+            arguments: {'seconds': 10, 'player': player},
+            barrierColor: Colors.black26,
+          );
+        }
         break;
     }
 
