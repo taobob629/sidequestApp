@@ -21,5 +21,7 @@ class ImageUtils {
   static const String icon_pay_pal = 'assets/images/icon_pay_pal.webp';
   static const String icon_bank = 'assets/images/icon_bank.webp';
   static const String icon_wechat = 'assets/images/icon_wechat.webp';
+  static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
+  static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
   static const String rg_select = 'assets/images/rg_select.png';
 }

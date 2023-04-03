@@ -25,8 +25,6 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
-import '../../../model/paymethod/local_pay_method_bean.dart';
-
 class PlayBalanceChild extends StatefulWidget {
   @override
   _PlayBalanceChildState createState() => _PlayBalanceChildState();
@@ -293,14 +291,12 @@ class WalletBalancePageController extends GetxListController {
   var _coin = 0.obs;
   var _diamonds = 0.obs;
 
-  var payMethodIndex = 0.obs;
-  var localPayMethodBean = LocalPayMethodBean().obs;
-
-  List<LocalPayMethodBean> payMethodList = [
-    LocalPayMethodBean(icon: ImageUtils.icon_pay_pal, name: "Pay pal".tr, isSelect: true),
-    LocalPayMethodBean(icon: ImageUtils.icon_bank, name: "Bank Card".tr),
-    LocalPayMethodBean(icon: ImageUtils.icon_wechat, name: "WeChat Pay".tr),
-  ];
+  int payMethodIndex = 0;
+  String currentPayMethodId = "currentPayMethodId";
+  Receipt? currentPayMethod;
+  
+  // 是否是银行卡支付
+  var ifBankPay = false.obs;
 
   get coin => _coin;
 
@@ -353,7 +349,6 @@ class WalletBalancePageController extends GetxListController {
   @override
   void onInit() {
     super.onInit();
-    localPayMethodBean.value = payMethodList[0];
     privacyCheckController = PrivacyCheckController();
     getBankList();
     amountController = TextEditingController()
@@ -420,6 +415,18 @@ class WalletBalancePageController extends GetxListController {
   Future<List<CoinChargeRuleModel>> loadData() async {
     EasyLoading.show();
     chargeRule = await BalanceApi.chargeRule();
+    chargeRule.receipt.forEach((element) {
+      if (element.name.contains('payPal')) {
+        element.icon = ImageUtils.icon_pay_pal;
+      } else if (element.name.contains('bankcard')) {
+        element.icon = ImageUtils.icon_bank;
+      } else if (element.name.contains('aliPay')) {
+        element.icon = ImageUtils.icon_wechat;
+      }
+    });
+    currentPayMethod = chargeRule.receipt[0];
+    update([currentPayMethodId]);
+
     coin = chargeRule.coin;
     diamonds = chargeRule.votes;
     EasyLoading.dismiss();
@@ -622,52 +629,57 @@ class WalletBalancePageController extends GetxListController {
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 26.h),
-      child: Obx(
-        () => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Text(
-                  "Cancel".tr,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "DIN",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Text(
+                "Cancel".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "DIN",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            26.verticalSpace,
-            _commonWidget(payMethodIndex.value == 0, 0),
-            Container(
-              height: 1.h,
-              color: Color(0xff2D2E3A),
-              margin: EdgeInsets.symmetric(vertical: 20.h),
+          ),
+          26.verticalSpace,
+          GetBuilder<WalletBalancePageController>(
+            builder: (builder) => ListView.separated(
+              itemBuilder: (c, i) =>
+                  _commonWidget(payMethodIndex == i, i),
+              separatorBuilder: (c, i) => Container(
+                height: 1.h,
+                color: Color(0xff2D2E3A),
+                margin: EdgeInsets.symmetric(vertical: 20.h),
+              ),
+              itemCount: chargeRule.receipt.length,
+              shrinkWrap: true,
             ),
-            _commonWidget(payMethodIndex.value == 1, 1),
-            Container(
-              height: 1.h,
-              color: Color(0xff2D2E3A),
-              margin: EdgeInsets.symmetric(vertical: 20.h),
-            ),
-            _commonWidget(payMethodIndex.value == 2, 2),
-            15.verticalSpace,
-            FloatingButton(
-              label: "Submit".tr,
-              onTap: () {
-                Get.back(result: payMethodList[payMethodIndex.value]);
-              },
-            ),
-          ],
-        ),
+            id: currentPayMethodId,
+          ),
+          15.verticalSpace,
+          FloatingButton(
+            label: "Submit".tr,
+            onTap: () {
+              Get.back(result: chargeRule.receipt[payMethodIndex]);
+            },
+          ),
+        ],
       ),
     ));
     if (result != null) {
-      localPayMethodBean.value = result;
+      currentPayMethod = result;
+      if (currentPayMethod?.name.contains('bankcard') == true) {
+        ifBankPay.value = true;
+      } else {
+        ifBankPay.value = false;
+      }
+      update([currentPayMethodId]);
     }
   }
 
@@ -675,18 +687,19 @@ class WalletBalancePageController extends GetxListController {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        payMethodIndex.value = index;
+        payMethodIndex = index;
+        update([currentPayMethodId]);
       },
       child: Row(
         children: [
           Image.asset(
-            payMethodList[index].icon!,
+            chargeRule.receipt[index].icon!,
             width: 24.w,
             height: 24.w,
           ),
           6.horizontalSpace,
           Text(
-            payMethodList[index].name!,
+            chargeRule.receipt[index].name,
             style: TextStyle(
               color: Colors.white,
               fontFamily: "DIN",
