@@ -196,20 +196,24 @@ class BadgesItem {
 
   // Intimacy
   final String name;
+  final String tips;
 
   BadgesItem({
     required this.badge,
     this.name = "",
+    this.tips = "",
   });
 
   factory BadgesItem.fromJson(Map<String, dynamic>? json) => BadgesItem(
         badge: asT<List>(json, 'badge').map((e) => BadgeItem.fromJson(e)).toList(),
         name: asT<String>(json, 'name'),
+        tips: asT<String>(json, 'tips'),
       );
 
   Map<String, dynamic> toJson() => {
         'badge': badge.map((e) => e.toJson()).toList(),
         'name': name,
+        'tips': tips,
       };
 }
 

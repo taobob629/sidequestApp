@@ -59,7 +59,6 @@ class SideKickMatchSucController extends GetxController {
         // 通知boos，有人进来了
         MatchOperationModel matchOperationModel =
             MatchOperationModel.fromJson(map["message"]);
-
         JumpMatchSucBean sucBean = JumpMatchSucBean(
           distance: matchOperationModel.distance,
           uid: matchOperationModel.orderInfo.uid,
