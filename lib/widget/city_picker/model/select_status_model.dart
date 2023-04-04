@@ -10,10 +10,11 @@ class Country {
   String? frenchname;
   int? countrycode;
   List<Region> state = [];
+  Country();
 
   Country.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name']??'';
+    name = json['name'] ?? '';
     emoji = json['emoji'];
     emojiU = json['emojiU'];
     iso2 = json['iso2'];
@@ -54,9 +55,9 @@ class Region {
   int? id;
   String? name;
   int? countryId;
-  List<City> city=[];
+  List<City> city = [];
 
-  Region({this.id, this.name, this.countryId, this.city=const []});
+  Region({this.id, this.name, this.countryId, this.city = const []});
 
   Region.fromJson(Map<String, dynamic> json) {
     id = json['id'];

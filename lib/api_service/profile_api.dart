@@ -60,8 +60,8 @@ abstract class ProfileApi {
   }
 
   /// player profile player用户信息
-  static Future<PlayerInfoModel> getPlayerInfo({required playerId}) async {
-    var response = await http.get('/peiwan/app/profile/player', queryParameters: {"id": playerId});
+  static Future<PlayerInfoModel> getPlayerInfo({required playerId, gid}) async {
+    var response = await http.get('/peiwan/app/profile/player', queryParameters: {"id": playerId, "gid": gid});
     return PlayerInfoModel.fromJson(response.data);
   }
 
@@ -74,6 +74,12 @@ abstract class ProfileApi {
   /// player profile player用户信息
   static Future profileInit() async {
     var response = await http.get('/peiwan/app/profile/profileInit');
+    return response.data;
+  }
+
+  /// profile-album  添加图片到相册
+  static Future updateProfile(String nick, String phone, String language, String country, String gender) async {
+    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "phone": phone, "language": language, "country": country, "gender": gender});
     return response.data;
   }
 }

@@ -15,6 +15,7 @@ import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/order/detail/widgets/acticon_widget.dart';
+import 'package:wy/ui/profile/address/edit/edit_address_page.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:get/get.dart';
@@ -164,34 +165,41 @@ class ProfileEditPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  child: Obx(() => t.countries.isEmpty
-                      ? Container()
-                      : Visibility(
-                          visible: t.hasInited && t.countries.isNotEmpty,
-                          child: CSCPicker(
-                            countries: t.countries,
-                            arrowColor: Colors.white60,
-                            showStates: false,
-                            showCities: false,
-                            currentCountry: t.curCountry?.value == null ? null : '${t.curCountry?.value.emoji}  ${t.curCountry?.value.name}',
-                            dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: AppColor.itemBg2, border: Border.all(color: AppColor.itemBg2, width: 1)),
-                            countrySearchPlaceholder: "Country".tr,
-                            countryDropdownLabel: "*${'Country'.tr}",
-                            //  defaultCountry: DefaultCountry.United_States,
-                            selectedItemStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                Builder(builder: (optionContext) {
+                  return GestureDetector(
+                    child: Obx(() => Container(
+                        height: 50,
+                        padding: EdgeInsets.only(left: 15, right: 10),
+                        decoration: BoxDecoration(
+                          color: AppColor.itemBg2,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              t.curCountry.value,
+                              style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
                             ),
-                            dropdownDialogRadius: 10.0,
-                            searchBarRadius: 10.0,
-                            onCountryChanged: (value) {
-                              //  flog('onCountryChanged${value.name}');
-                              t.curCountry?.value.name = value!.name;
-                            },
-                          ))),
-                ),
+                            Spacer(),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColor.colorB9C9,
+                            ),
+                          ],
+                        ))),
+                    onTap: () {
+                      Get.dialog(
+                          CsDropDownDialog(
+                              optionContext: optionContext,
+                              itemList: t.countries.map<DropDownModel>((country) => DropDownModel()..title = ((country.emoji ?? "") + country.name)).toList(),
+                              onTap: (index, value) {
+                                t.curCountry.value = value;
+                              }),
+                          barrierColor: Colors.transparent,
+                          useSafeArea: false);
+                    },
+                  );
+                }).marginSymmetric(horizontal: 15),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -207,8 +215,7 @@ class ProfileEditPage extends StatelessWidget {
                 ),
                 Builder(builder: (optionContext) {
                   return GestureDetector(
-                    behavior: HitTestBehavior.deferToChild,
-                    child: Container(
+                    child: Obx(() => Container(
                         height: 50,
                         padding: EdgeInsets.only(left: 15, right: 10),
                         decoration: BoxDecoration(
@@ -218,7 +225,7 @@ class ProfileEditPage extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "English",
+                              t.curLanguage.value,
                               style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
                             ),
                             Spacer(),
@@ -227,25 +234,51 @@ class ProfileEditPage extends StatelessWidget {
                               color: AppColor.colorB9C9,
                             ),
                           ],
-                        )),
+                        ))),
                     onTap: () {
                       Get.dialog(
                           CsDropDownDialog(
                               optionContext: optionContext,
-                              itemList: [DropDownModel()..title = "English", DropDownModel()..title = "中文"],
-                              onTap: (index) {
-                                //
+                              itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
+                              onTap: (index, value) {
+                                t.curLanguage.value = value;
                               }),
                           barrierColor: Colors.transparent,
                           useSafeArea: false);
                     },
                   );
                 }).marginSymmetric(horizontal: 15),
-                AddressItemView(
-                  address: AddressModel(),
-                  onEdit: () => t.jumpEditAddress(true),
-                  onTap: () {},
-                )
+                Obx(() => AddressItemView(
+                      address: t.addressModel.value,
+                      onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
+                      onTap: () {},
+                    )),
+                33.verticalSpace,
+                GestureDetector(
+                  onTap: () {
+                    t.updateProfile();
+                  },
+                  child: Container(
+                    width: 240,
+                    height: 40.h,
+                    margin: EdgeInsets.symmetric(horizontal: 21),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: AppColor.yellowGradient),
+                      borderRadius: BorderRadius.circular(20.h),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                100.verticalSpace
               ],
             ),
           )
@@ -308,7 +341,7 @@ class AddressItemView extends StatelessWidget {
               padding: itemPaddingNormal,
               clipBehavior: Clip.antiAlias,
               decoration: itemDecoration(),
-              child: list_item(address.useDefault),
+              child: list_item(false),
             ),
           ],
         ));
@@ -326,13 +359,13 @@ class AddressItemView extends StatelessWidget {
             children: [
               Text(
                 "${address.firstName} ${address.lastName}",
-                style: TextStyle(color: address.useDefault ? AppColor.textYellow : Colors.white, fontWeight: FontWeight.bold, fontSize: 16.sp, fontFamily: FONT_MEDIUM),
+                style: TextStyle(color: isDefault ? AppColor.textYellow : Colors.white, fontWeight: FontWeight.bold, fontSize: 16.sp, fontFamily: FONT_MEDIUM),
               ),
               Spacer(),
               Text(
                 "${address.phone}",
                 style: TextStyle(
-                  color: address.useDefault ? AppColor.textYellow : Colors.white,
+                  color: isDefault ? AppColor.textYellow : Colors.white,
                   fontFamily: FONT_LIGHT,
                   fontSize: 16.sp,
                 ),
@@ -358,7 +391,7 @@ class AddressItemView extends StatelessWidget {
               textColor: textColor,
               iconColor: iconColor,
               icon: 'ic_location',
-              text: "${address.line1} | ${address.line2} | ${address.city} | ${address.postCode}",
+              text: "${address.city} | ${address.line1}",
               size: 13.w,
             ),
             divider,
@@ -390,7 +423,9 @@ class ProfileEditController extends GetxController {
     _hasInited.value = value;
   }
 
-  Rx<Country>? curCountry;
+  final curCountry = "".obs;
+  final curLanguage = "".obs;
+  final addressModel = AddressModel().obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -411,18 +446,26 @@ class ProfileEditController extends GetxController {
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
         String country = jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
-        curCountry?.value = countries.firstWhereOrNull((element) => country.contains('${element.name}'))!;
+        var tempCountry = countries.firstWhereOrNull((element) => country.contains('${element.name}'))!;
+        print(tempCountry);
+        curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
+      curLanguage.value = res["language"];
+
+      List<AddressModel> addressList = res["addressList"].map<AddressModel>((json) => AddressModel.fromEdit(json)).toList();
+
+      addressModel.value = addressList.firstWhere((address) => address.useDefault);
+    });
+  }
+
+  updateProfile() {
+    ProfileApi.updateProfile(nickController.text, phoneController.text, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+      profileInit();
+      Get.back();
     });
   }
 
   RxList<Country> countries = RxList();
-
-  // List<Country> get countries => _countries;
-
-  // set countries(List<Country> value) {
-  //   _countries.value = value;
-  // }
 
   initLocation() async {
     if (countries.isNotEmpty) return countries;
@@ -445,7 +488,7 @@ class ProfileEditController extends GetxController {
         // flog(value!.path, 'selectAvatar');
         isUploadFile = true;
         EasyLoading.show();
-        var url = await Common.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+        await Common.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         EasyLoading.dismiss();
         isUploadFile = false;
         UserController.find.updateInfo();
@@ -456,12 +499,12 @@ class ProfileEditController extends GetxController {
   }
 
   void jumpEditAddress(bool edit, {AddressModel? address}) {
-    // Get.to(() => EditAddressPage(
-    //       edit: edit,
-    //       address: address,
-    //     ))?.then((value) {
-    //   if (value != null && value == true) {}
-    // });
+    Get.to(() => EditAddressPage(
+          edit: edit,
+          address: address,
+        ))?.then((value) {
+      if (value != null && value == true) {}
+    });
   }
 
   @override
