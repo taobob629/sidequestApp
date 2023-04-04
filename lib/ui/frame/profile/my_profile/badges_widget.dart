@@ -5,6 +5,7 @@
  */
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -14,6 +15,8 @@ import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../../image_utils.dart';
+import '../../../playwith/balance/my_earnings_page.dart';
 import 'my_profile_page.dart';
 
 class BadgesWidget extends GetView<ProfileController> {
@@ -37,12 +40,40 @@ class BadgesWidget extends GetView<ProfileController> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 38),
-            child: Text(
-              '${badge?.name}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold),
+            child: Row(
+              children: [
+                Text(
+                  '${badge.name}',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTapDown: (details) {
+                    print(details.globalPosition);
+                    Get.dialog(TipsDialog(
+                      offset: details.globalPosition,
+                      tips: badge.tips,
+                    ));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 6),
+                    width: 12.w,
+                    height: 12.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xffb2b9c9),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Image.asset(
+                      ImageUtils.icon_help,
+                      width: 10.w,
+                      height: 10.w,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           Container(
@@ -127,6 +158,52 @@ class BadgesWidget extends GetView<ProfileController> {
           )
         ],
       ),
+    );
+  }
+}
+
+class TipsDialog extends StatelessWidget {
+  TipsDialog({Key? key, required this.offset, required this.tips})
+      : super(key: key);
+  final Offset offset;
+  final String tips;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: [
+        Positioned(
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15,
+          left: offset.dx - 10,
+          child: ClipPath(
+            clipper: Triangle(dir: -1),
+            child: Container(
+              width: 20.0,
+              height: 10.0,
+              color: Color(0xff282640),
+              child: null,
+            ),
+          ),
+        ),
+        Positioned(
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15 + 10,
+          width: Get.width - offset.dx / 2,
+          child: Container(
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+                color: Color(0xff282640),
+                borderRadius: BorderRadius.circular(10.r)),
+            child: Text(
+              tips,
+              style: TextStyle(
+                color: Color(0xff8291B4),
+                height: 1.5,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
