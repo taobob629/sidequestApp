@@ -240,11 +240,13 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Withdrawal amount".tr,
+                            controller.ifBankPay.value
+                                ? '${controller.selectedBank?.cardNumber}'
+                                : "Withdrawal amount".tr,
                             style: TextStyle(
-                                color: Color(0xffb2b9c9),
-                                fontFamily: "DIN",
-                                fontSize: 13),
+                              color: Color(0xffFFCB0E),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,),
                           ),
                           controller.ifBankPay.value
                               ? GestureDetector(
@@ -255,7 +257,8 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                           'Only 4 bankcards allowed!'.tr);
                                       return;
                                     }
-                                    Get.toNamed(AppPages.BindBankCard);
+                                    Get.toNamed(AppPages.BindBankCard,
+                                        arguments: controller.selectedBank);
                                   },
                                   child: controller.currentPayMethod?.id == null
                                       ? Row(

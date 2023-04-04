@@ -69,10 +69,12 @@ class ChatPage extends StatelessWidget {
         print(data);
         return GestureDetector(
           onTap: () {
-            //    Get.to(() => OrderDetail(orderId: data['orderId']))!.whenComplete(() => _getPlayOrder());
-            Get.toNamed(AppPages.OrderDetail,
-                    arguments: Map()..['id'] = data['orderId'])
-                ?.whenComplete(() => _getPlayOrder());
+            if (type != "TopUp_Credit") {
+              Get.toNamed(AppPages.OrderDetail,
+                  arguments: Map()
+                    ..['id'] = data['orderId'])
+                  ?.whenComplete(() => _getPlayOrder());
+            }
           },
           child: Container(
               height: type != "TopUp_Credit" ? height : height + 90.h,
