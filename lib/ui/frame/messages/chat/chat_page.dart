@@ -9,6 +9,7 @@ import 'package:wy/api/im_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../../../model/play_order_detail_model.dart';
 
@@ -16,13 +17,10 @@ class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
   final String orderSn;
 
-  ChatPage({Key? key, required this.selectedConversation, this.orderSn = ''})
-      : super(key: key);
+  ChatPage({Key? key, required this.selectedConversation, this.orderSn = ''}) : super(key: key);
 
   String? _getConvID() {
-    return selectedConversation.type == 1
-        ? selectedConversation.userID
-        : selectedConversation.groupID;
+    return selectedConversation.type == 1 ? selectedConversation.userID : selectedConversation.groupID;
   }
 
   PlayOrderDetailModel? playOrderDetailModel;
@@ -41,8 +39,7 @@ class ChatPage extends StatelessWidget {
       customStickerPanel: renderCustomStickerPanel,
       conversationID: _getConvID() ?? '',
       // groupID or UserID
-      conversationType:
-          selectedConversation.type == 1 ? ConvType.c2c : ConvType.group,
+      conversationType: selectedConversation.type == 1 ? ConvType.c2c : ConvType.group,
       // Conversation type
       conversationShowName: selectedConversation.showName ?? "",
       // Conversation display name
@@ -51,10 +48,10 @@ class ChatPage extends StatelessWidget {
         //     context,
         //     MaterialPageRoute(
         //       builder: (context) => UserProfile(userID: userID),
-        //     ));
+        //     ))
+        NavigatorHelper.toOtherProfile(selectedConversation.userID);
       },
-      messageItemBuilder: MessageItemBuilder(
-          customMessageItemBuilder: (message, isShowJump, clearJump) {
+      messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var data = jsonDecode(message.customElem!.data!);
         var type = data['type'];
         if (type != "play_order" && type != "TopUp_Credit") {
@@ -88,14 +85,12 @@ class ChatPage extends StatelessWidget {
               )),
         );
       }),
-      conversation:
-          selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.
+      conversation: selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.
     );
   }
 
   _getPlayOrder() {
-    ImApi.getCurrentPlayOrderDetail(selectedConversation.userID!, orderSn)
-        .then((value) {
+    ImApi.getCurrentPlayOrderDetail(selectedConversation.userID!, orderSn).then((value) {
       playOrderDetailModel = value;
     });
   }
@@ -108,19 +103,13 @@ class ChatPage extends StatelessWidget {
     addText,
     List<CustomEmojiFaceData> defaultCustomEmojiStickerList = const [],
   }) {
-    final defaultEmojiList =
-        defaultCustomEmojiStickerList.map((customEmojiPackage) {
+    final defaultEmojiList = defaultCustomEmojiStickerList.map((customEmojiPackage) {
       return CustomStickerPackage(
           name: customEmojiPackage.name,
           baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
           isEmoji: customEmojiPackage.isEmoji,
           isDefaultEmoji: true,
-          stickerList: customEmojiPackage.list
-              .asMap()
-              .keys
-              .map((idx) =>
-                  CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
-              .toList(),
+          stickerList: customEmojiPackage.list.asMap().keys.map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx])).toList(),
           menuItem: CustomSticker(
             index: 0,
             name: customEmojiPackage.icon,
@@ -129,8 +118,7 @@ class ChatPage extends StatelessWidget {
 
     return StickerPanel(
       sendTextMsg: sendTextMessage,
-      sendFaceMsg: (index, data) =>
-          sendFaceMessage(index + 1, (data.split("/")[3]).split("@")[0]),
+      sendFaceMsg: (index, data) => sendFaceMessage(index + 1, (data.split("/")[3]).split("@")[0]),
       deleteText: deleteText,
       addText: addText,
       addCustomEmojiText: addCustomEmojiText,

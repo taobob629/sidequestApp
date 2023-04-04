@@ -70,4 +70,10 @@ abstract class ProfileApi {
     var response = await http.get('/peiwan/app/profile/getOtherPhotos', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
     return response.data["rows"].map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
   }
+
+  /// player profile player用户信息
+  static Future profileInit() async {
+    var response = await http.get('/peiwan/app/profile/profileInit');
+    return response.data;
+  }
 }

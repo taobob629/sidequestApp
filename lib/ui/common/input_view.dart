@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/res/index.dart';
 
@@ -107,7 +108,7 @@ class InputView extends StatelessWidget {
                         if (showRightIcon)
                           Icon(
                             Icons.keyboard_arrow_down,
-                            color: Colors.white,
+                            color: AppColor.colorB9C9,
                           ),
                       ],
                     ),
