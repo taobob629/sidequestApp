@@ -9,6 +9,7 @@ import 'package:wy/api/im_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/im/order_detail.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../../../model/play_order_detail_model.dart';
 
@@ -43,7 +44,8 @@ class ChatPage extends StatelessWidget {
         //     context,
         //     MaterialPageRoute(
         //       builder: (context) => UserProfile(userID: userID),
-        //     ));
+        //     ))
+        NavigatorHelper.toOtherProfile(selectedConversation.userID);
       },
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var data = jsonDecode(message.customElem!.data!);

@@ -6,9 +6,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
+import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/address_model.dart';
+import 'package:wy/ui/common/cs_drop_down.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -81,17 +83,17 @@ class ProfileEditPage extends StatelessWidget {
                   decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10).r),
                   child: Obx(() => Row(
                         children: [
-                          Radio<int>(value: 0, groupValue: t.sex.value, onChanged: (value) => t.sex.value = value!),
+                          Radio<int>(value: 0, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Male".tr,
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
-                          Radio<int>(value: 1, groupValue: t.sex.value, onChanged: (value) => t.sex.value = value!),
+                          Radio<int>(value: 1, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Female".tr,
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
-                          Radio<int>(value: 2, groupValue: t.sex.value, onChanged: (value) => t.sex.value = value!),
+                          Radio<int>(value: 2, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Non-binary".tr,
                             style: TextStyle(color: Colors.white, fontSize: 14),
@@ -173,21 +175,10 @@ class ProfileEditPage extends StatelessWidget {
                             arrowColor: Colors.white60,
                             showStates: false,
                             showCities: false,
-                            currentCountry: t._curCountry == null ? null : '${t._curCountry?.emoji}  ${t._curCountry?.name}',
-                            currentState: t.state == null ? null : t.state,
-                            currentCity: t.city == null ? null : t.city,
-                            // flagState: CountryFlag.DISABLE,
-                            //  disabledDropdownDecoration: BoxDecoration(
-                            //      borderRadius: BorderRadius.all(Radius.circular(10)),
-                            //      color: AppColor.itemBg,
-                            //      border: Border.all(color: AppColor.itemBg, width: 1)),
+                            currentCountry: t.curCountry?.value == null ? null : '${t.curCountry?.value.emoji}  ${t.curCountry?.value.name}',
                             dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: AppColor.itemBg2, border: Border.all(color: AppColor.itemBg2, width: 1)),
                             countrySearchPlaceholder: "Country".tr,
-                            stateSearchPlaceholder: "State".tr,
-                            citySearchPlaceholder: "City".tr,
                             countryDropdownLabel: "*${'Country'.tr}",
-                            stateDropdownLabel: "*${'State'.tr}",
-                            cityDropdownLabel: "*${'City'.tr}",
                             //  defaultCountry: DefaultCountry.United_States,
                             selectedItemStyle: TextStyle(
                               color: Colors.white,
@@ -197,40 +188,59 @@ class ProfileEditPage extends StatelessWidget {
                             searchBarRadius: 10.0,
                             onCountryChanged: (value) {
                               //  flog('onCountryChanged${value.name}');
-                              t.country = value?.name;
-                              t._curCountry = value;
-                            },
-                            onStateChanged: (value) {
-                              // flog('onStateChanged$value');
-                              if (value == null && value == '*${'State'.tr}') {
-                                t.state = null;
-                                t._curState = null;
-                              } else {
-                                t.state = value;
-                                t._curState = t._curCountry?.state.firstWhereOrNull((item) => item.name == t.state);
-                              }
-                            },
-                            onCityChanged: (value) {
-                              //   flog('onCityChanged$value');
-                              //  if (value == null) return;
-                              if (value == null && value == '*${'City'.tr}') {
-                                t.city = null;
-                              } else {
-                                t.city = value;
-                              }
+                              t.curCountry?.value.name = value!.name;
                             },
                           ))),
                 ),
-                // 8.verticalSpace,
-                // InputView(autoHeight: true, controller: t.countryController, label: "Country".tr, maxLength: 20, tips: "${UserController.find.userProfile.value.location.country}"),
-                // 8.verticalSpace,
-                InputView(
-                    autoHeight: true,
-                    controller: t.launageController,
-                    label: "Language".tr,
-                    maxLength: 20,
-                    textInputType: TextInputType.phone,
-                    tips: "${UserController.find.userProfile.value.language}"),
+                Container(
+                  height: 40.h,
+                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Language",
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Builder(builder: (optionContext) {
+                  return GestureDetector(
+                    behavior: HitTestBehavior.deferToChild,
+                    child: Container(
+                        height: 50,
+                        padding: EdgeInsets.only(left: 15, right: 10),
+                        decoration: BoxDecoration(
+                          color: AppColor.itemBg2,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "English",
+                              style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
+                            ),
+                            Spacer(),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColor.colorB9C9,
+                            ),
+                          ],
+                        )),
+                    onTap: () {
+                      Get.dialog(
+                          CsDropDownDialog(
+                              optionContext: optionContext,
+                              itemList: [DropDownModel()..title = "English", DropDownModel()..title = "中文"],
+                              onTap: (index) {
+                                //
+                              }),
+                          barrierColor: Colors.transparent,
+                          useSafeArea: false);
+                    },
+                  );
+                }).marginSymmetric(horizontal: 15),
                 AddressItemView(
                   address: AddressModel(),
                   onEdit: () => t.jumpEditAddress(true),
@@ -369,14 +379,9 @@ class AddressItemView extends StatelessWidget {
 class ProfileEditController extends GetxController {
   TextEditingController nickController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
-  TextEditingController launageController = TextEditingController();
 
-  final sex = 2.obs;
+  final gender = 2.obs;
 
-  Rxn<String?> _country = Rxn();
-  Rxn<String?> _state = Rxn();
-  Rxn<String?> _city = Rxn();
   RxBool _hasInited = false.obs;
 
   bool get hasInited => _hasInited.value;
@@ -385,46 +390,7 @@ class ProfileEditController extends GetxController {
     _hasInited.value = value;
   }
 
-  String? get state => _state.value;
-
-  String? get country => _country.value;
-
-  String? get city => _city.value;
-
-  showState() {
-    if (_curCountry != null) {
-      return _curCountry?.state.isNotEmpty == true;
-    }
-    if (_curState == null) return false;
-    return country?.isNotEmpty == true;
-  }
-
-  showCity() {
-    if (_curState == null) return false;
-    if (_curCountry != null) {
-      if (_curCountry?.state.isEmpty == true) return false;
-    }
-    //   if (state == null||state=='*State') return false;
-    if (_curState == null) {
-      return false;
-    }
-    return _curState?.city.isNotEmpty == true;
-  }
-
-  Country? _curCountry;
-  Region? _curState;
-
-  set country(String? value) {
-    _country.value = value;
-  }
-
-  set state(String? value) {
-    _state.value = value;
-  }
-
-  set city(String? value) {
-    _city.value = value;
-  }
+  Rx<Country>? curCountry;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -433,8 +399,21 @@ class ProfileEditController extends GetxController {
     // TODO: implement onInit
     initLocation();
     hasInited = true;
-
+    profileInit();
     super.onInit();
+  }
+
+  profileInit() {
+    ProfileApi.profileInit().then((res) {
+      nickController.text = res["nick"];
+      gender.value = int.parse(res["gender"]);
+      phoneController.text = res["phone"];
+      var loc = res["country"].toString();
+      if (loc.isNotEmpty && loc != "null") {
+        String country = jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
+        curCountry?.value = countries.firstWhereOrNull((element) => country.contains('${element.name}'))!;
+      }
+    });
   }
 
   RxList<Country> countries = RxList();
