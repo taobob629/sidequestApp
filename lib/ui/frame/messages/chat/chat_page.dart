@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/ui/im/order_detail.dart';
+import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../model/play_order_detail_model.dart';
@@ -18,6 +18,7 @@ class ChatPage extends StatelessWidget {
   final String orderSn;
 
   ChatPage({Key? key, required this.selectedConversation, this.orderSn = ''}) : super(key: key);
+
   String? _getConvID() {
     return selectedConversation.type == 1 ? selectedConversation.userID : selectedConversation.groupID;
   }
@@ -36,9 +37,12 @@ class ChatPage extends StatelessWidget {
       ),
       morePanelConfig: MorePanelConfig(showFilePickAction: false),
       customStickerPanel: renderCustomStickerPanel,
-      conversationID: _getConvID() ?? '', // groupID or UserID
-      conversationType: selectedConversation.type == 1 ? ConvType.c2c : ConvType.group, // Conversation type
-      conversationShowName: selectedConversation.showName ?? "", // Conversation display name
+      conversationID: _getConvID() ?? '',
+      // groupID or UserID
+      conversationType: selectedConversation.type == 1 ? ConvType.c2c : ConvType.group,
+      // Conversation type
+      conversationShowName: selectedConversation.showName ?? "",
+      // Conversation display name
       onTapAvatar: (_) {
         // Navigator.push(
         //     context,
@@ -50,7 +54,7 @@ class ChatPage extends StatelessWidget {
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var data = jsonDecode(message.customElem!.data!);
         var type = data['type'];
-        if (type != "play_order") {
+        if (type != "play_order" && type != "TopUp_Credit") {
           return Text(
             "Unsupported message type, please update your app!",
             style: TextStyle(fontSize: 12, color: Colors.white24),
@@ -66,90 +70,15 @@ class ChatPage extends StatelessWidget {
             Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
           },
           child: Container(
-            height: height,
-            width: width,
-            padding: const EdgeInsets.all(0),
-            child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        data['icon'] == null
-                            ? Container(
-                                width: iconHeight,
-                                height: iconHeight,
-                              )
-                            : Image.network(
-                                data['icon'],
-                                width: iconHeight,
-                                height: iconHeight,
-                              ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          height: iconHeight,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: width - iconHeight - 25,
-                                child: Text(
-                                  "${data['game']}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/ic_balance_money.webp",
-                                    width: 15,
-                                    height: 15,
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    "${data['price']}",
-                                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
-                                      style: TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 14,
-                                      )),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
-                    Text("${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [d, '/', M, '/', yyyy, ' ', HH, ':', nn])}",
-
-                        // Text("${data['addTime']}",
-                        style: TextStyle(
-                          color: Colors.white54,
-                          fontSize: 14,
-                        )),
-                  ],
-                )),
-          ),
+              height: type != "TopUp_Credit" ? height : height + 90.h,
+              width: width,
+              padding: const EdgeInsets.all(0),
+              child: CustomMessageView(
+                type: type,
+                data: data,
+                iconHeight: iconHeight,
+                width: width,
+              )),
         );
       }),
       conversation: selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.

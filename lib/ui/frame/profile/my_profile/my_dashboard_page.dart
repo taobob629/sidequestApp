@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
+import 'badges_widget.dart';
 import 'my_profile_page.dart';
 import 'package:wy/ui/profile/events/my_events_page.dart';
 import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
@@ -84,7 +85,7 @@ class MyDashboardPage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 10),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: UserController.find.userProfile.value.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
+                        children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
                       ),
                     ))
               ],
@@ -92,58 +93,7 @@ class MyDashboardPage extends StatelessWidget {
           ),
 
           /// Trophies
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 38),
-                  child: Text(
-                    "Trophies".tr,
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Obx(() => Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Color(0xff313033),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        crossAxisCount: 6,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
-                        padding: EdgeInsets.zero,
-                        children: UserController.find.userProfile.value.trophies.map((e) {
-                          if (e.lighted) {
-                            return ImageUtil.networkImage(
-                              url: e.iconImage,
-                              width: 36,
-                              height: 36,
-                              fit: BoxFit.fitHeight,
-                            );
-                          } else {
-                            return ColorFiltered(
-                              colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
-                              child: ImageUtil.networkImage(
-                                url: e.iconImage,
-                                width: 36,
-                                height: 36,
-                              ),
-                            );
-                          }
-                        }).toList(),
-                      ),
-                    ))
-              ],
-            ),
-          )
+         ...UserController.find.userProfile.badges.map((badge) => BadgesWidget(badge)).toList()
         ],
       ),
     );
@@ -210,7 +160,7 @@ class MyDashboardPage extends StatelessWidget {
               margin: EdgeInsets.only(left: 10, right: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                gradient: vipModel.level <= UserController.find.userProfile.value.vipLevel
+                gradient: vipModel.level <= UserController.find.userProfile.vipLevel
                     ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xff707070), Color(0xff707070)])
                     : LinearGradient(
                         begin: Alignment.centerLeft,

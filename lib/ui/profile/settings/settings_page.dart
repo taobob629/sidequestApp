@@ -17,7 +17,6 @@ import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
-import 'package:wy/ui/profile/profile_page.dart';
 import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
@@ -60,11 +59,11 @@ class SettingsPage extends StatelessWidget {
             title: "About Us".tr,
             onTap: () => gotoAboutPage(context),
           ),
-          Obx(() => controller.online.value && userController.userProfile.value.vipLevel > 0
+          Obx(() => controller.online.value && userController.userProfile.vipLevel > 0
               ? SettingItem(
                   title: "Cancel Subscription".tr,
-                  info: "${controller.getVipName(userController.userProfile.value.vipLevel)}",
-                  onTap: () => controller.cancelVip(userController.userProfile.value.vipLevel),
+                  info: "${controller.getVipName(userController.userProfile.vipLevel)}",
+                  onTap: () => controller.cancelVip(userController.userProfile.vipLevel),
                 )
               : Container()),
           Obx(() => SettingItem(

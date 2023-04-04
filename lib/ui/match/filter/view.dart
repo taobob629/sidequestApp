@@ -137,7 +137,7 @@ class SideKickMatchPage extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Image.asset(
-                                      "assets/images/coin_red.webp",
+                                      ImageUtils.coinRed,
                                       width: 15.w,
                                       height: 15.w,
                                     ),

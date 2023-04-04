@@ -39,7 +39,7 @@ class RecordWidget extends GetView<OtherProfileController> {
 
   playWidget() {
     var user = controller.player.value?.uid;
-    var loginUser = userController.userProfile?.value?.pwId;
+    var loginUser = userController.userProfile?.pwId;
     var voice = controller.player.value.voice;
     switch (controller.playState) {
       case PlayState.loadding:

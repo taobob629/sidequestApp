@@ -33,7 +33,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Obx(()=>controller.isLodded?_buildForm():buildLoad()),
+      body: Obx(() => controller.isLodded ? _buildForm() : buildLoad()),
       btnBar: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -67,7 +67,8 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           PWidget.boxw(8),
           Expanded(
             child: Text(
-              'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'.tr,
+              'In order to ensure normal bank card signing, you need to collect your bank card information to ensure privacy and security throughout the process. Please feel free to use'
+                  .tr,
               style: TextStyle(color: Color(0xff4488FF)),
             ),
           ),
@@ -82,7 +83,8 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       ),
 
       InputView(
-      //  controller: controller.bankCountryTEC,
+        autoHeight: true,
+        //  controller: controller.bankCountryTEC,
         label: '*${'Recipient’s Bank Country'.tr}',
         maxLength: 200,
         customInput: country_widget(),
@@ -90,9 +92,26 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       ),
       Obx(() => Visibility(
             visible: controller.country?.name == ENGLAND,
-            child: InputView(controller: controller.sortCodeTEC, label: "Sort Code".tr, inputFormatters: [TextInputFormatter.withFunction((oldValue, newValue) => TextUtils.addSortCodeSeparator(newValue.text))], maxLength: 20, tips: "please input".tr),
+            child: InputView(
+                autoHeight: true,
+                controller: controller.sortCodeTEC,
+                label: "Sort Code".tr,
+                inputFormatters: [
+                  TextInputFormatter.withFunction((oldValue, newValue) =>
+                      TextUtils.addSortCodeSeparator(newValue.text))
+                ],
+                maxLength: 20,
+                tips: "please input".tr),
           )),
-      Obx(() => Visibility(visible: controller.country != null && controller.country?.name != ENGLAND, child: InputView(controller: controller.swiftCodeTEC, label: '*${"SWIFT Code".tr}', maxLength: 20, tips: "please input".tr))),
+      Obx(() => Visibility(
+          visible:
+              controller.country != null && controller.country?.name != ENGLAND,
+          child: InputView(
+              autoHeight: true,
+              controller: controller.swiftCodeTEC,
+              label: '*${"SWIFT Code".tr}',
+              maxLength: 20,
+              tips: "please input".tr))),
       // InputView(
       //   controller: controller.bankIBANTEC,
       //   label: '${'Recipient’s IBAN (optional)'.tr}',
@@ -101,10 +120,33 @@ class BindBankCardPage extends GetView<BindBankCardController> {
       // ),
       bankNameWidget(),
 
-      InputView(controller: controller.nameOnAccountNumTEC, label: '*${'Recipient’s Bank Account Name'.tr}', maxLength: 200, tips: "please input".tr),
-      InputView(controller: controller.accountNumTEC, label: '*${'Recipient Bank Account Number'.tr}', textInputType: TextInputType.number, maxLength: 100, tips: "please input".tr),
-      Obx(() => InputView(controller: controller.bankAddressTEC, label: '${controller.country?.name != ENGLAND ? '*' : ''}${'Recipient Bank Address'.tr}${controller.country?.name != ENGLAND ? '' : ' (Optional)'}', maxLength: 200, tips: "please input".tr)),
-      Obx(() => InputView(controller: controller.billAddressTEC, label: '${controller.country?.name != ENGLAND ? '*' : ''}${'Recipient’s Bank Bill Address'.tr}${controller.country?.name != ENGLAND ? '' : ' (Optional)'}', maxLength: 200, tips: "please input".tr)),
+      InputView(
+          autoHeight: true,
+          controller: controller.nameOnAccountNumTEC,
+          label: '*${'Recipient’s Bank Account Name'.tr}',
+          maxLength: 200,
+          tips: "please input".tr),
+      InputView(
+          autoHeight: true,
+          controller: controller.accountNumTEC,
+          label: '*${'Recipient Bank Account Number'.tr}',
+          textInputType: TextInputType.number,
+          maxLength: 100,
+          tips: "please input".tr),
+      Obx(() => InputView(
+          autoHeight: true,
+          controller: controller.bankAddressTEC,
+          label:
+              '${controller.country?.name != ENGLAND ? '*' : ''}${'Recipient Bank Address'.tr}${controller.country?.name != ENGLAND ? '' : ' (Optional)'}',
+          maxLength: 200,
+          tips: "please input".tr)),
+      Obx(() => InputView(
+          autoHeight: true,
+          controller: controller.billAddressTEC,
+          label:
+              '${controller.country?.name != ENGLAND ? '*' : ''}${'Recipient’s Bank Bill Address'.tr}${controller.country?.name != ENGLAND ? '' : ' (Optional)'}',
+          maxLength: 200,
+          tips: "please input".tr)),
     ];
   }
 
@@ -132,6 +174,7 @@ class BindBankCardPage extends GetView<BindBankCardController> {
   Widget bankNameWidget() {
     //return itemBg(BanksField());
     return InputView(
+        autoHeight: true,
         // controller: controller.bankNameTEC,
         label: '*${'Recipient Bank Name'.tr}',
         maxLength: 20,
@@ -140,9 +183,10 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           optionsBuilder: (value) => controller.banks,
           displayStringForOption: (bank) => bank.bank ?? '',
           onSelected: (value) {},
-          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+          fieldViewBuilder:
+              (context, textEditingController, focusNode, onFieldSubmitted) {
             controller.bankNameTEC = textEditingController;
-            controller.bankNameTEC.text=controller?.model?.bankName??'';
+            controller.bankNameTEC.text = controller?.model?.bankName ?? '';
             return Container(
               child: TextFormField(
                 controller: textEditingController,
@@ -164,21 +208,23 @@ class BindBankCardPage extends GetView<BindBankCardController> {
               ),
             );
           },
-          optionsViewBuilder: (context, onSelected, options) => Obx(() => ListView.builder(
-              itemCount: controller.filterBanks.length,
-              itemBuilder: (context, index) => Material(
-                    color: Color(0xff282640),
-                    child: ListTile(
-                      onTap: () {
-                        SimpleBankModel model = controller.filterBanks[index];
-                        onSelected(model);
-                      },
-                      title: LightTextWidget(
-                        text: '${controller.filterBanks[index].bank}',
-                        lightText: controller.keyWord,
-                      ),
-                    ),
-                  ))),
+          optionsViewBuilder: (context, onSelected, options) =>
+              Obx(() => ListView.builder(
+                  itemCount: controller.filterBanks.length,
+                  itemBuilder: (context, index) => Material(
+                        color: Color(0xff282640),
+                        child: ListTile(
+                          onTap: () {
+                            SimpleBankModel model =
+                                controller.filterBanks[index];
+                            onSelected(model);
+                          },
+                          title: LightTextWidget(
+                            text: '${controller.filterBanks[index].bank}',
+                            lightText: controller.keyWord,
+                          ),
+                        ),
+                      ))),
         ),
         tips: "please input".tr);
   }
@@ -189,8 +235,12 @@ class BindBankCardPage extends GetView<BindBankCardController> {
           arrowColor: Colors.white60,
           showStates: false,
           showCities: false,
-          currentCountry: controller.country==null?null:'${controller.country?.emoji}  ${controller.country?.name}',
-          dropdownDecoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)), color: Colors.transparent),
+          currentCountry: controller.country == null
+              ? null
+              : '${controller.country?.emoji}  ${controller.country?.name}',
+          dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(0)),
+              color: Colors.transparent),
           countrySearchPlaceholder: "Country".tr,
           stateSearchPlaceholder: "State".tr,
           citySearchPlaceholder: "City".tr,
@@ -221,7 +271,8 @@ class BindBankCardPage extends GetView<BindBankCardController> {
         shape: StadiumBorder(),
       ),
     );
-    return PWidget.container(view, [null, 48, Color(0xff282640)], {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 48, Color(0xff282640)],
+        {'br': 48, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 
   _dropDownItems() {}

@@ -165,7 +165,7 @@ class VipPage extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 6),
                                         child: Text(
-                                          userController.userInfoModel.value.vipLevel >=
+                                          userController.userProfile.vipLevel >=
                                               controller
                                                   .vipInfoList[controller.vipIndex.value].level
                                               ? "Subscribed".tr
@@ -398,7 +398,7 @@ class VipPageController extends GetxController {
   void openMonth() {
     VipInfoModel vipInfoModel = vipInfoList[vipIndex.value];
     var userController = Get.find<UserController>();
-    if (userController.userInfoModel.value.vipLevel >= vipInfoModel.level) {
+    if (userController.userProfile.vipLevel >= vipInfoModel.level) {
       return;
     }
 

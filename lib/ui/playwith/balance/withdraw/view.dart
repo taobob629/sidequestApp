@@ -56,7 +56,7 @@ class WithDrawMainPage extends StatelessWidget {
   }
 
   List<Widget> createTabs() {
-    var userType = userController.userInfoModel.value.isauth;
+    var userType = userController.userProfile.isAuth;
     if (userType == TYPE_VIP) {
       return [
         Text(
@@ -97,7 +97,7 @@ class WithDrawMainPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    var userType = Get.find<UserController>().userInfoModel.value.isauth;
+    var userType = Get.find<UserController>().userProfile.isAuth;
     tabController = TabController(
         vsync: this, length: userType == TYPE_VIP ? 3 : 1, initialIndex: 0);
   }

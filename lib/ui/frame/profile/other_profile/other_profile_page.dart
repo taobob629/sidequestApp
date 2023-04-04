@@ -498,7 +498,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     initPlayer();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     player.value = Get.arguments;
-    isSelf = UserController.find.userProfile.value.pwId == player.value.uid;
+    isSelf = UserController.find.userProfile?.pwId == player.value.uid;
 
     scrollController.addListener(() {
       showTitle.value = scrollController.offset >= limitedHeight;

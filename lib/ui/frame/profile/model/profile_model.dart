@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:wy/model/safe_convert.dart';
+import 'package:wy/utils/index.dart';
+
 class ProfileModel {
   int memberId = 0;
   int pwId = 0;
@@ -26,7 +29,7 @@ class ProfileModel {
   int postNum = 0;
   String diamond = "";
   String phone = "";
-
+  List<BadgesItem> badges = [];
   bool vipCanceled = false;
   int totalmins = 0;
   int avamins = 0;
@@ -48,6 +51,7 @@ class ProfileModel {
       this.balance = "",
       this.uk = "",
       this.trophies = const [],
+      this.badges = const [],
       this.gender = 1,
       this.avatar = "",
       this.coin = 0,
@@ -82,13 +86,20 @@ class ProfileModel {
     followers = json["followers"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
-    trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
+    trophies = json["trophies"] != null
+        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
+        : [];
+    badges = json["badges"] != null
+        ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList()
+        : [];
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
-    vips = json["vips"] != null ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList() : [];
+    vips = json["vips"] != null
+        ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
+        : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 0;
     postNum = json["postNum"] ?? 0;
@@ -166,4 +177,91 @@ class VipModel {
     price = json["price"] ?? 0.0;
     name = json["name"] ?? "";
   }
+}
+
+class BadgesItem {
+  List<BadgeItem> getPageData(int page) {
+    if (badge.length <= 6) return badge;
+    int nextPage = page + 1;
+    if (nextPage*6 > badge.length) return badge.sublist(page*6, badge.length);
+    return badge.sublist(page*6, nextPage  * 6);
+  }
+ getPageSize(){
+    if(badge.length%6==0){
+      return badge.length%6;
+    }
+    return (badge.length/6).truncate()+1;
+ }
+  final List<BadgeItem> badge;
+
+  // Intimacy
+  final String name;
+
+  BadgesItem({
+    required this.badge,
+    this.name = "",
+  });
+
+  factory BadgesItem.fromJson(Map<String, dynamic>? json) => BadgesItem(
+        badge: asT<List>(json, 'badge').map((e) => BadgeItem.fromJson(e)).toList(),
+        name: asT<String>(json, 'name'),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'badge': badge.map((e) => e.toJson()).toList(),
+        'name': name,
+      };
+}
+
+class BadgeItem {
+  // 29
+  final int id;
+
+  // VIP1
+  final String iconName;
+
+  // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/01-VIP1.png
+  final String iconImage;
+
+  // Accumulated spending of 750 gold coins
+  final String tips;
+
+  // false
+  final bool lighted;
+
+  // 2
+  final int medalType;
+
+  // 750
+  final int threshold;
+
+  BadgeItem({
+    this.id = 0,
+    this.iconName = "",
+    this.iconImage = "",
+    this.tips = "",
+    this.lighted = false,
+    this.medalType = 0,
+    this.threshold = 0,
+  });
+
+  factory BadgeItem.fromJson(Map<String, dynamic>? json) => BadgeItem(
+        id: asT<int>(json, 'id'),
+        iconName: asT<String>(json, 'iconName'),
+        iconImage: asT<String>(json, 'iconImage'),
+        tips: asT<String>(json, 'tips'),
+        lighted: asT<bool>(json, 'lighted'),
+        medalType: asT<int>(json, 'medalType'),
+        threshold: asT<int>(json, 'threshold'),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'iconName': iconName,
+        'iconImage': iconImage,
+        'tips': tips,
+        'lighted': lighted,
+        'medalType': medalType,
+        'threshold': threshold,
+      };
 }

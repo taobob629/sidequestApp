@@ -65,12 +65,12 @@ class TopBanner extends StatelessWidget {
                       customIcon: 'assets/images/ic_corns_new.webp',
                       icon: "money",
                       title: "Credits Balance".tr,
-                      count: "${userController.userInfoModel.value.balance}",
+                      count: "${userController.userProfile.balance}",
                     ),
                     CountView(
                       icon: "time",
                       title: "Free Gaming Time".tr,
-                      count: "${userController.userInfoModel.value.freeMins}",
+                      count: "${userController.userProfile.avamins}",
                     )
                   ],
             ))

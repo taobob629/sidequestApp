@@ -51,7 +51,7 @@ class EditProfilePage extends StatelessWidget {
             _buildAvatarEdit(context),
             SizedBox(height: 10,),
             InputView(
-                controller: controller.nickController, label: "Nickname".tr, maxLength: 20, tips: "${userController.userInfoModel.value.nick}"),
+                controller: controller.nickController, label: "Nickname".tr, maxLength: 20, tips: "${userController.userProfile.nickName}"),
             InputView(
                 controller: controller.fistController, label: "First Name".tr, maxLength: 20, tips: "${userController.user.value.firstName}"),
             InputView(
@@ -108,11 +108,11 @@ class EditProfilePage extends StatelessWidget {
                 child: ClipOval(
                   child: Obx((){
                     if(controller.avatar.value.path == "") {
-                      if(userController.userInfoModel.value.avatar.isEmpty){
+                      if(userController.userProfile.avatar.isEmpty){
                         return Icon(Icons.person,size: 70, color: Colors.black38,);
                       }else {
                         return CachedNetworkImage(
-                          imageUrl: userController.userInfoModel.value.avatar,
+                          imageUrl: userController.userProfile.avatar,
                           fit: BoxFit.cover,
                         );
                       }
@@ -208,12 +208,12 @@ class EditProfilePageController extends GetxController {
 
   void updateInfo() async {
     EasyLoading.show();
-    String avatarUrl = userController.userInfoModel.value.avatar;
+    String avatarUrl = userController.userProfile.avatar;
     if(avatar.value.path != "") {
       avatarUrl = await UserApi.uploadAvatar(avatar.value, (p0, p1) => print("$p0,$p1"));
     }
 
-    String nick = nickController.text.isEmpty ? userController.userInfoModel.value.nick : nickController.text;
+    String nick = nickController.text.isEmpty ? userController.userProfile.nickName : nickController.text;
 
     String birth = userController.user.value.birth;
     // if(DatetimeUtils.getAge(this.birthday.value) >= 16) {

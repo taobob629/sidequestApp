@@ -126,7 +126,9 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: controller.selectMethodReceipt,
-              child: Obx(() => Row(
+              child: GetBuilder<WalletBalancePageController>(
+                builder: (builder) {
+                  return Row(
                     children: [
                       Text(
                         "Method of receipt".tr,
@@ -138,13 +140,17 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                       ),
                       Spacer(),
                       Image.asset(
-                        controller.localPayMethodBean.value.icon!,
+                        controller.currentPayMethod == null
+                            ? ImageUtils.icon_bank
+                            : controller.currentPayMethod!.icon!,
                         width: 16.w,
                         height: 16.w,
                       ),
                       8.horizontalSpace,
                       Text(
-                        controller.localPayMethodBean.value.name!,
+                        controller.currentPayMethod == null
+                            ? ""
+                            : controller.currentPayMethod!.name,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: "DIN",
@@ -159,7 +165,10 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         size: 16.sp,
                       ),
                     ],
-                  )),
+                  );
+                },
+                id: controller.currentPayMethodId,
+              ),
             ),
           ],
         ),
@@ -228,6 +237,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Withdrawal amount".tr,
@@ -236,45 +246,83 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                 fontFamily: "DIN",
                                 fontSize: 13),
                           ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              if (controller.bankList.length >= 4) {
-                                EasyLoading.showToast(
-                                    'Only 4 bankcards allowed!'.tr);
-                                return;
-                              }
-                              Get.toNamed(AppPages.BindBankCard);
-                            },
-                            child: Icon(
-                              Icons.add_circle_outline,
-                              color: Color(0xffFFCB0E),
-                            ),
-                          ),
-                          4.horizontalSpace,
-                          GestureDetector(
-                            onTap: () {
-                              if (controller.bankList.length >= 4) {
-                                EasyLoading.showToast(
-                                    'Only 4 bankcards allowed!'.tr);
-                                return;
-                              }
-                              Get.toNamed(AppPages.BindBankCard);
-                            },
-                            child: Text(
-                              'Add'.tr,
-                              style: TextStyle(
-                                color: Color(0xffFFCB0E),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          controller.ifBankPay.value
+                              ? GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    if (controller.bankList.length >= 4) {
+                                      EasyLoading.showToast(
+                                          'Only 4 bankcards allowed!'.tr);
+                                      return;
+                                    }
+                                    Get.toNamed(AppPages.BindBankCard);
+                                  },
+                                  child: controller.currentPayMethod?.id == null
+                                      ? Row(
+                                          children: [
+                                            Image.asset(
+                                              ImageUtils.icon_add_earnings,
+                                              width: 17.w,
+                                              height: 17.w,
+                                            ),
+                                            4.horizontalSpace,
+                                            Text(
+                                              'Add'.tr,
+                                              style: TextStyle(
+                                                color: Color(0xffFFCB0E),
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          children: [
+                                            Image.asset(
+                                              ImageUtils.icon_edit_earnings,
+                                              width: 17.w,
+                                              height: 17.w,
+                                            ),
+                                            4.horizontalSpace,
+                                            Text(
+                                              'edit'.tr,
+                                              style: TextStyle(
+                                                color: Color(0xffFFCB0E),
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                )
+                              : Expanded(
+                                  child: TextField(
+                                    controller: controller.accountCtr,
+                                    maxLines: 1,
+                                    cursorColor: Colors.white70,
+                                    textAlign: TextAlign.end,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: "DIN"),
+                                    decoration: InputDecoration(
+                                        hintText:
+                                            "please input your account".tr,
+                                        hintStyle: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: Colors.white30,
+                                            fontFamily: "DIN"),
+                                        border: InputBorder.none,
+                                        contentPadding:
+                                            EdgeInsets.only(top: 0)),
+                                  ),
+                                ),
                         ],
                       ),
                     ),
                     //  _buildAccountSelect(context),
-                    BankListWidget(),
+                    // BankListWidget(),
                   ],
                 )
               ] else ...[
@@ -385,29 +433,37 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
             ),
           ),
         ),
-        child: TextField(
-          maxLines: 1,
-          inputFormatters: [PrecisionLimitFormatter(2)],
-          controller: controller.amountController,
-          focusNode: controller.amountFocusNode,
-          cursorColor: Colors.white70,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 26,
-            fontFamily: "DIN",
-          ),
-          onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(
-            hintText: "\$0.00",
-            hintStyle: TextStyle(
-              fontSize: 26,
-              color: Colors.white,
-              fontFamily: "DIN",
+        child: Row(
+          children: [
+            PWidget.image('assets/images/ic_balance_votes.webp'),
+            4.horizontalSpace,
+            Expanded(
+              child: TextField(
+                maxLines: 1,
+                inputFormatters: [PrecisionLimitFormatter(2)],
+                controller: controller.amountController,
+                focusNode: controller.amountFocusNode,
+                cursorColor: Colors.white70,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontFamily: "DIN",
+                ),
+                onSubmitted: (text) => controller.changeCustomAmount(text),
+                decoration: const InputDecoration(
+                  hintText: "0.00",
+                  hintStyle: TextStyle(
+                    fontSize: 26,
+                    color: Colors.white,
+                    fontFamily: "DIN",
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 0),
+                ),
+              ),
             ),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 0),
-          ),
+          ],
         ));
   }
 

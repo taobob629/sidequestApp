@@ -40,7 +40,7 @@ class PostCommentsPage extends StatelessWidget {
                   return GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      if (UserController.find.userProfile.value.pwId != model.uid) {
+                      if (UserController.find.userProfile.pwId != model.uid) {
                         t.replyModel.value = model;
                       }
                     },
@@ -198,7 +198,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   void onInit() {
     // TODO: implement onInit
     postItem = Get.arguments;
-    isSelf = UserController.find.userProfile.value.pwId == postItem.uid;
+    isSelf = UserController.find.userProfile.pwId == postItem.uid;
     super.onInit();
   }
 

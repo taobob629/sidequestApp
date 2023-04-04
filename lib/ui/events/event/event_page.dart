@@ -447,7 +447,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           .then((value) {
         if (value == true) {
           UserController userController = Get.find<UserController>();
-          double userBalance = double.parse(userController.userInfoModel.value.balance);
+          double userBalance = double.parse(userController.userProfile.balance);
           if (userBalance >= eventDetailModel.value.fee) {
             checkDone.call();
           } else {

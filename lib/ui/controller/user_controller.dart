@@ -44,9 +44,19 @@ class UserController extends GetxController {
   static UserController get find => Get.find();
 
   Rx<UserModel> user = Rx(UserModel());
-  Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
+ // Rx<UserInfoModel> userInfoModel = UserInfoModel().obs;
 
-  final userProfile = ProfileModel().obs;
+  var _userProfile = ProfileModel().obs;
+
+  getRxuserProfile(){
+    return _userProfile;
+  }
+
+  ProfileModel get userProfile => _userProfile.value;
+
+  set userProfile(ProfileModel value) {
+    _userProfile.value = value;
+  }
 
   RxList<String> imBlackList = RxList();
 
@@ -119,8 +129,10 @@ class UserController extends GetxController {
           _cancelPayNotify();
         }
         list.forEach((payRecord) async {
-          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
+          print(
+              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(
+              payRecord.orderId, payRecord.tranId);
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -141,9 +153,11 @@ class UserController extends GetxController {
   }
 
   Future<void> updateInfo() async {
-    if (StorageManager.getToken().isNotEmpty) {
-      userInfoModel.value = await UserApi.info();
-      userProfile.value = await ProfileApi.getProfileInfo();
+    if (StorageManager
+        .getToken()
+        .isNotEmpty) {
+  //    userInfoModel.value = await UserApi.info();
+      userProfile = await ProfileApi.getProfileInfo();
     }
   }
 
@@ -160,9 +174,13 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
+  Future<void> login(
+      {String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
-      if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
+      if (DateTime
+          .now()
+          .millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch <
+          600000) {
         return;
       }
     }
@@ -179,7 +197,8 @@ class UserController extends GetxController {
     if (showLoading == true) {
       EasyLoading.show();
     }
-    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((
+        e) {
       EasyLoading.dismiss();
     });
 
@@ -190,7 +209,9 @@ class UserController extends GetxController {
       StorageManager.setToken(loginModel.token);
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
-      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+      StorageManager.setLoginTime(DateTime
+          .now()
+          .millisecondsSinceEpoch);
       await updateInfo();
     }
     if (showLoading == true) {
@@ -207,7 +228,8 @@ class UserController extends GetxController {
     if (!kIsWeb) {
       ChannelPush.requestPermission();
       Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
+        final bool isUploadSuccess = await ChannelPush.uploadToken(
+            PushConfig.appInfo);
         // ignore: avoid_print
         print("Push token upload result: $isUploadSuccess");
       });
@@ -221,8 +243,10 @@ class UserController extends GetxController {
     String convId = extMsp["conversationID"] ?? "";
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
-        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
+        var conversationManager = TencentImSDKPlugin.v2TIMManager
+            .getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv = await conversationManager
+            .getConversation(conversationID: convId);
         if (conv.data != null) {
           Get.to(ChatPage(selectedConversation: conv.data!));
         }
@@ -234,15 +258,18 @@ class UserController extends GetxController {
     if (uk == null) {
       return;
     }
-    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
+    var conversationManager = TencentImSDKPlugin.v2TIMManager
+        .getConversationManager();
+    V2TimValueCallback<V2TimConversation> conv = await conversationManager
+        .getConversation(conversationID: "c2c_${uk}");
     if (conv.data != null)
       Navigator.push(
           Get.context!,
           MaterialPageRoute(
-            builder: (context) => ChatPage(
-              selectedConversation: conv.data!,
-            ),
+            builder: (context) =>
+                ChatPage(
+                  selectedConversation: conv.data!,
+                ),
           ));
   }
 
@@ -258,36 +285,43 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
+      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token)
+          .then((value) async {
         imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(
-                listener: V2TimConversationListener(onTotalUnreadMessageCountChanged: (count) {
-              flog(count, 'onTotalUnreadMessageCountChanged');
-              unreadMsgCount.value = count;
-              FlutterAppBadger.isAppBadgeSupported().then((value) {
-                flog(value, 'onTotalUnreadMessageCountChanged');
-                if (unreadMsgCount.value == 0) {
-                  FlutterAppBadger.removeBadge();
-                } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
-                }
-              });
-            }, onConversationChanged: (v) {
+        TencentImSDKPlugin.v2TIMManager.getConversationManager()
+            .addConversationListener(
+            listener: V2TimConversationListener(
+                onTotalUnreadMessageCountChanged: (count) {
+                  flog(count, 'onTotalUnreadMessageCountChanged');
+                  unreadMsgCount.value = count;
+                  FlutterAppBadger.isAppBadgeSupported().then((value) {
+                    flog(value, 'onTotalUnreadMessageCountChanged');
+                    if (unreadMsgCount.value == 0) {
+                      FlutterAppBadger.removeBadge();
+                    } else {
+                      FlutterAppBadger.updateBadgeCount(
+                          unreadMsgCount.value, title: 'New Message');
+                    }
+                  });
+                }, onConversationChanged: (v) {
               flog(v.length, 'onConversationChanged');
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
-          //播放提示音
-          FlutterRingtonePlayer.playNotification();
-          _dealMsg(msg);
-        }));
+        TencentImSDKPlugin.v2TIMManager.getMessageManager()
+            .addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(
+            onRecvNewMessage: (V2TimMessage msg) {
+              //播放提示音
+              FlutterRingtonePlayer.playNotification();
+              _dealMsg(msg);
+            }));
 
         ///获取未读数量
-        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager
+            .getConversationManager().getTotalUnreadMessageCount();
         if (v2timValueCallback.code == 0) {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
@@ -296,7 +330,8 @@ class UserController extends GetxController {
               FlutterAppBadger.removeBadge();
             } else {
               flog(value, 'getTotalUnreadMessageCount');
-              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
+              FlutterAppBadger.updateBadgeCount(
+                  unreadMsgCount.value, title: 'New Message');
             }
           });
         }
@@ -333,6 +368,17 @@ class UserController extends GetxController {
           );
         }
         break;
+
+      case 'match_order_completed':
+        // 陪玩老板点击play后，player从这里跳转进去
+        if (userProfile?.pwId != map["message"]["uid"]) {
+          String str = Get.routing.current;
+          if (AppPages.side_kick_match_suc_page == str) {
+            Get.back();
+          }
+          jumpChat(map["message"]["memberCode"]);
+        }
+        break;
     }
 
     eventBus.fire(MatchEvent(msg: msg));
@@ -340,7 +386,7 @@ class UserController extends GetxController {
 
   void logout({Function? done}) async {
     user.value = UserModel();
-    userInfoModel.value = UserInfoModel();
+    userProfile = ProfileModel();
     StorageManager.clear(StorageManager.kUser);
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
@@ -360,11 +406,15 @@ class UserController extends GetxController {
   }
 
   String gradeImg() {
-    int isauth = userInfoModel.value.isauth;
-    int level = userInfoModel.value.level;
+    int isauth = userProfile?.isAuth??0;
+    int level = userProfile?.sidekickLevel??0;
     if (level == 0) {
-      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP
+          ? 'v_'
+          : ''}grade1.webp';
     }
-    return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
+    return 'assets/images/grade/${isauth == TYPE_VIP
+        ? 'v_'
+        : ''}grade${level}.webp';
   }
 }
