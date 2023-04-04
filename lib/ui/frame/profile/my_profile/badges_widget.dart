@@ -46,6 +46,9 @@ class BadgesWidget extends GetView<ProfileController> {
             ),
           ),
           Container(
+            padding: EdgeInsets.only(
+              top: 5,
+            ),
             margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 10),
             decoration: itemDecoration(color: AppColor.itemBg2),
             child: ConstrainedBox(
