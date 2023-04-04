@@ -237,6 +237,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Withdrawal amount".tr,
@@ -245,7 +246,6 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                 fontFamily: "DIN",
                                 fontSize: 13),
                           ),
-                          Spacer(),
                           controller.ifBankPay.value
                               ? GestureDetector(
                                   behavior: HitTestBehavior.translucent,
@@ -295,24 +295,34 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                           ],
                                         ),
                                 )
-                              : Text(
-                                  (controller.currentPayMethod == null ||
-                                          controller.currentPayMethod?.account
-                                                  .length ==
-                                              0)
-                                      ? 'no account'
-                                      : controller.currentPayMethod!.name,
-                                  style: TextStyle(
-                                    color: Color(0xffFFCB0E),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
+                              : Expanded(
+                                  child: TextField(
+                                    controller: controller.accountCtr,
+                                    maxLines: 1,
+                                    cursorColor: Colors.white70,
+                                    textAlign: TextAlign.end,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: "DIN"),
+                                    decoration: InputDecoration(
+                                        hintText:
+                                            "please input your account".tr,
+                                        hintStyle: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: Colors.white30,
+                                            fontFamily: "DIN"),
+                                        border: InputBorder.none,
+                                        contentPadding:
+                                            EdgeInsets.only(top: 0)),
                                   ),
                                 ),
                         ],
                       ),
                     ),
                     //  _buildAccountSelect(context),
-                    BankListWidget(),
+                    // BankListWidget(),
                   ],
                 )
               ] else ...[

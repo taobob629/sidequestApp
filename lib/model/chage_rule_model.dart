@@ -8,6 +8,7 @@ class ChargeRuleModel {
     this.chargeRatio,
     this.pwChargeRules,
     this.coin2votes,
+    this.limit,
     this.withdrawalThreshold,
     this.withdrawalRatio,
   });
@@ -23,6 +24,7 @@ class ChargeRuleModel {
       });
     }
     coin2votes = json['coin2votes'];
+    limit = json['limit'];
     withdrawalThreshold = json['withdrawal_threshold'];
     withdrawalRatio = json['withdrawal_ratio'];
     receipt = List<Receipt>.from(json["receipt"].map((x) => Receipt.fromJson(x)));
@@ -30,6 +32,7 @@ class ChargeRuleModel {
 
   String? chargeRatio;
   List<CoinChargeRuleModel>? pwChargeRules;
+  int? limit;
   String? coin2votes;
   String? withdrawalThreshold;
   String? withdrawalRatio;
@@ -44,6 +47,7 @@ class ChargeRuleModel {
       map['pw_charge_rules'] = pwChargeRules?.map((v) => v.toJson()).toList();
     }
     map['coin2votes'] = coin2votes;
+    map['limit'] = limit;
     map['withdrawal_threshold'] = withdrawalThreshold;
     map['withdrawal_ratio'] = withdrawalRatio;
     map["receipt"] = List<dynamic>.from(receipt.map((x) => x.toJson()));

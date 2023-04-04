@@ -330,6 +330,7 @@ class WalletBalancePageController extends GetxListController {
   late TextEditingController amountController;
   late TextEditingController accountController;
   TextEditingController paypalController = TextEditingController();
+  TextEditingController accountCtr = TextEditingController();
   late FocusNode accountFocusNode;
   late FocusNode amountFocusNode;
   RxList<BankCardModel> _bankList = RxList();
@@ -421,7 +422,7 @@ class WalletBalancePageController extends GetxListController {
       } else if (element.name.contains('bankcard')) {
         element.icon = ImageUtils.icon_bank;
       } else if (element.name.contains('aliPay')) {
-        element.icon = ImageUtils.icon_wechat;
+        element.icon = ImageUtils.icon_alipay;
       }
     });
     currentPayMethod = chargeRule.receipt[0];
@@ -429,6 +430,7 @@ class WalletBalancePageController extends GetxListController {
 
     coin = chargeRule.coin;
     diamonds = chargeRule.votes;
+    
     EasyLoading.dismiss();
     return chargeRule.pwChargeRules ?? [];
   }
@@ -501,6 +503,8 @@ class WalletBalancePageController extends GetxListController {
     if (bankList.isNotEmpty) {
       selectedBank = bankList.first;
       accountType.value = selectedBank?.id ?? 0;
+
+      selectedBank = await BalanceApi.getBankByCardId(bankList[0].id);
     }
   }
 
@@ -531,8 +535,7 @@ class WalletBalancePageController extends GetxListController {
       EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, 600) &&
-        (type == 'withDraw' || type == 'paypal')) {
+    if (!isValidateAmount(votes, chargeRule.limit ?? 600)) {
       EasyLoading.showInfo('Please enter an valid number greater than 600'.tr);
       return;
     }
@@ -568,6 +571,7 @@ class WalletBalancePageController extends GetxListController {
     //   return;
     // }
     response = await BalanceApi.withDraw(Map<String, dynamic>()
+      ..['receiptType'] = currentPayMethod?.name
       ..['card'] = cardNumber
       ..['votes'] = votes
       ..['accountType'] = 1);
@@ -584,28 +588,33 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.show();
     var response;
     if (type == 'withDraw') {
-      if (selectedBank == null) {
-        EasyLoading.showInfo('Please Add withdraw account First!'.tr);
-        return;
+      if (currentPayMethod?.name.contains('bank') == true) {
+        if (selectedBank == null) {
+          EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+          return;
+        }
+        response = await BalanceApi.withDraw(Map<String, dynamic>()
+          ..['receiptType'] = currentPayMethod?.name
+          ..['card'] = selectedBank?.cardNumber
+          ..['cardId'] = selectedBank?.id
+          ..['votes'] = votes
+          ..['withDrawalRatio'] = chargeRule.withdrawalRatio
+          ..['accountType'] = 0
+          ..['chargeRatio'] = chargeRule.chargeRatio);
+      } else {
+        if (accountCtr.text.length == 0) {
+          EasyLoading.dismiss();
+          EasyLoading.showInfo('please input your account'.tr);
+          return;
+        }
+        response = await BalanceApi.withDraw(Map<String, dynamic>()
+          ..['receiptType'] = currentPayMethod?.name
+          ..['card'] = accountCtr.text
+          ..['cardId'] = 0
+          ..['votes'] = votes
+          ..['withDrawalRatio'] = chargeRule.withdrawalRatio
+          ..['chargeRatio'] = chargeRule.chargeRatio);
       }
-      response = await BalanceApi.withDraw(Map<String, dynamic>()
-        ..['card'] = selectedBank?.cardNumber
-        ..['cardId'] = selectedBank?.id
-        ..['votes'] = votes
-        ..['withDrawalRatio'] = chargeRule.withdrawalRatio
-        ..['accountType'] = 0
-        ..['chargeRatio'] = chargeRule.chargeRatio);
-    } else if (type == 'PalpalWithDraw') {
-      if (selectedBank == null) {
-        EasyLoading.showInfo('Please Add withdraw account First!'.tr);
-        return;
-      }
-      response = await BalanceApi.withDraw(Map<String, dynamic>()
-        ..['card'] = selectedBank?.cardNumber
-        ..['cardId'] = selectedBank?.id
-        ..['votes'] = votes
-        ..['withDrawalRatio'] = chargeRule.withdrawalRatio
-        ..['chargeRatio'] = chargeRule.chargeRatio);
     } else {
       response = await BalanceApi.exchangeToCoin(votes);
     }
@@ -674,6 +683,7 @@ class WalletBalancePageController extends GetxListController {
     ));
     if (result != null) {
       currentPayMethod = result;
+      accountCtr.text = currentPayMethod?.account ?? '';
       if (currentPayMethod?.name.contains('bankcard') == true) {
         ifBankPay.value = true;
       } else {

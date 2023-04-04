@@ -69,6 +69,13 @@ class BalanceApi {
     return list;
   }
 
+  //获取银行卡根据id
+  static Future<BankCardModel> getBankByCardId(int cardId) async {
+    var response = await http.get('/peiwan/app/card/info/$cardId');
+    BankCardModel model = BankCardModel.fromJson(response.data["card"]);
+    return model;
+  }
+
   static Future<void> unbindBankCard(var id) async {
     var response = await http.get('/peiwan/app/card/delete/$id');
   }
