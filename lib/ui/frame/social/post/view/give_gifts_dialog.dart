@@ -6,7 +6,6 @@ import 'package:wy/api_service/post_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/ui/playwith/swiper_widget.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../controller/user_controller.dart';
