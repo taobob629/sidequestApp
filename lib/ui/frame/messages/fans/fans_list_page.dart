@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/user_api.dart';
@@ -8,6 +9,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/utils/image_util.dart';
 
+import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
 
 class FansListPage extends StatelessWidget {
@@ -41,11 +43,20 @@ class FansListPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                model.name,
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              Row(
+                                children: [
+                                  Text(
+                                    model.name,
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  6.horizontalSpace,
+                                  SexAndAgeWidget(
+                                    age: model.age,
+                                    sex: model.sex,
+                                  ),
+                                ],
                               ),
                               Text(
                                 model.signature,

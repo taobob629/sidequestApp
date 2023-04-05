@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
@@ -8,9 +9,9 @@ import '../../../../common/getx_refresh_controller.dart';
 import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../widget/home/sex_age_widget.dart';
 
 class VisitorPage extends StatelessWidget {
-
   final t = Get.put(VisitorListController());
 
   @override
@@ -28,15 +29,15 @@ class VisitorPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final model = t.list[index];
                     return Container(
-                      height: 48,
+                      height: 50.h,
                       margin:
                           EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                       child: Row(
                         children: [
                           ImageUtil.networkImage(
                               url: model.avatar,
-                              width: 48,
-                              height: 48,
+                              width: 50.h,
+                              height: 50.h,
                               fit: BoxFit.cover),
                           Expanded(
                               child: Padding(
@@ -45,18 +46,35 @@ class VisitorPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  model.name,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                Row(
+                                  children: [
+                                    Text(
+                                      model.name,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    6.horizontalSpace,
+                                    SexAndAgeWidget(
+                                      age: model.age,
+                                      sex: model.sex,
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   model.signature,
                                   style: TextStyle(
                                       fontSize: 12, color: AppColor.whiteGray),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                2.verticalSpace,
+                                Text(
+                                  model.vistTime,
+                                  style: TextStyle(
+                                      fontSize: 10, color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
