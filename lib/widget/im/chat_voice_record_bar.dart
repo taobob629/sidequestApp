@@ -66,6 +66,5 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         ),
       ),
     );
-    ;
   }
 }

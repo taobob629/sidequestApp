@@ -531,15 +531,14 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
     audioPlayer.play();
   }
-
-  toRecordPage() {
-    Get.toNamed(AppPages.Record)?.then((result) {
+  toRecordPage(){
+    Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
       if (result != null) player.value.voice = result;
     });
   }
 
   stop() async {
-    playState = PlayState.idle;
+    playState=PlayState.idle;
     await audioPlayer?.stop();
   }
 }

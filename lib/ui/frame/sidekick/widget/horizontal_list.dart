@@ -6,7 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/game_model.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/utils.dart';
@@ -81,13 +83,25 @@ class HorizontalGameListWidget extends StatelessWidget {
     for (int i = 0; i < controller.gameList.length; i++) {
       list.add(buildItemWidget(i));
     }
-    var moreBtn = IconButton(
-        padding: EdgeInsets.only(left: 20, right: 20).w,
-        onPressed: () => controller.toGameListPage(),
-        icon: Icon(
-          Icons.add,
-          color: Colors.white54,
-          size: 40,
+    var moreBtn = InkWell(
+        //onTapDown: () => controller.toGameListPage(),
+        onTap: () => controller.toGameListPage(),
+        child: Container(
+          margin: EdgeInsets.only(left: 10, right: 10).w,
+          decoration: itemDecoration(color: Color(0xff707070).withOpacity(0.5)),
+          width: 76.w,
+          height: 76.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ImageUtil.assetImage('add_game', height: 24.w, width: 24.w),
+              3.verticalSpace,
+              Text(
+                'Add'.tr,
+                style: TextStyle(fontFamily: FONT_LIGHT,fontSize: 14.sp),
+              )
+            ],
+          ),
         ));
     list.add(moreBtn);
     return list;

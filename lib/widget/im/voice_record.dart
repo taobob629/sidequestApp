@@ -52,7 +52,7 @@ class VoiceRecord {
   }
 
   stop() async {
-    Get.find<CountDownController>().stopCountDown();
+  //  Get.find<CountDownController>().stopCountDown();
     timerTask?.cancel();
     _long = (_now() - _long) ~/ 1000;
     if (_long == 61 || _long == 59) _long = 60;
