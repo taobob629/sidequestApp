@@ -8,6 +8,7 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/navigator_helper.dart';
 
 import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
@@ -16,10 +17,11 @@ class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
 
   final t = Get.put(FansListController());
+
   @override
   Widget build(BuildContext context) {
-  return BaseScaffold(
-    title: 'Fans'.tr,
+    return BaseScaffold(
+      title: 'Fans'.tr,
       body: Obx(
         () => SmartRefresher(
             controller: t.refreshController,
@@ -35,7 +37,14 @@ class FansListPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
-                        ImageUtil.networkImage(url: model.avatar, width: 48, height: 48, fit: BoxFit.cover),
+                        GestureDetector(
+                            onTap: () =>
+                                NavigatorHelper.toOtherProfile(model.id),
+                            child: ImageUtil.networkImage(
+                                url: model.avatar,
+                                width: 48,
+                                height: 48,
+                                fit: BoxFit.cover)),
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -47,7 +56,9 @@ class FansListPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     model.name,
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -60,7 +71,8 @@ class FansListPage extends StatelessWidget {
                               ),
                               Text(
                                 model.signature,
-                                style: TextStyle(fontSize: 12, color: AppColor.whiteGray),
+                                style: TextStyle(
+                                    fontSize: 12, color: AppColor.whiteGray),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -76,8 +88,13 @@ class FansListPage extends StatelessWidget {
                               height: 28,
                               width: 76,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(14)),
-                              child: Image.asset("assets/images/ic_exchange.webp", width: 16, height: 16),
+                              decoration: BoxDecoration(
+                                  color: AppColor.itemBg,
+                                  borderRadius: BorderRadius.circular(14)),
+                              child: Image.asset(
+                                  "assets/images/ic_exchange.webp",
+                                  width: 16,
+                                  height: 16),
                             ),
                           )
                         else
@@ -89,8 +106,12 @@ class FansListPage extends StatelessWidget {
                                 height: 28,
                                 width: 76,
                                 alignment: Alignment.center,
-                                decoration: BoxDecoration(border: Border.all(color: AppColor.yellow), borderRadius: BorderRadius.circular(14)),
-                                child: Text("+ Follow", style: TextStyle(color: AppColor.yellow, fontSize: 13)),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.yellow),
+                                    borderRadius: BorderRadius.circular(14)),
+                                child: Text("+ Follow",
+                                    style: TextStyle(
+                                        color: AppColor.yellow, fontSize: 13)),
                               ))
                       ],
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/utils/navigator_helper.dart';
 
 import '../../../../api/user_api.dart';
 import '../../../../common/getx_refresh_controller.dart';
@@ -34,11 +35,14 @@ class VisitorPage extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                       child: Row(
                         children: [
-                          ImageUtil.networkImage(
-                              url: model.avatar,
-                              width: 50.h,
-                              height: 50.h,
-                              fit: BoxFit.cover),
+                          GestureDetector(
+                            onTap: () => NavigatorHelper.toOtherProfile(model.id),
+                            child: ImageUtil.networkImage(
+                                url: model.avatar,
+                                width: 50.h,
+                                height: 50.h,
+                                fit: BoxFit.cover),
+                          ),
                           Expanded(
                               child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -90,12 +94,27 @@ class VisitorPage extends StatelessWidget {
                               height: 28,
                               width: 76,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: AppColor.itemBg,
-                                  borderRadius: BorderRadius.circular(14)),
-                              child: Text("Unfollow",
-                                  style: TextStyle(
-                                      color: AppColor.whiteGray, fontSize: 13)),
+                              decoration: model.status == 0
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                        color: Color(0xffFFCB0E),
+                                        width: 1.w,
+                                      ),
+                                      borderRadius: BorderRadius.circular(14),
+                                    )
+                                  : BoxDecoration(
+                                      color: AppColor.itemBg,
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                              child: Text(
+                                model.status == 0 ? "+ Follow" : "Unfollow",
+                                style: TextStyle(
+                                  color: model.status == 0
+                                      ? Color(0xffFFCB0E)
+                                      : AppColor.whiteGray,
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
                           )
                           // else
