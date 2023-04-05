@@ -13,6 +13,9 @@ import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/widget/gradient_button.dart';
 
+import '../../../widget/phone_input/src/utils/phone_number.dart';
+import '../../../widget/phone_input/src/utils/selector_config.dart';
+import '../../../widget/phone_input/src/widgets/input_widget.dart';
 import 'controller.dart';
 
 class RegisterPage extends GetView<RegisterPageController> {
@@ -51,13 +54,8 @@ class RegisterPage extends GetView<RegisterPageController> {
                       ),
                       26.verticalSpace,
                       Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 22.sp, fontFamily: FONT_MEDIUM)),
-                        TextSpan(
-                            text: 'We would like to know who this account would be for.',
-                            style: TextStyle(color: AppColor.whiteGray, fontFamily: FONT_LIGHT))
+                        TextSpan(text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n', style: TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: FONT_MEDIUM)),
+                        TextSpan(text: 'We would like to know who this account would be for.', style: TextStyle(color: AppColor.whiteGray, fontFamily: FONT_LIGHT))
                       ])),
                       // Text(
                       //   "Profile Information",
@@ -94,9 +92,7 @@ class RegisterPage extends GetView<RegisterPageController> {
                 Expanded(
                     child: GradientButton(
                         height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                            border: Border.all(color: Colors.grey, width: 1)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w, border: Border.all(color: Colors.grey, width: 1)),
                         tapCallback: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -112,9 +108,7 @@ class RegisterPage extends GetView<RegisterPageController> {
                 Expanded(
                     child: GradientButton(
                         height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                            border: Border.all(color: Colors.grey, width: 1)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w, border: Border.all(color: Colors.grey, width: 1)),
                         tapCallback: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,8 +150,7 @@ class RegisterPage extends GetView<RegisterPageController> {
           }),
         )));
     list.add(Obx(() => Offstage(
-          offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 ||
-              DatetimeUtils.getAge(controller.birthday.value) == 0,
+          offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 || DatetimeUtils.getAge(controller.birthday.value) == 0,
           child: Column(
             children: [
               SizedBox(
@@ -176,8 +169,7 @@ class RegisterPage extends GetView<RegisterPageController> {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "Players under the age of 16 must provide an emergency contact in order to use our services and sign up."
-                      .tr,
+                  "Players under the age of 16 must provide an emergency contact in order to use our services and sign up.".tr,
                   style: TextStyle(fontSize: 12, color: AppColor.whiteGray),
                 ),
               ),
@@ -250,26 +242,17 @@ class RegisterPage extends GetView<RegisterPageController> {
     ));
     list.add(Row(
       children: [
-        Radio<int>(
-            value: 0,
-            groupValue: controller.sex.value,
-            onChanged: (value) => controller.changeSex(value)),
+        Radio<int>(value: 0, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
         Text(
           "Male".tr,
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
-        Radio<int>(
-            value: 1,
-            groupValue: controller.sex.value,
-            onChanged: (value) => controller.changeSex(value)),
+        Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
         Text(
           "Female".tr,
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
-        Radio<int>(
-            value: 2,
-            groupValue: controller.sex.value,
-            onChanged: (value) => controller.changeSex(value)),
+        Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
         Text(
           "Non-binary".tr,
           style: TextStyle(color: Colors.white, fontSize: 14),
@@ -281,18 +264,51 @@ class RegisterPage extends GetView<RegisterPageController> {
     list.add(SizedBox(
       height: 10,
     ));
-    list.add(AuthInputView(
-      tips: "Phone Number".tr,
-      editingController: controller.phoneEditingController,
-      keyboardType: TextInputType.phone,
+    list.add(Container(
+      height: 50,
+      decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(16).r),
+      // color: Colors.yellow,
+      child: InternationalPhoneNumberInput(
+        onInputChanged: (PhoneNumber number) {
+          print(number.phoneNumber);
+        },
+        onInputValidated: (bool value) {
+          print(value);
+        },
+        selectorConfig: SelectorConfig(
+          selectorType: PhoneInputSelectorType.DROPDOWN,
+        ),
+        ignoreBlank: false,
+        autoValidateMode: AutovalidateMode.disabled,
+        selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
+        textStyle: TextStyle(color: AppColor.colorB9C9),
+        inputDecoration: InputDecoration(
+          hintText: "Phone Number".tr,
+          hintStyle: TextStyle(color: AppColor.colorB9C9),
+          labelStyle: TextStyle(color: AppColor.colorB9C9),
+          helperStyle: TextStyle(color: AppColor.colorB9C9),
+        ),
+        initialValue: PhoneNumber(isoCode: 'NG'),
+        textFieldController: controller.phoneEditingController,
+        formatInput: true,
+        hintText: "Phone number",
+        cursorColor: Colors.white,
+        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+        inputBorder: OutlineInputBorder(),
+        onSaved: (PhoneNumber number) {
+          print('On Saved: $number');
+        },
+      ),
     ));
+    // list.add(AuthInputView(
+    //   tips: "Phone Number".tr,
+    //   editingController: controller.phoneEditingController,
+    //   keyboardType: TextInputType.phone,
+    // ));
     list.add(SizedBox(
       height: 20,
     ));
-    list.add(AuthInputView(
-        tips: "Login Password".tr,
-        editingController: controller.passwordEditingController,
-        keyboardType: TextInputType.visiblePassword));
+    list.add(AuthInputView(tips: "Login Password".tr, editingController: controller.passwordEditingController, keyboardType: TextInputType.visiblePassword));
     list.add(SizedBox(
       height: 20,
     ));
@@ -310,11 +326,7 @@ class RegisterPage extends GetView<RegisterPageController> {
       list.add(SizedBox(
         height: 20,
       ));
-      list.add(AuthInputView(
-          isRequired: false,
-          tips: "Invite Code (Optional)".tr,
-          editingController: controller.inviteEditingController,
-          keyboardType: TextInputType.text));
+      list.add(AuthInputView(isRequired: false, tips: "Invite Code (Optional)".tr, editingController: controller.inviteEditingController, keyboardType: TextInputType.text));
     }
     list.add(SizedBox(
       height: 40,

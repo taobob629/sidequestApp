@@ -90,4 +90,10 @@ abstract class ProfileApi {
     var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "phone": phone, "language": language, "country": country, "gender": gender});
     return response.data;
   }
+
+  /// player profile player用户信息
+  static Future uk2id(uk) async {
+    var response = await http.get('/peiwan/app/profile/uk2id', queryParameters: {"uk": uk});
+    return response.data;
+  }
 }

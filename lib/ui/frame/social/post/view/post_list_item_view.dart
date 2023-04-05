@@ -85,7 +85,7 @@ class PostListItemView extends StatelessWidget {
                       ],
                     ),
                   )),
-                  if (isSelf)
+                  if (isSelf && onDelete != null)
                     GestureDetector(
                       onTap: () => onDelete?.call(),
                       child: Container(

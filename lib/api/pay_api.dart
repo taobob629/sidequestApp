@@ -140,6 +140,7 @@ class PayApi {
     var formData = {
       "liveId": model.liveId,
       "giftId": model.giftId,
+      "source": model.source,
       "uid": model.uid,
       "postId": model.postId,
       "nums": model.nums,

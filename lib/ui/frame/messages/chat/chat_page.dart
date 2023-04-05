@@ -6,12 +6,16 @@ import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
+import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../model/play_order_detail_model.dart';
+import '../../social/post/view/gift_animation.dart';
+import '../../social/post/view/give_gifts_dialog.dart';
 
 class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
@@ -23,10 +27,19 @@ class ChatPage extends StatelessWidget {
     return selectedConversation.type == 1 ? selectedConversation.userID : selectedConversation.groupID;
   }
 
+  String pwId = "";
+
+  getUserId() {
+    ProfileApi.uk2id(selectedConversation.userID?.replaceAll("c2c_", "")).then((value) {
+      pwId = value.toString();
+    });
+  }
+
   PlayOrderDetailModel? playOrderDetailModel;
 
   @override
   Widget build(BuildContext context) {
+    getUserId();
     double width = MediaQuery.of(context).size.width * 0.6;
     double height = width * 191 / 369;
     double iconHeight = height * 0.5;
@@ -35,7 +48,40 @@ class ChatPage extends StatelessWidget {
       config: TIMUIKitChatConfig(
         isUseDefaultEmoji: true,
       ),
-      morePanelConfig: MorePanelConfig(showFilePickAction: false),
+      morePanelConfig: MorePanelConfig(showFilePickAction: false, extraAction: [
+        if (selectedConversation.type == 1)
+          if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
+            MorePanelItem(
+                id: "customMessage",
+                title: "Gift",
+                onTap: (c) async {
+                  var heartNum = await Get.bottomSheet(
+                      GiveGiftsDialog(
+                        receiverId: pwId,
+                        postId: "",
+                        source: 1,
+                      ),
+                      ignoreSafeArea: true);
+                  if (heartNum != null) {
+                    Future.delayed(Duration(milliseconds: 300)).then(
+                      (v) {
+                        showHearts(context, Offset(Get.width / 2, Get.height / 2), heartNum);
+                      },
+                    );
+                  }
+                },
+                icon: Container(
+                  height: 64,
+                  width: 64,
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: Image.asset(
+                    "assets/images/post/icon_gift.png",
+                    height: 64,
+                    width: 64,
+                  ),
+                )),
+      ]),
       customStickerPanel: renderCustomStickerPanel,
       conversationID: _getConvID() ?? '',
       // groupID or UserID
@@ -67,10 +113,7 @@ class ChatPage extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             if (type != "TopUp_Credit") {
-              Get.toNamed(AppPages.OrderDetail,
-                  arguments: Map()
-                    ..['id'] = data['orderId'])
-                  ?.whenComplete(() => _getPlayOrder());
+              Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
             }
           },
           child: Container(

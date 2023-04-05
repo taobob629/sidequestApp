@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/view/post_list_item_view.dart';
 
@@ -30,6 +31,7 @@ class PostListPage extends StatelessWidget {
                         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                       return PostListItemView(
                         model: t.list[index],
+                        isSelf: UserController.find.userProfile.pwId == t.list[index].uid,
                         onTap: () {
                           Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
                         },

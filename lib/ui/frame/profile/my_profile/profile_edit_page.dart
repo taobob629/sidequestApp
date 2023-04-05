@@ -142,6 +142,7 @@ class ProfileEditPage extends StatelessWidget {
                     initialValue: PhoneNumber(isoCode: 'NG'),
                     textFieldController: t.phoneController,
                     formatInput: true,
+                    cursorColor: Colors.white,
                     hintText: "Phone number",
                     keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                     inputBorder: OutlineInputBorder(),

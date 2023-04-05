@@ -12,13 +12,16 @@ import '../../../../controller/user_controller.dart';
 import '../../../../pay/controller.dart';
 
 class GiveGiftsDialog extends StatelessWidget {
-  GiveGiftsDialog({Key? key, required this.receiverId, required this.postId}) : super(key: key);
+  GiveGiftsDialog({Key? key, required this.receiverId, required this.postId, this.source = 0}) : super(key: key);
   final String receiverId;
   final String postId;
 
+  /// "送礼物场景，0: post，1:聊天，2:直播间
+  int source = 0;
+
   @override
   Widget build(BuildContext context) {
-    final t = Get.put(GiveGiftController(receiverId: receiverId, postId: postId));
+    final t = Get.put(GiveGiftController(receiverId: receiverId, postId: postId, source: source));
 
     return Obx(() {
       return Container(
@@ -46,7 +49,7 @@ class GiveGiftsDialog extends StatelessWidget {
                 child: Swiper(
               autoplay: false,
               loop: false,
-              itemCount: t.giftList.length ~/ 6,
+              itemCount: t.pageList.length,
               pagination: SwiperPagination(
                   alignment: Alignment(0, 1.2),
                   builder: DotSwiperPaginationBuilder(
@@ -57,18 +60,19 @@ class GiveGiftsDialog extends StatelessWidget {
                     space: 6,
                   )),
               itemBuilder: (context, index) {
+                var section = t.pageList[index];
                 return Container(
                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 40),
                   // color: Colors.lightBlue,
                   child: Wrap(
                     spacing: 10,
                     runSpacing: 10,
-                    children: t.giftList.where((gift) => t.giftList.indexOf(gift) ~/ 6 == index).map((gift) {
+                    children: section.giftList.map((gift) {
                       bool isSelect = gift.id == t.selectGift.value.id;
                       return GestureDetector(
                         onTap: () {
                           t.selectGift.value = gift;
-                          t.giftList.refresh();
+                          t.pageList.refresh();
                         },
                         child: Container(
                           width: (Get.width - 60) / 3,
@@ -92,7 +96,7 @@ class GiveGiftsDialog extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ImageUtil.networkImage(
-                                url: "https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/13-SVIP4.png",
+                                url: gift.gifticon,
                                 fit: BoxFit.cover,
                                 width: 60,
                                 height: 70,
@@ -179,7 +183,7 @@ class GiveGiftsDialog extends StatelessWidget {
 }
 
 class GiveGiftController extends GetxController {
-  final giftList = <GiftModel>[].obs;
+  final pageList = <GiftSection>[].obs;
 
   final selectGift = GiftModel().obs;
 
@@ -187,19 +191,33 @@ class GiveGiftController extends GetxController {
 
   String _receiverId = "";
   String _postId = "";
-
-  GiveGiftController({required String receiverId, required String postId}) {
+  int source = 0;
+  GiveGiftController({required String receiverId, required String postId, required source}) {
     _receiverId = receiverId;
     _postId = postId;
+    this.source = source;
   }
+  int totalGifts = 0;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    PostApi.getGiftsList().then((value) {
-      giftList.value = value;
-    });
+    loadData(1);
     super.onInit();
+  }
+
+  loadData(pageNum) {
+    PostApi.getGiftsList(pageNum: pageNum).then((res) {
+      if (res is Map) {
+        totalGifts = res["total"];
+        var tempSection = GiftSection(index: pageNum, giftList: (res["rows"] as List).map((e) => GiftModel.fromJson(e)).toList());
+        pageList.add(tempSection);
+        pageNum += 1;
+        if (totalGifts / 6 >= pageNum - 1) {
+          loadData(pageNum);
+        }
+      }
+    });
   }
 
   calBuyNum({bool isAdd = true}) {
@@ -223,6 +241,7 @@ class GiveGiftController extends GetxController {
       ..giftId = selectGift.value.id
       ..liveId = _receiverId
       ..postId = _postId
+      ..source = source
       ..uid = UserController.find.userProfile.pwId.toString()
       ..nums = buyNum.value;
 
@@ -236,6 +255,13 @@ class GiveGiftController extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
+}
+
+class GiftSection {
+  int index = 0;
+  List<GiftModel> giftList = [];
+
+  GiftSection({this.index = 0, this.giftList = const []});
 }
 
 class GiftModel {

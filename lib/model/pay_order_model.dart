@@ -53,6 +53,7 @@ class PayOrderModel {
   late String giftId = "";
   late String postId = "";
   late String uid = "";
+  late int source = 0;
 
   List<dynamic> preOrdersBos = [];
 
