@@ -7,14 +7,10 @@ import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:tencent_cloud_chat_uikit/ui/widgets/emoji.dart';
-import 'package:tim_ui_kit_sticker_plugin/tim_ui_kit_sticker_plugin.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
-import 'package:wy/api/user_api.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/event_bus/event_bus.dart';
@@ -67,6 +63,8 @@ class UserController extends GetxController {
   Timer? _payNotifyTimer;
 
   int _payNotifyTimes = 0;
+
+  int nums = 1;
 
   DBHelper? db;
 

@@ -14,6 +14,7 @@ import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../../model/send_match_model.dart';
 import '../../common/dialog_selector.dart';
+import '../../controller/user_controller.dart';
 
 class SideKickMatchController extends GetxController {
   late MatchInitModel _matchInitModel;
@@ -46,6 +47,8 @@ class SideKickMatchController extends GetxController {
 
     if (result['orderId'] > 0) {
       // 已经有订单了，只是匹配中的时候出去了，再次回来
+      UserController.find.nums = result['nums'] ?? 1;
+
       MatchingModel matchingModel = MatchingModel.fromJson(result);
       if (matchingModel.players.isNotEmpty) {
         // 已经有匹配好的接单人了
@@ -135,6 +138,8 @@ class SideKickMatchController extends GetxController {
         tagsMap[element.name] = element.value;
       }
     });
+
+    UserController.find.nums = int.parse(quantityCtr.text);
 
     Map params = {
       "gid": gid,
