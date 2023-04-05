@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/frame/messages/messages_page.dart';
+import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
 
-import '../../../profile/edit/edit_profile_page.dart';
 import '../../main_page.dart';
+import '../../messages/fans/fans_list_page.dart';
+import '../../messages/follow/follow_list_page.dart';
 import 'my_album_page.dart';
 import 'my_dashboard_page.dart';
 import 'my_posts_page.dart';
@@ -245,11 +246,7 @@ class MyProfilePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      MainPageController.find.updateCurrentIndex(3);
-                      MainPageController.find.controller.jumpToPage(3);
-                      MessagesPageController.find.tabController.animateTo(1);
-                    },
+                    onTap: () => Get.to(() => FollowListPage()),
                     child: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Text(
@@ -259,11 +256,7 @@ class MyProfilePage extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      MainPageController.find.updateCurrentIndex(3);
-                      MainPageController.find.controller.jumpToPage(3);
-                      MessagesPageController.find.tabController.animateTo(2);
-                    },
+                    onTap: () => Get.to(() => FansListPage()),
                     child: Text(
                       "Fans".tr + ":${userController.userProfile.fans}",
                       style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
@@ -275,6 +268,16 @@ class MyProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         "Rating".tr + ":${userController.userProfile.ranking}",
+                        style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.to(() => VisitorPage()),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Visitor".tr + ":${userController.userProfile.visitor}",
                         style: TextStyle(fontSize: 12.sp, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),

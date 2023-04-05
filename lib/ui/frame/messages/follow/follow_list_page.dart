@@ -8,14 +8,16 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/utils/image_util.dart';
 
+import '../../../common/base_scaffold.dart';
+
 class FollowListPage extends StatelessWidget {
   FollowListPage({Key? key}) : super(key: key);
 
   final t = Get.put(FollowListController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
+    return BaseScaffold(
+      title: 'Follow'.tr,
       body: Obx(
         () => SmartRefresher(
             controller: t.refreshController,
