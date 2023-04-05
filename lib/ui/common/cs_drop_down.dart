@@ -24,7 +24,7 @@ class CsDropDownDialog extends StatelessWidget {
 
   List<DropDownModel> itemList = [];
 
-  final Function(int index) onTap;
+  final Function(int index, String value) onTap;
 
   final _cellHeight = 40.h;
 
@@ -73,7 +73,7 @@ class CsDropDownDialog extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        onTap(index);
+                        onTap(index, item.title);
                         Get.back();
                       },
                     );

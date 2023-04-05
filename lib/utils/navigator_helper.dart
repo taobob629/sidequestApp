@@ -40,9 +40,9 @@ class NavigatorHelper {
     }
   }
 
-  static void toOtherProfile(uid) {
+  static void toOtherProfile(uid, {gid}) {
     EasyLoading.show();
-    ProfileApi.getPlayerInfo(playerId: uid.toString())
+    ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
           Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
         })

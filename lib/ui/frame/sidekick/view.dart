@@ -15,6 +15,7 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/ui/frame/sidekick/widget/horizontal_list.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/show_error_widget.dart';
 
@@ -34,11 +35,7 @@ class SideKickPage extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/bg_sidekick.webp'),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter)),
+          decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bg_sidekick.webp'), fit: BoxFit.fitWidth, alignment: Alignment.topCenter)),
           child: NestedScrollView(
             physics: NeverScrollableScrollPhysics(),
             headerSliverBuilder: (context, index) => [
@@ -50,27 +47,15 @@ class SideKickPage extends StatelessWidget {
                   icon: Container(),
                   label: Text(
                     'Sidekick',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 21.sp,
-                        color: Colors.white),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21.sp, color: Colors.white),
                   ),
                 ),
-                actions: [
-                  IconButton(
-                      onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
-                      icon: ImageUtil.assetImage('ic_search',
-                          width: 23.w, height: 23.w))
-                ],
+                actions: [IconButton(onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE), icon: ImageUtil.assetImage('ic_search', width: 23.w, height: 23.w))],
               ),
               HorizontalGameListWidget(),
             ],
             body: SectionWidget(
-              listBody: Obx(() => biuldSmartRefresh(
-                  controller.refreshController,
-                  controller.pageState == PageState.sucess
-                      ? body(context)
-                      : controller.buildEmpty(),
+              listBody: Obx(() => biuldSmartRefresh(controller.refreshController, controller.pageState == PageState.sucess ? body(context) : controller.buildEmpty(),
                   onRefresh: () {
                     controller.onRefresh();
                   },
@@ -107,7 +92,9 @@ class SideKickPage extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (context, index) {
         var model = controller.mDatas[index];
-        return GameListItemWidget(model!!);
+        return GameListItemWidget(model, () {
+          NavigatorHelper.toOtherProfile(model.id, gid: controller.gameList[controller.currentSelectIndex].id);
+        });
       },
       itemCount: controller.mDatas.length,
     );

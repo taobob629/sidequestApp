@@ -17,14 +17,15 @@ import 'package:wy/widget/home/index.dart';
 
 class GameListItemWidget extends GetView<SideKickController> {
   GameUserModel model;
+  Function() onTap;
 
-  GameListItemWidget(this.model);
+  GameListItemWidget(this.model, this.onTap);
 
   @override
   Widget build(BuildContext context) {
     var badgeColor = Color(0xFF87EEB6);
     return InkWell(
-      onTap: () => NavigatorHelper.toOtherProfile(model.id),
+      onTap: () => onTap.call(),
       child: Container(
         height: 80.h,
         padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10).r,
@@ -37,16 +38,13 @@ class GameListItemWidget extends GetView<SideKickController> {
               badgeColor: badgeColor,
               position: BadgePosition(bottom: 0, end: 10),
               alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                onTap: () => NavigatorHelper.toOtherProfile(model.id),
-                child: Container(
-                  width: 50.h,
-                  height: 50.h,
-                  decoration: model.online == ONLINE ? BoxDecoration(border: Border.all(color: badgeColor, width: 1), borderRadius: BorderRadius.all(Radius.circular(25.h))) : null,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(25)).h,
-                    child: ImageUtil.networkImage(url: model.thumb, fit: BoxFit.cover),
-                  ),
+              child: Container(
+                width: 50.h,
+                height: 50.h,
+                decoration: model.online == ONLINE ? BoxDecoration(border: Border.all(color: badgeColor, width: 1), borderRadius: BorderRadius.all(Radius.circular(25.h))) : null,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(25)).h,
+                  child: ImageUtil.networkImage(url: model.thumb, fit: BoxFit.cover),
                 ),
               ),
             ),
