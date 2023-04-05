@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/user_api.dart';
@@ -7,7 +8,9 @@ import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/navigator_helper.dart';
 
+import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
 
 class FollowListPage extends StatelessWidget {
@@ -33,7 +36,9 @@ class FollowListPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
-                        ImageUtil.networkImage(url: model.avatar, width: 48, height: 48, fit: BoxFit.cover),
+                        GestureDetector(
+                            onTap: () => NavigatorHelper.toOtherProfile(model.id),
+                            child: ImageUtil.networkImage(url: model.avatar, width: 48, height: 48, fit: BoxFit.cover)),
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -41,11 +46,20 @@ class FollowListPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                model.name,
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              Row(
+                                children: [
+                                  Text(
+                                    model.name,
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  6.horizontalSpace,
+                                  SexAndAgeWidget(
+                                    age: model.age,
+                                    sex: model.sex,
+                                  ),
+                                ],
                               ),
                               Text(
                                 model.signature,

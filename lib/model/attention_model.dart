@@ -12,6 +12,7 @@ class AttentionModel {
 
   AttentionModel.fromJson(dynamic json) {
     sex = json['sex'] ?? 0;
+    age = json['age'] ?? 0;
     name = json['name'] ?? "";
     avatar = json['avatar'] ?? "";
     signature = json['signature'] ?? "";
@@ -21,6 +22,7 @@ class AttentionModel {
   }
 
   int sex = 0;
+  int age = 0;
   RxInt status = RxInt(0); //status=1，代表我已经关注了对方 0代表可以还没关注对方
   String name = "";
   String avatar = "";
@@ -33,6 +35,7 @@ class AttentionModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['sex'] = sex;
+    map['age'] = age;
     map['name'] = name;
     map['avatar'] = avatar;
     map['isfans'] = isfans;

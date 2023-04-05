@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/utils/navigator_helper.dart';
 
 import '../../../../api/user_api.dart';
 import '../../../../common/getx_refresh_controller.dart';
 import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../widget/home/sex_age_widget.dart';
 
 class VisitorPage extends StatelessWidget {
-
   final t = Get.put(VisitorListController());
 
   @override
@@ -28,16 +30,19 @@ class VisitorPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final model = t.list[index];
                     return Container(
-                      height: 48,
+                      height: 50.h,
                       margin:
                           EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                       child: Row(
                         children: [
-                          ImageUtil.networkImage(
-                              url: model.avatar,
-                              width: 48,
-                              height: 48,
-                              fit: BoxFit.cover),
+                          GestureDetector(
+                            onTap: () => NavigatorHelper.toOtherProfile(model.id),
+                            child: ImageUtil.networkImage(
+                                url: model.avatar,
+                                width: 50.h,
+                                height: 50.h,
+                                fit: BoxFit.cover),
+                          ),
                           Expanded(
                               child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -45,18 +50,35 @@ class VisitorPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  model.name,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                Row(
+                                  children: [
+                                    Text(
+                                      model.name,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    6.horizontalSpace,
+                                    SexAndAgeWidget(
+                                      age: model.age,
+                                      sex: model.sex,
+                                    ),
+                                  ],
                                 ),
                                 Text(
                                   model.signature,
                                   style: TextStyle(
                                       fontSize: 12, color: AppColor.whiteGray),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                2.verticalSpace,
+                                Text(
+                                  model.vistTime,
+                                  style: TextStyle(
+                                      fontSize: 10, color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -72,12 +94,27 @@ class VisitorPage extends StatelessWidget {
                               height: 28,
                               width: 76,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: AppColor.itemBg,
-                                  borderRadius: BorderRadius.circular(14)),
-                              child: Text("Unfollow",
-                                  style: TextStyle(
-                                      color: AppColor.whiteGray, fontSize: 13)),
+                              decoration: model.status == 0
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                        color: Color(0xffFFCB0E),
+                                        width: 1.w,
+                                      ),
+                                      borderRadius: BorderRadius.circular(14),
+                                    )
+                                  : BoxDecoration(
+                                      color: AppColor.itemBg,
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                              child: Text(
+                                model.status == 0 ? "+ Follow" : "Unfollow",
+                                style: TextStyle(
+                                  color: model.status == 0
+                                      ? Color(0xffFFCB0E)
+                                      : AppColor.whiteGray,
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
                           )
                           // else

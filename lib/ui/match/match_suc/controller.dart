@@ -11,6 +11,7 @@ import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/match/match_operation_model.dart';
 import '../../controller/user_controller.dart';
 import '../../frame/main_page.dart';
+import '../../frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import '../../frame/profile/play_order/play_order_page.dart';
 
 class SideKickMatchSucController extends GetxController {
@@ -133,9 +134,14 @@ class SideKickMatchSucController extends GetxController {
     final result = await MatchApi.playGame(params);
     EasyLoading.dismiss();
     if (result != null) {
+      List<ServiceItem> serviceItems = result.serviceItems;
+      serviceItems.forEach((element) {
+        element.num.value = UserController.find.nums;
+      });
+
       var uk = await Get.to(
           () => MulitablePlayOrderPage(
-                serviceItemList: result.serviceItems,
+                serviceItemList: serviceItems,
               ),
           arguments: bean.orderId);
       // flog('$res', 'Get.to(()=>PlayOrder');
