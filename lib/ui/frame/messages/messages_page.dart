@@ -49,8 +49,6 @@ class MessagesPage extends StatelessWidget {
                   unselectedLabelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal),
                   tabs: [
                     "Message".tr,
-                    "Follow".tr,
-                    "Fans".tr,
                   ].map((e) => Text(e)).toList(),
                 ).paddingOnly(left: 15),
               ],
@@ -59,8 +57,6 @@ class MessagesPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: controller.tabController, children: [
             KeepAliveWrapper(child: ConversationListPage()),
-            FollowListPage(),
-            FansListPage(),
           ]),
         ),
       ],
@@ -77,7 +73,7 @@ class MessagesPageController extends GetxController with GetSingleTickerProvider
   void onInit() {
     // TODO: implement onInit
     configIMTheme();
-    tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    tabController = TabController(vsync: this, length: 1, initialIndex: 0);
 
     super.onInit();
   }

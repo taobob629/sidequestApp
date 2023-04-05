@@ -7,11 +7,11 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/model/level_model.dart';
-import 'package:wy/model/simple_user_info_model.dart';
 import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/model/user_info_model.dart';
-import 'package:wy/utils/utils.dart';
+
+import '../model/vistor_model.dart';
 
 class UserApi {
   static Future<UserInfoModel> info() async {
@@ -141,6 +141,17 @@ class UserApi {
       return list;
     }
     list = response.data.map<AttentionModel>((item) => AttentionModel.fromJson(item)).toList();
+    return list;
+  }
+
+  static Future<List<VisitorModel>> visitorList(int pageNum, int pageSize) async {
+    List<VisitorModel> list = [];
+    var response = await http.get('/peiwan/app/profile/visitors',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    if (response.data == null) {
+      return list;
+    }
+    list = response.data.map<VisitorModel>((item) => VisitorModel.fromJson(item)).toList();
     return list;
   }
 

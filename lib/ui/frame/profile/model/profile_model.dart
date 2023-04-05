@@ -13,6 +13,7 @@ class ProfileModel {
   CountryModel location = CountryModel();
   String nickName = "";
   int fans = 0;
+  int visitor = 0;
   int vipLevel = 0;
   int followers = 0;
   String balance = "";
@@ -46,6 +47,7 @@ class ProfileModel {
       this.sidekickLevel = 0,
       this.nickName = "",
       this.fans = 0,
+      this.visitor = 0,
       this.vipLevel = 0,
       this.followers = 0,
       this.balance = "",
@@ -82,6 +84,7 @@ class ProfileModel {
     phone = json["phone"] ?? "";
 
     fans = json["fans"] ?? 0;
+    visitor = json["visitor"] ?? 0;
     vipLevel = json["vipLevel"] ?? 0;
     followers = json["followers"] ?? 0;
     balance = json["balance"] ?? "";
