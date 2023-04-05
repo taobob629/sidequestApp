@@ -34,6 +34,9 @@ class MyPostsPage extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
                     },
+                    onDelete: () {
+                      t.deletePost(t.list[index].id);
+                    },
                   );
                 }, childCount: t.list.length));
               })
@@ -62,6 +65,11 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
   //   ProfileApi.praisePost(postId: post.uid).then((value) {
   //   });
   // }
+  deletePost(postId) {
+    ProfileApi.deletePost(postId: postId).then((value) {
+      onRefresh();
+    });
+  }
 
   @override
   void onClose() {

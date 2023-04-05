@@ -112,11 +112,11 @@ class PostCommentsPage extends StatelessWidget {
             ),
 
             ///评论输入框
-            Positioned(
+            Obx(() => Positioned(
                 height: 50,
                 left: 0,
                 right: 0,
-                bottom: 30,
+                bottom: t.marginBottom.value,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
@@ -130,6 +130,7 @@ class PostCommentsPage extends StatelessWidget {
                               Obx(() => Expanded(
                                       child: TextFormField(
                                     controller: t.commentController,
+                                    focusNode: t.commentNode,
                                     decoration: InputDecoration(
                                         hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:" + t.replyModel.value.nickname : "Comment",
                                         hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
@@ -179,7 +180,7 @@ class PostCommentsPage extends StatelessWidget {
                       )
                     ],
                   ),
-                ))
+                )))
           ],
         ),
       );
@@ -190,15 +191,25 @@ class PostCommentsPage extends StatelessWidget {
 class PostCommentController extends GetxRefreshController<PostCommentModel> {
   PostItemModel postItem = PostItemModel();
   TextEditingController commentController = TextEditingController();
+  FocusNode commentNode = FocusNode();
 
   final replyModel = PostCommentModel().obs;
   bool isSelf = false;
+
+  final marginBottom = 30.0.obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     postItem = Get.arguments;
     isSelf = UserController.find.userProfile.pwId == postItem.uid;
+    commentNode.addListener(() {
+      if (commentNode.hasFocus) {
+        marginBottom.value = 0.0;
+      } else {
+        marginBottom.value = 30.0;
+      }
+    });
     super.onInit();
   }
 

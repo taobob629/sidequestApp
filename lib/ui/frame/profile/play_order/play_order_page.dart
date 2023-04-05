@@ -382,6 +382,7 @@ class MulitablePlayOrderController extends GetxController {
                 "skillAuthId": item.skillAuthid,
                 "liveuid": item.uid,
                 "serviceItemId": item.id,
+                "nums": item.num.value,
               })
           .toList()
     }).then((res) async {

@@ -15,10 +15,11 @@ import 'package:wy/utils/index.dart';
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends StatelessWidget {
-  PostListItemView({Key? key, required this.model, this.onTap, this.isSelf = false}) : super(key: key);
+  PostListItemView({Key? key, required this.model, this.onTap, this.onDelete, this.isSelf = false}) : super(key: key);
   final PostItemModel model;
   bool isSelf = false;
   Function()? onTap;
+  Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,17 @@ class PostListItemView extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ))
+                  )),
+                  if (isSelf)
+                    GestureDetector(
+                      onTap: () => onDelete?.call(),
+                      child: Container(
+                        child: Image.asset(
+                          "assets/images/ic_delete2.webp",
+                          width: 20,
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),

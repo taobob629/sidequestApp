@@ -29,6 +29,14 @@ abstract class ProfileApi {
     return response.data;
   }
 
+  /// profile-post  点赞/取消点赞
+  static Future deletePost({int postId = 0}) async {
+    var response = await http.get('/peiwan/app/posts/delete_posts', queryParameters: {
+      "postsId": postId,
+    });
+    return response.data;
+  }
+
   /// profile-album  相册列表
   static Future<List<AlbumItemModel>> getPhotoList({int page = 0}) async {
     var response = await http.get('/peiwan/app/profile/getPhotos', queryParameters: {"pageNum": page, "pageSize": 20});
