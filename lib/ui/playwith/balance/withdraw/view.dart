@@ -60,32 +60,44 @@ class WithDrawMainPage extends StatelessWidget {
     if (userType == TYPE_VIP) {
       return [
         Text(
-          "WithDraw".tr,
+          "Diamonds".tr,
         ),
         Text(
           "Coin".tr,
         ),
         Text(
-          "Diamonds".tr,
+          "WithDraw".tr,
         )
       ];
     }
     return [
       Text(
         "Coin".tr,
+      ),
+      Text(
+        "Diamonds".tr,
+      ),
+      Text(
+        "WithDraw".tr,
       )
     ];
   }
 
   List<Widget> createPages() {
-    // var userType = userController.userInfoModel.value.isauth;
-    // if (userType == TYPE_VIP) {
+    var userType = userController.userProfile.isAuth;
+    if (userType == TYPE_VIP) {
       return [
-        KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH)),
+        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS)),
         KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN)),
-        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS))
+        KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH))
       ];
-    // }
+    }else{
+      return [
+        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN)),
+        KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_DIAMONDS)),
+        KeepAliveWrapper(child: WithDrawRecordPage(TYPE_CASH))
+      ];
+    }
     // return [KeepAliveWrapper(child: CoinAndDiamondsRecordPage(TYPE_COIN))];
   }
 }
@@ -97,9 +109,8 @@ class WithDrawMainPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    var userType = Get.find<UserController>().userProfile.isAuth;
     tabController = TabController(
-        vsync: this, length: userType == TYPE_VIP ? 3 : 1, initialIndex: 0);
+        vsync: this, length: 3, initialIndex: 0);
   }
 
   @override

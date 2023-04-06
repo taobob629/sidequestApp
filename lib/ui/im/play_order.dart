@@ -81,13 +81,13 @@ class PlayOrder extends StatelessWidget {
                           PWidget.text(controller.preOrderDm.value.object?['subtotal'], [Colors.white, 16]),
                         ]),
                         PWidget.boxh(15),
-                        PWidget.row([
-                          PWidget.text("${'Service Tax'.tr}", [Colors.white, 18], {'exp': true}),
-                          PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
-                          PWidget.boxw(5),
-                          PWidget.text(controller.preOrderDm.value.object?['tax'], [Colors.white, 16]),
-                        ]),
-                        PWidget.boxh(15),
+                        // PWidget.row([
+                        //   PWidget.text("${'Service Tax'.tr}", [Colors.white, 18], {'exp': true}),
+                        //   PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
+                        //   PWidget.boxw(5),
+                        //   PWidget.text(controller.preOrderDm.value.object?['tax'], [Colors.white, 16]),
+                        // ]),
+                        // PWidget.boxh(15),
                         // YouhuiquanInputWidget(textCon, (v) async {
                         //   await controller.calculate(skillModel.authId.toString(), liveUid, '${serviceItem['id']}', v);
                         //   if (controller.calculateDm.value.object == 0) textCon.clear();

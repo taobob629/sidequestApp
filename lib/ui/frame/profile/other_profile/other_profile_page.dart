@@ -16,6 +16,9 @@ import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../model/pay_info_model.dart';
+import '../../../../model/skill_model.dart';
+import '../../../../widget/route.dart';
+import '../../../service/add/add_game_page.dart';
 import '../../messages/chat/chat_page.dart';
 import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
@@ -459,7 +462,11 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
 
   editService(GamesItem game, ServiceItem serviceItem) async {
     if (isSelf) {
-      Get.toNamed(AppPages.ServiceAndOrders);
+      // Get.toNamed(AppPages.ServiceAndOrders);
+      List<SkillModel> list = await UserApi.myauthlist();
+      jumpPage(AddGamePage(list[0].toJson()), callback: (res) {
+        flog('Get.ard ${Get.arguments}');
+      });
     } else {
       var uk = await Get.to(() {
         return MulitablePlayOrderPage(
@@ -531,15 +538,14 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
     audioPlayer.play();
   }
-
-  toRecordPage() {
-    Get.toNamed(AppPages.Record)?.then((result) {
+  toRecordPage(){
+    Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
       if (result != null) player.value.voice = result;
     });
   }
 
   stop() async {
-    playState = PlayState.idle;
+    playState=PlayState.idle;
     await audioPlayer?.stop();
   }
 }
