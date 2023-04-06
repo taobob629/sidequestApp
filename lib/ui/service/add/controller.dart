@@ -250,7 +250,10 @@ class AddGamePageController extends GetxController {
 
   toRecordPage() {
     Get.toNamed(AppPages.Record)?.then((value) {
-      if (value != null) voiceUrl = value;
+      if (value != null){
+        voiceUrl = value;
+        UserController.find.userProfile.voice=voiceUrl;
+      }
     });
   }
 }
