@@ -102,7 +102,17 @@ class GiveGiftsDialog extends StatelessWidget {
                                 height: 70,
                               ),
                               Text(gift.giftname, style: TextStyle(color: Colors.white, fontSize: 14)),
-                              Text(gift.needcoin, style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage('assets/images/ic_balance_money.webp'),
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  Text("${gift.needcoin}", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                                ],
+                              ),
                             ],
                           ),
                         ),
