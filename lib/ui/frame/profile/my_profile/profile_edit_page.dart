@@ -473,8 +473,8 @@ class ProfileEditController extends GetxController {
 
   updateProfile() {
     ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
-      profileInit();
       Get.back();
+      UserController.find.updateInfo();
     });
   }
 
