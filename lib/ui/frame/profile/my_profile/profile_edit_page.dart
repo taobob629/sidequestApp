@@ -63,6 +63,7 @@ class ProfileEditPage extends StatelessWidget {
 
                 /// nickname，gender，country，language
                 InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
+                InputView(autoHeight: true, controller: t.signatureController, label: "Signature".tr, maxLength: 255, tips: "${UserController.find.userProfile.signature}"),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -413,6 +414,8 @@ class AddressItemView extends StatelessWidget {
 
 class ProfileEditController extends GetxController {
   TextEditingController nickController = TextEditingController();
+  TextEditingController signatureController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
 
   final gender = 2.obs;
@@ -444,12 +447,14 @@ class ProfileEditController extends GetxController {
   profileInit() {
     ProfileApi.profileInit().then((res) {
       nickController.text = res["nick"];
+      signatureController.text=res["signature"];
       gender.value = int.parse(res["gender"]);
 
       phone.value = res["phone"];
-      if (phone.value.isNotEmpty) {
-        phoneController.text = phone.value.split("-").last;
-      }
+      if (phone.value.isNotEmpty&&phone.contains("-")) {
+        phoneController.text = phone.value.split("-")[1];
+      }else
+        phoneController.text=phone.value;
 
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
@@ -463,7 +468,7 @@ class ProfileEditController extends GetxController {
   }
 
   updateProfile() {
-    ProfileApi.updateProfile(nickController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(nickController.text,signatureController.text, phoneController.text, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       profileInit();
       Get.back();
     });

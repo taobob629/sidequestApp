@@ -8,6 +8,7 @@ class ProfileModel {
   int pwId = 0;
   String backGround = "";
   String language = "";
+  String signature = "";
   int isAuth = 0;
   int sidekickLevel = 0;
   CountryModel location = CountryModel();
@@ -41,6 +42,7 @@ class ProfileModel {
 
   ProfileModel(
       {this.language = "",
+      this.signature="",
       this.totalmins = 0,
       this.avamins = 0,
       this.isAuth = 0,
@@ -72,6 +74,7 @@ class ProfileModel {
     sidekickLevel = json["sidekickLevel"] ?? 0;
     memberId = json["memberId"] ?? 0;
     backGround = json["backGround"] ?? "";
+    signature=json["signature"]??"";
     pwId = json["pwId"] ?? 0;
     var loc = json["country"].toString();
     if (loc.isNotEmpty && loc != "null") {
