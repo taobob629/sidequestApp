@@ -91,7 +91,7 @@ class AddGamePageController extends GetxController {
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
-    await getPriceRange(gameId: serviceModel?.gameId);
+    await getPriceRange(gameId: serviceModel?.skillid);
     isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
