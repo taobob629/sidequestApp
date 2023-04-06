@@ -464,7 +464,8 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     if (isSelf) {
       // Get.toNamed(AppPages.ServiceAndOrders);
       List<SkillModel> list = await UserApi.myauthlist();
-      jumpPage(AddGamePage(list[0].toJson()), callback: (res) {
+      Iterable<SkillModel> skillModel = list.where((element) => element.id == player.value.games[0].id);
+      jumpPage(AddGamePage(skillModel.first.toJson()), callback: (res) {
         flog('Get.ard ${Get.arguments}');
       });
     } else {

@@ -8,13 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wy/app.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/widget/record_header_widget.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/widget/im/chat_voice_record_bar.dart';
-import 'package:wy/widget/im/chat_voice_record_layout.dart';
-
 import '../../../../../config/icon_font.dart';
 import 'controller.dart';
 import 'widget/count_down_widget.dart';

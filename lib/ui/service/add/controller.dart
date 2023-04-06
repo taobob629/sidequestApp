@@ -11,7 +11,10 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
+import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../../../config/app_pages.dart';
@@ -49,6 +52,7 @@ class AddGamePageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    isShowVoice = showVoice();
   }
 
   @override
@@ -91,7 +95,7 @@ class AddGamePageController extends GetxController {
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
-    await getPriceRange(gameId: serviceModel?.gameId);
+    await getPriceRange(gameId: serviceModel?.skillid);
     isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
@@ -219,5 +223,37 @@ class AddGamePageController extends GetxController {
     });
     flog(' fielditems ${list}');
     return list;
+  }
+
+  RxBool _isShowVoice = RxBool(false);
+
+  bool get isShowVoice => _isShowVoice.value;
+
+  set isShowVoice(bool value) {
+    _isShowVoice.value = value;
+  }
+
+  RxString _voiceUrl = RxString('');
+
+  String get voiceUrl => _voiceUrl.value;
+
+  set voiceUrl(String value) {
+    _voiceUrl.value = value;
+  }
+
+  bool showVoice() {
+   //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
+   // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
+    return UserController.find.userProfile.isAuth == 0 &&
+        UserController.find.userProfile.voice.isEmpty;
+  }
+
+  toRecordPage() {
+    Get.toNamed(AppPages.Record)?.then((value) {
+      if (value != null){
+        voiceUrl = value;
+        UserController.find.userProfile.voice=voiceUrl;
+      }
+    });
   }
 }
