@@ -34,7 +34,7 @@ class CsDropDownDialog extends StatelessWidget {
     final Offset target = box.localToGlobal(
       box.size.bottomLeft(Offset.zero),
     );
-    double viewHeight = min(240, _cellHeight * itemList.length);
+    double viewHeight = min(160, _cellHeight * itemList.length);
     double? positionTop = target.dy;
     double? positionBottom = Get.height - target.dy;
 
@@ -48,7 +48,7 @@ class CsDropDownDialog extends StatelessWidget {
       children: [
         Positioned(
             left: target.dx,
-            top: positionTop,
+            top: positionTop! + 1.0,
             bottom: positionBottom,
             child: Container(
               height: viewHeight,
@@ -57,27 +57,35 @@ class CsDropDownDialog extends StatelessWidget {
                 color: AppColor.itemBg2,
               ),
               // decoration: CommonWidget.whiteShadowDecoration,
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: itemList.length,
-                  itemBuilder: ((context, index) {
-                    final item = itemList[index];
-                    return InkWell(
-                      child: Container(
-                        height: _cellHeight,
-                        alignment: Alignment.center,
-                        child: Text(
-                          item.title,
-                          style: TextStyle(color: AppColor.colorB9C9, fontSize: 14.sp),
-                        ),
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: itemList.length,
+                itemBuilder: ((context, index) {
+                  final item = itemList[index];
+                  return InkWell(
+                    child: Container(
+                      height: _cellHeight,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 16),
+                      child: Text(
+                        item.title,
+                        style: TextStyle(color: AppColor.colorB9C9, fontSize: 14.sp),
                       ),
-                      onTap: () {
-                        onTap(index, item.title);
-                        Get.back();
-                      },
-                    );
-                  })),
+                    ),
+                    onTap: () {
+                      onTap(index, item.title);
+                      Get.back();
+                    },
+                  );
+                }),
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    color: AppColor.background,
+                    height: 1,
+                  );
+                },
+              ),
             )),
       ],
     );

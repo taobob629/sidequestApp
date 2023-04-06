@@ -121,10 +121,11 @@ class ProfileEditPage extends StatelessWidget {
                   // color: Colors.yellow,
                   child: InternationalPhoneNumberInput(
                     onInputChanged: (PhoneNumber number) {
-                      print(number.phoneNumber);
+                      print(number.toString());
+                      t.phone.value = "${number.dialCode}-${number.phoneNumber}";
                     },
                     onInputValidated: (bool value) {
-                      print(value);
+                      // print(value);
                     },
                     selectorConfig: SelectorConfig(
                       selectorType: PhoneInputSelectorType.DROPDOWN,
@@ -139,7 +140,7 @@ class ProfileEditPage extends StatelessWidget {
                       labelStyle: TextStyle(color: AppColor.colorB9C9),
                       helperStyle: TextStyle(color: AppColor.colorB9C9),
                     ),
-                    initialValue: PhoneNumber(isoCode: 'NG'),
+                    initialValue: PhoneNumber(isoCode: PhoneNumber.getISO2CodeByPrefix(t.phone.value) ?? ""),
                     textFieldController: t.phoneController,
                     formatInput: true,
                     cursorColor: Colors.white,
@@ -148,6 +149,8 @@ class ProfileEditPage extends StatelessWidget {
                     inputBorder: OutlineInputBorder(),
                     onSaved: (PhoneNumber number) {
                       print('On Saved: $number');
+                      t.phone.value = number.toString();
+                      print(t.phone.value);
                     },
                   ),
                 ),
@@ -247,11 +250,11 @@ class ProfileEditPage extends StatelessWidget {
                     },
                   );
                 }).marginSymmetric(horizontal: 15),
-                Obx(() => AddressItemView(
-                      address: t.addressModel.value,
-                      onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
-                      onTap: () {},
-                    )),
+                // Obx(() => AddressItemView(
+                //       address: t.addressModel.value,
+                //       onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
+                //       onTap: () {},
+                //     )),
                 33.verticalSpace,
                 GestureDetector(
                   onTap: () {
@@ -425,6 +428,7 @@ class ProfileEditController extends GetxController {
   final curCountry = "".obs;
   final curLanguage = "".obs;
   final addressModel = AddressModel().obs;
+  final phone = "".obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -441,7 +445,12 @@ class ProfileEditController extends GetxController {
     ProfileApi.profileInit().then((res) {
       nickController.text = res["nick"];
       gender.value = int.parse(res["gender"]);
-      phoneController.text = res["phone"];
+
+      phone.value = res["phone"];
+      if (phone.value.isNotEmpty) {
+        phoneController.text = phone.value.split("-").last;
+      }
+
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
         String country = jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
@@ -450,10 +459,6 @@ class ProfileEditController extends GetxController {
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
       curLanguage.value = res["language"];
-
-      List<AddressModel> addressList = res["addressList"].map<AddressModel>((json) => AddressModel.fromEdit(json)).toList();
-
-      addressModel.value = addressList.firstWhere((address) => address.useDefault);
     });
   }
 
@@ -495,15 +500,6 @@ class ProfileEditController extends GetxController {
     } else {
       print('No image selected.');
     }
-  }
-
-  void jumpEditAddress(bool edit, {AddressModel? address}) {
-    Get.to(() => EditAddressPage(
-          edit: edit,
-          address: address,
-        ))?.then((value) {
-      if (value != null && value == true) {}
-    });
   }
 
   @override

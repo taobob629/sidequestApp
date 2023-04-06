@@ -100,11 +100,11 @@ class MulitablePlayOrderPage extends StatelessWidget {
                         ///优惠卷
                         GestureDetector(
                           onTap: () => Get.find<UserController>().checkLogin(() => NavigatorHelper.gotoCouponPage(
-                              preOrder: Get.find<MulitablePlayOrderController>().getPayOrderModel().toJson(),
+                              preOrder: controller.getPayOrderModel().toJson(),
                               //  payOrderModel: pageController.getPayOrderModel(),
                               onSelect: (model) async {
                                 //  flog('v $model');
-                                controller.couponId = int.tryParse(model.couponCode) ?? 0;
+                                controller.couponId = model.id ?? 0;
                                 controller.calculateMulit();
                                 // await controller.calculate(
                                 //   serviceItem.skillAuthid.toString(),
@@ -456,7 +456,7 @@ class MulitablePlayOrderController extends GetxController {
       // preOrderDm.value.object?['total']=res.data['total'];
       preOrderDm.value.addObject(res.data);
 
-      this.couponId = res.data['couponId'];
+      // this.couponId = res.data['couponId'];
     }).catchError((e) {
       preOrderDm.value.toError(e.toString());
     });
@@ -533,13 +533,15 @@ class MulitablePlayOrderController extends GetxController {
     model.orderId = orderId;
     model.svctm = this.time.value.millisecondsSinceEpoch;
     model.preOrdersBos = serviceItemList
-        .map((item) => {
+        .asMap()
+        .map((key, item) => MapEntry(key, {
               "skillAuthId": item.skillAuthid,
               "liveuid": item.uid,
               "serviceItemId": item.id,
               "nums": item.num.value,
-              "couponId": 0,
-            })
+              "couponId": key == 0 ? couponId : 0,
+            }))
+        .values
         .toList();
     // model.liveuid = liveUid;
     // model.skillid = skillModel.value.skillid.toString();

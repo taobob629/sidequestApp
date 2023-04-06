@@ -1,3 +1,5 @@
+import '../ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
+
 class PayType {
   static const BUY_GOODS = -1; //购买商品
   static const WB = 0; //网吧账户充值
@@ -74,6 +76,7 @@ class PayOrderModel {
     json['nums'] = nums;
     json['des'] = des;
     json['serviceItemId'] = serviceItemId;
+    json["preOrdersBos"] = preOrdersBos;
     json['code'] = code;
     json['totalAmount'] = totalAmount;
     json['addressId'] = addressId;

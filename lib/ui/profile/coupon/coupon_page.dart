@@ -22,19 +22,8 @@ class CouponPage extends StatelessWidget {
   late final CouponPageController controller;
   bool showAppbar = false;
 
-  CouponPage(
-      {int couponType = 0,
-      PayOrderModel? payOrderModel,
-      Map<String, dynamic>? preOrder,
-      int tab = TYPE_STORE,
-      this.showAppbar = true}) {
-    controller = Get.put(
-        CouponPageController(
-            preOrder: preOrder,
-            tab: tab,
-            couponType: couponType,
-            payOrderModel: payOrderModel),
-        tag: '$tab');
+  CouponPage({int couponType = 0, PayOrderModel? payOrderModel, Map<String, dynamic>? preOrder, int tab = TYPE_STORE, this.showAppbar = true}) {
+    controller = Get.put(CouponPageController(preOrder: preOrder, tab: tab, couponType: couponType, payOrderModel: payOrderModel), tag: '$tab');
   }
 
   @override
@@ -55,11 +44,7 @@ class CouponPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, left: 2, right: 2),
                   child: GridView.builder(
                     controller: controller.scrollController,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 10.0,
-                        crossAxisSpacing: 10.0,
-                        childAspectRatio: 688 / 333),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1, mainAxisSpacing: 10.0, crossAxisSpacing: 10.0, childAspectRatio: 688 / 333),
                     itemBuilder: (context, index) {
                       CouponModel model = controller.list[index];
                       return CouponItem(
@@ -80,9 +65,7 @@ class CouponPage extends StatelessWidget {
                       .then((value) {
                     if (value != null) {
                       controller.reload();
-                      Get.dialog(
-                          ConfirmDialog(title: "Voucher Added".tr, info: value),
-                          barrierColor: Colors.black26);
+                      Get.dialog(ConfirmDialog(title: "Voucher Added".tr, info: value), barrierColor: Colors.black26);
                     }
                   }))
           : Container()),
@@ -100,11 +83,7 @@ class CouponPageController extends GetxListController<CouponModel> {
   int tab;
   Map<String, dynamic>? preOrder;
 
-  CouponPageController(
-      {required this.payOrderModel,
-      required this.couponType,
-      this.preOrder,
-      this.tab = CouponPage.TYPE_STORE});
+  CouponPageController({required this.payOrderModel, required this.couponType, this.preOrder, this.tab = CouponPage.TYPE_STORE});
 
   @override
   void onInit() {
