@@ -160,15 +160,15 @@ class UserController extends GetxController {
   }
 
   void voiceCheck() {
-    if (userProfile.voice.isEmpty) {
+    if (userProfile.isAuth == TYPE_VIP && userProfile.voice.isEmpty) {
       Get.dialog(ConfirmDialog(
         title: 'Confirm'.tr,
         info: 'We suggest that you supplement the recording materials',
         concelBtn: 'CANCEL'.tr,
-        onConfirm: (){
+        onConfirm: () {
           Get.back();
           Get.toNamed(AppPages.Record);
-      },
+        },
       ));
     }
   }
