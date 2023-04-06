@@ -63,6 +63,7 @@ class ProfileEditPage extends StatelessWidget {
 
                 /// nickname，gender，country，language
                 InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
+                InputView(autoHeight: true, controller: t.signatureController, label: "Signature".tr, maxLength: 255, tips: "${UserController.find.userProfile.signature}"),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -118,38 +119,41 @@ class ProfileEditPage extends StatelessWidget {
                   height: 50,
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10).r),
-                  // color: Colors.yellow,
-                  child: InternationalPhoneNumberInput(
-                    onInputChanged: (PhoneNumber number) {
-                      print(number.phoneNumber);
-                    },
-                    onInputValidated: (bool value) {
-                      print(value);
-                    },
-                    selectorConfig: SelectorConfig(
-                      selectorType: PhoneInputSelectorType.DROPDOWN,
-                    ),
-                    ignoreBlank: false,
-                    autoValidateMode: AutovalidateMode.disabled,
-                    selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
-                    textStyle: TextStyle(color: AppColor.colorB9C9),
-                    inputDecoration: InputDecoration(
-                      hintText: "Phone number",
-                      hintStyle: TextStyle(color: AppColor.colorB9C9),
-                      labelStyle: TextStyle(color: AppColor.colorB9C9),
-                      helperStyle: TextStyle(color: AppColor.colorB9C9),
-                    ),
-                    initialValue: PhoneNumber(isoCode: 'NG'),
-                    textFieldController: t.phoneController,
-                    formatInput: true,
-                    cursorColor: Colors.white,
-                    hintText: "Phone number",
-                    keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-                    inputBorder: OutlineInputBorder(),
-                    onSaved: (PhoneNumber number) {
-                      print('On Saved: $number');
-                    },
-                  ),
+                  child: Obx(() => InternationalPhoneNumberInput(
+                        onInputChanged: (PhoneNumber number) {
+                          var phoneParts = number.phoneNumber!.split(number.dialCode!);
+                          t.phone.value = "${number.dialCode!} ${phoneParts.last}";
+                          print(t.phone.value);
+                        },
+                        onInputValidated: (bool value) {
+                          // print(value);
+                        },
+                        selectorConfig: SelectorConfig(
+                          selectorType: PhoneInputSelectorType.DROPDOWN,
+                        ),
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
+                        textStyle: TextStyle(color: AppColor.colorB9C9),
+                        inputDecoration: InputDecoration(
+                          hintText: "Phone number",
+                          hintStyle: TextStyle(color: AppColor.colorB9C9),
+                          labelStyle: TextStyle(color: AppColor.colorB9C9),
+                          helperStyle: TextStyle(color: AppColor.colorB9C9),
+                        ),
+                        initialValue: PhoneNumber(isoCode: PhoneNumber.getISO2CodeByPrefix(t.digalCode.value) ?? ""),
+                        textFieldController: t.phoneController,
+                        formatInput: true,
+                        cursorColor: Colors.white,
+                        hintText: "Phone number",
+                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                        inputBorder: OutlineInputBorder(),
+                        onSaved: (PhoneNumber number) {
+                          print('On Saved: $number');
+                          // t.phone.value = number.toString();
+                          // print(t.phone.value);
+                        },
+                      )),
                 ),
                 Container(
                   height: 40.h,
@@ -236,22 +240,24 @@ class ProfileEditPage extends StatelessWidget {
                         ))),
                     onTap: () {
                       Get.dialog(
-                          CsDropDownDialog(
-                              optionContext: optionContext,
-                              itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
-                              onTap: (index, value) {
-                                t.curLanguage.value = value;
-                              }),
+                          CsDropDownMulitSelectDialog(
+                            optionContext: optionContext,
+                            itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
+                            initSelectList: t.curLanguage.split(","),
+                            onSelect: (value) {
+                              t.curLanguage.value = value;
+                            },
+                          ),
                           barrierColor: Colors.transparent,
                           useSafeArea: false);
                     },
                   );
                 }).marginSymmetric(horizontal: 15),
-                Obx(() => AddressItemView(
-                      address: t.addressModel.value,
-                      onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
-                      onTap: () {},
-                    )),
+                // Obx(() => AddressItemView(
+                //       address: t.addressModel.value,
+                //       onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
+                //       onTap: () {},
+                //     )),
                 33.verticalSpace,
                 GestureDetector(
                   onTap: () {
@@ -410,6 +416,8 @@ class AddressItemView extends StatelessWidget {
 
 class ProfileEditController extends GetxController {
   TextEditingController nickController = TextEditingController();
+  TextEditingController signatureController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
 
   final gender = 2.obs;
@@ -425,6 +433,8 @@ class ProfileEditController extends GetxController {
   final curCountry = "".obs;
   final curLanguage = "".obs;
   final addressModel = AddressModel().obs;
+  final phone = "".obs;
+  final digalCode = "+44".obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -440,8 +450,16 @@ class ProfileEditController extends GetxController {
   profileInit() {
     ProfileApi.profileInit().then((res) {
       nickController.text = res["nick"];
+      signatureController.text = res["signature"];
       gender.value = int.parse(res["gender"]);
-      phoneController.text = res["phone"];
+
+      phone.value = res["phone"];
+      if (phone.value.isNotEmpty && phone.contains(" ")) {
+        digalCode.value = phone.value.split(" ").first;
+        phoneController.text = phone.value.split(" ").last;
+      } else
+        phoneController.text = phone.value;
+
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
         String country = jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
@@ -450,15 +468,11 @@ class ProfileEditController extends GetxController {
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
       curLanguage.value = res["language"];
-
-      List<AddressModel> addressList = res["addressList"].map<AddressModel>((json) => AddressModel.fromEdit(json)).toList();
-
-      addressModel.value = addressList.firstWhere((address) => address.useDefault);
     });
   }
 
   updateProfile() {
-    ProfileApi.updateProfile(nickController.text, phoneController.text, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       profileInit();
       Get.back();
     });
@@ -495,15 +509,6 @@ class ProfileEditController extends GetxController {
     } else {
       print('No image selected.');
     }
-  }
-
-  void jumpEditAddress(bool edit, {AddressModel? address}) {
-    Get.to(() => EditAddressPage(
-          edit: edit,
-          address: address,
-        ))?.then((value) {
-      if (value != null && value == true) {}
-    });
   }
 
   @override

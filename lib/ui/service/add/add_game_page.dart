@@ -128,6 +128,9 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   update() async {
+    if (controller.isShowVoice && controller.voiceUrl.isEmpty) {
+      return EasyLoading.showToast('Please record a voice'.tr);
+    }
     if (controller.privacyCheckController.check() == false) return;
     // var fields = buildFiledsParams();
     // flog('fields ${json.encode(fields)}');
@@ -368,6 +371,24 @@ class _AddGamePageState extends State<AddGamePage> {
                       );
                     }),
                   ])),
+                Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
+                Obx(() => Visibility(
+                    visible: controller.isShowVoice,
+                    child: InkWell(
+                      onTap: () => controller.toRecordPage(),
+                      child: itemBg(Container(
+                        alignment: Alignment.centerLeft,
+                        child: Obx(() => Text(
+                              '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
+                                  .tr,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 13.sp,
+                                  overflow: TextOverflow.ellipsis),
+                            )),
+                      )),
+                    ))),
                 16.verticalSpace,
                 iDPhotoView()
               ],

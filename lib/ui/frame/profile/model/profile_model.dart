@@ -7,7 +7,9 @@ class ProfileModel {
   int memberId = 0;
   int pwId = 0;
   String backGround = "";
+  String voice = "";
   String language = "";
+  String signature = "";
   int isAuth = 0;
   int sidekickLevel = 0;
   CountryModel location = CountryModel();
@@ -41,6 +43,8 @@ class ProfileModel {
 
   ProfileModel(
       {this.language = "",
+      this.signature = "",
+      this.voice = "",
       this.totalmins = 0,
       this.avamins = 0,
       this.isAuth = 0,
@@ -68,10 +72,12 @@ class ProfileModel {
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     language = json["language"] ?? "";
+    voice = json["voice"] ?? "";
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 0;
     memberId = json["memberId"] ?? 0;
     backGround = json["backGround"] ?? "";
+    signature = json["signature"] ?? "";
     pwId = json["pwId"] ?? 0;
     var loc = json["country"].toString();
     if (loc.isNotEmpty && loc != "null") {
@@ -186,15 +192,17 @@ class BadgesItem {
   List<BadgeItem> getPageData(int page) {
     if (badge.length <= 6) return badge;
     int nextPage = page + 1;
-    if (nextPage*6 > badge.length) return badge.sublist(page*6, badge.length);
-    return badge.sublist(page*6, nextPage  * 6);
+    if (nextPage * 6 > badge.length) return badge.sublist(page * 6, badge.length);
+    return badge.sublist(page * 6, nextPage * 6);
   }
- getPageSize(){
-    if(badge.length%6==0){
-      return badge.length%6;
+
+  getPageSize() {
+    if (badge.length % 6 == 0) {
+      return badge.length % 6;
     }
-    return (badge.length/6).truncate()+1;
- }
+    return (badge.length / 6).truncate() + 1;
+  }
+
   final List<BadgeItem> badge;
 
   // Intimacy

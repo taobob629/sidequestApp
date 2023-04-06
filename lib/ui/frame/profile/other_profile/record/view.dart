@@ -3,17 +3,14 @@
     创建日期:2023/3/30
     描述:
  */
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wy/app.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/widget/record_header_widget.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/widget/im/chat_voice_record_bar.dart';
-import 'package:wy/widget/im/chat_voice_record_layout.dart';
-
 import '../../../../../config/icon_font.dart';
 import 'controller.dart';
 import 'widget/count_down_widget.dart';
@@ -40,7 +37,7 @@ class RecordViewPage extends GetView<RecordController> {
                         child: Container(
                           padding: EdgeInsets.only(top: 50.h),
                           child: Lottie.asset(
-                            'assets/anim/voice_record.json',
+                            'assets/anim/waves.json',
                             width: Get.width,
                             height: 35.h,
                             fit: BoxFit.contain,
@@ -60,6 +57,12 @@ class RecordViewPage extends GetView<RecordController> {
                         flog('onLongPressStart $details');
                         //
                         controller.startRecord();
+                      },
+                      onLongPress: (){
+                        flog('onLongPress ');
+                      },
+                      onLongPressDown: (LongPressDownDetails details){
+                        flog('LongPressDownDetails  ');
                       },
                       onLongPressCancel: () {
                         flog('onLongPressCancel ');
