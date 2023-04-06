@@ -468,7 +468,7 @@ class ProfileEditController extends GetxController {
   }
 
   updateProfile() {
-    ProfileApi.updateProfile(nickController.text,signatureController.text, phoneController.text, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(nickController.text,signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       profileInit();
       Get.back();
     });
