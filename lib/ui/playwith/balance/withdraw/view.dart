@@ -109,9 +109,8 @@ class WithDrawMainPageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    var userType = Get.find<UserController>().userProfile.isAuth;
     tabController = TabController(
-        vsync: this, length: userType == TYPE_VIP ? 3 : 1, initialIndex: 0);
+        vsync: this, length: 3, initialIndex: 0);
   }
 
   @override
