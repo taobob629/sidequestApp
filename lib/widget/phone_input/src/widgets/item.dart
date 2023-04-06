@@ -51,8 +51,7 @@ class Item extends StatelessWidget {
           ),
           SizedBox(width: 5),
           Text(
-            '$dialCode',
-            textDirection: TextDirection.ltr,
+            '$dialCode'.replaceAll(" ", ""),
             textAlign: TextAlign.end,
             style: textStyle,
           ),

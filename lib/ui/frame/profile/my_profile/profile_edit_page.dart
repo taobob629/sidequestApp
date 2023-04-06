@@ -119,41 +119,41 @@ class ProfileEditPage extends StatelessWidget {
                   height: 50,
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10).r),
-                  // color: Colors.yellow,
-                  child: InternationalPhoneNumberInput(
-                    onInputChanged: (PhoneNumber number) {
-                      print(number.toString());
-                      t.phone.value = "${number.dialCode}-${number.phoneNumber}";
-                    },
-                    onInputValidated: (bool value) {
-                      // print(value);
-                    },
-                    selectorConfig: SelectorConfig(
-                      selectorType: PhoneInputSelectorType.DROPDOWN,
-                    ),
-                    ignoreBlank: false,
-                    autoValidateMode: AutovalidateMode.disabled,
-                    selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
-                    textStyle: TextStyle(color: AppColor.colorB9C9),
-                    inputDecoration: InputDecoration(
-                      hintText: "Phone number",
-                      hintStyle: TextStyle(color: AppColor.colorB9C9),
-                      labelStyle: TextStyle(color: AppColor.colorB9C9),
-                      helperStyle: TextStyle(color: AppColor.colorB9C9),
-                    ),
-                    initialValue: PhoneNumber(isoCode: PhoneNumber.getISO2CodeByPrefix(t.phone.value) ?? ""),
-                    textFieldController: t.phoneController,
-                    formatInput: true,
-                    cursorColor: Colors.white,
-                    hintText: "Phone number",
-                    keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-                    inputBorder: OutlineInputBorder(),
-                    onSaved: (PhoneNumber number) {
-                      print('On Saved: $number');
-                      t.phone.value = number.toString();
-                      print(t.phone.value);
-                    },
-                  ),
+                  child: Obx(() => InternationalPhoneNumberInput(
+                        onInputChanged: (PhoneNumber number) {
+                          var phoneParts = number.phoneNumber!.split(number.dialCode!);
+                          t.phone.value = "${number.dialCode!} ${phoneParts.last}";
+                          print(t.phone.value);
+                        },
+                        onInputValidated: (bool value) {
+                          // print(value);
+                        },
+                        selectorConfig: SelectorConfig(
+                          selectorType: PhoneInputSelectorType.DROPDOWN,
+                        ),
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
+                        textStyle: TextStyle(color: AppColor.colorB9C9),
+                        inputDecoration: InputDecoration(
+                          hintText: "Phone number",
+                          hintStyle: TextStyle(color: AppColor.colorB9C9),
+                          labelStyle: TextStyle(color: AppColor.colorB9C9),
+                          helperStyle: TextStyle(color: AppColor.colorB9C9),
+                        ),
+                        initialValue: PhoneNumber(isoCode: PhoneNumber.getISO2CodeByPrefix(t.digalCode.value) ?? ""),
+                        textFieldController: t.phoneController,
+                        formatInput: true,
+                        cursorColor: Colors.white,
+                        hintText: "Phone number",
+                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                        inputBorder: OutlineInputBorder(),
+                        onSaved: (PhoneNumber number) {
+                          print('On Saved: $number');
+                          // t.phone.value = number.toString();
+                          // print(t.phone.value);
+                        },
+                      )),
                 ),
                 Container(
                   height: 40.h,
@@ -240,12 +240,14 @@ class ProfileEditPage extends StatelessWidget {
                         ))),
                     onTap: () {
                       Get.dialog(
-                          CsDropDownDialog(
-                              optionContext: optionContext,
-                              itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
-                              onTap: (index, value) {
-                                t.curLanguage.value = value;
-                              }),
+                          CsDropDownMulitSelectDialog(
+                            optionContext: optionContext,
+                            itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
+                            initSelectList: t.curLanguage.split(","),
+                            onSelect: (value) {
+                              t.curLanguage.value = value;
+                            },
+                          ),
                           barrierColor: Colors.transparent,
                           useSafeArea: false);
                     },
@@ -432,6 +434,7 @@ class ProfileEditController extends GetxController {
   final curLanguage = "".obs;
   final addressModel = AddressModel().obs;
   final phone = "".obs;
+  final digalCode = "+44".obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -447,14 +450,15 @@ class ProfileEditController extends GetxController {
   profileInit() {
     ProfileApi.profileInit().then((res) {
       nickController.text = res["nick"];
-      signatureController.text=res["signature"];
+      signatureController.text = res["signature"];
       gender.value = int.parse(res["gender"]);
 
       phone.value = res["phone"];
-      if (phone.value.isNotEmpty&&phone.contains("-")) {
-        phoneController.text = phone.value.split("-")[1];
-      }else
-        phoneController.text=phone.value;
+      if (phone.value.isNotEmpty && phone.contains(" ")) {
+        digalCode.value = phone.value.split(" ").first;
+        phoneController.text = phone.value.split(" ").last;
+      } else
+        phoneController.text = phone.value;
 
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
@@ -468,7 +472,7 @@ class ProfileEditController extends GetxController {
   }
 
   updateProfile() {
-    ProfileApi.updateProfile(nickController.text,signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       profileInit();
       Get.back();
     });
