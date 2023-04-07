@@ -569,7 +569,9 @@ class MyProfilePage extends StatelessWidget {
                           ImageUtils.icon_order,
                           "Order".tr,
                           onTap: () => Get.to(
-                                () => MyOrdersPage(),
+                                () => OrdersPage(
+                              initialIndex: 1,
+                            ),
                           ),
                         ),
                       ),
