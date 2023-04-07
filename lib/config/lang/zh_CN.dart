@@ -250,7 +250,7 @@ const Map<String, String> zh_CN = {
   'Other recharge amount': '自定义金额',
   'Please enter an valid number greater than 1': '最少充值金额:£1',
   'Please Enter withdraw amount!': '请输入提现金额!',
-  'Please enter an valid number greater than 1000': '请输入大于1000的有效数字',
+  'Please enter an valid number greater than': '金额不能小于',
   'Please enter an valid number smaller than': '请输入金额小于',
   'Please Add withdraw account First!': '请先输入提现账户!',
   'All Services': '所有服务',

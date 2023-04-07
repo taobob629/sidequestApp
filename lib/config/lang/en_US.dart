@@ -250,7 +250,7 @@ const Map<String, String> en_US = {
   'Other recharge amount': 'Other recharge amount',
   'Please enter an valid number greater than 1': 'Please enter an valid number greater than 1',
   'Please Enter withdraw amount!': 'Please Enter withdraw amount!',
-  'Please enter an valid number greater than 1000': 'Please enter an valid number greater than 1000',
+  'Please enter an valid number greater than': 'Please enter an valid number greater than',
   'Please enter an valid number smaller than': 'Please enter an valid number smaller than',
   'Please Add withdraw account First!': 'Please Add withdraw account First!',
   'All Services': 'All Services',

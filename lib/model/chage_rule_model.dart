@@ -136,7 +136,7 @@ class Receipt {
   factory Receipt.fromJson(Map<String, dynamic> json) => Receipt(
     name: json["name"],
     id: json["id"],
-    account: json["account"],
+    account: json["account"]??"",
   );
 
   Map<String, dynamic> toJson() => {
