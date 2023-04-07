@@ -65,7 +65,7 @@ class CustomMessageView extends StatelessWidget {
                     ),
                     6.horizontalSpace,
                     Text(
-                      "Top up successfully",
+                      data['title']??"Top up successful",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.sp,
