@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/record_widget.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../config/app_pages.dart';
 import '../../../../image_utils.dart';
@@ -89,14 +92,17 @@ class MyProfilePage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Stack(
-                                          alignment: AlignmentDirectional.center,
+                                          alignment:
+                                              AlignmentDirectional.center,
                                           clipBehavior: Clip.none,
                                           children: [
                                             Obx(() => Container(
                                                   height: 64,
-                                                  alignment: Alignment.bottomCenter,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
                                                   child: ClipOval(
-                                                    child: ImageUtil.networkImage(
+                                                    child:
+                                                        ImageUtil.networkImage(
                                                       url: userController
                                                           .userProfile.avatar,
                                                       width: 60,
@@ -114,8 +120,8 @@ class MyProfilePage extends StatelessWidget {
                                                               .userProfile
                                                               .vipLevel >=
                                                           5 &&
-                                                      userController
-                                                              .userProfile.isAuth ==
+                                                      userController.userProfile
+                                                              .isAuth ==
                                                           1,
                                                   child: Positioned(
                                                       bottom: -10,
@@ -125,7 +131,14 @@ class MyProfilePage extends StatelessWidget {
                                                       )),
                                                 )),
                                           ]),
-                                      RecordWidget(),
+                                      VoiceWidget(
+                                          pwId: userController.userProfile.pwId,
+                                          voice: userController.userProfile.voice,
+                                          maginBottom: 0,
+                                          marginLeft: 12.w,
+                                          play: ()=>AudioManager.instance.play(userController.userProfile.voice),
+                                          toRecordPage:()=> userController.toRecordPage(context),
+                                          )
                                     ],
                                   ),
                                 ),
@@ -296,13 +309,14 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Spacer(),
                       GestureDetector(
-                        onTap: () => Get.to(() => ProfileEditPage()),
+                        onTap: () => NavigatorHelper.toOtherProfile(userController.userProfile.pwId),
                         child: Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.white,
+                          size: 16.sp,
                         ),
                       ),
-                      10.horizontalSpace,
+                      20.horizontalSpace,
                     ],
                   ),
                 ),
@@ -345,7 +359,8 @@ class MyProfilePage extends StatelessWidget {
                             children: [
                               badges.Badge(
                                 showBadge:
-                                    userController.userProfile.followerToday > 0,
+                                    userController.userProfile.followerToday >
+                                        0,
                                 badgeContent: Container(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -366,9 +381,9 @@ class MyProfilePage extends StatelessWidget {
                                       ? '${userController.userProfile.followers}'
                                       : '99+',
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.sp,
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               7.verticalSpace,
@@ -406,9 +421,9 @@ class MyProfilePage extends StatelessWidget {
                               child: Text(
                                 "${userController.userProfile.fans}",
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.sp,
-                                ),
+                                    color: Colors.white,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             7.verticalSpace,
@@ -423,9 +438,8 @@ class MyProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Visibility(
-                        visible: userController.userProfile.isAuth == 1,
+                    if (userController.userProfile.isAuth != 1)
+                      Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Column(
@@ -447,9 +461,9 @@ class MyProfilePage extends StatelessWidget {
                                 child: Text(
                                   "${userController.userProfile.ranking}",
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.sp,
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               7.verticalSpace,
@@ -464,7 +478,6 @@ class MyProfilePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
                     Expanded(
                       child: GestureDetector(
                         behavior: HitTestBehavior.translucent,
@@ -493,9 +506,9 @@ class MyProfilePage extends StatelessWidget {
                                       ? '${userController.userProfile.visitor}'
                                       : '99+',
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.sp,
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                   maxLines: 1,
                                 ),
                               ),
@@ -543,6 +556,47 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: _dashboardLabelItem(
+                          "assets/images/profile/icon_sidekick.webp",
+                          "SideKick".tr,
+                          onTap: () {
+                            //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+                            Get.toNamed(AppPages.ServiceAndOrders);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: _dashboardLabelItem(
+                          ImageUtils.icon_order,
+                          "Order".tr,
+                          onTap: () => Get.to(
+                                () => OrdersPage(
+                              initialIndex: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: _dashboardLabelItem(
+                          ImageUtils.icon_ablum,
+                          "Album".tr,
+                          onTap: () => Get.to(() => MyAlbumPage()),
+                        ),
+                      ),
+                    ],
+                  ),
+                  20.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: _dashboardLabelItem(
+                          ImageUtils.icon_post,
+                          "Post".tr,
+                          onTap: () => Get.to(() => MyPostsPage()),
+                        ),
+                      ),
+                      Expanded(
+                        child: _dashboardLabelItem(
                           "assets/images/profile/icon_bookings.webp",
                           "Bookings".tr,
                           onTap: () {
@@ -557,47 +611,6 @@ class MyProfilePage extends StatelessWidget {
                           onTap: () {
                             Get.to(() => MyEventsPage());
                           },
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          "assets/images/profile/icon_sidekick.webp",
-                          "SideKick".tr,
-                          onTap: () {
-                            //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                            Get.toNamed(AppPages.ServiceAndOrders);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_order,
-                          "Order".tr,
-                          onTap: () => Get.to(
-                            () => OrdersPage(
-                              initialIndex: 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_post,
-                          "Post".tr,
-                          onTap: () => Get.to(() => MyPostsPage()),
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_ablum,
-                          "Album".tr,
-                          onTap: () => Get.to(() => MyAlbumPage()),
                         ),
                       ),
                       Spacer(),

@@ -12,6 +12,7 @@ import 'package:wy/utils/navigator_helper.dart';
 
 import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
+import '../../../controller/user_controller.dart';
 
 class FollowListPage extends StatelessWidget {
   FollowListPage({Key? key}) : super(key: key);
@@ -116,6 +117,7 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
   unFollow(touid) {
     UserApi.attention(touid).then((value) {
       onRefresh();
+      UserController.find.updateInfo();
     });
   }
 

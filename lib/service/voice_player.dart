@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,7 +17,7 @@ class PlayState {
 }
 
 class AudioManager {
- // AudioManager({this._audioPlayer});
+  // AudioManager({this._audioPlayer});
 
   RxInt _playState = RxInt(PlayState.idle);
 
@@ -77,7 +78,7 @@ class AudioManager {
 
   Future<void> play(var voice) async {
     flog('voice $voice');
-    if (audioPlayer == null){
+    if (audioPlayer == null) {
       audioPlayer = AudioPlayer();
       initPlayer();
     }
@@ -85,21 +86,20 @@ class AudioManager {
       await audioPlayer?.stop();
       return;
     }
-    if (voice.isEmpty) EasyLoading.showError('No Voice'.tr);
-    final duration =
-        await audioPlayer?.setUrl(voice); // Schemes: (https: | file: | asset: )
+    if (voice.isEmpty) {
+      EasyLoading.showError('No Voice'.tr);
+      return;
+    }
+    final duration = await audioPlayer?.setUrl(voice); // Schemes: (https: | file: | asset: )
     audioPlayer?.play();
   }
 
   stop() async {
     playState = PlayState.idle;
-    if(audioPlayer?.playing == true)
-    await audioPlayer?.stop();
+    if (audioPlayer?.playing == true) await audioPlayer?.stop();
   }
 
   dispose() {
-
     audioPlayer?.dispose();
   }
-
 }

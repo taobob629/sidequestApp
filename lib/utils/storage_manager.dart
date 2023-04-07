@@ -11,7 +11,7 @@ import 'package:wy/main.dart';
 import 'package:wy/model/credit_card_model.dart';
 import 'package:wy/model/user_model.dart';
 import 'package:wy/utils/utils.dart';
-
+const String default_server='dev184';//上线时候要改成prod
 class StorageManager {
   /// app全局配置
   static late SharedPreferences sharedPreferences;
@@ -160,10 +160,9 @@ class StorageManager {
   static String getEnv() {
     String? value = sharedPreferences.getString(kEnv);
     if (value == null) {
-      return "prod";
+      return default_server;
     }
-    flog(packageInfo!.version, 'packageInfo');
-    if (packageInfo!.version == '0.2.10') return "prod";
+    if (packageInfo!.version == '0.2.10') return default_server;
     return value;
   }
 
