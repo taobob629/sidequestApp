@@ -11,6 +11,7 @@ import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
 import '../../../../widget/home/sex_age_widget.dart';
+import '../../../controller/user_controller.dart';
 
 class VisitorPage extends StatelessWidget {
   final t = Get.put(VisitorListController());
@@ -52,13 +53,15 @@ class VisitorPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Text(
-                                      model.name,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    Flexible(
+                                      child: Text(
+                                        model.name,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                     6.horizontalSpace,
                                     SexAndAgeWidget(
@@ -147,6 +150,7 @@ class VisitorListController extends GetxRefreshController<VisitorModel> {
   unFollow(touid) {
     UserApi.attention(touid).then((value) {
       onRefresh();
+      UserController.find.updateInfo();
     });
   }
 
