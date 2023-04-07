@@ -16,7 +16,7 @@ class VoiceWidget extends StatelessWidget{
   var voice;
   Function()? toRecordPage;
   Function()? play;
-  double? maginBottom;
+  double maginBottom;
   VoiceWidget({@required this.pwId, @required this.voice,this.toRecordPage,this.play,this.maginBottom=12});
   AudioManager audioManager=AudioManager.instance;
   @override
