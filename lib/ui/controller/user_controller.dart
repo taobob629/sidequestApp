@@ -20,6 +20,7 @@ import 'package:wy/model/login_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/model/user_model.dart';
 import 'package:wy/service/push_service.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
@@ -113,6 +114,7 @@ class UserController extends GetxController {
 
   @override
   void onClose() {
+    AudioManager.instance.stop();
     _timer.cancel();
     _cancelPayNotify();
     super.onClose();
@@ -414,5 +416,11 @@ class UserController extends GetxController {
         return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
+  }
+
+  toRecordPage(){
+    Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
+      if (result != null) userProfile.voice = result;
+    });
   }
 }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/record_widget.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../config/app_pages.dart';
 import '../../../../image_utils.dart';
@@ -125,7 +127,12 @@ class MyProfilePage extends StatelessWidget {
                                                       )),
                                                 )),
                                           ]),
-                                      RecordWidget(),
+                                      VoiceWidget(
+                                          pwId: userController.userProfile.pwId,
+                                          voice: userController.userProfile.voice,
+                                          play: ()=>AudioManager.instance.play(userController.userProfile.voice),
+                                          toRecordPage:()=> userController.toRecordPage(),
+                                          )
                                     ],
                                   ),
                                 ),
