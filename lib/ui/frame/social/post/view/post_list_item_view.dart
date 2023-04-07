@@ -11,6 +11,7 @@ import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/cs_photo_viewer.dart';
 
 import 'give_gifts_dialog.dart';
 
@@ -108,13 +109,17 @@ class PostListItemView extends StatelessWidget {
                 crossAxisSpacing: 10,
                 childAspectRatio: model.imageList.length == 1 ? 345 / 195 : 1,
                 children: model.imageList
-                    .map((imgUrl) => Container(
-                          // margin: EdgeInsets.only(top: 10, bottom: 10),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
-                          clipBehavior: Clip.antiAlias,
-                          child: ImageUtil.networkImage(
-                            url: imgUrl,
-                            fit: BoxFit.cover,
+                    .map((imgUrl) => GestureDetector(
+                          onTap: () {
+                            Get.dialog(CsPhotoViewer(photoList: model.imageList), useSafeArea: false);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                            clipBehavior: Clip.antiAlias,
+                            child: ImageUtil.networkImage(
+                              url: imgUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ))
                     .toList(),

@@ -11,6 +11,7 @@ import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../../../widget/cs_photo_viewer.dart';
 import 'post_comments_page.dart';
 import 'post_favorators_page.dart';
 
@@ -100,13 +101,18 @@ class PostDetailPage extends StatelessWidget {
                           crossAxisSpacing: 10,
                           childAspectRatio: t.postItem.value.imageList.length == 1 ? 345 / 195 : 1,
                           children: t.postItem.value.imageList
-                              .map((imgUrl) => Container(
-                                    // margin: EdgeInsets.only(top: 10, bottom: 10),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: ImageUtil.networkImage(
-                                      url: imgUrl,
-                                      fit: BoxFit.cover,
+                              .map((imgUrl) => GestureDetector(
+                                    onTap: () {
+                                      Get.dialog(CsPhotoViewer(photoList: t.postItem.value.imageList), useSafeArea: false);
+                                    },
+                                    child: Container(
+                                      // margin: EdgeInsets.only(top: 10, bottom: 10),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: ImageUtil.networkImage(
+                                        url: imgUrl,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ))
                               .toList(),

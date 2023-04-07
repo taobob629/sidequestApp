@@ -30,15 +30,15 @@ class CsDropDownDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RenderBox box = optionContext.findRenderObject()! as RenderBox;
-    final Offset target = box.localToGlobal(
+    final RenderBox? box = optionContext.findRenderObject() as RenderBox;
+    Offset? target = box?.localToGlobal(
       box.size.bottomLeft(Offset.zero),
     );
     double viewHeight = min(160, _cellHeight * itemList.length);
-    double? positionTop = target.dy;
-    double? positionBottom = Get.height - target.dy;
+    double? positionTop = target?.dy;
+    double? positionBottom = Get.height - target!.dy;
 
-    if (target.dy + viewHeight >= Get.height) {
+    if (target!.dy + viewHeight >= Get.height) {
       positionTop = null;
     } else {
       positionBottom = null;
@@ -48,11 +48,11 @@ class CsDropDownDialog extends StatelessWidget {
       children: [
         Positioned(
             left: target.dx,
-            top: positionTop! + 1.0,
+            top: positionTop,
             bottom: positionBottom,
             child: Container(
               height: viewHeight,
-              width: box.size.width,
+              width: box?.size.width,
               decoration: BoxDecoration(
                 color: AppColor.itemBg2,
               ),
@@ -226,8 +226,8 @@ class _CsDropDownMulitSelectDialogState extends State<CsDropDownMulitSelectDialo
 
   @override
   Widget build(BuildContext context) {
-    final RenderBox box = widget.optionContext.findRenderObject()! as RenderBox;
-    final Offset target = box.localToGlobal(
+    RenderBox? box = widget.optionContext.findRenderObject() as RenderBox;
+    Offset? target = box.localToGlobal(
       box.size.bottomLeft(Offset.zero),
     );
     double viewHeight = min(160, _cellHeight * widget.itemList.length);
