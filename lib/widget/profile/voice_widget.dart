@@ -1,9 +1,17 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wy/api/common.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:wy/utils/index.dart';
 
 class PlayState {
@@ -11,15 +19,25 @@ class PlayState {
   static const int playing = 1;
   static const int loadding = 2;
 }
-class VoiceWidget extends StatelessWidget{
+
+class VoiceWidget extends StatelessWidget {
   var pwId;
   var voice;
   Function()? toRecordPage;
   Function()? play;
   double maginBottom;
   double marginLeft;
-  VoiceWidget({@required this.pwId, @required this.voice,this.toRecordPage,this.play,this.maginBottom=12,this.marginLeft=20});
-  AudioManager audioManager=AudioManager.instance;
+
+  VoiceWidget(
+      {@required this.pwId,
+      @required this.voice,
+      this.toRecordPage,
+      this.play,
+      this.maginBottom = 12,
+      this.marginLeft = 20});
+
+  AudioManager audioManager = AudioManager.instance;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -41,6 +59,7 @@ class VoiceWidget extends StatelessWidget{
   }
 
   UserController userController = UserController.find;
+
   playWidget() {
     var loginUserID = userController.userProfile?.pwId;
     switch (audioManager.playState) {
@@ -52,15 +71,17 @@ class VoiceWidget extends StatelessWidget{
           fit: BoxFit.contain,
         );
       case PlayState.playing:
-        return Lottie.asset(
+        return InkWell(
+          onTap: ()=>play?.call(),
+          child: Lottie.asset(
           'assets/anim/voice_record.json',
           // width: 158.w,
           height: 14.h,
           fit: BoxFit.contain,
-        );
+        ),);
       case PlayState.idle:
       default:
-      //判断是不是本人
+        //判断是不是本人
         if (voice.isEmpty) {
           if (pwId != loginUserID) {
             return Center(
@@ -76,16 +97,16 @@ class VoiceWidget extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () =>play?.call(),
+              onTap: () => play?.call(),
               child: ImageUtil.assetImage('profile/icon_voice_record', height: 14),
             ),
             GestureDetector(
-              onTap: () =>play?.call(),
+              onTap: () => play?.call(),
               child: ImageUtil.assetImage('profile/icon_voice', height: 14),
             ),
-            if ( pwId==loginUserID)
+            if (pwId == loginUserID)
               GestureDetector(
-                onTap: () =>toRecordPage?.call(),
+                onTap: () => toRecordPage?.call(),
                 child: Container(
                   padding: EdgeInsets.only(left: 10),
                   child: ImageUtil.assetImage('ic_edit', width: 14),
@@ -95,5 +116,64 @@ class VoiceWidget extends StatelessWidget{
         );
     }
   }
+}
 
+List voiceTypes = ['Record'.tr, 'From File'.tr];
+
+pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
+  Get.bottomSheet(
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 20.h,bottom: 20.h),
+            child: Text('Select type',style: PageStyle.btnStyle,),),
+          ...voiceTypes
+              .mapIndexed(
+                (index, type) => ListTile(
+                title: RawMaterialButton(
+                    onPressed: () async {
+                      switch (index) {
+                        case 0:
+                          Get.back();
+                          var result = await Get.toNamed(AppPages.Record, arguments: voice);
+                          return callback(result);
+                        case 1:
+                          FilePickerResult? fileResult = await FilePicker.platform.pickFiles(
+                            type: FileType.audio,
+                          );
+                          //上传文件
+                          var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
+                          return callback(voiceUrl);
+                      }
+                    },
+                    child: Text(
+                      type,
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          )
+              .toList(),
+          20.verticalSpace
+        ],
+      ),
+      backgroundColor: AppColor.primary,
+      enableDrag: false);
+}
+
+Future<String?> uploadFile(String? path) async {
+  if (path == null) return null;
+  File file = File(path);
+  if (await file.exists() == false) return null;
+  EasyLoading.show();
+  var url = await Common.uploadFile(File(path), (count, total) {
+    flog('(count / total ${count / total}');
+  }, isVoiceFile: true).catchError((e){
+    EasyLoading.showError('${e}');
+    EasyLoading.dismiss();
+  });
+  flog('url $url');
+  Get.back();
+  EasyLoading.dismiss();
+  EasyLoading.showToast('Upload success!'.tr);
+  return url;
 }

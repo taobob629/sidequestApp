@@ -137,7 +137,7 @@ class MyProfilePage extends StatelessWidget {
                                           maginBottom: 0,
                                           marginLeft: 12.w,
                                           play: ()=>AudioManager.instance.play(userController.userProfile.voice),
-                                          toRecordPage:()=> userController.toRecordPage(),
+                                          toRecordPage:()=> userController.toRecordPage(context),
                                           )
                                     ],
                                   ),

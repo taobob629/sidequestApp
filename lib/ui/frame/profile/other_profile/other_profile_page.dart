@@ -261,7 +261,7 @@ class OtherProfilePage extends StatelessWidget {
                             ),
                             VoiceWidget(pwId: t.player.value?.uid,
                               play: ()=>t.audioManager.play(t.player.value.voice),
-                              voice: t.player.value.voice, toRecordPage: () => t.toRecordPage()),
+                              voice: t.player.value.voice, toRecordPage: () => t.toRecordPage(context)),
                             Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
                               height: 28,
@@ -544,10 +544,14 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   //   final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
   //   audioPlayer.play();
   // }
-  toRecordPage(){
-    Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
+  toRecordPage(BuildContext context){
+    pickVoiceDialog(context,player.value.voice,(result){
+      flog('callback $result');
       if (result != null) player.value.voice = result;
     });
+    // Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
+    //   if (result != null) player.value.voice = result;
+    // });
   }
 
   // stop() async {
