@@ -570,7 +570,7 @@ class WalletBalancePageController extends GetxListController {
     //   EasyLoading.showInfo('Please Add withdraw account First!'.tr);
     //   return;
     // }
-    response = await BalanceApi.withDraw(Map<String, dynamic>()
+    response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
       ..['receiptType'] = currentPayMethod?.name
       ..['card'] = cardNumber
       ..['votes'] = votes
@@ -593,7 +593,7 @@ class WalletBalancePageController extends GetxListController {
           EasyLoading.showInfo('Please Add withdraw account First!'.tr);
           return;
         }
-        response = await BalanceApi.withDraw(Map<String, dynamic>()
+        response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
           ..['receiptType'] = currentPayMethod?.name
           ..['card'] = selectedBank?.cardNumber
           ..['cardId'] = selectedBank?.id
@@ -607,7 +607,7 @@ class WalletBalancePageController extends GetxListController {
           EasyLoading.showInfo('please input your account'.tr);
           return;
         }
-        response = await BalanceApi.withDraw(Map<String, dynamic>()
+        response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
           ..['receiptType'] = currentPayMethod?.name
           ..['card'] = accountCtr.text
           ..['cardId'] = 0

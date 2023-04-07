@@ -87,7 +87,13 @@ class BalanceApi {
     var response = await http.post('/peiwan/app/withDrawal/order', data: params);
     return response;
   }
-
+  /*
+  新版本提现接口
+   */
+  static Future<Response> withDrawOrder(Map<String, dynamic> params) async {
+    var response = await http.post('/peiwan/app/withDrawal/add', data: params);
+    return response;
+  }
   static Future<List<WithdrawRecordModel>> withDrawRecords(
       int pageNum, int pageSize) async {
     var response = await http.get('/peiwan/app/cash/pwWithDrawalRecord',

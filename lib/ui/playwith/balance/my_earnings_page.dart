@@ -91,7 +91,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
             Row(
               children: [
                 Text(
-                  "Withdrawal amount".tr,
+                  "Amount".tr,
                   style: TextStyle(
                       color: Color(0xffb2b9c9),
                       fontFamily: "DIN",
@@ -242,7 +242,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                           Text(
                             controller.ifBankPay.value
                                 ? '${controller.selectedBank?.cardNumber}'
-                                : "Withdrawal amount".tr,
+                                : "Account".tr,
                             style: TextStyle(
                               color: Color(0xffFFCB0E),
                               fontSize: 14.sp,
