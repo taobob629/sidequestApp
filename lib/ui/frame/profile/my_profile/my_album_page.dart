@@ -8,6 +8,7 @@ import 'package:wy/api/common.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/index.dart';
 
@@ -16,244 +17,263 @@ import '../model/album_item_model.dart';
 class MyAlbumPage extends StatelessWidget {
   MyAlbumPage({Key? key}) : super(key: key);
   final t = Get.put(ProfileAlbumController());
+
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return SmartRefresher(
-          controller: t.refreshController,
-          onRefresh: () => t.onRefresh(),
-          onLoading: () => t.loadMore(),
-          enablePullUp: true,
-          child: GridView.builder(
-            padding: EdgeInsets.all(15),
-            itemCount: t.list.length + 1,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 3 columns
-              childAspectRatio: 1.0,
-              crossAxisSpacing: 15.0,
-              mainAxisSpacing: 15.0,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              if (index == t.list.length) {
-                return GestureDetector(
-                  onTap: t.pickUploadPhoto,
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.color7070),
-                      borderRadius: BorderRadius.circular(11),
-                      color: AppColor.color3033,
-                    ),
-                    child: Image.asset(
-                      "assets/images/add_pic.png",
-                      fit: BoxFit.cover,
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                );
-              }
-              return GestureDetector(
-                onTap: () {
-                  Get.to(() => PhotoViewPage(photoUrl: t.list[index].thumb));
-                },
-                onLongPress: () {
-                  Get.bottomSheet(
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFF262731)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.back();
-                                t.setBackground(t.list[index]);
-                              },
-                              child: Container(
-                                height: 52,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Set as background picture",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Color(0xFF2D2E3A),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Container(
-                                height: 52,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Block Picture",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Color(0xFF2D2E3A),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.back();
-                                t.delPhoto(t.list[index]);
-                              },
-                              child: Container(
-                                height: 52,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Delete Picture",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 10,
-                              color: Color(0xFF2D2E3A),
-                            ),
-                            SafeArea(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: Container(
-                                  height: 52,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(fontSize: 16, color: Color(0xFFFFD20E)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+    return BaseScaffold(
+        title: 'Ablum'.tr,
+        body: Obx(() {
+          return SmartRefresher(
+              controller: t.refreshController,
+              onRefresh: () => t.onRefresh(),
+              onLoading: () => t.loadMore(),
+              enablePullUp: true,
+              child: GridView.builder(
+                padding: EdgeInsets.all(15),
+                itemCount: t.list.length + 1,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, // 3 columns
+                  childAspectRatio: 1.0,
+                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 15.0,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == t.list.length) {
+                    return GestureDetector(
+                      onTap: t.pickUploadPhoto,
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColor.color7070),
+                          borderRadius: BorderRadius.circular(11),
+                          color: AppColor.color3033,
+                        ),
+                        child: Image.asset(
+                          "assets/images/add_pic.png",
+                          fit: BoxFit.cover,
+                          width: 30,
+                          height: 30,
                         ),
                       ),
-                      ignoreSafeArea: true);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: AppColor.color7070),
-                    borderRadius: BorderRadius.circular(11),
-                    color: AppColor.color3033,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      ImageUtil.networkImage(
-                        url: t.list[index].thumb,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                          right: 5,
-                          bottom: 5,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.bottomSheet(
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFF262731)),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.back();
-                                            t.setBackground(t.list[index]);
-                                          },
-                                          child: Container(
-                                            height: 52,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Set as background picture",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                        ),
-                                        Divider(
-                                          color: Color(0xFF2D2E3A),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.back();
-                                          },
-                                          child: Container(
-                                            height: 52,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Block Picture",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                        ),
-                                        Divider(
-                                          color: Color(0xFF2D2E3A),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.back();
-                                            t.delPhoto(t.list[index]);
-                                          },
-                                          child: Container(
-                                            height: 52,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "Delete Picture",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 10,
-                                          color: Color(0xFF2D2E3A),
-                                        ),
-                                        SafeArea(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Container(
-                                              height: 52,
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Cancel",
-                                                style: TextStyle(fontSize: 16, color: Color(0xFFFFD20E)),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                    );
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(
+                          () => PhotoViewPage(photoUrl: t.list[index].thumb));
+                    },
+                    onLongPress: () {
+                      Get.bottomSheet(
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Color(0xFF262731)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                    t.setBackground(t.list[index]);
+                                  },
+                                  child: Container(
+                                    height: 52,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Set as background picture",
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ),
-                                  ignoreSafeArea: true);
-                            },
-                            child: Icon(Icons.more_horiz, color: Colors.white),
-                            // child: Image.asset(
-                            //   "assets/images/ic_edit_new.webp",
-                            //   width: 20,
-                            //   height: 20,
-                            //   color: AppColor.yellow,
-                            // ),
-                          ))
-                    ],
-                  ),
-                ),
-              );
-            },
-          ));
-    });
+                                ),
+                                Divider(
+                                  color: Color(0xFF2D2E3A),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Container(
+                                    height: 52,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Block Picture",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Color(0xFF2D2E3A),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                    t.delPhoto(t.list[index]);
+                                  },
+                                  child: Container(
+                                    height: 52,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Delete Picture",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 10,
+                                  color: Color(0xFF2D2E3A),
+                                ),
+                                SafeArea(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      height: 52,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFFFFD20E)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ignoreSafeArea: true);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        // border: Border.all(color: AppColor.color7070),
+                        borderRadius: BorderRadius.circular(11),
+                        color: AppColor.color3033,
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ImageUtil.networkImage(
+                            url: t.list[index].thumb,
+                            fit: BoxFit.cover,
+                          ),
+                          Positioned(
+                              right: 5,
+                              bottom: 5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.bottomSheet(
+                                      Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Color(0xFF262731)),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                                t.setBackground(t.list[index]);
+                                              },
+                                              child: Container(
+                                                height: 52,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Set as background picture",
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                            Divider(
+                                              color: Color(0xFF2D2E3A),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                height: 52,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Block Picture",
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                            Divider(
+                                              color: Color(0xFF2D2E3A),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                                t.delPhoto(t.list[index]);
+                                              },
+                                              child: Container(
+                                                height: 52,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Delete Picture",
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 10,
+                                              color: Color(0xFF2D2E3A),
+                                            ),
+                                            SafeArea(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Container(
+                                                  height: 52,
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color:
+                                                            Color(0xFFFFD20E)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      ignoreSafeArea: true);
+                                },
+                                child:
+                                    Icon(Icons.more_horiz, color: Colors.white),
+                                // child: Image.asset(
+                                //   "assets/images/ic_edit_new.webp",
+                                //   width: 20,
+                                //   height: 20,
+                                //   color: AppColor.yellow,
+                                // ),
+                              ))
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ));
+        }));
   }
 }
 
 class PhotoViewPage extends StatelessWidget {
   const PhotoViewPage({Key? key, required this.photoUrl}) : super(key: key);
   final String photoUrl;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -292,6 +312,7 @@ class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
   static ProfileAlbumController get find => Get.find();
   final ImagePicker _picker = ImagePicker();
   final list = <AlbumItemModel>[].obs;
+
   @override
   void onInit() {
     initialRefresh = true;
@@ -331,7 +352,8 @@ class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
   setBackground(AlbumItemModel model) {
     ProfileApi.setBackground(model.id).then((value) {
       // list.value = value;
-      StorageManager.sharedPreferences.setString("ProfileBackground", model.thumb);
+      StorageManager.sharedPreferences
+          .setString("ProfileBackground", model.thumb);
       ProfileController.find.background.value = model.thumb;
     });
   }

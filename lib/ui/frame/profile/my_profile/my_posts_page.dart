@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../social/post/view/post_list_item_view.dart';
@@ -16,37 +17,42 @@ class MyPostsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SmartRefresher(
-          controller: t.refreshController,
-          onRefresh: t.onRefresh,
-          onLoading: t.loadMore,
-          enablePullUp: true,
-          enablePullDown: true,
-          child: CustomScrollView(
-            slivers: [
-              Obx(() {
-                return SliverList(
-                    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                  return PostListItemView(
-                    model: t.list[index],
-                    isSelf: true,
-                    onTap: () {
-                      Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
-                    },
-                    onDelete: () {
-                      t.deletePost(t.list[index].id);
-                    },
-                  );
-                }, childCount: t.list.length));
-              })
-            ],
-          )),
-    );
+    return BaseScaffold(
+        title: 'Post'.tr,
+        body: Container(
+          child: SmartRefresher(
+              controller: t.refreshController,
+              onRefresh: t.onRefresh,
+              onLoading: t.loadMore,
+              enablePullUp: true,
+              enablePullDown: true,
+              child: CustomScrollView(
+                slivers: [
+                  Obx(() {
+                    return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                      return PostListItemView(
+                        model: t.list[index],
+                        isSelf: true,
+                        onTap: () {
+                          Get.toNamed(AppPages.PostDetail,
+                              arguments: t.list[index]);
+                        },
+                        onDelete: () {
+                          t.deletePost(t.list[index].id);
+                        },
+                      );
+                    }, childCount: t.list.length));
+                  })
+                ],
+              )),
+        ));
   }
 }
 
-class ProfilePostsController extends GetxRefreshController<PostItemModel> with GetSingleTickerProviderStateMixin {
+class ProfilePostsController extends GetxRefreshController<PostItemModel>
+    with GetSingleTickerProviderStateMixin {
   static ProfilePostsController get find => Get.find();
 
   final list = <PostItemModel>[].obs;
@@ -80,7 +86,8 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
   @override
   Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.pwId);
+    return await ProfileApi.getPostList(
+        page: pageNum, uid: UserController.find.userProfile.pwId);
 
     throw UnimplementedError();
   }

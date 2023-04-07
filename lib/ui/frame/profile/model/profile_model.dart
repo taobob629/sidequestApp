@@ -16,8 +16,10 @@ class ProfileModel {
   String nickName = "";
   int fans = 0;
   int visitor = 0;
+  int visitorToday = 0;
   int vipLevel = 0;
   int followers = 0;
+  int followerToday = 0;
   String balance = "";
   String uk = "";
   List<TrophieModel> trophies = [];
@@ -52,8 +54,10 @@ class ProfileModel {
       this.nickName = "",
       this.fans = 0,
       this.visitor = 0,
+      this.visitorToday = 0,
       this.vipLevel = 0,
       this.followers = 0,
+      this.followerToday = 0,
       this.balance = "",
       this.uk = "",
       this.trophies = const [],
@@ -91,8 +95,10 @@ class ProfileModel {
 
     fans = json["fans"] ?? 0;
     visitor = json["visitor"] ?? 0;
+    visitorToday = json["visitorToday"] ?? 0;
     vipLevel = json["vipLevel"] ?? 0;
     followers = json["followers"] ?? 0;
+    followerToday = json["followerToday"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
     trophies = json["trophies"] != null

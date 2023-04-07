@@ -39,7 +39,7 @@ class BadgesWidget extends GetView<ProfileController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 38),
+            padding: EdgeInsets.only(left: 20.w),
             child: Row(
               children: [
                 Text(
@@ -77,11 +77,12 @@ class BadgesWidget extends GetView<ProfileController> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(
-              top: 5,
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            margin: EdgeInsets.all(15.w),
+            decoration: BoxDecoration(
+              color: Color(0xff262731),
+              borderRadius: BorderRadius.circular(15.r),
             ),
-            margin: EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 10),
-            decoration: itemDecoration(color: AppColor.itemBg2),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: 110.h, maxHeight: 110.h),
               child: Swiper(
@@ -89,9 +90,10 @@ class BadgesWidget extends GetView<ProfileController> {
                 loop: false,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.only(top: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: badge
                           .getPageData(index)
                           .map((e) => badgeItem(e))
