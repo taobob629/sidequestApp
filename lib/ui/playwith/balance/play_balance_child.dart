@@ -417,11 +417,11 @@ class WalletBalancePageController extends GetxListController {
     EasyLoading.show();
     chargeRule = await BalanceApi.chargeRule();
     chargeRule.receipt.forEach((element) {
-      if (element.name.contains('payPal')) {
+      if (element.name.toLowerCase().contains('paypal')) {
         element.icon = ImageUtils.icon_pay_pal;
-      } else if (element.name.contains('bankcard')) {
+      } else if (element.name.toLowerCase().contains('bankcard')) {
         element.icon = ImageUtils.icon_bank;
-      } else if (element.name.contains('aliPay')) {
+      } else if (element.name.toLowerCase().contains('alipay')) {
         element.icon = ImageUtils.icon_alipay;
       }
     });
