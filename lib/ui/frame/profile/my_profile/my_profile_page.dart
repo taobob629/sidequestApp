@@ -131,6 +131,7 @@ class MyProfilePage extends StatelessWidget {
                                           pwId: userController.userProfile.pwId,
                                           voice: userController.userProfile.voice,
                                           maginBottom: 0,
+                                          marginLeft: 12.w,
                                           play: ()=>AudioManager.instance.play(userController.userProfile.voice),
                                           toRecordPage:()=> userController.toRecordPage(),
                                           )

@@ -17,7 +17,8 @@ class VoiceWidget extends StatelessWidget{
   Function()? toRecordPage;
   Function()? play;
   double maginBottom;
-  VoiceWidget({@required this.pwId, @required this.voice,this.toRecordPage,this.play,this.maginBottom=12});
+  double marginLeft;
+  VoiceWidget({@required this.pwId, @required this.voice,this.toRecordPage,this.play,this.maginBottom=12,this.marginLeft=20});
   AudioManager audioManager=AudioManager.instance;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class VoiceWidget extends StatelessWidget{
       child: Container(
         width: 158,
         height: 26,
-        margin: EdgeInsets.only(left: 20, bottom: maginBottom),
+        margin: EdgeInsets.only(left: marginLeft, bottom: maginBottom),
         padding: EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13),
