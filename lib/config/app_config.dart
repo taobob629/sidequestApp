@@ -52,7 +52,7 @@ class AppConfig {
     }
 
     if (!StorageManager.haveEnv()) {
-      StorageManager.setEnv("prod");
+      StorageManager.setEnv(default_server);
     }
     String env = StorageManager.getEnv();
     if (env.contains("dev") || env.contains("test")) {
@@ -101,7 +101,6 @@ class AppConfig {
 
   static String getBaseServer() {
     String env = StorageManager.getEnv();
-    //  return _devServer;
     if (env == "dev184") {
       return _devServer;
     } else if (env == "dev127") {

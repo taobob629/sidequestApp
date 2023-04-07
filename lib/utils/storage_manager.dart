@@ -162,7 +162,6 @@ class StorageManager {
     if (value == null) {
       return default_server;
     }
-    flog(packageInfo!.version, 'packageInfo');
     if (packageInfo!.version == '0.2.10') return default_server;
     return value;
   }
