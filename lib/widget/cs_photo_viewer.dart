@@ -4,11 +4,13 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class CsPhotoViewer extends StatelessWidget {
-  CsPhotoViewer({Key? key, this.photoList = const []}) : super(key: key);
+  CsPhotoViewer({Key? key, this.photoList = const [], this.tapIndex = 0}) : super(key: key);
   List<String> photoList = [];
-  PageController? _pageController = PageController();
+  int tapIndex = 0;
+  late PageController? _pageController;
   @override
   Widget build(BuildContext context) {
+    _pageController = PageController(initialPage: tapIndex);
     return GestureDetector(
       onTap: () {
         Get.back();

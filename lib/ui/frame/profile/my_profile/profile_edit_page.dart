@@ -245,7 +245,11 @@ class ProfileEditPage extends StatelessWidget {
                             itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
                             initSelectList: t.curLanguage.split(","),
                             onSelect: (value) {
-                              t.curLanguage.value = value;
+                              if (value.startsWith(",")) {
+                                t.curLanguage.value = value.replaceFirst(",", "");
+                              } else {
+                                t.curLanguage.value = value;
+                              }
                             },
                           ),
                           barrierColor: Colors.transparent,
@@ -467,11 +471,14 @@ class ProfileEditController extends GetxController {
         print(tempCountry);
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
-      curLanguage.value = res["language"];
+      curLanguage.value = res["language"].toString().replaceAll(" ", "");
     });
   }
 
   updateProfile() {
+    if (curLanguage.value.startsWith(",")) {
+      curLanguage.value.replaceFirst(",", "");
+    }
     ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       Get.back();
       UserController.find.updateInfo();

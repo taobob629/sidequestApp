@@ -111,7 +111,12 @@ class PostListItemView extends StatelessWidget {
                 children: model.imageList
                     .map((imgUrl) => GestureDetector(
                           onTap: () {
-                            Get.dialog(CsPhotoViewer(photoList: model.imageList), useSafeArea: false);
+                            Get.dialog(
+                                CsPhotoViewer(
+                                  photoList: model.imageList,
+                                  tapIndex: model.imageList.indexOf(imgUrl),
+                                ),
+                                useSafeArea: false);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),

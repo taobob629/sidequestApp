@@ -103,7 +103,12 @@ class PostDetailPage extends StatelessWidget {
                           children: t.postItem.value.imageList
                               .map((imgUrl) => GestureDetector(
                                     onTap: () {
-                                      Get.dialog(CsPhotoViewer(photoList: t.postItem.value.imageList), useSafeArea: false);
+                                      Get.dialog(
+                                          CsPhotoViewer(
+                                            photoList: t.postItem.value.imageList,
+                                            tapIndex: t.postItem.value.imageList.indexOf(imgUrl),
+                                          ),
+                                          useSafeArea: false);
                                     },
                                     child: Container(
                                       // margin: EdgeInsets.only(top: 10, bottom: 10),
