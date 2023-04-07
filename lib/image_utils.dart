@@ -25,5 +25,8 @@ class ImageUtils {
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
   static const String icon_chenggong = 'assets/images/icon_chenggong.webp';
+  static const String icon_order = 'assets/images/icon_order.webp';
+  static const String icon_post = 'assets/images/icon_post.webp';
+  static const String icon_ablum = 'assets/images/icon_ablum.webp';
   static const String rg_select = 'assets/images/rg_select.png';
 }

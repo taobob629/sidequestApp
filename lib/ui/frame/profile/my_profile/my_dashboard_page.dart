@@ -17,111 +17,38 @@ class MyDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.zero,
-      child: Column(
-        children: [
-          /// dashboard
-          Container(
-            height: 62,
-            margin: EdgeInsets.only(left: 30, top: 20, right: 30),
-            decoration: BoxDecoration(
-              color: Color(0xff313033),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _dashboardLabelItem(
-                  "assets/images/profile/icon_wallet.webp",
-                  "Wallet".tr,
-                  onTap: () {
-                    Get.to(() => NewWalletPage());
-                  },
+    return Column(
+      children: [
+        /// Subscriptions
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(top: 15.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15.w),
+                child: Text(
+                  "Subscriptions".tr,
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
-                _dashboardLabelItem(
-                  "assets/images/profile/icon_bookings.webp",
-                  "Bookings".tr,
-                  onTap: () {
-                    Get.toNamed(AppPages.BOOKING_PAGE);
-                  },
+              ),
+              Obx(() => Container(
+                width: Get.width,
+                height: 48,
+                margin: EdgeInsets.only(top: 10),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
                 ),
-                _dashboardLabelItem(
-                  "assets/images/profile/icon_activities.webp",
-                  "Activities".tr,
-                  onTap: () {
-                    Get.to(() => MyEventsPage());
-                  },
-                ),
-                _dashboardLabelItem(
-                  "assets/images/profile/icon_sidekick.webp",
-                  "SideKick".tr,
-                  onTap: () {
-                    //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                    Get.toNamed(AppPages.ServiceAndOrders);
-                  },
-                ),
-              ],
-            ),
+              ))
+            ],
           ),
-
-          /// Subscriptions
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 38),
-                  child: Text(
-                    "Subscriptions".tr,
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Obx(() => Container(
-                      width: Get.width,
-                      height: 48,
-                      margin: EdgeInsets.only(top: 10),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
-                      ),
-                    ))
-              ],
-            ),
-          ),
-
-          /// Trophies
-         ...UserController.find.userProfile.badges.map((badge) => BadgesWidget(badge)).toList()
-        ],
-      ),
-    );
-  }
-
-  Widget _dashboardLabelItem(String imageName, String title, {Function()? onTap}) {
-    return GestureDetector(
-      onTap: () => onTap?.call(),
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              imageName,
-              width: 26,
-            ),
-            SizedBox(
-              height: 3,
-            ),
-            Text(
-              title,
-              style: TextStyle(color: Colors.white, fontSize: 10.sp),
-            )
-          ],
         ),
-      ),
+
+        /// Trophies
+        ...UserController.find.userProfile.badges.map((badge) => BadgesWidget(badge)).toList()
+      ],
     );
   }
 

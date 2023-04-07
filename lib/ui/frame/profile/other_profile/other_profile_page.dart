@@ -9,11 +9,13 @@ import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../model/pay_info_model.dart';
 import '../../../../model/skill_model.dart';
@@ -257,7 +259,9 @@ class OtherProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            RecordWidget(),
+                            VoiceWidget(pwId: t.player.value?.uid,
+                              play: ()=>t.audioManager.play(t.player.value.voice),
+                              voice: t.player.value.voice, toRecordPage: () => t.toRecordPage()),
                             Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
                               height: 28,
@@ -407,7 +411,7 @@ class OtherProfilePage extends StatelessWidget {
 class OtherProfileController extends BasePageController with GetSingleTickerProviderStateMixin {
   static OtherProfileController get find => Get.find();
   AudioPlayer audioPlayer = AudioPlayer();
-
+  AudioManager audioManager=AudioManager.instance;
   late TabController tabController;
 
   // final vm = ProfileModel().obs;
@@ -425,7 +429,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
 
   @override
   void onInit() {
-    initPlayer();
+   // initPlayer();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     player.value = Get.arguments;
     isSelf = UserController.find.userProfile?.pwId == player.value.uid;
@@ -494,59 +498,61 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   @override
   void onClose() {
     super.onClose();
-    stop();
+    AudioManager.instance.stop();
+   // stop();
   }
 
-  void initPlayer() {
-    audioPlayer.playerStateStream.listen((state) {
-      flog('playerStateStream $state');
-      if (state.playing) {
-        playState = PlayState.playing;
-      }
-      switch (state.processingState) {
-        case ProcessingState.idle:
-          playState = PlayState.idle;
-          break;
-        case ProcessingState.loading:
-          playState = PlayState.loadding;
-          break;
-        case ProcessingState.buffering:
-          break;
-        case ProcessingState.ready:
-          break;
-        case ProcessingState.completed:
-          stop();
-          break;
-      }
-    });
-  }
+  // void initPlayer() {
+  //   audioPlayer.playerStateStream.listen((state) {
+  //     flog('playerStateStream $state');
+  //     if (state.playing) {
+  //       playState = PlayState.playing;
+  //     }
+  //     switch (state.processingState) {
+  //       case ProcessingState.idle:
+  //         playState = PlayState.idle;
+  //         break;
+  //       case ProcessingState.loading:
+  //         playState = PlayState.loadding;
+  //         break;
+  //       case ProcessingState.buffering:
+  //         break;
+  //       case ProcessingState.ready:
+  //         break;
+  //       case ProcessingState.completed:
+  //         stop();
+  //         break;
+  //     }
+  //   });
+  // }
 
-  RxInt _playState = RxInt(PlayState.idle);
+  // RxInt _playState = RxInt(PlayState.idle);
+  //
+  // int get playState => _playState.value;
+  //
+  // set playState(int value) {
+  //   _playState.value = value;
+  // }
 
-  int get playState => _playState.value;
-
-  set playState(int value) {
-    _playState.value = value;
-  }
-
-  Future<void> play() async {
-    if (audioPlayer?.playing == true) {
-      await audioPlayer.stop();
-      return;
-    }
-    var url = OtherProfileController.find.player.value.voice;
-    if (url.isEmpty) err('No Voice'.tr);
-    final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
-    audioPlayer.play();
-  }
+  // Future<void> play() async {
+  //   if (audioPlayer?.playing == true) {
+  //     await audioPlayer.stop();
+  //     return;
+  //   }
+  //   var url = OtherProfileController.find.player.value.voice;
+  //   if (url.isEmpty) err('No Voice'.tr);
+  //   final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
+  //   audioPlayer.play();
+  // }
   toRecordPage(){
     Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
       if (result != null) player.value.voice = result;
     });
   }
 
-  stop() async {
-    playState=PlayState.idle;
-    await audioPlayer?.stop();
-  }
+  // stop() async {
+  //   playState=PlayState.idle;
+  //   if(audioPlayer?.playing == true)
+  //   await audioPlayer?.stop();
+  // }
 }

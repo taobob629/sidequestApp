@@ -42,7 +42,6 @@ class RecordController extends BasePageController {
   void onInit() {
     _record = VoiceRecord(
       (int sec, String path) {
-        flog('record Complete---$path');
         recordFileUrl = path;
         onComplete(sec,path);
       },
@@ -63,7 +62,6 @@ class RecordController extends BasePageController {
     if (await file.exists() == false) return;
     showLoadding();
     var url = await Common.uploadFile(File(path), (count, total) {
-      //progress(count / total);
       flog('(count / total ${count / total}');
     }, isVoiceFile: true);
     dismissLoadding();
