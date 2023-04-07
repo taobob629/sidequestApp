@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
                           height: 10,
                         ),
                         AuthInputView(
-                          tips: "Account Email / Member ID".tr,
+                          tips: "SideQuest Account / Email".tr,
                           editingController: controller.emailEditingController,
                           textInputAction: TextInputAction.next,
                           focusNode: controller.emailFocusNode,
