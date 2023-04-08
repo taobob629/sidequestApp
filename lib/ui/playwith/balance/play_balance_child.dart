@@ -536,7 +536,7 @@ class WalletBalancePageController extends GetxListController {
       return;
     }
     if (!isValidateAmount(votes, chargeRule.limit ?? 600)) {
-      EasyLoading.showInfo('Please enter an valid number greater than 600'.tr);
+      EasyLoading.showInfo('Please enter an valid number greater than'.tr+" ${chargeRule.limit}");
       return;
     }
     double votesDouble = double.parse(votes);
@@ -573,6 +573,7 @@ class WalletBalancePageController extends GetxListController {
     response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
       ..['receiptType'] = currentPayMethod?.name
       ..['card'] = cardNumber
+      ..['cardId'] = currentPayMethod?.id
       ..['votes'] = votes
       ..['accountType'] = 1);
     if (response.statusCode == 200) {
@@ -610,7 +611,7 @@ class WalletBalancePageController extends GetxListController {
         response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
           ..['receiptType'] = currentPayMethod?.name
           ..['card'] = accountCtr.text
-          ..['cardId'] = 0
+          ..['cardId'] = currentPayMethod?.id
           ..['votes'] = votes
           ..['withDrawalRatio'] = chargeRule.withdrawalRatio
           ..['chargeRatio'] = chargeRule.chargeRatio);

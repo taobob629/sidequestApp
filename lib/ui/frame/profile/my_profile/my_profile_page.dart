@@ -6,16 +6,14 @@ import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
-import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
-import 'package:wy/ui/frame/profile/other_profile/record/record_widget.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../config/app_pages.dart';
 import '../../../../image_utils.dart';
+import '../../../order/my_orders/my_orders_page.dart';
 import '../../../profile/events/my_events_page.dart';
-import '../../../profile/orders/orders_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
 import '../../main_page.dart';
 import '../../messages/fans/fans_list_page.dart';
@@ -309,7 +307,8 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Spacer(),
                       GestureDetector(
-                        onTap: () => NavigatorHelper.toOtherProfile(userController.userProfile.pwId),
+                        onTap: () => NavigatorHelper.toOtherProfile(
+                            userController.userProfile.pwId),
                         child: Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.white,
@@ -320,18 +319,6 @@ class MyProfilePage extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ),
-
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 20, top: 12),
-              child: Text(
-                "${userController.userProfile.signature}",
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
               ),
             ),
 
@@ -569,9 +556,7 @@ class MyProfilePage extends StatelessWidget {
                           ImageUtils.icon_order,
                           "Order".tr,
                           onTap: () => Get.to(
-                                () => OrdersPage(
-                              initialIndex: 1,
-                            ),
+                            () => MyOrdersPage(),
                           ),
                         ),
                       ),

@@ -30,7 +30,7 @@ class ProfileModel {
   int age = 0;
   List<VipModel> vips = [];
   int coupons = 0;
-  int ranking = 0;
+  double ranking = 0;
   int postNum = 0;
   String diamond = "";
   String phone = "";
@@ -116,7 +116,7 @@ class ProfileModel {
         ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
         : [];
     coupons = json["coupons"] ?? 0;
-    ranking = json["ranking"] ?? 0;
+    ranking = json["ranking"] ?? 5.0;
     postNum = json["postNum"] ?? 0;
     avamins = json["avamins"] ?? 0;
     totalmins = json["totalmins"] ?? 0;

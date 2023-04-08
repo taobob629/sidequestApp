@@ -3,22 +3,29 @@
     创建日期:2023/2/17
     描述:
  */
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:wy/api/network_method.dart';
 import 'package:wy/common/list/index.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/event_bus/beans/order_bean.dart';
 import 'package:wy/model/activity_list_model.dart';
 import 'package:dio/src/response.dart' as dio;
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../event_bus/event_bus.dart';
+
 class OrderListController extends RefreshListController<ServiceListModel> {
 
   late var type;
+  late var status;
 
-  OrderListController(this.type);
+  OrderListController(this.type, this.status);
+
+  StreamSubscription? subscription;
 
   @override
   buildMethodType() {
@@ -28,6 +35,19 @@ class OrderListController extends RefreshListController<ServiceListModel> {
   @override
   void onInit() {
     super.onInit();
+
+    subscription = eventBus.on<OrderBean>().listen((event) {
+      status = event.status;
+      request();
+    });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+
+    subscription?.cancel();
+    subscription = null;
   }
 
   @override
@@ -35,7 +55,7 @@ class OrderListController extends RefreshListController<ServiceListModel> {
 
   @override
   String buildUrl() {
-    return '/peiwan/app/new/orders/list?type=$type';
+    return '/peiwan/app/new/orders/list?type=$type&status=$status';
   }
 
   @override
