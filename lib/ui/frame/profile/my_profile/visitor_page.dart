@@ -150,7 +150,6 @@ class VisitorListController extends GetxRefreshController<VisitorModel> {
   unFollow(touid) {
     UserApi.attention(touid).then((value) {
       onRefresh();
-      UserController.find.updateInfo();
     });
   }
 
