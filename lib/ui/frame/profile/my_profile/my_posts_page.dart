@@ -5,6 +5,7 @@ import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../social/post/view/post_list_item_view.dart';
@@ -30,14 +31,12 @@ class MyPostsPage extends StatelessWidget {
                 slivers: [
                   Obx(() {
                     return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
+                        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                       return PostListItemView(
                         model: t.list[index],
                         isSelf: true,
                         onTap: () {
-                          Get.toNamed(AppPages.PostDetail,
-                              arguments: t.list[index]);
+                          Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
                         },
                         onDelete: () {
                           t.deletePost(t.list[index].id);
@@ -51,8 +50,7 @@ class MyPostsPage extends StatelessWidget {
   }
 }
 
-class ProfilePostsController extends GetxRefreshController<PostItemModel>
-    with GetSingleTickerProviderStateMixin {
+class ProfilePostsController extends GetxRefreshController<PostItemModel> with GetSingleTickerProviderStateMixin {
   static ProfilePostsController get find => Get.find();
 
   final list = <PostItemModel>[].obs;
@@ -72,9 +70,15 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel>
   //   });
   // }
   deletePost(postId) {
-    ProfileApi.deletePost(postId: postId).then((value) {
-      onRefresh();
-    });
+    Get.dialog(ConfirmDialog(
+      title: "Confirm".tr,
+      info: "Are you sure to delete this post?".tr,
+      onConfirm: () {
+        ProfileApi.deletePost(postId: postId).then((value) {
+          onRefresh();
+        });
+      },
+    ));
   }
 
   @override
@@ -86,8 +90,7 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel>
   @override
   Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
     // TODO: implement loadData
-    return await ProfileApi.getPostList(
-        page: pageNum, uid: UserController.find.userProfile.pwId);
+    return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.pwId);
 
     throw UnimplementedError();
   }
