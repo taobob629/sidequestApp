@@ -364,9 +364,9 @@ class MyProfilePage extends StatelessWidget {
                                     badges.BadgePosition(end: -10, top: -6),
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  userController.userProfile.followers < 100
+                                  userController.userProfile.followers < 10000
                                       ? '${userController.userProfile.followers}'
-                                      : '99+',
+                                      : '9999+',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.sp,
@@ -489,9 +489,9 @@ class MyProfilePage extends StatelessWidget {
                                     badges.BadgePosition(end: -10, top: -6),
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  userController.userProfile.visitor < 100
+                                  userController.userProfile.visitor < 10000
                                       ? '${userController.userProfile.visitor}'
-                                      : '99+',
+                                      : '9999+',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.sp,
