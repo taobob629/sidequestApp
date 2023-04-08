@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../../api/user_api.dart';
 import '../../../common/getx_refresh_controller.dart';
@@ -13,6 +14,8 @@ class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {
   @override
   void onInit() {
     super.onInit();
+
+    ifScaleBigReceived.value = UserController.find.userProfile.isAuth == 1;
   }
 
   @override
