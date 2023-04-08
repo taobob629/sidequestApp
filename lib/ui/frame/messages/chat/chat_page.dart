@@ -104,14 +104,33 @@ class ChatPage extends StatelessWidget {
           data = data['message'];
         }
         print(data);
+        double? customHeight = height;
+        switch (type) {
+          case "TopUp_Credit":
+            {
+              customHeight = height + 90.h;
+              break;
+            }
+          case "play_order":
+            {
+              customHeight = height;
+              break;
+            }
+          default:
+            {
+              customHeight = null;
+              break;
+            }
+        }
+
         return GestureDetector(
           onTap: () {
-            if (type != "TopUp_Credit") {
+            if (type == "play_order") {
               Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
             }
           },
           child: Container(
-              height: type != "TopUp_Credit" ? height : height + 90.h,
+              height: customHeight,
               width: width,
               padding: const EdgeInsets.all(0),
               child: CustomMessageView(
