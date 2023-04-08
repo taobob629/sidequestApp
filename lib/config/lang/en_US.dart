@@ -242,7 +242,7 @@ const Map<String, String> en_US = {
   'Only 4 bankcards allowed!': 'Only 4 bankcards allowed!',
   'Add Account': 'Add Account',
   'Exchange To Coin': 'Exchange To Coin',
-  'Withdrawal instructions:': 'Withdrawal and exchange instructions:',
+  'Withdrawal instructions:': 'Withdrawal instructions:',
   'If you withdraw cash from us, you’ll be charged a handling fee of 3%.': 'If you withdraw cash from us, you’ll be charged a handling fee of 3%.',
   '6 Diamond for £1.': '6 Diamond for £1.',
   'Withdrawals typically take three to five bank working days.': 'Withdrawals typically take three to five bank working days.',
