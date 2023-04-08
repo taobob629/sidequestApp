@@ -3,7 +3,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 abstract class GetxRefreshController<T> extends GetxController {
   /// 分页第一页页码
-  static const int pageNumFirst = 0;
+  static const int pageNumFirst = 1;
 
   var initializing = true.obs;
 
