@@ -84,7 +84,7 @@ class MyAlbumPage extends StatelessWidget {
                                     height: 52,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Set as background picture",
+                                      "Set as background",
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
@@ -92,22 +92,22 @@ class MyAlbumPage extends StatelessWidget {
                                 Divider(
                                   color: Color(0xFF2D2E3A),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                    height: 52,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Block Picture",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                Divider(
-                                  color: Color(0xFF2D2E3A),
-                                ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     Get.back();
+                                //   },
+                                //   child: Container(
+                                //     height: 52,
+                                //     alignment: Alignment.center,
+                                //     child: Text(
+                                //       "Block",
+                                //       style: TextStyle(fontSize: 16),
+                                //     ),
+                                //   ),
+                                // ),
+                                // Divider(
+                                //   color: Color(0xFF2D2E3A),
+                                // ),
                                 GestureDetector(
                                   onTap: () {
                                     Get.back();
@@ -117,7 +117,7 @@ class MyAlbumPage extends StatelessWidget {
                                     height: 52,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Delete Picture",
+                                      "Delete",
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),

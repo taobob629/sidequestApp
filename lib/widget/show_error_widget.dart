@@ -30,7 +30,7 @@ void showErrorWidget(String message) {
                 ),
                 7.horizontalSpace,
                 Text(
-                  'An error has occurred'.tr,
+                  'Oops!'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
