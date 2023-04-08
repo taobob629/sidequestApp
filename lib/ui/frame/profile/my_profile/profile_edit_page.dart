@@ -479,6 +479,10 @@ class ProfileEditController extends GetxController {
     if (curLanguage.value.startsWith(",")) {
       curLanguage.value.replaceFirst(",", "");
     }
+    if (curLanguage.value.isEmpty) {
+      EasyLoading.showInfo("Please set language first".tr);
+      return;
+    }
     ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       Get.back();
       UserController.find.updateInfo();
