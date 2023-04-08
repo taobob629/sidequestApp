@@ -426,6 +426,9 @@ class WalletBalancePageController extends GetxListController {
       }
     });
     currentPayMethod = chargeRule.receipt[0];
+
+    accountCtr.text = currentPayMethod?.account ?? '';
+
     update([currentPayMethodId]);
 
     coin = chargeRule.coin;

@@ -242,7 +242,7 @@ const Map<String, String> zh_CN = {
   'Only 4 bankcards allowed!': '最多绑定4张银行卡!',
   'Add Account': '添加账户',
   'Exchange To Coin': '充值金币',
-  'Withdrawal and exchange instructions:': '提现和兑换指示:',
+  'Withdrawal instructions:': '提现和兑换指示:',
   'If you withdraw cash from us, you’ll be charged a handling fee of 3%.': '提现手续费3%.',
   '6 Diamond for £1.': '6钻石对应1英镑.',
   'Withdrawals typically take three to five bank working days.': '提款通常需要三到五个银行工作日.',
