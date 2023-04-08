@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,11 +7,8 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/privacy_check.dart';
-import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
-import 'package:wy/ui/playwith/balance/widget/bank_widget.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
-import 'package:wy/ui/profile/balance/item_title.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
