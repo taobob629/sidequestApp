@@ -19,10 +19,17 @@ class CustomMessageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (type == "TopUp_Credit") {
-      return _topUpCreditWidget();
+    switch (type) {
+      case "TopUp_Credit":
+        return _topUpCreditWidget();
+      case "play_order":
+        return _orderWidget();
+      default:
+        return Text(
+          "Unsupported message type, please update your app!",
+          style: TextStyle(fontSize: 12, color: Colors.white24),
+        );
     }
-    return _orderWidget();
   }
 
   Widget _topUpCreditWidget() => Container(
@@ -65,7 +72,7 @@ class CustomMessageView extends StatelessWidget {
                     ),
                     6.horizontalSpace,
                     Text(
-                      data['title']??"Top up successful",
+                      data['title'] ?? "Top up successful",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.sp,
@@ -93,11 +100,7 @@ class CustomMessageView extends StatelessWidget {
 
   Widget _orderWidget() => Container(
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          image: DecorationImage(
-              image: AssetImage("assets/images/msg_bg.png"),
-              fit: BoxFit.cover)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -130,10 +133,7 @@ class CustomMessageView extends StatelessWidget {
                         "${data['game']}",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
@@ -148,16 +148,12 @@ class CustomMessageView extends StatelessWidget {
                         ),
                         Text(
                           "${data['price']}",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                            "for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
+                        Text("for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
                             style: TextStyle(
                               color: Colors.white54,
                               fontSize: 14,
@@ -173,18 +169,7 @@ class CustomMessageView extends StatelessWidget {
             height: 15,
           ),
           // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
-          Text(
-              "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [
-                    d,
-                    '/',
-                    M,
-                    '/',
-                    yyyy,
-                    ' ',
-                    HH,
-                    ':',
-                    nn
-                  ])}",
+          Text("${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [d, '/', M, '/', yyyy, ' ', HH, ':', nn])}",
 
               // Text("${data['addTime']}",
               style: TextStyle(

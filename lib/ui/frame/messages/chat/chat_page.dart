@@ -100,12 +100,6 @@ class ChatPage extends StatelessWidget {
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var data = jsonDecode(message.customElem!.data!);
         var type = data['type'];
-        if (type != "play_order" && type != "TopUp_Credit") {
-          return Text(
-            "Unsupported message type, please update your app!",
-            style: TextStyle(fontSize: 12, color: Colors.white24),
-          );
-        }
         if (data["message"] != null) {
           data = data['message'];
         }
