@@ -25,6 +25,7 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../api_service/profile_api.dart';
 import '../../event_bus/beans/match_event.dart';
@@ -418,9 +419,13 @@ class UserController extends GetxController {
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
 
-  toRecordPage(){
-    Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
+  toRecordPage(BuildContext context){
+    pickVoiceDialog(context,userProfile.voice,(result){
+      flog('callback $result');
       if (result != null) userProfile.voice = result;
     });
+    // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
+    //   if (result != null) userProfile.voice = result;
+    // });
   }
 }

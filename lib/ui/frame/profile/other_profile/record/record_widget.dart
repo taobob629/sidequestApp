@@ -15,6 +15,7 @@ import 'package:wy/widget/icon_text.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:wy/widget/views.dart';
 
+/*
 class RecordWidget extends GetView<OtherProfileController> {
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class RecordWidget extends GetView<OtherProfileController> {
       },
     );
   }
+*/
 /*
   UserController userController = UserController.find;
 
@@ -102,5 +104,7 @@ class RecordWidget extends GetView<OtherProfileController> {
           ],
         );
     }
-  }*/
+  }*//*
+
 }
+*/

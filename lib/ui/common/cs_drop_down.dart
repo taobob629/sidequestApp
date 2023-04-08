@@ -288,7 +288,11 @@ class _CsDropDownMulitSelectDialogState extends State<CsDropDownMulitSelectDialo
                           selectList.add(item.title);
                         }
                       });
-                      widget.onSelect(selectList.join(","));
+                      if (selectList.isNotEmpty) {
+                        widget.onSelect(selectList.join(","));
+                      } else {
+                        widget.onSelect("");
+                      }
                     },
                   );
                 }),
