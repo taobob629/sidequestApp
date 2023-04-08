@@ -468,7 +468,10 @@ class MyProfilePage extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.to(() => VisitorPage()),
+                        onTap: () async {
+                          await Get.to(() => VisitorPage());
+                          userController.updateInfo();
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Column(
