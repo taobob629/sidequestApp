@@ -425,7 +425,7 @@ class MyProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (userController.userProfile.isAuth != 1)
+                    if (userController.userProfile.isAuth == 1)
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),

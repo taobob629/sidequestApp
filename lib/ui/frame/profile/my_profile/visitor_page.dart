@@ -110,7 +110,7 @@ class VisitorPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(14),
                                     ),
                               child: Text(
-                                model.status == 0 ? "+ Follow" : "Unfollow",
+                                model.status == 0 ? "+ Follow".tr : "UnFollow".tr,
                                 style: TextStyle(
                                   color: model.status == 0
                                       ? Color(0xffFFCB0E)
