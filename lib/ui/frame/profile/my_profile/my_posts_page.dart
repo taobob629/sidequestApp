@@ -73,7 +73,9 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
     Get.dialog(ConfirmDialog(
       title: "Confirm".tr,
       info: "Are you sure to delete this post?".tr,
+      concelBtn: "Cancel",
       onConfirm: () {
+        Get.back();
         ProfileApi.deletePost(postId: postId).then((value) {
           onRefresh();
         });

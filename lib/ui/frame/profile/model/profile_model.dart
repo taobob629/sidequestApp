@@ -30,7 +30,7 @@ class ProfileModel {
   int age = 0;
   List<VipModel> vips = [];
   int coupons = 0;
-  double ranking = 0;
+  double ranking = 0.0;
   int postNum = 0;
   String diamond = "";
   String phone = "";
@@ -101,20 +101,14 @@ class ProfileModel {
     followerToday = json["followerToday"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
-    trophies = json["trophies"] != null
-        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
-        : [];
-    badges = json["badges"] != null
-        ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList()
-        : [];
+    trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
+    badges = json["badges"] != null ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList() : [];
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
-    vips = json["vips"] != null
-        ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
-        : [];
+    vips = json["vips"] != null ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList() : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 5.0;
     postNum = json["postNum"] ?? 0;
