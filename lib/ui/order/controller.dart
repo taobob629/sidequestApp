@@ -7,13 +7,17 @@ import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
 import 'package:wy/model/activity_tab.dart';
 
-const int TYPE_ORDER_RECEIVED = 2;
+import '../../event_bus/beans/order_bean.dart';
+
+const int TYPE_ORDER_RECEIVED = -2;
 const int TYPE_ORDER_PROVIDED = 1;
 
 class OrderTabController extends BaseTabContoller {
   RxInt _curTab = RxInt(0);
 
   int get curTab => _curTab.value;
+
+  OrderBean? orderBean;
 
   set curTab(int value) {
     _curTab.value = value;
@@ -22,8 +26,8 @@ class OrderTabController extends BaseTabContoller {
   @override
   initTabs() {
     tabs = [
-      {'type': TYPE_ORDER_RECEIVED, 'index': 0, 'title': 'Received'.tr},
-      {'type': TYPE_ORDER_PROVIDED, 'index': 1, 'title': 'Provided'.tr}
+      {'status': TYPE_ORDER_RECEIVED, 'index': 0, 'title': 'Completed'.tr},
+      {'status': TYPE_ORDER_PROVIDED, 'index': 1, 'title': 'Others'.tr}
     ];
     return tabs;
   }

@@ -20,13 +20,15 @@ import 'package:wy/res/styles.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/refresh_list.dart';
 
+import '../../../event_bus/event_bus.dart';
 import 'controller.dart';
 
 class OrderListListPage extends BasePage {
   var type;
+  var status;
   OrderListController? controller;
 
-  OrderListListPage(this.type);
+  OrderListListPage(this.type, this.status);
 
   body(BuildContext context) {
     return ListView.separated(
@@ -62,7 +64,7 @@ class OrderListListPage extends BasePage {
   RefreshListController pageController() {
     if (controller != null) return controller!;
     flog('OrderList_$type');
-    controller = Get.put(OrderListController(type), tag: 'OrderList_$type');
+    controller = Get.put(OrderListController(type, status), tag: 'OrderList_$type');
     controller?.refreshController = RefreshController(initialRefresh: false);
     return controller!;
     //  }
