@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/withdraw_record_model.dart';
@@ -45,19 +46,28 @@ class WithDrawRecordPage extends StatelessWidget {
               ? Container()
               : controller.list.length == 0
                   ? Stack(
-                      children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
+                      children: [
+                        Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: EmptyView())
+                      ],
                     )
                   : CustomScrollView(
                       slivers: [
                         Obx(() {
                           return SliverList(
-                              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                              delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
                             if (index.isOdd) {
                               return Divider(
                                 color: Colors.white24,
                               );
                             }
-                            WithdrawRecordModel model = controller.list[index ~/ 2];
+                            WithdrawRecordModel model =
+                                controller.list[index ~/ 2];
                             return recordItem(model);
                           }, childCount: controller.list.length * 2 - 1));
                         })
@@ -110,10 +120,20 @@ class WithDrawRecordPage extends StatelessWidget {
                         height: 20,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+                            borderRadius: BorderRadius.circular(12),
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color(0xFFFC3C02),
+                                  Color(0xFF841FC3)
+                                ])),
                         child: Text(
                           "?".tr,
-                          style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "DIN",
+                              fontSize: 16),
                         ),
                       ),
                     ),
@@ -133,9 +153,34 @@ class WithDrawRecordPage extends StatelessWidget {
             ],
           ),
           Spacer(),
-          Text(
-            "${model.money}",
-            style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
+          Column(
+            children: [
+              if (model.status == 0)
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => controller.cancelWithDraw(model.id),
+                  child: Container(
+                    padding: EdgeInsets.all(6.r),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
+                    child: Text(
+                      "Cancel".tr,
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: "DIN", fontSize: 16),
+                    ),
+                  ),
+                ),
+              if (model.status == 0) 10.verticalSpace,
+              Text(
+                "${model.money}",
+                style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
+              ),
+            ],
           ),
         ],
       ),
