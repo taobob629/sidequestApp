@@ -27,14 +27,17 @@ class VoiceWidget extends StatelessWidget {
   Function()? play;
   double maginBottom;
   double marginLeft;
+  double width = 158;
+  bool needEdit = true;
 
-  VoiceWidget(
-      {@required this.pwId,
-      @required this.voice,
-      this.toRecordPage,
-      this.play,
-      this.maginBottom = 12,
-      this.marginLeft = 20});
+  VoiceWidget({@required this.pwId,
+    @required this.voice,
+    this.toRecordPage,
+    this.play,
+    this.width = 158,
+    this.needEdit = true,
+    this.maginBottom = 12,
+    this.marginLeft = 20});
 
   AudioManager audioManager = AudioManager.instance;
 
@@ -42,7 +45,7 @@ class VoiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        width: 158,
+        width: width,
         height: 26,
         margin: EdgeInsets.only(left: marginLeft, bottom: maginBottom),
         padding: EdgeInsets.symmetric(horizontal: 12),
@@ -82,7 +85,7 @@ class VoiceWidget extends StatelessWidget {
         );
       case PlayState.idle:
       default:
-        //判断是不是本人
+      //判断是不是本人
         if (voice.isEmpty) {
           if (pwId != loginUserID) {
             return Center(
@@ -105,7 +108,7 @@ class VoiceWidget extends StatelessWidget {
               onTap: () => play?.call(),
               child: ImageUtil.assetImage('profile/icon_voice', height: 14),
             ),
-            if (pwId == loginUserID)
+            if (needEdit && pwId == loginUserID)
               GestureDetector(
                 onTap: () => toRecordPage?.call(),
                 child: Container(
@@ -120,24 +123,35 @@ class VoiceWidget extends StatelessWidget {
 }
 
 List voiceTypes = ['Record'.tr, 'From File'.tr];
-const int MAX_RECORD_FILE_SIZE=25;
+const int MAX_RECORD_FILE_SIZE = 25;
+
 pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
   Get.bottomSheet(
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 20.h, bottom: 20.h),
-            child: Text(
-              'Select type',
-              style: PageStyle.btnStyle,
+      Container(
+        decoration: BoxDecoration(
+            color: AppColor.itemBg,
+            borderRadius:
+            BorderRadius.only(topLeft: Radius
+                .circular(16)
+                .r, topRight: Radius
+                .circular(16)
+                .r)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 20.h, bottom: 20.h),
+              child: Text(
+                'Select type',
+                style: PageStyle.btnStyle,
+              ),
             ),
-          ),
-          ...voiceTypes
-              .mapIndexed(
-                (index, type) => ListTile(
-                    title: RawMaterialButton(
-                        onPressed: () async {
+            ...voiceTypes
+                .mapIndexed(
+                  (index, type) =>
+                  ListTile(
+                    leading: InkWell(
+                        onTap: () async {
                           switch (index) {
                             case 0:
                               Get.back();
@@ -153,22 +167,28 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
                               var fileLength = file.lengthSync();
                               //文件大小限制
                               if (fileLength / 1000 / 1000 > MAX_RECORD_FILE_SIZE) {
-                                EasyLoading.showError('Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
+                                EasyLoading.showError(
+                                    'Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
                                 return;
                               }
                               //上传文件
-                              var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
-                              return callback(voiceUrl);
+                              // var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
+                              // return callback(voiceUrl);
+                              var result = await Get.toNamed(AppPages.Record, arguments: fileResult?.files?.single?.path);
+                              return callback(result);
                           }
                         },
                         child: Text(
                           type,
+                          textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.white),
-                        ))),
-              )
-              .toList(),
-          20.verticalSpace
-        ],
+                        )),
+                  ),
+            )
+                .toList(),
+            20.verticalSpace
+          ],
+        ),
       ),
       backgroundColor: AppColor.primary,
       enableDrag: false);
