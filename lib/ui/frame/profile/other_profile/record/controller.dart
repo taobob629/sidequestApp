@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/voice_record.dart';
 
@@ -43,17 +44,19 @@ class RecordController extends BasePageController {
     _record = VoiceRecord(
       (int sec, String path) {
         recordFileUrl = path;
-        onComplete(sec,path);
+        //onComplete(sec, path);
       },
       maxSeconds: 60,
     );
     recordFileUrl = Get.arguments ?? '';
+    flog('recordFileUrl $recordFileUrl');
     super.onInit();
   }
 
   @override
   void onClose() {
     super.onClose();
+    AudioManager.instance.stop();
     timerTask?.cancel();
   }
 
@@ -90,5 +93,17 @@ class RecordController extends BasePageController {
     });
   }
 
-  delete() {}
+  delete() {
+    recordFileUrl = '';
+    Get.back();
+  }
+
+  onOk() {
+    if (recordFileUrl.isEmpty || recordFileUrl.startsWith('http')) {
+      Get.back(result: recordFileUrl);
+      return;
+    }
+    //文件要上传
+    onComplete(null, recordFileUrl);
+  }
 }

@@ -8,8 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/res/index.dart';
+import 'package:wy/service/voice_player.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 class RecordHeaderWidget extends GetView<RecordController> {
   @override
@@ -27,36 +30,11 @@ class RecordHeaderWidget extends GetView<RecordController> {
               )
             ],
           )
-        : Container(
-            margin: EdgeInsets.only(left: 20.w, right: 20.w, top: 40.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    width: 210.w,
-                    height: 34.h,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                        boxShadow: [
-                          BoxShadow(blurRadius: 8, spreadRadius: 0.5, offset: Offset(0, 3.5))
-                        ]),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ImageUtil.assetImage('profile/icon_voice_record', height: 14),
-                        ImageUtil.assetImage('profile/icon_voice', height: 14),
-                      ],
-                    )),
-                15.horizontalSpace,
-                // InkWell(
-                //   onTap: () => controller.delete(),
-                //   child: ImageUtil.assetImage('ic_delete2', width: 16.w, height: 34),
-                // )
-              ],
-            ),
-          ));
+        : VoiceWidget(
+            width: 210.w,
+            needEdit: false,
+            play: ()=>AudioManager.instance.play(controller.recordFileUrl),
+            pwId: UserController.find.userProfile.pwId,
+            voice: controller.recordFileUrl));
   }
 }
