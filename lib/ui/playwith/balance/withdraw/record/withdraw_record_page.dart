@@ -92,7 +92,8 @@ class WithDrawRecordPage extends StatelessWidget {
               //   height: 10,
               // ),
               Text(
-                getPayCardStr(model.card) ?? '',
+                // getPayCardStr(model.card) ?? '',
+                model.card ?? '',
                 style: TextStyle(fontSize: 14, color: Colors.white),
               ),
               SizedBox(
