@@ -91,6 +91,8 @@ class WithdrawRecordModel {
         return 'Succeed';
       case 2:
         return 'Rejected';
+      case 3:
+        return 'Canceled';
       default:
         return '';
     }
