@@ -78,7 +78,7 @@ class RecordController extends BasePageController {
   }
 
   stopRecord() {
-   // countDownNum = 0;
+    countDownNum = 0;
     _record.stop();
     timerTask?.cancel();
   }
