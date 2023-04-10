@@ -64,10 +64,7 @@ class MyProfilePage extends StatelessWidget {
                       children: [
                         SafeArea(
                           child: GestureDetector(
-                            onTap: () {
-                              // Get.to(() => SettingsPage());
-                              homeDrawerKey.currentState?.openDrawer();
-                            },
+                            onTap: () => Get.toNamed(AppPages.Setting),
                             child: Container(
                               alignment: Alignment.centerRight,
                               margin: EdgeInsets.only(right: 20.w),
