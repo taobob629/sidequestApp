@@ -53,7 +53,7 @@ class FieldsWidget extends GetView<AddGamePageController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${field.name}',
+            '${field.name}'.tr,
             style: text_style(),
           ),
           8.horizontalSpace,
