@@ -36,7 +36,7 @@ class MyAlbumPage extends StatelessWidget {
               enableTwoLevel: true,
               header: t.list.length>1
                   ? SliverToBoxAdapter(
-                child: item(0,height: 195.h,margin: EdgeInsets.only(top: 20.h,left: 15.w,right: 15.w)),
+                child: item(0,height: 195.h,margin: EdgeInsets.only(top: 10.h,left: 15.w,right: 15.w)),
               )
                   : null,
               child: GridView.builder(
