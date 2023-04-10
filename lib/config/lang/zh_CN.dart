@@ -379,7 +379,7 @@ const Map<String, String> zh_CN = {
   'Please input a post code': '请输入邮编',
   'Please input your city': '请输入城市',
   'Unknown': '未知',
-  'Unfollow': '取关',
+  'Unfollow': '取消关注',
   'Balance Records': 'Balance Records',
   'Top Up': '充值',
   'Other Top Up Amount': '自定义金额',
@@ -677,10 +677,14 @@ const Map<String, String> zh_CN = {
   " Up":"收起",
   "Benefits":"权益",
   "My Wallet":"我的钱包",
-  "Remaining game time:":"剩余免费时长:",
+  "Remaining game time: ":"剩余免费时长: ",
   "Style":"风格",
   "Server":"服务器",
   "Position":"位置",
   "My Activities":"我的活动",
+  "Method of receipt":"收款方式",
+  "please input your account":"请输入账户",
+  "+ Follow":"关注"
+
 
 };

@@ -123,7 +123,7 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(text: 'Remaining game time:'.tr, style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
+        TextSpan(text: 'Remaining game time: ', style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
         TextSpan(text: '${user?.avamins}mins', style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );

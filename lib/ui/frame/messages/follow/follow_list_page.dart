@@ -83,7 +83,7 @@ class FollowListPage extends StatelessWidget {
                             width: 76,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(14)),
-                            child: Text("Unfollow", style: TextStyle(color: AppColor.whiteGray, fontSize: 13)),
+                            child: Text("UnFollow".tr, style: TextStyle(color: AppColor.whiteGray, fontSize: 13)),
                           ),
                         )
                         // else

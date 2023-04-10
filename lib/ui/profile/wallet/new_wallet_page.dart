@@ -135,7 +135,7 @@ class NewWalletPage extends StatelessWidget {
   Widget remainingTimes() => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Remaining game time: ',
+          Text('Remaining game time: '.tr,
               style: TextStyle(
                   fontSize: 12.sp,
                   color: Color(0xFFC5C5C5),

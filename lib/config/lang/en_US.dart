@@ -678,8 +678,11 @@ const Map<String, String> en_US = {
   " Up":"Up",
   "Benefits":"Benefits",
   "My Wallet":"My Wallet",
-  "Remaining game time:":"Remaining game time:",
+  "Remaining game time: ":"Remaining game time: ",
   "Style":"Style",
   "Server":"Server",
-  "Position":"Position"
+  "Position":"Position",
+  "Method of receipt":"Method of receipt",
+  "please input your account":"please input your account",
+  "+ Follow":"+ Follow"
 };
