@@ -458,6 +458,11 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     }
     UserApi.attention(player.value.uid).then((value) {
       player.value.follow = !player.value.follow;
+      if (player.value.follow) {
+        player.value.fans += 1;
+      } else {
+        player.value.fans -= 1;
+      }
       player.refresh();
     }).catchError((e) {
       print(e);

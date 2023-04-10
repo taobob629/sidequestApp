@@ -131,7 +131,6 @@ class PostListItemView extends StatelessWidget {
               ),
             Container(
               height: 44,
-              padding: EdgeInsets.symmetric(horizontal: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -139,6 +138,7 @@ class PostListItemView extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
@@ -160,6 +160,7 @@ class PostListItemView extends StatelessWidget {
                   ),
                   Expanded(
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTapDown: (details) {
                         if (!isSelf) {
                           PostListController.find.praisePost(model).then((value) {
@@ -201,6 +202,7 @@ class PostListItemView extends StatelessWidget {
                   ),
                   Expanded(
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTapDown: (details) async {
                         if (!isSelf) {
                           var heartNum = await Get.bottomSheet(
@@ -221,7 +223,7 @@ class PostListItemView extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 5),

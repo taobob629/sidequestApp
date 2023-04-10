@@ -207,7 +207,7 @@ class CsDropDownMulitSelectDialog extends StatefulWidget {
 
   // final Function(int index, String value) onTap;
 
-  final Function(String value) onSelect;
+  final Function(List<String> value) onSelect;
 
   @override
   State<CsDropDownMulitSelectDialog> createState() => _CsDropDownMulitSelectDialogState();
@@ -289,9 +289,9 @@ class _CsDropDownMulitSelectDialogState extends State<CsDropDownMulitSelectDialo
                         }
                       });
                       if (selectList.isNotEmpty) {
-                        widget.onSelect(selectList.join(","));
+                        widget.onSelect(selectList);
                       } else {
-                        widget.onSelect("");
+                        widget.onSelect([]);
                       }
                     },
                   );

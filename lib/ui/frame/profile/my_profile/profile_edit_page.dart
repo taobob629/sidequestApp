@@ -228,7 +228,7 @@ class ProfileEditPage extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              t.curLanguage.value,
+                              t.languageList.join("/"),
                               style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
                             ),
                             Spacer(),
@@ -243,13 +243,11 @@ class ProfileEditPage extends StatelessWidget {
                           CsDropDownMulitSelectDialog(
                             optionContext: optionContext,
                             itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
-                            initSelectList: t.curLanguage.split(","),
+                            initSelectList: t.languageList,
                             onSelect: (value) {
-                              if (value.startsWith(",")) {
-                                t.curLanguage.value = value.replaceFirst(",", "");
-                              } else {
-                                t.curLanguage.value = value;
-                              }
+                              t.languageList.clear();
+                              t.languageList.addAll(value);
+                              // t.languageList.refresh();
                             },
                           ),
                           barrierColor: Colors.transparent,
@@ -435,10 +433,11 @@ class ProfileEditController extends GetxController {
   }
 
   final curCountry = "".obs;
-  final curLanguage = "".obs;
   final addressModel = AddressModel().obs;
   final phone = "".obs;
   final digalCode = "+44".obs;
+
+  final languageList = <String>[].obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -471,19 +470,17 @@ class ProfileEditController extends GetxController {
         print(tempCountry);
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
-      curLanguage.value = res["language"].toString().replaceAll(" ", "");
+      languageList.addIf(res["language"].toString().contains("English"), "English");
+      languageList.addIf(res["language"].toString().contains("Chinese"), "Chinese");
     });
   }
 
   updateProfile() {
-    if (curLanguage.value.startsWith(",")) {
-      curLanguage.value.replaceFirst(",", "");
-    }
-    if (curLanguage.value.isEmpty) {
+    if (languageList.isEmpty) {
       EasyLoading.showInfo("Please set language first".tr);
       return;
     }
-    ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, curLanguage.value, jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, languageList.join("/"), jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
       Get.back();
       UserController.find.updateInfo();
     });
