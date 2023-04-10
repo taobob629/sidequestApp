@@ -39,9 +39,9 @@ class PostListItemView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (!isSelf) {
-                        NavigatorHelper.toOtherProfile(model.uid);
-                      }
+                      // if (!isSelf) {
+                      NavigatorHelper.toOtherProfile(model.uid);
+                      // }
                     },
                     child: ClipOval(
                       child: ImageUtil.networkImage(

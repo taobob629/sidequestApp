@@ -1,5 +1,6 @@
 import 'package:wy/ui/frame/profile/model/album_item_model.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
+import 'package:wy/ui/frame/profile/model/rating_comment_model.dart';
 import 'package:wy/ui/frame/profile/model/vip_info_model.dart';
 
 import '../api/wy_http.dart';
@@ -86,8 +87,8 @@ abstract class ProfileApi {
   }
 
   /// profile-album  添加图片到相册
-  static Future updateProfile(String nick,String signature, String phone, String language, String country, String gender) async {
-    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick,"signature": signature,  "phone": phone, "language": language, "country": country, "gender": gender});
+  static Future updateProfile(String nick, String signature, String phone, String language, String country, String gender) async {
+    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "signature": signature, "phone": phone, "language": language, "country": country, "gender": gender});
     return response.data;
   }
 
@@ -95,5 +96,25 @@ abstract class ProfileApi {
   static Future uk2id(uk) async {
     var response = await http.get('/peiwan/app/profile/uk2id', queryParameters: {"uk": uk});
     return response.data;
+  }
+
+  /// 查看自己的评价
+  static Future<List<RatingCommentModel>> myCommentsList({int page = 1}) async {
+    var response = await http.get('/peiwan/app/users/myComments', queryParameters: {
+      "pageNum": page,
+      "pageSize": 20,
+    });
+    return response.data["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
+  }
+
+  /// 查看别人的游戏评价
+  static Future<List<RatingCommentModel>> othersCommentsList({int page = 1, required String liveid, required String skillId}) async {
+    var response = await http.get('/peiwan/app/users/listComments', queryParameters: {
+      "pageNum": page,
+      "pageSize": 20,
+      "liveid": liveid,
+      "skillId": skillId,
+    });
+    return response.data["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
   }
 }

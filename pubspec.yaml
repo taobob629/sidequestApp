@@ -105,6 +105,7 @@ dependencies:
   flutter_app_badger:
      git:
        url: https://github.com/sikandernoori/flutter_app_badger.git
+  flutter_rating_bar: ^4.0.1
 
   libphonenumber_plugin: 0.3.1
   equatable: ^2.0.5

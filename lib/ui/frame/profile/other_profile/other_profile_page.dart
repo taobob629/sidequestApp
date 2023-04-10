@@ -259,9 +259,7 @@ class OtherProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            VoiceWidget(pwId: t.player.value?.uid,
-                              play: ()=>t.audioManager.play(t.player.value.voice),
-                              voice: t.player.value.voice, toRecordPage: () => t.toRecordPage(context)),
+                            VoiceWidget(pwId: t.player.value?.uid, play: () => t.audioManager.play(t.player.value.voice), voice: t.player.value.voice, toRecordPage: () => t.toRecordPage(context)),
                             Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
                               height: 28,
@@ -411,7 +409,7 @@ class OtherProfilePage extends StatelessWidget {
 class OtherProfileController extends BasePageController with GetSingleTickerProviderStateMixin {
   static OtherProfileController get find => Get.find();
   AudioPlayer audioPlayer = AudioPlayer();
-  AudioManager audioManager=AudioManager.instance;
+  AudioManager audioManager = AudioManager.instance;
   late TabController tabController;
 
   // final vm = ProfileModel().obs;
@@ -429,9 +427,14 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
 
   @override
   void onInit() {
-   // initPlayer();
-    tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    // initPlayer();
     player.value = Get.arguments;
+
+    if (player.value.isAuth) {
+      tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    } else {
+      tabController = TabController(vsync: this, length: 2, initialIndex: 0);
+    }
     isSelf = UserController.find.userProfile?.pwId == player.value.uid;
 
     scrollController.addListener(() {
@@ -499,7 +502,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   void onClose() {
     super.onClose();
     AudioManager.instance.stop();
-   // stop();
+    // stop();
   }
 
   // void initPlayer() {
@@ -544,8 +547,8 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   //   final duration = await audioPlayer?.setUrl(url); // Schemes: (https: | file: | asset: )
   //   audioPlayer.play();
   // }
-  toRecordPage(BuildContext context){
-    pickVoiceDialog(context,player.value.voice,(result){
+  toRecordPage(BuildContext context) {
+    pickVoiceDialog(context, player.value.voice, (result) {
       flog('callback $result');
       if (result != null) player.value.voice = result;
     });
