@@ -206,7 +206,7 @@ class RatingCommentPage extends StatelessWidget {
                     Container(
                       height: 20.h,
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.h)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.h), color: Color(0xFF3D3E48)),
                       child: Row(
                         children: [
                           ExtendedImage.network(
