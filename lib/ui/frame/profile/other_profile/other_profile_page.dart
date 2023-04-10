@@ -365,7 +365,7 @@ class OtherProfilePage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Message",
+                            "Messages".tr,
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ],

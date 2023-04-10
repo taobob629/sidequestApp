@@ -125,7 +125,7 @@ const Map<String, String> zh_CN = {
   'Album': '相册',
   'More': '更多',
   'Play Order': '陪玩订单',
-  'Messages': 'Messages',
+  'Messages': '发消息',
   'Press again to exit': '再按一次退出应用',
   'Home': '首页',
   'Activities': '活动',
