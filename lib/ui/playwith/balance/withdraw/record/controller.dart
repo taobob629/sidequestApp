@@ -1,4 +1,6 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wy/api/balance_api.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/withdraw_record_model.dart';
 
@@ -24,5 +26,13 @@ class WithDrawRecordPageController extends GetxRefreshController {
   Future<List<WithdrawRecordModel>> loadData({int pageNum = 1}) async {
     var list = await BalanceApi.withDrawRecords(pageNum, pageSize);
     return list;
+  }
+
+  void cancelWithDraw(id) async {
+    EasyLoading.show();
+    await http.post('/peiwan/app/withDrawal/cancel', data: {"id": id});
+    EasyLoading.dismiss();
+
+    onRefresh();
   }
 }

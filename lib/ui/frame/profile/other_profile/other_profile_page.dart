@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
-import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -26,7 +24,6 @@ import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
 import 'other_dashboard_page.dart';
 import 'other_posts_page.dart';
-import 'record/record_widget.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PlayState {
