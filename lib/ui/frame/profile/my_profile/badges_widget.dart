@@ -200,7 +200,8 @@ class TipsDialog extends StatelessWidget {
               tips,
               style: TextStyle(
                 color: Color(0xff8291B4),
-                height: 1.5,
+                height: 1.2,
+                fontSize: 12.sp,
               ),
             ),
           ),
