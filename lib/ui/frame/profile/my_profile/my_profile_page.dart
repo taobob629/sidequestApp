@@ -496,7 +496,7 @@ class MyProfilePage extends StatelessWidget {
                       Expanded(
                         child: _dashboardLabelItem(
                           ImageUtils.icon_order,
-                          "Order".tr,
+                          "Orders".tr,
                           onTap: () => Get.to(
                             () => MyOrdersPage(),
                           ),

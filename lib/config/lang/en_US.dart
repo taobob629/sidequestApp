@@ -676,5 +676,10 @@ const Map<String, String> en_US = {
   "Sidekick":"SideKick",
   "Followers":"Followers",
   " Up":"Up",
-  "Benefits":"Benefits"
+  "Benefits":"Benefits",
+  "My Wallet":"My Wallet",
+  "Remaining game time:":"Remaining game time:",
+  "Style":"Style",
+  "Server":"Server",
+  "Position":"Position"
 };

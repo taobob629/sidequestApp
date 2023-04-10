@@ -10,6 +10,6 @@ import 'package:wy/common/base_tab_controller.dart';
 class ServiceAndOrdersTabController extends BaseTabContoller {
   @override
   initTabs() {
-    tabs = ['My Services'];
+    tabs = ['My Services'.tr];
   }
 }
