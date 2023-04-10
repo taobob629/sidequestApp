@@ -203,22 +203,26 @@ class RatingCommentPage extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Text(model.content, style: TextStyle(color: Colors.white, fontSize: 14.sp)),
                     ),
-                    Container(
-                      height: 20.h,
-                      padding: EdgeInsets.symmetric(horizontal: 7.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.h), color: Color(0xFF3D3E48)),
-                      child: Row(
-                        children: [
-                          ExtendedImage.network(
-                            model.gameAvatar,
-                            width: 13.w,
-                            height: 13.h,
-                            fit: BoxFit.fitWidth,
+                    Row(
+                      children: [
+                        Container(
+                          height: 20.h,
+                          padding: EdgeInsets.symmetric(horizontal: 7.w),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.h), color: Color(0xFF3D3E48)),
+                          child: Row(
+                            children: [
+                              ExtendedImage.network(
+                                model.gameAvatar,
+                                width: 13.w,
+                                height: 13.h,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              4.horizontalSpace,
+                              Text(model.gameName, style: TextStyle(color: Color(0xFFC3C3C3), fontSize: 10.sp)),
+                            ],
                           ),
-                          4.horizontalSpace,
-                          Text(model.label, style: TextStyle(color: Colors.white, fontSize: 14.sp)),
-                        ],
-                      ),
+                        ),
+                      ],
                     )
                   ]),
                 );

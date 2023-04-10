@@ -17,11 +17,12 @@ class RatingCommentModel {
   String nickName = "";
   String userAvatar = "";
   String gameAvatar = "";
+  String gameName = "";
 
   String get fmtTime {
     try {
       return formatDate(
-        DateTime.fromMillisecondsSinceEpoch(addtime),
+        DateTime.fromMillisecondsSinceEpoch(addtime * 1000),
         [dd, "-", mm, "-", yyyy, " ", HH, ":", nn],
       );
     } catch (e) {
@@ -48,6 +49,7 @@ class RatingCommentModel {
     nickName = json['nickName'] ?? nickName;
     userAvatar = json['userAvatar'] ?? userAvatar;
     gameAvatar = json['gameAvatar'] ?? gameAvatar;
+    gameName = json['gameName'] ?? gameName;
   }
 
   Map<String, dynamic> toJson() {
