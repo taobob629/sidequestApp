@@ -684,5 +684,6 @@ const Map<String, String> en_US = {
   "Position":"Position",
   "Method of receipt":"Method of receipt",
   "please input your account":"please input your account",
-  "+ Follow":"+ Follow"
+  "+ Follow":"+ Follow",
+  "Visitors":"Visitors"
 };

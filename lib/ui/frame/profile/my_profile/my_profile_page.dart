@@ -440,7 +440,7 @@ class MyProfilePage extends StatelessWidget {
                               ),
                               7.verticalSpace,
                               Text(
-                                "Visitor".tr,
+                                "Visitors".tr,
                                 style: TextStyle(
                                   fontSize: 11.sp,
                                   color: Color(0xff808388),

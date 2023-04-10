@@ -684,7 +684,8 @@ const Map<String, String> zh_CN = {
   "My Activities":"我的活动",
   "Method of receipt":"收款方式",
   "please input your account":"请输入账户",
-  "+ Follow":"关注"
+  "+ Follow":"关注",
+  "Visitors":"访客"
 
 
 };
