@@ -675,5 +675,6 @@ const Map<String, String> en_US = {
   "Trophies":"Trophies",
   "Sidekick":"SideKick",
   "Followers":"Followers",
-
+  " Up":"Up",
+  "Benefits":"Benefits"
 };

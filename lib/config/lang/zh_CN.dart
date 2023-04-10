@@ -674,5 +674,7 @@ const Map<String, String> zh_CN = {
   "Trophies":"勋章",
   "Sidekick":"陪玩",
   "Followers":"关注",
+  " Up":"收起",
+  "Benefits":"权益"
 
 };
