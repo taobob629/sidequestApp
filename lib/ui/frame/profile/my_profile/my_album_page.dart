@@ -15,6 +15,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/views.dart';
 
 import '../model/album_item_model.dart';
 
@@ -27,19 +28,20 @@ class MyAlbumPage extends StatelessWidget {
     return BaseScaffold(
         title: 'Ablum'.tr,
         body: Obx(() {
-          return SmartRefresher(
+          return t.list.isEmpty?buildLoad():SmartRefresher(
               controller: t.refreshController,
               onRefresh: () => t.onRefresh(),
               onLoading: () => t.loadMore(),
               enablePullUp: true,
-              header: t.list.isNotEmpty
+              enableTwoLevel: true,
+              header: t.list.length>1
                   ? SliverToBoxAdapter(
-                      child: item(0,height: 195.h,margin: EdgeInsets.only(top: 20.h,left: 15.w,right: 15.w)),
-                    )
+                child: item(0,height: 195.h,margin: EdgeInsets.only(top: 20.h,left: 15.w,right: 15.w)),
+              )
                   : null,
               child: GridView.builder(
                 padding: EdgeInsets.all(15),
-                itemCount: t.list.length ,
+                itemCount: t.list.length-1 ,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, // 3 columns
                   childAspectRatio: 1.0,
@@ -47,7 +49,7 @@ class MyAlbumPage extends StatelessWidget {
                   mainAxisSpacing: 15.0,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  if (index == t.list.length-1) {
+                  if (index == t.list.length-2) {
                     return GestureDetector(
                       onTap: t.pickUploadPhoto,
                       child: Container(
@@ -375,8 +377,8 @@ class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
 
   @override
   Future<List<AlbumItemModel>> loadData({int pageNum = 0}) async {
-    // TODO: implement loadData
-    return await ProfileApi.getPhotoList(page: pageNum);
-    throw UnimplementedError();
+    var result= await ProfileApi.getPhotoList(page: pageNum);
+    result.insert(result.length, AlbumItemModel());
+    return result;
   }
 }
