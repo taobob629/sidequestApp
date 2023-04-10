@@ -21,7 +21,7 @@ class NewWalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double total = user.totalmins.toDouble();
-    int remain = user.avamins ?? 1;
+    int remain = user.avamins;
 
     return ScaffoldWidget(
       appBar: AppBar(
@@ -33,7 +33,7 @@ class NewWalletPage extends StatelessWidget {
           children: [
             achievements(),
             contentPadding(EnergyView(
-              width: Get.width - 40.w,
+              width: Get.width - 20.w - 15 * 2.r,
               percent: total == 0 ? 0 : remain / total,
               remaining: user.avamins ?? 0,
             )),

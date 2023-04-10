@@ -49,11 +49,13 @@ class FollowListPage extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Text(
-                                    model.name,
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                  Flexible(
+                                    child: Text(
+                                      model.name,
+                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   6.horizontalSpace,
                                   SexAndAgeWidget(
