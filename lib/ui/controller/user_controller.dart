@@ -335,7 +335,7 @@ class UserController extends GetxController {
   }
 
   void _dealMsg(V2TimMessage msg) {
-    Map<String, dynamic> map = json.decode(msg.textElem!.text!);
+    Map<String, dynamic> map = json.decode(msg.customElem!.data!);
 
     switch (map["type"]) {
       case 'match_order_player':
