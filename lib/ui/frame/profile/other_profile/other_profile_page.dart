@@ -11,6 +11,7 @@ import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
+import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
@@ -115,8 +116,8 @@ class OtherProfilePage extends StatelessWidget {
                                                                     ),
                                                                   ),
                                                                   GestureDetector(
-                                                                    onTap: () {
-                                                                      t.followOrNot();
+                                                                    onTapDown: (details) {
+                                                                      t.followOrNot(context, details.globalPosition);
                                                                     },
                                                                     child: Container(
                                                                       height: 30,
@@ -452,7 +453,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
   //   });
   // }
 
-  followOrNot() {
+  followOrNot(context, offset) {
     if (isSelf) {
       return;
     }
@@ -460,6 +461,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
       player.value.follow = !player.value.follow;
       if (player.value.follow) {
         player.value.fans += 1;
+        showHearts(context, offset, "");
       } else {
         player.value.fans -= 1;
       }

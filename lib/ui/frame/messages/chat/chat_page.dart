@@ -48,40 +48,68 @@ class ChatPage extends StatelessWidget {
       config: TIMUIKitChatConfig(
         isUseDefaultEmoji: true,
       ),
-      morePanelConfig: MorePanelConfig(showFilePickAction: false, extraAction: [
-        if (selectedConversation.type == 1)
-          if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
-            MorePanelItem(
-                id: "customMessage",
-                title: "Gift",
-                onTap: (c) async {
-                  var heartNum = await Get.bottomSheet(
-                      GiveGiftsDialog(
-                        receiverId: pwId,
-                        postId: "",
-                        source: 1,
-                      ),
-                      ignoreSafeArea: true);
-                  if (heartNum != null) {
-                    Future.delayed(Duration(milliseconds: 300)).then(
-                      (v) {
-                        showHearts(context, Offset(Get.width / 2, Get.height / 2), heartNum);
-                      },
-                    );
-                  }
-                },
-                icon: Container(
-                  height: 64,
-                  width: 64,
-                  margin: const EdgeInsets.only(bottom: 4),
-                  decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: Image.asset(
-                    "assets/images/post/icon_gift.png",
+      morePanelConfig: MorePanelConfig(
+        showFilePickAction: false,
+        extraAction: [
+          if (selectedConversation.type == 1)
+            if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
+              MorePanelItem(
+                  id: "customMessage",
+                  title: "Gift",
+                  onTap: (c) async {
+                    var heartNum = await Get.bottomSheet(
+                        GiveGiftsDialog(
+                          receiverId: pwId,
+                          postId: "",
+                          source: 1,
+                        ),
+                        ignoreSafeArea: true);
+                    if (heartNum != null) {
+                      Future.delayed(Duration(milliseconds: 300)).then(
+                        (v) {
+                          showHearts(context, Offset(Get.width / 2, Get.height / 2), heartNum);
+                        },
+                      );
+                    }
+                  },
+                  icon: Container(
                     height: 64,
                     width: 64,
+                    margin: const EdgeInsets.only(bottom: 4),
+                    decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Image.asset(
+                      "assets/images/post/icon_gift.png",
+                      height: 64,
+                      width: 64,
+                    ),
+                  )),
+        ],
+        actionBuilder: (item) {
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  width: 60.w,
+                  height: 60.h,
+                  // padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: AppColor.color2E3C, borderRadius: BorderRadius.circular(10)),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    "assets/images/im/icon_${item.title.toLowerCase()}.webp",
+                    width: 23.w,
+                    height: 23.h,
                   ),
-                )),
-      ]),
+                ),
+                8.verticalSpace,
+                Text(
+                  item.title,
+                  style: TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp),
+                )
+              ],
+            ),
+          );
+        },
+      ),
       customStickerPanel: renderCustomStickerPanel,
       conversationID: _getConvID() ?? '',
       // groupID or UserID

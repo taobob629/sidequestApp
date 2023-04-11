@@ -22,6 +22,7 @@ import 'package:wy/model/user_model.dart';
 import 'package:wy/service/push_service.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/ui/frame/messages/chat/chat_tool.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
@@ -312,24 +313,38 @@ class UserController extends GetxController {
             }));
         TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
-          FlutterRingtonePlayer.playNotification();
+          if (msg.customElem?.data != null) {
+            var data = msg.customElem!.data!;
+            if (data.contains(ChatTool.converFilters.first)) {
+              if (unreadMsgCount > 0) {
+                unreadMsgCount.value -= 1;
+                FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+              }
+            } else {
+              FlutterRingtonePlayer.playNotification();
+            }
+          } else {
+            FlutterRingtonePlayer.playNotification();
+          }
           _dealMsg(msg);
         }));
 
+        unreadMsgCount.value = await ChatTool.getUnreadMsgCount();
+
         ///获取未读数量
-        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
-        if (v2timValueCallback.code == 0) {
-          flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
-          unreadMsgCount.value = v2timValueCallback.data!;
-          FlutterAppBadger.isAppBadgeSupported().then((value) {
-            if (unreadMsgCount.value == 0) {
-              FlutterAppBadger.removeBadge();
-            } else {
-              flog(value, 'getTotalUnreadMessageCount');
-              FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
-            }
-          });
-        }
+        // var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+        // if (v2timValueCallback.code == 0) {
+        //   flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
+        //   unreadMsgCount.value = v2timValueCallback.data!;
+        //   FlutterAppBadger.isAppBadgeSupported().then((value) {
+        //     if (unreadMsgCount.value == 0) {
+        //       FlutterAppBadger.removeBadge();
+        //     } else {
+        //       flog(value, 'getTotalUnreadMessageCount');
+        //       FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
+        //     }
+        //   });
+        // }
       });
     }
   }

@@ -30,7 +30,7 @@ class ConversationListPage extends StatelessWidget {
                 style: TextStyle(color: AppColor.colorB9C9, fontSize: 12),
               );
             }
-            return Text(lastMsg?.textElem?.text ?? "", style: TextStyle(color: AppColor.colorB9C9, fontSize: 12));
+            return Text(lastMsg?.textElem?.text ?? "", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColor.colorB9C9, fontSize: 12));
           },
           onTapItem: (selectedConv) {
             Navigator.push(
