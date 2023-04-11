@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../config/app_color.dart';
+import '../../../config/app_pages.dart';
 import '../../../config/icon_font.dart';
 import '../../../model/service_list_model.dart';
 import '../../../res/styles.dart';
@@ -181,6 +182,8 @@ class MyOrdersPage extends StatelessWidget {
                         return Container(
                           width: Get.width,
                           child: InkWell(
+                            onTap: () => Get.toNamed(AppPages.OrderDetail,
+                                arguments: Map()..['id'] = model.id),
                             child: item(model),
                           ),
                         );
