@@ -357,20 +357,20 @@ class _AddGamePageState extends State<AddGamePage> {
                 if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
                 //if (controller.priceRanges.isNotEmpty) PriceSliderWidget(),
                 // if (controller.priceRanges.isNotEmpty && controller.isEdit) 16.verticalSpace,
-                if (controller.priceRanges.isNotEmpty && controller.isEdit)
-                  itemBg(PWidget.row([
-                    PWidget.text('Enable'.tr, [textColor]),
-                    PWidget.spacer(),
-                    Builder(builder: (context) {
-                      return CupertinoSwitch(
-                        value: controller.isWswitch == 1,
-                        onChanged: (v) async {
-                          setState(
-                              () => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
-                        },
-                      );
-                    }),
-                  ])),
+                // if (controller.priceRanges.isNotEmpty && controller.isEdit)
+                //   itemBg(PWidget.row([
+                //     PWidget.text('Enable'.tr, [textColor]),
+                //     PWidget.spacer(),
+                //     Builder(builder: (context) {
+                //       return CupertinoSwitch(
+                //         value: controller.isWswitch == 1,
+                //         onChanged: (v) async {
+                //           setState(
+                //               () => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
+                //         },
+                //       );
+                //     }),
+                //   ])),
                 Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
                 Obx(() => Visibility(
                     visible: controller.isShowVoice,
