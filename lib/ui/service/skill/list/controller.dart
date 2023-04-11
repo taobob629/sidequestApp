@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/game_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/config/app_pages.dart';
@@ -66,7 +67,7 @@ class SkillListPageController extends GetxController {
                 ..['service'] = data
                 ..['levelId'] = data.levelid)
           ?.then((res) {
-        if (res==true) onRefresh();
+        if (res == true) onRefresh();
       });
       return;
     }
@@ -81,7 +82,7 @@ class SkillListPageController extends GetxController {
               ..['skillAuthid'] = data.id
               ..['skillName'] = data.skillName)
         ?.then((res) {
-      if (res==true) onRefresh();
+      if (res == true) onRefresh();
     });
   }
 
@@ -90,5 +91,15 @@ class SkillListPageController extends GetxController {
       flog('res$res');
       if (res != null) onRefresh();
     });
+  }
+
+  Future<void> changeServiceStatus(SkillItemModel? item, bool checkState) async {
+    EasyLoading.show();
+    var response = await GamesApi.changeServiceStatus(
+        id: item?.id, skullAuthid: item?.skillAuthid, status: checkState ? 1 : 0);
+    EasyLoading.dismiss();
+    if (response.statusCode == 200) {
+      item?.enabled = checkState ? 1 : 0;
+    }
   }
 }

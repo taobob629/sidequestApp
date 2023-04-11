@@ -229,8 +229,11 @@ class SkillListPage extends GetView<SkillListPageController> {
           // ]),
           Transform.scale(
             scale: 0.6,
-            child: CupertinoSwitch(
-                activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {}),
+            child: Obx(()=>CupertinoSwitch(
+                activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {
+              controller.changeServiceStatus(item,value);
+
+            })),
           ),
           Container(
             constraints: BoxConstraints(maxWidth: 150.w),
