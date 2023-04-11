@@ -341,7 +341,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
         } else {
           StorageManager.setOnline(true);
         }
-        //  profilePageController.online.value = StorageManager.getOnline();
+        userController.online.value = StorageManager.getOnline();
         if (value.upgrade) {
           if (Get.context != null) {
             UpgradeDialog.show(Get.context!, value, cancelable: !value.force).whenComplete(() => checkAd(Get.context!));

@@ -25,7 +25,9 @@ class Http extends BaseHttp {
   @override
   void init() async {
     options.baseUrl = AppConfig.getBaseServer();
-    interceptors..add(ApiInterceptor())..add(HeaderInterceptor());
+    interceptors
+      ..add(ApiInterceptor())
+      ..add(HeaderInterceptor());
   }
 }
 
@@ -37,10 +39,10 @@ class HeaderInterceptor extends InterceptorsWrapper {
     }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
-   // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
-    options.headers['longitude'] = LocationService().position?.longitude??0;
-    options.headers['latitude'] = LocationService().position?.latitude??0;
-    log(jsonEncode(options.headers),name:'options.headers');
+    // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
+    options.headers['longitude'] = LocationService().position?.longitude ?? 0;
+    options.headers['latitude'] = LocationService().position?.latitude ?? 0;
+    log(jsonEncode(options.headers), name: 'options.headers');
     handler.next(options);
   }
 }
@@ -70,7 +72,6 @@ class ApiInterceptor extends InterceptorsWrapper {
 
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) async {
-
     String requestPath = response.requestOptions.path;
     flog(' requestPath:$requestPath onResponse api-response ${response}');
     ResponseData respData = ResponseData.fromJson(response.data);
@@ -125,5 +126,8 @@ class ResponseData extends BaseResponseData {
     code = json['code'];
     msg = json['msg'] == null ? "" : json['msg'];
     data = json['data'];
+    if (data == null && json["rows"] != null) {
+      data = json;
+    }
   }
 }

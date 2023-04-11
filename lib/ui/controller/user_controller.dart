@@ -77,6 +77,7 @@ class UserController extends GetxController {
   var imLoginDone = false.obs;
 
   var unreadMsgCount = 0.obs;
+  final online = false.obs;
 
   @override
   void onReady() async {
@@ -189,12 +190,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login(
-      {String? email,
-      String? password,
-      bool showLoading = false,
-      bool checkLastLoginTime = false,
-      Function(LoginModel)? done}) async {
+  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
         return;
@@ -256,8 +252,7 @@ class UserController extends GetxController {
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
         var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv =
-            await conversationManager.getConversation(conversationID: convId);
+        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
           Get.to(ChatPage(selectedConversation: conv.data!));
         }
@@ -270,8 +265,7 @@ class UserController extends GetxController {
       return;
     }
     var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv =
-        await conversationManager.getConversation(conversationID: "c2c_${uk}");
+    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
     if (conv.data != null)
       Navigator.push(
           Get.context!,
@@ -316,17 +310,14 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(
-            listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           FlutterRingtonePlayer.playNotification();
           _dealMsg(msg);
         }));
 
         ///获取未读数量
-        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager
-            .getConversationManager()
-            .getTotalUnreadMessageCount();
+        var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
         if (v2timValueCallback.code == 0) {
           flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
           unreadMsgCount.value = v2timValueCallback.data!;
@@ -413,14 +404,13 @@ class UserController extends GetxController {
     int isauth = userProfile?.isAuth ?? 0;
     int level = userProfile?.sidekickLevel ?? 0;
     if (level == 0) {
-      if (isauth == TYPE_VIP)
-        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
 
-  toRecordPage(BuildContext context){
-    pickVoiceDialog(context,userProfile.voice,(result){
+  toRecordPage(BuildContext context) {
+    pickVoiceDialog(context, userProfile.voice, (result) {
       flog('callback $result');
       if (result != null) userProfile.voice = result;
     });

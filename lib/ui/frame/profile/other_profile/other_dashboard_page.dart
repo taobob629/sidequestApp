@@ -6,6 +6,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/order/detail/widgets/acticon_widget.dart';
 import 'package:wy/utils/index.dart';
 
+import '../play_order/rating_comment_page.dart';
 import 'other_profile_page.dart';
 
 class OtherDashboardPage extends StatelessWidget {
@@ -117,21 +118,26 @@ class OtherDashboardPage extends StatelessWidget {
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 10),
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: AppColor.yellow,
-                                                          size: 11,
-                                                        ),
-                                                        SizedBox(width: 4),
-                                                        Text(
-                                                          game.star.toString(),
-                                                          style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
-                                                        )
-                                                      ],
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Get.to(() => RatingCommentPage(), arguments: {"liveid": t.player.value.uid, "skillId": game.id});
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top: 10),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.star,
+                                                            color: AppColor.yellow,
+                                                            size: 11,
+                                                          ),
+                                                          SizedBox(width: 4),
+                                                          Text(
+                                                            game.star.toString(),
+                                                            style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   EditPlayBtn(
