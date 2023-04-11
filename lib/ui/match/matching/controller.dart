@@ -46,7 +46,8 @@ class SideKickMatchingController extends GetxController {
     });
 
     subscription = eventBus.on<MatchEvent>().listen((event) {
-      _dealMatchSuc(event.msg.textElem!.text!);
+      _dealMatchSuc(event.msg.customElem!.data!);
+
     });
   }
 
