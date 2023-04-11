@@ -212,7 +212,7 @@ class _AddGamePageState extends State<AddGamePage> {
       children: [
         Container(
           padding: EdgeInsets.only(bottom: 10).h,
-          child: TipsWidegt(title: 'Service detail',tips: 'desc',),),
+          child: TipsWidegt(title: 'Service detail'.tr,tips: 'service_detail_tips'.tr,),),
         outerBg(
             Column(
               mainAxisSize: MainAxisSize.min,
