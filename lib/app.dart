@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/app_color.dart';
@@ -46,32 +47,55 @@ class App extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return GetMaterialApp(
-              initialBinding:InitialBindings() ,
+              initialBinding: InitialBindings(),
               // useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
                   textTheme: TextTheme(
-                    headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white),
-                    headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400, color: Colors.white),
-                    headline3: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w400, color: Colors.white),
-                    headline4: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w400, color: Colors.white),
-                    headline6: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.white),
+                    headline1: TextStyle(
+                        fontSize: 36.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    headline2: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                    headline3: TextStyle(
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                    headline4: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                    headline6: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w200,
+                        color: Colors.white),
                     bodyText1: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w200,
                     ),
-                    bodyText2: TextStyle(fontSize: 17.0.sp, color: Colors.white),
+                    bodyText2:
+                        TextStyle(fontSize: 17.0.sp, color: Colors.white),
                     button: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM)),
+                  appBarTheme: AppBarTheme(
+                      backgroundColor: AppColor.primary,
+                      elevation: 0,
+                      centerTitle: true,
+                      titleTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM)),
                   // primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,
-                  primaryIconTheme: IconThemeData(color: AppColor.iconColorPrimary),
+                  primaryIconTheme:
+                      IconThemeData(color: AppColor.iconColorPrimary),
                   colorScheme: theme.colorScheme.copyWith(
                     primary: AppColor.primary,
                     secondary: AppColor.accent,
@@ -93,7 +117,8 @@ class App extends StatelessWidget {
               fallbackLocale: const Locale('en', 'US'),
               getPages: AppPages.routes,
               initialRoute: AppPages.Main,
-              builder: EasyLoading.init(),
+              navigatorObservers: [FlutterSmartDialog.observer],
+              builder: FlutterSmartDialog.init(builder: EasyLoading.init()),
             );
           },
         ));

@@ -36,7 +36,7 @@ class SideKickMatchSucController extends GetxController {
     bean = playerList[0];
 
     subscription = eventBus.on<MatchEvent>().listen((event) {
-      _dealMsg(event.msg.textElem!.text!);
+      _dealMsg(event.msg.customElem!.data!);
     });
   }
 

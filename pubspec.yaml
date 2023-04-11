@@ -51,6 +51,7 @@ dependencies:
   flutter_cupertino_datetime_picker: ^3.0.0
   get: ^4.6.5
   flutter_easyloading: ^3.0.5
+  flutter_smart_dialog: ^4.9.0+5
   image_picker: ^0.8.5+3
   extended_image: ^6.1.0
   flutter_image_compress: ^1.1.0

@@ -70,7 +70,7 @@ class VipBenefitItem extends StatelessWidget {
               return Row(
                 children: [
                   Text(
-                    anima.isCompleted ? 'Up'.tr : 'More'.tr,
+                    anima.isCompleted ? ' Up'.tr : 'More'.tr,
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                   Container(

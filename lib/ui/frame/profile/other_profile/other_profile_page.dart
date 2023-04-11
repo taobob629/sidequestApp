@@ -282,21 +282,21 @@ class OtherProfilePage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Followers: ${t.player.value.followers}",
+                                          "Followers".tr+": ${t.player.value.followers}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Text(
-                                          "Fans: ${t.player.value.fans}",
+                                          "Fans".tr+": ${t.player.value.fans}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Visibility(
                                           child: Text(
-                                            "Rating: ${t.player.value.ranking}",
+                                            "Rating".tr+": ${t.player.value.ranking}",
                                             style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                           ),
                                         ),
                                         Text(
-                                          "Services: ${t.player.value.age}",
+                                          "Services".tr+": ${t.player.value.age}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                       ],
@@ -366,7 +366,7 @@ class OtherProfilePage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Message",
+                            "Messages".tr,
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ],

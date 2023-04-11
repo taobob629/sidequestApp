@@ -26,6 +26,7 @@ import 'package:wy/view/views.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
@@ -94,17 +95,14 @@ class _AddGamePageState extends State<AddGamePage> {
         Expanded(
           child: Obx(() => controller.isEdit && controller.serviceModel == null
               ? buildLoad()
-              : MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: MyListView(
-                    isShuaxin: false,
-                    flag: false,
-                    item: (i) => item[i],
-                    itemCount: item.length,
-                    padding: EdgeInsets.all(20).w,
-                    divider: Divider(height: 15.h, color: Colors.transparent),
-                  ))),
+              : MyListView(
+            isShuaxin: false,
+            flag: false,
+            item: (i) => item[i],
+            itemCount: item.length,
+            padding: EdgeInsets.all(20).w,
+            divider: Divider(height: 15.h, color: Colors.transparent),
+          )),
         ),
       ]),
       btnBar: Column(
@@ -212,7 +210,9 @@ class _AddGamePageState extends State<AddGamePage> {
   Widget gameMaterialsView() {
     return Column(
       children: [
-        itemLable('Service detail'.tr),
+        Container(
+          padding: EdgeInsets.only(bottom: 10).h,
+          child: TipsWidegt(title: 'Service detail'.tr,tips: 'service_detail_tips'.tr,),),
         outerBg(
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -357,20 +357,20 @@ class _AddGamePageState extends State<AddGamePage> {
                 if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
                 //if (controller.priceRanges.isNotEmpty) PriceSliderWidget(),
                 // if (controller.priceRanges.isNotEmpty && controller.isEdit) 16.verticalSpace,
-                if (controller.priceRanges.isNotEmpty && controller.isEdit)
-                  itemBg(PWidget.row([
-                    PWidget.text('Enable'.tr, [textColor]),
-                    PWidget.spacer(),
-                    Builder(builder: (context) {
-                      return CupertinoSwitch(
-                        value: controller.isWswitch == 1,
-                        onChanged: (v) async {
-                          setState(
-                              () => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
-                        },
-                      );
-                    }),
-                  ])),
+                // if (controller.priceRanges.isNotEmpty && controller.isEdit)
+                //   itemBg(PWidget.row([
+                //     PWidget.text('Enable'.tr, [textColor]),
+                //     PWidget.spacer(),
+                //     Builder(builder: (context) {
+                //       return CupertinoSwitch(
+                //         value: controller.isWswitch == 1,
+                //         onChanged: (v) async {
+                //           setState(
+                //               () => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
+                //         },
+                //       );
+                //     }),
+                //   ])),
                 Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
                 Obx(() => Visibility(
                     visible: controller.isShowVoice,

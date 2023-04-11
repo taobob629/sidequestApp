@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 /// id : 1
 /// name : "121221"
 /// uid : null
@@ -13,10 +15,9 @@ class SkillItemModel {
     this.name,
     this.uid,
     this.skillName,
-    this.skillid,
+    this.skillAuthid,
     this.price,
     this.unit,
-    this.enabled,
     this.isDefault,
   });
 
@@ -26,7 +27,7 @@ class SkillItemModel {
     json['name'] = name;
     json['uid'] = uid;
     json['skillName'] = skillName;
-    json['skillid'] = skillid;
+    json['skillAuthid'] = skillAuthid;
     json['price'] = price;
     json['unit'] = unit;
     json['enabled'] = enabled;
@@ -39,7 +40,7 @@ class SkillItemModel {
     name = json['name'];
     uid = json['uid'];
     skillName = json['skillName'];
-    skillid = json['skillid'];
+    skillAuthid = json['skillAuthid'];
     price = double.parse(json['price']);
     unit = json['unit'];
     enabled = json['enabled'];
@@ -50,9 +51,16 @@ class SkillItemModel {
   String? name;
   dynamic uid;
   String? skillName;
-  int? skillid;
+  int? skillAuthid;
   double? price;
   dynamic unit;
-  int? enabled;
+  RxInt _enabled=RxInt(0);
+
+  int get enabled => _enabled.value;
+
+  set enabled(int value) {
+    _enabled.value = value;
+  }
+
   int? isDefault;
 }

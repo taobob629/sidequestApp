@@ -198,7 +198,7 @@ class VipPage extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 15),
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Text(
-                    "Benefits",
+                    "Benefits".tr,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
