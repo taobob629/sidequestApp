@@ -16,10 +16,12 @@ import '../../utils/count_down_util.dart';
 class MatchTopDialog extends StatelessWidget {
   final _ctr = Get.put(DialogMatchTopController());
 
+  MatchTopDialog(Map map) {
+    _ctr.initData(map);
+  }
+
   @override
   Widget build(BuildContext context) {
-    _ctr.initData();
-
     return GetBuilder<DialogMatchTopController>(builder: (builder) {
       return Column(
         children: [
@@ -34,7 +36,7 @@ class MatchTopDialog extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.only(left: 20.w, right: 6.w),
-            margin: EdgeInsets.symmetric(horizontal: 10.w),
+            margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: MediaQuery.of(context).padding.top),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,7 +56,7 @@ class MatchTopDialog extends StatelessWidget {
                       ),
                       Expanded(child: SizedBox()),
                       Obx(
-                            () => GestureDetector(
+                        () => GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onTap: () {
                             _ctr.countDownUtil.stopCountDown();
@@ -234,7 +236,7 @@ class MatchTopDialog extends StatelessWidget {
     EasyLoading.show();
     Map<String, dynamic> params = {"operation": operation};
     List<MatchOperationModel>? result =
-    await MatchApi.acceptMatchOrder(_ctr.player.orderId.toString(), params);
+        await MatchApi.acceptMatchOrder(_ctr.player.orderId.toString(), params);
     EasyLoading.dismiss();
 
     if (result == null) {
@@ -259,7 +261,7 @@ class MatchTopDialog extends StatelessWidget {
         category: element.orderInfo.category,
         game: element.orderInfo.game,
         priceRange:
-        '${element.orderInfo.minPrice}~${element.orderInfo.maxPrice}',
+            '${element.orderInfo.minPrice}~${element.orderInfo.maxPrice}',
         unit: element.orderInfo.unit,
         launguage: element.orderInfo.language,
         skillAuthId: element.skillAuthId,
@@ -281,15 +283,14 @@ class DialogMatchTopController extends GetxController {
   late CountDownUtil countDownUtil;
   late MatchOrderPlayer player;
 
-  void initData() {
-    final map = Get.arguments as Map;
+  void initData(map) {
     player = map['player'];
 
     countDownUtil = CountDownUtil(
-          (data) {
+      (data) {
         countTime.value = data;
       },
-          () {
+      () {
         countDownUtil.stopCountDown();
       },
       seconds: map['seconds'],

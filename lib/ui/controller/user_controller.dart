@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/auth_api.dart';
@@ -349,18 +350,22 @@ class UserController extends GetxController {
             ctr.countDownUtil.updateSeconds(10);
             ctr.update();
           } else {
-            Get.dialog(
-              MatchTopDialog(),
-              arguments: {'seconds': 10, 'player': player},
-              barrierColor: Colors.black26,
-            );
+            // Get.dialog(
+            //   MatchTopDialog(),
+            //   arguments: {'seconds': 10, 'player': player},
+            //   barrierColor: Colors.black26,
+            // );
+            SmartDialog.dismiss();
+            SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
           }
         } else {
-          Get.dialog(
-            MatchTopDialog(),
-            arguments: {'seconds': 10, 'player': player},
-            barrierColor: Colors.black26,
-          );
+          // Get.dialog(
+          //   MatchTopDialog(),
+          //   arguments: {'seconds': 10, 'player': player},
+          //   barrierColor: Colors.black26,
+          // );
+          SmartDialog.dismiss();
+          SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
         }
         break;
 
