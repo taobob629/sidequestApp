@@ -120,6 +120,7 @@ class NewWalletPage extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             remainingTimes(),
             Container(
@@ -215,8 +216,7 @@ class NewWalletPage extends StatelessWidget {
         fontFamily: FONT_MEDIUM);
     double width = 24.w;
     double height = 24.w;
-    return Expanded(
-        child: InkWell(
+    return GestureDetector(
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
@@ -251,7 +251,7 @@ class NewWalletPage extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    );
   }
 
   Widget _balanceItem(
