@@ -123,7 +123,14 @@ class ChatPage extends StatelessWidget {
         //     MaterialPageRoute(
         //       builder: (context) => UserProfile(userID: userID),
         //     ))
-        NavigatorHelper.toOtherProfile(selectedConversation.userID);
+        if (pwId.isEmpty) {
+          ProfileApi.uk2id(selectedConversation.userID?.replaceAll("c2c_", "")).then((value) {
+            pwId = value.toString();
+            NavigatorHelper.toOtherProfile(pwId);
+          });
+        } else {
+          NavigatorHelper.toOtherProfile(pwId);
+        }
       },
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var data = jsonDecode(message.customElem!.data!);
