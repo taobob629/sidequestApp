@@ -208,7 +208,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                  visible: !readOnly(),
+                //  visible: !readOnly(),
+                visible: false,
                   child: InkWell(
                       onTap: () {
                         controller.finishOrder();
