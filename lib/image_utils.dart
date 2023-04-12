@@ -28,5 +28,7 @@ class ImageUtils {
   static const String icon_order = 'assets/images/icon_order.webp';
   static const String icon_post = 'assets/images/icon_post.webp';
   static const String icon_ablum = 'assets/images/icon_ablum.webp';
+  static const String icon_xiaoxi = 'assets/images/icon_xiaoxi.webp';
+  static const String tip_info_bg = 'assets/images/tip_info_bg.webp';
   static const String rg_select = 'assets/images/rg_select.png';
 }
