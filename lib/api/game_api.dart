@@ -16,9 +16,12 @@ class GamesApi {
     return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
   }
 
-  static Future<GameConfig?> getPriceRange(var gameId,{var levelId,var addServiceItem=false}) async {
+  static Future<GameConfig?> getPriceRange(var gameId,
+      {var levelId, var addServiceItem = false}) async {
     Response response =
-        await http.get('${addServiceItem?'/peiwan/app/service/getItemRange':'/peiwan/app/service/priceRange'}', queryParameters: {'gameId': '$gameId','levelid':levelId});
+    await http.get(
+        '${addServiceItem ? '/peiwan/app/service/getItemRange' : '/peiwan/app/service/priceRange'}',
+        queryParameters: {'gameId': '$gameId', 'levelid': levelId});
     if (response.data == null) return null;
     return GameConfig.fromJson(response.data);
     //return response.data.map<PriceRangeModel>((item) => PriceRangeModel.fromJson(item)).toList();
@@ -59,13 +62,15 @@ class GamesApi {
 
   static Future<Response> addRegisterFavorite(List gameIds) async {
     Response response = await http.post('/peiwan/app/login/addRegisterFavorite',
-        data: Map()..['gameIdList'] = gameIds);
+        data: Map()
+          ..['gameIdList'] = gameIds);
     return response;
   }
 
   static Future<GameSectionModel> getGamesSection(var gameId) async {
     Response response =
-        await http.get('/peiwan/app/new/filter', queryParameters: Map()..['gameId'] = gameId);
+    await http.get('/peiwan/app/new/filter', queryParameters: Map()
+      ..['gameId'] = gameId);
     return GameSectionModel.fromJson(response.data);
   }
 
@@ -76,11 +81,25 @@ class GamesApi {
     Response response = await http.get('/peiwan/app/service/skill?id=$id');
     return ServiceDetailModel.fromJson(response.data);
   }
+
   /**
    * skillDetail
    */
   static Future<PriceRangeModel> getConfig(var id) async {
     Response response = await http.get('/peiwan/app/home/config?gameId=$id');
     return PriceRangeModel.fromJson(response.data);
+  }
+
+  /**
+   *  id 子项id skullAuthid 服务id status 0关闭 1开启
+   */
+  static Future<Response> changeServiceStatus({var id, var skullAuthid, var status}) async {
+    Response response = await http.post(
+        '/peiwan/app/service/changeStatus', queryParameters: Map<String, dynamic>()
+      ..['id']=id
+      ..['skullAuthid']=skullAuthid
+      ..['status']=status
+    );
+   return response;
   }
 }
