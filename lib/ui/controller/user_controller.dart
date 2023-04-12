@@ -357,36 +357,46 @@ class UserController extends GetxController {
       case 'match_order_player':
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
 
-        if (Get.isRegistered<DialogMatchTopController>()) {
-          // 防止多次弹窗
-          DialogMatchTopController ctr = Get.find<DialogMatchTopController>();
-          if (ctr.countDownUtil.isShow) {
-            ctr.player = player;
-            ctr.countDownUtil.updateSeconds(10);
-            ctr.update();
-          } else {
-            // Get.dialog(
-            //   MatchTopDialog(),
-            //   arguments: {'seconds': 10, 'player': player},
-            //   barrierColor: Colors.black26,
-            // );
-            SmartDialog.dismiss();
-            SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
-          }
+        int? kFirstMatchTime =
+            StorageManager.getValueByKey(StorageManager.kFirstMatchTime);
+        int inSeconds = 0;
+        if (kFirstMatchTime == null) {
+          // 没有保存的时间，说明是第一次，第一次都会弹出，只要大于15（因为15分钟以内只弹窗一次）就可以
+          inSeconds = 20 * 60;
         } else {
-          // Get.dialog(
-          //   MatchTopDialog(),
-          //   arguments: {'seconds': 10, 'player': player},
-          //   barrierColor: Colors.black26,
-          // );
-          SmartDialog.dismiss();
-          SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
+          inSeconds = DateTime.now()
+              .difference(DateTime.fromMillisecondsSinceEpoch(kFirstMatchTime))
+              .inSeconds;
+        }
+
+        if (inSeconds > 15 * 60) {
+          // 15分钟以内只弹出一次，大于15分钟才弹出
+          StorageManager.setValue(
+              StorageManager.kFirstMatchTime, map["timestamp"] * 1000);
+          if (Get.isRegistered<DialogMatchTopController>()) {
+            // 防止多次弹窗
+            SmartDialog.dismiss();
+            DialogMatchTopController ctr = Get.find<DialogMatchTopController>();
+            if (ctr.countDownUtil.isShow) {
+              ctr.player = player;
+              ctr.countDownUtil.updateSeconds(10);
+              ctr.update();
+            } else {
+              SmartDialog.show(
+                  builder: (_) =>
+                      MatchTopDialog({'seconds': 10, 'player': player}));
+            }
+          } else {
+            SmartDialog.show(
+                builder: (_) =>
+                    MatchTopDialog({'seconds': 10, 'player': player}));
+          }
         }
         break;
 
       case 'match_order_completed':
         // 陪玩老板点击play后，player从这里跳转进去
-        if (userProfile?.pwId != map["message"]["uid"]) {
+        if (userProfile.pwId != map["message"]["uid"]) {
           String str = Get.routing.current;
           if (AppPages.side_kick_match_suc_page == str) {
             Get.back();
@@ -424,7 +434,8 @@ class UserController extends GetxController {
     int isauth = userProfile?.isAuth ?? 0;
     int level = userProfile?.sidekickLevel ?? 0;
     if (level == 0) {
-      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      if (isauth == TYPE_VIP)
+        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
