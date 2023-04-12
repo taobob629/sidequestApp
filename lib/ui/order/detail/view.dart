@@ -80,11 +80,25 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              child: ImageUtil.networkImage(url: '${item?.userAvatar}', fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
-              onTap: () {
-                NavigatorHelper.toOtherProfile(item?.pwuserId);
-              },
+            Row(
+              children: [
+                GestureDetector(
+                  child: ImageUtil.networkImage(
+                      url: '${item?.userAvatar}',
+                      fit: BoxFit.cover,
+                      width: 32.w,
+                      height: 32.w,
+                      border: 16.w),
+                  onTap: () {
+                    NavigatorHelper.toOtherProfile(item?.pwuserId);
+                  },
+                ),
+                4.horizontalSpace,
+                Text(
+                  '${item?.nickName}',
+                  style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT),
+                )
+              ],
             ),
             InkWell(
               child: ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w),
@@ -95,7 +109,12 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         divider(),
         Row(
           children: [
-            ImageUtil.networkImage(url: '${item?.skillThumb}', width: 68.w, height: 68.w, border: 15.r, fit: BoxFit.cover),
+            ImageUtil.networkImage(
+                url: '${item?.skillThumb}',
+                width: 68.w,
+                height: 68.w,
+                border: 15.r,
+                fit: BoxFit.cover),
             10.horizontalSpace,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,8 +145,14 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                           ),
                           3.horizontalSpace,
                           Text.rich(TextSpan(children: [
-                            TextSpan(text: '${item?.price}', style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
-                            TextSpan(text: '/${item?.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
+                            TextSpan(
+                                text: '${item?.price}',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
+                            TextSpan(
+                                text: '/${item?.unit}',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
                           ])),
                         ],
                       ),
@@ -161,7 +186,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               ),
               3.horizontalSpace,
               Text.rich(TextSpan(children: [
-                TextSpan(text: '${item?.subtotal}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                TextSpan(
+                    text: '${item?.subtotal}',
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
                 // TextSpan(
                 //     text: '/${item?.unit}',
                 //     style:
@@ -174,7 +202,9 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         rowLine2(
           'Discount'.tr,
           Text.rich(TextSpan(children: [
-            TextSpan(text: '${item?.discount}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+            TextSpan(
+                text: '${item?.discount}',
+                style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
           ])),
         ),
         5.verticalSpace,
@@ -191,7 +221,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               ),
               3.horizontalSpace,
               Text.rich(TextSpan(children: [
-                TextSpan(text: '${item?.total}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                TextSpan(
+                    text: '${item?.total}',
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
               ])),
               //  Spacer(),
             ],
@@ -202,21 +235,23 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   evaluateWidget() {
-    if (controller.model?.status == -2 || (controller.model?.status == 2 && controller.type == TYPE_ORDER_PROVIDED)) {
+    if (controller.model?.status == -2 ||
+        (controller.model?.status == 2 && controller.type == TYPE_ORDER_PROVIDED)) {
       return innnerBg(Column(
         children: [
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                //  visible: !readOnly(),
-                visible: false,
+                  //  visible: !readOnly(),
+                  visible: false,
                   child: InkWell(
                       onTap: () {
                         controller.finishOrder();
                       },
                       child: Text(
                         'Submit'.tr,
-                        style: TextStyle(color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                        style: TextStyle(
+                            color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
                       )))),
           listDivider,
           10.verticalSpace,
@@ -246,14 +281,17 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       '${history[index].time}',
-                      style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: Colors.white60),
+                      style: TextStyle(
+                          fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: Colors.white60),
                     ),
                   ),
               connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
               indicatorStyleBuilder: (context, index) => IndicatorStyle.dot,
               contentsBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('${history[index].content}', style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 12.sp, color: Colors.white)),
+                    child: Text('${history[index].content}',
+                        style: TextStyle(
+                            fontFamily: FONT_MEDIUM, fontSize: 12.sp, color: Colors.white)),
                   ),
               itemCount: history.length))
     ]));
@@ -321,7 +359,9 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         maxLength: 150,
         decoration: InputDecoration(
             border: InputBorder.none,
-            label: controller.model?.status == 2 ? ImageUtil.assetImage('ic_edit_yellow', width: 17.w) : null,
+            label: controller.model?.status == 2
+                ? ImageUtil.assetImage('ic_edit_yellow', width: 17.w)
+                : null,
             counterStyle: TextStyle(color: Colors.white60),
             // labelText: 'Please write down your comments'.tr,
             hintStyle: TextStyle(color: Color(0xFFB2B9C9), fontSize: 13.sp)),
