@@ -114,16 +114,19 @@ class OtherProfilePage extends StatelessWidget {
                                                                       style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                                                                     ),
                                                                   ),
-                                                                  GestureDetector(
-                                                                    onTapDown: (details) {
-                                                                      t.followOrNot(context, details.globalPosition);
-                                                                    },
-                                                                    child: Container(
-                                                                      height: 30,
-                                                                      padding: const EdgeInsets.only(left: 10),
-                                                                      child: Image.asset(
-                                                                        t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
-                                                                        width: 20,
+                                                                  Visibility(
+                                                                    visible: !t.isSelf,
+                                                                    child: GestureDetector(
+                                                                      onTapDown: (details) {
+                                                                        t.followOrNot(context, details.globalPosition);
+                                                                      },
+                                                                      child: Container(
+                                                                        height: 30,
+                                                                        padding: const EdgeInsets.only(left: 10),
+                                                                        child: Image.asset(
+                                                                          t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
+                                                                          width: 20,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   )
@@ -281,21 +284,21 @@ class OtherProfilePage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Followers".tr+": ${t.player.value.followers}",
+                                          "Followers".tr + ": ${t.player.value.followers}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Text(
-                                          "Fans".tr+": ${t.player.value.fans}",
+                                          "Fans".tr + ": ${t.player.value.fans}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Visibility(
                                           child: Text(
-                                            "Rating".tr+": ${t.player.value.ranking}",
+                                            "Rating".tr + ": ${t.player.value.ranking}",
                                             style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                           ),
                                         ),
                                         Text(
-                                          "Services".tr+": ${t.player.value.age}",
+                                          "Services".tr + ": ${t.player.value.age}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                       ],

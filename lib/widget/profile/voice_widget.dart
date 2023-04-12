@@ -150,39 +150,38 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
                 .mapIndexed(
                   (index, type) =>
                   ListTile(
-                    leading: InkWell(
-                        onTap: () async {
-                          switch (index) {
-                            case 0:
-                              Get.back();
-                              var result = await Get.toNamed(AppPages.Record, arguments: voice);
-                              return callback(result);
-                            case 1:
-                              FilePickerResult? fileResult = await FilePicker.platform.pickFiles(
-                                type: FileType.audio,
-                              );
-                              String? path = fileResult?.files?.single?.path;
-                              if (path == null) return;
-                              File file = File(path!);
-                              var fileLength = file.lengthSync();
-                              //文件大小限制
-                              if (fileLength / 1000 / 1000 > MAX_RECORD_FILE_SIZE) {
-                                EasyLoading.showError(
-                                    'Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
-                                return;
-                              }
-                              //上传文件
-                              // var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
-                              // return callback(voiceUrl);
-                              var result = await Get.toNamed(AppPages.Record, arguments: fileResult?.files?.single?.path);
-                              return callback(result);
+                    onTap: () async {
+                      switch (index) {
+                        case 0:
+                          Get.back();
+                          var result = await Get.toNamed(AppPages.Record, arguments: voice);
+                          return callback(result);
+                        case 1:
+                          FilePickerResult? fileResult = await FilePicker.platform.pickFiles(
+                            type: FileType.audio,
+                          );
+                          String? path = fileResult?.files?.single?.path;
+                          if (path == null) return;
+                          File file = File(path!);
+                          var fileLength = file.lengthSync();
+                          //文件大小限制
+                          if (fileLength / 1000 / 1000 > MAX_RECORD_FILE_SIZE) {
+                            EasyLoading.showError(
+                                'Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
+                            return;
                           }
-                        },
-                        child: Text(
-                          type,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.white),
-                        )),
+                          //上传文件
+                          // var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
+                          // return callback(voiceUrl);
+                          var result = await Get.toNamed(AppPages.Record, arguments: fileResult?.files?.single?.path);
+                          return callback(result);
+                      }
+                    } ,
+                    leading: Text(
+                      type,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
             )
                 .toList(),
