@@ -36,6 +36,7 @@ class TabHeadlinesPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               expandedHeight: height,
               flexibleSpace: FlexibleSpaceBar(
