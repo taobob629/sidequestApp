@@ -396,7 +396,7 @@ class UserController extends GetxController {
 
       case 'match_order_completed':
         // 陪玩老板点击play后，player从这里跳转进去
-        if (userProfile?.pwId != map["message"]["uid"]) {
+        if (userProfile.pwId != map["message"]["uid"]) {
           String str = Get.routing.current;
           if (AppPages.side_kick_match_suc_page == str) {
             Get.back();

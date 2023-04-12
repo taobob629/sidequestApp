@@ -12,7 +12,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
@@ -475,7 +474,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     if (isSelf) {
       // Get.toNamed(AppPages.ServiceAndOrders);
       List<SkillModel> list = await UserApi.myauthlist();
-      Iterable<SkillModel> skillModel = list.where((element) => element.id == player.value.games[0].id);
+      Iterable<SkillModel> skillModel = list.where((element) => element.id == game.id);
       jumpPage(AddGamePage(skillModel.first.toJson()), callback: (res) {
         flog('Get.ard ${Get.arguments}');
       });
