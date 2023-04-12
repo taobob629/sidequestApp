@@ -22,6 +22,7 @@ class TabGamesPage extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           expandedHeight: height,
           flexibleSpace: FlexibleSpaceBar(
