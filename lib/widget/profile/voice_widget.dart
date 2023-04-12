@@ -177,12 +177,11 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
                           return callback(result);
                       }
                     } ,
-                    leading: InkWell(
-                        child:Container(child:  Text(
-                          type,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.white),
-                        ),color: Colors.yellow,)),
+                    leading: Text(
+                      type,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
             )
                 .toList(),
