@@ -34,6 +34,7 @@ class StorageManager {
   static const String kFirstUse = 'firstUse'; //是否首次安装
   static const String kCountDown = 'kCountDown';
   static const String kCountDown2 = 'kCountDown2';
+  static const String kFirstMatchTime = 'kFirstMatchTime';
 
   /// 必备数据的初始化操作
   ///
@@ -237,5 +238,14 @@ class StorageManager {
 
   static void setCountDown2(String value) {
     sharedPreferences.setString(kCountDown2, value);
+  }
+
+  static int? getValueByKey(String key) {
+    int? value = sharedPreferences.getInt(key);
+    return value;
+  }
+
+  static void setValue(String key, int value) {
+    sharedPreferences.setInt(key, value);
   }
 }
