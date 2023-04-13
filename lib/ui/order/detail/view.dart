@@ -83,7 +83,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
             GestureDetector(
               child: ImageUtil.networkImage(url: '${item?.userAvatar}', fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
               onTap: () {
-                NavigatorHelper.toOtherProfile(item?.pwuserId);
+                // NavigatorHelper.toOtherProfile(item?.pwuserId);
               },
             ),
             InkWell(
@@ -208,8 +208,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                //  visible: !readOnly(),
-                visible: false,
+                  //  visible: !readOnly(),
+                  visible: false,
                   child: InkWell(
                       onTap: () {
                         controller.finishOrder();
