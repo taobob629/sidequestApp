@@ -702,6 +702,8 @@ const Map<String, String> en_US = {
   "Responsive":"Responsive",
   "Enjoyment":"Enjoyment",
   "Friendless":"Friendless",
+  "Order details":"Order details",
+
 
 
 };

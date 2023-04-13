@@ -702,5 +702,6 @@ const Map<String, String> zh_CN = {
   "Responsive":"响应速度",
   "Enjoyment":"娱乐程度",
   "Friendless":"友好程度",
+  "Order details":"订单详情",
 
 };
