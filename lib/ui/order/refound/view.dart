@@ -43,12 +43,12 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          lable('Reason for refund'),
+          lable('Reason for refund'.tr),
           InkWell(
             onTap: () => controller.choseReason(),
             child: itemBg(rowLine(
                 false,
-                'reason',
+                'Select a reason'.tr,
                 Row(
                   children: [
                     Obx(() => Text(
@@ -59,20 +59,18 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                   ],
                 ))),
           ),
-          lable('Refund Amount'),
-          itemBg(rowLine(true, '${controller.order.price}', Container())),
+          lable('Refund Amount'.tr),
+          itemBg(rowLine(true, '${controller.order.priceWithSufix()}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
             child: Row(
               children: [
                 ImageUtil.assetImage('ic_warn', width: 16.h, height: 16.h),
                 5.horizontalSpace,
-                Expanded(
-                  child: Text(
-                    'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund'
-                        .tr,
-                    style: TextStyle(fontFamily: FONT_BLACK, fontSize: 11.sp),
-                  ),
+                Text(
+                  'The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.'.tr,
+                  style: TextStyle(
+                      fontFamily: FONT_BLACK, fontSize: 11.sp),
                 ),
               ],
             ),
@@ -87,7 +85,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
           //         fontSize: 11.sp,
           //       ),
           //     )),
-          lable('Justification'),
+          lable('Justification'.tr),
           comments(),
           10.verticalSpace,
           Row(

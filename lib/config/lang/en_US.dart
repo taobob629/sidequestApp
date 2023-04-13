@@ -685,5 +685,26 @@ const Map<String, String> en_US = {
   "Method of receipt":"Method of receipt",
   "please input your account":"please input your account",
   "+ Follow":"+ Follow",
-  "Visitors":"Visitors"
+  "Visitors":"Visitors",
+  "Request a refund":"Request a refund",
+  "Reason for refund":"Reason for refund",
+  "The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.":"The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.",
+  "Justification":"Justification",
+  "Custom Service":"Custom Service",
+  "Refund Amount":"Refund Amount",
+  "Select a reason":"Select a reason",
+  "We suggest that you supplement the recording materials":"We suggest that you supplement the recording materials",
+  "My Orders":"My Orders",
+  "Others":"Others",
+  "Order ID":"Order ID",
+  "Order Time":"Order Time",
+  "Performance":"Performance",
+  "Responsive":"Responsive",
+  "Enjoyment":"Enjoyment",
+  "Friendless":"Friendless",
+  "Order details":"Order details",
+  "User Rating":"User Rating",
+  "My Bookings":"My Bookings"
+
+
 };
