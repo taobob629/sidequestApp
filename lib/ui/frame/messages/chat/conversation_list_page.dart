@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/messages/chat/chat_tool.dart';
@@ -33,12 +34,15 @@ class ConversationListPage extends StatelessWidget {
             return Text(lastMsg?.textElem?.text ?? "", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColor.colorB9C9, fontSize: 12));
           },
           onTapItem: (selectedConv) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    selectedConversation: selectedConv,
-                  ),
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => ChatPage(
+            //         selectedConversation: selectedConv,
+            //       ),
+            //     ));
+            Get.to(() => ChatPage(
+                  selectedConversation: selectedConv,
                 ));
           }),
     );

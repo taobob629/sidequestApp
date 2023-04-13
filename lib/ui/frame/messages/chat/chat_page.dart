@@ -17,6 +17,10 @@ import '../../../../model/play_order_detail_model.dart';
 import '../../social/post/view/gift_animation.dart';
 import '../../social/post/view/give_gifts_dialog.dart';
 
+import 'package:get/get.dart';
+
+class ChatController extends GetxController {}
+
 class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
   final String orderSn;
@@ -39,6 +43,9 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<ChatController>(tag: "ChatKey")) {
+      Get.put(ChatController(), tag: "ChatKey");
+    }
     getUserId();
     double width = MediaQuery.of(context).size.width * 0.6;
     double height = width * 191 / 369;

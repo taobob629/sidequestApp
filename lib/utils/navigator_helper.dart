@@ -9,6 +9,7 @@ import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/ui/index/news/news_page.dart';
 import 'package:wy/ui/pay/pay_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
@@ -41,6 +42,9 @@ class NavigatorHelper {
   }
 
   static void toOtherProfile(uid, {gid}) {
+    if (Get.isRegistered<OtherProfileController>()) {
+      Get.back();
+    }
     EasyLoading.show();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {

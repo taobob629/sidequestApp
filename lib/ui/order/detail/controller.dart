@@ -71,18 +71,26 @@ class OrderDetailPageController extends BasePageController {
   }
 
   toChat(BuildContext context) async {
-    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
-    if (conv.data != null) {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatPage(
-            selectedConversation: conv.data!,
-            orderSn: '${model?.orderSn}',
-          ),
-        ),
-      );
+    if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
+      Get.back();
+    } else {
+      var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+      V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
+      if (conv.data != null) {
+        Get.to(() => ChatPage(
+              selectedConversation: conv.data!,
+              orderSn: '${model?.orderSn}',
+            ));
+        // await Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => ChatPage(
+        //       selectedConversation: conv.data!,
+        //       orderSn: '${model?.orderSn}',
+        //     ),
+        //   ),
+        // );
+      }
     }
   }
 

@@ -136,10 +136,8 @@ class UserController extends GetxController {
           _cancelPayNotify();
         }
         list.forEach((payRecord) async {
-          print(
-              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(
-              payRecord.orderId, payRecord.tranId);
+          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -195,16 +193,9 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login(
-      {String? email,
-      String? password,
-      bool showLoading = false,
-      bool checkLastLoginTime = false,
-      Function(LoginModel)? done}) async {
+  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
-      if (DateTime.now().millisecondsSinceEpoch -
-              lastLoginTime.millisecondsSinceEpoch <
-          600000) {
+      if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
         return;
       }
     }
@@ -221,8 +212,7 @@ class UserController extends GetxController {
     if (showLoading == true) {
       EasyLoading.show();
     }
-    LoginModel loginModel =
-        await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
       EasyLoading.dismiss();
     });
 
@@ -250,8 +240,7 @@ class UserController extends GetxController {
     if (!kIsWeb) {
       ChannelPush.requestPermission();
       Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess =
-            await ChannelPush.uploadToken(PushConfig.appInfo);
+        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
         // ignore: avoid_print
         print("Push token upload result: $isUploadSuccess");
       });
@@ -265,12 +254,10 @@ class UserController extends GetxController {
     String convId = extMsp["conversationID"] ?? "";
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
-        var conversationManager =
-            TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv =
-            await conversationManager.getConversation(conversationID: convId);
+        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
-          Get.to(ChatPage(selectedConversation: conv.data!));
+          Get.to(() => ChatPage(selectedConversation: conv.data!));
         }
       });
     }
@@ -280,18 +267,17 @@ class UserController extends GetxController {
     if (uk == null) {
       return;
     }
-    var conversationManager =
-        TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv =
-        await conversationManager.getConversation(conversationID: "c2c_${uk}");
-    if (conv.data != null)
-      Navigator.push(
-          Get.context!,
-          MaterialPageRoute(
-            builder: (context) => ChatPage(
+
+    if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
+      Get.back();
+    } else {
+      var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
+      V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
+      if (conv.data != null)
+        Get.to(() => ChatPage(
               selectedConversation: conv.data!,
-            ),
-          ));
+            ));
+    }
   }
 
   initOfflinePush() async {
@@ -306,18 +292,13 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance
-          .login(userID: "${userSig.uid}", userSig: userSig.token)
-          .then((value) async {
+      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
         imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager
-            .getConversationManager()
-            .addConversationListener(
-                listener: V2TimConversationListener(
-                    onTotalUnreadMessageCountChanged: (count) {
+        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(
+                listener: V2TimConversationListener(onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
               FlutterAppBadger.isAppBadgeSupported().then((value) {
@@ -325,8 +306,7 @@ class UserController extends GetxController {
                 if (unreadMsgCount.value == 0) {
                   FlutterAppBadger.removeBadge();
                 } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
-                      title: 'New Message');
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
                 }
               });
             }, onConversationChanged: (v) {
@@ -334,10 +314,7 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager
-            .getMessageManager()
-            .addAdvancedMsgListener(listener:
-                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           if (msg.customElem?.data != null) {
             var data = msg.customElem!.data!;
@@ -382,22 +359,18 @@ class UserController extends GetxController {
       case 'match_order_player':
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
 
-        int? kFirstMatchTime =
-            StorageManager.getValueByKey(StorageManager.kFirstMatchTime);
+        int? kFirstMatchTime = StorageManager.getValueByKey(StorageManager.kFirstMatchTime);
         int inSeconds = 0;
         if (kFirstMatchTime == null) {
           // 没有保存的时间，说明是第一次，第一次都会弹出，只要大于15（因为15分钟以内只弹窗一次）就可以
           inSeconds = 20 * 60;
         } else {
-          inSeconds = DateTime.now()
-              .difference(DateTime.fromMillisecondsSinceEpoch(kFirstMatchTime))
-              .inSeconds;
+          inSeconds = DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(kFirstMatchTime)).inSeconds;
         }
 
         if (inSeconds > 15 * 60) {
           // 15分钟以内只弹出一次，大于15分钟才弹出
-          StorageManager.setValue(
-              StorageManager.kFirstMatchTime, map["timestamp"] * 1000);
+          StorageManager.setValue(StorageManager.kFirstMatchTime, map["timestamp"] * 1000);
           if (Get.isRegistered<DialogMatchTopController>()) {
             // 防止多次弹窗
             SmartDialog.dismiss();
@@ -407,14 +380,10 @@ class UserController extends GetxController {
               ctr.countDownUtil.updateSeconds(10);
               ctr.update();
             } else {
-              SmartDialog.show(
-                  builder: (_) =>
-                      MatchTopDialog({'seconds': 10, 'player': player}));
+              SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
             }
           } else {
-            SmartDialog.show(
-                builder: (_) =>
-                    MatchTopDialog({'seconds': 10, 'player': player}));
+            SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
           }
         }
         break;
@@ -469,8 +438,7 @@ class UserController extends GetxController {
     int isauth = userProfile?.isAuth ?? 0;
     int level = userProfile?.sidekickLevel ?? 0;
     if (level == 0) {
-      if (isauth == TYPE_VIP)
-        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
