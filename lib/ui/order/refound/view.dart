@@ -60,17 +60,19 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 ))),
           ),
           lable('Refund Amount'.tr),
-          itemBg(rowLine(true, '${controller.order.priceWithSufix()}', Container())),
+          itemBg(rowLine(true, '${controller.order.price}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
             child: Row(
               children: [
                 ImageUtil.assetImage('ic_warn', width: 16.h, height: 16.h),
                 5.horizontalSpace,
-                Text(
-                  'The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.'.tr,
-                  style: TextStyle(
-                      fontFamily: FONT_BLACK, fontSize: 11.sp),
+                Expanded(
+                  child: Text(
+                    'The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.'.tr,
+                    style: TextStyle(
+                        fontFamily: FONT_BLACK, fontSize: 11.sp),
+                  ),
                 ),
               ],
             ),
