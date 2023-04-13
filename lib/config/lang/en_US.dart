@@ -722,7 +722,19 @@ const Map<String, String> en_US = {
   "The min price is 1":"The min price is 1",
   "The max price cannot be lower than the min price":"The max price cannot be lower than the min price",
   "Please enter the max price":"Please enter the max price",
-  "Please enter the min price":"Please enter the min price"
+  "Please enter the min price":"Please enter the min price",
+  "Sidekick Types ":"Sidekick Types ",
+  "(Optional)":"(Optional)",
+  "Additional Requests ":"Additional Requests ",
+  "Select Category":"Select Category",
+  "Select Game":"Select Game",
+  "Send":"Send",
+  "Server, Ranking, Roles etc.":"Service, Ranking, roles etc.",
+  "Service Type":"Service Type",
+  "Select Unit":"Service Unit",
+
+
+
 
 
 

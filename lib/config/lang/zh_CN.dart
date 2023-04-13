@@ -724,6 +724,19 @@ const Map<String, String> zh_CN = {
   "The max price cannot be lower than the min price":"最高价格不能低于最低价格",
   "Please enter the max price":"请输入最高价格",
   "Please enter the min price":"请输入最低价格",
+  "Sidekick Types ":"自定义选项 ",
+  "(Optional)":"(可选)",
+  "Additional Requests ":"其他需求 ",
+  "Select Category":"选择类别",
+  "Select Game":"选择游戏",
+  "Send":"发送",
+  "Server, Ranking, Roles etc.":"等级，角色，服务器，位置等",
+  "Service Type":"服务类型",
+  "Select Unit":"选择服务类型",
+
+
+
+
 
 
 
