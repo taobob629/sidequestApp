@@ -97,7 +97,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
             ),
             InkWell(
               child: ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w),
-              onTap: () => controller.toChat(context),
+              // onTap: () => controller.toChat(context),
             )
           ],
         ),
