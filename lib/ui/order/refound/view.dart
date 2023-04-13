@@ -17,6 +17,7 @@ import 'package:wy/ui/order/detail/widgets/widgets.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../image_utils.dart';
 import 'controller.dart';
 
 class OrderRefoundPage extends GetView<OrderRefoundController> {
@@ -31,8 +32,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
         bottomNavigationBar: Obx(() => Visibility(
               visible: controller.list.isNotEmpty,
               child: FloatingButton(
-                  label: "CONFIRM".tr,
-                  onTap: () => controller.submit()),
+                  label: "CONFIRM".tr, onTap: () => controller.submit()),
             )));
   }
 
@@ -47,11 +47,12 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
           InkWell(
             onTap: () => controller.choseReason(),
             child: itemBg(rowLine(
+                false,
                 'reason',
                 Row(
                   children: [
                     Obx(() => Text(
-                          '${controller.reason?.reason??''}',
+                          '${controller.reason?.reason ?? ''}',
                           style: textStyle,
                         )),
                     arrowMore(color: AppColor.textSubtitle, size: 13.w)
@@ -59,17 +60,19 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 ))),
           ),
           lable('Refund Amount'),
-          itemBg(rowLine('${controller.order.priceWithSufix()}', Container())),
+          itemBg(rowLine(true, '${controller.order.price}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
             child: Row(
               children: [
                 ImageUtil.assetImage('ic_warn', width: 16.h, height: 16.h),
                 5.horizontalSpace,
-                Text(
-                  'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund'.tr,
-                  style: TextStyle(
-                      fontFamily: FONT_BLACK, fontSize: 11.sp),
+                Expanded(
+                  child: Text(
+                    'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund'
+                        .tr,
+                    style: TextStyle(fontFamily: FONT_BLACK, fontSize: 11.sp),
+                  ),
                 ),
               ],
             ),
@@ -89,25 +92,25 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
           10.verticalSpace,
           Row(
             children: [
-              Row(
-                children: [
-                  ImageUtil.assetImage('ic_server', width: 18, height: 18),
-                  5.horizontalSpace,
-                  Text(
-                    'Custom Service'.tr+"\n",
-                    style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
-                  )
-                ],
+              ImageUtil.assetImage('ic_server', width: 18, height: 18),
+              5.horizontalSpace,
+              Text(
+                'Custom Service'.tr,
+                style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
               ),
               Spacer(),
-              InkWell(
-                onTap: () {
-                  launchUrl(Uri(scheme: 'mailto', path: '$contact_emal'));
-                },
-                child: Text(
-                  '$contact_emal',
-                  style:
-                      TextStyle(color: AppColor.yellow, fontFamily: FONT_MEDIUM, fontSize: 15.sp),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    launchUrl(Uri(scheme: 'mailto', path: '$contact_emal'));
+                  },
+                  child: Text(
+                    '$contact_emal',
+                    style: TextStyle(
+                        color: AppColor.yellow,
+                        fontFamily: FONT_MEDIUM,
+                        fontSize: 15.sp),
+                  ),
                 ),
               )
             ],
@@ -149,14 +152,21 @@ Widget lable(var text) => Container(
       ),
     );
 
-rowLine(var leftText, Widget rightWidget) {
+rowLine(bool ifShow, var leftText, Widget rightWidget) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
+      if (ifShow)
+        Image.asset(
+          ImageUtils.coinRed,
+          width: 15.w,
+          height: 15.w,
+        ),
+      if (ifShow) 5.horizontalSpace,
       Text(
         '$leftText',
         style: textStyle,
       ),
+      Spacer(),
       rightWidget
     ],
   );

@@ -359,18 +359,12 @@ class UserController extends GetxController {
       case 'match_order_player':
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
 
-        int? kFirstMatchTime = StorageManager.getValueByKey(StorageManager.kFirstMatchTime);
-        int inSeconds = 0;
-        if (kFirstMatchTime == null) {
-          // 没有保存的时间，说明是第一次，第一次都会弹出，只要大于15（因为15分钟以内只弹窗一次）就可以
-          inSeconds = 20 * 60;
-        } else {
-          inSeconds = DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(kFirstMatchTime)).inSeconds;
-        }
+        int inSeconds = DateTime.now()
+              .difference(DateTime.fromMillisecondsSinceEpoch(map["timestamp"] * 1000))
+              .inSeconds;
 
-        if (inSeconds > 15 * 60) {
-          // 15分钟以内只弹出一次，大于15分钟才弹出
-          StorageManager.setValue(StorageManager.kFirstMatchTime, map["timestamp"] * 1000);
+        if (inSeconds < 15 * 60) {
+          // 15分钟以内的才弹出
           if (Get.isRegistered<DialogMatchTopController>()) {
             // 防止多次弹窗
             SmartDialog.dismiss();
