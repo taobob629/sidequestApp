@@ -96,7 +96,7 @@ class SkillListPageController extends GetxController {
   Future<void> changeServiceStatus(SkillItemModel? item, bool checkState) async {
     EasyLoading.show();
     var response = await GamesApi.changeServiceStatus(
-        id: item?.id, skullAuthid: item?.skillAuthid, status: checkState ? 1 : 0);
+        id: item?.id, skillAuthid: item?.skillAuthid, status: checkState ? 1 : 0);
     EasyLoading.dismiss();
     if (response.statusCode == 200) {
       item?.enabled = checkState ? 1 : 0;

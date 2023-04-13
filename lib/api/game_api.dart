@@ -93,11 +93,11 @@ class GamesApi {
   /**
    *  id 子项id skullAuthid 服务id status 0关闭 1开启
    */
-  static Future<Response> changeServiceStatus({var id, var skullAuthid, var status}) async {
+  static Future<Response> changeServiceStatus({var id, var skillAuthid, var status}) async {
     Response response = await http.post(
         '/peiwan/app/service/changeStatus', queryParameters: Map<String, dynamic>()
       ..['id']=id
-      ..['skullAuthid']=skullAuthid
+      ..['skillAuthid']=skillAuthid
       ..['status']=status
     );
    return response;
