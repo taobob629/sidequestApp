@@ -43,11 +43,11 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          lable('Reason for refund'),
+          lable('Reason for refund'.tr),
           InkWell(
             onTap: () => controller.choseReason(),
             child: itemBg(rowLine(
-                'reason',
+                'Select a reason'.tr,
                 Row(
                   children: [
                     Obx(() => Text(
@@ -58,7 +58,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                   ],
                 ))),
           ),
-          lable('Refund Amount'),
+          lable('Refund Amount'.tr),
           itemBg(rowLine('${controller.order.priceWithSufix()}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
@@ -84,7 +84,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
           //         fontSize: 11.sp,
           //       ),
           //     )),
-          lable('Justification'),
+          lable('Justification'.tr),
           comments(),
           10.verticalSpace,
           Row(
