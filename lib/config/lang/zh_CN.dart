@@ -747,8 +747,12 @@ const Map<String, String> zh_CN = {
   "Cancel":"取消",
   "Set as background":"设为背景图",
   "Badge":"徽章",
-  "Services  ":"技能"
-
+  "Services  ":"技能",
+  "My Requirements":"我的要求",
+  "SideKick Match":"广播下单",
+  "unit":"单位",
+  "Stop Matching":"取消订单",
+  "Waiting for ":"等待时长",
 
 
 

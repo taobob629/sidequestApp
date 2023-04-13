@@ -16,7 +16,7 @@ class SideKickMatchSucPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'Sidekick Match',
+      title: 'Sidekick Match'.tr,
       resizeToAvoidBottomInset: false,
       body: Obx(
         () => Column(
@@ -408,7 +408,7 @@ class SideKickMatchSucPage extends StatelessWidget {
                       showIcon: true),
                   20.verticalSpace,
                   _commonWidget(
-                    'Unit'.tr,
+                    'Service Type'.tr,
                     _ctr.bean.unit,
                   ),
                   20.verticalSpace,

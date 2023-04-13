@@ -78,7 +78,7 @@ class SideKickMatchingPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Waiting for ',
+                        'Waiting for '.tr,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 14.sp,
@@ -145,7 +145,7 @@ class SideKickMatchingPage extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'Matching Requirements'.tr,
+                  'My Requirements'.tr,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 14.sp,

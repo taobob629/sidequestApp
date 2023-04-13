@@ -746,7 +746,12 @@ const Map<String, String> en_US = {
   "Cancel":"Cancel",
   "Set as background":"Set as background",
   "Badge":"Badge",
-  "Services  ":"Services"
+  "Services  ":"Services",
+  "My Requirements":"My Requirements",
+  "SideKick Match":"广播下单",
+  "unit":"单位",
+  "Stop Matching":"取消订单",
+  "Waiting for ":"等待时长",
 
 
 
