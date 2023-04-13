@@ -703,7 +703,8 @@ const Map<String, String> en_US = {
   "Enjoyment":"Enjoyment",
   "Friendless":"Friendless",
   "Order details":"Order details",
-
+  "User Rating":"User Rating",
+  "My Bookings":"My Bookings"
 
 
 };

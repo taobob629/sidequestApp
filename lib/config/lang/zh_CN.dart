@@ -292,13 +292,13 @@ const Map<String, String> zh_CN = {
   'The price cannot be greater than the maximum value': '价格不能高于区间最大值',
   'Please upload screenshot': '请上传游戏证明截图',
   'Submitted successfully': '提交成功',
-  'Service detail': '项目详情',
+  'Service detail': '游戏详情',
   'No service': '没有服务',
   'Select Service': '选择服务',
   'Level': '段位',
   'Price range': '价格区间',
   'Enable': '开启',
-  'Screenshot': '段位截图',
+  'Screenshot': '截图',
   'Uploading failed, please try again later': 'Uploading failed, please try again later',
   '￡10.99/30min': '￡10.99/30min',
   'Very Good': '非常好',
@@ -703,5 +703,7 @@ const Map<String, String> zh_CN = {
   "Enjoyment":"娱乐程度",
   "Friendless":"友好程度",
   "Order details":"订单详情",
+  "User Rating":"用户评分",
+  "My Bookings":"我的预定"
 
 };

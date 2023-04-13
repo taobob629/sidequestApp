@@ -94,7 +94,7 @@ class RatingCommentPage extends StatelessWidget {
                       height: 32.h,
                       child: Row(
                         children: [
-                          Text("Performance", style: TextStyle(color: Colors.white, fontSize: 13.sp)),
+                          Text("Performance".tr, style: TextStyle(color: Colors.white, fontSize: 13.sp)),
                           Spacer(),
                           RatingBar(
                             itemSize: 18.w,
@@ -120,7 +120,7 @@ class RatingCommentPage extends StatelessWidget {
                       height: 32.h,
                       child: Row(
                         children: [
-                          Text("Responsive", style: TextStyle(color: Colors.white, fontSize: 13.sp)),
+                          Text("Responsive".tr, style: TextStyle(color: Colors.white, fontSize: 13.sp)),
                           Spacer(),
                           RatingBar(
                             itemSize: 18.w,
@@ -146,7 +146,7 @@ class RatingCommentPage extends StatelessWidget {
                       height: 32.h,
                       child: Row(
                         children: [
-                          Text("Enjoyment", style: TextStyle(color: Colors.white, fontSize: 13.sp)),
+                          Text("Enjoyment".tr, style: TextStyle(color: Colors.white, fontSize: 13.sp)),
                           Spacer(),
                           RatingBar(
                             itemSize: 18.w,
@@ -172,7 +172,7 @@ class RatingCommentPage extends StatelessWidget {
                       height: 32.h,
                       child: Row(
                         children: [
-                          Text("Friendless", style: TextStyle(color: Colors.white, fontSize: 13.sp)),
+                          Text("Friendless".tr, style: TextStyle(color: Colors.white, fontSize: 13.sp)),
                           Spacer(),
                           RatingBar(
                             itemSize: 18.w,
