@@ -685,7 +685,14 @@ const Map<String, String> zh_CN = {
   "Method of receipt":"收款方式",
   "please input your account":"请输入账户",
   "+ Follow":"关注",
-  "Visitors":"访客"
+  "Visitors":"访客",
+  "Request a refund":"申请退款",
+  "Reason for refund":"退款原因",
+  "Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund":"陪玩同意退款后金币降自动返回你的账户中，你也可以联系客服获取帮助",
+  "Justification":"Justification",
+  "Custom Service":"官方客服",
+  "Refund Amount":"退款金额",
+  "Select a reason":"请选择原因"
 
 
 };
