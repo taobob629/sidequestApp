@@ -24,7 +24,7 @@ class RecordHeaderWidget extends GetView<RecordController> {
               ImageUtil.assetImage('app_logo', width: 42.w, height: 42.w),
               Dimens.dVerticalNomarl,
               Text(
-                'Introduce yourself in one \nsentence!',
+                'Introduce yourself in one'.tr+'\n'+'sentence!'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: FONT_LIGHT, fontSize: 16.sp),
               )

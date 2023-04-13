@@ -11,7 +11,6 @@ import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
 import '../../../../widget/home/sex_age_widget.dart';
-import '../../../controller/user_controller.dart';
 
 class VisitorPage extends StatelessWidget {
   final t = Get.put(VisitorListController());
@@ -31,7 +30,7 @@ class VisitorPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final model = t.list[index];
                     return Container(
-                      height: 50.h,
+                      height: 58.h,
                       margin:
                           EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                       child: Row(
@@ -73,7 +72,7 @@ class VisitorPage extends StatelessWidget {
                                 Text(
                                   model.signature,
                                   style: TextStyle(
-                                      fontSize: 12, color: AppColor.whiteGray),
+                                      fontSize: 12.sp, color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -81,7 +80,7 @@ class VisitorPage extends StatelessWidget {
                                 Text(
                                   model.vistTime,
                                   style: TextStyle(
-                                      fontSize: 10, color: AppColor.whiteGray),
+                                      fontSize: 10.sp, color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),

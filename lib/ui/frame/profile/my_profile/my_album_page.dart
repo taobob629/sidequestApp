@@ -26,7 +26,7 @@ class MyAlbumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: 'Ablum'.tr,
+        title: 'Album'.tr,
         body: Obx(() {
           return t.list.isEmpty?buildLoad():SmartRefresher(
               controller: t.refreshController,
@@ -97,7 +97,7 @@ class MyAlbumPage extends StatelessWidget {
                                   height: 52,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "Set as background",
+                                    "Set as background".tr,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -130,7 +130,7 @@ class MyAlbumPage extends StatelessWidget {
                                   height: 52,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "Delete",
+                                    "Delete".tr,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -148,7 +148,7 @@ class MyAlbumPage extends StatelessWidget {
                                     height: 52,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Cancel",
+                                      "Cancel".tr,
                                       style: TextStyle(fontSize: 16, color: Color(0xFFFFD20E)),
                                     ),
                                   ),
