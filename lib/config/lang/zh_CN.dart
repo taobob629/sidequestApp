@@ -704,6 +704,13 @@ const Map<String, String> zh_CN = {
   "Friendless":"友好程度",
   "Order details":"订单详情",
   "User Rating":"用户评分",
-  "My Bookings":"我的预定"
+  "My Bookings":"我的预定",
+  "Ablum":"相册",
+  "My Subscription":"我的订阅",
+  "Support":"帮助",
+  "Legal":"法规",
+  "Terms of use":"使用条款",
+  "Help Center":"帮助中心",
+  "Give us feedback":"反馈",
 
 };

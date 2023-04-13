@@ -704,7 +704,14 @@ const Map<String, String> en_US = {
   "Friendless":"Friendless",
   "Order details":"Order details",
   "User Rating":"User Rating",
-  "My Bookings":"My Bookings"
+  "My Bookings":"My Bookings",
+  "My Subscription":"My Subscription",
+  "Support":"Support",
+  "Legal":"Legal",
+  "Terms of use":"Terms of use",
+  "Help Center":"Help Center",
+  "Give us feedback":"Give us feedback",
+
 
 
 };

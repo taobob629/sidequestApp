@@ -26,7 +26,7 @@ class MyAlbumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: 'Ablum'.tr,
+        title: 'Album'.tr,
         body: Obx(() {
           return t.list.isEmpty?buildLoad():SmartRefresher(
               controller: t.refreshController,
