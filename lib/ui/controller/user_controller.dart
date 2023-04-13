@@ -23,6 +23,7 @@ import 'package:wy/model/user_model.dart';
 import 'package:wy/service/push_service.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/frame/messages/chat/chat_tool.dart';
 import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
@@ -135,8 +136,10 @@ class UserController extends GetxController {
           _cancelPayNotify();
         }
         list.forEach((payRecord) async {
-          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
+          print(
+              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(
+              payRecord.orderId, payRecord.tranId);
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -192,9 +195,16 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
+  Future<void> login(
+      {String? email,
+      String? password,
+      bool showLoading = false,
+      bool checkLastLoginTime = false,
+      Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
-      if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
         return;
       }
     }
@@ -211,7 +221,8 @@ class UserController extends GetxController {
     if (showLoading == true) {
       EasyLoading.show();
     }
-    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel =
+        await AuthApi.signIn(email, password).catchError((e) {
       EasyLoading.dismiss();
     });
 
@@ -239,7 +250,8 @@ class UserController extends GetxController {
     if (!kIsWeb) {
       ChannelPush.requestPermission();
       Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
+        final bool isUploadSuccess =
+            await ChannelPush.uploadToken(PushConfig.appInfo);
         // ignore: avoid_print
         print("Push token upload result: $isUploadSuccess");
       });
@@ -253,8 +265,10 @@ class UserController extends GetxController {
     String convId = extMsp["conversationID"] ?? "";
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
-        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
+        var conversationManager =
+            TencentImSDKPlugin.v2TIMManager.getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv =
+            await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
           Get.to(ChatPage(selectedConversation: conv.data!));
         }
@@ -266,8 +280,10 @@ class UserController extends GetxController {
     if (uk == null) {
       return;
     }
-    var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-    V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
+    var conversationManager =
+        TencentImSDKPlugin.v2TIMManager.getConversationManager();
+    V2TimValueCallback<V2TimConversation> conv =
+        await conversationManager.getConversation(conversationID: "c2c_${uk}");
     if (conv.data != null)
       Navigator.push(
           Get.context!,
@@ -290,13 +306,18 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
+      _coreInstance
+          .login(userID: "${userSig.uid}", userSig: userSig.token)
+          .then((value) async {
         imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(
-                listener: V2TimConversationListener(onTotalUnreadMessageCountChanged: (count) {
+        TencentImSDKPlugin.v2TIMManager
+            .getConversationManager()
+            .addConversationListener(
+                listener: V2TimConversationListener(
+                    onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
               FlutterAppBadger.isAppBadgeSupported().then((value) {
@@ -304,7 +325,8 @@ class UserController extends GetxController {
                 if (unreadMsgCount.value == 0) {
                   FlutterAppBadger.removeBadge();
                 } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                      title: 'New Message');
                 }
               });
             }, onConversationChanged: (v) {
@@ -312,7 +334,10 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager
+            .getMessageManager()
+            .addAdvancedMsgListener(listener:
+                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           if (msg.customElem?.data != null) {
             var data = msg.customElem!.data!;
@@ -402,6 +427,16 @@ class UserController extends GetxController {
             Get.back();
           }
           jumpChat(map["message"]["memberCode"]);
+        }
+        break;
+
+      case 'match_order_boss_cancel':
+        // 提示发单人未和接单人玩的
+        String str = Get.routing.current;
+        if (AppPages.side_kick_match_suc_page != str) {
+          SmartDialog.show(
+            builder: (_) => DialogShowInfo(map['content']),
+          );
         }
         break;
     }

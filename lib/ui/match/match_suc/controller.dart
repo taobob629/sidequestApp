@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
 
@@ -9,6 +10,7 @@ import '../../../event_bus/beans/match_event.dart';
 import '../../../event_bus/event_bus.dart';
 import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/match/match_operation_model.dart';
+import '../../common/dialog_show_info.dart';
 import '../../controller/user_controller.dart';
 import '../../frame/main_page.dart';
 import '../../frame/profile/other_profile/mdoel/player_info_mdoel.dart';
@@ -53,6 +55,9 @@ class SideKickMatchSucController extends GetxController {
         // 发单人取消，接单人如果还在这个页面则关闭
         if (bean.uid != UserController.find.userProfile.pwId) {
           Get.back();
+          SmartDialog.show(
+            builder: (_) => DialogShowInfo(map['content']),
+          );
         }
         break;
 
