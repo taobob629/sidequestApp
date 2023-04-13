@@ -733,6 +733,7 @@ const Map<String, String> zh_CN = {
   "Server, Ranking, Roles etc.":"等级，角色，服务器，位置等",
   "Service Type":"服务类型",
   "Select Unit":"选择服务类型",
+  "Sidekick Match":"广播下单"
 
 
 

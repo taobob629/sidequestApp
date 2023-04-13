@@ -732,6 +732,8 @@ const Map<String, String> en_US = {
   "Server, Ranking, Roles etc.":"Service, Ranking, roles etc.",
   "Service Type":"Service Type",
   "Select Unit":"Service Unit",
+  "Sidekick Match":"Sidekick Match"
+
 
 
 
