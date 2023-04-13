@@ -719,6 +719,13 @@ const Map<String, String> zh_CN = {
   "Post Detail":"动态详情",
   "reply ":"回复 ",
   "reply:":"回复:",
-  "Please enter comment!":"输入内容!"
+  "Please enter comment!":"输入内容!",
+  "The min price is 1":"最小价格为1金币",
+  "The max price cannot be lower than the min price":"最高价格不能低于最低价格",
+  "Please enter the max price":"请输入最高价格",
+  "Please enter the min price":"请输入最低价格",
+
+
+
 
 };

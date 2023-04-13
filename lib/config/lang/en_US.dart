@@ -718,7 +718,12 @@ const Map<String, String> en_US = {
   "Post Detail":"Post Detail",
   "reply ":"reply ",
   "reply:":"reply:",
-  "Please enter comment!":"Please enter comment!"
+  "Please enter comment!":"Please enter comment!",
+  "The min price is 1":"The min price is 1",
+  "The max price cannot be lower than the min price":"The max price cannot be lower than the min price",
+  "Please enter the max price":"Please enter the max price",
+  "Please enter the min price":"Please enter the min price"
+
 
 
 };
