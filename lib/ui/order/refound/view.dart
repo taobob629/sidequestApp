@@ -67,7 +67,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 ImageUtil.assetImage('ic_warn', width: 16.h, height: 16.h),
                 5.horizontalSpace,
                 Text(
-                  'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund'.tr,
+                  'The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.'.tr,
                   style: TextStyle(
                       fontFamily: FONT_BLACK, fontSize: 11.sp),
                 ),

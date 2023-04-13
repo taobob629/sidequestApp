@@ -688,11 +688,16 @@ const Map<String, String> zh_CN = {
   "Visitors":"访客",
   "Request a refund":"申请退款",
   "Reason for refund":"退款原因",
-  "Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund":"陪玩同意退款后金币降自动返回你的账户中，你也可以联系客服获取帮助",
+  "The coin will be refunded to your balance once the player agrees. If the player rejects your refund, you can ask for official help.":"陪玩同意退款后金币降自动返回你的账户中，你也可以联系客服获取帮助",
   "Justification":"Justification",
   "Custom Service":"官方客服",
   "Refund Amount":"退款金额",
-  "Select a reason":"请选择原因"
+  "Select a reason":"请选择原因",
+  "We suggest that you supplement the recording materials":"请上传录音",
+  "My Orders":"我的订单",
+  "Others":"其他",
+  "Order ID":"订单号",
+  "Order Time":"下单时间",
 
 
 };

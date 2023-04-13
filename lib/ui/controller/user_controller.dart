@@ -170,7 +170,7 @@ class UserController extends GetxController {
     if (userProfile.isAuth == TYPE_VIP && userProfile.voice.isEmpty) {
       Get.dialog(ConfirmDialog(
         title: 'Confirm'.tr,
-        info: 'We suggest that you supplement the recording materials',
+        info: 'We suggest that you supplement the recording materials'.tr,
         concelBtn: 'CANCEL'.tr,
         onConfirm: () {
           Get.back();
