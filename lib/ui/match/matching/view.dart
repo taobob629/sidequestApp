@@ -16,7 +16,7 @@ class SideKickMatchingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'Sidekick Match',
+      title: 'Sidekick Match'.tr,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -169,7 +169,7 @@ class SideKickMatchingPage extends StatelessWidget {
             ),
             20.verticalSpace,
             _commonWidget(
-              'Unit'.tr,
+              'Service Type'.tr,
               _ctr.model.unit,
             ),
             20.verticalSpace,

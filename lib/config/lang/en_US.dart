@@ -742,7 +742,7 @@ const Map<String, String> en_US = {
   "seconds ":"seconds ",
   "Record for at least ":"Record for at least ",
   "Introduce yourself in one":"Introduce yourself in one",
-  "sentence":"sentence",
+  "sentence!":"sentence!",
   "Cancel":"Cancel",
   "Set as background":"Set as background",
   "Badge":"Badge",
