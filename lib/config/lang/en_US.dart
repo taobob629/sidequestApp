@@ -711,7 +711,14 @@ const Map<String, String> en_US = {
   "Terms of use":"Terms of use",
   "Help Center":"Help Center",
   "Give us feedback":"Give us feedback",
-
+  'Price Range': 'Price Range',
+  "Post photos(Optional)":"Post photos(Optional)",
+  "Add content":"Add content",
+  "Post content":"Post content",
+  "Post Detail":"Post Detail",
+  "reply ":"reply ",
+  "reply:":"reply:",
+  "Please enter comment!":"Please enter comment!"
 
 
 };
