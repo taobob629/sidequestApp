@@ -27,19 +27,19 @@ List<Map> supports = [
     ..['title'] = 'FAQ'
     ..['action'] = () => EasyLoading.showToast('FAQ'),
   Map()
-    ..['title'] = 'Help Center'
-    ..['action'] = () => EasyLoading.showToast('Help Center'),
+    ..['title'] = 'Help Center'.tr
+    ..['action'] = () => EasyLoading.showToast('Help Center'.tr),
   Map()
-    ..['title'] = 'Give us feedback'
-    ..['action'] = () => EasyLoading.showToast('Give us feedback'),
+    ..['title'] = 'Give us feedback'.tr
+    ..['action'] = () => EasyLoading.showToast('Give us feedback'.tr),
 ];
 List<Map> legals = [
   Map()
-    ..['title'] = 'Terms of use'
-    ..['action'] = () => Get.to(WebPage(title: 'Terms of use', url: TermsAndConditionLink)),
+    ..['title'] = 'Terms of use'.tr
+    ..['action'] = () => Get.to(WebPage(title: 'Terms of use'.tr, url: TermsAndConditionLink)),
   Map()
-    ..['title'] = 'Privacy Policy'
-    ..['action'] = () => Get.to(WebPage(title: 'Privacy Policy', url: PrivacyPolicyLink)),
+    ..['title'] = 'Privacy Policy'.tr
+    ..['action'] = () => Get.to(WebPage(title: 'Privacy Policy'.tr, url: PrivacyPolicyLink)),
 ];
 
 class HomeDrawer extends StatelessWidget {
@@ -79,7 +79,7 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                _listItem('My Subscription', onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)?.whenComplete(() => UserController.instance().updateInfo())),
+                _listItem('My Subscription'.tr, onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)?.whenComplete(() => UserController.instance().updateInfo())),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -123,7 +123,7 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(text: 'Remaining game time: ', style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
+        TextSpan(text: 'Remaining game time: '.tr, style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
         TextSpan(text: '${user?.avamins}mins', style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
       ])),
     );

@@ -704,7 +704,40 @@ const Map<String, String> en_US = {
   "Friendless":"Friendless",
   "Order details":"Order details",
   "User Rating":"User Rating",
-  "My Bookings":"My Bookings"
+  "My Bookings":"My Bookings",
+  "My Subscription":"My Subscription",
+  "Support":"Support",
+  "Legal":"Legal",
+  "Terms of use":"Terms of use",
+  "Help Center":"Help Center",
+  "Give us feedback":"Give us feedback",
+  'Price Range': 'Price Range',
+  "Post photos(Optional)":"Post photos(Optional)",
+  "Add content":"Add content",
+  "Post content":"Post content",
+  "Post Detail":"Post Detail",
+  "reply ":"reply ",
+  "reply:":"reply:",
+  "Please enter comment!":"Please enter comment!",
+  "The min price is 1":"The min price is 1",
+  "The max price cannot be lower than the min price":"The max price cannot be lower than the min price",
+  "Please enter the max price":"Please enter the max price",
+  "Please enter the min price":"Please enter the min price",
+  "Sidekick Types ":"Sidekick Types ",
+  "(Optional)":"(Optional)",
+  "Additional Requests ":"Additional Requests ",
+  "Select Category":"Select Category",
+  "Select Game":"Select Game",
+  "Send":"Send",
+  "Server, Ranking, Roles etc.":"Service, Ranking, roles etc.",
+  "Service Type":"Service Type",
+  "Select Unit":"Service Unit",
+  "Sidekick Match":"Sidekick Match"
+
+
+
+
+
 
 
 };

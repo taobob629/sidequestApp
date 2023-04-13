@@ -88,7 +88,7 @@ class PostCommentsPage extends StatelessWidget {
                                   RichText(
                                       text: TextSpan(style: TextStyle(fontSize: 14, color: Colors.white), children: [
                                     if (model.isReply) ...[
-                                      TextSpan(text: "reply "),
+                                      TextSpan(text: "reply ".tr),
                                       TextSpan(text: model.nickname + " : ", style: TextStyle(color: AppColor.yellow, fontWeight: FontWeight.bold)),
                                     ],
                                     TextSpan(text: model.content),
@@ -132,7 +132,7 @@ class PostCommentsPage extends StatelessWidget {
                                     controller: t.commentController,
                                     focusNode: t.commentNode,
                                     decoration: InputDecoration(
-                                        hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:" + t.replyModel.value.nickname : "Comment",
+                                        hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:".tr + t.replyModel.value.nickname : "Comment".tr,
                                         hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
                                   ))),
                               GestureDetector(
@@ -215,7 +215,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
 
   postComment() {
     if (commentController.text.trim().isEmpty) {
-      EasyLoading.showInfo("Please enter comment!");
+      EasyLoading.showInfo("Please enter comment!".tr);
       return;
     }
     PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {

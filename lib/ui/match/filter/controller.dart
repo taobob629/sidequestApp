@@ -316,7 +316,7 @@ class SideKickMatchController extends GetxController {
     final result = await Get.dialog(
       SelectorDialog(
         items: items,
-        title: 'Select $flag',
+        title: 'Select $flag'.tr,
         showInfo: true,
       ),
       barrierColor: Colors.black26,

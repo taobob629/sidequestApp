@@ -238,7 +238,7 @@ class SideKickMatchPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Unit'.tr,
+                                    'Service Type'.tr,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.sp),
                                   ),
@@ -474,7 +474,7 @@ class SideKickMatchPage extends StatelessWidget {
               controller: _ctr.requestsPriceCtr,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Service, Ranking, roles etc.'.tr,
+                hintText: 'Server, Ranking, Roles etc.'.tr,
                 hintStyle: TextStyle(color: Color(0xffb2b9c9), fontSize: 14.sp),
                 helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
                 labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),

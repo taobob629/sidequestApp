@@ -704,6 +704,42 @@ const Map<String, String> zh_CN = {
   "Friendless":"友好程度",
   "Order details":"订单详情",
   "User Rating":"用户评分",
-  "My Bookings":"我的预定"
+  "My Bookings":"我的预定",
+  "Ablum":"相册",
+  "My Subscription":"我的订阅",
+  "Support":"帮助",
+  "Legal":"法规",
+  "Terms of use":"使用条款",
+  "Help Center":"帮助中心",
+  "Give us feedback":"反馈",
+  'Price Range': '价格区间',
+  "Post photos(Optional)":"图片(可选)",
+  "Add content":"请输入内容",
+  "Post content":"发布动态",
+  "Post Detail":"动态详情",
+  "reply ":"回复 ",
+  "reply:":"回复:",
+  "Please enter comment!":"输入内容!",
+  "The min price is 1":"最小价格为1金币",
+  "The max price cannot be lower than the min price":"最高价格不能低于最低价格",
+  "Please enter the max price":"请输入最高价格",
+  "Please enter the min price":"请输入最低价格",
+  "Sidekick Types ":"自定义选项 ",
+  "(Optional)":"(可选)",
+  "Additional Requests ":"其他需求 ",
+  "Select Category":"选择类别",
+  "Select Game":"选择游戏",
+  "Send":"发送",
+  "Server, Ranking, Roles etc.":"等级，角色，服务器，位置等",
+  "Service Type":"服务类型",
+  "Select Unit":"选择服务类型",
+  "Sidekick Match":"广播下单"
+
+
+
+
+
+
+
 
 };

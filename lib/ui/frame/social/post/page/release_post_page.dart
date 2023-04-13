@@ -27,7 +27,7 @@ class ReleasePostPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
-                  "Post content",
+                  "Post content".tr,
                   style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -47,7 +47,7 @@ class ReleasePostPage extends StatelessWidget {
                     maxLines: null,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Add content',
+                      hintText: 'Add content'.tr,
                       hintStyle: TextStyle(fontSize: 14, color: Color(0xFFC5C3C6)),
                       // counterText: "${t.textController.text.length}/500",
                       // counterStyle: TextStyle(color: Colors.white),
@@ -62,7 +62,7 @@ class ReleasePostPage extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                 child: Text(
-                  "Post photos(Optional)",
+                  "Post photos(Optional)".tr,
                   style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
               ),

@@ -30,7 +30,7 @@ class PostDetailPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: PageTitle(title: "Post Detail"),
+          title: PageTitle(title: "Post Detail".tr),
           elevation: 0,
         ),
         body: NestedScrollView(
