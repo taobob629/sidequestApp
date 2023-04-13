@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/api/auth_api.dart';
@@ -13,6 +14,7 @@ import 'package:wy/config/lang/translations.dart';
 import 'package:wy/model/version_model.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -59,11 +61,14 @@ class SettingsPage extends StatelessWidget {
             title: "About Us".tr,
             onTap: () => gotoAboutPage(context),
           ),
-          Obx(() => controller.online.value && userController.userProfile.vipLevel > 0
+          Obx(() => controller.online.value &&
+                  userController.userProfile.vipLevel > 0
               ? SettingItem(
                   title: "Cancel Subscription".tr,
-                  info: "${controller.getVipName(userController.userProfile.vipLevel)}",
-                  onTap: () => controller.cancelVip(userController.userProfile.vipLevel),
+                  info:
+                      "${controller.getVipName(userController.userProfile.vipLevel)}",
+                  onTap: () =>
+                      controller.cancelVip(userController.userProfile.vipLevel),
                 )
               : Container()),
           Obx(() => SettingItem(
@@ -124,7 +129,11 @@ class SettingsPageController extends GetxController {
     EasyLoading.show();
     VersionModel model = await IndexApi.checkVersion();
     if (!model.upgrade) {
-      EasyLoading.showInfo("You are using the latest version".tr);
+      EasyLoading.dismiss();
+      SmartDialog.show(
+        builder: (builder) =>
+            DialogShowInfo("You are using the latest version".tr),
+      );
     } else {
       EasyLoading.dismiss();
       Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);
