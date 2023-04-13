@@ -698,6 +698,10 @@ const Map<String, String> en_US = {
   "Others":"Others",
   "Order ID":"Order ID",
   "Order Time":"Order Time",
+  "Performance":"Performance",
+  "Responsive":"Responsive",
+  "Enjoyment":"Enjoyment",
+  "Friendless":"Friendless",
 
 
 };

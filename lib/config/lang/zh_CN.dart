@@ -698,6 +698,9 @@ const Map<String, String> zh_CN = {
   "Others":"其他",
   "Order ID":"订单号",
   "Order Time":"下单时间",
-
+  "Performance":"专业度",
+  "Responsive":"响应速度",
+  "Enjoyment":"娱乐程度",
+  "Friendless":"友好程度",
 
 };
