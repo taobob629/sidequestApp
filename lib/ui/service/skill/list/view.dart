@@ -114,18 +114,20 @@ class SkillListPage extends GetView<SkillListPageController> {
           divider,
           if (data.status == SkillModel.ONGOING)
             Container(
-              padding: EdgeInsets.only(top: 5).h,
-              child: Text(
+              padding: EdgeInsets.only(left:5.w,top: 5).h,
+              child: Row(children: [
+                ImageUtil.assetImage('ic_under_review',width:13.w,height: 13.w ),
+                4.horizontalSpace,
+                Text(
                 'under review'.tr,
-                style: TextStyle(color: AppColor.textC3, fontSize: 12.sp, fontFamily: FONT_LIGHT),
-              ),
+                style: TextStyle(color: Color(0xFF3F92FF), fontSize: 10.sp, fontFamily: FONT_LIGHT),
+              )],),
             ),
           if (data.status == SkillModel.DENIED)
             Container(
-              padding: EdgeInsets.only(top: 5).h,
+              padding: EdgeInsets.only(left:5.w,top: 5).h,
               child: Row(
                 children: [
-                  PWidget.text('${'REJECT'.tr}', [Colors.red, 12]),
                   Visibility(
                     visible: data.status == 2,
                     child: GestureDetector(
@@ -136,23 +138,13 @@ class SkillListPage extends GetView<SkillListPageController> {
                           tips: data.reason ?? "",
                         ));
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 6),
-                        width: 20,
-                        height: 20,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFFFC3C02), Color(0xFF841FC3)])),
-                        child: Text(
-                          "?".tr,
-                          style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 16),
-                        ),
-                      ),
+                      child: ImageUtil.assetImage('ic_info_red',width:13.w,height: 13.w ),
                     ),
+                  ),
+                  4.horizontalSpace,
+                  Text(
+                    'REJECT'.tr,
+                    style: TextStyle(color: Colors.red, fontSize: 10.sp, fontFamily: FONT_LIGHT),
                   )
                 ],
               ),

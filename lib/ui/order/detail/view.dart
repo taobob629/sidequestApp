@@ -80,11 +80,20 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              child: ImageUtil.networkImage(url: '${item?.userAvatar}', fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
-              onTap: () {
-                NavigatorHelper.toOtherProfile(item?.pwuserId);
-              },
+            Row(
+              children: [
+                GestureDetector(
+                  child: ImageUtil.networkImage(url: '${item?.userAvatar}', fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
+                  onTap: () {
+                    // NavigatorHelper.toOtherProfile(item?.pwuserId);
+                  },
+                ),
+                4.horizontalSpace,
+                Text(
+                  '${item?.nickName}',
+                  style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT),
+                )
+              ],
             ),
             InkWell(
               child: ImageUtil.assetImage('ic_message_yellow', width: 36.w, height: 36.w),
@@ -208,8 +217,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           rowLine2(
               'User Rating'.tr,
               Visibility(
-                //  visible: !readOnly(),
-                visible: false,
+                  //  visible: !readOnly(),
+                  visible: false,
                   child: InkWell(
                       onTap: () {
                         controller.finishOrder();
