@@ -92,17 +92,19 @@ class RecordViewPage extends GetView<RecordController> {
                           },
                         ),
                         50.horizontalSpace,
-                        InkWell(
-                          onTap: ()=>controller.onOk(),
-                          child: Container(
-                            width: 45.w,
-                            height: 45.w,
-                            padding: EdgeInsets.all(14).w,
-                            decoration: itemDecoration(radius: 45.w / 2),
-                            child: ImageUtil.assetImage('ic_ok',
-                                fit: BoxFit.scaleDown, width: 16.w, height: 16.w),
-                          ),
-                        )
+                        Obx(() => Visibility(
+                            visible: controller.recordFileUrl?.isNotEmpty == true,
+                            child: InkWell(
+                              onTap: () => controller.onOk(),
+                              child: Container(
+                                width: 45.w,
+                                height: 45.w,
+                                padding: EdgeInsets.all(14).w,
+                                decoration: itemDecoration(radius: 45.w / 2),
+                                child: ImageUtil.assetImage('ic_ok',
+                                    fit: BoxFit.scaleDown, width: 16.w, height: 16.w),
+                              ),
+                            )))
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
