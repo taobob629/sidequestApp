@@ -43,7 +43,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          lable('Reason for application'),
+          lable('Reason for refund'),
           InkWell(
             onTap: () => controller.choseReason(),
             child: itemBg(rowLine(
@@ -58,7 +58,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                   ],
                 ))),
           ),
-          lable('Application amount'),
+          lable('Refund Amount'),
           itemBg(rowLine('${controller.order.priceWithSufix()}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
@@ -67,24 +67,24 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 ImageUtil.assetImage('ic_warn', width: 16.h, height: 16.h),
                 5.horizontalSpace,
                 Text(
-                  'The order will be cancelled after the refund \n application is approved'.tr,
+                  'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund'.tr,
                   style: TextStyle(
-                      fontFamily: FONT_BLACK, fontSize: 13.sp, fontWeight: FontWeight.bold),
+                      fontFamily: FONT_BLACK, fontSize: 11.sp),
                 ),
               ],
             ),
           ),
-          Padding(
-              padding: EdgeInsets.only(left: 18, right: 18).r,
-              child: Text(
-                'This order uses the payment before use service. The actual payment for placing the order is 0 yuan. No refund will be generated after the refund application is approved'
-                    .tr,
-                style: TextStyle(
-                  fontFamily: FONT_LIGHT,
-                  fontSize: 11.sp,
-                ),
-              )),
-          lable('Application Description'),
+          // Padding(
+          //     padding: EdgeInsets.only(left: 18, right: 18).r,
+          //     child: Text(
+          //       'Coin will be refund to your balance once player agreed,you can ask official help if player reject your refund '
+          //           .tr,
+          //       style: TextStyle(
+          //         fontFamily: FONT_LIGHT,
+          //         fontSize: 11.sp,
+          //       ),
+          //     )),
+          lable('Justification'),
           comments(),
           10.verticalSpace,
           Row(
@@ -94,7 +94,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                   ImageUtil.assetImage('ic_server', width: 18, height: 18),
                   5.horizontalSpace,
                   Text(
-                    'Contact number'.tr,
+                    'Custom Service'.tr+"\n",
                     style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
                   )
                 ],
