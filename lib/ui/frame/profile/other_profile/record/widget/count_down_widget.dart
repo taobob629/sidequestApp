@@ -31,11 +31,11 @@ class CountDownWidget extends GetView<RecordController> {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: 'Record for at least ',
+                  text: 'Record for at least '.tr,
                   style: TextStyle(color: Color(0xffB2B9C9), fontSize: 12.sp)),
               TextSpan(text: '10 ', style: TextStyle(color: AppColor.textYellow, fontSize: 12.sp)),
               TextSpan(
-                  text: 'seconds ', style: TextStyle(color: Color(0xffB2B9C9), fontSize: 12.sp))
+                  text: 'seconds '.tr, style: TextStyle(color: Color(0xffB2B9C9), fontSize: 12.sp))
             ]))
           ],
         ));

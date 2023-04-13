@@ -733,7 +733,22 @@ const Map<String, String> zh_CN = {
   "Server, Ranking, Roles etc.":"等级，角色，服务器，位置等",
   "Service Type":"服务类型",
   "Select Unit":"选择服务类型",
-  "Sidekick Match":"广播下单"
+  "Sidekick Match":"广播下单",
+  "Upload success":"上传成功",
+  "Record":"录制",
+  "From File":"上传文件",
+  "Voice Record":"录音",
+  "Select type":"选择类型",
+  "Press and hold to record":"长按录音",
+  "seconds ":"秒 ",
+  "Record for at least ":"至少录制 ",
+  "Introduce yourself in one":"用一句话介绍你自己",
+  "sentence":"",
+  "Cancel":"取消",
+  "Set as background":"设为背景图",
+  "Badge":"徽章",
+  "Services  ":"技能"
+
 
 
 

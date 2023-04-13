@@ -732,7 +732,22 @@ const Map<String, String> en_US = {
   "Server, Ranking, Roles etc.":"Service, Ranking, roles etc.",
   "Service Type":"Service Type",
   "Select Unit":"Service Unit",
-  "Sidekick Match":"Sidekick Match"
+  "Sidekick Match":"Sidekick Match",
+  "Upload success":"Upload success",
+  "Record":"Record",
+  "From File":"From File",
+  "Voice Record":"Voice Record",
+  "Select type":"Select type",
+  "Press and hold to record":"Press and hold to record",
+  "seconds ":"seconds ",
+  "Record for at least ":"Record for at least ",
+  "Introduce yourself in one":"Introduce yourself in one",
+  "sentence":"sentence",
+  "Cancel":"Cancel",
+  "Set as background":"Set as background",
+  "Badge":"Badge",
+  "Services  ":"Services"
+
 
 
 

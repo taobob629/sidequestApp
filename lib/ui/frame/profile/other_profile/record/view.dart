@@ -108,7 +108,7 @@ class RecordViewPage extends GetView<RecordController> {
                     ),
                     Dimens.dVerticalNomarl,
                     Text(
-                      'Long press recording',
+                      'Press and hold to record'.tr,
                       style: TextStyle(fontFamily: FONT_LIGHT, fontSize: 14.sp),
                     )
                   ],

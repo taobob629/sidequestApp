@@ -28,7 +28,7 @@ class OtherDashboardPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       margin: EdgeInsets.only(bottom: 12),
                       child: Row(
-                        children: [Text("Badge", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
+                        children: [Text("Badge".tr, style: TextStyle(fontSize: 14.sp, color: Colors.white))],
                       ),
                     ),
                     Container(
@@ -51,7 +51,7 @@ class OtherDashboardPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     margin: EdgeInsets.only(bottom: 12),
                     child: Row(
-                      children: [Text("Services", style: TextStyle(fontSize: 14.sp, color: Colors.white))],
+                      children: [Text("Services  ".tr, style: TextStyle(fontSize: 14.sp, color: Colors.white))],
                     ),
                   ),
                   ...t.player.value.games
