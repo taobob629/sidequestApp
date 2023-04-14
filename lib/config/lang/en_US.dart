@@ -758,7 +758,8 @@ const Map<String, String> en_US = {
   "Are you sure confirm the order without any comments?":"Are you sure confirm the order without any comments?",
   "Date of birth":"Date of birth",
   "Are you sure to delete this post?":"Are you sure to delete this post?",
-
+  "Replied":"Replied",
+  "Praised":"Praised",
 
 
 
