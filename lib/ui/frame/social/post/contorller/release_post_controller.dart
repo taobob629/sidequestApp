@@ -7,12 +7,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/post_api.dart';
+import 'package:wy/ui/common/dialog_show_info.dart';
 
 class ReleasePostController extends GetxController {
   TextEditingController textController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  final photoList = <String>[].obs;
+  List<String> photoList = [];
+  final photoLocalFiles = <File>[].obs;
 
   @override
   void onInit() {
@@ -26,34 +28,49 @@ class ReleasePostController extends GetxController {
     super.onReady();
   }
 
-  pickUploadPhoto() {
-    _picker.pickImage(source: ImageSource.gallery).then((xfile) {
-      if (xfile != null) {
-        Common.uploadFile(File(xfile.path), (p0, p1) {
-          EasyLoading.show();
-        }).then((url) {
-          EasyLoading.dismiss();
-          if (url.isNotEmpty) {
-            photoList.add(url);
-          }
-        }).whenComplete(() => EasyLoading.dismiss());
-      }
-    }).onError((error, stackTrace) {
-      EasyLoading.dismiss();
-    });
+  pickUploadPhoto() async {
+    List<XFile> files = await _picker.pickMultiImage(imageQuality: 30);
+    if (files.isEmpty) {
+      return;
+    }
+
+    EasyLoading.show();
+    int length = files.length;
+    if (length > 9) {
+      showInfoDialog('only 9 pictures allowed'.tr);
+      length = 9;
+    }
+
+    photoLocalFiles.clear();
+    photoList.clear();
+    for (int i = 0; i < length; i++) {
+      File file = File(files[i].path);
+      photoLocalFiles.add(file);
+
+      Common.uploadFile(file, (p0, p1) {
+      }).then((url) {
+        if (url.isNotEmpty) {
+          photoList.add(url);
+        }
+      });
+    }
+    EasyLoading.dismiss();
   }
 
-  delPhoto(String photoUrl) {
-    photoList.remove(photoUrl);
+  delPhoto(File file) {
+    photoList.remove(file.path);
+    photoLocalFiles.remove(file);
   }
 
   submit() {
     if (textController.text.trim().isEmpty) {
-      EasyLoading.showToast("Please enter content");
+      showInfoDialog('Please enter content'.tr);
       return;
     }
     EasyLoading.show();
-    PostApi.releasePost(content: textController.text, images: jsonEncode(photoList)).then((value) {
+    PostApi.releasePost(
+            content: textController.text, images: jsonEncode(photoList))
+        .then((value) {
       Get.back(result: "ReloadData");
     }).onError((error, stackTrace) {
       EasyLoading.dismiss();

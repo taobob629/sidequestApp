@@ -1,12 +1,9 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
-import 'package:wy/utils/image_util.dart';
 
 class ReleasePostPage extends StatelessWidget {
   ReleasePostPage({Key? key}) : super(key: key);
@@ -72,8 +69,8 @@ class ReleasePostPage extends StatelessWidget {
                       runSpacing: 10,
                       spacing: 10,
                       children: [
-                        ...t.photoList.map(
-                          (photoUrl) {
+                        ...t.photoLocalFiles.map(
+                          (file) {
                             return Container(
                               width: (Get.width - 40 - 20) / 3,
                               height: (Get.width - 40 - 20) / 3,
@@ -87,16 +84,13 @@ class ReleasePostPage extends StatelessWidget {
                                 alignment: AlignmentDirectional.center,
                                 fit: StackFit.expand,
                                 children: [
-                                  ImageUtil.networkImage(
-                                    url: photoUrl,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  Image.file(file, fit: BoxFit.cover,),
                                   Positioned(
                                       right: 0,
                                       top: 0,
                                       child: GestureDetector(
                                         onTap: () {
-                                          t.delPhoto(photoUrl);
+                                          t.delPhoto(file);
                                         },
                                         child: Icon(
                                           Icons.delete_forever,
@@ -109,7 +103,7 @@ class ReleasePostPage extends StatelessWidget {
                             );
                           },
                         ).toList(),
-                        if (t.photoList.length <= 9)
+                        if (t.photoLocalFiles.length < 9)
                           GestureDetector(
                             onTap: t.pickUploadPhoto,
                             child: Container(
