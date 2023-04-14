@@ -36,37 +36,39 @@ class WyDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(30)),
         child: Stack(
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 40,),
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  width: double.infinity,
-                  height: height,
-                  padding: const EdgeInsets.only(top: 40),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: Color(0xFFFC3C02),width: 3),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 40,),
+                  Container(
+                    clipBehavior: Clip.antiAlias,
+                    width: double.infinity,
+                    height: height,
+                    padding: const EdgeInsets.only(top: 40),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Color(0xFFFC3C02),width: 3),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          right:-24,
+                          bottom: -20,
+                          width: width,
+                          child: Image.asset("assets/images/ic_dialog.webp",)
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 20),
+                          child: Center(child: child),
+                        )
+                      ],
+                    )
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        right:-24,
-                        bottom: -20,
-                        width: width,
-                        child: Image.asset("assets/images/ic_dialog.webp",)
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15,right: 15,bottom: 20),
-                        child: Center(child: child),
-                      )
-                    ],
-                  )
-                ),
-                SizedBox(height: 40,),
-              ],
+                  SizedBox(height: 40,),
+                ],
+              ),
             ),
             Positioned(
               left: 0,right: 0,top: 0,
