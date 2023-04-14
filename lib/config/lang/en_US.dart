@@ -742,16 +742,19 @@ const Map<String, String> en_US = {
   "seconds ":"seconds ",
   "Record for at least ":"Record for at least ",
   "Introduce yourself in one":"Introduce yourself in one",
-  "sentence":"sentence",
+  "sentence!":"sentence!",
   "Cancel":"Cancel",
   "Set as background":"Set as background",
   "Badge":"Badge",
   "Services  ":"Services",
   "My Requirements":"My Requirements",
-  "SideKick Match":"广播下单",
-  "unit":"单位",
-  "Stop Matching":"取消订单",
-  "Waiting for ":"等待时长",
+  "SideKick Match":"SideKick Match",
+  "unit":"unit",
+  "Stop Matching":"Stop Matching",
+  "Waiting for ":"Waiting for ",
+  "E-Player Introduction":"E-Player Introduction",
+  "Click to edit avatar":"Click to edit avatar"
+
 
 
 

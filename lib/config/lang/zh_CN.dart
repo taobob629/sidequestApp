@@ -743,7 +743,7 @@ const Map<String, String> zh_CN = {
   "seconds ":"秒 ",
   "Record for at least ":"至少录制 ",
   "Introduce yourself in one":"用一句话介绍你自己",
-  "sentence":"",
+  "sentence!":"",
   "Cancel":"取消",
   "Set as background":"设为背景图",
   "Badge":"徽章",
@@ -753,6 +753,8 @@ const Map<String, String> zh_CN = {
   "unit":"单位",
   "Stop Matching":"取消订单",
   "Waiting for ":"等待时长",
+  "E-Player Introduction":"自我介绍",
+  "Click to edit avatar":"点击编辑头像"
 
 
 
