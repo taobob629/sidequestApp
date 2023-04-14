@@ -55,9 +55,7 @@ class SideKickMatchSucController extends GetxController {
         // 发单人取消，接单人如果还在这个页面则关闭
         if (bean.uid != UserController.find.userProfile.pwId) {
           Get.back();
-          SmartDialog.show(
-            builder: (_) => DialogShowInfo(map['content']),
-          );
+          showInfoDialog(map['content']);
         }
         break;
 

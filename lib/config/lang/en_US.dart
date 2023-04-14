@@ -742,11 +742,23 @@ const Map<String, String> en_US = {
   "seconds ":"seconds ",
   "Record for at least ":"Record for at least ",
   "Introduce yourself in one":"Introduce yourself in one",
-  "sentence":"sentence",
+  "sentence!":"sentence!",
   "Cancel":"Cancel",
   "Set as background":"Set as background",
   "Badge":"Badge",
-  "Services  ":"Services"
+  "Services  ":"Services",
+  "My Requirements":"My Requirements",
+  "SideKick Match":"SideKick Match",
+  "unit":"unit",
+  "Stop Matching":"Stop Matching",
+  "Waiting for ":"Waiting for ",
+  "E-Player Introduction":"E-Player Introduction",
+  "Click to edit avatar":"Click to edit avatar",
+  "only 9 pictures allowed":"only 9 pictures allowed",
+  "Are you sure confirm the order without any comments?":"Are you sure confirm the order without any comments?",
+  "Date of birth":"Date of birth",
+
+
 
 
 

@@ -130,10 +130,7 @@ class SettingsPageController extends GetxController {
     VersionModel model = await IndexApi.checkVersion();
     if (!model.upgrade) {
       EasyLoading.dismiss();
-      SmartDialog.show(
-        builder: (builder) =>
-            DialogShowInfo("You are using the latest version".tr),
-      );
+      showInfoDialog("You are using the latest version".tr);
     } else {
       EasyLoading.dismiss();
       Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);

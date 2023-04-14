@@ -188,7 +188,6 @@ class AppPages {
 
     GetPage(name: OtherProfile, page: () => OtherProfilePage()),
     GetPage(name: SideKick, page: () => SideKickPage()),
-    GetPage(name: SideKick, page: () => SideKickPage()),
     GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
     GetPage(name: Record, page: () => RecordViewPage(), binding: RecordBinding()),
     GetPage(

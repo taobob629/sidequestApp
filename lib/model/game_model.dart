@@ -2,6 +2,7 @@
 import 'package:wy/config/app_config.dart';
 
 class GameModel {
+  late int gid;
   late String image;
   late String name;
   late int stars;
@@ -10,6 +11,7 @@ class GameModel {
   GameModel();
 
   GameModel.fromJson(Map<String, dynamic> json) {
+    gid = json['gid'];
     name = json['name'];
     stars = json['stars'];
     popular = json['popular'];

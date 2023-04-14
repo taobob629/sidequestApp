@@ -397,9 +397,7 @@ class UserController extends GetxController {
         // 提示发单人未和接单人玩的
         String str = Get.routing.current;
         if (AppPages.side_kick_match_suc_page != str) {
-          SmartDialog.show(
-            builder: (_) => DialogShowInfo(map['content']),
-          );
+          showInfoDialog(map['content']);
         }
         break;
     }

@@ -5,6 +5,12 @@ import 'package:get/get.dart';
 
 import '../../image_utils.dart';
 
+void showInfoDialog(String content) {
+  SmartDialog.show(
+    builder: (_) => DialogShowInfo(content),
+  );
+}
+
 class DialogShowInfo extends StatelessWidget {
   String content;
 

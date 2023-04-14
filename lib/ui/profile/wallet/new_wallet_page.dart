@@ -154,54 +154,86 @@ class NewWalletPage extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Container(
-                height: 88.h,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xff786728),
-                      width: 0.5.w,
-                    ),
-                    borderRadius: BorderRadius.circular(15.r)),
-                child: achievementItem(user.coin, 'ic_balance_money'),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (StorageManager.getOnline())
+                    Get.toNamed(AppPages.WALLET_PAGE,
+                        arguments: Map()..['page'] = 0);
+                },
+                child: Container(
+                  height: 88.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff786728),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.circular(15.r)),
+                  child: achievementItem(user.coin, 'ic_balance_money'),
+                ),
               ),
             ),
             6.horizontalSpace,
             Expanded(
-              child: Container(
-                height: 88.h,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xff786728),
-                      width: 0.5.w,
-                    ),
-                    borderRadius: BorderRadius.circular(15.r)),
-                child: achievementItem(user.diamond, 'diamonds_red'),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (StorageManager.getOnline())
+                    Get.toNamed(AppPages.WALLET_PAGE,
+                        arguments: Map()..['page'] = 1);
+                },
+                child: Container(
+                  height: 88.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff786728),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.circular(15.r)),
+                  child: achievementItem(user.diamond, 'diamonds_red'),
+                ),
               ),
             ),
             6.horizontalSpace,
             Expanded(
-              child: Container(
-                height: 88.h,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xff786728),
-                      width: 0.5.w,
-                    ),
-                    borderRadius: BorderRadius.circular(15.r)),
-                child: achievementItem(user.coupons, 'ic_coupons_new'),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  NavigatorHelper.gotoCouponTabPage(
+                      whenComplete: () =>
+                          UserController.instance().updateInfo());
+                },
+                child: Container(
+                  height: 88.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff786728),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.circular(15.r)),
+                  child: achievementItem(user.coupons, 'ic_coupons_new'),
+                ),
               ),
             ),
             6.horizontalSpace,
             Expanded(
-              child: Container(
-                height: 88.h,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xff786728),
-                      width: 0.5.w,
-                    ),
-                    borderRadius: BorderRadius.circular(15.r)),
-                child: achievementItem(user.balanceMoney(), 'ic_corns_new'),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (StorageManager.getOnline())
+                    Get.to(() => BalancePage())?.whenComplete(
+                        () => UserController.instance().updateInfo());
+                },
+                child: Container(
+                  height: 88.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff786728),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.circular(15.r)),
+                  child: achievementItem(user.balanceMoney(), 'ic_corns_new'),
+                ),
               ),
             ),
           ],
@@ -216,41 +248,16 @@ class NewWalletPage extends StatelessWidget {
         fontFamily: FONT_MEDIUM);
     double width = 24.w;
     double height = 24.w;
-    return GestureDetector(
-      onTap: () {
-        switch (icon) {
-          case 'ic_balance_money':
-            if (StorageManager.getOnline())
-              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-            break;
-          case 'ic_coupons_new':
-            NavigatorHelper.gotoCouponTabPage(
-                whenComplete: () => UserController.instance().updateInfo());
-            break;
-          case 'diamonds_red':
-            StorageManager.getOnline()
-                ? Get.toNamed(AppPages.WALLET_PAGE,
-                    arguments: Map()..['page'] = 1)
-                : null;
-            break;
-          case 'ic_corns_new':
-            if (StorageManager.getOnline())
-              Get.to(() => BalancePage())
-                  ?.whenComplete(() => UserController.instance().updateInfo());
-            break;
-        }
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ImageUtil.assetImage(icon, width: width, height: height),
-          17.verticalSpace,
-          Text(
-            '$text',
-            style: textStyle,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ImageUtil.assetImage(icon, width: width, height: height),
+        17.verticalSpace,
+        Text(
+          '$text',
+          style: textStyle,
+        ),
+      ],
     );
   }
 
