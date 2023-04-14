@@ -12,13 +12,13 @@ class PostItemModel {
   RxBool isPraise = RxBool(false);
   String content = "";
   int uid = 0;
-  int id=0;
+  int id = 0;
 
   List<String> get imageList {
     if (images.contains("[") && images.contains("]")) {
       return jsonDecode(images).cast<String>();
     } else {
-      return [images, images];
+      return [];
     }
   }
 
@@ -34,6 +34,6 @@ class PostItemModel {
     isPraise.value = (json["isPraise"] ?? 0) == 1;
     content = json["content"] ?? "";
     uid = json["uid"] ?? 0;
-    id= json["id"] ?? 0;
+    id = json["id"] ?? 0;
   }
 }

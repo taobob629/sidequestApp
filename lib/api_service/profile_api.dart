@@ -22,6 +22,18 @@ abstract class ProfileApi {
     return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
   }
 
+  /// profile-post  帖子列表
+  static Future<List<PostItemModel>> getMyRepliedPostList({int page = 0, uid}) async {
+    var response = await http.get('/peiwan/app/posts/myreply', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
+  }
+
+  /// profile-post  帖子列表
+  static Future<List<PostItemModel>> getMyPraisedPostList({int page = 0, uid}) async {
+    var response = await http.get('/peiwan/app/posts/mypraise', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
+  }
+
   /// profile-post  点赞/取消点赞
   static Future praisePost({int postId = 0}) async {
     var response = await http.get('/peiwan/app/posts/praise', queryParameters: {

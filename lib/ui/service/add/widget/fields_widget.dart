@@ -46,7 +46,7 @@ class FieldsWidget extends GetView<AddGamePageController> {
   fieldsItem(FieldsItem field) {
     return Container(
       constraints: BoxConstraints(minHeight: 45.h),
-      padding: itemPadding(),
+      padding: EdgeInsets.only(left: 15,right: 15).w,
       decoration: innerDecoration(),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -112,5 +112,5 @@ class FieldsWidget extends GetView<AddGamePageController> {
   }
 
   TextStyle text_style() => TextStyle(
-      color: textColor, fontSize: 12.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis);
+      color: textColor, fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis);
 }

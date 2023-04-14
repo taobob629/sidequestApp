@@ -754,7 +754,10 @@ const Map<String, String> zh_CN = {
   "Stop Matching":"取消订单",
   "Waiting for ":"等待时长",
   "E-Player Introduction":"自我介绍",
-  "Click to edit avatar":"点击编辑头像"
+  "Click to edit avatar":"点击编辑头像",
+  "only 9 pictures allowed":"最多上传9张图片",
+  "Are you sure confirm the order without any comments?":"你还没有输入评价，确认提交吗？",
+  "Date of birth":"生日",
 
 
 

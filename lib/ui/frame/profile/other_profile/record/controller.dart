@@ -13,8 +13,16 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/voice_record.dart';
 
 class RecordController extends BasePageController {
+  int minSeconds = 3;
   int maxSeconds = 60;
   RxInt _countDownNum = RxInt(0);
+  RxBool _isRecording=RxBool(false);
+
+  bool get isRecording => _isRecording.value;
+
+  set isRecording(bool value) {
+    _isRecording.value = value;
+  }
 
   int get countDownNum => _countDownNum.value;
 
@@ -43,8 +51,14 @@ class RecordController extends BasePageController {
   void onInit() {
     _record = VoiceRecord(
       (int sec, String path) {
-        recordFileUrl = path;
         //onComplete(sec, path);
+        flog('录制时长 $sec');
+        if(sec<minSeconds){
+          err('The recording duration shall not be less than 3 seconds'.tr);
+          stopRecord();
+          return;
+        }
+        recordFileUrl = path;
       },
       maxSeconds: 60,
     );
@@ -52,7 +66,6 @@ class RecordController extends BasePageController {
     flog('recordFileUrl $recordFileUrl');
     super.onInit();
   }
-
   @override
   void onClose() {
     super.onClose();
@@ -73,11 +86,13 @@ class RecordController extends BasePageController {
   }
 
   startRecord() {
+    isRecording=true;
     startTimer();
     _record.start();
   }
 
   stopRecord() {
+    isRecording=false;
     //countDownNum = 0;
     _record.stop();
     timerTask?.cancel();

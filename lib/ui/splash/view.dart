@@ -22,11 +22,7 @@ class SplashPage extends GetView<SplashPageController> {
       body: Container(
         width: Get.width,
         height: Get.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: NetworkImage(splashBg),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter)),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/im/splash.png"), fit: BoxFit.fitWidth, alignment: Alignment(1, -0.5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -54,19 +50,15 @@ class SplashPage extends GetView<SplashPageController> {
                   height: 40,
                   borderRadius: BorderRadius.all(Radius.circular(16)).w,
                   tapCallback: () => controller.toRegister(),
-                  child:
-                      Text('Get Started', style: TextStyle(color: Colors.white, fontSize: 16.sp))),
+                  child: Text('Get Started', style: TextStyle(color: Colors.white, fontSize: 16.sp))),
             ),
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16).r,
               child: GradientButton(
                   height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(16)).w,
-                      border: Border.all(color: Colors.grey, width: 1)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w, border: Border.all(color: Colors.grey, width: 1)),
                   tapCallback: () => controller.toLogin(),
-                  child: Text('I already have an account',
-                      style: TextStyle(color: Colors.white, fontSize: 16.sp))),
+                  child: Text('I already have an account', style: TextStyle(color: Colors.white, fontSize: 16.sp))),
             ),
           ],
         ),

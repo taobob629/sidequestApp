@@ -24,7 +24,7 @@ class BirthdaySelector extends StatelessWidget {
               value.year == DateTime.now().year &&
                       value.month == DateTime.now().month &&
                       value.day == DateTime.now().day
-                  ? "Select Birthday".tr
+                  ? "Date of birth".tr
                   : formatDate(value, [dd, '/', mm, '/', yyyy]),
               style: TextStyle(
                   color: value.year == DateTime.now().year ? AppColor.whiteGray : Colors.white,

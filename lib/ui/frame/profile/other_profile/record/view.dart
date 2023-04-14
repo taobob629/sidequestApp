@@ -33,7 +33,7 @@ class RecordViewPage extends GetView<RecordController> {
                     RecordHeaderWidget(),
                     CountDownWidget(),
                     Obx(() => Visibility(
-                        visible: controller.countDownNum > 0,
+                        visible: controller.isRecording,
                         child: Container(
                           padding: EdgeInsets.only(top: 50.h),
                           child: Lottie.asset(
