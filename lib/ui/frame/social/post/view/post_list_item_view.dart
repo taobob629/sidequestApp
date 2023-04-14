@@ -83,6 +83,7 @@ class PostListItemView extends StatelessWidget {
                           maxLines: null,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        15.horizontalSpace
                       ],
                     ),
                   )),
@@ -90,9 +91,10 @@ class PostListItemView extends StatelessWidget {
                     GestureDetector(
                       onTap: () => onDelete?.call(),
                       child: Container(
-                        child: Image.asset(
-                          "assets/images/ic_delete2.webp",
-                          width: 20,
+                        child: Icon(
+                          Icons.more_horiz,
+                          size: 20,
+                          color: Colors.white,
                         ),
                       ),
                     )

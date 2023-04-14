@@ -1,62 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wy/api_service/profile_api.dart';
-import 'package:wy/common/getx_refresh_controller.dart';
-import 'package:wy/config/app_pages.dart';
-import 'package:wy/ui/common/base_scaffold.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/profile/my_profile/post/my_praised_post_page.dart';
+import 'package:wy/ui/frame/profile/my_profile/post/my_released_post_page.dart';
+import 'package:wy/ui/frame/profile/my_profile/post/my_replied_post_page.dart';
 
-import '../../social/post/view/post_list_item_view.dart';
+import '../../../../config/app_color.dart';
+import '../../../../config/icon_font.dart';
 import '../model/post_item_model.dart';
 
 class MyPostsPage extends StatelessWidget {
   MyPostsPage({Key? key}) : super(key: key);
 
-  final t = Get.put(ProfilePostsController());
-
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-        title: 'Post'.tr,
-        body: Container(
-          child: SmartRefresher(
-              controller: t.refreshController,
-              onRefresh: t.onRefresh,
-              onLoading: t.loadMore,
-              enablePullUp: true,
-              enablePullDown: true,
-              child: CustomScrollView(
-                slivers: [
-                  Obx(() {
-                    return SliverList(
-                        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                      return PostListItemView(
-                        model: t.list[index],
-                        isSelf: true,
-                        onTap: () {
-                          Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
-                        },
-                        onDelete: () {
-                          t.deletePost(t.list[index].id);
-                        },
-                      );
-                    }, childCount: t.list.length));
-                  })
-                ],
-              )),
-        ));
+    final t = Get.put(ProfilePostsController());
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "My Posts",
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        bottom: PreferredSize(
+            preferredSize: Size(double.infinity, 40),
+            child: Container(
+              // color: Colors.amber,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
+                child: TabBar(
+                  controller: t.tabController,
+                  isScrollable: false,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: AppColor.textC5C5,
+                  indicatorColor: Color(0xFFFFCB0D),
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 2,
+                  indicatorPadding: EdgeInsets.only(bottom: 5),
+                  labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                  labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                  unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                  tabs: [
+                    Text(
+                      "My Released".tr,
+                    ),
+                    Text(
+                      "My Replied".tr,
+                    ),
+                    Text(
+                      "My Praised".tr,
+                    )
+                  ],
+                ),
+              ),
+            )),
+      ),
+      body: TabBarView(controller: t.tabController, children: [
+        MyReleasedPostPage(),
+        MyRepliedPostPage(),
+        MyPraisedPostPage(),
+      ]),
+    );
   }
 }
 
-class ProfilePostsController extends GetxRefreshController<PostItemModel> with GetSingleTickerProviderStateMixin {
+class ProfilePostsController extends GetxController with GetSingleTickerProviderStateMixin {
   static ProfilePostsController get find => Get.find();
+  late TabController tabController;
 
   final list = <PostItemModel>[].obs;
 
   @override
   void onInit() {
+    tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+
     super.onInit();
   }
 
@@ -69,19 +85,19 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
   //   ProfileApi.praisePost(postId: post.uid).then((value) {
   //   });
   // }
-  deletePost(postId) {
-    Get.dialog(ConfirmDialog(
-      title: "Confirm".tr,
-      info: "Are you sure to delete this post?".tr,
-      concelBtn: "Cancel",
-      onConfirm: () {
-        Get.back();
-        ProfileApi.deletePost(postId: postId).then((value) {
-          onRefresh();
-        });
-      },
-    ));
-  }
+  // deletePost(postId) {
+  //   Get.dialog(ConfirmDialog(
+  //     title: "Confirm".tr,
+  //     info: "Are you sure to delete this post?".tr,
+  //     concelBtn: "Cancel",
+  //     onConfirm: () {
+  //       Get.back();
+  //       ProfileApi.deletePost(postId: postId).then((value) {
+  //         onRefresh();
+  //       });
+  //     },
+  //   ));
+  // }
 
   @override
   void onClose() {
@@ -89,11 +105,11 @@ class ProfilePostsController extends GetxRefreshController<PostItemModel> with G
     super.onClose();
   }
 
-  @override
-  Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
-    // TODO: implement loadData
-    return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.pwId);
+  // @override
+  // Future<List<PostItemModel>> loadData({int pageNum = 0}) async {
+  //   // TODO: implement loadData
+  //   return await ProfileApi.getPostList(page: pageNum, uid: UserController.find.userProfile.pwId);
 
-    throw UnimplementedError();
-  }
+  //   throw UnimplementedError();
+  // }
 }

@@ -11,6 +11,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
@@ -50,12 +51,17 @@ class PostCommentsPage extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipOval(
-                              child: ImageUtil.networkImage(
-                                url: model.isReply ? model.replyHead : model.head,
-                                fit: BoxFit.cover,
-                                width: 50,
-                                height: 50,
+                            GestureDetector(
+                              onTap: () {
+                                NavigatorHelper.toOtherProfile(model.uid);
+                              },
+                              child: ClipOval(
+                                child: ImageUtil.networkImage(
+                                  url: model.isReply ? model.replyHead : model.head,
+                                  fit: BoxFit.cover,
+                                  width: 50,
+                                  height: 50,
+                                ),
                               ),
                             ),
                             Expanded(
