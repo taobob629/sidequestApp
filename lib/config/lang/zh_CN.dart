@@ -758,7 +758,7 @@ const Map<String, String> zh_CN = {
   "only 9 pictures allowed":"最多上传9张图片",
   "Are you sure confirm the order without any comments?":"你还没有输入评价，确认提交吗？",
   "Date of birth":"生日",
-
+  "Are you sure to delete this post?":"确定删除该动态?",
 
 
 
