@@ -54,7 +54,7 @@ class ProfileEditPage extends StatelessWidget {
                           )),
                       12.verticalSpace,
                       Text(
-                        "Edit your personal avatar",
+                        "Click to edit avatar".tr,
                         style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
                       )
                     ],

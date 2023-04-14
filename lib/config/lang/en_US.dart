@@ -752,7 +752,9 @@ const Map<String, String> en_US = {
   "unit":"unit",
   "Stop Matching":"Stop Matching",
   "Waiting for ":"Waiting for ",
-  "E-Player Introduction":"E-Player Introduction"
+  "E-Player Introduction":"E-Player Introduction",
+  "Click to edit avatar":"Click to edit avatar"
+
 
 
 

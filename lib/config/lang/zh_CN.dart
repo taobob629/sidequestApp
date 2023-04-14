@@ -753,7 +753,8 @@ const Map<String, String> zh_CN = {
   "unit":"单位",
   "Stop Matching":"取消订单",
   "Waiting for ":"等待时长",
-  "E-Player Introduction":"自我介绍"
+  "E-Player Introduction":"自我介绍",
+  "Click to edit avatar":"点击编辑头像"
 
 
 
