@@ -142,12 +142,13 @@ class ChatPage extends StatelessWidget {
         }
       },
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
-        var data = jsonDecode(message.customElem!.data!);
+        var json = jsonDecode(message.customElem!.data!);
+        var data = json;
         var type = data['type'];
         if (data["message"] != null) {
           data = data['message'];
         }
-        print(data);
+        print('data = $data');
         double? customHeight = height;
         switch (type) {
           case "TopUp_Credit":
@@ -171,6 +172,9 @@ class ChatPage extends StatelessWidget {
           onTap: () {
             if (type == "play_order") {
               Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
+            } else if (type == "TopUp_Credit") {
+              int orderId = json['orderId'];
+              Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)?.whenComplete(() => _getPlayOrder());
             }
           },
           child: Container(
