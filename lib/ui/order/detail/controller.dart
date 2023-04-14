@@ -200,7 +200,7 @@ class OrderDetailPageController extends BasePageController {
             title: 'Confirm'.tr,
             concelBtn: 'Cancel'.tr,
             cancelable: true,
-            info: 'Are you sure not to submit any evaluation content? ',
+            info: 'Are you sure confirm the order without any comments? ',
             onConfirm: () async {
               Get.back(result: true);
             },

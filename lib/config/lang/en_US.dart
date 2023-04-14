@@ -753,7 +753,11 @@ const Map<String, String> en_US = {
   "Stop Matching":"Stop Matching",
   "Waiting for ":"Waiting for ",
   "E-Player Introduction":"E-Player Introduction",
-  "Click to edit avatar":"Click to edit avatar"
+  "Click to edit avatar":"Click to edit avatar",
+  "only 9 pictures allowed":"only 9 pictures allowed",
+  "Are you sure confirm the order without any comments?":"Are you sure confirm the order without any comments?",
+  "Date of birth":"Date of birth",
+
 
 
 
