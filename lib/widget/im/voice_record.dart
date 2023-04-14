@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -19,6 +20,7 @@ class VoiceRecord {
   RecordFc callback;
   Timer? timerTask;
   var maxSeconds; //最大秒数，可以发送的最大时长
+  var minSeconds=3; //最小时长
   VoiceRecord(this.callback, {this.maxSeconds = 2 * 60})
       : _tag = DateTime.now().millisecondsSinceEpoch;
 
