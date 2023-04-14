@@ -748,10 +748,11 @@ const Map<String, String> en_US = {
   "Badge":"Badge",
   "Services  ":"Services",
   "My Requirements":"My Requirements",
-  "SideKick Match":"广播下单",
-  "unit":"单位",
-  "Stop Matching":"取消订单",
-  "Waiting for ":"等待时长",
+  "SideKick Match":"SideKick Match",
+  "unit":"unit",
+  "Stop Matching":"Stop Matching",
+  "Waiting for ":"Waiting for ",
+  "E-Player Introduction":"E-Player Introduction"
 
 
 
