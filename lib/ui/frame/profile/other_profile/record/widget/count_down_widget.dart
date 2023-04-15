@@ -33,7 +33,7 @@ class CountDownWidget extends GetView<RecordController> {
               TextSpan(
                   text: 'Record for at least '.tr,
                   style: TextStyle(color: Color(0xffB2B9C9), fontSize: 12.sp)),
-              TextSpan(text: '3 ', style: TextStyle(color: AppColor.textYellow, fontSize: 12.sp)),
+              TextSpan(text: '${controller.minSeconds} ', style: TextStyle(color: AppColor.textYellow, fontSize: 12.sp)),
               TextSpan(
                   text: 'seconds '.tr, style: TextStyle(color: Color(0xffB2B9C9), fontSize: 12.sp))
             ]))
