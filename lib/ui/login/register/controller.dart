@@ -42,7 +42,7 @@ class RegisterPageController extends GetxController {
   String password = "";
   String pin = "";
 //  String firstName = "";
- // String lastName = "";
+  // String lastName = "";
   String nick = "";
   String phone = "";
   String uid = "";
@@ -137,9 +137,7 @@ class RegisterPageController extends GetxController {
     }
 
     if (DatetimeUtils.getAge(birthday.value) < 13) {
-      EasyLoading.showInfo(
-          "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-              .tr);
+      EasyLoading.showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr);
       return;
     }
 
@@ -170,10 +168,7 @@ class RegisterPageController extends GetxController {
   void setBirthday(DateTime? date) {
     if (date != null) {
       if (DatetimeUtils.getAge(date) < 13) {
-        EasyLoading.showError(
-            "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-                .tr,
-            duration: Duration(seconds: 4));
+        EasyLoading.showError("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr, duration: Duration(seconds: 4));
         return;
       }
       this.birthday.value = date;
@@ -187,9 +182,9 @@ class RegisterPageController extends GetxController {
     code = codeEditingController.text.trim();
     password = passwordEditingController.text.trim();
     //firstName = firstEditingController.text.trim();
-   // lastName = lastEditingController.text.trim();
+    // lastName = lastEditingController.text.trim();
     nick = nickEditingController.text.trim();
-    phone = phoneEditingController.text.trim();
+    // phone = phoneEditingController.text.trim();
     invite = inviteEditingController.text.trim();
     pin = pinEditingController.text.trim();
 
@@ -243,21 +238,16 @@ class RegisterPageController extends GetxController {
           pin,
           invite,
           sex.value);
-      await EasyLoading.showSuccess(
-          "Congratulations and welcome, please sign in with your new account!".tr,
-          duration: Duration(seconds: 3));
+      await EasyLoading.showSuccess("Congratulations and welcome, please sign in with your new account!".tr, duration: Duration(seconds: 3));
     } else {
-      await AuthApi.updateProfile(password, nick, phone, email,
-          formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), code, uid, pin, loginModel!.token);
+      await AuthApi.updateProfile(password, nick, phone, email, formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), code, uid, pin, loginModel!.token);
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
       UserController userController = Get.find<UserController>();
       await userController.login();
-      await EasyLoading.showSuccess(
-          "Congratulations and welcome, your profile has been updated!".tr,
-          duration: Duration(seconds: 3));
+      await EasyLoading.showSuccess("Congratulations and welcome, your profile has been updated!".tr, duration: Duration(seconds: 3));
     }
-    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login) ,arguments: Map()..['fromRegister'] = true);
+    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login), arguments: Map()..['fromRegister'] = true);
     // Get.back();
   }
 }

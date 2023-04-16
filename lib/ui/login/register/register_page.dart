@@ -270,10 +270,11 @@ class RegisterPage extends GetView<RegisterPageController> {
       // color: Colors.yellow,
       child: InternationalPhoneNumberInput(
         onInputChanged: (PhoneNumber number) {
-          print(number.phoneNumber);
+          var phoneParts = number.phoneNumber!.split(number.dialCode!);
+          controller.phone = "${number.dialCode!} ${phoneParts.last}";
         },
         onInputValidated: (bool value) {
-          print(value);
+          // print(value);
         },
         selectorConfig: SelectorConfig(
           selectorType: PhoneInputSelectorType.DROPDOWN,
@@ -283,20 +284,22 @@ class RegisterPage extends GetView<RegisterPageController> {
         selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
         textStyle: TextStyle(color: AppColor.colorB9C9),
         inputDecoration: InputDecoration(
-          hintText: "Phone Number".tr,
+          hintText: "Phone number",
           hintStyle: TextStyle(color: AppColor.colorB9C9),
           labelStyle: TextStyle(color: AppColor.colorB9C9),
           helperStyle: TextStyle(color: AppColor.colorB9C9),
         ),
-        initialValue: PhoneNumber(isoCode: 'NG'),
+        initialValue: PhoneNumber(isoCode: "NG"),
         textFieldController: controller.phoneEditingController,
         formatInput: true,
-        hintText: "Phone number",
         cursorColor: Colors.white,
+        hintText: "Phone number",
         keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
         inputBorder: OutlineInputBorder(),
         onSaved: (PhoneNumber number) {
           print('On Saved: $number');
+          // t.phone.value = number.toString();
+          // print(t.phone.value);
         },
       ),
     ));
