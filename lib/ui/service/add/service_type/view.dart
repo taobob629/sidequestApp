@@ -106,7 +106,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
                 ImageUtil.assetImage('ic_add', imageType: IMG_PNG, width: 20.w, height: 20.w),
                 10.horizontalSpace,
                 Text(
-                  'Add More Service Types',
+                  'Add More Service Types'.tr,
                   style: PageStyle.btnStyle,
                 )
               ],

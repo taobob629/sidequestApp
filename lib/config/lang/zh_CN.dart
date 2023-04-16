@@ -762,6 +762,8 @@ const Map<String, String> zh_CN = {
   "Replied":"我的回复",
   "Praised":"我的收藏",
   "My Posts":"我的动态",
+  "Add More Service Types":"添加更多服务类型",
+
 
 
 
