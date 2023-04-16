@@ -84,6 +84,7 @@ class EditAddressPage extends StatelessWidget {
               InputView(
                   decoration: intputDecoration,
                   label: "First Name".tr,
+                  autoHeight: true,
                   tips: "Input your first name".tr,
                   textInputType: TextInputType.name,
                   controller: controller.firstNameController),
