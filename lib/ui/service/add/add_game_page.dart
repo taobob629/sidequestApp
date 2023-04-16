@@ -11,13 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/res/styles.dart';
+import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/permission_helper.dart';
@@ -25,6 +28,7 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
@@ -95,14 +99,7 @@ class _AddGamePageState extends State<AddGamePage> {
         Expanded(
           child: Obx(() => controller.isEdit && controller.serviceModel == null
               ? buildLoad()
-              : MyListView(
-            isShuaxin: false,
-            flag: false,
-            item: (i) => item[i],
-            itemCount: item.length,
-            padding: EdgeInsets.all(20).w,
-            divider: Divider(height: 15.h, color: Colors.transparent),
-          )),
+              : gameMaterialsView(context)),
         ),
       ]),
       btnBar: Column(
@@ -161,11 +158,11 @@ class _AddGamePageState extends State<AddGamePage> {
         {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14), 'fun': fun});
   }
 
-  List<Widget> get item {
-    return [
-      gameMaterialsView(),
-    ];
-  }
+  // List<Widget> get item {
+  //   return [
+  //     gameMaterialsView(),
+  //   ];
+  // }
 
   void selectAvatar(BuildContext context) async {
     var status = await PermissionHelper.requestPhotosPermission(context);
@@ -207,12 +204,16 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   ///技能录入
-  Widget gameMaterialsView() {
+  Widget gameMaterialsView(BuildContext context) {
     return Column(
       children: [
         Container(
           padding: EdgeInsets.only(bottom: 10).h,
-          child: TipsWidegt(title: 'Service detail'.tr,tips: 'service_detail_tips'.tr,),),
+          child: TipsWidegt(
+            title: 'Service detail'.tr,
+            tips: 'service_detail_tips'.tr,
+          ),
+        ),
         outerBg(
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -373,22 +374,41 @@ class _AddGamePageState extends State<AddGamePage> {
                 //   ])),
                 Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
                 Obx(() => Visibility(
-                    visible: controller.isShowVoice,
-                    child: InkWell(
-                      onTap: () => controller.toRecordPage(),
-                      child: itemBg(Container(
-                        alignment: Alignment.centerLeft,
-                        child: Obx(() => Text(
-                              '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
-                                  .tr,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: textColor,
-                                  fontSize: 13.sp,
-                                  overflow: TextOverflow.ellipsis),
+                         visible: controller.isShowVoice,
+                    child: Obx(() => controller.voiceUrl.isEmpty
+                        ? InkWell(
+                            onTap: () => controller.toRecordPage(context),
+                            child: itemBg(Container(
+                              alignment: Alignment.centerLeft,
+                              child: Obx(() => Text(
+                                    '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
+                                        .tr,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        color: textColor,
+                                        fontSize: 13.sp,
+                                        overflow: TextOverflow.ellipsis),
+                                  )),
                             )),
-                      )),
-                    ))),
+                          )
+                        : Container(
+                      constraints: BoxConstraints(minHeight: 45.h),
+                      padding: EdgeInsets.only(left: 15,right: 15).w,
+                      decoration: innerDecoration(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        Text('Voice',style: text_style(),),
+                        Spacer(),
+                        VoiceWidget(
+                          maginBottom: 0,
+                        pwId: UserController.find.userProfile.pwId,
+                        voice: controller.voiceUrl,
+                        play: () =>
+                            AudioManager.instance.play(controller.voiceUrl),
+                        toRecordPage: () => UserController.find.toRecordPage(context),
+                      )],),)))),
                 16.verticalSpace,
                 iDPhotoView()
               ],
@@ -397,7 +417,48 @@ class _AddGamePageState extends State<AddGamePage> {
       ],
     );
   }
-
+  
+  TextStyle text_style() => TextStyle(
+      color: textColor, fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis);
+  column_item(var text) {
+    return Container(
+      constraints: BoxConstraints(minHeight: 45.h),
+      padding: EdgeInsets.only(left: 15,right: 15).w,
+      decoration: innerDecoration(),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '+ Add Voice'.tr,
+            style: text_style(),
+          ),
+          8.horizontalSpace,
+          Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                      child: Obx(() => Text(
+                        '',
+                        textAlign: TextAlign.right,
+                        style: text_style(),
+                      ))),
+                  InkWell(
+                    onTap: () {
+                    },
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: textColor,
+                      size: 16,
+                    ),
+                  )
+                ],
+              ))
+        ],
+      ),
+    );
+  }
   fieldsRange(BuildContext? context) => FieldsWidget();
 
   ///游戏图像
