@@ -760,6 +760,7 @@ const Map<String, String> en_US = {
   "Are you sure to delete this post?":"Are you sure to delete this post?",
   "Replied":"Replied",
   "Praised":"Praised",
+  "My Posts":"My Posts",
 
 
 

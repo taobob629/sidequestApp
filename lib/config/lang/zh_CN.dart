@@ -761,6 +761,7 @@ const Map<String, String> zh_CN = {
   "Are you sure to delete this post?":"确定删除该动态?",
   "Replied":"我的回复",
   "Praised":"我的收藏",
+  "My Posts":"我的动态",
 
 
 
