@@ -62,11 +62,11 @@ class PostApi {
   }
 
   /// Social-Post  帖子列表
-  static Future getGiftsList({int pageNum = 0}) async {
-    var response = await http.get('/peiwan/app/new/home/postGifts', queryParameters: {
+  static Future<GiftSummary> getGiftsList({int pageNum = 0}) async {
+    var response = await http.get('/peiwan/app/new/home/gifts', queryParameters: {
       "pageNum": pageNum,
-      "pageSize": 6,
+      "pageSize": 20,
     });
-    return response.data;
+    return GiftSummary.fromJson(response.data);
   }
 }

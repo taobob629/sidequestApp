@@ -68,6 +68,7 @@ class ChatPage extends StatelessWidget {
                         GiveGiftsDialog(
                           receiverId: pwId,
                           postId: "",
+                          avatar: selectedConversation.faceUrl ?? "",
                           source: 1,
                         ),
                         ignoreSafeArea: true);

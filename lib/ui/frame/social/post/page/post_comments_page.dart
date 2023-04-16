@@ -160,6 +160,7 @@ class PostCommentsPage extends StatelessWidget {
                                 GiveGiftsDialog(
                                   receiverId: t.postItem.uid.toString(),
                                   postId: t.postItem.id.toString(),
+                                  avatar: t.postItem.head,
                                 ),
                                 ignoreSafeArea: true);
                             if (heartNum != null) {

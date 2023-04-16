@@ -211,6 +211,7 @@ class PostListItemView extends StatelessWidget {
                               GiveGiftsDialog(
                                 receiverId: model.uid.toString(),
                                 postId: model.id.toString(),
+                                avatar: model.head,
                               ),
                               ignoreSafeArea: true);
                           if (heartNum != null) {

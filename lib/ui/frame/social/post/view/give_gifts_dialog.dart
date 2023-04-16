@@ -2,19 +2,24 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/post_api.dart';
+import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../pay/controller.dart';
 
 class GiveGiftsDialog extends StatelessWidget {
-  GiveGiftsDialog({Key? key, required this.receiverId, required this.postId, this.source = 0}) : super(key: key);
+  GiveGiftsDialog({Key? key, required this.receiverId, required this.postId, required this.avatar, this.source = 0}) : super(key: key);
   final String receiverId;
   final String postId;
+  final String avatar;
 
   /// "送礼物场景，0: post，1:聊天，2:直播间
   int source = 0;
@@ -25,18 +30,25 @@ class GiveGiftsDialog extends StatelessWidget {
 
     return Obx(() {
       return Container(
-        height: 420,
+        height: 386.h,
         decoration: BoxDecoration(
           color: AppColor.itemBg,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         ),
         child: Column(
           children: [
+            CsIntimacyProgress(
+              firstAvatar: avatar,
+              secondAvatar: UserController.find.userProfile.avatar,
+              lv: t.summary.value.currentLevel,
+              currentIntimacy: t.summary.value.currentValue,
+              maxIntimacy: t.summary.value.nextLevelValue,
+            ).marginOnly(left: 15, right: 15, top: 12),
             Container(
-              padding: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 15),
+              padding: EdgeInsets.only(left: 20, top: 12, right: 20, bottom: 15),
               child: Row(
                 children: [
-                  Text("Gift List", style: TextStyle(color: Colors.white, fontSize: 21)),
+                  Text("Gift List", style: TextStyle(color: Colors.white, fontSize: 21, fontFamily: FONT_MEDIUM)),
                   Spacer(),
                   GestureDetector(
                     onTap: () => Get.back(),
@@ -46,82 +58,64 @@ class GiveGiftsDialog extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Swiper(
-              autoplay: false,
-              loop: false,
-              itemCount: t.pageList.length,
-              pagination: SwiperPagination(
-                  alignment: Alignment(0, 1.2),
-                  builder: DotSwiperPaginationBuilder(
-                    color: Color(0xFF2D2E3C),
-                    activeColor: Colors.white,
-                    size: 6,
-                    activeSize: 6,
-                    space: 6,
+              child: Obx(() => SmartRefresher(
+                    controller: t.refreshController,
+                    onRefresh: () => t.onRefresh(),
+                    onLoading: () => t.loadMore(),
+                    enablePullUp: true,
+                    child: GridView.count(
+                      crossAxisCount: 4,
+                      childAspectRatio: 87 / 97.0,
+                      children: t.list.map((gift) {
+                        bool isSelect = gift.id == t.selectGift.value.id;
+                        return GestureDetector(
+                          onTap: () {
+                            t.selectGift.value = gift;
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: isSelect ? Border.all(color: AppColor.yellow) : null,
+                              boxShadow: isSelect
+                                  ? [
+                                      BoxShadow(
+                                        offset: Offset(0, 10),
+                                        blurRadius: 10,
+                                        spreadRadius: 0.5,
+                                        color: Color(0x337524C3),
+                                      )
+                                    ]
+                                  : null,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ImageUtil.networkImage(
+                                  url: gift.gifticon,
+                                  fit: BoxFit.cover,
+                                  width: 42.w,
+                                  height: 42.h,
+                                ),
+                                Text(gift.giftname, style: TextStyle(color: Colors.white, fontSize: 14)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: AssetImage('assets/images/ic_balance_money.webp'),
+                                      width: 12,
+                                      height: 12,
+                                    ),
+                                    Text("${gift.needcoin}", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   )),
-              itemBuilder: (context, index) {
-                var section = t.pageList[index];
-                return Container(
-                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 40),
-                  // color: Colors.lightBlue,
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: section.giftList.map((gift) {
-                      bool isSelect = gift.id == t.selectGift.value.id;
-                      return GestureDetector(
-                        onTap: () {
-                          t.selectGift.value = gift;
-                          t.pageList.refresh();
-                        },
-                        child: Container(
-                          width: (Get.width - 60) / 3,
-                          height: 110,
-                          decoration: BoxDecoration(
-                            border: isSelect ? Border.all(color: AppColor.yellow) : null,
-                            boxShadow: isSelect
-                                ? [
-                                    BoxShadow(
-                                      offset: Offset(0, 10),
-                                      blurRadius: 10,
-                                      spreadRadius: 0.5,
-                                      color: Color(0x337524C3),
-                                    )
-                                  ]
-                                : null,
-                            color: AppColor.color2E3C,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ImageUtil.networkImage(
-                                url: gift.gifticon,
-                                fit: BoxFit.cover,
-                                width: 60,
-                                height: 70,
-                              ),
-                              Text(gift.giftname, style: TextStyle(color: Colors.white, fontSize: 14)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: AssetImage('assets/images/ic_balance_money.webp'),
-                                    width: 12,
-                                    height: 12,
-                                  ),
-                                  Text("${gift.needcoin}", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
-            )),
+            ),
             Container(
               height: 40,
               margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
@@ -192,11 +186,9 @@ class GiveGiftsDialog extends StatelessWidget {
   }
 }
 
-class GiveGiftController extends GetxController {
-  final pageList = <GiftSection>[].obs;
-
+class GiveGiftController extends GetxRefreshController<GiftModel> {
   final selectGift = GiftModel().obs;
-
+  final summary = GiftSummary().obs;
   final buyNum = 1.obs;
 
   String _receiverId = "";
@@ -207,28 +199,27 @@ class GiveGiftController extends GetxController {
     _postId = postId;
     this.source = source;
   }
-  int totalGifts = 0;
 
   @override
   void onInit() {
+    pageSize = 20;
     // TODO: implement onInit
-    loadData(1);
     super.onInit();
   }
 
-  loadData(pageNum) {
-    PostApi.getGiftsList(pageNum: pageNum).then((res) {
-      if (res is Map) {
-        totalGifts = res["total"];
-        var tempSection = GiftSection(index: pageNum, giftList: (res["rows"] as List).map((e) => GiftModel.fromJson(e)).toList());
-        pageList.add(tempSection);
-        pageNum += 1;
-        if (totalGifts / 6 >= pageNum - 1) {
-          loadData(pageNum);
-        }
-      }
-    });
-  }
+  // loadData(pageNum) {
+  //   PostApi.getGiftsList(pageNum: pageNum).then((res) {
+  //     if (res is Map) {
+  //       totalGifts = res["data"]["total"];
+  //       var tempSection = GiftSection(index: pageNum, giftList: (res["data"]["rows"] as List).map((e) => GiftModel.fromJson(e)).toList());
+  //       pageList.add(tempSection);
+  //       pageNum += 1;
+  //       if (totalGifts / 6 >= pageNum - 1) {
+  //         loadData(pageNum);
+  //       }
+  //     }
+  //   });
+  // }
 
   calBuyNum({bool isAdd = true}) {
     print("++++++++");
@@ -265,13 +256,74 @@ class GiveGiftController extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
+
+  @override
+  Future<List<GiftModel>> loadData({int pageNum = 1}) async {
+    // TODO: implement loadData
+    GiftSummary model = await PostApi.getGiftsList(pageNum: pageNum);
+    summary.value = model;
+    return model.data.rows;
+  }
 }
 
-class GiftSection {
-  int index = 0;
-  List<GiftModel> giftList = [];
+class GiftSummary {
+  String currentLevel = "";
+  String image = "";
+  GiftData data = GiftData();
+  int nextLevelValue = 0;
+  String nextLevel = "";
+  int currentValue = 0;
 
-  GiftSection({this.index = 0, this.giftList = const []});
+  GiftSummary();
+
+  GiftSummary.fromJson(Map<String, dynamic> json) {
+    currentLevel = json['currentLevel'] ?? currentLevel;
+    image = json['image'] ?? image;
+    data = json['data'] != null ? new GiftData.fromJson(json['data']) : GiftData();
+    nextLevelValue = json['nextLevelValue'] ?? nextLevelValue;
+    nextLevel = json['nextLevel'] ?? nextLevel;
+    currentValue = json['currentValue'] ?? currentValue;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['currentLevel'] = this.currentLevel;
+    data['image'] = this.image;
+    data['data'] = this.data.toJson();
+    data['nextLevelValue'] = this.nextLevelValue;
+    data['nextLevel'] = this.nextLevel;
+    data['currentValue'] = this.currentValue;
+    return data;
+  }
+}
+
+class GiftData {
+  int total = 0;
+  List<GiftModel> rows = [];
+  int code = 0;
+  String msg = "";
+
+  GiftData();
+
+  GiftData.fromJson(Map<String, dynamic> json) {
+    total = json['total'] ?? 0;
+    if (json['rows'] != null) {
+      rows = <GiftModel>[];
+      json['rows'].forEach((v) {
+        rows.add(new GiftModel.fromJson(v));
+      });
+    }
+    code = json['code'] ?? 0;
+    msg = json['msg'] ?? "";
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total'] = this.total;
+    data['code'] = this.code;
+    data['msg'] = this.msg;
+    return data;
+  }
 }
 
 class GiftModel {

@@ -19,6 +19,7 @@ import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../model/pay_info_model.dart';
 import '../../../../model/skill_model.dart';
+import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/route.dart';
 import '../../../service/add/add_game_page.dart';
 import '../../messages/chat/chat_page.dart';
@@ -57,7 +58,7 @@ class OtherProfilePage extends StatelessWidget {
                           style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: (238 + 200).h - Get.mediaQuery.padding.top,
+                    expandedHeight: (248 + 200 - Get.mediaQuery.padding.top - (t.isSelf ? 66 : 0)).h,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
@@ -100,7 +101,7 @@ class OtherProfilePage extends StatelessWidget {
                                                 child: ImageUtil.networkImage(
                                                   url: t.player.value.avatar,
                                                   width: 65.w,
-                                                  height: 60.h,
+                                                  height: 65.h,
                                                   fit: BoxFit.cover,
                                                 ),
                                               )),
@@ -154,76 +155,16 @@ class OtherProfilePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Container(
-                              height: 36.h,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(18.r),
-                                  gradient: LinearGradient(colors: [
-                                    Color(0xFFF1A067),
-                                    // Color(0xFFF7DDAE),
-                                    // Color(0xFFB0B7FA),
-                                    Color(0xFFB46AF4),
-                                    Color(0xFF8367F6),
-                                  ])),
-                              child: Row(
-                                children: [
-                                  6.horizontalSpace,
-                                  Container(
-                                    height: 24.h,
-                                    width: 44.w,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Positioned(
-                                          left: 0,
-                                          child: ExtendedImage.network(
-                                            t.player.value.avatar,
-                                            border: Border.all(color: Colors.white, width: 1),
-                                            shape: BoxShape.circle,
-                                            width: 24.w,
-                                            height: 24.h,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 0,
-                                          child: ExtendedImage.network(
-                                            UserController.find.userProfile.avatar,
-                                            border: Border.all(color: Colors.white, width: 1),
-                                            shape: BoxShape.circle,
-                                            width: 24.w,
-                                            height: 24.h,
-                                          ),
-                                        ),
-                                        Image.asset("assets/images/icon_loveship.webp", width: 12.w, height: 12.h)
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 30.w,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${t.player.value.intimacyLevel}",
-                                      style: TextStyle(fontSize: 10.sp, color: Colors.white, fontFamily: FONT_LIGHT),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: CsIntimacyProgressView(
-                                    firstAvatar: t.player.value.avatar,
-                                    secondAvatar: UserController.find.userProfile.avatar,
-                                    currentIntimacy: t.player.value.currentIntimacy,
-                                    maxIntimacy: t.player.value.maxIntimacy,
-                                  )),
-                                  Container(
-                                    width: 70.w,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "${t.player.value.currentIntimacy}/${t.player.value.maxIntimacy}",
-                                      style: TextStyle(fontSize: 9.sp, color: Colors.white, fontFamily: FONT_LIGHT),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ).marginSymmetric(horizontal: 14, vertical: 15),
+                            Visibility(
+                              visible: !t.isSelf,
+                              child: CsIntimacyProgress(
+                                firstAvatar: t.player.value.avatar,
+                                secondAvatar: UserController.find.userProfile.avatar,
+                                lv: t.player.value.intimacyLevel,
+                                currentIntimacy: t.player.value.currentIntimacy,
+                                maxIntimacy: t.player.value.maxIntimacy,
+                              ).marginSymmetric(horizontal: 14, vertical: 15),
+                            ),
                             Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: Column(
@@ -399,15 +340,16 @@ class OtherProfilePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
-                              height: 46.h,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
+                                ),
                               ),
                             ),
                             Column(
@@ -481,83 +423,89 @@ class OtherProfilePage extends StatelessWidget {
               body: TabBarView(controller: t.tabController, children: createPages())),
           if (!t.isSelf)
             Positioned(
-                bottom: Get.mediaQuery.padding.bottom + 20,
-                left: 15,
-                right: 15,
-                height: 42.h,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 42.h + Get.mediaQuery.padding.bottom + 20,
                 child: Visibility(
                   visible: !t.isSelf,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTapDown: (details) {
-                          t.followOrNot(context, details.globalPosition);
-                        },
-                        child: Obx(() => Visibility(
+                  child: Container(
+                    color: AppColor.itemBg,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTapDown: (details) {
+                            t.followOrNot(context, details.globalPosition);
+                          },
+                          child: Obx(() => Visibility(
+                                visible: !t.player.value.follow,
+                                child: Container(
+                                  width: 110.w,
+                                  height: 42.h,
+                                  margin: EdgeInsets.only(left: 15),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    border: t.player.value.follow ? null : Border.all(color: AppColor.yellow),
+                                    gradient: t.player.value.follow ? LinearGradient(colors: AppColor.yellowGradient) : null,
+                                    borderRadius: BorderRadius.circular(21.r),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 10.w),
+                                        child: Image.asset(
+                                          "assets/images/profile/followed.webp",
+                                          width: 16,
+                                          // color: t.player.value.follow ? AppColor.accent : AppColor.yellow,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Follow".tr,
+                                        style: TextStyle(color: AppColor.yellow, fontSize: 14.sp),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              t.jumpChat(t.player.value.uk);
+                            },
+                            child: Visibility(
                               child: Container(
-                                width: 110.w,
-                                height: double.infinity,
+                                height: 42.h,
+                                margin: EdgeInsets.symmetric(horizontal: 15),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.yellow),
+                                  gradient: LinearGradient(colors: AppColor.yellowGradient),
                                   borderRadius: BorderRadius.circular(21.r),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(right: 10.w),
+                                      padding: const EdgeInsets.only(right: 5),
                                       child: Image.asset(
-                                        t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
+                                        "assets/images/profile/icon_pinlun.webp",
                                         width: 16,
-                                        color: AppColor.yellow,
+                                        color: Colors.white,
                                       ),
                                     ),
                                     Text(
-                                      t.player.value.follow ? "unFollow".tr : "Follow".tr,
-                                      style: TextStyle(color: AppColor.yellow, fontSize: 14.sp),
+                                      "Messages".tr,
+                                      style: TextStyle(color: Colors.white, fontSize: 14),
                                     ),
                                   ],
                                 ),
                               ),
-                            )),
-                      ),
-                      12.horizontalSpace,
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            t.jumpChat(t.player.value.uk);
-                          },
-                          child: Visibility(
-                            child: Container(
-                              height: double.infinity,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: AppColor.yellowGradient),
-                                borderRadius: BorderRadius.circular(21.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      "assets/images/profile/icon_pinlun.webp",
-                                      width: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Messages".tr,
-                                    style: TextStyle(color: Colors.white, fontSize: 14),
-                                  ),
-                                ],
-                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ))
         ],
@@ -587,61 +535,6 @@ class OtherProfilePage extends StatelessWidget {
     pages.add(OtherPostsPage());
     pages.add(OtherAlbumPage());
     return pages;
-  }
-}
-
-class CsIntimacyProgressView extends StatelessWidget {
-  CsIntimacyProgressView({Key? key, this.firstAvatar = "", this.secondAvatar = "", this.currentIntimacy = 0, this.maxIntimacy = 1000}) : super(key: key);
-
-  String firstAvatar = "";
-  String secondAvatar = "";
-  int currentIntimacy = 0;
-  int maxIntimacy = 1000;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.centerLeft,
-      children: [
-        Container(
-          height: 6.h,
-          decoration: BoxDecoration(color: Color(0xFFB0B7FA), borderRadius: BorderRadius.circular(3.r)),
-        ),
-        Row(
-          children: [
-            Expanded(
-              flex: currentIntimacy == 0 ? 1 : currentIntimacy,
-              child: Stack(
-                alignment: Alignment.centerLeft,
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    height: 13,
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      height: 6.h,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            Color(0xFFF7DDAE),
-                            Color(0xFFF1A067),
-                          ]),
-                          borderRadius: BorderRadius.circular(3.r)),
-                    ),
-                  ),
-                  Positioned(
-                    left: (currentIntimacy / maxIntimacy < 13 / 190.0) ? 0 : null,
-                    right: (currentIntimacy / maxIntimacy < 13 / 190.0) ? null : 0,
-                    height: 13,
-                    child: Image.asset("assets/images/profile/icon_love_progress.webp", height: 13),
-                  )
-                ],
-              ),
-            ),
-            Spacer(flex: maxIntimacy - currentIntimacy)
-          ],
-        )
-      ],
-    );
   }
 }
 
