@@ -16,6 +16,7 @@ import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../config/app_pages.dart';
 
@@ -248,12 +249,17 @@ class AddGamePageController extends GetxController {
         UserController.find.userProfile.voice.isEmpty;
   }
 
-  toRecordPage() {
-    Get.toNamed(AppPages.Record)?.then((value) {
-      if (value != null){
-        voiceUrl = value;
-        UserController.find.userProfile.voice=voiceUrl;
-      }
+  toRecordPage(BuildContext context) {
+    pickVoiceDialog(context, voiceUrl, (result) {
+      flog('callback $result');
+      if (result != null) voiceUrl = result;
+      UserController.find.userProfile.voice=voiceUrl;
     });
+    // Get.toNamed(AppPages.Record)?.then((value) {
+    //   if (value != null){
+    //     voiceUrl = value;
+    //     UserController.find.userProfile.voice=voiceUrl;
+    //   }
+    // });
   }
 }
