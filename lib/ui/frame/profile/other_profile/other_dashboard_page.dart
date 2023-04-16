@@ -32,12 +32,21 @@ class OtherDashboardPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 40,
+                      height: 65,
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: GridView.count(
                         scrollDirection: Axis.horizontal,
                         crossAxisCount: 1,
-                        children: t.player.value.trophies.map((e) => ImageUtil.networkImage(url: e.iconImage)).toList(),
+                        children: t.player.value.trophies
+                            .map((e) => Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.itemBg,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: ImageUtil.networkImage(url: e.iconImage, width: 36.w, height: 36.h),
+                                ))
+                            .toList(),
                       ),
                     ),
                   ],

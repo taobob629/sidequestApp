@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/base_controller.dart';
@@ -55,8 +57,7 @@ class OtherProfilePage extends StatelessWidget {
                           style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: 358 - Get.mediaQuery.padding.top,
-                    toolbarHeight: 44,
+                    expandedHeight: (238 + 200).h - Get.mediaQuery.padding.top,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
@@ -64,208 +65,348 @@ class OtherProfilePage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Container(
-                                // height: 208,
-                                width: double.infinity,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Obx(() => ImageUtil.networkImage(
-                                          url: t.player.value.backGround,
-                                          fit: BoxFit.cover,
-                                        )),
-                                    Opacity(
-                                      opacity: 0.9,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [Color(0x00131010), Color(0xFF1B1A1E)],
-                                          ),
+                            Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  Obx(() => ImageUtil.networkImage(
+                                        url: t.player.value.backGround,
+                                        fit: BoxFit.cover,
+                                      )),
+                                  Container(
+                                    color: Color(0xFF161616).withOpacity(0.26),
+                                  ),
+                                  Positioned(
+                                    left: 20,
+                                    right: 0,
+                                    height: 65.h,
+                                    bottom: 12.5.h,
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            if (!t.isSelf) {
+                                              UserController.find.jumpChat(t.player.value.uk);
+                                            }
+                                          },
+                                          child: Obx(() => Container(
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(color: Colors.white, width: 1),
+                                                  borderRadius: BorderRadius.circular(65.r / 2),
+                                                ),
+                                                child: ImageUtil.networkImage(
+                                                  url: t.player.value.avatar,
+                                                  width: 65.w,
+                                                  height: 60.h,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              )),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 20, bottom: 15.h),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Spacer(),
-                                          Container(
-                                            child: Row(
-                                              children: [
+                                        Spacer(),
+                                        Container(
+                                          width: t.isSelf ? 98.w : 60.w,
+                                          height: 30.h,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
+                                              gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
+                                              boxShadow: [
+                                                BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
+                                                BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
+                                              ]),
+                                          child: Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  //播放
+                                                  t.audioManager.play(t.player.value.voice);
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    6.horizontalSpace,
+                                                    Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
+                                                    8.horizontalSpace,
+                                                    Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
+                                                  ],
+                                                ),
+                                              ),
+                                              if (t.isSelf)
                                                 Expanded(
-                                                  child: Container(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        /// nickname
-                                                        Obx(() => Container(
-                                                              height: 30.h,
-                                                              child: Row(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    height: 30.h,
-                                                                    child: Text(
-                                                                      t.player.value.nickName,
-                                                                      style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
-                                                                    ),
-                                                                  ),
-                                                                  Visibility(
-                                                                    visible: !t.isSelf,
-                                                                    child: GestureDetector(
-                                                                      onTapDown: (details) {
-                                                                        t.followOrNot(context, details.globalPosition);
-                                                                      },
-                                                                      child: Container(
-                                                                        height: 30,
-                                                                        padding: const EdgeInsets.only(left: 10),
-                                                                        child: Image.asset(
-                                                                          t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
-                                                                          width: 20,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            )),
-
-                                                        /// labels: sex、language、location
-                                                        Obx(() => Padding(
-                                                              padding: const EdgeInsets.only(top: 5),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                  Container(
-                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                    margin: EdgeInsets.only(right: 10),
-                                                                    height: 16.h,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(3),
-                                                                        gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                                          Color(0xFF1F84C9),
-                                                                          Color(0xFF7CB9D5),
-                                                                        ])),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        if (t.player.value.sex != 2)
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(right: 3),
-                                                                            child: Image.asset(
-                                                                              "assets/images/profile/icon_sex_${t.player.value.sex}.png",
-                                                                              width: 8,
-                                                                            ),
-                                                                          ),
-                                                                        Text(
-                                                                          "${t.player.value.age}",
-                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                    margin: EdgeInsets.only(right: 10),
-                                                                    height: 16.h,
-                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          t.player.value.language,
-                                                                          style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                  Visibility(
-                                                                    visible: t.player.value.location.country.isNotEmpty,
-                                                                    child: Container(
-                                                                      padding: EdgeInsets.symmetric(horizontal: 5),
-                                                                      margin: EdgeInsets.only(right: 10),
-                                                                      height: 16.h,
-                                                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                            "assets/images/profile/icon_dibiao.webp",
-                                                                            width: 8,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 5,
-                                                                          ),
-                                                                          Text(
-                                                                            t.player.value.location.country,
-                                                                            style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            )),
-                                                      ],
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      //编辑
+                                                      t.toRecordPage(context);
+                                                    },
+                                                    child: Container(
+                                                      alignment: Alignment.center,
+                                                      child: ImageUtil.assetImage('ic_edit', width: 14),
                                                     ),
                                                   ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (!t.isSelf) {
-                                                      UserController.find.jumpChat(t.player.value.uk);
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(right: 25),
-                                                    child: Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                                                      Obx(() => Container(
-                                                            height: 64,
-                                                            alignment: Alignment.bottomCenter,
-                                                            child: ClipOval(
-                                                              child: ImageUtil.networkImage(
-                                                                url: t.player.value.avatar,
-                                                                width: 60,
-                                                                height: 60,
-                                                                fit: BoxFit.cover,
+                                                )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 36.h,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18.r),
+                                  gradient: LinearGradient(colors: [
+                                    Color(0xFFF1A067),
+                                    // Color(0xFFF7DDAE),
+                                    // Color(0xFFB0B7FA),
+                                    Color(0xFFB46AF4),
+                                    Color(0xFF8367F6),
+                                  ])),
+                              child: Row(
+                                children: [
+                                  6.horizontalSpace,
+                                  Container(
+                                    height: 24.h,
+                                    width: 44.w,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Positioned(
+                                          left: 0,
+                                          child: ExtendedImage.network(
+                                            t.player.value.avatar,
+                                            border: Border.all(color: Colors.white, width: 1),
+                                            shape: BoxShape.circle,
+                                            width: 24.w,
+                                            height: 24.h,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                          child: ExtendedImage.network(
+                                            UserController.find.userProfile.avatar,
+                                            border: Border.all(color: Colors.white, width: 1),
+                                            shape: BoxShape.circle,
+                                            width: 24.w,
+                                            height: 24.h,
+                                          ),
+                                        ),
+                                        Image.asset("assets/images/icon_loveship.webp", width: 12.w, height: 12.h)
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 30.w,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "${t.player.value.intimacyLevel}",
+                                      style: TextStyle(fontSize: 10.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: CsIntimacyProgressView(
+                                    firstAvatar: t.player.value.avatar,
+                                    secondAvatar: UserController.find.userProfile.avatar,
+                                    currentIntimacy: t.player.value.currentIntimacy,
+                                    maxIntimacy: t.player.value.maxIntimacy,
+                                  )),
+                                  Container(
+                                    width: 70.w,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "${t.player.value.currentIntimacy}/${t.player.value.maxIntimacy}",
+                                      style: TextStyle(fontSize: 9.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ).marginSymmetric(horizontal: 14, vertical: 15),
+                            Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                /// nickname
+                                                Obx(() => Container(
+                                                      height: 24.h,
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 24.h,
+                                                            child: Text(
+                                                              t.player.value.nickName,
+                                                              style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
+                                                            ),
+                                                          ),
+                                                          12.horizontalSpace,
+                                                          Container(
+                                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                                            height: 16.h,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(3),
+                                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                                                  Color(0xFF1F84C9),
+                                                                  Color(0xFF7CB9D5),
+                                                                ])),
+                                                            child: Row(
+                                                              children: [
+                                                                if (t.player.value.sex != 2)
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(right: 3),
+                                                                    child: Image.asset(
+                                                                      "assets/images/profile/icon_sex_${t.player.value.sex}.png",
+                                                                      width: 8,
+                                                                    ),
+                                                                  )
+                                                                else
+                                                                  Text(
+                                                                    "?",
+                                                                    style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  ),
+                                                                Text(
+                                                                  "${t.player.value.age}",
+                                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          7.horizontalSpace,
+                                                          Container(
+                                                            padding: EdgeInsets.symmetric(horizontal: 8),
+                                                            height: 19.h,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(10.r),
+                                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+                                                                  Color(0xFF9A6FE9),
+                                                                  Color(0xFF8050E5),
+                                                                ])),
+                                                            child: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(right: 5),
+                                                                  child: Image.asset(
+                                                                    "assets/images/profile/icon_level_${(t.player.value.userLevel ~/ 5) * 5}.webp",
+                                                                    width: 12.w,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  "${t.player.value.userLevel}",
+                                                                  style: TextStyle(fontSize: 11.sp, color: Colors.white),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          // Visibility(
+                                                          //   visible: !t.isSelf,
+                                                          //   child: GestureDetector(
+                                                          //     onTapDown: (details) {
+                                                          //       t.followOrNot(context, details.globalPosition);
+                                                          //     },
+                                                          //     child: Container(
+                                                          //       height: 30,
+                                                          //       padding: const EdgeInsets.only(left: 10),
+                                                          //       child: Image.asset(
+                                                          //         t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
+                                                          //         width: 20,
+                                                          //       ),
+                                                          //     ),
+                                                          //   ),
+                                                          // )
+                                                        ],
+                                                      ),
+                                                    )),
+
+                                                /// labels: sex、language、location
+                                                Obx(() => Padding(
+                                                      padding: const EdgeInsets.only(top: 5),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: [
+                                                          Visibility(
+                                                            visible: t.player.value.location.country.isNotEmpty,
+                                                            child: Container(
+                                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                                              height: 16.h,
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    "assets/images/profile/icon_dibiao.webp",
+                                                                    width: 8,
+                                                                  ),
+                                                                  2.horizontalSpace,
+                                                                  Text(
+                                                                    t.player.value.location.country,
+                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
-                                                          )),
-                                                      Image.asset(
-                                                        "assets/images/profile_avatar_border.webp",
-                                                        width: 64,
+                                                          ),
+                                                          Visibility(
+                                                            visible: t.player.value.language.isNotEmpty,
+                                                            child: Container(
+                                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                                              height: 16.h,
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    "assets/images/profile/icon_language.webp",
+                                                                    width: 11.w,
+                                                                  ),
+                                                                  2.horizontalSpace,
+                                                                  Text(
+                                                                    t.player.value.language,
+                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          15.horizontalSpace,
+                                                          Text(
+                                                            "ID:" + t.player.value.uk,
+                                                            strutStyle: StrutStyle(forceStrutHeight: true),
+                                                            style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      // Obx(() => Visibility(
-                                                      //       visible: userController.userProfile.value.vipLevel >= 5 && userController.userProfile.value.isAuth == 1,
-                                                      //       child: Positioned(
-                                                      //           bottom: -10,
-                                                      //           child: Image.asset(
-                                                      //             "assets/images/profile/icon_level_${userController.userProfile.value.vipLevel == 0 ? 5 : userController.userProfile.value.vipLevel}.webp",
-                                                      //             height: 28,
-                                                      //           )),
-                                                      //     )),
-                                                    ]),
-                                                  ),
-                                                )
+                                                    )),
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            VoiceWidget(pwId: t.player.value?.uid, play: () => t.audioManager.play(t.player.value.voice), voice: t.player.value.voice, toRecordPage: () => t.toRecordPage(context)),
                             Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
-                              height: 28,
-                              alignment: Alignment.topLeft,
+                              height: 46.h,
+                              alignment: Alignment.centerLeft,
                               child: Text(
                                 t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                                 style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
                               ),
                             ),
@@ -273,7 +414,7 @@ class OtherProfilePage extends StatelessWidget {
                               children: [
                                 Obx(
                                   () => Container(
-                                    height: 40,
+                                    height: 43.h,
                                     margin: const EdgeInsets.only(left: 20, right: 20),
                                     decoration: BoxDecoration(
                                         border: Border(
@@ -307,20 +448,18 @@ class OtherProfilePage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 40,
-                            )
+                            40.verticalSpace
                           ],
                         ),
                       ),
                     ),
                     bottom: PreferredSize(
-                        preferredSize: Size(double.infinity, 40),
+                        preferredSize: Size(double.infinity, 40.h),
                         child: Container(
-                          // color: Colors.amber,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
                             child: TabBar(
+                              padding: EdgeInsets.zero,
                               controller: t.tabController,
                               isScrollable: false,
                               labelColor: Colors.white,
@@ -343,37 +482,82 @@ class OtherProfilePage extends StatelessWidget {
           if (!t.isSelf)
             Positioned(
                 bottom: Get.mediaQuery.padding.bottom + 20,
-                child: GestureDetector(
-                  onTap: () {
-                    t.jumpChat(t.player.value.uk);
-                  },
-                  child: Visibility(
-                    child: Container(
-                      width: 240,
-                      height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: AppColor.yellowGradient),
-                        borderRadius: BorderRadius.circular(20),
+                left: 15,
+                right: 15,
+                height: 42.h,
+                child: Visibility(
+                  visible: !t.isSelf,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTapDown: (details) {
+                          t.followOrNot(context, details.globalPosition);
+                        },
+                        child: Obx(() => Visibility(
+                              child: Container(
+                                width: 110.w,
+                                height: double.infinity,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.yellow),
+                                  borderRadius: BorderRadius.circular(21.r),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 10.w),
+                                      child: Image.asset(
+                                        t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
+                                        width: 16,
+                                        color: AppColor.yellow,
+                                      ),
+                                    ),
+                                    Text(
+                                      t.player.value.follow ? "unFollow".tr : "Follow".tr,
+                                      style: TextStyle(color: AppColor.yellow, fontSize: 14.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Image.asset(
-                              "assets/images/profile/icon_pinlun.webp",
-                              width: 16,
-                              color: Colors.white,
+                      12.horizontalSpace,
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            t.jumpChat(t.player.value.uk);
+                          },
+                          child: Visibility(
+                            child: Container(
+                              height: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: AppColor.yellowGradient),
+                                borderRadius: BorderRadius.circular(21.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      "assets/images/profile/icon_pinlun.webp",
+                                      width: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Messages".tr,
+                                    style: TextStyle(color: Colors.white, fontSize: 14),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Text(
-                            "Messages".tr,
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ))
         ],
@@ -403,6 +587,61 @@ class OtherProfilePage extends StatelessWidget {
     pages.add(OtherPostsPage());
     pages.add(OtherAlbumPage());
     return pages;
+  }
+}
+
+class CsIntimacyProgressView extends StatelessWidget {
+  CsIntimacyProgressView({Key? key, this.firstAvatar = "", this.secondAvatar = "", this.currentIntimacy = 0, this.maxIntimacy = 1000}) : super(key: key);
+
+  String firstAvatar = "";
+  String secondAvatar = "";
+  int currentIntimacy = 0;
+  int maxIntimacy = 1000;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.centerLeft,
+      children: [
+        Container(
+          height: 6.h,
+          decoration: BoxDecoration(color: Color(0xFFB0B7FA), borderRadius: BorderRadius.circular(3.r)),
+        ),
+        Row(
+          children: [
+            Expanded(
+              flex: currentIntimacy == 0 ? 1 : currentIntimacy,
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 13,
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      height: 6.h,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Color(0xFFF7DDAE),
+                            Color(0xFFF1A067),
+                          ]),
+                          borderRadius: BorderRadius.circular(3.r)),
+                    ),
+                  ),
+                  Positioned(
+                    left: (currentIntimacy / maxIntimacy < 13 / 190.0) ? 0 : null,
+                    right: (currentIntimacy / maxIntimacy < 13 / 190.0) ? null : 0,
+                    height: 13,
+                    child: Image.asset("assets/images/profile/icon_love_progress.webp", height: 13),
+                  )
+                ],
+              ),
+            ),
+            Spacer(flex: maxIntimacy - currentIntimacy)
+          ],
+        )
+      ],
+    );
   }
 }
 

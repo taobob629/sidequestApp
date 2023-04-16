@@ -15,6 +15,9 @@ class PlayerInfoModel {
   bool isAuth = false;
   String backGround = "";
   int userLevel = 0;
+  int maxIntimacy = 0;
+  int currentIntimacy = 0;
+  String intimacyLevel = "";
   List<GamesItem> games = [];
   bool online = false;
   CountryModel location = CountryModel();
@@ -39,6 +42,12 @@ class PlayerInfoModel {
     followers = json['followers'] ?? followers;
     backGround = json['backGround'] ?? backGround;
     userLevel = json['userLevel'] ?? userLevel;
+    maxIntimacy = json['maxIntimacy'] ?? maxIntimacy;
+    if (maxIntimacy == 0) {
+      maxIntimacy = 1000;
+    }
+    currentIntimacy = json['currentIntimacy'] ?? currentIntimacy;
+    intimacyLevel = json['intimacyLevel'] ?? intimacyLevel;
     if (json['games'] != null) {
       games = <GamesItem>[];
       json['games'].forEach((v) {
