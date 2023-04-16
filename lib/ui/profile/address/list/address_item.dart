@@ -103,10 +103,12 @@ class AddressItem extends StatelessWidget {
             ),
             // Spacer(),
             if (isDefault == false) Spacer(),
-            if (isDefault == false)
+           // if (isDefault == false)
               GestureDetector(
                   onTap: () => onEdit.call(),
-                  child: ImageUtil.assetImage('ic_edit_circle', width: 29.w, height: 29.h)),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 4.w),
+                    child: ImageUtil.assetImage('ic_edit_circle', width: 29.w, height: 29.h),)),
           ],
         ),
         10.verticalSpace,
