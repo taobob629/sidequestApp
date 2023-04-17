@@ -763,6 +763,7 @@ const Map<String, String> zh_CN = {
   "Praised":"我的收藏",
   "My Posts":"我的动态",
   "Add More Service Types":"添加更多服务类型",
+  "Please add service type":"至少添加一项服务内容"
 
 
 
