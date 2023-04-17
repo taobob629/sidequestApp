@@ -10,6 +10,7 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -68,6 +69,11 @@ class OrderDetailPageController extends BasePageController {
       starRes.value = model?.comments?.responsive ?? 5.0;
       starEnj.value = model?.comments?.enjoyment ?? 5.0;
     }
+  }
+
+  void onRefresh(orderId) {
+    id = orderId;
+    initData();
   }
 
   toChat(BuildContext context) async {
