@@ -45,6 +45,7 @@ class VoiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
+        alignment: Alignment.center,
         width: width,
         height: 26,
         margin: EdgeInsets.only(left: marginLeft, bottom: maginBottom),
@@ -125,7 +126,7 @@ class VoiceWidget extends StatelessWidget {
 List voiceTypes = ['Record'.tr, 'From File'.tr];
 const int MAX_RECORD_FILE_SIZE = 25;
 
-pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
+pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,{bool isServiceRecord=false}) {
   Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
@@ -170,9 +171,11 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback) {
                                 'Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
                             return;
                           }
-                          //上传文件
-                          // var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
-                          // return callback(voiceUrl);
+                          //返回地址
+                          if(isServiceRecord) {
+                            var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
+                            return callback(voiceUrl);
+                          }
                           var result = await Get.toNamed(AppPages.Record, arguments: fileResult?.files?.single?.path);
                           return callback(result);
                       }
@@ -198,7 +201,7 @@ Future<String?> uploadFile(String? path) async {
   File file = File(path);
   if (await file.exists() == false) return null;
   EasyLoading.show();
-  var url = await Common.uploadFile(File(path), (count, total) {
+  var url = await Common.uploadServiceRecordFile(File(path), (count, total) {
     flog('(count / total ${count / total}');
   }, isVoiceFile: true)
       .catchError((e) {
