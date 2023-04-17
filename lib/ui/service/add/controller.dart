@@ -228,7 +228,7 @@ class AddGamePageController extends GetxController {
       // "coin": priceRangeCon.text,
       'serviceTypes': mPriceRanges,
       'fieldItems': buildFiledsParams(),
-      'desc':desc,
+      'des':desc,
       'backGround':background,
       'voice':voiceUrl,
       // "des": beGoodAtCon.text,
