@@ -41,7 +41,8 @@ class Item extends StatelessWidget {
             showFlag: showFlag,
             useEmoji: useEmoji,
           ),
-          if (country?.name?.isNotEmpty == true)
+          5.horizontalSpace,
+          if (withCountryNames)
             Expanded(
               child: Text(
                 '${country?.name}',
@@ -59,7 +60,7 @@ class Item extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          10.horizontalSpace,
+          5.horizontalSpace,
         ],
       ),
     );
