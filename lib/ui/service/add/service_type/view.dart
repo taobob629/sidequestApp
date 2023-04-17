@@ -73,9 +73,10 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
                   16.horizontalSpace,
                   Expanded(
                       child: StadiumButton(
-                    'Submit'.tr,
+                    'Next'.tr,
                     onTap: () {
-                      if (controller.privacyCheckController.check()) controller.updateService();
+                    //  if (controller.privacyCheckController.check()) controller.updateService();
+                      controller.toBioPage();
                     },
                   )),
                 ],

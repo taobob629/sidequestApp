@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/paixs_fun.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/res/index.dart';
@@ -78,6 +79,7 @@ class _AddGamePageState extends State<AddGamePage> {
             )),
         centerTitle: true,
         elevation: 0,
+        actions: controller.isEdit?[IconButton(onPressed: () => Get.toNamed(AppPages.bio_page), icon: Text('Bio'))]:[],
       ),
       body: PWidget.column([
         if (1 != 1)
@@ -372,43 +374,48 @@ class _AddGamePageState extends State<AddGamePage> {
                 //       );
                 //     }),
                 //   ])),
-                Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
-                Obx(() => Visibility(
-                         visible: controller.isShowVoice,
-                    child: Obx(() => controller.voiceUrl.isEmpty
-                        ? InkWell(
-                            onTap: () => controller.toRecordPage(context),
-                            child: itemBg(Container(
-                              alignment: Alignment.centerLeft,
-                              child: Obx(() => Text(
-                                    '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
-                                        .tr,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: textColor,
-                                        fontSize: 13.sp,
-                                        overflow: TextOverflow.ellipsis),
-                                  )),
-                            )),
-                          )
-                        : Container(
-                      constraints: BoxConstraints(minHeight: 45.h),
-                      padding: EdgeInsets.only(left: 15,right: 15).w,
-                      decoration: innerDecoration(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                        Text('Voice',style: text_style(),),
-                        Spacer(),
-                        VoiceWidget(
-                          maginBottom: 0,
-                        pwId: UserController.find.userProfile.pwId,
-                        voice: controller.voiceUrl,
-                        play: () =>
-                            AudioManager.instance.play(controller.voiceUrl),
-                        toRecordPage: () => UserController.find.toRecordPage(context),
-                      )],),)))),
+                // Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
+                // Obx(() => Visibility(
+                //     visible: controller.isShowVoice,
+                //     child: Obx(() => controller.voiceUrl.isEmpty
+                //         ? InkWell(
+                //             onTap: () => controller.toRecordPage(context),
+                //             child: itemBg(Container(
+                //               alignment: Alignment.centerLeft,
+                //               child: Obx(() => Text(
+                //                     '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
+                //                         .tr,
+                //                     maxLines: 1,
+                //                     style: TextStyle(
+                //                         color: textColor,
+                //                         fontSize: 13.sp,
+                //                         overflow: TextOverflow.ellipsis),
+                //                   )),
+                //             )),
+                //           )
+                //         : Container(
+                //             constraints: BoxConstraints(minHeight: 45.h),
+                //             padding: EdgeInsets.only(left: 15, right: 15).w,
+                //             decoration: innerDecoration(),
+                //             child: Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               crossAxisAlignment: CrossAxisAlignment.center,
+                //               children: [
+                //                 Text(
+                //                   'Voice',
+                //                   style: text_style(),
+                //                 ),
+                //                 Spacer(),
+                //                 VoiceWidget(
+                //                   maginBottom: 0,
+                //                   pwId: UserController.find.userProfile.pwId,
+                //                   voice: controller.voiceUrl,
+                //                   play: () => AudioManager.instance.play(controller.voiceUrl),
+                //                   toRecordPage: () => UserController.find.toRecordPage(context),
+                //                 )
+                //               ],
+                //             ),
+                //           )))),
                 16.verticalSpace,
                 iDPhotoView()
               ],
@@ -417,48 +424,11 @@ class _AddGamePageState extends State<AddGamePage> {
       ],
     );
   }
-  
+
   TextStyle text_style() => TextStyle(
       color: textColor, fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis);
-  column_item(var text) {
-    return Container(
-      constraints: BoxConstraints(minHeight: 45.h),
-      padding: EdgeInsets.only(left: 15,right: 15).w,
-      decoration: innerDecoration(),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '+ Add Voice'.tr,
-            style: text_style(),
-          ),
-          8.horizontalSpace,
-          Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                      child: Obx(() => Text(
-                        '',
-                        textAlign: TextAlign.right,
-                        style: text_style(),
-                      ))),
-                  InkWell(
-                    onTap: () {
-                    },
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: textColor,
-                      size: 16,
-                    ),
-                  )
-                ],
-              ))
-        ],
-      ),
-    );
-  }
+
+
   fieldsRange(BuildContext? context) => FieldsWidget();
 
   ///游戏图像

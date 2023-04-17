@@ -19,12 +19,18 @@ class ServiceDetailModel {
   final String platfromId;
   // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/CallofDutyMobile2.jpg
   final String gameIcon;
+  final String des;
+  final String backGround;
+  final String voice;
   //final Levels levels;
   // 1
   final int status;
 
   ServiceDetailModel({
     this.gameId = "",
+    this.des = "",
+    this.voice = "",
+    this.backGround = "",
     this.skillid = "",
     this.gameName = "",
     this.thumb = "",
@@ -40,6 +46,9 @@ class ServiceDetailModel {
 
   factory ServiceDetailModel.fromJson(Map<String, dynamic>? json) => ServiceDetailModel(
     gameId: asT<String>(json, 'gameId'),
+    backGround: asT<String>(json, 'backGround'),
+    voice: asT<String>(json, 'voice'),
+    des: asT<String>(json, 'des'),
     skillid: asT<String>(json, 'skillid'),
     gameName: asT<String>(json, 'gameName'),
     thumb: asT<String>(json, 'thumb'),

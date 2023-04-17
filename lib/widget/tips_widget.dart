@@ -27,7 +27,7 @@ class TipsWidegt extends StatelessWidget {
             '$title',
             style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
           ),
-          GestureDetector(
+          if(tips.isNotEmpty)GestureDetector(
             onTapDown: (details) {
               print(details.globalPosition);
               Get.dialog(TipsDialog(
