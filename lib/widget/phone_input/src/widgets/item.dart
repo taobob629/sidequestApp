@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/country_model.dart';
 import '../utils/util.dart';
 
@@ -40,22 +41,25 @@ class Item extends StatelessWidget {
             showFlag: showFlag,
             useEmoji: useEmoji,
           ),
-          SizedBox(width: 5),
+          if (country?.name?.isNotEmpty == true)
+            Expanded(
+              child: Text(
+                '${country?.name}',
+                textDirection: TextDirection.ltr,
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           Expanded(
             child: Text(
-              '${country?.name ?? ""}',
-              textDirection: TextDirection.ltr,
+              '$dialCode'.replaceAll(" ", ""),
+              textAlign: TextAlign.end,
               style: textStyle,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(width: 5),
-          Text(
-            '$dialCode'.replaceAll(" ", ""),
-            textAlign: TextAlign.end,
-            style: textStyle,
-          ),
-          SizedBox(width: 10),
+          10.horizontalSpace,
         ],
       ),
     );
@@ -67,7 +71,8 @@ class _Flag extends StatelessWidget {
   final bool? showFlag;
   final bool? useEmoji;
 
-  const _Flag({Key? key, this.country, this.showFlag, this.useEmoji}) : super(key: key);
+  const _Flag({Key? key, this.country, this.showFlag, this.useEmoji})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +85,7 @@ class _Flag extends StatelessWidget {
                   )
                 : Image.asset(
                     country!.flagUri,
-                    width: 32.0,
+                    width: 32.0.w,
                     errorBuilder: (context, error, stackTrace) {
                       return SizedBox.shrink();
                     },
