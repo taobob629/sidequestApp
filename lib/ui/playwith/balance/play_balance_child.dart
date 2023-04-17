@@ -661,19 +661,21 @@ class WalletBalancePageController extends GetxListController {
             ),
           ),
           26.verticalSpace,
-          GetBuilder<WalletBalancePageController>(
-            builder: (builder) => ListView.separated(
-              itemBuilder: (c, i) =>
-                  _commonWidget(payMethodIndex == i, i),
-              separatorBuilder: (c, i) => Container(
-                height: 1.h,
-                color: Color(0xff2D2E3A),
-                margin: EdgeInsets.symmetric(vertical: 20.h),
+          Expanded(
+            child: GetBuilder<WalletBalancePageController>(
+              builder: (builder) => ListView.separated(
+                itemBuilder: (c, i) =>
+                    _commonWidget(payMethodIndex == i, i),
+                separatorBuilder: (c, i) => Container(
+                  height: 1.h,
+                  color: Color(0xff2D2E3A),
+                  margin: EdgeInsets.symmetric(vertical: 20.h),
+                ),
+                itemCount: chargeRule.receipt.length,
+                shrinkWrap: true,
               ),
-              itemCount: chargeRule.receipt.length,
-              shrinkWrap: true,
+              id: currentPayMethodId,
             ),
-            id: currentPayMethodId,
           ),
           15.verticalSpace,
           FloatingButton(

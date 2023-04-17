@@ -96,7 +96,7 @@ class SelectorButton extends StatelessWidget {
             }
           : null,
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 8.0),
+        padding: EdgeInsets.only(left: 10.w, right: 8.0.w),
         child: Row(
           children: [
             Expanded(

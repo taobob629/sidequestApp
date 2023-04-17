@@ -389,7 +389,7 @@ class _InputWidgetView extends WidgetView<InternationalPhoneNumberInput, _InputW
           ),
           Flexible(
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: EdgeInsets.only(left: 5.w),
               color: AppColor.itemBg2,
               child: TextFormField(
                 key: widget.fieldKey ?? Key(TestHelper.TextInputKeyValue),
