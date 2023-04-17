@@ -199,6 +199,27 @@ class NewWalletPage extends StatelessWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
+                  if (StorageManager.getOnline())
+                    Get.to(() => BalancePage())?.whenComplete(
+                            () => UserController.instance().updateInfo());
+                },
+                child: Container(
+                  height: 88.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff786728),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.circular(15.r)),
+                  child: achievementItem(user.balanceMoney(), 'ic_corns_new'),
+                ),
+              ),
+            ),
+            6.horizontalSpace,
+            Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
                   NavigatorHelper.gotoCouponTabPage(
                       whenComplete: () =>
                           UserController.instance().updateInfo());
@@ -212,27 +233,6 @@ class NewWalletPage extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(15.r)),
                   child: achievementItem(user.coupons, 'ic_coupons_new'),
-                ),
-              ),
-            ),
-            6.horizontalSpace,
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (StorageManager.getOnline())
-                    Get.to(() => BalancePage())?.whenComplete(
-                        () => UserController.instance().updateInfo());
-                },
-                child: Container(
-                  height: 88.h,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff786728),
-                        width: 0.5.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.r)),
-                  child: achievementItem(user.balanceMoney(), 'ic_corns_new'),
                 ),
               ),
             ),
