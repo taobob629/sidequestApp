@@ -4,6 +4,7 @@ import 'package:wy/ui/frame/profile/model/rating_comment_model.dart';
 import 'package:wy/ui/frame/profile/model/vip_info_model.dart';
 
 import '../api/wy_http.dart';
+import '../ui/frame/profile/model/game_detail_model.dart';
 import '../ui/frame/profile/model/post_item_model.dart';
 import '../ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 
@@ -108,6 +109,11 @@ abstract class ProfileApi {
   static Future uk2id(uk) async {
     var response = await http.get('/peiwan/app/profile/uk2id', queryParameters: {"uk": uk});
     return response.data;
+  }
+
+  static Future<GameDetailModel> serviceDetailById(String id) async {
+    var response = await http.get('/peiwan/app/users/serviceDetail?id=$id');
+    return GameDetailModel.fromJson(response.data);
   }
 
   /// 查看自己的评价
