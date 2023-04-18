@@ -20,6 +20,7 @@ import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
@@ -285,12 +286,12 @@ class AddGamePageController extends GetxController {
         UserController.find.userProfile.voice.isEmpty;
   }
 
-  toRecordPage(BuildContext context) {
+  toRecordPage(BuildContext context,{int type=record_type_service}) {
     pickVoiceDialog(context, voiceUrl, (result) {
       flog('callback $result');
       if (result != null) voiceUrl = result;
       UserController.find.userProfile.voice = voiceUrl;
-    },isServiceRecord: true);
+    },isServiceRecord: true,recordType: type);
     // Get.toNamed(AppPages.Record)?.then((value) {
     //   if (value != null){
     //     voiceUrl = value;

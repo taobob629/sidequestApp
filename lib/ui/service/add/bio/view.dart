@@ -13,6 +13,7 @@ import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/order/refound/view.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/index.dart';
@@ -36,7 +37,7 @@ class BioPage extends GetView<AddGamePageController> {
       appBar: AppBar(
         title: Text('Bio'.tr),
       ),
-      body: Container(
+      body: SingleChildScrollView(child: Container(
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -76,101 +77,101 @@ class BioPage extends GetView<AddGamePageController> {
                     autoHeight: true,
                     customInput: Obx(() => controller.voiceUrl.isEmpty
                         ? InkWell(
-                            onTap: () => controller.toRecordPage(context),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
-                              padding: itemPaddingNormal,
-                              height: 45.h,
-                              child: Obx(() => Text(
-                                    '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
-                                        .tr,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        color: textColor,
-                                        fontSize: 13.sp,
-                                        overflow: TextOverflow.ellipsis),
-                                  )),
-                            ),
-                          )
+                      onTap: () => controller.toRecordPage(context,type: record_type_service),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                        padding: itemPaddingNormal,
+                        height: 45.h,
+                        child: Obx(() => Text(
+                          '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
+                              .tr,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: textColor,
+                              fontSize: 13.sp,
+                              overflow: TextOverflow.ellipsis),
+                        )),
+                      ),
+                    )
                         : Container(
-                            constraints: BoxConstraints(minHeight: 45.h),
-                            padding: EdgeInsets.only(left: 15, right: 15).w,
-                            decoration: innerDecoration(),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Voice',
-                                  style: text_style(),
-                                ),
-                                Spacer(),
-                                VoiceWidget(
-                                  maginBottom: 0,
-                                  pwId: UserController.find.userProfile.pwId,
-                                  voice: controller.voiceUrl,
-                                  play: () => AudioManager.instance.play(controller.voiceUrl),
-                                  toRecordPage: () => UserController.find.toRecordPage(context),
-                                )
-                              ],
-                            ),
-                          )),
+                      constraints: BoxConstraints(minHeight: 45.h),
+                      padding: EdgeInsets.only(left: 15, right: 15).w,
+                      decoration: innerDecoration(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Voice',
+                            style: text_style(),
+                          ),
+                          Spacer(),
+                          VoiceWidget(
+                            maginBottom: 0,
+                            pwId: UserController.find.userProfile.pwId,
+                            voice: controller.voiceUrl,
+                            play: () => AudioManager.instance.play(controller.voiceUrl),
+                            toRecordPage: () => UserController.find.toRecordPage(context,type: record_type_service),
+                          )
+                        ],
+                      ),
+                    )),
                   ),
                   16.verticalSpace,
                   Obx(() => controller.background.isNotEmpty
                       ? Container(
-                          height: Get.width - 30,
-                          width: Get.width - 30,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                  child: ImageUtil.networkImage(
-                                      url: controller.background, fit: BoxFit.cover, border: 10.r,width: Get.width-30,height: Get.width-30)),
-                              Positioned(
-                                child: IconButton(
-                                  icon: ImageUtil.assetImage('ic_delete', width: 30),
-                                  onPressed: () {
-                                    controller.deleteBackground();
-                                  },
-                                ),
-                                top: -10,
-                                right: -10,
-                              ),
-                            ],
+                    height: Get.width - 30,
+                    width: Get.width - 30,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            child: ImageUtil.networkImage(
+                                url: controller.background, fit: BoxFit.cover, border: 10.r,width: Get.width-30,height: Get.width-30)),
+                        Positioned(
+                          child: IconButton(
+                            icon: ImageUtil.assetImage('ic_delete', width: 30),
+                            onPressed: () {
+                              controller.deleteBackground();
+                            },
                           ),
-                        )
+                          top: -10,
+                          right: -10,
+                        ),
+                      ],
+                    ),
+                  )
                       : Row(
-                          children: [
-                            InkWell(
-                              child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                height: 105.h,
-                                width: 105.h,
-                                padding: EdgeInsets.all(30).r,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFF2D2E3C),
-                                    borderRadius: BorderRadius.all(Radius.circular(10).r)),
-                                child: ImageUtil.assetImage(
-                                  'add_pic',
-                                  imageType: IMG_PNG,
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.scaleDown,
-                                ),
-                              ),
-                              onTap: () {
-                                controller.selectBackground(context);
-                              },
-                            )
-                          ],
-                        ))
+                    children: [
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.only(right: 10),
+                          height: 105.h,
+                          width: 105.h,
+                          padding: EdgeInsets.all(30).r,
+                          decoration: BoxDecoration(
+                              color: Color(0xFF2D2E3C),
+                              borderRadius: BorderRadius.all(Radius.circular(10).r)),
+                          child: ImageUtil.assetImage(
+                            'add_pic',
+                            imageType: IMG_PNG,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                        onTap: () {
+                          controller.selectBackground(context);
+                        },
+                      )
+                    ],
+                  ))
                 ],
               ),
             )
           ],
         ),
-      ),
+      ),),
       btnBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
