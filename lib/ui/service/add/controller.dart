@@ -191,7 +191,7 @@ class AddGamePageController extends GetxController {
 
   updateService() async {
     var desc=teServiceIntro.text;
-    flog('priceRanges $mPriceRanges');
+    //flog('priceRanges $mPriceRanges');
     if (!isEdit) {
       if (mPriceRanges.isEmpty) {
         EasyLoading.showToast('Please select service!'.tr);
@@ -238,7 +238,14 @@ class AddGamePageController extends GetxController {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
       if (isEdit) {
-        Get.back(result: true);
+        var route=Get.currentRoute;
+        flog('route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route==AppPages.bio_page}');
+        if(route==AppPages.bio_page){
+          Get.back();
+          Get.back(result: true);
+        }else {
+          Get.back(result: true);
+        }
       } else {
         Get.back();
         Get.back();
@@ -290,7 +297,6 @@ class AddGamePageController extends GetxController {
     pickVoiceDialog(context, voiceUrl, (result) {
       flog('callback $result');
       if (result != null) voiceUrl = result;
-      UserController.find.userProfile.voice = voiceUrl;
     },isServiceRecord: true,recordType: type);
     // Get.toNamed(AppPages.Record)?.then((value) {
     //   if (value != null){

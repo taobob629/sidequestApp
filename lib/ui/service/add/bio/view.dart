@@ -113,7 +113,7 @@ class BioPage extends GetView<AddGamePageController> {
                             pwId: UserController.find.userProfile.pwId,
                             voice: controller.voiceUrl,
                             play: () => AudioManager.instance.play(controller.voiceUrl),
-                            toRecordPage: () => UserController.find.toRecordPage(context,type: record_type_service),
+                            toRecordPage: () => controller.toRecordPage(context,type: record_type_service),
                           )
                         ],
                       ),
