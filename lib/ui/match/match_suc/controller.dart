@@ -5,10 +5,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
+import 'package:wy/model/beans/jump_match_suc_bean.dart';
 
 import '../../../event_bus/beans/match_event.dart';
 import '../../../event_bus/event_bus.dart';
-import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/match/match_operation_model.dart';
 import '../../common/dialog_show_info.dart';
 import '../../controller/user_controller.dart';

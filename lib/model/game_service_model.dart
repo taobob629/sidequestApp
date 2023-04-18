@@ -45,7 +45,7 @@ class GameInfo {
   }
 
   GameInfo.fromJson(Map<String, dynamic> json) {
-    desc = json['desc'] ?? '';
+    desc = json['des'] ?? '';
     favorite = json['favorite'] ?? 0;
     gameName = json['gameName'] ?? '';
     gameid = json['gameid'] ?? 0;

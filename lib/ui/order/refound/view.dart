@@ -98,23 +98,21 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 'Custom Service'.tr,
                 style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
               ),
-              Spacer(),
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    launchUrl(Uri(scheme: 'mailto', path: '$contact_emal'));
-                  },
-                  child: Text(
-                    '$contact_emal',
-                    style: TextStyle(
-                        color: AppColor.yellow,
-                        fontFamily: FONT_MEDIUM,
-                        fontSize: 15.sp),
-                  ),
-                ),
-              )
             ],
-          )
+          ),
+          10.verticalSpace,
+          InkWell(
+            onTap: () {
+              launchUrl(Uri(scheme: 'mailto', path: '$contact_emal'));
+            },
+            child: Text(
+              '$contact_emal',
+              style: TextStyle(
+                  color: AppColor.yellow,
+                  fontFamily: FONT_MEDIUM,
+                  fontSize: 15.sp),
+            ),
+          ),
         ],
       ),
     ));

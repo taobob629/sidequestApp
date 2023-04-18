@@ -8,7 +8,7 @@ import 'package:wy/widget/home/index.dart';
 import '../../api/match_api.dart';
 import '../../config/icon_font.dart';
 import '../../image_utils.dart';
-import '../../model/beans/JumpMatchSucBean.dart';
+import '../../model/beans/jump_match_suc_bean.dart';
 import '../../model/match/match_operation_model.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/count_down_util.dart';

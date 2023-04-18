@@ -18,7 +18,7 @@ class MyPostsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "My Posts",
+          "Posts".tr,
           style: TextStyle(fontSize: 16.sp),
         ),
         bottom: PreferredSize(
@@ -41,7 +41,7 @@ class MyPostsPage extends StatelessWidget {
                   unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
                   tabs: [
                     Text(
-                      "Posts".tr,
+                      "My Posts".tr,
                     ),
                     Text(
                       "Replied".tr,

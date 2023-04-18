@@ -113,7 +113,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
           if (back == null) return EasyLoading.showToast('Please upload ID card back photo'.tr);
 
           if (platform == null) return EasyLoading.showToast('Please select category'.tr);
-          if (game == null) return EasyLoading.showToast('Please select service'.tr);
+          if (game == null) return EasyLoading.showToast('Please add service type'.tr);
           // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
           if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter be Good At'.tr);
         },

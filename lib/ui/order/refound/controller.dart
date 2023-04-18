@@ -12,6 +12,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../detail/controller.dart';
+
 const contact_emal = 'support@sidequestmeta.com';
 
 class OrderRefoundController extends BasePageController {
@@ -71,7 +73,11 @@ class OrderRefoundController extends BasePageController {
 
   submit() async {
     if (reason == null) {
-      toast('Select reason first!');
+      toast('Select reason first!'.tr);
+      return;
+    }
+    if (etCommnetController.text.isEmpty) {
+      toast('Please enter Justification!'.tr);
       return;
     }
     showLoadding();
@@ -81,6 +87,9 @@ class OrderRefoundController extends BasePageController {
       ..['orderId'] = orderId);
     toast('Success'.tr);
     dismissLoadding();
-    Get.until((route) => route.settings.name == AppPages.ServiceAndOrders);
+
+    OrderDetailPageController orderDetailPageController = Get.find<OrderDetailPageController>();
+    orderDetailPageController.onRefresh(orderId);
+    Get.back();
   }
 }

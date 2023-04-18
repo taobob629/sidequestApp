@@ -760,8 +760,17 @@ const Map<String, String> en_US = {
   "Are you sure to delete this post?":"Are you sure to delete this post?",
   "Replied":"Replied",
   "Praised":"Praised",
-
-
+  "My Posts":"My Posts",
+  "Add More Service Types":"Add More Service Types",
+  "Previous":"Previous",
+  "Voice":"Voice",
+  "+ Add Voice":"+ Add Voice",
+  "Ongoing":"Ongoing",
+  "Service Intro":"Service Intro",
+  "Please input Service Intro":"Please input Service Intro",
+  "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
+  "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
+  "Please upload a picture as the service cover image":"请上传游戏封面图片",
 
 
 

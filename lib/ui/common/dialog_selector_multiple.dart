@@ -108,7 +108,7 @@ class SelectorMutipleDialog extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-              child: Text('Cancle'.tr, style: TextStyle(color: Colors.grey, fontSize: 16.sp)),
+              child: Text('Cancel'.tr, style: TextStyle(color: Colors.grey, fontSize: 16.sp)),
             )),
             Container(
               decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black12)),

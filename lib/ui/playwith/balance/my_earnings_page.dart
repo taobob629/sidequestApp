@@ -237,12 +237,13 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         children: [
                           Text(
                             controller.ifBankPay.value
-                                ? '${controller.selectedBank?.cardNumber}'
+                                ? (controller.selectedBank?.cardNumber ?? '')
                                 : "Account".tr,
                             style: TextStyle(
                               color: Color(0xffFFCB0E),
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           controller.ifBankPay.value
                               ? GestureDetector(
@@ -541,8 +542,8 @@ class WithdrawTipsDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10)),
             child: PWidget.container(
               PWidget.column([
-                PWidget.text('Withdrawal instructions:'.tr,
-                    [Color(0xffEEF3FF)]),
+                PWidget.text(
+                    'Withdrawal instructions:'.tr, [Color(0xffEEF3FF)]),
                 Text(
                   '''1. ${'Withdrawals typically take three to five bank working days.'.tr}\n2. ${'6 Diamond for £1.'.tr}\n3. ${'If you withdraw cash from us, you’ll be charged a handling fee of 3%.'.tr}''',
                   style: TextStyle(color: Color(0xff8291B4), height: 1.5),

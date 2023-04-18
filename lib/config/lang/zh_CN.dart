@@ -286,7 +286,7 @@ const Map<String, String> zh_CN = {
   'verification code': '验证码',
   'Get code': 'Get code',
   'edit service': '编辑服务',
-  'add service': '添加项目',
+  'add service': '添加服务',
   'Please enter the price': '请输入价格',
   'The price cannot be less than the minimum value': '价格不能低于区间最小值',
   'The price cannot be greater than the maximum value': '价格不能高于区间最大值',
@@ -395,7 +395,7 @@ const Map<String, String> zh_CN = {
   "By signing up to Wanyoo\'s tournament, you agree to \n our": "我已阅读并同意 ",
   'Tournament RulesPrivacy': 'Tournament RulesPrivacy',
   'Cookies Policy': 'Cookies Policy',
-  'Next': 'Next',
+  'Next': '下一步',
   'SWIFT code': 'SWIFT code',
   'Please enter the 6-digit format xx-xx-xx': '请输入6位数字',
   'Recipient Bank Name': '收款银行名称',
@@ -761,7 +761,18 @@ const Map<String, String> zh_CN = {
   "Are you sure to delete this post?":"确定删除该动态?",
   "Replied":"我的回复",
   "Praised":"我的收藏",
-
+  "My Posts":"我的动态",
+  "Add More Service Types":"添加更多服务类型",
+  "Please add service type":"至少添加一项服务内容",
+  "Previous":"上一步",
+  "Voice":"录音",
+  "+ Add Voice":"+ 语音介绍",
+  "Ongoing":"进行中",
+  "Service Intro":"游戏介绍",
+  "Please input Service Intro":"请添加游戏介绍",
+  "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
+  "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
+  "Please upload a picture as the service cover image":"请上传游戏封面图片",
 
 
 

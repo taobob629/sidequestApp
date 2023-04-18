@@ -109,20 +109,23 @@ class MyOrdersPage extends StatelessWidget {
                 ],
               ),
               15.verticalSpace,
-              Row(
-                children: [
-                  GestureDetector(
+              Container(
+                height: 30.h,
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (c, i) => GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
-                      _ctr.ifSelectCompleted.value = true;
+                      _ctr.selectStatus = _ctr.orderStatusList[i].status;
                       _ctr.onRefresh();
                     },
                     child: Container(
                       height: 30.h,
                       padding: EdgeInsets.only(left: 15.w, right: 15.w),
-                      margin: EdgeInsets.only(left: 15.w, right: 15.w),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(23).r,
-                          gradient: _ctr.ifSelectCompleted.value
+                          gradient: _ctr.orderStatusList[i].status == _ctr.selectStatus
                               ? LinearGradient(colors: [
                                   Color(0xFF612AD7),
                                   Color(0xFFBE39CC),
@@ -134,39 +137,14 @@ class MyOrdersPage extends StatelessWidget {
                                 ])),
                       alignment: Alignment.center,
                       child: Text(
-                        'Completed'.tr,
+                        _ctr.orderStatusList[i].statusName,
                         style: TextStyle(color: Colors.white, fontSize: 16.sp),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _ctr.ifSelectCompleted.value = false;
-                      _ctr.onRefresh();
-                    },
-                    child: Container(
-                      height: 30.h,
-                      padding: EdgeInsets.only(left: 15.w, right: 15.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(23).r,
-                          gradient: !_ctr.ifSelectCompleted.value
-                              ? LinearGradient(colors: [
-                                  Color(0xFF612AD7),
-                                  Color(0xFFBE39CC),
-                                  Color(0xFFE68887),
-                                ])
-                              : LinearGradient(colors: [
-                                  AppColor.tabBackGround,
-                                  AppColor.tabBackGround
-                                ])),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Others'.tr,
-                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
-                      ),
-                    ),
-                  ),
-                ],
+                  separatorBuilder: (c, i) => 15.horizontalSpace,
+                  itemCount: _ctr.orderStatusList.length,
+                ),
               ),
               15.verticalSpace,
               Expanded(

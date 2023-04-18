@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/order/detail/widgets/acticon_widget.dart';
+import '../../../../ui/login/register/controller.dart';
 import '../models/country_list.dart';
 import '../models/country_model.dart';
 import '../providers/country_provider.dart';
@@ -138,6 +140,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
   TextEditingController? controller;
   double selectorButtonBottomPadding = 0;
 
+  bool ifClickSelect = false;
   Country? country;
   List<Country> countries = [];
   bool isNotValid = true;
@@ -210,10 +213,19 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
         countries.sort(countryComparator);
       }
 
-      setState(() {
-        this.countries = countries;
-        this.country = country;
-      });
+      if (Get.isRegistered<RegisterPageController>()) {
+        if (!ifClickSelect) {
+          setState(() {
+            this.countries = countries;
+            this.country = country;
+          });
+        }
+      } else {
+        setState(() {
+          this.countries = countries;
+          this.country = country;
+        });
+      }
     }
   }
 
@@ -320,6 +332,7 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
 
   /// Changes Selector Button Country and Validate Change.
   void onCountryChanged(Country? country) {
+    ifClickSelect = true;
     setState(() {
       this.country = country;
     });

@@ -3,11 +3,16 @@
     创建日期:2023/3/9
     描述:
  */
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:wy/api/common.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
@@ -15,6 +20,9 @@ import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
+import 'package:wy/ui/profile/edit/crop_page.dart';
+import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
@@ -32,6 +40,14 @@ class AddGamePageController extends GetxController {
   Rxn<SkillItem?> _game = Rxn();
 
   SkillItem? get game => _game.value;
+  TextEditingController teServiceIntro = TextEditingController();
+  RxString _background = RxString('');
+
+  String get background => _background.value;
+
+  set background(String value) {
+    _background.value = value;
+  }
 
   set game(SkillItem? value) {
     _game.value = value;
@@ -90,6 +106,9 @@ class AddGamePageController extends GetxController {
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
     flog('serviceModel $serviceModel');
+    background=serviceModel?.backGround??'';
+    teServiceIntro.text=serviceModel?.des??'';
+    voiceUrl=serviceModel?.voice??'';
     platformIndex = services.indexWhere((w) => w.id == serviceModel?.platfromId);
     platform = services[platformIndex];
     gameIndex = platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
@@ -171,7 +190,8 @@ class AddGamePageController extends GetxController {
   }
 
   updateService() async {
-    flog('priceRanges $mPriceRanges');
+    var desc=teServiceIntro.text;
+    //flog('priceRanges $mPriceRanges');
     if (!isEdit) {
       if (mPriceRanges.isEmpty) {
         EasyLoading.showToast('Please select service!'.tr);
@@ -184,6 +204,19 @@ class AddGamePageController extends GetxController {
         EasyLoading.showToast('Please input a name!'.tr);
         return;
       }
+      if (desc.isEmpty) {
+        EasyLoading.showToast('Please input a service intro!'.tr);
+        return;
+      }
+      if(voiceUrl.isEmpty){
+        EasyLoading.showToast('Please add a voice!'.tr);
+        return;
+      }
+      if(background.isEmpty){
+        EasyLoading.showToast('Please upload a picture as the service cover image!'.tr);
+        return;
+      }
+
     }
     EasyLoading.show();
     var data = {
@@ -195,15 +228,26 @@ class AddGamePageController extends GetxController {
       "coinid": 0,
       // "coin": priceRangeCon.text,
       'serviceTypes': mPriceRanges,
-      'fieldItems': buildFiledsParams()
+      'fieldItems': buildFiledsParams(),
+      'des':desc,
+      'backGround':background,
+      'voice':voiceUrl,
       // "des": beGoodAtCon.text,
     };
     http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
       if (isEdit) {
-        Get.back(result: true);
+        var route=Get.currentRoute;
+        flog('route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route==AppPages.bio_page}');
+        if(route==AppPages.bio_page){
+          Get.back();
+          Get.back(result: true);
+        }else {
+          Get.back(result: true);
+        }
       } else {
+        Get.back();
         Get.back();
         Get.back(result: true);
       }
@@ -243,23 +287,48 @@ class AddGamePageController extends GetxController {
   }
 
   bool showVoice() {
-   //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
-   // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
+    //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
+    // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
     return UserController.find.userProfile.isAuth == 0 &&
         UserController.find.userProfile.voice.isEmpty;
   }
 
-  toRecordPage(BuildContext context) {
+  toRecordPage(BuildContext context,{int type=record_type_service}) {
     pickVoiceDialog(context, voiceUrl, (result) {
       flog('callback $result');
       if (result != null) voiceUrl = result;
-      UserController.find.userProfile.voice=voiceUrl;
-    });
+    },isServiceRecord: true,recordType: type);
     // Get.toNamed(AppPages.Record)?.then((value) {
     //   if (value != null){
     //     voiceUrl = value;
     //     UserController.find.userProfile.voice=voiceUrl;
     //   }
     // });
+  }
+
+  void deleteBackground() {
+    background = '';
+  }
+
+  void selectBackground(BuildContext context) async {
+    var status = await PermissionHelper.requestPhotosPermission(context);
+    if (status == false) {
+      return;
+    }
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      var _image = File(pickedFile.path);
+      Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
+        EasyLoading.show();
+        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        EasyLoading.dismiss();
+        background = url;
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
+  toBioPage(){
+    Get.toNamed(AppPages.bio_page);
   }
 }

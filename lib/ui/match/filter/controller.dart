@@ -6,9 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/model/beans/jump_match_suc_bean.dart';
 
 import '../../../image_utils.dart';
-import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/login_model.dart';
 import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';

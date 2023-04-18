@@ -8,8 +8,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/event_bus/beans/match_event.dart';
 import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/model/beans/jump_match_suc_bean.dart';
 
-import '../../../model/beans/JumpMatchSucBean.dart';
 import '../../../model/match/match_operation_model.dart';
 import '../../../model/send_match_model.dart';
 

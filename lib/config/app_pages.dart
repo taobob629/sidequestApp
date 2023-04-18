@@ -38,6 +38,7 @@ import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/profile/settings/language/bindings.dart';
 import 'package:wy/ui/profile/settings/language/view.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
+import 'package:wy/ui/service/add/bio/view.dart';
 import 'package:wy/ui/service/add/service_type/view.dart';
 import 'package:wy/ui/service/bindings.dart';
 import 'package:wy/ui/service/skill/list/bindings.dart';
@@ -94,6 +95,7 @@ class AppPages {
   static const side_kick_match_page = '/side_kick_match_page';
   static const side_kick_match_suc_page = '/side_kick_match_suc_page';
   static const side_kick_matching_page = '/side_kick_matching_page';
+  static const bio_page = '/bio_page';
 
   static final routes = [
     GetPage(
@@ -214,6 +216,10 @@ class AppPages {
       name: side_kick_matching_page,
       page: () => SideKickMatchingPage(),
       binding: SideKickMatchingBinding(),
+    ),
+    GetPage(
+      name: bio_page,
+      page: () => BioPage(),
     ),
   ];
 }
