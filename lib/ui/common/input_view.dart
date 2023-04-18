@@ -20,6 +20,7 @@ class InputView extends StatelessWidget {
   final Widget? rightActionWidget;
   final Widget? inputLable;
   EdgeInsets padding;
+  EdgeInsets? bodypadding;
   EdgeInsets? margin;
   final bool autoHeight;
   Decoration? decoration;
@@ -42,6 +43,7 @@ class InputView extends StatelessWidget {
       this.rightActionWidget,
       this.readOnly = false,
       this.padding = const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+      this.bodypadding = const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
       this.margin = const EdgeInsets.only(left: 15, right: 15),
       this.autoHeight = false});
 
@@ -77,7 +79,7 @@ class InputView extends StatelessWidget {
                       left: 15,
                       right: 15,
                     ),
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                padding:bodypadding?? EdgeInsets.symmetric(horizontal: 15.w),
                 decoration: decoration ?? inputDecoration(),
                 alignment: Alignment.center,
                 child: customInput ??

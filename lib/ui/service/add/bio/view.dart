@@ -63,7 +63,7 @@ class BioPage extends GetView<AddGamePageController> {
                     tips: 'Please input Service Intro'.tr,
                     margin: EdgeInsets.only(top: 2).h,
                     padding: EdgeInsets.only(bottom: 8.h),
-                    height: 45.h,
+                    autoHeight: true,
                   ),
                   16.verticalSpace,
                   InputView(
