@@ -71,6 +71,7 @@ class BioPage extends GetView<AddGamePageController> {
                     decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
                     controller: TextEditingController(),
                     label: 'Voice Recording'.tr,
+                    customLabel: TipsWidegt(title: 'Voice Recording'.tr,tips: 'Voice Recording',padding: 0,),
                     tips: 'Please input Service Intro'.tr,
                     margin: EdgeInsets.only(top: 2).h,
                     padding: EdgeInsets.only(bottom: 8.h),
@@ -119,53 +120,65 @@ class BioPage extends GetView<AddGamePageController> {
                     )),
                   ),
                   16.verticalSpace,
-                  Obx(() => controller.background.isNotEmpty
-                      ? Container(
-                    height: Get.width - 30,
-                    width: Get.width - 30,
-                    child: Stack(
+                  InputView(
+                    customLabel: TipsWidegt(title: 'List Cover'.tr,tips: 'Voice Recording',padding: 0,),
+                    decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                    controller:controller.teServiceIntro,
+                    label: 'Service Intro'.tr,
+                    tips: 'Please input Service Intro'.tr,
+                    margin: EdgeInsets.only(top: 2).h,
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    autoHeight: true,
+                    bodypadding: EdgeInsets.all(0),
+                    customInput: Obx(() => controller.background.isNotEmpty
+                        ? Container(
+                      height: Get.width - 30,
+                      width: Get.width - 30,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              child: ImageUtil.networkImage(
+                                  url: controller.background, fit: BoxFit.cover, border: 10.r,width: Get.width-30,height: Get.width-30)),
+                          Positioned(
+                            child: IconButton(
+                              icon: ImageUtil.assetImage('ic_delete', width: 30),
+                              onPressed: () {
+                                controller.deleteBackground();
+                              },
+                            ),
+                            top: -10,
+                            right: -10,
+                          ),
+                        ],
+                      ),
+                    )
+                        : Row(
                       children: [
-                        Positioned(
-                            child: ImageUtil.networkImage(
-                                url: controller.background, fit: BoxFit.cover, border: 10.r,width: Get.width-30,height: Get.width-30)),
-                        Positioned(
-                          child: IconButton(
-                            icon: ImageUtil.assetImage('ic_delete', width: 30),
-                            onPressed: () {
-                              controller.deleteBackground();
-                            },
+                        InkWell(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            height: 105.h,
+                            width: 105.h,
+                            padding: EdgeInsets.all(30).r,
+                            decoration: BoxDecoration(
+                                color: Color(0xFF2D2E3C),
+                                borderRadius: BorderRadius.all(Radius.circular(10).r)),
+                            child: ImageUtil.assetImage(
+                              'add_pic',
+                              imageType: IMG_PNG,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.scaleDown,
+                            ),
                           ),
-                          top: -10,
-                          right: -10,
-                        ),
+                          onTap: () {
+                            controller.selectBackground(context);
+                          },
+                        )
                       ],
-                    ),
-                  )
-                      : Row(
-                    children: [
-                      InkWell(
-                        child: Container(
-                          margin: EdgeInsets.only(right: 10),
-                          height: 105.h,
-                          width: 105.h,
-                          padding: EdgeInsets.all(30).r,
-                          decoration: BoxDecoration(
-                              color: Color(0xFF2D2E3C),
-                              borderRadius: BorderRadius.all(Radius.circular(10).r)),
-                          child: ImageUtil.assetImage(
-                            'add_pic',
-                            imageType: IMG_PNG,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                        onTap: () {
-                          controller.selectBackground(context);
-                        },
-                      )
-                    ],
-                  ))
+                    )) ,
+                  ),
+
                 ],
               ),
             )
