@@ -37,6 +37,7 @@ class OtherDashboardPage extends StatelessWidget {
                       child: GridView.count(
                         scrollDirection: Axis.horizontal,
                         crossAxisCount: 1,
+                        mainAxisSpacing: 10,
                         children: t.player.value.trophies
                             .map((e) => Container(
                                   alignment: Alignment.center,

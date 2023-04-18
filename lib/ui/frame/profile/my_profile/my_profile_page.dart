@@ -176,8 +176,16 @@ class MyProfilePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(3),
                                           gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                            Color(0xFF1F84C9),
-                                            Color(0xFF7CB9D5),
+                                            if (userController.userProfile.gender == 0) ...[
+                                              Color(0xFF1F84C9),
+                                              Color(0xFF7CB9D5),
+                                            ] else if (userController.userProfile.gender == 1) ...[
+                                              Color(0xFFD57CAB),
+                                              Color(0xFFC91FA7),
+                                            ] else ...[
+                                              Color(0xFF99BCCC),
+                                              Color(0xFF587284),
+                                            ]
                                           ])),
                                       child: Row(
                                         children: [
@@ -188,6 +196,11 @@ class MyProfilePage extends StatelessWidget {
                                                 "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
                                                 width: 8,
                                               ),
+                                            )
+                                          else
+                                            Text(
+                                              "?",
+                                              style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                             ),
                                           Text(
                                             "${userController.userProfile.age}",

@@ -351,6 +351,7 @@ class MulitablePlayOrderController extends GetxController {
     this.serviceItemList.addAll(serviceItemList);
     this.code = code;
     preOrder();
+
     // preOrder(skillModel.skillAuthid.toString(), liveUid, serviceItemId);
     // calculate(skillModel.authId.toString(), liveUid, serviceItemId, code);
   }
@@ -391,10 +392,21 @@ class MulitablePlayOrderController extends GetxController {
       //     (double.parse(preOrderDm.value.object?['serviceItems']['price']));
       // nums.value = 1;
       balance.value = double.parse('${res.data['coin']}');
+
+      // serviceItemList.value = res.data["serviceItems"]
+      //     .asMap()
+      //     .map<ServiceItem>((key, value) {
+      //       return MapEntry(key, ServiceItem.fromJson(value)..num.value = serviceItemList[key].num.value);
+      //     })
+      //     .values
+      //     .toList();
+
       serviceItemList.value = res.data["serviceItems"].map<ServiceItem>((e) {
-        // changeQuantity(1,skillAuthId);
-        return ServiceItem.fromJson(e);
+        return ServiceItem.fromJson(e)..num.value = serviceItemList.firstWhere((ser) => ser.id == e["id"]).num.value;
       }).toList();
+
+      // serviceItemList.value = serviceItemList;
+
       // changeQuantity(1,skillAuthId);
       feilv();
     }).catchError((e) {

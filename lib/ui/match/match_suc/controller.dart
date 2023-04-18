@@ -17,7 +17,6 @@ import '../../frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import '../../frame/profile/play_order/play_order_page.dart';
 
 class SideKickMatchSucController extends GetxController {
-
   var showOrHide = false.obs;
 
   var selectItemList = <JumpMatchSucBean>[].obs;
@@ -61,8 +60,7 @@ class SideKickMatchSucController extends GetxController {
 
       case 'match_order_boss':
         // 通知boos，有人进来了
-        MatchOperationModel matchOperationModel =
-            MatchOperationModel.fromJson(map["message"]);
+        MatchOperationModel matchOperationModel = MatchOperationModel.fromJson(map["message"]);
         JumpMatchSucBean sucBean = JumpMatchSucBean(
           distance: matchOperationModel.distance,
           uid: matchOperationModel.orderInfo.uid,
@@ -114,8 +112,7 @@ class SideKickMatchSucController extends GetxController {
 
   void cancelOrder() async {
     EasyLoading.show();
-    await MatchApi.cancelAcceptMatchOrder(
-        bean.orderId, bean.uid == UserController.find.userProfile.pwId);
+    await MatchApi.cancelAcceptMatchOrder(bean.orderId, bean.uid == UserController.find.userProfile.pwId);
     EasyLoading.dismiss();
 
     Get.back();
@@ -125,11 +122,7 @@ class SideKickMatchSucController extends GetxController {
     EasyLoading.show();
     List<Map<String, int>> params = [];
     selectItemList.forEach((item) {
-      Map<String, int> map = {
-        "skillAuthId": item.skillAuthId,
-        "liveuid": item.liveuid,
-        "serviceItemId": item.serviceItemId,
-      };
+      Map<String, int> map = {"skillAuthId": item.skillAuthId, "liveuid": item.liveuid, "serviceItemId": item.serviceItemId, "nums": UserController.find.nums};
 
       params.add(map);
     });
