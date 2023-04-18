@@ -771,6 +771,9 @@ const Map<String, String> en_US = {
   "This picture will be displayed in your service interface":"This picture will be displayed in your service interface",
   "Please record your voice, which will be displayed on service interface":"Please record your voice, which will be displayed on service interface",
   "Please upload a picture as the service cover image":"Please upload a picture as the service cover image",
+  "Service type already exist":"Service type already exist",
+
+
 
 
 

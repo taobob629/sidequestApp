@@ -120,7 +120,7 @@ class AddGamePageController extends GetxController {
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
-      var item = fieldItems?.firstWhereOrNull((item) => item.type == field.type);
+      var item = fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -150,7 +150,7 @@ class AddGamePageController extends GetxController {
   onPriceUnitChange(int index, PriceRangeModel model) {
     if (mPriceRanges[index] == model) return;
     if (mPriceRanges.contains(model)) {
-      EasyLoading.showToast('已经存在改类型');
+      EasyLoading.showToast('Service type already exist');
       return;
     }
     mPriceRanges[index] = model;
