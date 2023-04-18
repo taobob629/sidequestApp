@@ -289,7 +289,7 @@ class RegisterPage extends GetView<RegisterPageController> {
           labelStyle: TextStyle(color: AppColor.colorB9C9),
           helperStyle: TextStyle(color: AppColor.colorB9C9),
         ),
-        initialValue: PhoneNumber(isoCode: "NG"),
+        initialValue: PhoneNumber(isoCode: "GB"),
         textFieldController: controller.phoneEditingController,
         formatInput: false,
         cursorColor: Colors.white,
