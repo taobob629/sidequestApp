@@ -213,7 +213,7 @@ class AddGamePageController extends GetxController {
         return;
       }
       if(background.isEmpty){
-        EasyLoading.showToast('Please add a background!'.tr);
+        EasyLoading.showToast('Please upload a picture as the service cover image!'.tr);
         return;
       }
 

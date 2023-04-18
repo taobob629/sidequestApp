@@ -71,7 +71,7 @@ class BioPage extends GetView<AddGamePageController> {
                     decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
                     controller: TextEditingController(),
                     label: 'Voice Recording'.tr,
-                    customLabel: TipsWidegt(title: 'Voice Recording'.tr,tips: 'Voice Recording',padding: 0,),
+                    customLabel: TipsWidegt(title: 'Voice Recording'.tr,tips: 'Please record your voice, which will be displayed on service interface'.tr,padding: 0,),
                     tips: 'Please input Service Intro'.tr,
                     margin: EdgeInsets.only(top: 2).h,
                     padding: EdgeInsets.only(bottom: 8.h),
@@ -85,7 +85,7 @@ class BioPage extends GetView<AddGamePageController> {
                         padding: itemPaddingNormal,
                         height: 45.h,
                         child: Obx(() => Text(
-                          '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
+                          '${controller.voiceUrl.isEmpty ? '+ Add Voice'.tr: '${controller.voiceUrl}'}'
                               .tr,
                           maxLines: 1,
                           style: TextStyle(
@@ -104,7 +104,7 @@ class BioPage extends GetView<AddGamePageController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Voice',
+                            'Voice'.tr,
                             style: text_style(),
                           ),
                           Spacer(),
@@ -121,7 +121,7 @@ class BioPage extends GetView<AddGamePageController> {
                   ),
                   16.verticalSpace,
                   InputView(
-                    customLabel: TipsWidegt(title: 'List Cover'.tr,tips: 'Voice Recording',padding: 0,),
+                    customLabel: TipsWidegt(title: 'Cover'.tr,tips: 'This picture will be displayed in your service interface',padding: 0,),
                     decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
                     controller:controller.teServiceIntro,
                     label: 'Service Intro'.tr,
