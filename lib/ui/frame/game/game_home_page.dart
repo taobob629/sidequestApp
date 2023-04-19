@@ -41,45 +41,70 @@ class GameHomePage extends StatelessWidget {
               body: _commentWidget(),
             ),
           ),
-          Container(
-            height: 100.h,
-            decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
-              BoxShadow(
-                  offset: Offset(0, -2.h),
-                  color: Color(0xff1B1B21),
-                  blurRadius: 5.h)
-            ]),
-            child: Center(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => UserController.find.jumpChat(_ctr.uk),
-                child: Container(
-                  width: 150.w,
-                  height: 40.h,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 15.w),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xffFFCB0E),
-                      width: 1.w,
+          if (!_ctr.isSelf)
+            Container(
+              height: 100.h,
+              decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, -2.h),
+                    color: Color(0xff1B1B21),
+                    blurRadius: 5.h)
+              ]),
+              child: Center(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => UserController.find.jumpChat(_ctr.uk),
+                  child: Container(
+                    width: 150.w,
+                    height: 40.h,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 15.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xffFFCB0E),
+                        width: 1.w,
+                      ),
+                      borderRadius: BorderRadius.circular(40.r),
                     ),
-                    borderRadius: BorderRadius.circular(40.r),
-                  ),
-                  child: Text(
-                    'Message'.tr,
-                    style: TextStyle(
-                      color: Color(0xffFFCB0E),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM,
+                    child: Text(
+                      'Message'.tr,
+                      style: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
+    );
+  }
+
+  BoxDecoration getBoxDecoration(int index) {
+    if (index == 0) {
+      return BoxDecoration(
+        color: AppColor.itemBg,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15.r),
+          topLeft: Radius.circular(15.r),
+        ),
+      );
+    } else if (index == _ctr.list.length - 1) {
+      return BoxDecoration(
+        color: AppColor.itemBg,
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(15.r),
+          bottomLeft: Radius.circular(15.r),
+        ),
+      );
+    }
+
+    return BoxDecoration(
+      color: AppColor.itemBg,
     );
   }
 
@@ -94,12 +119,63 @@ class GameHomePage extends StatelessWidget {
             itemBuilder: (context, index) {
               final model = _ctr.list[index];
               return Container(
-                margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 10.h),
+                margin: EdgeInsets.only(left: 15.w, right: 15.w),
                 padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: AppColor.itemBg,
-                    borderRadius: BorderRadius.circular(15)),
+                decoration: getBoxDecoration(index),
                 child: Column(children: [
+                  if (index == 0)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Reviews'.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        10.verticalSpace,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColor.yellow,
+                            ),
+                            5.horizontalSpace,
+                            Text(
+                              '${_ctr.model?.stars}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            Container(
+                              width: 4.w,
+                              height: 4.w,
+                              margin: EdgeInsets.symmetric(horizontal: 6.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                            ),
+                            Text(
+                              '${_ctr.total}Reviews',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                        20.verticalSpace,
+                      ],
+                    ),
                   SizedBox(
                     height: 44.h,
                     child: Row(
@@ -242,10 +318,6 @@ class GameHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
-                    color: Color(0xFF2D2E3A),
-                    height: 1,
-                  ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 14),
                     alignment: Alignment.topLeft,
@@ -276,7 +348,12 @@ class GameHomePage extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Container(
+                    color: Color(0xff2d2e3a),
+                    height: 1.h,
+                    margin: EdgeInsets.only(top: 30.h),
+                  ),
                 ]),
               );
             },

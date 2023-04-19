@@ -30,14 +30,14 @@ class RatingCommentController extends GetxRefreshController<RatingCommentModel> 
   }
 
   @override
-  Future<List<RatingCommentModel>> loadData({int pageNum = 1}) {
+  Future<List<RatingCommentModel>> loadData({int pageNum = 1}) async {
     // TODO: implement loadData
     if (isSelf) {
       return ProfileApi.myCommentsList();
     } else {
-      return ProfileApi.othersCommentsList(liveid: liveid, skillId: skillId);
+      var response = await ProfileApi.othersCommentsList(liveid: liveid, skillId: skillId);
+      return response["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
     }
-    throw UnimplementedError();
   }
 }
 
