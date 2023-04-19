@@ -663,7 +663,7 @@ const Map<String, String> zh_CN = {
   "Please Enter paypal account!":"请输入Paypal账户!",
   "Input nickname,UK account or email":"请输入昵称,UK账户或者Email",
   "Up to Four":"最多选择四个",
-  "Please input Service Name":"请输入服务名字",
+  "Please input service name":"请输入服务名字",
   "Order Timeline":"订单状态",
   "Posts":"动态",
   "Dashboard":"主页",
@@ -774,6 +774,8 @@ const Map<String, String> zh_CN = {
   "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
   "Please upload a picture as the service cover image":"请上传游戏封面图片",
   "Service type already exist":"服务类型已经存在",
+  "Name":"名称",
+  "ServiceType":"服务类型"
 
 
 
