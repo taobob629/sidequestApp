@@ -38,7 +38,23 @@ class MyAlbumPage extends StatelessWidget {
                   ? SliverToBoxAdapter(
                 child: item(0,height: 195.h,margin: EdgeInsets.only(top: 10.h,left: 15.w,right: 15.w)),
               )
-                  : null,
+                  : SliverToBoxAdapter(
+                child:Row(children: [GestureDetector(
+                  onTap: t.pickUploadPhoto,
+                  child: Container(
+                    width: Get.width/3-30.w,
+                    height: Get.width/3-30.w,
+                    margin: EdgeInsets.only(top: 10.h,left: 15.w,right: 15.w),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.color7070),
+                      borderRadius: BorderRadius.circular(11),
+                      color: AppColor.color3033,
+                    ),
+                    child:  ImageUtil.assetImage('add_pic',imageType:IMG_PNG,width: 30,height: 30 ),
+                  ),
+                )],),
+              ),
               child: GridView.builder(
                 padding: EdgeInsets.all(15),
                 itemCount: t.list.length-1 ,
@@ -379,6 +395,7 @@ class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
   Future<List<AlbumItemModel>> loadData({int pageNum = 0}) async {
     var result= await ProfileApi.getPhotoList(page: pageNum);
     result.insert(result.length, AlbumItemModel());
+    flog('result $result');
     return result;
   }
 }
