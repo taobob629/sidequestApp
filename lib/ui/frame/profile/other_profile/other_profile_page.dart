@@ -188,10 +188,13 @@ class OtherProfilePage extends StatelessWidget {
                                                       height: 24.h,
                                                       child: Row(
                                                         children: [
-                                                          SizedBox(
+                                                          Container(
+                                                            constraints: BoxConstraints(maxWidth: 240),
                                                             height: 24.h,
                                                             child: Text(
                                                               t.player.value.nickName,
+                                                              maxLines: 1,
+                                                              overflow: TextOverflow.clip,
                                                               style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                                                             ),
                                                           ),
@@ -202,8 +205,16 @@ class OtherProfilePage extends StatelessWidget {
                                                             decoration: BoxDecoration(
                                                                 borderRadius: BorderRadius.circular(3),
                                                                 gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                                  Color(0xFF1F84C9),
-                                                                  Color(0xFF7CB9D5),
+                                                                  if (t.player.value.sex == 0) ...[
+                                                                    Color(0xFF1F84C9),
+                                                                    Color(0xFF7CB9D5),
+                                                                  ] else if (t.player.value.sex == 1) ...[
+                                                                    Color(0xFFD57CAB),
+                                                                    Color(0xFFC91FA7),
+                                                                  ] else ...[
+                                                                    Color(0xFF99BCCC),
+                                                                    Color(0xFF587284),
+                                                                  ]
                                                                 ])),
                                                             child: Row(
                                                               children: [
@@ -282,6 +293,7 @@ class OtherProfilePage extends StatelessWidget {
                                                           Visibility(
                                                             visible: t.player.value.location.country.isNotEmpty,
                                                             child: Container(
+                                                              constraints: BoxConstraints(maxWidth: 120.w),
                                                               padding: EdgeInsets.symmetric(horizontal: 5),
                                                               height: 16.h,
                                                               child: Row(
@@ -293,10 +305,14 @@ class OtherProfilePage extends StatelessWidget {
                                                                     width: 8,
                                                                   ),
                                                                   2.horizontalSpace,
-                                                                  Text(
-                                                                    t.player.value.location.country,
-                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
-                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      t.player.value.location.country,
+                                                                      strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                      maxLines: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
