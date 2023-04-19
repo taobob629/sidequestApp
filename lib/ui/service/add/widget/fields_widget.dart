@@ -30,7 +30,7 @@ class FieldsWidget extends GetView<AddGamePageController> {
           child: ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return fieldsItem(fields[index]);
+              return InkWell(child: fieldsItem(fields[index]),onTap:()=> choseDialog(fields[index]),);
             },
             itemCount: fields.length,
             separatorBuilder: (BuildContext context, int index) => Divider(
