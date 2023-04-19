@@ -330,10 +330,13 @@ class AddGamePageController extends GetxController {
     }
   }
   toBioPage(){
-    Get.toNamed(AppPages.bio_page)?.then((refresh) {
+    flog('onTap');
+    Get.toNamed(AppPages.bio_page,preventDuplicates: false)?.then((refresh) {
       if(refresh){
         if (isEdit)onRefresh() ;
       }
+    }).catchError((e){
+      flog('catchError $e');
     });
   }
   onRefresh(){
