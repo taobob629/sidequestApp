@@ -240,12 +240,13 @@ class AddGamePageController extends GetxController {
       if (isEdit) {
         var route=Get.currentRoute;
         flog('route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route==AppPages.bio_page}');
-        if(route==AppPages.bio_page){
-          Get.back();
-          Get.back(result: true);
-        }else {
-          Get.back(result: true);
-        }
+        Get.back(result: true);
+        // if(route==AppPages.bio_page){
+        //   Get.back();
+        //   Get.back(result: true);
+        // }else {
+        //   Get.back(result: true);
+        // }
       } else {
         Get.back();
         Get.back();
@@ -329,6 +330,15 @@ class AddGamePageController extends GetxController {
     }
   }
   toBioPage(){
-    Get.toNamed(AppPages.bio_page);
+    Get.toNamed(AppPages.bio_page)?.then((refresh) {
+      if(refresh){
+        if (isEdit)onRefresh() ;
+      }
+    });
+  }
+  onRefresh(){
+    mPriceRanges?.clear();
+    gamePhotos?.clear();
+    getSkillInfo();
   }
 }

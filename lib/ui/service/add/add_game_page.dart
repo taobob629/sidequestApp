@@ -79,7 +79,7 @@ class _AddGamePageState extends State<AddGamePage> {
             )),
         centerTitle: true,
         elevation: 0,
-        actions: controller.isEdit?[IconButton(onPressed: () => Get.toNamed(AppPages.bio_page), icon: Text('Bio'))]:[],
+        actions: controller.isEdit?[IconButton(onPressed: () => controller.toBioPage(), icon: Text('Bio'))]:[],
       ),
       body: PWidget.column([
         if (1 != 1)
