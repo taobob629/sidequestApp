@@ -133,7 +133,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
                 10.horizontalSpace,
                 Container(
                   height: 45.h,
-                  width: 50.w,
+                 // width: 50.w,
                   constraints: BoxConstraints(minWidth: 100.w),
                   decoration: innerDecoration(),
                   alignment: Alignment.center,
