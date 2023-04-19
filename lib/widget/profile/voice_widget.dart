@@ -12,6 +12,7 @@ import 'package:wy/res/index.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/utils/index.dart';
 
 class PlayState {
@@ -30,14 +31,15 @@ class VoiceWidget extends StatelessWidget {
   double width = 158;
   bool needEdit = true;
 
-  VoiceWidget({@required this.pwId,
-    @required this.voice,
-    this.toRecordPage,
-    this.play,
-    this.width = 158,
-    this.needEdit = true,
-    this.maginBottom = 12,
-    this.marginLeft = 20});
+  VoiceWidget(
+      {@required this.pwId,
+      @required this.voice,
+      this.toRecordPage,
+      this.play,
+      this.width = 158,
+      this.needEdit = true,
+      this.maginBottom = 12,
+      this.marginLeft = 20});
 
   AudioManager audioManager = AudioManager.instance;
 
@@ -86,7 +88,7 @@ class VoiceWidget extends StatelessWidget {
         );
       case PlayState.idle:
       default:
-      //判断是不是本人
+        //判断是不是本人
         if (voice.isEmpty) {
           if (pwId != loginUserID) {
             return Center(
@@ -126,17 +128,14 @@ class VoiceWidget extends StatelessWidget {
 List voiceTypes = ['Record'.tr, 'From File'.tr];
 const int MAX_RECORD_FILE_SIZE = 25;
 
-pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,{bool isServiceRecord=false}) {
+pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
+    {bool isServiceRecord = false, int recordType=record_type_default}) {
   Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
             color: AppColor.itemBg,
             borderRadius:
-            BorderRadius.only(topLeft: Radius
-                .circular(16)
-                .r, topRight: Radius
-                .circular(16)
-                .r)),
+                BorderRadius.only(topLeft: Radius.circular(16).r, topRight: Radius.circular(16).r)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -149,13 +148,15 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,{boo
             ),
             ...voiceTypes
                 .mapIndexed(
-                  (index, type) =>
-                  ListTile(
+                  (index, type) => ListTile(
                     onTap: () async {
                       switch (index) {
                         case 0:
                           Get.back();
-                          var result = await Get.toNamed(AppPages.Record, arguments: voice);
+                          var result = await Get.toNamed(AppPages.Record,
+                              arguments: Map()..['voice'] = voice
+                               ..['type']=recordType
+                          );
                           return callback(result);
                         case 1:
                           FilePickerResult? fileResult = await FilePicker.platform.pickFiles(
@@ -172,21 +173,22 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,{boo
                             return;
                           }
                           //返回地址
-                          if(isServiceRecord) {
+                          if (isServiceRecord) {
                             var voiceUrl = await uploadFile(fileResult?.files?.single?.path);
                             return callback(voiceUrl);
                           }
-                          var result = await Get.toNamed(AppPages.Record, arguments: fileResult?.files?.single?.path);
+                          var result = await Get.toNamed(AppPages.Record,
+                              arguments: fileResult?.files?.single?.path);
                           return callback(result);
                       }
-                    } ,
+                    },
                     leading: Text(
                       type,
                       textAlign: TextAlign.left,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-            )
+                )
                 .toList(),
             20.verticalSpace
           ],

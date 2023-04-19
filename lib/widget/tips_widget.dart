@@ -14,13 +14,13 @@ import '../ui/frame/profile/my_profile/badges_widget.dart';
 class TipsWidegt extends StatelessWidget {
   String title;
   String tips;
-
-  TipsWidegt({this.title = '', this.tips = ''});
+  double? padding;
+  TipsWidegt({this.title = '', this.tips = '',this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 20.w),
+      padding: EdgeInsets.only(left: padding??20.w),
       child: Row(
         children: [
           Text(

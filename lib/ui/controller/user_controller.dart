@@ -435,11 +435,11 @@ class UserController extends GetxController {
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
 
-  toRecordPage(BuildContext context) {
+  toRecordPage(BuildContext context,{int type=0}) {
     pickVoiceDialog(context, userProfile.voice, (result) {
       flog('callback $result');
       if (result != null) userProfile.voice = result;
-    });
+    },recordType: type);
     // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
     //   if (result != null) userProfile.voice = result;
     // });

@@ -96,59 +96,63 @@ class OtherProfilePage extends StatelessWidget {
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: BoxDecoration(
                                                   border: Border.all(color: Colors.white, width: 1),
-                                                  borderRadius: BorderRadius.circular(65.r / 2),
+                                                  borderRadius: BorderRadius.circular((65 / 2).r),
                                                 ),
-                                                child: ImageUtil.networkImage(
-                                                  url: t.player.value.avatar,
-                                                  width: 65.w,
+                                                child: ExtendedImage.network(
+                                                  t.player.value.avatar,
+                                                  width: 65.h,
                                                   height: 65.h,
                                                   fit: BoxFit.cover,
+                                                  shape: BoxShape.circle,
                                                 ),
                                               )),
                                         ),
                                         Spacer(),
-                                        Container(
-                                          width: t.isSelf ? 98.w : 60.w,
-                                          height: 30.h,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
-                                              gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                                              boxShadow: [
-                                                BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                                BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                              ]),
-                                          child: Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  //播放
-                                                  t.audioManager.play(t.player.value.voice);
-                                                },
+                                        Obx(() => Visibility(
+                                              visible: t.player.value.voice.isNotEmpty,
+                                              child: Container(
+                                                width: t.isSelf ? 98.w : 60.w,
+                                                height: 30.h,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
+                                                    gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
+                                                    boxShadow: [
+                                                      BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
+                                                      BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
+                                                    ]),
                                                 child: Row(
                                                   children: [
-                                                    6.horizontalSpace,
-                                                    Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                                    8.horizontalSpace,
-                                                    Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        //播放
+                                                        t.audioManager.play(t.player.value.voice);
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          6.horizontalSpace,
+                                                          Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
+                                                          8.horizontalSpace,
+                                                          Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    if (t.isSelf)
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            //编辑
+                                                            t.toRecordPage(context);
+                                                          },
+                                                          child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: ImageUtil.assetImage('ic_edit', width: 14),
+                                                          ),
+                                                        ),
+                                                      )
                                                   ],
                                                 ),
                                               ),
-                                              if (t.isSelf)
-                                                Expanded(
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      //编辑
-                                                      t.toRecordPage(context);
-                                                    },
-                                                    child: Container(
-                                                      alignment: Alignment.center,
-                                                      child: ImageUtil.assetImage('ic_edit', width: 14),
-                                                    ),
-                                                  ),
-                                                )
-                                            ],
-                                          ),
-                                        )
+                                            ))
                                       ],
                                     ),
                                   )

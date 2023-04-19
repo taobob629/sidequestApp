@@ -26,7 +26,7 @@ class PostCommentsPage extends StatelessWidget {
 
     return Obx(() {
       return Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SmartRefresher(

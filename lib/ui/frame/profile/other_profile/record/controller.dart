@@ -12,17 +12,22 @@ import 'package:wy/service/voice_player.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/voice_record.dart';
 
+const int record_type_service = 1;
+const int record_type_default = 0;
+
 class RecordController extends BasePageController {
   int minSeconds = 3;
   int maxSeconds = 60;
   RxInt _countDownNum = RxInt(0);
-  RxBool _isRecording=RxBool(false);
+  RxBool _isRecording = RxBool(false);
 
   bool get isRecording => _isRecording.value;
 
   set isRecording(bool value) {
     _isRecording.value = value;
   }
+
+  int type = record_type_default;
 
   int get countDownNum => _countDownNum.value;
 
@@ -49,11 +54,15 @@ class RecordController extends BasePageController {
 
   @override
   void onInit() {
+    var params = Get.arguments as Map;
+    recordFileUrl = params['voice'];
+    type = params['type'] ?? 0;
+    flog('recordFileUrl $recordFileUrl type:  $type');
     _record = VoiceRecord(
       (int sec, String path) {
         //onComplete(sec, path);
         flog('录制时长 $sec');
-        if(sec<minSeconds){
+        if (sec < minSeconds) {
           err('The recording duration shall not be less than 3 seconds'.tr);
           stopRecord();
           return;
@@ -62,10 +71,9 @@ class RecordController extends BasePageController {
       },
       maxSeconds: 60,
     );
-    recordFileUrl = Get.arguments ?? '';
-    flog('recordFileUrl $recordFileUrl');
     super.onInit();
   }
+
   @override
   void onClose() {
     super.onClose();
@@ -77,22 +85,33 @@ class RecordController extends BasePageController {
     File file = File(path);
     if (await file.exists() == false) return;
     showLoadding();
-    var url = await Common.uploadFile(File(path), (count, total) {
-      flog('(count / total ${count / total}');
-    }, isVoiceFile: true);
+    var url;
+    if (type == record_type_service) {
+      url= await Common.uploadServiceRecordFile(File(path), (count, total) {
+        flog('(count / total ${count / total}');
+      }, isVoiceFile: true)
+          .catchError((e) {
+        err('${e}');
+        dismissLoadding();
+      });
+    }else {
+      url = await Common.uploadFile(File(path), (count, total) {
+        flog('(count / total ${count / total}');
+      }, isVoiceFile: true);
+    }
     dismissLoadding();
     toast('Upload success!'.tr);
     Get.back(result: url);
   }
 
   startRecord() {
-    isRecording=true;
+    isRecording = true;
     startTimer();
     _record.start();
   }
 
   stopRecord() {
-    isRecording=false;
+    isRecording = false;
     //countDownNum = 0;
     _record.stop();
     timerTask?.cancel();
