@@ -85,6 +85,8 @@ class OtherDashboardPage extends StatelessWidget {
                               "sex": t.player.value.sex,
                               "age": t.player.value.age,
                               "uk": t.player.value.uk,
+                              "price": game.serviceItem.first.price,
+                              "unit": game.serviceItem.first.unit,
                             }),
                             child: Container(
                               margin: EdgeInsets.only(left: 20, right: 20, bottom: 16),

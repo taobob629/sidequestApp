@@ -10,6 +10,7 @@ import 'package:wy/ui/frame/game/game_home_ctr.dart';
 import 'package:wy/widget/home/index.dart';
 
 import '../../../config/app_color.dart';
+import '../../../image_utils.dart';
 import '../../../utils/image_util.dart';
 import '../../controller/user_controller.dart';
 
@@ -40,45 +41,70 @@ class GameHomePage extends StatelessWidget {
               body: _commentWidget(),
             ),
           ),
-          Container(
-            height: 100.h,
-            decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
-              BoxShadow(
-                  offset: Offset(0, -2.h),
-                  color: Color(0xff1B1B21),
-                  blurRadius: 5.h)
-            ]),
-            child: Center(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => UserController.find.jumpChat(_ctr.uk),
-                child: Container(
-                  width: 150.w,
-                  height: 40.h,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 15.w),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xffFFCB0E),
-                      width: 1.w,
+          if (!_ctr.isSelf)
+            Container(
+              height: 100.h,
+              decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, -2.h),
+                    color: Color(0xff1B1B21),
+                    blurRadius: 5.h)
+              ]),
+              child: Center(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => UserController.find.jumpChat(_ctr.uk),
+                  child: Container(
+                    width: 150.w,
+                    height: 40.h,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 15.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xffFFCB0E),
+                        width: 1.w,
+                      ),
+                      borderRadius: BorderRadius.circular(40.r),
                     ),
-                    borderRadius: BorderRadius.circular(40.r),
-                  ),
-                  child: Text(
-                    'Message'.tr,
-                    style: TextStyle(
-                      color: Color(0xffFFCB0E),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM,
+                    child: Text(
+                      'Message'.tr,
+                      style: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
+    );
+  }
+
+  BoxDecoration getBoxDecoration(int index) {
+    if (index == 0) {
+      return BoxDecoration(
+        color: AppColor.itemBg,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15.r),
+          topLeft: Radius.circular(15.r),
+        ),
+      );
+    } else if (index == _ctr.list.length - 1) {
+      return BoxDecoration(
+        color: AppColor.itemBg,
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(15.r),
+          bottomLeft: Radius.circular(15.r),
+        ),
+      );
+    }
+
+    return BoxDecoration(
+      color: AppColor.itemBg,
     );
   }
 
@@ -93,13 +119,63 @@ class GameHomePage extends StatelessWidget {
             itemBuilder: (context, index) {
               final model = _ctr.list[index];
               return Container(
-                margin:
-                EdgeInsets.only(left: 15.w, right: 15.w, bottom: 10.h),
+                margin: EdgeInsets.only(left: 15.w, right: 15.w),
                 padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: AppColor.itemBg,
-                    borderRadius: BorderRadius.circular(15)),
+                decoration: getBoxDecoration(index),
                 child: Column(children: [
+                  if (index == 0)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Reviews'.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        10.verticalSpace,
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColor.yellow,
+                            ),
+                            5.horizontalSpace,
+                            Text(
+                              '${_ctr.model?.stars}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            Container(
+                              width: 4.w,
+                              height: 4.w,
+                              margin: EdgeInsets.symmetric(horizontal: 6.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                            ),
+                            Text(
+                              '${_ctr.total}Reviews',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                        20.verticalSpace,
+                      ],
+                    ),
                   SizedBox(
                     height: 44.h,
                     child: Row(
@@ -242,16 +318,11 @@ class GameHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Divider(
-                    color: Color(0xFF2D2E3A),
-                    height: 1,
-                  ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 14),
                     alignment: Alignment.topLeft,
                     child: Text(model.content,
-                        style:
-                        TextStyle(color: Colors.white, fontSize: 14.sp)),
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp)),
                   ),
                   Row(
                     children: [
@@ -272,13 +343,17 @@ class GameHomePage extends StatelessWidget {
                             4.horizontalSpace,
                             Text(model.gameName,
                                 style: TextStyle(
-                                    color: Color(0xFFC3C3C3),
-                                    fontSize: 10.sp)),
+                                    color: Color(0xFFC3C3C3), fontSize: 10.sp)),
                           ],
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Container(
+                    color: Color(0xff2d2e3a),
+                    height: 1.h,
+                    margin: EdgeInsets.only(top: 30.h),
+                  ),
                 ]),
               );
             },
@@ -305,10 +380,11 @@ class GameHomePage extends StatelessWidget {
                 ),
               ),
               20.verticalSpace,
-              Padding(
+              Container(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  'Juguemos un rato y descubramos quien es el impostor juntos, tu, yo y mi cuchillo :3',
+                  _ctr.model?.intro ?? '',
                   style: TextStyle(
                       color: Color(0xff808388),
                       fontSize: 13.sp,
@@ -324,7 +400,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Services',
+                        'Server',
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
@@ -335,7 +411,37 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        _ctr.model?.intro ?? '',
+                        _ctr.model?.server ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              15.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Position',
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.position ?? '',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 13.sp,
@@ -460,6 +566,47 @@ class GameHomePage extends StatelessWidget {
                         SexAndAgeWidget(
                           age: _ctr.age,
                           sex: _ctr.sex,
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                        10.verticalSpace,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Image.asset(
+                              ImageUtils.coinRed,
+                              width: 19.w,
+                              height: 19.w,
+                            ),
+                            3.horizontalSpace,
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: '${double.parse(_ctr.price).floor()}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontFamily: FONT_MEDIUM)),
+                              TextSpan(
+                                  text: '/${_ctr.unit}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8.sp,
+                                      fontFamily: FONT_MEDIUM)),
+                            ]))
+                          ],
                         ),
                       ],
                     ),

@@ -773,6 +773,7 @@ const Map<String, String> zh_CN = {
   "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
   "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
   "Please upload a picture as the service cover image":"请上传游戏封面图片",
+  "Service type already exist":"服务类型已经存在",
 
 
 

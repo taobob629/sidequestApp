@@ -5,6 +5,7 @@ class GameDetailModel {
     required this.server,
     required this.intro,
     required this.style,
+    required this.position,
     required this.stars,
     required this.platform,
   });
@@ -14,6 +15,7 @@ class GameDetailModel {
   String server;
   String intro;
   String style;
+  String position;
   double stars;
   String platform;
 
@@ -23,6 +25,7 @@ class GameDetailModel {
     server: json["Server"] ?? '',
     intro: json["intro"] ?? '',
     style: json["Style"] ?? '',
+    position: json["position"] ?? '',
     stars: json["stars"],
     platform: json["platform"],
   );
@@ -33,6 +36,7 @@ class GameDetailModel {
     "Server": server,
     "intro": intro,
     "Style": style,
+    "position": position,
     "stars": stars,
     "platform": platform,
   };

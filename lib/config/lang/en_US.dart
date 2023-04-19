@@ -768,9 +768,12 @@ const Map<String, String> en_US = {
   "Ongoing":"Ongoing",
   "Service Intro":"Service Intro",
   "Please input Service Intro":"Please input Service Intro",
-  "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
-  "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
-  "Please upload a picture as the service cover image":"请上传游戏封面图片",
+  "This picture will be displayed in your service interface":"This picture will be displayed in your service interface",
+  "Please record your voice, which will be displayed on service interface":"Please record your voice, which will be displayed on service interface",
+  "Please upload a picture as the service cover image":"Please upload a picture as the service cover image",
+  "Service type already exist":"Service type already exist",
+
+
 
 
 

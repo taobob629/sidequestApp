@@ -126,13 +126,13 @@ abstract class ProfileApi {
   }
 
   /// 查看别人的游戏评价
-  static Future<List<RatingCommentModel>> othersCommentsList({int page = 1, required String liveid, required String skillId}) async {
+  static Future<Map> othersCommentsList({int page = 1, required String liveid, required String skillId}) async {
     var response = await http.get('/peiwan/app/users/listComments', queryParameters: {
       "pageNum": page,
       "pageSize": 20,
       "liveid": liveid,
       "skillId": skillId,
     });
-    return response.data["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
+    return response.data;
   }
 }

@@ -257,7 +257,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                     Get.toNamed(AppPages.BindBankCard,
                                         arguments: controller.selectedBank);
                                   },
-                                  child: controller.currentPayMethod?.id == null
+                                  child: controller.currentPayMethod?.account.isEmpty == true
                                       ? Row(
                                           children: [
                                             Image.asset(

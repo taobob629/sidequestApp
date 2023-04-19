@@ -120,7 +120,7 @@ class AddGamePageController extends GetxController {
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
-      var item = fieldItems?.firstWhereOrNull((item) => item.type == field.type);
+      var item = fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -150,7 +150,7 @@ class AddGamePageController extends GetxController {
   onPriceUnitChange(int index, PriceRangeModel model) {
     if (mPriceRanges[index] == model) return;
     if (mPriceRanges.contains(model)) {
-      EasyLoading.showToast('已经存在改类型');
+      EasyLoading.showToast('Service type already exist');
       return;
     }
     mPriceRanges[index] = model;
@@ -240,12 +240,13 @@ class AddGamePageController extends GetxController {
       if (isEdit) {
         var route=Get.currentRoute;
         flog('route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route==AppPages.bio_page}');
-        if(route==AppPages.bio_page){
-          Get.back();
-          Get.back(result: true);
-        }else {
-          Get.back(result: true);
-        }
+        Get.back(result: true);
+        // if(route==AppPages.bio_page){
+        //   Get.back();
+        //   Get.back(result: true);
+        // }else {
+        //   Get.back(result: true);
+        // }
       } else {
         Get.back();
         Get.back();
@@ -329,6 +330,18 @@ class AddGamePageController extends GetxController {
     }
   }
   toBioPage(){
-    Get.toNamed(AppPages.bio_page);
+    flog('onTap');
+    Get.toNamed(AppPages.bio_page,preventDuplicates: false)?.then((refresh) {
+      if(refresh){
+        if (isEdit)onRefresh() ;
+      }
+    }).catchError((e){
+      flog('catchError $e');
+    });
+  }
+  onRefresh(){
+    mPriceRanges?.clear();
+    gamePhotos?.clear();
+    getSkillInfo();
   }
 }
