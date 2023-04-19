@@ -13,6 +13,8 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String avatar = "";
   String nickName = "";
   String uk = "";
+  String price = "0.0";
+  String unit = "";
   int age = 0;
   int sex = 0;
 
@@ -28,6 +30,8 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
       skillId = Get.arguments["skillId"].toString();
       avatar = Get.arguments["avatar"].toString();
       nickName = Get.arguments["nickName"].toString();
+      price = Get.arguments["price"].toString();
+      unit = Get.arguments["unit"].toString();
       uk = Get.arguments["uk"].toString();
       age = Get.arguments["age"] ?? 0;
       sex = Get.arguments["sex"] ?? 0;

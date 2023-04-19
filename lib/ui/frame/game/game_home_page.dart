@@ -10,6 +10,7 @@ import 'package:wy/ui/frame/game/game_home_ctr.dart';
 import 'package:wy/widget/home/index.dart';
 
 import '../../../config/app_color.dart';
+import '../../../image_utils.dart';
 import '../../../utils/image_util.dart';
 import '../../controller/user_controller.dart';
 
@@ -93,8 +94,7 @@ class GameHomePage extends StatelessWidget {
             itemBuilder: (context, index) {
               final model = _ctr.list[index];
               return Container(
-                margin:
-                EdgeInsets.only(left: 15.w, right: 15.w, bottom: 10.h),
+                margin: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 10.h),
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     color: AppColor.itemBg,
@@ -250,8 +250,7 @@ class GameHomePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 14),
                     alignment: Alignment.topLeft,
                     child: Text(model.content,
-                        style:
-                        TextStyle(color: Colors.white, fontSize: 14.sp)),
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp)),
                   ),
                   Row(
                     children: [
@@ -272,8 +271,7 @@ class GameHomePage extends StatelessWidget {
                             4.horizontalSpace,
                             Text(model.gameName,
                                 style: TextStyle(
-                                    color: Color(0xFFC3C3C3),
-                                    fontSize: 10.sp)),
+                                    color: Color(0xFFC3C3C3), fontSize: 10.sp)),
                           ],
                         ),
                       ),
@@ -305,10 +303,11 @@ class GameHomePage extends StatelessWidget {
                 ),
               ),
               20.verticalSpace,
-              Padding(
+              Container(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  'Juguemos un rato y descubramos quien es el impostor juntos, tu, yo y mi cuchillo :3',
+                  _ctr.model?.intro ?? '',
                   style: TextStyle(
                       color: Color(0xff808388),
                       fontSize: 13.sp,
@@ -324,7 +323,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Services',
+                        'Server',
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
@@ -335,7 +334,37 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        _ctr.model?.intro ?? '',
+                        _ctr.model?.server ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              15.verticalSpace,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Position',
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.position ?? '',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 13.sp,
@@ -460,6 +489,47 @@ class GameHomePage extends StatelessWidget {
                         SexAndAgeWidget(
                           age: _ctr.age,
                           sex: _ctr.sex,
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                        10.verticalSpace,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Image.asset(
+                              ImageUtils.coinRed,
+                              width: 19.w,
+                              height: 19.w,
+                            ),
+                            3.horizontalSpace,
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: '${double.parse(_ctr.price).floor()}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontFamily: FONT_MEDIUM)),
+                              TextSpan(
+                                  text: '/${_ctr.unit}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8.sp,
+                                      fontFamily: FONT_MEDIUM)),
+                            ]))
+                          ],
                         ),
                       ],
                     ),
