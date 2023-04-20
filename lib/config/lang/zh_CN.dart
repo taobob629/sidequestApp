@@ -501,7 +501,7 @@ const Map<String, String> zh_CN = {
   "Personally, identifying information is subject to our Privacy Policy https://sidequesthub.com/privacy, the terms of which are incorporated herein. Please review our Privacy Policy to understand our practices.": "Personally, identifying information is subject to our Privacy Policy https://sidequesthub.com/privacy, the terms of which are incorporated herein. Please review our Privacy Policy to understand our practices.",
   'Privacy': 'Privacy',
   "We offer subscription plans for a fee that provide benefits to a comprehensive experience and additional SideQuest exclusive offers. Your payment to us will automatically renew and continue until terminated. All payments are non-refundable. You must cancel your subscription one month in advance to avoid paying the subscription fee for the next billing period. We reserve the right to modify, terminate, or otherwise amend the subscription plans we offer from time to time. If you have purchased a Subscription, we will give you advance notice of significant changes to your plan.": "We offer subscription plans for a fee that provide benefits to a comprehensive experience and additional SideQuest exclusive offers. Your payment to us will automatically renew and continue until terminated. All payments are non-refundable. You must cancel your subscription one month in advance to avoid paying the subscription fee for the next billing period. We reserve the right to modify, terminate, or otherwise amend the subscription plans we offer from time to time. If you have purchased a Subscription, we will give you advance notice of significant changes to your plan.",
-  'Payment Method': 'Payment Method',
+  'Payment Method': '支付方式',
   "Unless otherwise indicated, you are required to provide a credit card or other payment method that we, accept to pay the applicable fee for a Subscription. We will charge the payment method you’ve chosen a subscription fee plus any applicable taxes on a recurring basis corresponding to the term of your Subscription. You are solely responsible for all fees charged to the payment method you’ve chosen. We reserve the right to cancel your Subscription if we are unable to successfully charge your payment method.": "Unless otherwise indicated, you are required to provide a credit card or other payment method that we, accept to pay the applicable fee for a Subscription. We will charge the payment method you’ve chosen a subscription fee plus any applicable taxes on a recurring basis corresponding to the term of your Subscription. You are solely responsible for all fees charged to the payment method you’ve chosen. We reserve the right to cancel your Subscription if we are unable to successfully charge your payment method.",
   'Billing Period': 'Billing Period',
   "Recurring Billing. By starting your SideQuest membership, you authorize us to charge you a monthly membership fee at the then current rate, and any other charges you may incur in connection with your use of the SideQuest service to your Payment Method. You acknowledge that the amount billed each month may vary from month to month for reasons that may include differing amounts due to promotional offers and/or changing or adding a plan, and you authorize us to charge your Payment Method for such varying amounts, which may be billed monthly in one or more charges.": "Recurring Billing. By starting your SideQuest membership, you authorize us to charge you a monthly membership fee at the then current rate, and any other charges you may incur in connection with your use of the SideQuest service to your Payment Method. You acknowledge that the amount billed each month may vary from month to month for reasons that may include differing amounts due to promotional offers and/or changing or adding a plan, and you authorize us to charge your Payment Method for such varying amounts, which may be billed monthly in one or more charges.",
@@ -775,7 +775,14 @@ const Map<String, String> zh_CN = {
   "Please upload a picture as the service cover image":"请上传游戏封面图片",
   "Service type already exist":"服务类型已经存在",
   "Name":"名称",
-  "ServiceType":"服务类型"
+  "ServiceType":"服务类型",
+  "Insufficient Diamonds":"钻石不足",
+  "WithDrawals":"提现",
+  "Cancelled":"已取消",
+  "Subscription Cancelled":"取消订阅",
+  "Commented":"我回复的",
+  "Liked":"我喜欢的",
+  "Info":"主页",
 
 
 

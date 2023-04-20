@@ -66,7 +66,7 @@ class WithDrawMainPage extends StatelessWidget {
           "Coin".tr,
         ),
         Text(
-          "WithDraw".tr,
+          "WithDrawals".tr,
         )
       ];
     }
@@ -78,7 +78,7 @@ class WithDrawMainPage extends StatelessWidget {
         "Diamonds".tr,
       ),
       Text(
-        "WithDraw".tr,
+        "WithDrawals".tr,
       )
     ];
   }

@@ -83,7 +83,7 @@ class HomeDrawer extends StatelessWidget {
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
-                sectionText('Legal'.tr),
+                sectionText('Policies'.tr),
                 10.verticalSpace,
                 supportsWidget(legals),
                 // Padding(

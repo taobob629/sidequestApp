@@ -773,8 +773,14 @@ const Map<String, String> en_US = {
   "Please upload a picture as the service cover image":"Please upload a picture as the service cover image",
   "Service type already exist":"Service type already exist",
   "Name":"Name",
-  "ServiceType":"ServiceType"
-
+  "ServiceType":"ServiceType",
+  "Insufficient Diamonds":"Insufficient Diamonds",
+  "WithDrawals":"WithDrawals",
+  "Cancelled":"Cancelled",
+  "Subscription Cancelled":"Subscription Cancelled",
+  "Commented":"Commented",
+  "Liked":"Liked",
+  "Info":"Info",
 
 
 

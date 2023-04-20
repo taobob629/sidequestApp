@@ -537,7 +537,7 @@ class OtherProfilePage extends StatelessWidget {
     List<Widget> tabs = [];
     if (t.player.value.isAuth)
       tabs.add(Text(
-        "Dashboard".tr,
+        "Info".tr,
       ));
     tabs.add(Text(
       "Posts".tr,

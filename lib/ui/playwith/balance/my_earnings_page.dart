@@ -127,7 +127,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                   return Row(
                     children: [
                       Text(
-                        "Method of receipt".tr,
+                        "Payment Method".tr,
                         style: TextStyle(
                           color: Color(0xffb2b9c9),
                           fontFamily: "DIN",
