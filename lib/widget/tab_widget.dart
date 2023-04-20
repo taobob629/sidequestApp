@@ -110,8 +110,8 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
               // indicatorWeight: 4,
               // indicatorPadding: EdgeInsets.only(bottom: 5),
               labelPadding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 3),
-              labelStyle: selectTabStyle(),
-              unselectedLabelStyle: unSelectTabStyle(),
+              labelStyle: selectTabStyle(widget.tabstyle),
+              unselectedLabelStyle: unSelectTabStyle(widget.tabstyle),
               tabs: buildTabs(),
             ),
           ),
@@ -120,29 +120,9 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
     );
   }
 
-  TextStyle selectTabStyle() {
-    switch (widget.tabstyle) {
-      case TAB_STYLE_2:
-        return TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold,fontFamily: FONT_MEDIUM);
-      case TAB_STYLE_1:
-        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
-      case TAB_STYLE_DEFAULT:
-      default:
-        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
-    }
-  }
 
-  TextStyle unSelectTabStyle() {
-    switch (widget.tabstyle) {
-      case TAB_STYLE_2:
-        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
-      case TAB_STYLE_1:
-        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
-      case TAB_STYLE_DEFAULT:
-      default:
-        return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
-    }
-  }
+
+
 
   List<Widget> buildTabs() {
     switch (widget.tabstyle) {
@@ -172,5 +152,27 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
                 ))
             .toList();
     }
+  }
+}
+TextStyle unSelectTabStyle(int tabstyle) {
+  switch (tabstyle) {
+    case TAB_STYLE_2:
+      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+    case TAB_STYLE_1:
+      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+    case TAB_STYLE_DEFAULT:
+    default:
+      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+  }
+}
+TextStyle selectTabStyle(var tabstyle) {
+  switch (tabstyle) {
+    case TAB_STYLE_2:
+      return TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold,fontFamily: FONT_MEDIUM);
+    case TAB_STYLE_1:
+      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+    case TAB_STYLE_DEFAULT:
+    default:
+      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
   }
 }

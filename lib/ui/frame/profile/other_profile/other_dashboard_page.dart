@@ -72,17 +72,19 @@ class OtherDashboardPage extends StatelessWidget {
                   ),
                   ...t.player.value.games
                       .map((game) => GestureDetector(
-                            onTap: () => Get.to(() => GameHomePage(), arguments: {
-                              "liveid": t.player.value.uid,
-                              "skillId": game.serviceItem[0].skillid,
-                              "avatar": t.player.value.avatar,
-                              "nickName": t.player.value.nickName,
-                              "sex": t.player.value.sex,
-                              "age": t.player.value.age,
-                              "uk": t.player.value.uk,
-                              "price": game.serviceItem.first.price,
-                              "unit": game.serviceItem.first.unit,
-                            }),
+                            onTap: () => Get.to(() => GameHomePage(),
+                                arguments: {
+                                  "liveid": t.player.value.uid,
+                                  "skillId": game.serviceItem[0].skillid,
+                                  "gameId": game.id,
+                                  "avatar": t.player.value.avatar,
+                                  "nickName": t.player.value.nickName,
+                                  "sex": t.player.value.sex,
+                                  "age": t.player.value.age,
+                                  "uk": t.player.value.uk,
+                                  "price": game.serviceItem.first.price,
+                                  "unit": game.serviceItem.first.unit,
+                                }),
                             child: Container(
                               margin: EdgeInsets.only(left: 20, right: 20, bottom: 16),
                               padding: EdgeInsets.only(right: 10),

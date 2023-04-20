@@ -664,7 +664,7 @@ const Map<String, String> en_US = {
   "Please Enter paypal account!":"Please Enter paypal account!",
   "Input nickname,UK account or email":"Input nickname,UK account or email",
   "Up to Four":"Up to Four",
-  "Please input Service Name":"Please input Service Name",
+  "Please input service name":"Please input service name",
   "Order Timeline":"Order Timeline",
   "Posts":"Posts",
   "Dashboard":"Dashboard",
@@ -772,6 +772,16 @@ const Map<String, String> en_US = {
   "Please record your voice, which will be displayed on service interface":"Please record your voice, which will be displayed on service interface",
   "Please upload a picture as the service cover image":"Please upload a picture as the service cover image",
   "Service type already exist":"Service type already exist",
+  "Name":"Name",
+  "ServiceType":"ServiceType",
+  "Insufficient Diamonds":"Insufficient Diamonds",
+  "WithDrawals":"WithDrawals",
+  "Cancelled":"Cancelled",
+  "Subscription Cancelled":"Subscription Cancelled",
+  "Commented":"Commented",
+  "Liked":"Liked",
+  "Info":"Info",
+
 
 
 

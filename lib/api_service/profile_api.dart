@@ -111,7 +111,7 @@ abstract class ProfileApi {
     return response.data;
   }
 
-  static Future<GameDetailModel> serviceDetailById(String id) async {
+  static Future<GameDetailModel> serviceDetailById(int id) async {
     var response = await http.get('/peiwan/app/users/serviceDetail?id=$id');
     return GameDetailModel.fromJson(response.data);
   }

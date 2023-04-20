@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_praised_post_page.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_released_post_page.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_replied_post_page.dart';
+import 'package:wy/widget/tab_widget.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
@@ -35,19 +37,21 @@ class MyPostsPage extends StatelessWidget {
                   indicatorColor: Color(0xFFFFCB0D),
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorWeight: 2,
+                  unselectedLabelStyle: unSelectTabStyle(TAB_STYLE_2),
+                  labelStyle: selectTabStyle(TAB_STYLE_2) ,
+                  indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
                   indicatorPadding: EdgeInsets.only(bottom: 5),
                   labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                  labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
-                  unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                 // unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
                   tabs: [
                     Text(
-                      "My Posts".tr,
+                      "Post".tr,
                     ),
                     Text(
-                      "Replied".tr,
+                      "Commented".tr,
                     ),
                     Text(
-                      "Praised".tr,
+                      "Liked".tr,
                     )
                   ],
                 ),

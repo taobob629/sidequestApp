@@ -305,39 +305,36 @@ class OtherProfilePage extends StatelessWidget {
                                                       padding: const EdgeInsets.only(top: 5),
                                                       child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
+                                                          5.horizontalSpace,
                                                           Visibility(
                                                             visible: t.player.value.location.country.isNotEmpty,
-                                                            child: Container(
-                                                              constraints: BoxConstraints(maxWidth: 120.w),
-                                                              padding: EdgeInsets.symmetric(horizontal: 5),
-                                                              height: 16.h,
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                children: [
-                                                                  Image.asset(
-                                                                    "assets/images/profile/icon_dibiao.webp",
-                                                                    width: 8,
-                                                                  ),
-                                                                  2.horizontalSpace,
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      t.player.value.location.country,
-                                                                      strutStyle: StrutStyle(forceStrutHeight: true),
-                                                                      maxLines: 1,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                            child:  Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Image.asset(
+                                                                  "assets/images/profile/icon_dibiao.webp",
+                                                                  width: 8.w,
+                                                                ),
+                                                                4.horizontalSpace,
+                                                                Container(
+                                                                  constraints: BoxConstraints(maxWidth: 120.w),
+                                                                  child: Text(
+                                                                  '${t.player.value.location.country}',
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                ),),
+                                                              ],
                                                             ),
                                                           ),
                                                           Visibility(
                                                             visible: t.player.value.language.isNotEmpty,
                                                             child: Container(
-                                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                                              padding: EdgeInsets.only(left: 15.w),
                                                               height: 16.h,
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -412,11 +409,11 @@ class OtherProfilePage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Followers".tr + ": ${t.player.value.followers}",
+                                          "Followings".tr + ": ${t.player.value.followers}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Text(
-                                          "Fans".tr + ": ${t.player.value.fans}",
+                                          "Followers".tr + ": ${t.player.value.fans}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Visibility(
@@ -426,7 +423,7 @@ class OtherProfilePage extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "Services".tr + ": ${t.player.value.age}",
+                                          "Orders".tr + ": ${t.player.value.age}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                       ],
@@ -563,7 +560,7 @@ class OtherProfilePage extends StatelessWidget {
     List<Widget> tabs = [];
     if (t.player.value.isAuth)
       tabs.add(Text(
-        "Dashboard".tr,
+        "Info".tr,
       ));
     tabs.add(Text(
       "Posts".tr,

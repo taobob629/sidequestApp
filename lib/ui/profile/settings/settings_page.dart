@@ -183,7 +183,7 @@ Deleting your account will remove your profile and all of your content from Side
             EasyLoading.dismiss();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Subscription Canceled".tr,
+                    title: "Subscription Cancelled".tr,
                     info: info,
                     confirmBtn: "CONFIRM".tr,
                     onConfirm: () {

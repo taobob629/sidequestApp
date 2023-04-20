@@ -378,7 +378,7 @@ class MyProfilePage extends StatelessWidget {
                               ),
                               7.verticalSpace,
                               Text(
-                                "Followers".tr,
+                                "Followings".tr,
                                 style: TextStyle(
                                   fontSize: 11.sp,
                                   color: Color(0xff808388),
@@ -415,7 +415,7 @@ class MyProfilePage extends StatelessWidget {
                             ),
                             7.verticalSpace,
                             Text(
-                              "Fans".tr,
+                              "Followers".tr,
                               style: TextStyle(
                                 fontSize: 11.sp,
                                 color: Color(0xff808388),
@@ -646,7 +646,7 @@ class MyProfilePage extends StatelessWidget {
   List<Widget> createTabs() {
     List<Widget> tabs = [];
     tabs.add(Text(
-      "Dashboard".tr,
+      "Info".tr,
     ));
     tabs.add(Text(
       "Posts".tr,

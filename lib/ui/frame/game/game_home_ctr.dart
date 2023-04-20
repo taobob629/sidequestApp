@@ -10,6 +10,7 @@ import '../profile/model/rating_comment_model.dart';
 
 class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String liveid = "";
+  int gameId = 0;
   String skillId = "";
   String avatar = "";
   String nickName = "";
@@ -38,6 +39,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
       uk = Get.arguments["uk"].toString();
       age = Get.arguments["age"] ?? 0;
       sex = Get.arguments["sex"] ?? 0;
+      gameId = Get.arguments["gameId"] ?? 0;
     }
     isSelf = UserController.find.userProfile.pwId.toString() == liveid;
     super.onInit();
@@ -52,7 +54,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   }
 
   void _requestData() async {
-    model = await ProfileApi.serviceDetailById(skillId);
+    model = await ProfileApi.serviceDetailById(gameId);
     update([gameInfoId]);
   }
 

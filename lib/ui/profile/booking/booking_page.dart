@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/booking_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -68,50 +69,13 @@ class BookingPage extends GetView<BookingPageController> {
                 ],
               ),
               bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
-                  ? FloatingButton(
-                      label: "MAKE A NEW BOOKING".tr,
-                      onTap: () => gotoAddPage(),
-                    )
+                  ? Padding(padding: EdgeInsets.only(bottom: 10.h),child: FloatingButton(
+                label: "MAKE A NEW BOOKING".tr,
+                onTap: () => gotoAddPage(),
+              ),)
                   : Container()),
             ))
       ],
-    );
-    return BaseScaffold(
-      title: "My Bookings".tr,
-      body: Stack(
-        children: [
-          Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Obx(() => controller.initializing.value
-                  ? Container()
-                  : controller.list.length == 0
-                      ? EmptyView()
-                      : ListView.separated(
-                          controller: controller.scrollController,
-                          itemBuilder: (context, index) {
-                            BookingModel model = controller.list[index];
-                            return BookingItem(
-                              model: model,
-                              onCancel: (id) => controller.cancelBook(id),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Container(
-                              height: 15,
-                            );
-                          },
-                          itemCount: controller.list.length)))
-        ],
-      ),
-      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
-          ? FloatingButton(
-              label: "MAKE A NEW BOOKING".tr,
-              onTap: () => gotoAddPage(),
-            )
-          : Container()),
     );
   }
 
