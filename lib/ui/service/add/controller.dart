@@ -19,6 +19,7 @@ import 'package:wy/model/service_info_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/game/game_home_page.dart';
 import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
@@ -256,9 +257,23 @@ class AddGamePageController extends GetxController {
         //   Get.back(result: true);
         // }
       } else {
-        Get.back();
-        Get.back();
-        Get.back(result: true);
+        Get.until(
+            (route) => Get.currentRoute.contains(AppPages.ServiceAndOrders));
+        Get.off(
+          () => GameHomePage(),
+          arguments: {
+            "liveid": v.data['liveid'],
+            "skillId": v.data['skillId'],
+            "gameId": v.data['gameId'],
+            "avatar": v.data['avatar'],
+            "nickName": v.data['nickName'],
+            "sex": v.data['sex'],
+            "age": v.data['age'],
+            "uk": v.data['uk'],
+            "price": v.data['price'],
+            "unit": v.data['unit'],
+          },
+        );
       }
     }).catchError((e) {
       flog('e $e');
@@ -331,7 +346,8 @@ class AddGamePageController extends GetxController {
       final resizedImage = await _resizeImage(image);
 
       EasyLoading.show();
-      var url = await Common.uploadFile(resizedImage, (p0, p1) => flog("$p0,$p1"));
+      var url =
+          await Common.uploadFile(resizedImage, (p0, p1) => flog("$p0,$p1"));
       EasyLoading.dismiss();
       background = url;
     } else {

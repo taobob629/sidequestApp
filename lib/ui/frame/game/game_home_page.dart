@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -543,7 +544,7 @@ class GameHomePage extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.circular(50.w / 2),
+                        borderRadius: BorderRadius.circular(30.r),
                       ),
                       child: ImageUtil.networkImage(
                         url: _ctr.avatar,
@@ -618,64 +619,65 @@ class GameHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              top: 0,
-              right: 15.w,
-              child: Container(
-                width: 98.w,
-                height: 30.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.r),
-                    bottomLeft: Radius.circular(15.r),
-                  ),
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)],
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x29632BDA),
-                        offset: Offset(0, 3.5),
-                        blurRadius: 8,
-                        spreadRadius: 0.5),
-                    BoxShadow(
-                        color: Color(0x29FFFFFF),
-                        offset: Offset(0, -1.5),
-                        blurRadius: 10,
-                        spreadRadius: 0.5),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        //播放
-                        _ctr.audioManager.play(_ctr.model?.voice);
-                      },
-                      child: Row(
-                        children: [
-                          10.horizontalSpace,
-                          Image.asset(
-                              "assets/images/profile/icon_voice_play.webp",
-                              width: 20,
-                              height: 20),
-                          8.horizontalSpace,
-                          Image.asset(
-                              "assets/images/profile/icon_voice_progress.webp",
-                              height: 13.h,
-                              fit: BoxFit.cover),
-                          4.horizontalSpace,
-                          Image.asset(
-                              "assets/images/profile/icon_voice_progress.webp",
-                              height: 13.h,
-                              fit: BoxFit.cover),
-                        ],
-                      ),
+            if (_ctr.model?.voice.isNotEmpty == true)
+              Positioned(
+                top: 0,
+                right: 15.w,
+                child: Container(
+                  width: 98.w,
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      bottomLeft: Radius.circular(15.r),
                     ),
-                  ],
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0x29632BDA),
+                          offset: Offset(0, 3.5),
+                          blurRadius: 8,
+                          spreadRadius: 0.5),
+                      BoxShadow(
+                          color: Color(0x29FFFFFF),
+                          offset: Offset(0, -1.5),
+                          blurRadius: 10,
+                          spreadRadius: 0.5),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          //播放
+                          _ctr.audioManager.play(_ctr.model?.voice);
+                        },
+                        child: Row(
+                          children: [
+                            10.horizontalSpace,
+                            Image.asset(
+                                "assets/images/profile/icon_voice_play.webp",
+                                width: 20,
+                                height: 20),
+                            8.horizontalSpace,
+                            Image.asset(
+                                "assets/images/profile/icon_voice_progress.webp",
+                                height: 13.h,
+                                fit: BoxFit.cover),
+                            4.horizontalSpace,
+                            Image.asset(
+                                "assets/images/profile/icon_voice_progress.webp",
+                                height: 13.h,
+                                fit: BoxFit.cover),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       );
