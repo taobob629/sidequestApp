@@ -37,7 +37,9 @@ class _State extends State<SocialPage> with SingleTickerProviderStateMixin {
         removeTop: true,
         context: context,
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+          ),
           body: TabWidget(
             tabstyle: TAB_STYLE_2,
             indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),

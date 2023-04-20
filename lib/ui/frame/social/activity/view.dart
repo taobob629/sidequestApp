@@ -18,7 +18,8 @@ class ActivityTabPage extends StatefulWidget {
   State<ActivityTabPage> createState() => _ActivityTabPageState();
 }
 
-class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProviderStateMixin {
+class _ActivityTabPageState extends State<ActivityTabPage>
+    with SingleTickerProviderStateMixin {
   ActivityTabController controller = Get.put(ActivityTabController());
 
   @override
@@ -31,12 +32,12 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
     controller.initTabs().then((tabs) {
       // 找到默认显示的tab
       controller.tabs = tabs;
-      controller.tabbarController = TabController(length: tabs.length, vsync: this)
-        ..addListener(() {
-          controller.curTab = tabs[controller.tabbarController?.index ?? 0];
-        })
-        ..animateTo(controller.tabs.indexOf(controller.curTab!));
-
+      controller.tabbarController =
+          TabController(length: tabs.length, vsync: this)
+            ..addListener(() {
+              controller.curTab = tabs[controller.tabbarController?.index ?? 0];
+            })
+            ..animateTo(controller.tabs.indexOf(controller.curTab!));
     });
   }
 
@@ -45,7 +46,8 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
     return Obx(() => controller.tabs.isNotEmpty
         ? Scaffold(
             appBar: AppBar(
-                toolbarHeight: 20.h,
+                toolbarHeight: 10.h,
+                automaticallyImplyLeading: false,
                 bottom: TabBar(
                   controller: controller.tabbarController,
                   labelColor: Colors.white,
@@ -82,7 +84,10 @@ class _ActivityTabPageState extends State<ActivityTabPage> with SingleTickerProv
                         Color(0xFFBE39CC),
                         Color(0xFFE68887),
                       ])
-                    : LinearGradient(colors: [AppColor.tabBackGround, AppColor.tabBackGround])),
+                    : LinearGradient(colors: [
+                        AppColor.tabBackGround,
+                        AppColor.tabBackGround
+                      ])),
             child: Tab(
               text: '$m',
             ),
