@@ -48,7 +48,7 @@ class OtherDashboardPage extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      ImageUtil.networkImage(url: e.iconImage, width: 36.w, height: 36.h),
+                                      ImageUtil.networkImage(url: e.iconLightImage, width: 36.w, height: 36.h),
                                       Text(e.iconName, maxLines: 1, overflow: TextOverflow.clip, style: TextStyle(fontSize: 10.sp, color: Colors.white))
                                     ],
                                   ),
