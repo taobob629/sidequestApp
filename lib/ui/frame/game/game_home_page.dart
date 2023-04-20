@@ -127,7 +127,7 @@ class GameHomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Reviews'.tr,
+                          'Comments'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: FONT_MEDIUM,
@@ -402,7 +402,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Server',
+                        'Server'.tr,
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
@@ -432,7 +432,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Position',
+                        'Position'.tr,
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
@@ -462,7 +462,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Styles',
+                        'Styles'.tr,
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
@@ -492,7 +492,7 @@ class GameHomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        'Platforms',
+                        'Platforms'.tr,
                         style: TextStyle(
                             color: Color(0xff808388),
                             fontSize: 13.sp,
