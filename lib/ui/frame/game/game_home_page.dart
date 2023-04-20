@@ -23,19 +23,14 @@ class GameHomePage extends StatelessWidget {
       title: 'League of Legends'.tr,
       body: Column(
         children: [
+          30.verticalSpace,
+          _userInfoWidget(),
+          15.verticalSpace,
           Expanded(
             child: NestedScrollView(
               headerSliverBuilder: (c, i) => [
                 SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      30.verticalSpace,
-                      _userInfoWidget(),
-                      15.verticalSpace,
-                      _gameInfoWidget(),
-                      15.verticalSpace,
-                    ],
-                  ),
+                  child: _gameInfoWidget(),
                 ),
               ],
               body: _commentWidget(),
@@ -43,7 +38,7 @@ class GameHomePage extends StatelessWidget {
           ),
           if (!_ctr.isSelf)
             Container(
-              height: 100.h,
+              height: 42.h + Get.mediaQuery.padding.bottom + 20,
               decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
                 BoxShadow(
                     offset: Offset(0, -2.h),
@@ -55,25 +50,29 @@ class GameHomePage extends StatelessWidget {
                   behavior: HitTestBehavior.translucent,
                   onTap: () => UserController.find.jumpChat(_ctr.uk),
                   child: Container(
-                    width: 150.w,
-                    height: 40.h,
+                    height: 42.h,
+                    margin: EdgeInsets.symmetric(horizontal: 15),
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.w),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xffFFCB0E),
-                        width: 1.w,
-                      ),
-                      borderRadius: BorderRadius.circular(40.r),
+                      gradient: LinearGradient(colors: AppColor.yellowGradient),
+                      borderRadius: BorderRadius.circular(21.r),
                     ),
-                    child: Text(
-                      'Message'.tr,
-                      style: TextStyle(
-                        color: Color(0xffFFCB0E),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Image.asset(
+                            "assets/images/profile/icon_pinlun.webp",
+                            width: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Messages".tr,
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -363,7 +362,7 @@ class GameHomePage extends StatelessWidget {
 
   Widget _gameInfoWidget() => GetBuilder<GameHomeCtr>(
         builder: (builder) => Container(
-          width: Get.width - 30.w,
+          margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
           decoration: BoxDecoration(
             color: Color(0xff262731),
             borderRadius: BorderRadius.circular(15.r),
@@ -386,10 +385,13 @@ class GameHomePage extends StatelessWidget {
                 child: Text(
                   _ctr.model?.intro ?? '',
                   style: TextStyle(
-                      color: Color(0xff808388),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
+                    color: Color(0xff808388),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               15.verticalSpace,
@@ -528,6 +530,7 @@ class GameHomePage extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
+                height: 90.h,
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
                 decoration: BoxDecoration(
@@ -552,6 +555,7 @@ class GameHomePage extends StatelessWidget {
                     12.horizontalSpace,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           _ctr.nickName,
@@ -615,28 +619,32 @@ class GameHomePage extends StatelessWidget {
               ),
             ),
             Positioned(
+              top: 0,
               right: 15.w,
               child: Container(
                 width: 98.w,
                 height: 30.h,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15.r),
-                        bottomLeft: Radius.circular(15.r)),
-                    gradient: LinearGradient(
-                        colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0x29632BDA),
-                          offset: Offset(0, 3.5),
-                          blurRadius: 8,
-                          spreadRadius: 0.5),
-                      BoxShadow(
-                          color: Color(0x29FFFFFF),
-                          offset: Offset(0, -1.5),
-                          blurRadius: 10,
-                          spreadRadius: 0.5),
-                    ]),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.r),
+                    bottomLeft: Radius.circular(15.r),
+                  ),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0x29632BDA),
+                        offset: Offset(0, 3.5),
+                        blurRadius: 8,
+                        spreadRadius: 0.5),
+                    BoxShadow(
+                        color: Color(0x29FFFFFF),
+                        offset: Offset(0, -1.5),
+                        blurRadius: 10,
+                        spreadRadius: 0.5),
+                  ],
+                ),
                 child: Row(
                   children: [
                     GestureDetector(
