@@ -59,13 +59,16 @@ ShapeDecoration inputDecoration() => ShapeDecoration(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10).r));
 
 BoxDecoration pageDecoration() => BoxDecoration(
-        gradient: LinearGradient(
-      colors: [
-        Color(0xFFFA9B83),
-        Color(0xFF312D47),
-        AppColor.background,
-      ],
-      stops: [0.1, 0.3, 0.6],
-      begin: Alignment(-2, -1),
-      end: Alignment(2, 1),
-    ));
+    color: AppColor.itemBg2
+    //     gradient: LinearGradient(
+    //   colors: [
+    //     // Color(0xFFFA9B83),
+    //     // Color(0xFF312D47),
+    //     AppColor.background,
+    //   ],
+    //   stops: [0.1, 0.3, 0.6],
+    //   begin: Alignment(-2, -1),
+    //   end: Alignment(2, 1),
+    // )
+
+);

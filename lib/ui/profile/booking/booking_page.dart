@@ -76,43 +76,6 @@ class BookingPage extends GetView<BookingPageController> {
             ))
       ],
     );
-    return BaseScaffold(
-      title: "My Bookings".tr,
-      body: Stack(
-        children: [
-          Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Obx(() => controller.initializing.value
-                  ? Container()
-                  : controller.list.length == 0
-                      ? EmptyView()
-                      : ListView.separated(
-                          controller: controller.scrollController,
-                          itemBuilder: (context, index) {
-                            BookingModel model = controller.list[index];
-                            return BookingItem(
-                              model: model,
-                              onCancel: (id) => controller.cancelBook(id),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Container(
-                              height: 15,
-                            );
-                          },
-                          itemCount: controller.list.length)))
-        ],
-      ),
-      floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
-          ? FloatingButton(
-              label: "MAKE A NEW BOOKING".tr,
-              onTap: () => gotoAddPage(),
-            )
-          : Container()),
-    );
   }
 
   void gotoAddPage() {
