@@ -318,7 +318,7 @@ class OtherProfilePage extends StatelessWidget {
                                                           Visibility(
                                                             visible: t.player.value.language.isNotEmpty,
                                                             child: Container(
-                                                              padding: EdgeInsets.symmetric(horizontal: 5),
+                                                              padding: EdgeInsets.only(left: 15.w),
                                                               height: 16.h,
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
