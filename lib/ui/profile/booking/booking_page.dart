@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/booking_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -68,10 +69,10 @@ class BookingPage extends GetView<BookingPageController> {
                 ],
               ),
               bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
-                  ? FloatingButton(
-                      label: "MAKE A NEW BOOKING".tr,
-                      onTap: () => gotoAddPage(),
-                    )
+                  ? Padding(padding: EdgeInsets.only(bottom: 10.h),child: FloatingButton(
+                label: "MAKE A NEW BOOKING".tr,
+                onTap: () => gotoAddPage(),
+              ),)
                   : Container()),
             ))
       ],
