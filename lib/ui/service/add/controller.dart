@@ -25,6 +25,7 @@ import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
+import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
 
@@ -106,12 +107,14 @@ class AddGamePageController extends GetxController {
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
     flog('serviceModel $serviceModel');
-    background=serviceModel?.backGround??'';
-    teServiceIntro.text=serviceModel?.des??'';
-    voiceUrl=serviceModel?.voice??'';
-    platformIndex = services.indexWhere((w) => w.id == serviceModel?.platfromId);
+    background = serviceModel?.backGround ?? '';
+    teServiceIntro.text = serviceModel?.des ?? '';
+    voiceUrl = serviceModel?.voice ?? '';
+    platformIndex =
+        services.indexWhere((w) => w.id == serviceModel?.platfromId);
     platform = services[platformIndex];
-    gameIndex = platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
+    gameIndex =
+        platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
     if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
@@ -120,7 +123,8 @@ class AddGamePageController extends GetxController {
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
-      var item = fieldItems?.firstWhereOrNull((item) => item.name == field.name);
+      var item =
+          fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -139,7 +143,8 @@ class AddGamePageController extends GetxController {
   }
 
   getPriceRange({var gameId}) async {
-    var result = await GamesApi.getPriceRange(gameId ?? game?.id, levelId: gameLv?.levelid);
+    var result = await GamesApi.getPriceRange(gameId ?? game?.id,
+        levelId: gameLv?.levelid);
     priceRanges.clear();
     mPriceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
@@ -173,12 +178,14 @@ class AddGamePageController extends GetxController {
       return;
     }
     if (mPriceRanges.length >= priceRanges.length) {
-      EasyLoading.showToast('${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
+      EasyLoading.showToast(
+          '${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
       return;
     }
 
     //查看还有什么类型的没有被添加
-    var item = priceRanges.firstWhereOrNull((element) => !mPriceRanges.contains(element));
+    var item = priceRanges
+        .firstWhereOrNull((element) => !mPriceRanges.contains(element));
     if (item != null) {
       mPriceRanges.add(item);
     }
@@ -190,7 +197,7 @@ class AddGamePageController extends GetxController {
   }
 
   updateService() async {
-    var desc=teServiceIntro.text;
+    var desc = teServiceIntro.text;
     //flog('priceRanges $mPriceRanges');
     if (!isEdit) {
       if (mPriceRanges.isEmpty) {
@@ -208,15 +215,15 @@ class AddGamePageController extends GetxController {
         EasyLoading.showToast('Please input a service intro!'.tr);
         return;
       }
-      if(voiceUrl.isEmpty){
+      if (voiceUrl.isEmpty) {
         EasyLoading.showToast('Please add a voice!'.tr);
         return;
       }
-      if(background.isEmpty){
-        EasyLoading.showToast('Please upload a picture as the service cover image!'.tr);
+      if (background.isEmpty) {
+        EasyLoading.showToast(
+            'Please upload a picture as the service cover image!'.tr);
         return;
       }
-
     }
     EasyLoading.show();
     var data = {
@@ -229,17 +236,18 @@ class AddGamePageController extends GetxController {
       // "coin": priceRangeCon.text,
       'serviceTypes': mPriceRanges,
       'fieldItems': buildFiledsParams(),
-      'des':desc,
-      'backGround':background,
-      'voice':voiceUrl,
+      'des': desc,
+      'backGround': background,
+      'voice': voiceUrl,
       // "des": beGoodAtCon.text,
     };
     http.post('/peiwan/app/service/addService', data: data).then((v) {
       EasyLoading.showToast('Submitted successfully'.tr);
       EasyLoading.dismiss();
       if (isEdit) {
-        var route=Get.currentRoute;
-        flog('route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route==AppPages.bio_page}');
+        var route = Get.currentRoute;
+        flog(
+            'route $route  AppPages.bio_page ${AppPages.bio_page}  333 ${route == AppPages.bio_page}');
         Get.back(result: true);
         // if(route==AppPages.bio_page){
         //   Get.back();
@@ -294,11 +302,11 @@ class AddGamePageController extends GetxController {
         UserController.find.userProfile.voice.isEmpty;
   }
 
-  toRecordPage(BuildContext context,{int type=record_type_service}) {
+  toRecordPage(BuildContext context, {int type = record_type_service}) {
     pickVoiceDialog(context, voiceUrl, (result) {
       flog('callback $result');
       if (result != null) voiceUrl = result;
-    },isServiceRecord: true,recordType: type);
+    }, isServiceRecord: true, recordType: type);
     // Get.toNamed(AppPages.Record)?.then((value) {
     //   if (value != null){
     //     voiceUrl = value;
@@ -316,30 +324,41 @@ class AddGamePageController extends GetxController {
     if (status == false) {
       return;
     }
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      var _image = File(pickedFile.path);
-      Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
-        EasyLoading.show();
-        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
-        EasyLoading.dismiss();
-        background = url;
-      });
+      final image = File(pickedFile.path);
+      final resizedImage = await _resizeImage(image);
+
+      EasyLoading.show();
+      var url = await Common.uploadFile(resizedImage, (p0, p1) => flog("$p0,$p1"));
+      EasyLoading.dismiss();
+      background = url;
     } else {
       print('No image selected.');
     }
   }
-  toBioPage(){
+
+  Future<File> _resizeImage(File file) async {
+    final bytes = await file.readAsBytes();
+    final image = img.decodeImage(bytes);
+    final resizedImage = img.copyResize(image!, width: 672, height: 375);
+    final resizedFile = await file.writeAsBytes(img.encodeJpg(resizedImage));
+    return resizedFile;
+  }
+
+  toBioPage() {
     flog('onTap');
-    Get.toNamed(AppPages.bio_page,preventDuplicates: false)?.then((refresh) {
-      if(refresh){
-        if (isEdit)onRefresh() ;
+    Get.toNamed(AppPages.bio_page, preventDuplicates: false)?.then((refresh) {
+      if (refresh) {
+        if (isEdit) onRefresh();
       }
-    }).catchError((e){
+    }).catchError((e) {
       flog('catchError $e');
     });
   }
-  onRefresh(){
+
+  onRefresh() {
     mPriceRanges?.clear();
     gamePhotos?.clear();
     getSkillInfo();
