@@ -173,6 +173,7 @@ class TrophieModel {
   int id = 0;
   String iconName = "";
   String iconImage = "";
+  String iconLightImage="";
   String tips = "";
   bool lighted = false;
   int medalType = 0;
@@ -182,6 +183,7 @@ class TrophieModel {
     this.id = 0,
     this.iconName = "",
     this.iconImage = "",
+    this.iconLightImage = "",
     this.tips = "",
     this.lighted = false,
     this.medalType = 0,
@@ -192,6 +194,7 @@ class TrophieModel {
     id = json["id"] ?? 0;
     iconName = json["iconName"] ?? "";
     iconImage = json["iconImage"] ?? "";
+    iconLightImage = json["iconLightImage"] ?? "";
     tips = json["tips"] ?? "";
     lighted = json["lighted"] ?? false;
     medalType = json["medalType"] ?? 0;
