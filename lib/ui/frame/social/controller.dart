@@ -10,6 +10,6 @@ import 'package:wy/common/base_tab_controller.dart';
 class SocialTabController extends BaseTabContoller {
   @override
   initTabs() {
-    tabs = ['Post'.tr, 'Activity'.tr];
+    tabs = ['Posts'.tr, 'Activities'.tr];
   }
 }

@@ -110,7 +110,7 @@ class VipPage extends StatelessWidget {
                                             btnTitle = "£ ${vipModel.monthFee.toString()} PM";
                                           } else if (diff == 0) {
                                             if (vipCanceled) {
-                                              btnTitle = "Canceled".tr;
+                                              btnTitle = "Cancelled".tr;
                                             } else {
                                               btnTitle = "Cancel".tr;
                                             }

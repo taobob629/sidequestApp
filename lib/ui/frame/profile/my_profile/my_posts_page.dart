@@ -41,13 +41,13 @@ class MyPostsPage extends StatelessWidget {
                   unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
                   tabs: [
                     Text(
-                      "My Posts".tr,
+                      "Post".tr,
                     ),
                     Text(
-                      "Replied".tr,
+                      "Commented".tr,
                     ),
                     Text(
-                      "Praised".tr,
+                      "Liked".tr,
                     )
                   ],
                 ),

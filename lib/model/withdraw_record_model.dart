@@ -92,7 +92,7 @@ class WithdrawRecordModel {
       case 2:
         return 'Rejected';
       case 3:
-        return 'Canceled';
+        return 'Cancelled';
       default:
         return '';
     }

@@ -387,11 +387,11 @@ class OtherProfilePage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Followers".tr + ": ${t.player.value.followers}",
+                                          "Followings".tr + ": ${t.player.value.followers}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Text(
-                                          "Fans".tr + ": ${t.player.value.fans}",
+                                          "Followers".tr + ": ${t.player.value.fans}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                         Visibility(
@@ -401,7 +401,7 @@ class OtherProfilePage extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "Services".tr + ": ${t.player.value.age}",
+                                          "Orders".tr + ": ${t.player.value.age}",
                                           style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
                                         ),
                                       ],
@@ -537,7 +537,7 @@ class OtherProfilePage extends StatelessWidget {
     List<Widget> tabs = [];
     if (t.player.value.isAuth)
       tabs.add(Text(
-        "Dashboard".tr,
+        "Info".tr,
       ));
     tabs.add(Text(
       "Posts".tr,

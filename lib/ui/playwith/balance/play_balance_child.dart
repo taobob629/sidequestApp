@@ -545,7 +545,7 @@ class WalletBalancePageController extends GetxListController {
     double votesDouble = double.parse(votes);
     double votesSum = double.parse(userController.userProfile.diamond);
     if (votesDouble.isGreaterThan(votesSum)) {
-      EasyLoading.showInfo('${'Lack of diamonds'.tr}!');
+      EasyLoading.showInfo('${'Insufficient Diamonds'.tr}!');
       return;
     }
     if (type == "paypal" && paypalController.text.trim().isEmpty) {
