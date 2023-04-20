@@ -289,33 +289,30 @@ class OtherProfilePage extends StatelessWidget {
                                                       padding: const EdgeInsets.only(top: 5),
                                                       child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
+                                                          5.horizontalSpace,
                                                           Visibility(
                                                             visible: t.player.value.location.country.isNotEmpty,
-                                                            child: Container(
-                                                              constraints: BoxConstraints(maxWidth: 120.w),
-                                                              padding: EdgeInsets.symmetric(horizontal: 5),
-                                                              height: 16.h,
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                children: [
-                                                                  Image.asset(
-                                                                    "assets/images/profile/icon_dibiao.webp",
-                                                                    width: 8,
-                                                                  ),
-                                                                  2.horizontalSpace,
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      t.player.value.location.country,
-                                                                      strutStyle: StrutStyle(forceStrutHeight: true),
-                                                                      maxLines: 1,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                            child:  Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Image.asset(
+                                                                  "assets/images/profile/icon_dibiao.webp",
+                                                                  width: 8.w,
+                                                                ),
+                                                                4.horizontalSpace,
+                                                                Container(
+                                                                  constraints: BoxConstraints(maxWidth: 120.w),
+                                                                  child: Text(
+                                                                  '${t.player.value.location.country}',
+                                                                  strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                ),),
+                                                              ],
                                                             ),
                                                           ),
                                                           Visibility(
