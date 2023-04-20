@@ -80,8 +80,8 @@ class PostListItemView extends StatelessWidget {
                         Text(
                           model.content,
                           style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                          maxLines: null,
-                          overflow: TextOverflow.ellipsis,
+                          // maxLines: null,
+                          // overflow: TextOverflow.ellipsis,
                         ),
                         15.horizontalSpace
                       ],

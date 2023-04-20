@@ -16,6 +16,8 @@ class ReleasePostController extends GetxController {
   List<String> photoList = [];
   final photoLocalFiles = <File>[].obs;
 
+  final textLength = 0.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -30,12 +32,12 @@ class ReleasePostController extends GetxController {
 
   pickUploadPhoto() async {
     List<XFile>? files = await _picker.pickMultiImage(imageQuality: 30);
-    if (files?.isEmpty==true) {
+    if (files?.isEmpty == true) {
       return;
     }
 
     EasyLoading.show();
-    int length = files?.length??0;
+    int length = files?.length ?? 0;
     if (length > 9) {
       showInfoDialog('only 9 pictures allowed'.tr);
       length = 9;
@@ -47,8 +49,7 @@ class ReleasePostController extends GetxController {
       File file = File(files![i].path);
       photoLocalFiles.add(file);
 
-      Common.uploadFile(file, (p0, p1) {
-      }).then((url) {
+      Common.uploadFile(file, (p0, p1) {}).then((url) {
         if (url.isNotEmpty) {
           photoList.add(url);
         }
@@ -68,9 +69,7 @@ class ReleasePostController extends GetxController {
       return;
     }
     EasyLoading.show();
-    PostApi.releasePost(
-            content: textController.text, images: jsonEncode(photoList))
-        .then((value) {
+    PostApi.releasePost(content: textController.text, images: jsonEncode(photoList)).then((value) {
       Get.back(result: "ReloadData");
     }).onError((error, stackTrace) {
       EasyLoading.dismiss();

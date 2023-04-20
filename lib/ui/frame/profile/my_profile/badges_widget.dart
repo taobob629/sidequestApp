@@ -44,10 +44,7 @@ class BadgesWidget extends GetView<ProfileController> {
               children: [
                 Text(
                   '${badge.name}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
                   onTapDown: (details) {
@@ -94,20 +91,12 @@ class BadgesWidget extends GetView<ProfileController> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: badge
-                          .getPageData(index)
-                          .map((e) => badgeItem(e))
-                          .toList(),
+                      children: badge.getPageData(index).map((e) => badgeItem(e)).toList(),
                     ),
                   );
                 },
                 itemCount: badge.getPageSize(),
-                pagination: SwiperPagination(
-                    builder: RectSwiperPaginationBuilder(
-                        color: AppColor.greyAF,
-                        activeColor: AppColor.yellow,
-                        size: Size(10, 10),
-                        activeSize: Size(18, 10))),
+                pagination: SwiperPagination(builder: RectSwiperPaginationBuilder(color: AppColor.greyAF, activeColor: AppColor.yellow, size: Size(10, 10), activeSize: Size(18, 10))),
               ),
             ),
           )
@@ -123,40 +112,35 @@ class BadgesWidget extends GetView<ProfileController> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (item.lighted)
-            Container(
-              padding: EdgeInsets.all(5),
-              child: ImageUtil.networkImage(
-                url: item.iconImage,
-                width: iconSize,
-                height: iconSize,
-                fit: BoxFit.cover,
-              ),
+          // if (item.lighted)
+          Container(
+            padding: EdgeInsets.all(5),
+            child: ImageUtil.networkImage(
+              url: item.iconImage,
+              width: iconSize,
+              height: iconSize,
+              fit: BoxFit.cover,
             ),
-          if (item.lighted == false)
-            Container(
-              padding: EdgeInsets.all(5),
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                    Colors.grey.withOpacity(0.5), BlendMode.dstIn),
-                child: ImageUtil.networkImage(
-                  url: item.iconImage,
-                  fit: BoxFit.cover,
-                  width: iconSize,
-                  height: iconSize,
-                ),
-              ),
-            ),
+          ),
+          // if (item.lighted == false)
+          //   Container(
+          //     padding: EdgeInsets.all(5),
+          //     child: ColorFiltered(
+          //       colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
+          //       child: ImageUtil.networkImage(
+          //         url: item.iconImage,
+          //         fit: BoxFit.cover,
+          //         width: iconSize,
+          //         height: iconSize,
+          //       ),
+          //     ),
+          //   ),
           5.verticalSpace,
           Text(
             '${item.iconName}',
             textAlign: TextAlign.center,
             maxLines: 2,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 10.sp,
-                overflow: TextOverflow.ellipsis,
-                fontFamily: FONT_LIGHT),
+            style: TextStyle(color: Colors.white, fontSize: 10.sp, overflow: TextOverflow.ellipsis, fontFamily: FONT_LIGHT),
           )
         ],
       ),
@@ -165,8 +149,7 @@ class BadgesWidget extends GetView<ProfileController> {
 }
 
 class TipsDialog extends StatelessWidget {
-  TipsDialog({Key? key, required this.offset, required this.tips})
-      : super(key: key);
+  TipsDialog({Key? key, required this.offset, required this.tips}) : super(key: key);
   final Offset offset;
   final String tips;
 
@@ -193,9 +176,7 @@ class TipsDialog extends StatelessWidget {
           width: Get.width - offset.dx / 2,
           child: Container(
             padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(
-                color: Color(0xff282640),
-                borderRadius: BorderRadius.circular(10.r)),
+            decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10.r)),
             child: Text(
               tips,
               style: TextStyle(

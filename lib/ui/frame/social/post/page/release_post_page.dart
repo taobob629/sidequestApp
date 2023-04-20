@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -38,22 +39,24 @@ class ReleasePostPage extends StatelessWidget {
                     // border: Border.all(color: Color(0xFFDCDCE4)),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: TextField(
-                    controller: t.textController,
-                    cursorColor: Colors.white,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Add content'.tr,
-                      hintStyle: TextStyle(fontSize: 14, color: Color(0xFFC5C3C6)),
-                      // counterText: "${t.textController.text.length}/500",
-                      // counterStyle: TextStyle(color: Colors.white),
-                    ),
-                    style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: Colors.white),
-                    onChanged: (value) {
-                      // controller.valueChange();
-                    },
-                  ),
+                  child: Obx(() => TextField(
+                        controller: t.textController,
+                        cursorColor: Colors.white,
+                        maxLines: 6,
+                        inputFormatters: [LengthLimitingTextInputFormatter(70)],
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Add content'.tr,
+                          hintStyle: TextStyle(fontSize: 14, color: Color(0xFFC5C3C6)),
+                          counterText: "${t.textLength.value}/70",
+                          counterStyle: TextStyle(color: Colors.white),
+                        ),
+                        style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: Colors.white),
+                        onChanged: (value) {
+                          t.textLength.value = t.textController.text.length;
+                          // controller.valueChange();
+                        },
+                      )),
                 ),
               ),
               Container(
@@ -84,7 +87,10 @@ class ReleasePostPage extends StatelessWidget {
                                 alignment: AlignmentDirectional.center,
                                 fit: StackFit.expand,
                                 children: [
-                                  Image.file(file, fit: BoxFit.cover,),
+                                  Image.file(
+                                    file,
+                                    fit: BoxFit.cover,
+                                  ),
                                   Positioned(
                                       right: 0,
                                       top: 0,

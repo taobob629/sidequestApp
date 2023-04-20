@@ -23,6 +23,7 @@ import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/route.dart';
 import '../../../service/add/add_game_page.dart';
 import '../../messages/chat/chat_page.dart';
+import '../my_profile/badges_widget.dart';
 import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
 import 'other_dashboard_page.dart';
@@ -107,6 +108,7 @@ class OtherProfilePage extends StatelessWidget {
                                                 ),
                                               )),
                                         ),
+                                        8.horizontalSpace,
                                         Spacer(),
                                         Obx(() => Visibility(
                                               visible: t.player.value.voice.isNotEmpty,
@@ -155,22 +157,36 @@ class OtherProfilePage extends StatelessWidget {
                                             ))
                                       ],
                                     ),
-                                  )
+                                  ),
+                                  Positioned(
+                                      left: 66.w,
+                                      bottom: 16.h,
+                                      child: Obx(() => Visibility(
+                                            visible: t.player.value.follow,
+                                            child: Image.asset(
+                                              "assets/images/profile/followed.webp",
+                                              width: 26.w,
+                                              height: 26.w,
+                                            ),
+                                          )))
                                 ],
                               ),
                             ),
                             Visibility(
                               visible: !t.isSelf,
-                              child: CsIntimacyProgress(
-                                firstAvatar: t.player.value.avatar,
-                                secondAvatar: UserController.find.userProfile.avatar,
-                                lv: t.player.value.intimacyLevel,
-                                currentIntimacy: t.player.value.currentIntimacy,
-                                maxIntimacy: t.player.value.maxIntimacy,
-                              ).marginSymmetric(horizontal: 14, vertical: 15),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 14, right: 14, top: 15),
+                                child: CsIntimacyProgress(
+                                  firstAvatar: t.player.value.avatar,
+                                  secondAvatar: UserController.find.userProfile.avatar,
+                                  lv: t.player.value.intimacyLevel,
+                                  currentIntimacy: t.player.value.currentIntimacy,
+                                  maxIntimacy: t.player.value.maxIntimacy,
+                                ),
+                              ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 20),
+                              padding: EdgeInsets.only(left: 20, top: 15),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,14 +377,23 @@ class OtherProfilePage extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 20, right: 20),
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
+                              child: GestureDetector(
+                                onTapDown: (details) {
+                                  print(details.globalPosition);
+                                  Get.dialog(TipsDialog(
+                                    offset: details.globalPosition,
+                                    tips: t.player.value.signature,
+                                  ));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 20, right: 20),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
+                                  ),
                                 ),
                               ),
                             ),
@@ -475,8 +500,9 @@ class OtherProfilePage extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.only(right: 10.w),
                                         child: Image.asset(
-                                          "assets/images/profile/followed.webp",
+                                          "assets/images/profile/follow.webp",
                                           width: 16,
+                                          // color: AppColor.accent,
                                           // color: t.player.value.follow ? AppColor.accent : AppColor.yellow,
                                         ),
                                       ),
