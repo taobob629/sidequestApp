@@ -541,6 +541,8 @@ class GameHomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
+                      width: 50.w,
+                      height: 50.w,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 1),
