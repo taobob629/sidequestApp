@@ -423,6 +423,8 @@ class WalletBalancePageController extends GetxListController {
         element.icon = ImageUtils.icon_bank;
       } else if (element.name.toLowerCase().contains('alipay')) {
         element.icon = ImageUtils.icon_alipay;
+      } else if (element.name.toLowerCase().contains('wise')) {
+        element.icon = ImageUtils.icon_wise;
       }
     });
     currentPayMethod = chargeRule.receipt[0];
