@@ -20,67 +20,71 @@ class GameHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      title: _ctr.model?.gameName ?? '',
-      body: Column(
-        children: [
-          30.verticalSpace,
-          _userInfoWidget(),
-          15.verticalSpace,
-          Expanded(
-            child: NestedScrollView(
-              headerSliverBuilder: (c, i) => [
-                SliverToBoxAdapter(
-                  child: _gameInfoWidget(),
-                ),
-              ],
-              body: _commentWidget(),
+    return GetBuilder<GameHomeCtr>(
+      builder: (builder) => BaseScaffold(
+        title: _ctr.model?.gameName ?? '',
+        body: Column(
+          children: [
+            30.verticalSpace,
+            _userInfoWidget(),
+            15.verticalSpace,
+            Expanded(
+              child: NestedScrollView(
+                headerSliverBuilder: (c, i) => [
+                  SliverToBoxAdapter(
+                    child: _gameInfoWidget(),
+                  ),
+                ],
+                body: _commentWidget(),
+              ),
             ),
-          ),
-          if (!_ctr.isSelf)
-            Container(
-              height: 42.h + Get.mediaQuery.padding.bottom + 20,
-              decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
-                BoxShadow(
-                    offset: Offset(0, -2.h),
-                    color: Color(0xff1B1B21),
-                    blurRadius: 5.h)
-              ]),
-              child: Center(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => UserController.find.jumpChat(_ctr.uk),
-                  child: Container(
-                    height: 42.h,
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: AppColor.yellowGradient),
-                      borderRadius: BorderRadius.circular(21.r),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: Image.asset(
-                            "assets/images/profile/icon_pinlun.webp",
-                            width: 16,
-                            color: Colors.white,
+            if (!_ctr.isSelf)
+              Container(
+                height: 42.h + Get.mediaQuery.padding.bottom + 20,
+                decoration: BoxDecoration(color: Color(0xff262731), boxShadow: [
+                  BoxShadow(
+                      offset: Offset(0, -2.h),
+                      color: Color(0xff1B1B21),
+                      blurRadius: 5.h)
+                ]),
+                child: Center(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => UserController.find.jumpChat(_ctr.uk),
+                    child: Container(
+                      height: 42.h,
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        gradient:
+                            LinearGradient(colors: AppColor.yellowGradient),
+                        borderRadius: BorderRadius.circular(21.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Image.asset(
+                              "assets/images/profile/icon_pinlun.webp",
+                              width: 16,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "Messages".tr,
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ],
+                          Text(
+                            "Messages".tr,
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
+      id: _ctr.gameInfoId,
     );
   }
 
@@ -361,166 +365,163 @@ class GameHomePage extends StatelessWidget {
         ),
       );
 
-  Widget _gameInfoWidget() => GetBuilder<GameHomeCtr>(
-        builder: (builder) => Container(
-          margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
-          decoration: BoxDecoration(
-            color: Color(0xff262731),
-            borderRadius: BorderRadius.circular(15.r),
+  Widget _gameInfoWidget() => Container(
+    margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
+    decoration: BoxDecoration(
+      color: Color(0xff262731),
+      borderRadius: BorderRadius.circular(15.r),
+    ),
+    child: Column(
+      children: [
+        6.verticalSpace,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15.r),
+          child: ImageUtil.networkImage(
+            url: _ctr.model?.backGround ?? '',
+            fit: BoxFit.cover,
+            height: 188.w,
           ),
-          child: Column(
+        ),
+        20.verticalSpace,
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            _ctr.model?.intro ?? '',
+            style: TextStyle(
+              color: Color(0xff808388),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.bold,
+              fontFamily: FONT_MEDIUM,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        15.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
             children: [
-              6.verticalSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.r),
-                child: ImageUtil.networkImage(
-                  url: _ctr.model?.backGround ?? '',
-                  fit: BoxFit.cover,
-                  height: 188.w,
-                ),
-              ),
-              20.verticalSpace,
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                alignment: Alignment.centerLeft,
+              Expanded(
+                flex: 1,
                 child: Text(
-                  _ctr.model?.intro ?? '',
+                  'Server'.tr,
                   style: TextStyle(
-                    color: Color(0xff808388),
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                      color: Color(0xff808388),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
                 ),
               ),
-              15.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Server'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.server ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
+              Expanded(
+                flex: 3,
+                child: Text(
+                  _ctr.model?.server ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
                 ),
               ),
-              15.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Position'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.position ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              15.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Styles'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.style ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              15.verticalSpace,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Platforms'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.platform ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              20.verticalSpace,
             ],
           ),
         ),
-        id: _ctr.gameInfoId,
-      );
+        15.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Position'.tr,
+                  style: TextStyle(
+                      color: Color(0xff808388),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  _ctr.model?.position ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+            ],
+          ),
+        ),
+        15.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Styles'.tr,
+                  style: TextStyle(
+                      color: Color(0xff808388),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  _ctr.model?.style ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+            ],
+          ),
+        ),
+        15.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  'Platforms'.tr,
+                  style: TextStyle(
+                      color: Color(0xff808388),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Text(
+                  _ctr.model?.platform ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM),
+                ),
+              ),
+            ],
+          ),
+        ),
+        20.verticalSpace,
+      ],
+    ),
+  );
 
   Widget _userInfoWidget() => Container(
         height: 110.h,
