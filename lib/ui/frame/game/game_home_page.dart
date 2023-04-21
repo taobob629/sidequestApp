@@ -25,7 +25,7 @@ class GameHomePage extends StatelessWidget {
         title: _ctr.model?.gameName ?? '',
         body: Column(
           children: [
-            30.verticalSpace,
+            16.verticalSpace,
             _userInfoWidget(),
             15.verticalSpace,
             Expanded(
@@ -389,7 +389,7 @@ class GameHomePage extends StatelessWidget {
           child: Text(
             _ctr.model?.intro ?? '',
             style: TextStyle(
-              color: Color(0xff808388),
+              color: Colors.white,
               fontSize: 13.sp,
               fontWeight: FontWeight.bold,
               fontFamily: FONT_MEDIUM,
@@ -524,7 +524,7 @@ class GameHomePage extends StatelessWidget {
   );
 
   Widget _userInfoWidget() => Container(
-        height: 110.h,
+        height: _ctr.model?.voice.isNotEmpty == true ? 110.h : 90.h,
         child: Stack(
           children: [
             Positioned(
