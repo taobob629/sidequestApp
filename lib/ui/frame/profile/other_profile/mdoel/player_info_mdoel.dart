@@ -95,6 +95,7 @@ class GamesItem {
   String thumb = "";
   String level = "";
   String name = "";
+  String gameVoice = "";
   int orders = 0;
   int id = 0;
 
@@ -111,6 +112,7 @@ class GamesItem {
     thumb = json['thumb'] ?? thumb;
     level = json['level'] ?? level;
     name = json['name'] ?? name;
+    gameVoice = json['gameVoice'] ?? gameVoice;
     orders = json['orders'] ?? orders;
     id = json['id'] ?? id;
   }
