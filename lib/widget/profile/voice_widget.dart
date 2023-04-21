@@ -142,7 +142,7 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
             Container(
               margin: EdgeInsets.only(top: 20.h, bottom: 20.h),
               child: Text(
-                'Select type'.tr,
+                'Select Type'.tr,
                 style: PageStyle.btnStyle,
               ),
             ),

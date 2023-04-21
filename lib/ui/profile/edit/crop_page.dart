@@ -11,21 +11,23 @@ import 'package:wy/ui/common/base_scaffold.dart';
 
 class CropPage extends StatelessWidget {
   final File image;
+  final bool ifFixedSize;
 
   final controller = Get.put(CropPageController());
 
-  CropPage({required this.image});
+  CropPage({required this.image, this.ifFixedSize = false});
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Edit photo".tr,
+        title: "Edit photo".tr,
         backgroundColor: Colors.black,
         actions: [
           GestureDetector(
             onTap: () => controller.crop((image) => Get.back(result: image)),
             child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
                 color: Colors.transparent,
                 child: Text(
                   "Done".tr,
@@ -33,32 +35,35 @@ class CropPage extends StatelessWidget {
                 )),
           ),
         ],
-      body: Container(
-        color: Colors.black,
-        child: ExtendedImage.file(
-          image,
-          cacheRawData: true,
-          fit: BoxFit.contain,
-          mode: ExtendedImageMode.editor,
-          extendedImageEditorKey: controller.editorKey,
-          initEditorConfigHandler: (state) {
-            return EditorConfig(
-              maxScale: 8.0,
-              cropRectPadding: EdgeInsets.all(20.0),
-              hitTestSize: 20.0,
-              editorMaskColorHandler: (context, down) {
-                return Colors.black.withOpacity(down ? 0.4 : 0.8);
-              },
-              cropAspectRatio: CropAspectRatios.custom);
-          },
-        ),
-      )
-    );
+        body: Container(
+          color: Colors.black,
+          child: ExtendedImage.file(
+            image,
+            cacheRawData: true,
+            fit: BoxFit.contain,
+            mode: ExtendedImageMode.editor,
+            extendedImageEditorKey: controller.editorKey,
+            initEditorConfigHandler: (state) {
+              return EditorConfig(
+                maxScale: 8.0,
+                cropRectPadding: EdgeInsets.all(20.0),
+                hitTestSize: 20.0,
+                editorMaskColorHandler: (context, down) {
+                  return Colors.black.withOpacity(down ? 0.4 : 0.8);
+                },
+                cropAspectRatio: ifFixedSize
+                    ? CropAspectRatios.ratio16_9
+                    : CropAspectRatios.custom,
+              );
+            },
+          ),
+        ));
   }
 }
 
 class CropPageController extends GetxController {
-  final GlobalKey<ExtendedImageEditorState> editorKey = GlobalKey<ExtendedImageEditorState>();
+  final GlobalKey<ExtendedImageEditorState> editorKey =
+      GlobalKey<ExtendedImageEditorState>();
   File? cropImage;
   bool _cropping = false;
   double progress = 0;
@@ -68,7 +73,8 @@ class CropPageController extends GetxController {
     var msg = "";
     try {
       _cropping = true;
-      Uint8List? fileData = await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
+      Uint8List? fileData =
+          await cropImageDataWithNativeLibrary(state: editorKey.currentState!);
       cropImage = await compressAndGetFile(fileData!);
       onDone(cropImage);
     } catch (e) {
@@ -97,10 +103,10 @@ class CropPageController extends GetxController {
     return await writeToFile(result, tempPath);
   }
 
-  Future<Uint8List?> cropImageDataWithNativeLibrary({required ExtendedImageEditorState state}) async {
-
-    final cropRect = state.getCropRect()??Rect.zero;
-    final action = state.editAction??EditActionDetails();
+  Future<Uint8List?> cropImageDataWithNativeLibrary(
+      {required ExtendedImageEditorState state}) async {
+    final cropRect = state.getCropRect() ?? Rect.zero;
+    final action = state.editAction ?? EditActionDetails();
     final rotateAngle = action.rotateAngle.toInt();
     final flipHorizontal = action.flipY;
     final flipVertical = action.flipX;
@@ -111,7 +117,7 @@ class CropPageController extends GetxController {
     }
     if (action.needFlip) {
       option.addOption(
-        FlipOption(horizontal: flipHorizontal, vertical: flipVertical));
+          FlipOption(horizontal: flipHorizontal, vertical: flipVertical));
     }
     if (action.hasRotateAngle) {
       option.addOption(RotateOption(rotateAngle));

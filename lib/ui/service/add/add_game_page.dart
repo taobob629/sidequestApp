@@ -143,7 +143,7 @@ class _AddGamePageState extends State<AddGamePage> {
     if (controller.gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
     var levels = list[controller.gameIndex].level;
     if (levels.isNotEmpty) {
-      if (controller.gameLv == null) return EasyLoading.showToast('Please select service level'.tr);
+      if (controller.gameLv == null) return EasyLoading.showToast('Please select rank'.tr);
     }
     if (levels.isNotEmpty) {
       if (controller.gamePhotos.isEmpty)

@@ -783,7 +783,9 @@ const Map<String, String> zh_CN = {
   "Commented":"我回复的",
   "Liked":"我喜欢的",
   "Info":"主页",
+  "Select Type":"选择类型",
 
+  "Please select rank":"请选择段位",
 
 
 

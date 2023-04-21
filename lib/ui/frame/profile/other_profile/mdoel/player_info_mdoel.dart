@@ -95,6 +95,7 @@ class GamesItem {
   String thumb = "";
   String level = "";
   String name = "";
+  String gameVoice = "";
   int orders = 0;
   int id = 0;
 
@@ -111,6 +112,7 @@ class GamesItem {
     thumb = json['thumb'] ?? thumb;
     level = json['level'] ?? level;
     name = json['name'] ?? name;
+    gameVoice = json['gameVoice'] ?? gameVoice;
     orders = json['orders'] ?? orders;
     id = json['id'] ?? id;
   }
@@ -173,6 +175,7 @@ class TrophieModel {
   int id = 0;
   String iconName = "";
   String iconImage = "";
+  String iconLightImage="";
   String tips = "";
   bool lighted = false;
   int medalType = 0;
@@ -182,6 +185,7 @@ class TrophieModel {
     this.id = 0,
     this.iconName = "",
     this.iconImage = "",
+    this.iconLightImage = "",
     this.tips = "",
     this.lighted = false,
     this.medalType = 0,
@@ -192,6 +196,7 @@ class TrophieModel {
     id = json["id"] ?? 0;
     iconName = json["iconName"] ?? "";
     iconImage = json["iconImage"] ?? "";
+    iconLightImage = json["iconLightImage"] ?? "";
     tips = json["tips"] ?? "";
     lighted = json["lighted"] ?? false;
     medalType = json["medalType"] ?? 0;

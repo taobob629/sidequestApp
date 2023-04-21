@@ -64,6 +64,7 @@ class CustomMessageView extends StatelessWidget {
             Column(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
                       ImageUtils.icon_chenggong,
@@ -71,12 +72,14 @@ class CustomMessageView extends StatelessWidget {
                       height: 16.w,
                     ),
                     6.horizontalSpace,
-                    Text(
-                      data['title'] ?? "Top up successful",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Text(
+                        data['title'] ?? "Top up successful",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
