@@ -28,7 +28,7 @@ List<Map> supports = [
     ..['action'] = () => EasyLoading.showToast('FAQ'),
   Map()
     ..['title'] = 'Help Center'.tr
-    ..['action'] = () => EasyLoading.showToast('Help Center'.tr),
+    ..['action'] = () => Get.to(WebPage(title: 'Help Center'.tr, url: HelpCenterLink)),
   Map()
     ..['title'] = 'Give us feedback'.tr
     ..['action'] = () => EasyLoading.showToast('Give us feedback'.tr),
@@ -173,7 +173,7 @@ class HomeDrawer extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: 5),
-            child:  GameLevelWidget(
+            child: GameLevelWidget(
               level: user.sidekickLevel,
               userId: user.pwId,
             ),
@@ -221,6 +221,7 @@ class HomeDrawer extends StatelessWidget {
         size: 13.0,
         onTap: onTapMore,
       ),
+      onTap: onTapMore,
     );
   }
 
