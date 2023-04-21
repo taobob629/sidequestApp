@@ -705,7 +705,8 @@ class WalletBalancePageController extends GetxListController {
       Get.dialog(ConfirmDialog(
         title: 'Tips'.tr,
         info:
-            'Using Wise-Payment need to in advance registration and verification! Alipay withdrawals are available within wise Wise Registration and verification：https://wise.com/'
+            'In order to receive payment via Wise, registration and verification are required in advance. After the payment is received in Wise, it can be withdrawn to Alipay internally.'
+             'Wise Registration and verification：https://wise.com/'
                 .tr,
         onConfirm: () => Get.back(),
       ));

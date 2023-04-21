@@ -60,7 +60,7 @@ class OrderRefoundPage extends GetView<OrderRefoundController> {
                 ))),
           ),
           lable('Refund Amount'.tr),
-          itemBg(rowLine(true, '${controller.order.price}', Container())),
+          itemBg(rowLine(true, '${controller.order.total}', Container())),
           Container(
             padding: EdgeInsets.only(top: 15, bottom: 10).r,
             child: Row(

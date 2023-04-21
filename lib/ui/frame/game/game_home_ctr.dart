@@ -14,6 +14,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String skillId = "";
   String avatar = "";
   String nickName = "";
+  String voice="";
   String uk = "";
   String price = "0.0";
   String unit = "";
@@ -21,6 +22,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   int sex = 0;
   int total = 0;
   bool isSelf = false;
+  String gameName="";
 
   String gameInfoId = "gameInfoId";
   GameDetailModel? model;
@@ -40,6 +42,9 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
       age = Get.arguments["age"] ?? 0;
       sex = Get.arguments["sex"] ?? 0;
       gameId = Get.arguments["gameId"] ?? 0;
+      gameName = Get.arguments["gameName"] ?? "";
+      voice = Get.arguments["voice"] ?? "";
+
     }
     isSelf = UserController.find.userProfile.pwId.toString() == liveid;
     super.onInit();

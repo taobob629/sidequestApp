@@ -21,7 +21,7 @@ class GameHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'League of Legends'.tr,
+      title: _ctr.model?.gameName ?? '',
       body: Column(
         children: [
           30.verticalSpace,
@@ -163,7 +163,7 @@ class GameHomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${_ctr.total}Reviews',
+                              '${_ctr.total} Reviews',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: FONT_MEDIUM,
