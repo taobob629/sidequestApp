@@ -294,7 +294,7 @@ class WalletBalancePageController extends GetxListController {
   int payMethodIndex = 0;
   String currentPayMethodId = "currentPayMethodId";
   Receipt? currentPayMethod;
-  
+
   // 是否是银行卡支付
   var ifBankPay = false.obs;
 
@@ -435,7 +435,7 @@ class WalletBalancePageController extends GetxListController {
 
     coin = chargeRule.coin;
     diamonds = chargeRule.votes;
-    
+
     EasyLoading.dismiss();
     return chargeRule.pwChargeRules ?? [];
   }
@@ -541,7 +541,8 @@ class WalletBalancePageController extends GetxListController {
       return;
     }
     if (!isValidateAmount(votes, chargeRule.limit ?? 600)) {
-      EasyLoading.showInfo('Please enter an valid number greater than'.tr+" ${chargeRule.limit}");
+      EasyLoading.showInfo('Please enter an valid number greater than'.tr +
+          " ${chargeRule.limit}");
       return;
     }
     double votesDouble = double.parse(votes);
@@ -666,8 +667,7 @@ class WalletBalancePageController extends GetxListController {
           Expanded(
             child: GetBuilder<WalletBalancePageController>(
               builder: (builder) => ListView.separated(
-                itemBuilder: (c, i) =>
-                    _commonWidget(payMethodIndex == i, i),
+                itemBuilder: (c, i) => _commonWidget(payMethodIndex == i, i),
                 separatorBuilder: (c, i) => Container(
                   height: 1.h,
                   color: Color(0xff2D2E3A),
@@ -692,12 +692,23 @@ class WalletBalancePageController extends GetxListController {
     if (result != null) {
       currentPayMethod = result;
       accountCtr.text = currentPayMethod?.account ?? '';
-      if (currentPayMethod?.name.contains('bankcard') == true) {
+      if (currentPayMethod?.name.toLowerCase().contains('bankcard') == true) {
         ifBankPay.value = true;
       } else {
         ifBankPay.value = false;
       }
       update([currentPayMethodId]);
+    }
+
+    if (currentPayMethod?.name.toLowerCase().contains("wise") == true &&
+        currentPayMethod?.account.isEmpty == true) {
+      Get.dialog(ConfirmDialog(
+        title: 'Tips'.tr,
+        info:
+            'Using Wise-Payment need to in advance registration and verification! Alipay withdrawals are available within wise Wise Registration and verification：https://wise.com/'
+                .tr,
+        onConfirm: () => Get.back(),
+      ));
     }
   }
 

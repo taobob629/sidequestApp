@@ -4,6 +4,7 @@
     描述:
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/model/user_info_model.dart';
@@ -47,10 +48,10 @@ class WithDrawMainPage extends StatelessWidget {
       indicatorSize: TabBarIndicatorSize.tab,
       indicator: HomeIndicator(),
       indicatorWeight: 2,
-      indicatorPadding: EdgeInsets.only(bottom: 5),
-      labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-      labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-      unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
+      indicatorPadding: EdgeInsets.only(bottom: 5.h),
+      labelPadding: EdgeInsets.all(3.r),
+      labelStyle: TextStyle(fontSize: 18.sp, fontFamily: "din"),
+      unselectedLabelStyle: TextStyle(fontSize: 18.sp, fontFamily: "din"),
       tabs: createTabs(),
     );
   }

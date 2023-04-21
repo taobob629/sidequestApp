@@ -29,6 +29,7 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
+import '../skill/list/controller.dart';
 
 class AddGamePageController extends GetxController {
   RxList<PriceRangeModel> priceRanges = RxList([]);
@@ -259,7 +260,10 @@ class AddGamePageController extends GetxController {
       } else {
         Get.until(
             (route) => Get.currentRoute.contains(AppPages.ServiceAndOrders));
-        Get.off(
+        SkillListPageController skillListPageController =
+            Get.find<SkillListPageController>();
+        skillListPageController.onRefresh();
+        Get.to(
           () => GameHomePage(),
           arguments: {
             "liveid": v.data['liveid'],
@@ -342,14 +346,13 @@ class AddGamePageController extends GetxController {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      final image = File(pickedFile.path);
-      final resizedImage = await _resizeImage(image);
-
-      EasyLoading.show();
-      var url =
-          await Common.uploadFile(resizedImage, (p0, p1) => flog("$p0,$p1"));
-      EasyLoading.dismiss();
-      background = url;
+      var _image = File(pickedFile.path);
+      Get.to<File?>(() => CropPage(image: _image, ifFixedSize: true,))!.then((value) async {
+        EasyLoading.show();
+        var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
+        EasyLoading.dismiss();
+        background = url;
+      });
     } else {
       print('No image selected.');
     }
