@@ -8,10 +8,9 @@ import 'package:wy/ui/common/web_page.dart';
 const int TYPE_LOGIN = 0;
 const int TYPE_ADD_GAME = 1;
 const int TYPE_ADD_BANK = 2;
-const String TermsAndConditionLink =
-    'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
-const String PrivacyPolicyLink =
-    'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String TermsAndConditionLink = 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String PrivacyPolicyLink = 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
+const String HelpCenterLink = 'http://43.136.135.198:8080/help/help-center.html';
 
 class PrivacyCheck extends StatelessWidget {
   final _controller = Get.put(_PrivacyCheckController());
@@ -19,11 +18,7 @@ class PrivacyCheck extends StatelessWidget {
   late final PrivacyCheckController controller;
   WrapAlignment wrapAlignment;
 
-  PrivacyCheck(
-      {required PrivacyCheckController controller,
-      int type = TYPE_LOGIN,
-      this.privacyList = const [],
-      this.wrapAlignment = WrapAlignment.start}) {
+  PrivacyCheck({required PrivacyCheckController controller, int type = TYPE_LOGIN, this.privacyList = const [], this.wrapAlignment = WrapAlignment.start}) {
     this.controller = controller;
     this.controller._c = _controller;
     switch (type) {
@@ -33,20 +28,17 @@ class PrivacyCheck extends StatelessWidget {
           PrivacyInfo('', ''),
           PrivacyInfo('Privacy Policy'.tr, PrivacyPolicyLink),
           PrivacyInfo('', ''),
-          PrivacyInfo('SideKick Policy'.tr,
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
+          PrivacyInfo('SideKick Policy'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
         ];
         break;
       case TYPE_ADD_GAME:
         privacyList = [
-          PrivacyInfo('User Agreement'.tr,
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/User_Agreement.pdf'),
+          PrivacyInfo('User Agreement'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/User_Agreement.pdf'),
         ];
         break;
       case TYPE_ADD_BANK:
         privacyList = [
-          PrivacyInfo('Seller Payment Terms'.tr,
-              'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/Seller_Payment_Terms.pdf'),
+          PrivacyInfo('Seller Payment Terms'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/Seller_Payment_Terms.pdf'),
         ];
         break;
     }
@@ -66,11 +58,7 @@ class PrivacyCheck extends StatelessWidget {
                 padding: EdgeInsets.only(left: 16),
                 child: SizedBox(
                   width: 24,
-                  child: Obx(() => Checkbox(
-                      shape: CircleBorder(),
-                      activeColor: AppColor.accent,
-                      value: _controller.check.value,
-                      onChanged: (v) => _controller.check.value = v!)),
+                  child: Obx(() => Checkbox(shape: CircleBorder(), activeColor: AppColor.accent, value: _controller.check.value, onChanged: (v) => _controller.check.value = v!)),
                 ),
               ),
               Expanded(
@@ -115,11 +103,7 @@ class PrivacyCheck extends StatelessWidget {
           child: Text(
             item.title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: AppColor.textYellow,
-                fontFamily: FONT_MEDIUM,
-                fontSize: 14.sp,
-                decoration: TextDecoration.underline),
+            style: TextStyle(color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 14.sp, decoration: TextDecoration.underline),
           ),
         );
       }

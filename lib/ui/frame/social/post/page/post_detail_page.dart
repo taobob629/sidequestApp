@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
-import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../../widget/cs_photo_viewer.dart';
@@ -82,8 +80,8 @@ class PostDetailPage extends StatelessWidget {
                                   Text(
                                     t.postItem.value.content,
                                     style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                    maxLines: null,
-                                    overflow: TextOverflow.ellipsis,
+                                    // maxLines: null,
+                                    // overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),

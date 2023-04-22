@@ -26,34 +26,35 @@ class MyPostsPage extends StatelessWidget {
         bottom: PreferredSize(
             preferredSize: Size(double.infinity, 40),
             child: Container(
-              // color: Colors.amber,
+              height: 40,
               child: Padding(
                 padding: const EdgeInsets.only(top: 0, left: 30, right: 20),
-                child: TabBar(
-                  controller: t.tabController,
-                  isScrollable: false,
-                  labelColor: Colors.white,
-                  unselectedLabelColor: AppColor.textC5C5,
-                  indicatorColor: Color(0xFFFFCB0D),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorWeight: 2,
-                  unselectedLabelStyle: unSelectTabStyle(TAB_STYLE_2),
-                  labelStyle: selectTabStyle(TAB_STYLE_2) ,
-                  indicator: HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
-                  indicatorPadding: EdgeInsets.only(bottom: 5),
-                  labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                 // unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
-                  tabs: [
-                    Text(
-                      "Post".tr,
-                    ),
-                    Text(
-                      "Commented".tr,
-                    ),
-                    Text(
-                      "Liked".tr,
-                    )
-                  ],
+                child: Theme(
+                  data: ThemeData(splashColor: Colors.transparent, highlightColor: Colors.transparent),
+                  child: TabBar(
+                    controller: t.tabController,
+                    isScrollable: false,
+                    labelColor: Colors.white,
+                    unselectedLabelColor: AppColor.textC5C5,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 2,
+                    unselectedLabelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal, fontFamily: FONT_MEDIUM),
+                    labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                    padding: EdgeInsets.zero,
+                    labelPadding: EdgeInsets.zero,
+                    indicator: BoxDecoration(),
+                    tabs: [
+                      Text(
+                        "Post".tr,
+                      ),
+                      Text(
+                        "Commented".tr,
+                      ),
+                      Text(
+                        "Liked".tr,
+                      )
+                    ],
+                  ),
                 ),
               ),
             )),
