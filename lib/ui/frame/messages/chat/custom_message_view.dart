@@ -62,6 +62,7 @@ class CustomMessageView extends StatelessWidget {
               ),
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +91,8 @@ class CustomMessageView extends StatelessWidget {
                   color: Color(0xff54A5FF),
                   margin: EdgeInsets.symmetric(vertical: 10.h),
                 ),
-                Expanded(
-                  child: HtmlWidget(
-                    data['content'],
-                  ),
+                HtmlWidget(
+                  data['content'],
                 ),
               ],
             ),

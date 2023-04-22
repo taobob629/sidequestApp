@@ -62,7 +62,7 @@ class ChatPage extends StatelessWidget {
             if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
               MorePanelItem(
                   id: "customMessage",
-                  title: "Gift",
+                  title: "Gift".tr,
                   onTap: (c) async {
                     var heartNum = await Get.bottomSheet(
                         GiveGiftsDialog(
@@ -152,11 +152,6 @@ class ChatPage extends StatelessWidget {
         print('data = $data');
         double? customHeight = height;
         switch (type) {
-          case "TopUp_Credit":
-            {
-              customHeight = height + 90.h;
-              break;
-            }
           case "play_order":
             {
               customHeight = height;

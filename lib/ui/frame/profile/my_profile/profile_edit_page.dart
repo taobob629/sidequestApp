@@ -30,7 +30,7 @@ class ProfileEditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var t = Get.put(ProfileEditController());
     return KeyboardScaffold(
-      title: 'Personal',
+      title: 'Personal'.tr,
       body: Stack(
         children: [
           Scaffold(
@@ -70,7 +70,7 @@ class ProfileEditPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "Gender",
+                        "Gender".tr,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
@@ -108,7 +108,7 @@ class ProfileEditPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "Phone",
+                        "Phone".tr,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
@@ -140,7 +140,7 @@ class ProfileEditPage extends StatelessWidget {
                           color: AppColor.colorB9C9,
                         ),
                         inputDecoration: InputDecoration(
-                          hintText: "Phone number",
+                          hintText: "Phone number".tr,
                           hintStyle: TextStyle(color: AppColor.colorB9C9),
                           labelStyle: TextStyle(color: AppColor.colorB9C9),
                           helperStyle: TextStyle(color: AppColor.colorB9C9),
@@ -149,7 +149,7 @@ class ProfileEditPage extends StatelessWidget {
                         textFieldController: t.phoneController,
                         formatInput: true,
                         cursorColor: Colors.white,
-                        hintText: "Phone number",
+                        hintText: "Phone number".tr,
                         keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                         inputBorder: OutlineInputBorder(),
                         onSaved: (PhoneNumber number) {
@@ -165,7 +165,7 @@ class ProfileEditPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "Country",
+                        "Country".tr,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
@@ -213,7 +213,7 @@ class ProfileEditPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        "Language",
+                        "Language".tr,
                         style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
@@ -282,7 +282,7 @@ class ProfileEditPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Save",
+                          "Save".tr,
                           style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                       ],
