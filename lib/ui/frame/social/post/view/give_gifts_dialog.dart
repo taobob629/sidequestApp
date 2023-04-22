@@ -48,11 +48,11 @@ class GiveGiftsDialog extends StatelessWidget {
               padding: EdgeInsets.only(left: 20, top: 12, right: 20, bottom: 15),
               child: Row(
                 children: [
-                  Text("Gift List", style: TextStyle(color: Colors.white, fontSize: 21, fontFamily: FONT_MEDIUM)),
+                  Text("Gift List".tr, style: TextStyle(color: Colors.white, fontSize: 21, fontFamily: FONT_MEDIUM)),
                   Spacer(),
                   GestureDetector(
                     onTap: () => Get.back(),
-                    child: Text("Cancel", style: TextStyle(color: AppColor.color8388, fontSize: 14)),
+                    child: Text("Cancel".tr, style: TextStyle(color: AppColor.color8388, fontSize: 14)),
                   ),
                 ],
               ),
@@ -173,7 +173,7 @@ class GiveGiftsDialog extends StatelessWidget {
                         gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFD49C21), Color(0xFFE96524)]),
                       ),
                       alignment: Alignment.center,
-                      child: Text("Submit"),
+                      child: Text("Submit".tr),
                     ),
                   )
                 ],
@@ -260,7 +260,7 @@ class GiveGiftController extends GetxRefreshController<GiftModel> {
   @override
   Future<List<GiftModel>> loadData({int pageNum = 1}) async {
     // TODO: implement loadData
-    GiftSummary model = await PostApi.getGiftsList(pageNum: pageNum);
+    GiftSummary model = await PostApi.getGiftsList(pageNum: pageNum,receverId:_receiverId);
     summary.value = model;
     return model.data.rows;
   }

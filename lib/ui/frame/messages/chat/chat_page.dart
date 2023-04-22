@@ -62,7 +62,7 @@ class ChatPage extends StatelessWidget {
             if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
               MorePanelItem(
                   id: "customMessage",
-                  title: "Gift",
+                  title: "Gift".tr,
                   onTap: (c) async {
                     var heartNum = await Get.bottomSheet(
                         GiveGiftsDialog(
