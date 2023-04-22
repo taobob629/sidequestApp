@@ -788,6 +788,9 @@ const Map<String, String> zh_CN = {
   "Please select rank":"请选择段位",
   "I already have an account":"登录",
   "Get Started":"注册",
+  "Save":"保存",
+  "Phone number":"电话号码",
+  "Personal":"个人资料",
 
 
 
