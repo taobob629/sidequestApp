@@ -152,11 +152,6 @@ class ChatPage extends StatelessWidget {
         print('data = $data');
         double? customHeight = height;
         switch (type) {
-          case "TopUp_Credit":
-            {
-              customHeight = height + 90.h;
-              break;
-            }
           case "play_order":
             {
               customHeight = height;
