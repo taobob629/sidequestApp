@@ -310,7 +310,7 @@ class OtherProfilePage extends StatelessWidget {
                                                           5.horizontalSpace,
                                                           Visibility(
                                                             visible: t.player.value.location.country.isNotEmpty,
-                                                            child:  Row(
+                                                            child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
@@ -322,12 +322,13 @@ class OtherProfilePage extends StatelessWidget {
                                                                 Container(
                                                                   constraints: BoxConstraints(maxWidth: 120.w),
                                                                   child: Text(
-                                                                  '${t.player.value.location.country}',
-                                                                  strutStyle: StrutStyle(forceStrutHeight: true),
-                                                                  maxLines: 1,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
-                                                                ),),
+                                                                    '${t.player.value.location.country}',
+                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                    maxLines: 1,
+                                                                    softWrap: false,
+                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),
