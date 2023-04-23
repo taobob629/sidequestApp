@@ -367,7 +367,13 @@ class AddGamePageController extends GetxController {
   }
 
   toBioPage() {
-    flog('onTap');
+    var nameEmpty = mPriceRanges.firstWhereOrNull((element) {
+      return element.name.isEmpty;
+    });
+    if (nameEmpty != null) {
+      EasyLoading.showToast('Please input a name!'.tr);
+      return;
+    }
     Get.toNamed(AppPages.bio_page, preventDuplicates: false)?.then((refresh) {
       if (refresh) {
         if (isEdit) onRefresh();
