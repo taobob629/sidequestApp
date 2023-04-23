@@ -769,7 +769,7 @@ const Map<String, String> zh_CN = {
   "+ Add Voice":"+ 语音介绍",
   "Ongoing":"进行中",
   "Service Intro":"游戏介绍",
-  "Please input Service Intro":"请添加游戏介绍",
+  "Please input service intro":"请添加游戏介绍",
   "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
   "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
   "Please upload a picture as the service cover image":"请上传游戏封面图片",
@@ -801,6 +801,9 @@ const Map<String, String> zh_CN = {
   "Policies":"政策",
   "Gift":"礼物",
   "Photo":"图片",
-
+  "Service Types":"服务类型",
+  "ServiceType_":"服务类型_",
+  "Voice Recording":"录音",
+  "Cover":"封面"
 
 };
