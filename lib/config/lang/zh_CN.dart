@@ -673,7 +673,7 @@ const Map<String, String> zh_CN = {
   "Subscriptions":"订阅",
   "Trophies":"勋章",
   "Sidekick":"陪玩",
-  "Followers":"关注",
+  "Followers":"粉丝",
   " Up":"收起",
   "Benefits":"权益",
   "My Wallet":"我的钱包",
@@ -791,6 +791,8 @@ const Map<String, String> zh_CN = {
   "Save":"保存",
   "Phone number":"电话号码",
   "Personal":"个人资料",
+  "Followings":"关注",
+  "Intimacy":"亲密度"
 
 
 
