@@ -24,11 +24,12 @@ import 'package:wy/widget/icon_text.dart';
 import 'package:wy/widget/phone_input/intl_phone_number_input.dart';
 
 class ProfileEditPage extends StatelessWidget {
-  const ProfileEditPage({Key? key}) : super(key: key);
+  ProfileEditPage({Key? key}) : super(key: key);
+
+  final t = Get.put(ProfileEditController());
 
   @override
   Widget build(BuildContext context) {
-    var t = Get.put(ProfileEditController());
     return KeyboardScaffold(
       title: 'Personal'.tr,
       body: Stack(
@@ -48,22 +49,34 @@ class ProfileEditPage extends StatelessWidget {
                             },
                             child: Container(
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(34), border: Border.all(color: Colors.white)),
-                              child: ImageUtil.networkImage(url: UserController.find.userProfile.avatar, width: 68, height: 68, fit: BoxFit.cover),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(34),
+                                  border: Border.all(color: Colors.white)),
+                              child: ImageUtil.networkImage(
+                                  url: UserController.find.userProfile.avatar,
+                                  width: 68,
+                                  height: 68,
+                                  fit: BoxFit.cover),
                             ),
                           )),
                       12.verticalSpace,
                       Text(
                         "Click to edit avatar".tr,
-                        style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
+                        style: TextStyle(
+                            fontSize: 14.sp, color: AppColor.colorB9C9),
                       )
                     ],
                   ),
                 ),
 
                 /// nickname，gender，country，language
-                InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
-                InputView(autoHeight: true, controller: t.signatureController, label: "E-Player Introduction".tr, maxLength: 255, tips: "${UserController.find.userProfile.signature}"),
+                InputView(
+                    autoHeight: true,
+                    controller: t.nickController,
+                    label: "Nickname".tr,
+                    maxLength: 20,
+                    tips: "${UserController.find.userProfile.nickName}"),
+                _eplayerIntroWidget(),
                 Container(
                   height: 40.h,
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -71,7 +84,10 @@ class ProfileEditPage extends StatelessWidget {
                     children: [
                       Text(
                         "Gender".tr,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
                     ],
@@ -80,23 +96,37 @@ class ProfileEditPage extends StatelessWidget {
                 Container(
                   height: 50,
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10).r),
+                  decoration: BoxDecoration(
+                      color: AppColor.itemBg2,
+                      borderRadius: BorderRadius.circular(10).r),
                   child: Obx(() => Row(
                         children: [
-                          Radio<int>(value: 0, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
+                          Radio<int>(
+                              value: 0,
+                              groupValue: t.gender.value,
+                              onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Male".tr,
-                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
-                          Radio<int>(value: 1, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
+                          Radio<int>(
+                              value: 1,
+                              groupValue: t.gender.value,
+                              onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Female".tr,
-                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
-                          Radio<int>(value: 2, groupValue: t.gender.value, onChanged: (value) => t.gender.value = value!),
+                          Radio<int>(
+                              value: 2,
+                              groupValue: t.gender.value,
+                              onChanged: (value) => t.gender.value = value!),
                           Text(
                             "Non-binary".tr,
-                            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
                         ],
                       )),
@@ -109,7 +139,10 @@ class ProfileEditPage extends StatelessWidget {
                     children: [
                       Text(
                         "Phone".tr,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
                     ],
@@ -118,11 +151,15 @@ class ProfileEditPage extends StatelessWidget {
                 Container(
                   height: 50,
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10).r),
+                  decoration: BoxDecoration(
+                      color: AppColor.itemBg2,
+                      borderRadius: BorderRadius.circular(10).r),
                   child: Obx(() => InternationalPhoneNumberInput(
                         onInputChanged: (PhoneNumber number) {
-                          var phoneParts = number.phoneNumber!.split(number.dialCode!);
-                          t.phone.value = "${number.dialCode!} ${phoneParts.last}";
+                          var phoneParts =
+                              number.phoneNumber!.split(number.dialCode!);
+                          t.phone.value =
+                              "${number.dialCode!} ${phoneParts.last}";
                           print(t.phone.value);
                         },
                         onInputValidated: (bool value) {
@@ -145,12 +182,16 @@ class ProfileEditPage extends StatelessWidget {
                           labelStyle: TextStyle(color: AppColor.colorB9C9),
                           helperStyle: TextStyle(color: AppColor.colorB9C9),
                         ),
-                        initialValue: PhoneNumber(isoCode: PhoneNumber.getISO2CodeByPrefix(t.digalCode.value) ?? ""),
+                        initialValue: PhoneNumber(
+                            isoCode: PhoneNumber.getISO2CodeByPrefix(
+                                    t.digalCode.value) ??
+                                ""),
                         textFieldController: t.phoneController,
                         formatInput: true,
                         cursorColor: Colors.white,
                         hintText: "Phone number".tr,
-                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                        keyboardType: TextInputType.numberWithOptions(
+                            signed: true, decimal: true),
                         inputBorder: OutlineInputBorder(),
                         onSaved: (PhoneNumber number) {
                           print('On Saved: $number');
@@ -166,7 +207,10 @@ class ProfileEditPage extends StatelessWidget {
                     children: [
                       Text(
                         "Country".tr,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
                     ],
@@ -185,7 +229,8 @@ class ProfileEditPage extends StatelessWidget {
                           children: [
                             Text(
                               t.curCountry.value,
-                              style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: AppColor.colorB9C9),
                             ),
                             Spacer(),
                             Icon(
@@ -198,7 +243,12 @@ class ProfileEditPage extends StatelessWidget {
                       Get.dialog(
                           CsDropDownDialog(
                               optionContext: optionContext,
-                              itemList: t.countries.map<DropDownModel>((country) => DropDownModel()..title = ((country.emoji ?? "") + country.name)).toList(),
+                              itemList: t.countries
+                                  .map<DropDownModel>((country) =>
+                                      DropDownModel()
+                                        ..title = ((country.emoji ?? "") +
+                                            country.name))
+                                  .toList(),
                               onTap: (index, value) {
                                 t.curCountry.value = value;
                               }),
@@ -214,7 +264,10 @@ class ProfileEditPage extends StatelessWidget {
                     children: [
                       Text(
                         "Language".tr,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: FONT_MEDIUM),
                       ),
                       Spacer(),
                     ],
@@ -233,7 +286,8 @@ class ProfileEditPage extends StatelessWidget {
                           children: [
                             Text(
                               t.languageList.join("/"),
-                              style: TextStyle(fontSize: 14.sp, color: AppColor.colorB9C9),
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: AppColor.colorB9C9),
                             ),
                             Spacer(),
                             Icon(
@@ -246,7 +300,10 @@ class ProfileEditPage extends StatelessWidget {
                       Get.dialog(
                           CsDropDownMulitSelectDialog(
                             optionContext: optionContext,
-                            itemList: [DropDownModel()..title = "English", DropDownModel()..title = "Chinese"],
+                            itemList: [
+                              DropDownModel()..title = "English",
+                              DropDownModel()..title = "Chinese"
+                            ],
                             initSelectList: t.languageList,
                             onSelect: (value) {
                               t.languageList.clear();
@@ -283,7 +340,10 @@ class ProfileEditPage extends StatelessWidget {
                       children: [
                         Text(
                           "Save".tr,
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -297,6 +357,49 @@ class ProfileEditPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _eplayerIntroWidget() => Container(
+        margin: const EdgeInsets.only(left: 15, right: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            10.verticalSpace,
+            Text(
+              'E-Player Introduction'.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
+            6.verticalSpace,
+            Container(
+              margin: EdgeInsets.only(top: 6.h, bottom: 6.h),
+              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: Color(0xff313033),
+                borderRadius: BorderRadius.all(Radius.circular(8)).w,
+              ),
+              child: TextField(
+                controller: t.signatureController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: '${UserController.find.userProfile.signature}',
+                  hintStyle:
+                      TextStyle(color: Color(0xffb2b9c9), fontSize: 14.sp),
+                  helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+                ),
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                maxLength: 255,
+                maxLines: 12,
+                minLines: 12,
+              ),
+            )
+          ],
+        ),
+      );
 }
 
 class AddressItemView extends StatelessWidget {
@@ -328,18 +431,25 @@ class AddressItemView extends StatelessWidget {
                 children: [
                   Text(
                     "Address",
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_MEDIUM),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: FONT_MEDIUM),
                   ),
                   Spacer(),
                   GestureDetector(
                     onTap: () => onEdit.call(),
                     child: Row(
                       children: [
-                        ImageUtil.assetImage('ic_edit2', width: 15.w, height: 15.h, color: Colors.white),
+                        ImageUtil.assetImage('ic_edit2',
+                            width: 15.w, height: 15.h, color: Colors.white),
                         5.horizontalSpace,
                         Text(
                           "Edit",
-                          style: TextStyle(color: AppColor.yellow, fontSize: 16, fontFamily: FONT_MEDIUM),
+                          style: TextStyle(
+                              color: AppColor.yellow,
+                              fontSize: 16,
+                              fontFamily: FONT_MEDIUM),
                         ),
                       ],
                     ),
@@ -370,7 +480,11 @@ class AddressItemView extends StatelessWidget {
             children: [
               Text(
                 "${address.firstName} ${address.lastName}",
-                style: TextStyle(color: isDefault ? AppColor.textYellow : Colors.white, fontWeight: FontWeight.bold, fontSize: 16.sp, fontFamily: FONT_MEDIUM),
+                style: TextStyle(
+                    color: isDefault ? AppColor.textYellow : Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM),
               ),
               Spacer(),
               Text(
@@ -470,13 +584,17 @@ class ProfileEditController extends GetxController {
 
       var loc = res["country"].toString();
       if (loc.isNotEmpty && loc != "null") {
-        String country = jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
-        var tempCountry = countries.firstWhereOrNull((element) => country.contains('${element.name}'))!;
+        String country =
+            jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
+        var tempCountry = countries.firstWhereOrNull(
+            (element) => country.contains('${element.name}'))!;
         print(tempCountry);
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
-      languageList.addIf(res["language"].toString().contains("English"), "English");
-      languageList.addIf(res["language"].toString().contains("Chinese"), "Chinese");
+      languageList.addIf(
+          res["language"].toString().contains("English"), "English");
+      languageList.addIf(
+          res["language"].toString().contains("Chinese"), "Chinese");
     });
   }
 
@@ -485,7 +603,14 @@ class ProfileEditController extends GetxController {
       EasyLoading.showInfo("Please set language first".tr);
       return;
     }
-    ProfileApi.updateProfile(nickController.text, signatureController.text, phone.value, languageList.join("/"), jsonEncode({"country": curCountry.value}), gender.value.toString()).then((value) {
+    ProfileApi.updateProfile(
+            nickController.text,
+            signatureController.text,
+            phone.value,
+            languageList.join("/"),
+            jsonEncode({"country": curCountry.value}),
+            gender.value.toString())
+        .then((value) {
       Get.back();
       UserController.find.updateInfo();
     });
@@ -497,7 +622,9 @@ class ProfileEditController extends GetxController {
     if (countries.isNotEmpty) return countries;
     countries.clear();
     var res = await rootBundle.loadString('assets/data/country.json');
-    countries.value = (jsonDecode(res) as List).map((json) => Country.fromJson(json)).toList();
+    countries.value = (jsonDecode(res) as List)
+        .map((json) => Country.fromJson(json))
+        .toList();
   }
 
   void selectUpdateAvatar(BuildContext context) async {
