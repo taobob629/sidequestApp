@@ -14,6 +14,9 @@ import '../../../config/app_color.dart';
 import '../../../image_utils.dart';
 import '../../../utils/image_util.dart';
 import '../../controller/user_controller.dart';
+import '../../playwith/balance/widget/tips_dialog.dart';
+import '../profile/model/game_detail_model.dart';
+import '../profile/other_profile/mdoel/player_info_mdoel.dart';
 
 class GameHomePage extends StatelessWidget {
   final _ctr = Get.put(GameHomeCtr());
@@ -47,38 +50,59 @@ class GameHomePage extends StatelessWidget {
                       color: Color(0xff1B1B21),
                       blurRadius: 5.h)
                 ]),
-                child: Center(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => UserController.find.jumpChat(_ctr.uk),
-                    child: Container(
-                      height: 42.h,
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: AppColor.yellowGradient),
-                        borderRadius: BorderRadius.circular(21.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Image.asset(
-                              "assets/images/profile/icon_pinlun.webp",
-                              width: 16,
-                              color: Colors.white,
-                            ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => UserController.find.jumpChat(_ctr.uk),
+                      child: Container(
+                        width: 150.w,
+                        height: 42.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color(0xffFFCB0E),
+                            width: 1.w,
                           ),
-                          Text(
-                            "Messages".tr,
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          borderRadius: BorderRadius.circular(21.r),
+                        ),
+                        child: Text(
+                          "Messages".tr,
+                          style: TextStyle(
+                            color: Color(0xffFFCB0E),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    15.horizontalSpace,
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _ctr.showOrHideGame(),
+                      child: Container(
+                        width: 150.w,
+                        height: 42.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          gradient:
+                              LinearGradient(colors: AppColor.yellowGradient),
+                          borderRadius: BorderRadius.circular(21.r),
+                        ),
+                        child: Text(
+                          "Order".tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
           ],
@@ -167,7 +191,7 @@ class GameHomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${_ctr.total} Reviews',
+                              '${_ctr.total}'' Reviews'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: FONT_MEDIUM,
@@ -366,165 +390,216 @@ class GameHomePage extends StatelessWidget {
       );
 
   Widget _gameInfoWidget() => Container(
-    margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
-    decoration: BoxDecoration(
-      color: Color(0xff262731),
-      borderRadius: BorderRadius.circular(15.r),
-    ),
-    child: Column(
-      children: [
-        6.verticalSpace,
-        ClipRRect(
+        margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
+        decoration: BoxDecoration(
+          color: Color(0xff262731),
           borderRadius: BorderRadius.circular(15.r),
-          child: ImageUtil.networkImage(
-            url: _ctr.model?.backGround ?? '',
-            fit: BoxFit.cover,
-            height: 188.w,
-          ),
         ),
-        20.verticalSpace,
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            _ctr.model?.intro ?? '',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-              fontFamily: FONT_MEDIUM,
+        child: Column(
+          children: [
+            6.verticalSpace,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15.r),
+              child: ImageUtil.networkImage(
+                url: _ctr.model?.backGround ?? '',
+                fit: BoxFit.cover,
+                height: 188.w,
+              ),
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+            20.verticalSpace,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _ctr.model?.intro ?? '',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: FONT_MEDIUM,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.server.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Server'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.server ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.position.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Position'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.position ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.style.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Styles'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.style ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            15.verticalSpace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Platform'.tr,
+                      style: TextStyle(
+                          color: Color(0xff808388),
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      _ctr.model?.platform ?? '',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (_ctr.model?.status == 0)
+              Container(
+                padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                child: Row(
+                  children: [
+                    ImageUtil.assetImage('ic_under_review',
+                        width: 13.w, height: 13.w),
+                    4.horizontalSpace,
+                    Text(
+                      'under review'.tr,
+                      style: TextStyle(
+                          color: Color(0xFF3F92FF),
+                          fontSize: 10.sp,
+                          fontFamily: FONT_LIGHT),
+                    )
+                  ],
+                ),
+              ),
+            if (_ctr.model?.status == 2)
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTapDown: (details) {
+                  print(details.globalPosition);
+                  Get.dialog(TipsDialog(
+                    offset: details.globalPosition,
+                    tips: _ctr.model?.rejectReason ?? "",
+                  ));
+                },
+                child: Container(
+                  padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                  child: Row(
+                    children: [
+                      ImageUtil.assetImage('ic_info_red',
+                          width: 13.w, height: 13.w),
+                      4.horizontalSpace,
+                      Text(
+                        'REJECT'.tr,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 10.sp,
+                            fontFamily: FONT_LIGHT),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            20.verticalSpace,
+          ],
         ),
-        15.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'Server'.tr,
-                  style: TextStyle(
-                      color: Color(0xff808388),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  _ctr.model?.server ?? '',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-            ],
-          ),
-        ),
-        15.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'Position'.tr,
-                  style: TextStyle(
-                      color: Color(0xff808388),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  _ctr.model?.position ?? '',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-            ],
-          ),
-        ),
-        15.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'Styles'.tr,
-                  style: TextStyle(
-                      color: Color(0xff808388),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  _ctr.model?.style ?? '',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-            ],
-          ),
-        ),
-        15.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  'Platforms'.tr,
-                  style: TextStyle(
-                      color: Color(0xff808388),
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Text(
-                  _ctr.model?.platform ?? '',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM),
-                ),
-              ),
-            ],
-          ),
-        ),
-        20.verticalSpace,
-      ],
-    ),
-  );
+      );
 
   Widget _userInfoWidget() => Container(
-        height: _ctr.model?.voice.isNotEmpty == true ? 110.h : 90.h,
+        height: _ctr.model?.voice.isNotEmpty == true
+            ? 110.h + _ctr.mutilGameHeight
+            : 90.h + _ctr.mutilGameHeight,
         child: Stack(
           children: [
             Positioned(
@@ -532,92 +607,102 @@ class GameHomePage extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                height: 90.h,
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: Color(0xff262731),
                   borderRadius: BorderRadius.circular(15.r),
                 ),
-                child: Row(
+                child: Column(
                   children: [
-                    Container(
-                      width: 50.w,
-                      height: 50.w,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.circular(30.r),
-                      ),
-                      child: ImageUtil.networkImage(
-                        url: _ctr.avatar,
-                        fit: BoxFit.cover,
-                        width: 50.w,
-                        height: 50.w,
-                      ),
-                    ),
-                    12.horizontalSpace,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                    Row(
                       children: [
-                        Text(
-                          _ctr.nickName,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM,
+                        Container(
+                          width: 50.w,
+                          height: 50.w,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 1),
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                          child: ImageUtil.networkImage(
+                            url: _ctr.avatar,
+                            fit: BoxFit.cover,
+                            width: 50.w,
+                            height: 50.w,
                           ),
                         ),
-                        10.verticalSpace,
-                        SexAndAgeWidget(
-                          age: _ctr.age,
-                          sex: _ctr.sex,
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                        10.verticalSpace,
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        12.horizontalSpace,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset(
-                              ImageUtils.coinRed,
-                              width: 19.w,
-                              height: 19.w,
+                            Text(
+                              _ctr.nickName,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM,
+                              ),
                             ),
-                            3.horizontalSpace,
-                            Text.rich(TextSpan(children: [
-                              TextSpan(
-                                  text: '${double.parse(_ctr.price).floor()}',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.sp,
-                                      fontFamily: FONT_MEDIUM)),
-                              TextSpan(
-                                  text: '/${_ctr.unit}',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 8.sp,
-                                      fontFamily: FONT_MEDIUM)),
-                            ]))
+                            10.verticalSpace,
+                            SexAndAgeWidget(
+                              age: _ctr.age,
+                              sex: _ctr.sex,
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Image.asset(
+                                  ImageUtils.coinRed,
+                                  width: 19.w,
+                                  height: 19.w,
+                                ),
+                                3.horizontalSpace,
+                                Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      text:
+                                          '${double.parse(_ctr.price).floor()}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM)),
+                                  TextSpan(
+                                      text: '/${_ctr.unit}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 8.sp,
+                                          fontFamily: FONT_MEDIUM)),
+                                ]))
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
+                    if (_ctr.mutilGameHeight > 0) 15.verticalSpace,
+                    if (_ctr.ifShow &&
+                        (_ctr.model?.serviceItem.length ?? 0) > 1)
+                      ...?_ctr.model?.serviceItem
+                          .map((game) => itemWidget(game))
+                          .toList()
                   ],
                 ),
               ),
@@ -681,6 +766,76 @@ class GameHomePage extends StatelessWidget {
                   ),
                 ),
               )
+          ],
+        ),
+      );
+
+  Widget itemWidget(ServiceItem service) => Container(
+        height: 44.h,
+        padding: EdgeInsets.only(left: 15.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              service.name,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Row(
+              children: [
+                Image(
+                  image: AssetImage('assets/images/ic_balance_money.webp'),
+                  width: 15.w,
+                  height: 15.w,
+                ),
+                3.horizontalSpace,
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                    text: '${double.parse(service.price).floor()}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '/${service.unit}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 8.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                ])),
+                10.horizontalSpace,
+                GestureDetector(
+                  onTap: () => _ctr.editService(service),
+                  child: Container(
+                    width: 52,
+                    height: 26,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(13),
+                      color: AppColor.yellow,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Play".tr,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: AppColor.tabBackGround,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       );

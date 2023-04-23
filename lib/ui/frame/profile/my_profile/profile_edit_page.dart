@@ -62,7 +62,7 @@ class ProfileEditPage extends StatelessWidget {
                 ),
 
                 /// nickname，gender，country，language
-                InputView(autoHeight: true, controller: t.nickController, label: "Nickname".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
+                InputView(autoHeight: true, controller: t.nickController, label: "NickName".tr, maxLength: 20, tips: "${UserController.find.userProfile.nickName}"),
                 InputView(autoHeight: true, controller: t.signatureController, label: "E-Player Introduction".tr, maxLength: 255, tips: "${UserController.find.userProfile.signature}"),
                 Container(
                   height: 40.h,

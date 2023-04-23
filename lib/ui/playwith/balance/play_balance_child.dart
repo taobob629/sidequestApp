@@ -298,6 +298,8 @@ class WalletBalancePageController extends GetxListController {
   // 是否是银行卡支付
   var ifBankPay = false.obs;
 
+  var selectedBankCardNumber = "Account".obs;
+
   get coin => _coin;
 
   set coin(value) {
@@ -470,6 +472,7 @@ class WalletBalancePageController extends GetxListController {
   void selectBank(BankCardModel bank) {
     selectedBank = bank;
     accountType.value = bank.id;
+    selectedBankCardNumber.value = selectedBank?.cardNumber ?? 'Account';
   }
 
   void pay() {
@@ -506,10 +509,9 @@ class WalletBalancePageController extends GetxListController {
   void getBankList() async {
     bankList = await BalanceApi.getBankList();
     if (bankList.isNotEmpty) {
-      selectedBank = bankList.first;
-      accountType.value = selectedBank?.id ?? 0;
-
       selectedBank = await BalanceApi.getBankByCardId(bankList[0].id);
+
+      selectedBankCardNumber.value = selectedBank?.cardNumber ?? 'Account';
     }
   }
 

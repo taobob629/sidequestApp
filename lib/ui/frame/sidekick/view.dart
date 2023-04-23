@@ -45,15 +45,19 @@ class SideKickPage extends StatelessWidget {
             headerSliverBuilder: (context, index) => [
               SliverAppBar(
                 backgroundColor: Colors.transparent,
-                leadingWidth: 200.w,
+                leadingWidth: 120.w,
                 leading: Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 30.w),
-                  child: Text(
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [ Text(
                     'Sidekick',
+                    textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 21.sp, color: Colors.white),
-                  ),
+                  )],),
                 ),
                 actions: [
                   IconButton(

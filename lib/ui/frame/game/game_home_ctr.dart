@@ -1,12 +1,16 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../api_service/profile_api.dart';
 import '../../../common/getx_refresh_controller.dart';
 import '../../../service/voice_player.dart';
 import '../../controller/user_controller.dart';
+import '../main_page.dart';
 import '../profile/model/game_detail_model.dart';
 import '../profile/model/rating_comment_model.dart';
+import '../profile/other_profile/mdoel/player_info_mdoel.dart';
+import '../profile/play_order/play_order_page.dart';
 
 class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String liveid = "";
@@ -14,7 +18,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String skillId = "";
   String avatar = "";
   String nickName = "";
-  String voice="";
+  String voice = "";
   String uk = "";
   String price = "0.0";
   String unit = "";
@@ -22,10 +26,12 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   int sex = 0;
   int total = 0;
   bool isSelf = false;
-  String gameName="";
+  String gameName = "";
 
+  bool ifShow = false;
   String gameInfoId = "gameInfoId";
   GameDetailModel? model;
+  double mutilGameHeight = 0;
 
   AudioManager audioManager = AudioManager.instance;
 
@@ -44,7 +50,6 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
       gameId = Get.arguments["gameId"] ?? 0;
       gameName = Get.arguments["gameName"] ?? "";
       voice = Get.arguments["voice"] ?? "";
-
     }
     isSelf = UserController.find.userProfile.pwId.toString() == liveid;
     super.onInit();
@@ -58,15 +63,55 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     AudioManager.instance.stop();
   }
 
+  void editService(ServiceItem serviceItem) async {
+    var uk = await Get.to(() {
+      return MulitablePlayOrderPage(
+        serviceItemList: [serviceItem],
+      );
+    });
+    // flog('$res', 'Get.to(()=>PlayOrder');
+    if (uk != null) {
+      if (uk == 0) {
+        Get.back();
+        MainPageController.find.currentIndex.value = 3;
+        MainPageController.find.controller.jumpToPage(3);
+      } else {
+        UserController.find.jumpChat(uk);
+      }
+    }
+  }
+
+  void showOrHideGame() {
+    if (model?.serviceItem.length == 1) {
+      editService(model!.serviceItem.first);
+      return;
+    }
+    ifShow = !ifShow;
+    mutilGameHeight = ifShow
+        ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
+        : 0;
+    update([gameInfoId]);
+  }
+
   void _requestData() async {
     model = await ProfileApi.serviceDetailById(gameId);
+
+    if ((model?.serviceItem.length ?? 0) > 1) {
+      mutilGameHeight = ifShow
+          ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
+          : 0;
+    }
+
     update([gameInfoId]);
   }
 
   @override
   Future<List<RatingCommentModel>> loadData({int pageNum = 1}) async {
-    var response = await ProfileApi.othersCommentsList(liveid: liveid, skillId: skillId);
+    var response =
+        await ProfileApi.othersCommentsList(liveid: liveid, skillId: skillId);
     total = response["total"];
-    return response["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
+    return response["rows"]
+        .map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e))
+        .toList();
   }
 }

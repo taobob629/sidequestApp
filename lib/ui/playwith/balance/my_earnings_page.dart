@@ -237,7 +237,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                         children: [
                           Text(
                             controller.ifBankPay.value
-                                ? (controller.selectedBank?.cardNumber ?? '')
+                                ? controller.selectedBankCardNumber.value
                                 : "Account".tr,
                             style: TextStyle(
                               color: Color(0xffFFCB0E),
@@ -257,44 +257,28 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                     Get.toNamed(AppPages.BindBankCard,
                                         arguments: controller.selectedBank);
                                   },
-                                  child: controller.currentPayMethod?.account.isEmpty == true
-                                      ? Row(
-                                          children: [
-                                            Image.asset(
-                                              ImageUtils.icon_add_earnings,
-                                              width: 17.w,
-                                              height: 17.w,
-                                            ),
-                                            4.horizontalSpace,
-                                            Text(
-                                              'Add'.tr,
-                                              style: TextStyle(
-                                                color: Color(0xffFFCB0E),
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Row(
-                                          children: [
-                                            Image.asset(
-                                              ImageUtils.icon_edit_earnings,
-                                              width: 17.w,
-                                              height: 17.w,
-                                            ),
-                                            4.horizontalSpace,
-                                            Text(
-                                              'edit'.tr,
-                                              style: TextStyle(
-                                                color: Color(0xffFFCB0E),
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        ImageUtils.icon_add_earnings,
+                                        width: 17.w,
+                                        height: 17.w,
+                                      ),
+                                      4.horizontalSpace,
+                                      Text(
+                                        controller.selectedBankCardNumber
+                                                    .value ==
+                                                'Account'
+                                            ? 'Add'.tr
+                                            : 'edit'.tr,
+                                        style: TextStyle(
+                                          color: Color(0xffFFCB0E),
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                )
+                                      ),
+                                    ],
+                                  ))
                               : Expanded(
                                   child: TextField(
                                     controller: controller.accountCtr,
