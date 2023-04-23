@@ -82,6 +82,10 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   }
 
   void showOrHideGame() {
+    if (model?.serviceItem.length == 1) {
+      editService(model!.serviceItem.first);
+      return;
+    }
     ifShow = !ifShow;
     mutilGameHeight = ifShow
         ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
