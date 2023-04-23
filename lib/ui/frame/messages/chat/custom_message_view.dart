@@ -155,7 +155,7 @@ class CustomMessageView extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("for ${data['num']} ${data['num'] > 1 ? 'Hours' : 'Hour'}",
+                        Text("for ${data['num']} ${data['unit'] }",
                             style: TextStyle(
                               color: Colors.white54,
                               fontSize: 14,
