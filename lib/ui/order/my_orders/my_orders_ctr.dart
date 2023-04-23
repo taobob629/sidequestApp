@@ -20,7 +20,7 @@ class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {
     OrderStatusBean(statusName: 'Completed'.tr, status: -2),
     OrderStatusBean(statusName: 'Ongoing'.tr, status: 2),
     OrderStatusBean(statusName: 'Refund Dispute'.tr, status: 6),
-    OrderStatusBean(statusName: 'Canceled'.tr, status: -1),
+    OrderStatusBean(statusName: 'Cancelled'.tr, status: -1),
   ];
 
   @override

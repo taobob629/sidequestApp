@@ -31,7 +31,7 @@ class SplashPage extends GetView<SplashPageController> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              'Thousands of games,tasty food\n and lots of fun to be had',
+              'Experience gaming like never before\n and PLAY YOUR WAY with SideQuest.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
@@ -40,7 +40,7 @@ class SplashPage extends GetView<SplashPageController> {
             ),
             11.verticalSpace,
             Text(
-              'Play anywhere,any time,hundreds of games,\n dozens ofd  stores,unlimited coaches,infinite fun',
+              'Join a community of gamers, enjoy gaming time in store, and get coaching to take your skills to the next level.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color.fromARGB(255, 194, 192, 195),
@@ -54,7 +54,7 @@ class SplashPage extends GetView<SplashPageController> {
                   height: 44.h,
                   borderRadius: BorderRadius.all(Radius.circular(16)).w,
                   tapCallback: () => controller.toRegister(),
-                  child: Text('Get Started',
+                  child: Text('Get Started'.tr,
                       style: TextStyle(color: Colors.white, fontSize: 16.sp))),
             ),
             Container(
@@ -65,7 +65,7 @@ class SplashPage extends GetView<SplashPageController> {
                       borderRadius: BorderRadius.all(Radius.circular(16)).w,
                       border: Border.all(color: Colors.grey, width: 1)),
                   tapCallback: () => controller.toLogin(),
-                  child: Text('I already have an account',
+                  child: Text('I already have an account'.tr,
                       style: TextStyle(color: Colors.white, fontSize: 16.sp))),
             ),
           ],
