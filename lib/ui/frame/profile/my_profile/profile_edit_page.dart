@@ -73,7 +73,7 @@ class ProfileEditPage extends StatelessWidget {
                 InputView(
                     autoHeight: true,
                     controller: t.nickController,
-                    label: "Nickname".tr,
+                    label: "NickName".tr,
                     maxLength: 20,
                     tips: "${UserController.find.userProfile.nickName}"),
                 _eplayerIntroWidget(),

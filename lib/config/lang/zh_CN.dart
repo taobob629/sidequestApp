@@ -334,7 +334,7 @@ const Map<String, String> zh_CN = {
   'State': '省',
   'City': '城市',
   'My Services': '我的技能',
-  'Add Service': '添加项目',
+  'Add Service': '添加服务',
   'reject': '拒绝',
   'under review': '审核中',
   'edit': '编辑',
@@ -769,7 +769,7 @@ const Map<String, String> zh_CN = {
   "+ Add Voice":"+ 语音介绍",
   "Ongoing":"进行中",
   "Service Intro":"游戏介绍",
-  "Please input Service Intro":"请添加游戏介绍",
+  "Please input service intro":"请添加游戏介绍",
   "This picture will be displayed in your service interface":"图片将作为封面显示在你的游戏资料页上",
   "Please record your voice, which will be displayed on service interface":"语音将显示在你的游戏资料页上",
   "Please upload a picture as the service cover image":"请上传游戏封面图片",
@@ -792,8 +792,20 @@ const Map<String, String> zh_CN = {
   "Phone number":"电话号码",
   "Personal":"个人资料",
   "Followings":"关注",
-  "Intimacy":"亲密度"
-
-
+  "Intimacy":"亲密度",
+  "feedback":"反馈",
+  "Styles":"风格",
+  " Reviews":"评论",
+  "Platforms":"平台",
+  "Platform":"平台",
+  "Policies":"政策",
+  "Gift":"礼物",
+  "Photo":"图片",
+  "Service Types":"服务类型",
+  "ServiceType_":"服务类型_",
+  "Voice Recording":"录音",
+  "Cover":"封面",
+  "Pay Confirm":"支付",
+  "NickName":"昵称"
 
 };

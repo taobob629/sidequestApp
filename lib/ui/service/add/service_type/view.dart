@@ -34,7 +34,7 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
             // physics: NeverScrollableScrollPhysics(),
             // padding: EdgeInsets.all(0),
             children: [
-              itemLable('Service Types'),
+              itemLable('Service Types'.tr),
               PriceSliderWidget(
                 showLable: false,
               ),

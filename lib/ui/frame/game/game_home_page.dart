@@ -191,7 +191,7 @@ class GameHomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${_ctr.total} Reviews',
+                              '${_ctr.total}'' Reviews'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: FONT_MEDIUM,
@@ -523,7 +523,7 @@ class GameHomePage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Text(
-                      'Platforms'.tr,
+                      'Platform'.tr,
                       style: TextStyle(
                           color: Color(0xff808388),
                           fontSize: 13.sp,

@@ -12,7 +12,7 @@ class GameUserModel {
   final double distance;
 
   // 5
-  final int star;
+  final double star;
 
   // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/header_1673614260256.jpg
   final String thumb;
@@ -101,7 +101,7 @@ class GameUserModel {
 
   factory GameUserModel.fromJson(Map<String, dynamic>? json) => GameUserModel(
         distance: asT<double>(json, 'distance'),
-        star: asT<int>(json, 'star'),
+        star: asT<double>(json, 'star'),
         thumb: asT<String>(json, 'thumb'),
         signature: asT<String>(json, 'signature'),
         sex: asT<int>(json, 'sex'),

@@ -75,7 +75,7 @@ class _AddGamePageState extends State<AddGamePage> {
     return ScaffoldWidget(
       appBar: AppBar(
         title: Obx(() => PageTitle(
-              title: controller.isEdit ? '${controller.game?.name ?? ''}' : 'add service'.tr,
+              title: controller.isEdit ? '${controller.game?.name ?? ''}' : 'Add Service'.tr,
             )),
         centerTitle: true,
         elevation: 0,
