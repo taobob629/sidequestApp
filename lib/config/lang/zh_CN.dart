@@ -804,6 +804,7 @@ const Map<String, String> zh_CN = {
   "Service Types":"服务类型",
   "ServiceType_":"服务类型_",
   "Voice Recording":"录音",
-  "Cover":"封面"
+  "Cover":"封面",
+  "Pay Confirm":"支付"
 
 };

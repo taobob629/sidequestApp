@@ -28,7 +28,7 @@ class PayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Pay Confirm",
+      title: "Pay Confirm".tr,
       body: ListView.separated(
           itemBuilder: (context, index) {
             int orderType = controller.payOrderModel.type;
