@@ -179,11 +179,14 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           Spacer(),
-          ClickIcon(
-            icon: Icons.arrow_forward_ios,
-            size: 13.0,
-            onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
-          )
+         Expanded(
+             child:  InkWell(child: Row(
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: [ClickIcon(
+                 icon: Icons.arrow_forward_ios,
+                 size: 13.0,
+                 onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
+               )],),onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),))
         ],
       ),
     );
