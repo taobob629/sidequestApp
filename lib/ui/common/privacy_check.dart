@@ -10,7 +10,7 @@ const int TYPE_ADD_GAME = 1;
 const int TYPE_ADD_BANK = 2;
 const String TermsAndConditionLink = 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
 const String PrivacyPolicyLink = 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/WebsiteTeamsAndConditions-28.8.2021-final.pdf';
-const String HelpCenterLink = 'http://43.136.135.198:8080/help/help-center.html';
+const String HelpCenterLink = 'https://sidequesthub.com/help/help-center.html';
 
 class PrivacyCheck extends StatelessWidget {
   final _controller = Get.put(_PrivacyCheckController());
