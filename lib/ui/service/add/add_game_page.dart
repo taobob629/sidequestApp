@@ -125,9 +125,6 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   update() async {
-    if (controller.isShowVoice && controller.voiceUrl.isEmpty) {
-      return EasyLoading.showToast('Please record a voice'.tr);
-    }
     if (controller.privacyCheckController.check() == false) return;
     // var fields = buildFiledsParams();
     // flog('fields ${json.encode(fields)}');
@@ -145,11 +142,12 @@ class _AddGamePageState extends State<AddGamePage> {
     if (levels.isNotEmpty) {
       if (controller.gameLv == null) return EasyLoading.showToast('Please select rank'.tr);
     }
+    var fields = controller.buildFiledsParams();
     if (levels.isNotEmpty) {
       if (controller.gamePhotos.isEmpty)
         return EasyLoading.showToast('Please upload screenshot'.tr);
     }
-    flog(json.encode(controller.mPriceRanges));
+
     //var priceRanges = json.encode(controller.mPriceRanges);
     controller.toAddServiceTypePage();
     return;
