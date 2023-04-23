@@ -237,9 +237,10 @@ class HomeDrawer extends StatelessWidget {
       child: Row(
         children: [
           achievementItem(user?.coin, 'ic_balance_money'),
-          achievementItem(user?.coupons, 'ic_coupons_new'),
           achievementItem(user?.diamond, 'diamonds_red'),
           achievementItem(user?.balanceMoney(), 'ic_corns_new'),
+          achievementItem(user?.coupons, 'ic_coupons_new'),
+
         ],
       ),
     );
