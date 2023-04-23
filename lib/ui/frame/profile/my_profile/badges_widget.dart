@@ -43,7 +43,7 @@ class BadgesWidget extends GetView<ProfileController> {
             child: Row(
               children: [
                 Text(
-                  '${badge.name}',
+                  '${badge.name}'.tr,
                   style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
