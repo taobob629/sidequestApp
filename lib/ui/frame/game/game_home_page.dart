@@ -422,96 +422,99 @@ class GameHomePage extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            15.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'Server'.tr,
-                      style: TextStyle(
-                          color: Color(0xff808388),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+            if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.server.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Server'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      _ctr.model?.server ?? '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.server ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            15.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'Position'.tr,
-                      style: TextStyle(
-                          color: Color(0xff808388),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+            if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.position.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Position'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      _ctr.model?.position ?? '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.position ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            15.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'Styles'.tr,
-                      style: TextStyle(
-                          color: Color(0xff808388),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+            if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.style.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Styles'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      _ctr.model?.style ?? '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.style ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
             15.verticalSpace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
