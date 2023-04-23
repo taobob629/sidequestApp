@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
@@ -31,7 +32,7 @@ List<Map> supports = [
     ..['action'] = () => Get.to(WebPage(title: 'Help Center'.tr, url: HelpCenterLink)),
   Map()
     ..['title'] = 'Give us feedback'.tr
-    ..['action'] = () => EasyLoading.showToast('Give us feedback'.tr),
+    ..['action'] = () =>Get.dialog(ConfirmDialog(title: 'feedback'.tr, info: 'feedback_desc'.tr)),
 ];
 List<Map> legals = [
   Map()
