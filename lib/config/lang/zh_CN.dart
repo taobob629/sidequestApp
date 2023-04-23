@@ -334,7 +334,7 @@ const Map<String, String> zh_CN = {
   'State': '省',
   'City': '城市',
   'My Services': '我的技能',
-  'Add Service': '添加项目',
+  'Add Service': '添加服务',
   'reject': '拒绝',
   'under review': '审核中',
   'edit': '编辑',
@@ -792,8 +792,15 @@ const Map<String, String> zh_CN = {
   "Phone number":"电话号码",
   "Personal":"个人资料",
   "Followings":"关注",
-  "Intimacy":"亲密度"
-
+  "Intimacy":"亲密度",
+  "feedback":"反馈",
+  "Styles":"风格",
+  " Reviews":"评论",
+  "Platforms":"平台",
+  "Platform":"平台",
+  "Policies":"政策",
+  "Gift":"礼物",
+  "Photo":"图片",
 
 
 };
