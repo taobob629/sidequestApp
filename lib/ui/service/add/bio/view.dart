@@ -217,7 +217,7 @@ class BioPage extends GetView<AddGamePageController> {
                     child: StadiumButton(
                   'Submit'.tr,
                   onTap: () {
-                    if (controller.privacyCheckController.check()) controller.updateService();
+                    if (controller.privacyCheckController.check()) controller.bioUpdate();
                   },
                 )),
               ],

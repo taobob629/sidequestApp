@@ -198,6 +198,14 @@ class AddGamePageController extends GetxController {
     this.mPriceRanges.refresh();
   }
 
+  bioUpdate() {
+    if (voiceUrl.isEmpty) {
+      EasyLoading.showToast('Please add a voice!'.tr);
+      return;
+    }
+    updateService();
+  }
+
   updateService() async {
     var desc = teServiceIntro.text;
     //flog('priceRanges $mPriceRanges');
@@ -215,10 +223,6 @@ class AddGamePageController extends GetxController {
       }
       if (desc.isEmpty) {
         EasyLoading.showToast('Please input a service intro!'.tr);
-        return;
-      }
-      if (voiceUrl.isEmpty) {
-        EasyLoading.showToast('Please add a voice!'.tr);
         return;
       }
       if (background.isEmpty) {
@@ -347,7 +351,11 @@ class AddGamePageController extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
-      Get.to<File?>(() => CropPage(image: _image, ifFixedSize: true,))!.then((value) async {
+      Get.to<File?>(() => CropPage(
+                image: _image,
+                ifFixedSize: true,
+              ))!
+          .then((value) async {
         EasyLoading.show();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
         EasyLoading.dismiss();
