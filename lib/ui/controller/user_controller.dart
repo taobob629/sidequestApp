@@ -174,7 +174,7 @@ class UserController extends GetxController {
         concelBtn: 'CANCEL'.tr,
         onConfirm: () {
           Get.back();
-          Get.toNamed(AppPages.Record);
+          toRecordPage(Get.context!!);
         },
       ));
     }
