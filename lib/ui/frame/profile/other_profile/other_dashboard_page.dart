@@ -296,7 +296,7 @@ class OtherDashboardPage extends StatelessWidget {
                                                             game.serviceItem
                                                                 .first);
                                                       } else {
-                                                        t.selGame.value = game;
+                                                        t.ifShow.value = !t.ifShow.value;
                                                       }
                                                     },
                                                   ).marginOnly(bottom: 13)
@@ -308,7 +308,7 @@ class OtherDashboardPage extends StatelessWidget {
                                       ))
                                     ],
                                   ),
-                                  if (t.selGame.value == game) ...[
+                                  if (t.ifShow.value) ...[
                                     ...game.serviceItem.map((service) {
                                       return Container(
                                         height: 44,

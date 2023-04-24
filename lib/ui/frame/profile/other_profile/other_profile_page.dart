@@ -593,7 +593,7 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
 
   final player = PlayerInfoModel().obs;
 
-  final selGame = GamesItem().obs;
+  final ifShow = false.obs;
 
   ScrollController scrollController = ScrollController();
 
