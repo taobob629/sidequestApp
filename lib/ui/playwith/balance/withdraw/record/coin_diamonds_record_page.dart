@@ -9,6 +9,7 @@ import 'package:wy/model/coin_records_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
+import 'package:wy/common/string_ext.dart';
 
 /*
     view
@@ -107,7 +108,7 @@ class CoinAndDiamondsRecordPage extends StatelessWidget {
               //   height: 10,
               // ),
               Text(
-                '${model.datatime}',
+                '${model.addtime?.toDateStr}',
                 style: TextStyle(fontSize: 14, color: Colors.white54),
               ),
             ],

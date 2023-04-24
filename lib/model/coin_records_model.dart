@@ -21,6 +21,7 @@ class CoinRecordsModel {
       this.nums, 
       this.total, 
       this.datatime,
+      this.addtime,
       this.showid, 
       this.actionName,});
 
@@ -34,6 +35,8 @@ class CoinRecordsModel {
     nums = json['nums'];
     total = json['total'];
     datatime = json['datatime'];
+    addtime = json['addtime'];
+
     showid = json['showid'];
     actionName = json['actionName'];
     afterChangeVotes = json['afterChangeVotes']?.toString() ?? '0';
@@ -48,6 +51,7 @@ class CoinRecordsModel {
   num? nums;
   num? total;
   String? datatime;
+  num? addtime;
   num? showid;
   String? actionName;
   String? afterChangeVotes;
@@ -65,6 +69,8 @@ class CoinRecordsModel {
     map['total'] = total;
     map['datatime'] = datatime;
     map['showid'] = showid;
+    map['addtime'] = addtime;
+
     map['actionName'] = actionName;
     return map;
   }

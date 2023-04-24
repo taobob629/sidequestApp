@@ -1,4 +1,5 @@
 import 'package:wy/model/safe_convert.dart';
+import 'package:wy/common/string_ext.dart';
 
 class OrderDetailModel {
   // 1
@@ -41,6 +42,7 @@ class OrderDetailModel {
 
   // 60
   final int price;
+  final int addtime;
 
   priceWithSufix() {
     return '\$ $price';
@@ -68,6 +70,7 @@ class OrderDetailModel {
     this.unit = "",
     this.total = 0,
     this.serviceItemName = "",
+    this.addtime=0,
     this.uk = "",
     this.pwId = 0,
     this.pwuserId = 0,
@@ -86,6 +89,7 @@ class OrderDetailModel {
         discount: asT<int>(json, 'discount'),
         skillName: asT<String>(json, 'skillName'),
         unit: asT<String>(json, 'unit'),
+        addtime: asT<int>(json, 'addtime'),
         total: asT<int>(json, 'total'),
         serviceItemName: asT<String>(json, 'serviceItemName'),
         uk: asT<String>(json, 'uk'),
@@ -107,6 +111,7 @@ class OrderDetailModel {
         'orderSn': orderSn,
         'nickName': nickName,
         'discount': discount,
+        'addtime': addtime,
         'skillName': skillName,
         'unit': unit,
         'total': total,
@@ -115,7 +120,7 @@ class OrderDetailModel {
         'pwId': pwId,
         'price': price,
         'subtotal': subtotal,
-        'time': time,
+        'time': time.toDateStr,
         'status': status,
       };
 }
@@ -123,6 +128,7 @@ class OrderDetailModel {
 class CommentsModel {
   // Mar 23,2023 12:50 PM
   final String time;
+  final int addtime;
 
   // bob-prod2 accept the order!
   final String content;
@@ -130,6 +136,7 @@ class CommentsModel {
   CommentsModel({
     this.time = "",
     this.content = "",
+    this.addtime=0,
   });
 
   factory CommentsModel.fromJson(Map<String, dynamic>? json) => CommentsModel(
@@ -140,6 +147,7 @@ class CommentsModel {
   Map<String, dynamic> toJson() => {
         'time': time,
         'content': content,
+        'addtime':addtime,
       };
 }
 

@@ -39,6 +39,7 @@ class ServiceListModel {
 
   // Dec 23,2022 11:20 AM
   final String time;
+  final int addtime;
 
   // 24
   final int id;
@@ -69,6 +70,7 @@ class ServiceListModel {
     this.time = "",
     this.id = 0,
     this.status = 0,
+    this.addtime=0,
   });
 
   factory ServiceListModel.fromJson(Map<String, dynamic>? json) => ServiceListModel(
@@ -80,6 +82,7 @@ class ServiceListModel {
         time: asT<String>(json, 'time'),
         id: asT<int>(json, 'id'),
         status: asT<int>(json, 'status'),
+        addtime: asT<int>(json, 'addtime'),
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,6 +92,7 @@ class ServiceListModel {
         'price': price,
         'icon': icon,
         'time': time,
+         'addtime': addtime,
         'id': id,
         'status': status,
       };
