@@ -14,7 +14,20 @@ extension StringExt on String {
     try {
       final now = DateTime.now();
       final localTimeZoneOffset = now.timeZoneOffset; //取设备所在时区的偏移量
-      return formatDate(DateTime.parse(this).add(localTimeZoneOffset), [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn]);
+      return formatDate(DateTime.parse(this).add(localTimeZoneOffset), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn]);
+    } catch (e) {
+      return "";
+    }
+  }
+}
+
+extension IntExt on int {
+  ///转换为正常时间
+  String get toDateStr {
+    try {
+      final now = DateTime.now();
+      final localTimeZoneOffset = now.timeZoneOffset; //取设备所在时区的偏移量
+      return formatDate(DateTime.fromMillisecondsSinceEpoch(this * 1000).add(localTimeZoneOffset), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn]);
     } catch (e) {
       return "";
     }
