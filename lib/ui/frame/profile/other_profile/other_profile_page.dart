@@ -593,8 +593,6 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
 
   final player = PlayerInfoModel().obs;
 
-  final selGame = GamesItem().obs;
-
   ScrollController scrollController = ScrollController();
 
   double limitedHeight = 88 + Get.mediaQuery.padding.top;

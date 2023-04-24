@@ -92,7 +92,7 @@ class GameHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(21.r),
                         ),
                         child: Text(
-                          "Order".tr,
+                          "Play".tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14.sp,
@@ -191,7 +191,7 @@ class GameHomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${_ctr.total}'' Reviews'.tr,
+                              '${_ctr.total}' ' Reviews'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: FONT_MEDIUM,
@@ -773,6 +773,14 @@ class GameHomePage extends StatelessWidget {
   Widget itemWidget(ServiceItem service) => Container(
         height: 44.h,
         padding: EdgeInsets.only(left: 15.w),
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColor.itemBg2,
+              width: 1.w,
+            ),
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

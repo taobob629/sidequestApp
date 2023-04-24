@@ -99,6 +99,8 @@ class GamesItem {
   int orders = 0;
   int id = 0;
 
+  var ifShow = false.obs;
+
   GamesItem();
 
   GamesItem.fromJson(Map<String, dynamic> json) {
