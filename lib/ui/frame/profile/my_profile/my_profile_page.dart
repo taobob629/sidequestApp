@@ -128,7 +128,7 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                               ),
                               Spacer(),
-                              Obx(() => Container(
+                              Container(
                                 width: 98.w,
                                 height: 30.h,
                                 decoration: BoxDecoration(
@@ -167,7 +167,7 @@ class MyProfilePage extends StatelessWidget {
                                         )),
                                   ],
                                 ),
-                              ),)
+                              ),
                             ],
                           ),
                         ),
