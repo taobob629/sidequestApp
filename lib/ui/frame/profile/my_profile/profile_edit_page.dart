@@ -393,8 +393,8 @@ class ProfileEditPage extends StatelessWidget {
                 ),
                 style: TextStyle(color: Colors.white, fontSize: 14.sp),
                 maxLength: 255,
-                maxLines: 12,
-                minLines: 12,
+                maxLines: 4,
+                minLines: 4,
               ),
             )
           ],
