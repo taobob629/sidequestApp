@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 
+import '../../../../../utils/image_util.dart';
+
 class ReleasePostPage extends StatelessWidget {
   ReleasePostPage({Key? key}) : super(key: key);
 
@@ -72,8 +74,8 @@ class ReleasePostPage extends StatelessWidget {
                       runSpacing: 10,
                       spacing: 10,
                       children: [
-                        ...t.photoLocalFiles.map(
-                          (file) {
+                        ...t.photoList.map(
+                          (photoUrl) {
                             return Container(
                               width: (Get.width - 40 - 20) / 3,
                               height: (Get.width - 40 - 20) / 3,
@@ -87,8 +89,8 @@ class ReleasePostPage extends StatelessWidget {
                                 alignment: AlignmentDirectional.center,
                                 fit: StackFit.expand,
                                 children: [
-                                  Image.file(
-                                    file,
+                                  ImageUtil.networkImage(
+                                    url: photoUrl,
                                     fit: BoxFit.cover,
                                   ),
                                   Positioned(
@@ -96,7 +98,7 @@ class ReleasePostPage extends StatelessWidget {
                                       top: 0,
                                       child: GestureDetector(
                                         onTap: () {
-                                          t.delPhoto(file);
+                                          t.delPhoto(photoUrl);
                                         },
                                         child: Icon(
                                           Icons.delete_forever,
@@ -109,7 +111,7 @@ class ReleasePostPage extends StatelessWidget {
                             );
                           },
                         ).toList(),
-                        if (t.photoLocalFiles.length < 9)
+                        if (t.photoList.length < 9)
                           GestureDetector(
                             onTap: t.pickUploadPhoto,
                             child: Container(
