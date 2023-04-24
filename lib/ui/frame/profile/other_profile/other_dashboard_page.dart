@@ -364,7 +364,8 @@ class OtherDashboardPage extends StatelessWidget {
                                                     t.editService(
                                                         game, service);
                                                   },
-                                                )
+                                                ),
+                                                10.horizontalSpace,
                                               ],
                                             )
                                           ],
