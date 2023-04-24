@@ -20,6 +20,7 @@ import 'package:wy/firebase_options.dart';
 import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/common/dialog_pop_ad.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
+import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/events_page.dart';
 import 'package:wy/ui/frame/social/view.dart';
@@ -366,6 +367,9 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
 
   @override
   void onClose() {
+    flog('close----');
+    Get.delete<UserController>();
+    Get.delete<CartController>();
     controller.dispose();
     _timer.cancel();
     super.onClose();
