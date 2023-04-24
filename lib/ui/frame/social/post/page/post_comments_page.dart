@@ -33,90 +33,88 @@ class PostCommentsPage extends StatelessWidget {
               controller: t.refreshController,
               onRefresh: () => t.onRefresh(),
               onLoading: () => t.loadData(),
-              child: SingleChildScrollView(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: 80),
-                  itemCount: t.list.length,
-                  itemBuilder: (context, index) {
-                    final model = t.list[index];
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        if (UserController.find.userProfile.pwId != model.uid) {
-                          t.replyModel.value = model;
-                        }
-                      },
+              child: ListView.separated(
+                shrinkWrap: true,
+                padding: EdgeInsets.only(bottom: 80),
+                itemCount: t.list.length,
+                itemBuilder: (context, index) {
+                  final model = t.list[index];
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      if (UserController.find.userProfile.pwId != model.uid) {
+                        t.replyModel.value = model;
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        child: Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  NavigatorHelper.toOtherProfile(model.uid);
-                                },
-                                child: ClipOval(
-                                  child: ImageUtil.networkImage(
-                                    url: model.isReply ? model.replyHead : model.head,
-                                    fit: BoxFit.cover,
-                                    width: 50,
-                                    height: 50,
-                                  ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                NavigatorHelper.toOtherProfile(model.uid);
+                              },
+                              child: ClipOval(
+                                child: ImageUtil.networkImage(
+                                  url: model.isReply ? model.replyHead : model.head,
+                                  fit: BoxFit.cover,
+                                  width: 50,
+                                  height: 50,
                                 ),
                               ),
-                              Expanded(
-                                  child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 5),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            model.isReply ? model.replyNickname : model.nickname,
-                                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            model.createTime.toDateStr,
-                                            style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    RichText(
-                                        text: TextSpan(style: TextStyle(fontSize: 14, color: Colors.white), children: [
-                                      if (model.isReply) ...[
-                                        TextSpan(text: "reply ".tr),
-                                        TextSpan(text: model.nickname + " : ", style: TextStyle(color: AppColor.yellow, fontWeight: FontWeight.bold)),
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 15,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          model.isReply ? model.replyNickname : model.nickname,
+                                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          model.addTime.toDateStr,
+                                          style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.bold),
+                                        )
                                       ],
-                                      TextSpan(text: model.content),
-                                    ])),
-                                  ],
-                                ),
-                              ))
-                            ],
-                          ),
+                                    ),
+                                  ),
+                                  RichText(
+                                      text: TextSpan(style: TextStyle(fontSize: 14, color: Colors.white), children: [
+                                    if (model.isReply) ...[
+                                      TextSpan(text: "reply ".tr),
+                                      TextSpan(text: model.nickname + " : ", style: TextStyle(color: AppColor.yellow, fontWeight: FontWeight.bold)),
+                                    ],
+                                    TextSpan(text: model.content),
+                                  ])),
+                                ],
+                              ),
+                            ))
+                          ],
                         ),
                       ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      color: AppColor.itemBg,
-                      height: 1,
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    color: AppColor.itemBg,
+                    height: 1,
+                  );
+                },
               ),
             ),
 

@@ -13,6 +13,7 @@ class PostItemModel {
   String content = "";
   int uid = 0;
   int id = 0;
+  int addTime = 0;
 
   List<String> get imageList {
     if (images.contains("[") && images.contains("]")) {
@@ -35,5 +36,6 @@ class PostItemModel {
     content = json["content"] ?? "";
     uid = json["uid"] ?? 0;
     id = json["id"] ?? 0;
+    addTime = json["addtime"] ?? 0;
   }
 }

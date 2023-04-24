@@ -72,7 +72,7 @@ class PostFavoratorsPage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                model.createTime.toDateStr,
+                                model.addTime.toDateStr,
                                 style: TextStyle(color: Color(0xff808388), fontSize: 13),
                               )
                             ],
