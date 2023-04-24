@@ -13,8 +13,7 @@ class ReleasePostController extends GetxController {
   TextEditingController textController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  List<String> photoList = [];
-  final photoLocalFiles = <File>[].obs;
+  final photoList = <String>[].obs;
 
   final textLength = 0.obs;
 
@@ -32,22 +31,18 @@ class ReleasePostController extends GetxController {
 
   pickUploadPhoto() async {
     List<XFile>? files = await _picker.pickMultiImage(imageQuality: 30);
-    if (files?.isEmpty == true) {
+    if (files.isEmpty == true) {
+      return;
+    }
+
+    if (files.length > 9 || (photoList.length + files.length) > 9) {
+      showInfoDialog('only 9 pictures allowed'.tr);
       return;
     }
 
     EasyLoading.show();
-    int length = files?.length ?? 0;
-    if (length > 9) {
-      showInfoDialog('only 9 pictures allowed'.tr);
-      length = 9;
-    }
-
-    photoLocalFiles.clear();
-    photoList.clear();
-    for (int i = 0; i < length; i++) {
-      File file = File(files![i].path);
-      photoLocalFiles.add(file);
+    for (int i = 0; i < files.length; i++) {
+      File file = File(files[i].path);
 
       Common.uploadFile(file, (p0, p1) {}).then((url) {
         if (url.isNotEmpty) {
@@ -58,9 +53,8 @@ class ReleasePostController extends GetxController {
     EasyLoading.dismiss();
   }
 
-  delPhoto(File file) {
-    photoList.remove(file.path);
-    photoLocalFiles.remove(file);
+  delPhoto(String photoUrl) {
+    photoList.remove(photoUrl);
   }
 
   submit() {

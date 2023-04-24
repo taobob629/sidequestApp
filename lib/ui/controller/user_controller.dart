@@ -39,6 +39,7 @@ import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
 
 class UserController extends GetxController {
+  bool hasDidVoiceCheck=false;//只检查一次
   static UserController instance() {
     return Get.find<UserController>();
   }
@@ -162,19 +163,21 @@ class UserController extends GetxController {
       //    userInfoModel.value = await UserApi.info();
       userProfile = await ProfileApi.getProfileInfo();
       //判断是否有语音
+      if(hasDidVoiceCheck)return;
       voiceCheck();
     }
   }
 
   void voiceCheck() {
     if (userProfile.isAuth == TYPE_VIP && userProfile.voice.isEmpty) {
+      hasDidVoiceCheck=true;
       Get.dialog(ConfirmDialog(
         title: 'Confirm'.tr,
         info: 'We suggest that you supplement the recording materials'.tr,
         concelBtn: 'CANCEL'.tr,
         onConfirm: () {
           Get.back();
-          Get.toNamed(AppPages.Record);
+          toRecordPage(Get.context!!);
         },
       ));
     }

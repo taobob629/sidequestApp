@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/order_detail.dart';
@@ -155,7 +156,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         10.verticalSpace,
         rowLine('Status'.tr, orderStatusMap[item?.status]),
         rowLine('Order ID'.tr, item?.orderSn),
-        rowLine('Order Time'.tr, item?.time),
+        rowLine('Order Time'.tr, item?.addtime.toDateStr),
         10.verticalSpace,
         listDivider,
         10.verticalSpace,

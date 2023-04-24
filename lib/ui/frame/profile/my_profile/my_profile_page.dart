@@ -128,49 +128,46 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                               ),
                               Spacer(),
-                              Obx(() => Visibility(
-                                    visible: userController.userProfile.voice.isNotEmpty,
-                                    child: Container(
-                                      width: 98.w,
-                                      height: 30.h,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
-                                          gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                                          boxShadow: [
-                                            BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                            BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                          ]),
+                              Container(
+                                width: 98.w,
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
+                                    gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
+                                    boxShadow: [
+                                      BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
+                                      BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
+                                    ]),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        //播放
+                                        AudioManager.instance.play(userController.userProfile.voice);
+                                      },
                                       child: Row(
                                         children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              //播放
-                                              AudioManager.instance.play(userController.userProfile.voice);
-                                            },
-                                            child: Row(
-                                              children: [
-                                                6.horizontalSpace,
-                                                Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                                8.horizontalSpace,
-                                                Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                              child: GestureDetector(
-                                            onTap: () {
-                                              //编辑
-                                              userController.toRecordPage(context);
-                                            },
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              child: ImageUtil.assetImage('ic_edit', width: 14),
-                                            ),
-                                          )),
+                                          6.horizontalSpace,
+                                          Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
+                                          8.horizontalSpace,
+                                          Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
                                         ],
                                       ),
                                     ),
-                                  ))
+                                    Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            //编辑
+                                            userController.toRecordPage(context);
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            child: ImageUtil.assetImage('ic_edit', width: 14),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),

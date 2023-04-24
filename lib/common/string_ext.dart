@@ -21,13 +21,11 @@ extension StringExt on String {
   }
 }
 
-extension IntExt on int {
+extension IntExt on num {
   ///转换为正常时间
   String get toDateStr {
     try {
-      // final now = DateTime.now();
-      // final localTimeZoneOffset = now.timeZoneOffset; //取设备所在时区的偏移量
-      return formatDate(DateTime.fromMillisecondsSinceEpoch(this * 1000, isUtc: true), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn]);
+      return formatDate(DateTime.fromMillisecondsSinceEpoch(this.toInt() * 1000, isUtc: false), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn]);
     } catch (e) {
       return "";
     }
