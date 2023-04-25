@@ -21,7 +21,7 @@ class FollowListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'Follow'.tr,
+      title: 'My Followings'.tr,
       body: Obx(
         () => SmartRefresher(
             controller: t.refreshController,

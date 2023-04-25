@@ -806,6 +806,10 @@ const Map<String, String> zh_CN = {
   "Voice Recording":"录音",
   "Cover":"封面",
   "Pay Confirm":"支付",
-  "NickName":"昵称"
+  "NickName":"昵称",
+  "My Followers":"我的粉丝",
+  "My Followings":"我的关注",
+  "My Visitors":"访问者"
+
 
 };
