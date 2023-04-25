@@ -12,6 +12,7 @@ class ActivityListModel {
 
   // 12:00 11-03-2023
   final String time;
+  final int datetime;
 
   // Photocard Trading Event
   final String title;
@@ -23,6 +24,7 @@ class ActivityListModel {
     this.id = 0,
     this.time = "",
     this.title = "",
+    this.datetime=0,
     required this.participants,
   });
 
@@ -38,6 +40,7 @@ class ActivityListModel {
         id: asT<int>(json, 'id'),
         time: asT<String>(json, 'time'),
         title: asT<String>(json, 'title'),
+        datetime:asT<int>(json, 'datetime'),
         participants:
             asT<List>(json, 'participants').map((e) => ParticipantsItem.fromJson(e)).toList(),
       );
@@ -46,6 +49,7 @@ class ActivityListModel {
         'image': image,
         'unique': unique,
         'id': id,
+        'datetime': datetime,
         'time': time,
         'title': title,
         'participants': participants.map((e) => e.toJson()).toList(),

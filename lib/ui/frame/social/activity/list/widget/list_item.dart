@@ -14,6 +14,7 @@ import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/common/string_ext.dart';
 
 class ActivityListItemWidget extends StatelessWidget {
   late ActivityListModel model;
