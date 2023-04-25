@@ -30,7 +30,7 @@ class MyPraisedPostPage extends StatelessWidget {
                     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                   return PostListItemView(
                     model: t.list[index],
-                    isSelf: true,
+                    isSelf: false,
                     onTap: () {
                       Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
                     },
