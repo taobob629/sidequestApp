@@ -49,7 +49,7 @@ class RatingCommentPage extends StatelessWidget {
     final t = Get.put(RatingCommentController());
     return Scaffold(
       appBar: AppBar(
-        title: Text("Comment".tr),
+        title: Text("Comments".tr),
       ),
       body: Obx(() => SmartRefresher(
             controller: t.refreshController,

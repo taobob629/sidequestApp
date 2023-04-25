@@ -809,7 +809,7 @@ const Map<String, String> zh_CN = {
   "NickName":"昵称",
   "My Followers":"我的粉丝",
   "My Followings":"我的关注",
-  "My Visitors":"访问者"
+  "My Visitors":"访问者",
 
 
 };
