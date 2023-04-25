@@ -250,13 +250,13 @@ class MyOrdersPage extends StatelessWidget {
                             text: '${model?.price}',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12.sp,
+                                fontSize: 16.sp,
                                 fontFamily: FONT_MEDIUM)),
                         TextSpan(
                             text: '/${model.unit}',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12.sp,
+                                fontSize: 8.sp,
                                 fontFamily: FONT_MEDIUM)),
                       ])),
                       //  Spacer(),

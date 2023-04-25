@@ -255,7 +255,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               oppositeContentsBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '${history[index].time}',
+                      '${history[index].addtime.toDateStr}',
                       style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: Colors.white60),
                     ),
                   ),

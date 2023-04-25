@@ -18,7 +18,7 @@ class VisitorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        title: 'Visitor'.tr,
+        title: 'My Visitors'.tr,
         body: Obx(
           () => SmartRefresher(
               controller: t.refreshController,

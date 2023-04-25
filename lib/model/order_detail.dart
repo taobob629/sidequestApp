@@ -141,7 +141,9 @@ class CommentsModel {
 
   factory CommentsModel.fromJson(Map<String, dynamic>? json) => CommentsModel(
         time: asT<String>(json, 'time'),
-        content: asT<String>(json, 'content'),
+        addtime: asT<int>(json, 'addtime'),
+
+    content: asT<String>(json, 'content'),
       );
 
   Map<String, dynamic> toJson() => {

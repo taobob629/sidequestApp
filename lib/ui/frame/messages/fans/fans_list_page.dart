@@ -21,7 +21,7 @@ class FansListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'Fans'.tr,
+      title: 'My Followers'.tr,
       body: Obx(
         () => SmartRefresher(
             controller: t.refreshController,
