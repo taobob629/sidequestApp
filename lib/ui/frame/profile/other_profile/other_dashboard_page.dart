@@ -5,6 +5,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../playwith/balance/widget/tips_dialog.dart';
 import '../../game/game_home_page.dart';
 import '../play_order/rating_comment_page.dart';
 import 'other_profile_page.dart';
@@ -52,10 +53,19 @@ class OtherDashboardPage extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      ImageUtil.networkImage(
+                                      GestureDetector(
+                                        onTapDown: (detail) {
+                                          Get.dialog(TipsDialog(
+                                            offset: detail.globalPosition,
+                                            tips: '${e.tips}',
+                                          ));
+                                        },
+                                        child: ImageUtil.networkImage(
                                           url: e.iconLightImage,
                                           width: 36.w,
-                                          height: 36.h),
+                                          height: 36.h,
+                                        ),
+                                      ),
                                       Text(e.iconName,
                                           maxLines: 1,
                                           overflow: TextOverflow.clip,
@@ -296,7 +306,8 @@ class OtherDashboardPage extends StatelessWidget {
                                                             game.serviceItem
                                                                 .first);
                                                       } else {
-                                                        game.ifShow.value = !game.ifShow.value;
+                                                        game.ifShow.value =
+                                                            !game.ifShow.value;
                                                       }
                                                     },
                                                   ).marginOnly(bottom: 13)
