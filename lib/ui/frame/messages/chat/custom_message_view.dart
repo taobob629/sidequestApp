@@ -1,20 +1,23 @@
 import 'package:date_format/date_format.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:get/get.dart';
+import 'package:wy/common/string_ext.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/image_utils.dart';
 
 class CustomMessageView extends StatelessWidget {
   var type;
   var data;
-  double iconHeight;
-  double width;
 
+  double width = Get.width * 0.6;
+  double height = Get.width * 191 / 369;
+  double iconHeight = Get.width * 191 / 369 * 0.5;
   CustomMessageView({
     required this.type,
     required this.data,
-    required this.iconHeight,
-    required this.width,
   });
 
   @override
@@ -24,12 +27,55 @@ class CustomMessageView extends StatelessWidget {
         return _topUpCreditWidget();
       case "play_order":
         return _orderWidget();
+      case "PostMessage":
+        return _postMsgItem();
       default:
         return Text(
           "Unsupported message type, please update your app!",
           style: TextStyle(fontSize: 12, color: Colors.white24),
         );
     }
+  }
+
+  Widget _postMsgItem() {
+    return Container(
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                16.verticalSpace,
+                Container(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(data["nickname"], style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+                      15.horizontalSpace,
+                      Text(data["action"], style: TextStyle(fontSize: 14.sp, color: AppColor.yellow)),
+                    ],
+                  ),
+                ),
+                7.verticalSpace,
+                Text((int.tryParse(data["addtime"].toString()) ?? 0).toDateStr, style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388))),
+                8.verticalSpace,
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.h),
+                  decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(10.r)),
+                  child: Text(data["content"], style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                ),
+                15.verticalSpace
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _topUpCreditWidget() => Container(
@@ -101,6 +147,7 @@ class CustomMessageView extends StatelessWidget {
       );
 
   Widget _orderWidget() => Container(
+      height: height,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
       child: Column(
@@ -155,7 +202,7 @@ class CustomMessageView extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("for ${data['num']} ${data['unit'] }",
+                        Text("for ${data['num']} ${data['unit']}",
                             style: TextStyle(
                               color: Colors.white54,
                               fontSize: 14,

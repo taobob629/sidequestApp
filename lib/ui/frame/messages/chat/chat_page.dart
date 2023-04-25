@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -47,9 +48,7 @@ class ChatPage extends StatelessWidget {
       Get.put(ChatController(), tag: "ChatKey");
     }
     getUserId();
-    double width = MediaQuery.of(context).size.width * 0.6;
-    double height = width * 191 / 369;
-    double iconHeight = height * 0.5;
+
     return TIMUIKitChat(
       appBarConfig: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       config: TIMUIKitChatConfig(
@@ -142,6 +141,30 @@ class ChatPage extends StatelessWidget {
           }
         }
       },
+      userAvatarBuilder: (context, message) {
+        if (message.customElem?.data != null) {
+          var json = jsonDecode(message.customElem!.data!);
+          var data;
+
+          if (json['type'] == "PostMessage") {
+            if (json["message"] != null) {
+              data = json['message'];
+            }
+            return ExtendedImage.network(
+              data["avatar"] ?? "",
+              width: 44.w,
+              height: 44.w,
+              shape: BoxShape.circle,
+            );
+          }
+        }
+        return ExtendedImage.network(
+          message.faceUrl ?? "",
+          width: 44.w,
+          height: 44.w,
+          shape: BoxShape.circle,
+        );
+      },
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
@@ -150,39 +173,28 @@ class ChatPage extends StatelessWidget {
           data = data['message'];
         }
         print('data = $data');
-        double? customHeight = height;
-        switch (type) {
-          case "play_order":
-            {
-              customHeight = height;
-              break;
-            }
-          default:
-            {
-              customHeight = null;
-              break;
-            }
-        }
 
         return GestureDetector(
           onTap: () {
-            if (type == "play_order") {
-              Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
-            } else if (type == "TopUp_Credit") {
-              int orderId = json['orderId'];
-              Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)?.whenComplete(() => _getPlayOrder());
+            switch (type) {
+              case "play_order":
+                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
+                break;
+              case "TopUp_Credit":
+                int orderId = json['orderId'];
+                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)?.whenComplete(() => _getPlayOrder());
+                break;
+              case "PostMessage":
+                Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
+
+                break;
+              default:
             }
           },
-          child: Container(
-              height: customHeight,
-              width: width,
-              padding: const EdgeInsets.all(0),
-              child: CustomMessageView(
-                type: type,
-                data: data,
-                iconHeight: iconHeight,
-                width: width,
-              )),
+          child: CustomMessageView(
+            type: type,
+            data: data,
+          ),
         );
       }),
       conversation: selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.
