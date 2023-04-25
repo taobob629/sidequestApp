@@ -1,22 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wy/event_bus/beans/badge_event.dart';
+import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../utils/image_util.dart';
 
-class BadgeDetailPage extends StatefulWidget {
+class BadgeDetailWidget extends StatefulWidget {
   List<TrophieModel> trophies = [];
 
-  BadgeDetailPage(this.trophies);
+  BadgeDetailWidget(this.trophies);
 
   @override
-  _BadgeDetailPageState createState() => _BadgeDetailPageState();
+  _BadgeDetailWidgetState createState() => _BadgeDetailWidgetState();
 }
 
-class _BadgeDetailPageState extends State<BadgeDetailPage>
+class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
     with TickerProviderStateMixin {
   bool ifBig = true;
 
@@ -28,13 +32,15 @@ class _BadgeDetailPageState extends State<BadgeDetailPage>
   late AnimationController _animationControllerEnd;
   late Animation<double> _animationEnd;
 
+  StreamSubscription? subscription;
+
   @override
   void initState() {
     super.initState();
 
-    // for (int i = 0; i < 20; i++) {
-    //   widget.trophies.add(TrophieModel());
-    // }
+    subscription = eventBus.on<BadgeEvent>().listen((event) {
+      stop();
+    });
 
     // 创建动画控制器
     _animationController = AnimationController(
@@ -69,6 +75,13 @@ class _BadgeDetailPageState extends State<BadgeDetailPage>
     _animationController.forward();
   }
 
+  void stop() {
+    _animationControllerEnd.forward();
+    setState(() {
+      ifBig = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -84,10 +97,7 @@ class _BadgeDetailPageState extends State<BadgeDetailPage>
               itemBuilder: (BuildContext context, int index) => GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  _animationControllerEnd.forward();
-                  setState(() {
-                    ifBig = false;
-                  });
+
                 },
                 child: Container(
                   width: 100.w,
@@ -136,6 +146,8 @@ class _BadgeDetailPageState extends State<BadgeDetailPage>
   @override
   void dispose() {
     _animationController.dispose();
+    subscription?.cancel();
+    subscription = null;
     super.dispose();
   }
 }

@@ -4,10 +4,12 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/event_bus/event_bus.dart';
+import 'package:wy/ui/frame/profile/other_profile/badge_detail_widget.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../../event_bus/beans/badge_event.dart';
 import '../../game/game_home_page.dart';
-import 'badge_detail_page.dart';
 import 'other_profile_page.dart';
 
 class OtherDashboardPage extends StatelessWidget {
@@ -49,11 +51,13 @@ class OtherDashboardPage extends StatelessWidget {
                                 behavior: HitTestBehavior.translucent,
                                 // onTap: () => Get.dialog(BadgeDetailPage(t.player.value.trophies), name: "BadgeDetailPage"),
                                 onTap: () => SmartDialog.show(
-                                  builder: (builder) =>
-                                      BadgeDetailPage(t.player.value.trophies),
-                                  animationTime: Duration.zero,
-                                  clickMaskDismiss: false,
-                                ),
+                                    builder: (builder) => BadgeDetailWidget(
+                                        t.player.value.trophies),
+                                    animationTime: Duration.zero,
+                                    clickMaskDismiss: false,
+                                    onMask: () {
+                                      eventBus.fire(BadgeEvent());
+                                    }),
                                 child: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
