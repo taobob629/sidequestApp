@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/utils/index.dart';
 
-import '../../../playwith/balance/widget/tips_dialog.dart';
 import '../../game/game_home_page.dart';
-import '../play_order/rating_comment_page.dart';
+import 'badge_detail_page.dart';
 import 'other_profile_page.dart';
 
 class OtherDashboardPage extends StatelessWidget {
@@ -44,7 +44,17 @@ class OtherDashboardPage extends StatelessWidget {
                         crossAxisCount: 1,
                         mainAxisSpacing: 10,
                         children: t.player.value.trophies
-                            .map((e) => Container(
+                            .map(
+                              (e) => GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                // onTap: () => Get.dialog(BadgeDetailPage(t.player.value.trophies), name: "BadgeDetailPage"),
+                                onTap: () => SmartDialog.show(
+                                  builder: (builder) =>
+                                      BadgeDetailPage(t.player.value.trophies),
+                                  animationTime: Duration.zero,
+                                  clickMaskDismiss: false,
+                                ),
+                                child: Container(
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: AppColor.itemBg,
@@ -53,18 +63,10 @@ class OtherDashboardPage extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      GestureDetector(
-                                        onTapDown: (detail) {
-                                          Get.dialog(TipsDialog(
-                                            offset: detail.globalPosition,
-                                            tips: '${e.tips}',
-                                          ));
-                                        },
-                                        child: ImageUtil.networkImage(
-                                          url: e.iconLightImage,
-                                          width: 36.w,
-                                          height: 36.h,
-                                        ),
+                                      ImageUtil.networkImage(
+                                        url: e.iconLightImage,
+                                        width: 36.w,
+                                        height: 36.h,
                                       ),
                                       Text(e.iconName,
                                           maxLines: 1,
@@ -74,7 +76,9 @@ class OtherDashboardPage extends StatelessWidget {
                                               color: Colors.white))
                                     ],
                                   ),
-                                ))
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
                     ),
