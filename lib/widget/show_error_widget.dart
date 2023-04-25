@@ -71,7 +71,7 @@ void showErrorWidget(String message) {
       ),
     )),
   );
-  overlayState.insert(overlayEntry);
+  overlayState?.insert(overlayEntry);
 
   // 慢慢消失
   Future.delayed(const Duration(seconds: 1), () {
