@@ -55,7 +55,7 @@ class SectionWidget extends StatelessWidget {
                 itemDecoration: BoxDecoration(
                     color: Color(0xff32353D), borderRadius: BorderRadius.circular(5.w)),
                 color: Color(0xFF1B1A1E),
-                height: 30.h,
+              //  height: 30.h,
                 borderColor: Colors.transparent,
                 items: controller.filters
                     .map((item) => GZXDropDownHeaderItem(item?.name ?? '',
