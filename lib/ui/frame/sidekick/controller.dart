@@ -16,6 +16,7 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:dio/src/response.dart' as dio;
 
@@ -76,6 +77,12 @@ class SideKickController extends RefreshListController<GameUserModel> {
   }
 
   init() async {
+    UserController.find.getRxuserProfile().listen((value) {
+      refresh();
+    });
+  }
+
+  refresh() async {
     await initMyGames();
     await getGameSection();
     await getGamePlayers();

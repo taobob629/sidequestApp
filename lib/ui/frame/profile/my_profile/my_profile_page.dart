@@ -315,13 +315,15 @@ class MyProfilePage extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      GestureDetector(
+                      InkWell(
                         onTap: () => NavigatorHelper.toOtherProfile(userController.userProfile.pwId),
-                        child: Icon(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 20.w,top: 10.h,bottom: 10.h,right: 10.w),
+                          child: Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.white,
-                          size: 16.sp,
-                        ),
+                          size: 16.w,
+                        ),),
                       ),
                       20.horizontalSpace,
                     ],
