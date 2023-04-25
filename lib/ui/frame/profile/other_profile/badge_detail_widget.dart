@@ -94,43 +94,37 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               clipBehavior: Clip.none,
-              itemBuilder: (BuildContext context, int index) => GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-
-                },
-                child: Container(
-                  width: 100.w,
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColor.itemBg,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ImageUtil.networkImage(
-                        url: widget.trophies[index].iconLightImage,
-                        width: 36.w,
-                        height: 36.h,
-                      ),
-                      Text(
-                        widget.trophies[index].iconName,
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(fontSize: 10.sp, color: Colors.white),
-                      ),
-                      10.verticalSpace,
-                      Text(
-                        widget.trophies[index].tips,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 5.sp, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+              itemBuilder: (BuildContext context, int index) => Container(
+                width: 100.w,
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: AppColor.itemBg,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ImageUtil.networkImage(
+                      url: widget.trophies[index].iconLightImage,
+                      width: 36.w,
+                      height: 36.h,
+                    ),
+                    Text(
+                      widget.trophies[index].iconName,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(fontSize: 10.sp, color: Colors.white),
+                    ),
+                    10.verticalSpace,
+                    Text(
+                      widget.trophies[index].tips,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 5.sp, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
               separatorBuilder: (BuildContext context, int index) =>
