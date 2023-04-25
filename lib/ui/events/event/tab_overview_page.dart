@@ -8,6 +8,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:html/dom.dart' as dom;
+import 'package:wy/common/string_ext.dart';
 
 import '../../../widget/paixs_widget.dart';
 
@@ -51,11 +52,11 @@ class TabOverviewPage extends StatelessWidget {
               _buildSectionTopItem(
                 "time".tr,
                 "Start Time".tr,
-                "${controller.eventDetailModel.value.startTime}",
+                "${controller.eventDetailModel.value.start.toDateStr}",
               ),
               controller.type == 0
                   ? _buildSectionTopItem(
-                      "time".tr, "Check In".tr, "${controller.eventDetailModel.value.checkinTime}")
+                      "time".tr, "Check In".tr, "${controller.eventDetailModel.value.checkin.toDateStr}")
                   : Container(),
               _buildSectionTopItem(
                 "fee".tr,

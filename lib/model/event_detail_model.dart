@@ -10,6 +10,8 @@ class EventDetailModel {
   late String formation = "";
   late int matchDiff = 0;
   late String checkinTime = "";
+  late int checkin=0;
+  late int start=0;
   late String title = "";
   late bool? team;
   late int totalMembers = 0;
@@ -39,6 +41,9 @@ class EventDetailModel {
 
   EventDetailModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    start = json['start']??0;
+    checkin = json['checkin']??0;
+
     checkinTime = json['checkinTime'] ?? '';
     constraint = json['constraint'] ?? '';
     formation = json['Formation'] ?? '';
