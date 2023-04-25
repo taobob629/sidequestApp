@@ -52,7 +52,7 @@ class UserController extends GetxController {
 
   var _userProfile = ProfileModel().obs;
 
-  getRxuserProfile() {
+  Rx<ProfileModel> getRxuserProfile() {
     return _userProfile;
   }
 
