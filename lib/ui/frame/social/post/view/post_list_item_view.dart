@@ -63,16 +63,24 @@ class PostListItemView extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: 5),
                           child: Row(
                             children: [
-                              Text(
-                                model.nickname,
-                                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                              Container(
+                                constraints: BoxConstraints(maxWidth: Get.width - 84.w - 130.w),
+                                child: Text(
+                                  model.nickname,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
                               ),
                               SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                model.addTime.toDateStr,
-                                style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.bold),
+                              SizedBox(
+                                width: 120.w,
+                                child: Text(
+                                  model.addTime.toDateStr,
+                                  style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),

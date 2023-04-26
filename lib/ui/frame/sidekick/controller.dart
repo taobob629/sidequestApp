@@ -60,6 +60,7 @@ class SideKickController extends RefreshListController<GameUserModel> {
   }
 
   getGamePlayers() {
+    mDatas.clear();
     initData();
   }
 

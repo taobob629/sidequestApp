@@ -24,76 +24,79 @@ class ActivityListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15, top: 10.h).w,
-      height: 270.h,
-      decoration: itemDecoration(),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-              top: 0,
-              child: Container(
-                height: 200.h,
-                width: Get.width - 30.w,
-                decoration: new BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: new BorderRadius.all(new Radius.circular(16.0)),
-                  image: new DecorationImage(
-                    image: NetworkImage(model.image),
-                    fit: BoxFit.cover,
+    return InkWell(
+      onTap: () => Get.to(() => EventPage(id: model.id, type: 0)),
+      child: Container(
+        margin: EdgeInsets.only(left: 15, right: 15, top: 10.h).w,
+        height: 270.h,
+        decoration: itemDecoration(),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned(
+                top: 0,
+                child: Container(
+                  height: 200.h,
+                  width: Get.width - 30.w,
+                  decoration: new BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: new BorderRadius.all(new Radius.circular(16.0)),
+                    image: new DecorationImage(
+                      image: NetworkImage(model.image),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                // child: ImageUtil.networkImage(
-                //     url: model.image,
-                //     border: 16.r,
-                //     //width: Get.width - 30.w,
-                //     height: 200.h,
-                //     fit: BoxFit.cover),
-              )),
-          Positioned(
-              bottom: 5.h,
-              left: 12.5.w,
-              right: 12.5.w,
-              child: Container(
-                padding: EdgeInsets.only(left: 15.r, right: 15.r),
-                alignment: Alignment.centerLeft,
-                //    color: Colors.grey.withOpacity(0.1),
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '${model.title}\n',
-                        style: TextStyle(fontSize: 14.sp, fontFamily: FONT_MEDIUM),
-                      ),
-                      TextSpan(
-                          text: '${model.time}',
-                          style: TextStyle(
-                              color: Colors.white54, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
-                    ],
+                  // child: ImageUtil.networkImage(
+                  //     url: model.image,
+                  //     border: 16.r,
+                  //     //width: Get.width - 30.w,
+                  //     height: 200.h,
+                  //     fit: BoxFit.cover),
+                )),
+            Positioned(
+                bottom: 5.h,
+                left: 12.5.w,
+                right: 12.5.w,
+                child: Container(
+                  padding: EdgeInsets.only(left: 15.r, right: 15.r),
+                  alignment: Alignment.centerLeft,
+                  //    color: Colors.grey.withOpacity(0.1),
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${model.title}\n',
+                          style: TextStyle(fontSize: 14.sp, fontFamily: FONT_MEDIUM),
+                        ),
+                        TextSpan(
+                            text: '${model.time}',
+                            style: TextStyle(
+                                color: Colors.white54, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                      ],
+                    ),
+                    textAlign: TextAlign.start,
+                    strutStyle: StrutStyle(height: 1.7),
                   ),
-                  textAlign: TextAlign.start,
-                  strutStyle: StrutStyle(height: 1.7),
-                ),
-              )),
-          Positioned(
-              top: 200.h - imageSize / 2,
-              left: 15.w,
-              child: Container(
-                constraints: BoxConstraints(maxWidth: Get.width, maxHeight: imageSize + 10),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: buildPartener(model),
-                ),
-              )),
-          Positioned(
-              right: 20.w,
-              bottom: 12.h,
-              child: InkWell(
-                onTap: ()=>Get.to(() => EventPage(id: model.id, type: 0)),
-                child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w),
-              ))
-        ],
+                )),
+            Positioned(
+                top: 200.h - imageSize / 2,
+                left: 15.w,
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: Get.width, maxHeight: imageSize + 10),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: buildPartener(model),
+                  ),
+                )),
+            Positioned(
+                right: 20.w,
+                bottom: 12.h,
+                child: InkWell(
+                  onTap: () => Get.to(() => EventPage(id: model.id, type: 0)),
+                  child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w),
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -105,7 +108,7 @@ class ActivityListItemWidget extends StatelessWidget {
       return Positioned(
           bottom: 0,
           top: 0,
-          left: (index - 1) * imageSize *3/4,
+          left: (index - 1) * imageSize * 3 / 4,
           child: Container(
             child: ImageUtil.networkImage(
                 fit: BoxFit.cover,
