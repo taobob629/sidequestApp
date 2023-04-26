@@ -25,6 +25,8 @@ class GameListItemWidget extends GetView<SideKickController> {
   Widget build(BuildContext context) {
     var badgeColor = Color(0xFF87EEB6);
     return InkWell(
+      highlightColor: Colors.transparent, // 透明色
+      splashColor: Colors.transparent,
       onTap: () => onTap.call(),
       child: Container(
         height: 80.h,
