@@ -33,7 +33,7 @@ class ReleasePostController extends GetxController {
   pickUploadPhoto() async {
     print('photoList = ${photoList.length}');
     List<XFile>? files = await _picker.pickMultiImage();
-    if (files.isEmpty == true) {
+    if (files==null||files?.isEmpty == true) {
       return;
     }
 
@@ -45,7 +45,6 @@ class ReleasePostController extends GetxController {
     EasyLoading.show();
     for (int i = 0; i < files.length; i++) {
       File file = File(files[i].path);
-
       // 最大5M
       if (file.lengthSync() > 2 * 1024 * 1024) {
         EasyLoading.dismiss();
@@ -56,10 +55,11 @@ class ReleasePostController extends GetxController {
       Common.uploadFile(file, (p0, p1) {}).then((url) {
         if (url.isNotEmpty) {
           photoList.add(url);
+          EasyLoading.dismiss();
         }
       });
     }
-    EasyLoading.dismiss();
+
   }
 
   delPhoto(String photoUrl) {
