@@ -24,6 +24,12 @@ class PostApi {
     return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
   }
 
+  /// Social-Post  帖子详情
+  static Future<PostItemModel> getPostDetail({required postsId}) async {
+    var response = await http.get('/peiwan/app/posts/detail', queryParameters: {"postsId": postsId});
+    return PostItemModel.fromJson(response.data);
+  }
+
   /// Social-Post  帖子列表
   static Future praisePost({required int postsId}) async {
     var response = await http.get('/peiwan/app/posts/praise', queryParameters: {"postsId": postsId});
@@ -62,11 +68,11 @@ class PostApi {
   }
 
   /// Social-Post  帖子列表
-  static Future<GiftSummary> getGiftsList({int pageNum = 0,String receverId=""}) async {
+  static Future<GiftSummary> getGiftsList({int pageNum = 0, String receverId = ""}) async {
     var response = await http.get('/peiwan/app/new/home/gifts', queryParameters: {
       "pageNum": pageNum,
       "pageSize": 20,
-      "uid":receverId,
+      "uid": receverId,
     });
     return GiftSummary.fromJson(response.data);
   }

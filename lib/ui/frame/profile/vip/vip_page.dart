@@ -74,12 +74,12 @@ class VipPage extends StatelessWidget {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.name.toLowerCase()}.webp")),
+                                    Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.level}.webp")),
                                     Positioned(
                                         top: -10,
                                         right: 10,
                                         child: Image.asset(
-                                          "assets/images/profile/huizhang_${vipModel.name.toLowerCase()}.webp",
+                                          "assets/images/profile/huizhang_${vipModel.level}.webp",
                                           height: 93.h,
                                         )),
                                     Positioned(
@@ -146,9 +146,7 @@ class VipPage extends StatelessWidget {
                                                     width: 124,
                                                     alignment: Alignment.center,
                                                     decoration: BoxDecoration(
-                                                        color: userController.userProfile.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level
-                                                            ? Color(0xff707070)
-                                                            : Color(0xFFEDA82D),
+                                                        color: userController.userProfile.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level ? Color(0xff707070) : Color(0xFFEDA82D),
                                                         borderRadius: BorderRadius.circular(20)),
                                                     child: Text(
                                                       btnTitle,
