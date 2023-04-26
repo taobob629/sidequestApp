@@ -70,7 +70,7 @@ class ActivityListItemWidget extends StatelessWidget {
                           style: TextStyle(fontSize: 14.sp, fontFamily: FONT_MEDIUM),
                         ),
                         TextSpan(
-                            text: '${model.time}',
+                            text: '${model.datetime.toDateStr}',
                             style: TextStyle(
                                 color: Colors.white54, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
                       ],

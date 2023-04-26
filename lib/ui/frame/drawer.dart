@@ -28,8 +28,8 @@ List<Map> supports = [
   //   ..['title'] = 'FAQ'
   //   ..['action'] = () => EasyLoading.showToast('FAQ'),
   Map()
-    ..['title'] = 'Help Center'.tr
-    ..['action'] = () => Get.to(WebPage(title: 'Help Center'.tr, url: HelpCenterLink)),
+    ..['title'] = 'Help Centre'.tr
+    ..['action'] = () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),
   Map()
     ..['title'] = 'Give us feedback'.tr
     ..['action'] = () =>Get.dialog(ConfirmDialog(title: 'feedback'.tr, info: 'Please contact us:\nGeneral Enquiries: support@sidequestmeta.com\nEvents and Bookings: event@sidequestmeta.com\nFranchisees: invest@sidequestmeta.com\nShop: shop@sidequestmeta.com'.tr)),

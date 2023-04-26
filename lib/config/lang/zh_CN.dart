@@ -710,7 +710,7 @@ const Map<String, String> zh_CN = {
   "Support":"帮助",
   "Legal":"法规",
   "Terms of use":"使用条款",
-  "Help Center":"帮助中心",
+  "Help Centre":"帮助中心",
   "Give us feedback":"反馈",
   'Price Range': '价格区间',
   "Post photos(Optional)":"图片(可选)",
