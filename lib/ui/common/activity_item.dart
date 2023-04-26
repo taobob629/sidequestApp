@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/ui/events/event/event_page.dart';
+import 'package:wy/common/string_ext.dart';
 
 class ActivityItem extends StatelessWidget {
   final ActivityItemModel model;
@@ -39,7 +40,7 @@ class ActivityItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  model.time,
+                  model.addtime.toDateStr,
                   style: TextStyle(fontSize: 12, color: Colors.white),
                 ),
                 Spacer(),
