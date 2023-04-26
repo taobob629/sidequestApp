@@ -5,18 +5,20 @@
  */
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
+import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart' as CusModel;
 import 'package:wy/utils/index.dart';
 
+import '../../../../event_bus/beans/badge_event.dart';
+import '../../../../event_bus/event_bus.dart';
 import '../../../../image_utils.dart';
 import '../../../playwith/balance/my_earnings_page.dart';
+import '../other_profile/badge_detail_widget.dart';
 import 'my_profile_page.dart';
 
 class BadgesWidget extends GetView<ProfileController> {
@@ -44,7 +46,10 @@ class BadgesWidget extends GetView<ProfileController> {
               children: [
                 Text(
                   '${badge.name}'.tr,
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
                   onTapDown: (details) {
@@ -91,12 +96,20 @@ class BadgesWidget extends GetView<ProfileController> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: badge.getPageData(index).map((e) => badgeItem(e)).toList(),
+                      children: badge
+                          .getPageData(index)
+                          .map((e) => badgeItem(e))
+                          .toList(),
                     ),
                   );
                 },
                 itemCount: badge.getPageSize(),
-                pagination: SwiperPagination(builder: RectSwiperPaginationBuilder(color: AppColor.greyAF, activeColor: AppColor.yellow, size: Size(10, 10), activeSize: Size(18, 10))),
+                pagination: SwiperPagination(
+                    builder: RectSwiperPaginationBuilder(
+                        color: AppColor.greyAF,
+                        activeColor: AppColor.yellow,
+                        size: Size(10, 10),
+                        activeSize: Size(18, 10))),
               ),
             ),
           )
@@ -107,49 +120,72 @@ class BadgesWidget extends GetView<ProfileController> {
 
   Widget badgeItem(BadgeItem item) {
     var iconSize = itemSize - 15;
-    return Container(
-      width: itemSize,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // if (item.lighted)
-          Container(
-            padding: EdgeInsets.all(5),
-            child: ImageUtil.networkImage(
-              url: item.iconImage,
-              width: iconSize,
-              height: iconSize,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => SmartDialog.show(
+          builder: (builder) {
+            CusModel.TrophieModel model = CusModel.TrophieModel(
+              iconLightImage: item.iconImage,
+              iconName: item.iconName,
+              tips: item.tips,
+            );
+
+            return BadgeDetailWidget(model);
+          },
+          animationTime: Duration.zero,
+          clickMaskDismiss: false,
+          onMask: () {
+            eventBus.fire(BadgeEvent());
+          }),
+      child: Container(
+        width: itemSize,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // if (item.lighted)
+            Container(
+              padding: EdgeInsets.all(5),
+              child: ImageUtil.networkImage(
+                url: item.iconImage,
+                width: iconSize,
+                height: iconSize,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // if (item.lighted == false)
-          //   Container(
-          //     padding: EdgeInsets.all(5),
-          //     child: ColorFiltered(
-          //       colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
-          //       child: ImageUtil.networkImage(
-          //         url: item.iconImage,
-          //         fit: BoxFit.cover,
-          //         width: iconSize,
-          //         height: iconSize,
-          //       ),
-          //     ),
-          //   ),
-          5.verticalSpace,
-          Text(
-            '${item.iconName}',
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            style: TextStyle(color: Colors.white, fontSize: 10.sp, overflow: TextOverflow.ellipsis, fontFamily: FONT_LIGHT),
-          )
-        ],
+            // if (item.lighted == false)
+            //   Container(
+            //     padding: EdgeInsets.all(5),
+            //     child: ColorFiltered(
+            //       colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.dstIn),
+            //       child: ImageUtil.networkImage(
+            //         url: item.iconImage,
+            //         fit: BoxFit.cover,
+            //         width: iconSize,
+            //         height: iconSize,
+            //       ),
+            //     ),
+            //   ),
+            5.verticalSpace,
+            Text(
+              '${item.iconName}',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10.sp,
+                  overflow: TextOverflow.ellipsis,
+                  fontFamily: FONT_LIGHT),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
 class TipsDialog extends StatelessWidget {
-  TipsDialog({Key? key, required this.offset, required this.tips}) : super(key: key);
+  TipsDialog({Key? key, required this.offset, required this.tips})
+      : super(key: key);
   final Offset offset;
   final String tips;
 
@@ -176,7 +212,9 @@ class TipsDialog extends StatelessWidget {
           width: Get.width - offset.dx / 2,
           child: Container(
             padding: EdgeInsets.all(10.r),
-            decoration: BoxDecoration(color: Color(0xff282640), borderRadius: BorderRadius.circular(10.r)),
+            decoration: BoxDecoration(
+                color: Color(0xff282640),
+                borderRadius: BorderRadius.circular(10.r)),
             child: Text(
               tips,
               style: TextStyle(

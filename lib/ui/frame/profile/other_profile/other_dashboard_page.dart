@@ -51,8 +51,7 @@ class OtherDashboardPage extends StatelessWidget {
                                 behavior: HitTestBehavior.translucent,
                                 // onTap: () => Get.dialog(BadgeDetailPage(t.player.value.trophies), name: "BadgeDetailPage"),
                                 onTap: () => SmartDialog.show(
-                                    builder: (builder) => BadgeDetailWidget(
-                                        t.player.value.trophies),
+                                    builder: (builder) => BadgeDetailWidget(e),
                                     animationTime: Duration.zero,
                                     clickMaskDismiss: false,
                                     onMask: () {

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:get/get.dart';
 import 'package:wy/event_bus/beans/badge_event.dart';
 import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
@@ -12,7 +11,7 @@ import '../../../../config/app_color.dart';
 import '../../../../utils/image_util.dart';
 
 class BadgeDetailWidget extends StatefulWidget {
-  List<TrophieModel> trophies = [];
+  TrophieModel trophies;
 
   BadgeDetailWidget(this.trophies);
 
@@ -49,7 +48,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
     );
     // 创建动画
     _animation =
-        Tween<double>(begin: 1.0, end: 2.0).animate(_animationController)
+        Tween<double>(begin: 1.0, end: 2.5).animate(_animationController)
           ..addListener(() {
             setState(() {
               _scaleFactor = _animation.value;
@@ -63,7 +62,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
     );
     // 创建动画
     _animationEnd =
-        Tween<double>(begin: 2.0, end: 0.0).animate(_animationControllerEnd)
+        Tween<double>(begin: 2.5, end: 0.0).animate(_animationControllerEnd)
           ..addListener(() {
             setState(() {
               _scaleFactorEnd = _animationEnd.value;
@@ -90,46 +89,37 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 100.w),
           child: Container(
-            height: 100.h,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              itemBuilder: (BuildContext context, int index) => Container(
-                width: 100.w,
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppColor.itemBg,
-                  borderRadius: BorderRadius.circular(10.r),
+            height: 110.w,
+            width: 110.w,
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColor.itemBg,
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ImageUtil.networkImage(
+                  url: widget.trophies.iconLightImage,
+                  width: 40.w,
+                  height: 40.h,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ImageUtil.networkImage(
-                      url: widget.trophies[index].iconLightImage,
-                      width: 36.w,
-                      height: 36.h,
-                    ),
-                    Text(
-                      widget.trophies[index].iconName,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(fontSize: 10.sp, color: Colors.white),
-                    ),
-                    10.verticalSpace,
-                    Text(
-                      widget.trophies[index].tips,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 5.sp, color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                Text(
+                  widget.trophies.iconName,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 12.sp, color: Colors.white),
                 ),
-              ),
-              separatorBuilder: (BuildContext context, int index) =>
-                  15.horizontalSpace,
-              itemCount: widget.trophies.length,
+                10.verticalSpace,
+                Text(
+                  widget.trophies.tips,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 8.sp, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         ),
