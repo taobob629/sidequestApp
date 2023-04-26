@@ -185,7 +185,8 @@ class ChatPage extends StatelessWidget {
                 Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)?.whenComplete(() => _getPlayOrder());
                 break;
               case "PostMessage":
-                Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
+                NavigatorHelper.toPostDetail(data["postId"]);
+                // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
 
                 break;
               default:

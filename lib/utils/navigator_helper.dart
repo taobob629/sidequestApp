@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/api_service/post_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/address_model.dart';
 import 'package:wy/model/coupon_model.dart';
@@ -49,6 +50,19 @@ class NavigatorHelper {
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
           Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
+        })
+        .whenComplete(() => EasyLoading.dismiss())
+        .catchError((err) {
+          print(err);
+          EasyLoading.dismiss();
+        });
+  }
+
+  static void toPostDetail(postId) {
+    EasyLoading.show();
+    PostApi.getPostDetail(postsId: postId)
+        .then((postItem) {
+          Get.toNamed(AppPages.PostDetail, arguments: postItem);
         })
         .whenComplete(() => EasyLoading.dismiss())
         .catchError((err) {
