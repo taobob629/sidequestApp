@@ -27,7 +27,7 @@ class NewsItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  model.time.toDateStr,
+                  model.addtime.toDateStr,
                   style: TextStyle(fontSize: 12, color: Colors.white),
                 ),
                 Spacer(),
