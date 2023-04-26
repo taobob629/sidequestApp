@@ -79,6 +79,8 @@ class CustomMessageView extends StatelessWidget {
   }
 
   Widget _topUpCreditWidget() => Container(
+        width: width,
+        // height: height,
         padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -147,7 +149,7 @@ class CustomMessageView extends StatelessWidget {
       );
 
   Widget _orderWidget() => Container(
-      height: height,
+      width: width,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
       child: Column(
