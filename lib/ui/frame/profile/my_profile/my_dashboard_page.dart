@@ -20,31 +20,33 @@ class MyDashboardPage extends StatelessWidget {
     return Column(
       children: [
         /// Subscriptions
-        Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(top: 15.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 15.w),
-                child: Text(
-                  "Subscriptions".tr,
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-                ),
+        Obx(() => Visibility(
+            visible: UserController.find.online.value,
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 15.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.w),
+                    child: Text(
+                      "Subscriptions".tr,
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Obx(() => Container(
+                        width: Get.width,
+                        height: 48,
+                        margin: EdgeInsets.only(top: 10),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
+                        ),
+                      ))
+                ],
               ),
-              Obx(() => Container(
-                width: Get.width,
-                height: 48,
-                margin: EdgeInsets.only(top: 10),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
-                ),
-              ))
-            ],
-          ),
-        ),
+            ))),
 
         /// Trophies
         ...UserController.find.userProfile.badges.map((badge) => BadgesWidget(badge)).toList()

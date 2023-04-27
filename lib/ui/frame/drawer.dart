@@ -32,7 +32,10 @@ List<Map> supports = [
     ..['action'] = () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),
   Map()
     ..['title'] = 'Give us feedback'.tr
-    ..['action'] = () =>Get.dialog(ConfirmDialog(title: 'feedback'.tr, info: 'Please contact us:\nGeneral Enquiries: support@sidequestmeta.com\nEvents and Bookings: event@sidequestmeta.com\nFranchisees: invest@sidequestmeta.com\nShop: shop@sidequestmeta.com'.tr)),
+    ..['action'] = () => Get.dialog(ConfirmDialog(
+        title: 'feedback'.tr,
+        info:
+            'Please contact us:\nGeneral Enquiries: support@sidequestmeta.com\nEvents and Bookings: event@sidequestmeta.com\nFranchisees: invest@sidequestmeta.com\nShop: shop@sidequestmeta.com'.tr)),
 ];
 List<Map> legals = [
   Map()
@@ -72,7 +75,7 @@ class HomeDrawer extends StatelessWidget {
                   ),
                 ),
                 header(),
-                achievements(),
+                Obx(() => Visibility(visible: UserController.find.online.value, child: achievements())),
                 remainingTimes(),
                 contentPadding(EnergyView(
                   width: drawerWidth - 15 * 2.r,
@@ -180,14 +183,20 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           Spacer(),
-         Expanded(
-             child:  InkWell(child: Row(
-               mainAxisAlignment: MainAxisAlignment.end,
-               children: [ClickIcon(
-                 icon: Icons.arrow_forward_ios,
-                 size: 13.0,
-                 onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
-               )],),onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),))
+          Expanded(
+              child: InkWell(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ClickIcon(
+                  icon: Icons.arrow_forward_ios,
+                  size: 13.0,
+                  onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
+                )
+              ],
+            ),
+            onTap: () => NavigatorHelper.toOtherProfile(user?.pwId),
+          ))
         ],
       ),
     );
@@ -241,7 +250,6 @@ class HomeDrawer extends StatelessWidget {
           achievementItem(user?.diamond, 'diamonds_red'),
           achievementItem(user?.balanceMoney(), 'ic_corns_new'),
           achievementItem(user?.coupons, 'ic_coupons_new'),
-
         ],
       ),
     );
