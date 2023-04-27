@@ -11,7 +11,7 @@ class VisitorModel {
     required this.status,
   });
 
-  String vistTime;
+  int vistTime;
   String signature;
   String uk;
   int sex;
@@ -22,7 +22,7 @@ class VisitorModel {
   int status;
 
   factory VisitorModel.fromJson(Map<String, dynamic> json) => VisitorModel(
-    vistTime: json["vistTime"],
+    vistTime: json["vistTime"]??0,
     signature: json["signature"],
     uk: json["uk"],
     sex: json["sex"],

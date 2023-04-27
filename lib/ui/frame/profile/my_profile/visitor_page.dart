@@ -11,6 +11,7 @@ import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
 import '../../../../widget/home/sex_age_widget.dart';
+import 'package:wy/common/string_ext.dart';
 
 class VisitorPage extends StatelessWidget {
   final t = Get.put(VisitorListController());
@@ -78,7 +79,7 @@ class VisitorPage extends StatelessWidget {
                                 ),
                                 2.verticalSpace,
                                 Text(
-                                  model.vistTime,
+                                  model.vistTime.toDateStr,
                                   style: TextStyle(
                                       fontSize: 10.sp, color: AppColor.whiteGray),
                                   maxLines: 1,
