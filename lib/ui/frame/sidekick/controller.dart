@@ -78,9 +78,15 @@ class SideKickController extends RefreshListController<GameUserModel> {
   }
 
   init() async {
-    UserController.find.getRxuserProfile().listen((value) {
+    if( UserController.find.user.value.id!=0){
+      //已经登录过了
       refresh();
-    });
+    }else {
+      UserController.find.user.listen((user) {
+        flog('user---$user');
+        refresh();
+      });
+    }
   }
 
   refresh() async {
