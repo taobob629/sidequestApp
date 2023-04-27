@@ -15,6 +15,7 @@ class CustomMessageView extends StatelessWidget {
   double width = Get.width * 0.6;
   double height = Get.width * 191 / 369;
   double iconHeight = Get.width * 191 / 369 * 0.5;
+
   CustomMessageView({
     required this.type,
     required this.data,
@@ -57,20 +58,25 @@ class CustomMessageView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(data["nickname"], style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+                      Text(data["nickname"],
+                          style: TextStyle(fontSize: 16.sp, color: Colors.white)),
                       15.horizontalSpace,
-                      Text(data["action"], style: TextStyle(fontSize: 14.sp, color: AppColor.yellow)),
+                      Text(data["action"],
+                          style: TextStyle(fontSize: 14.sp, color: AppColor.yellow)),
                     ],
                   ),
                 ),
                 7.verticalSpace,
-                Text((int.tryParse(data["addtime"].toString()) ?? 0).toDateStr, style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388))),
+                Text((int.tryParse(data["addtime"].toString()) ?? 0).toDateStr,
+                    style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388))),
                 8.verticalSpace,
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.h),
-                  decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.circular(10.r)),
-                  child: Text(data["content"], style: TextStyle(fontSize: 14.sp, color: Colors.white)),
+                  decoration: BoxDecoration(
+                      color: AppColor.itemBg, borderRadius: BorderRadius.circular(10.r)),
+                  child:
+                      Text(data["content"], style: TextStyle(fontSize: 14.sp, color: Colors.white)),
                 ),
                 15.verticalSpace
               ],
@@ -154,7 +160,9 @@ class CustomMessageView extends StatelessWidget {
   Widget _orderWidget() => Container(
       width: width,
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          image: DecorationImage(image: AssetImage("assets/images/msg_bg.png"), fit: BoxFit.cover)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -174,7 +182,8 @@ class CustomMessageView extends StatelessWidget {
               SizedBox(
                 width: 5,
               ),
-              Container(
+              Expanded(
+                  child: Container(
                 height: iconHeight,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -187,43 +196,57 @@ class CustomMessageView extends StatelessWidget {
                         "${data['game']}",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
                           "assets/images/ic_balance_money.webp",
-                          width: 15,
-                          height: 15,
+                          width: 15.w,
+                          height: 15.w,
                         ),
-                        SizedBox(
-                          width: 3,
-                        ),
+                        3.horizontalSpace,
                         Text(
                           "${data['price']}",
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("for ${data['num']} ${data['unit']}",
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 14,
-                            )),
+                        6.horizontalSpace,
+                        Expanded(
+                          child: Text("for ${data['num']} ${data['unit']}",
+                              maxLines: 1,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.white54,
+                                fontSize: 12.sp,
+                              )),
+                        )
                       ],
                     )
                   ],
                 ),
-              )
+              ))
             ],
           ),
           SizedBox(
             height: 15,
           ),
           // Text("${DateFormat('dd/MM/y HH:mm:ss', 'en_GB').format(DateTime.fromMillisecondsSinceEpoch(data['createTime']*1000))}",
-          Text("${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [d, '/', M, '/', yyyy, ' ', HH, ':', nn])}",
+          Text(
+              "${formatDate(DateTime.fromMillisecondsSinceEpoch(data['createTime'] * 1000), [
+                    d,
+                    '/',
+                    M,
+                    '/',
+                    yyyy,
+                    ' ',
+                    HH,
+                    ':',
+                    nn
+                  ])}",
 
               // Text("${data['addTime']}",
               style: TextStyle(
