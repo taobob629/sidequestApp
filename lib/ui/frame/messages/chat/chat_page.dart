@@ -141,30 +141,30 @@ class ChatPage extends StatelessWidget {
           }
         }
       },
-      // userAvatarBuilder: (context, message) {
-      //   if (message.customElem?.data != null) {
-      //     var json = jsonDecode(message.customElem!.data!);
-      //     var data;
+      userAvatarBuilder: (context, message) {
+        if (message.customElem?.data != null) {
+          var json = jsonDecode(message.customElem!.data!);
+          var data;
 
-      //     if (json['type'] == "PostMessage") {
-      //       if (json["message"] != null) {
-      //         data = json['message'];
-      //       }
-      //       return ExtendedImage.network(
-      //         data["avatar"] ?? "",
-      //         width: 44.w,
-      //         height: 44.w,
-      //         shape: BoxShape.circle,
-      //       );
-      //     }
-      //   }
-      //   return ExtendedImage.network(
-      //     message.faceUrl ?? "",
-      //     width: 44.w,
-      //     height: 44.w,
-      //     shape: BoxShape.circle,
-      //   );
-      // },
+          if (json['type'] == "PostMessage") {
+            if (json["message"] != null) {
+              data = json['message'];
+            }
+            return ExtendedImage.network(
+              data["avatar"] ?? "",
+              width: 44.w,
+              height: 44.w,
+              shape: BoxShape.circle,
+            );
+          }
+        }
+        return ExtendedImage.network(
+          message.faceUrl ?? "",
+          width: 44.w,
+          height: 44.w,
+          shape: BoxShape.circle,
+        );
+      },
       messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
