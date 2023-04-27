@@ -22,8 +22,8 @@ class RatingCommentModel {
   String get fmtTime {
     try {
       return formatDate(
-        DateTime.fromMillisecondsSinceEpoch(addtime * 1000),
-        [dd, "-", mm, "-", yyyy, " ", HH, ":", nn],
+        DateTime.fromMillisecondsSinceEpoch(addtime * 1000,isUtc:false),
+        [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn],
       );
     } catch (e) {
       return "";
