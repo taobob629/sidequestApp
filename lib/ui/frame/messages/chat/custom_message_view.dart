@@ -39,7 +39,10 @@ class CustomMessageView extends StatelessWidget {
 
   Widget _postMsgItem() {
     return Container(
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(10)
+          // border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1)),
+          ),
       child: Row(
         children: [
           Expanded(
@@ -52,7 +55,7 @@ class CustomMessageView extends StatelessWidget {
                   width: double.infinity,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(data["nickname"], style: TextStyle(fontSize: 16.sp, color: Colors.white)),
                       15.horizontalSpace,
