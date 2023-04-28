@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 
 import '../../utils/storage_manager.dart';
+import '../../utils/toast_utils.dart';
 import 'auth_input_view.dart';
 
 class ForgetPage extends StatelessWidget {
@@ -175,16 +176,16 @@ class ForgetPageController extends GetxController {
     String email = emailEditingController.text;
     if(email.isEmpty){
       emailFocusNode.requestFocus();
-      EasyLoading.showToast("Please input a email as your account".tr);
+      showToast("Please input a email as your account".tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     if (type == 1) {
       uid = await AuthApi.resendEmail(email);
     } else {
       uid = await AuthApi.resendPinEmail(email);
     }
-    await EasyLoading.showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
+    await showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
     codeFocusNode.requestFocus();
     step.value = 2;
   }
@@ -195,27 +196,27 @@ class ForgetPageController extends GetxController {
     password = passwordEditingController.text;
 
     if(code.isEmpty){
-      EasyLoading.showToast("Please input your verification code".tr);
+      showToast("Please input your verification code".tr);
       return;
     }
 
     if(password.length < 6) {
       if(type == 1) {
-        EasyLoading.showToast("Password no less than 6 characters".tr);
+        showToast("Password no less than 6 characters".tr);
         return;
       }else{
-        EasyLoading.showInfo("Only 6 numbers accepted as your payment pin".tr);
+        showInfo("Only 6 numbers accepted as your payment pin".tr,);
         return;
       }
     }
 
-    EasyLoading.show();
+    showLoading();
     if (type == 1) {
       await AuthApi.reset(email, password, code, uid);
     } else {
       await AuthApi.resetPin(email, password, code, uid);
     }
-    await EasyLoading.showSuccess("${'Your'.tr} ${type == 1 ? 'password'.tr : 'pin'.tr} ${'has been successfully reset!'.tr}", duration: Duration(seconds: 2));
+    await showSuccess("${'Your'.tr} ${type == 1 ? 'password'.tr : 'pin'.tr} ${'has been successfully reset!'.tr}", duration: Duration(seconds: 2));
     Get.back();
   }
 }

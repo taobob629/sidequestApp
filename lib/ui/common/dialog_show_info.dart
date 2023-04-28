@@ -4,6 +4,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 
 import '../../image_utils.dart';
+import '../../utils/toast_utils.dart';
 
 void showInfoDialog(String content) {
   SmartDialog.show(
@@ -18,7 +19,7 @@ class DialogShowInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () => SmartDialog.dismiss());
+    Future.delayed(Duration(seconds: 2), () => dismissLoading());
     return Container(
       width: Get.width - 40.w,
       padding: EdgeInsets.all(10.r),

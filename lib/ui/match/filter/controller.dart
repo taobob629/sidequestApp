@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
@@ -13,6 +13,7 @@ import '../../../model/login_model.dart';
 import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../../model/send_match_model.dart';
+import '../../../utils/toast_utils.dart';
 import '../../common/dialog_selector.dart';
 import '../../controller/user_controller.dart';
 
@@ -41,9 +42,9 @@ class SideKickMatchController extends GetxController {
   }
 
   void requestData() async {
-    EasyLoading.show();
+    showLoading();
     final result = await MatchApi.selfOrder();
-    EasyLoading.dismiss();
+    dismissLoading();
 
     if (result['orderId'] > 0) {
       // 已经有订单了，只是匹配中的时候出去了，再次回来
@@ -99,28 +100,28 @@ class SideKickMatchController extends GetxController {
 
   void matching() async {
     if (minPriceCtr.text.isEmpty) {
-      EasyLoading.showToast('Please enter the min price'.tr);
+      showToast('Please enter the min price'.tr);
       return;
     }
     if (maxPriceCtr.text.isEmpty) {
-      EasyLoading.showToast('Please enter the max price'.tr);
+      showToast('Please enter the max price'.tr);
       return;
     }
     if (double.parse(maxPriceCtr.text) < double.parse(minPriceCtr.text)) {
-      EasyLoading.showToast(
+      showToast(
           'The max price cannot be lower than the min price'.tr);
       return;
     }
     if (double.parse(minPriceCtr.text) < 1) {
-      EasyLoading.showToast('The min price is 1'.tr);
+      showToast('The min price is 1'.tr);
       return;
     }
     if (quantityCtr.text.isEmpty) {
-      EasyLoading.showToast('Please enter the quantity'.tr);
+      showToast('Please enter the quantity'.tr);
       return;
     }
 
-    EasyLoading.show();
+    showLoading();
     StringBuffer languageStr = StringBuffer();
     for (int i = 0; i < language.length; i++) {
       if (i == language.length - 1) {
@@ -152,7 +153,7 @@ class SideKickMatchController extends GetxController {
       "requests": requestsPriceCtr.text,
     };
     final result = await MatchApi.sendMatch(params);
-    EasyLoading.dismiss();
+    dismissLoading();
 
     _jumpMatchingPage(
       language: languageStr.toString(),

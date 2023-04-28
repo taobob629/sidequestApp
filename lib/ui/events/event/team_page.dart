@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/model/match_team_model.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+
+import '../../../utils/toast_utils.dart';
 
 class TeamPage extends StatelessWidget {
 
@@ -179,7 +180,6 @@ class TeamPageController extends GetxController {
 
   void copy(){
     Clipboard.setData(ClipboardData(text: matchTeamModel.value.passCode));
-    EasyLoading.showToast("The team passcode has been copied to your clipboard".tr);
+    showToast("The team passcode has been copied to your clipboard".tr);
   }
-
 }

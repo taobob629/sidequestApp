@@ -1,7 +1,7 @@
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import 'base_controller.dart';
 
@@ -23,17 +23,17 @@ abstract class GetxListController<T> extends BasePageController {
   @override
   @mustCallSuper
   void onClose(){
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
     super.onClose();
   }
 
   Future<List<T>> loadData();
 
   void reload() async{
-    EasyLoading.show();
+    showLoading();
     var data = await loadData();
     list.clear();
     list.addAll(data);
-    EasyLoading.dismiss();
+    dismissLoading();
   }
 }

@@ -4,12 +4,13 @@
     描述:
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/order_detail.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../detail/controller.dart';
@@ -73,20 +74,20 @@ class OrderRefoundController extends BasePageController {
 
   submit() async {
     if (reason == null) {
-      toast('Select reason first!'.tr);
+      showToast('Select reason first!'.tr);
       return;
     }
     if (etCommnetController.text.isEmpty) {
-      toast('Please enter Justification!'.tr);
+      showToast('Please enter Justification!'.tr);
       return;
     }
-    showLoadding();
+    showLoading();
     await OrderApi.askRefund(Map<String, dynamic>()
       ..['label'] = reason?.reason
       ..['reason'] = etCommnetController.text
       ..['orderId'] = orderId);
-    toast('Success'.tr);
-    dismissLoadding();
+    dismissLoading();
+    showToast('Success'.tr);
 
     OrderDetailPageController orderDetailPageController = Get.find<OrderDetailPageController>();
     orderDetailPageController.onRefresh(orderId);

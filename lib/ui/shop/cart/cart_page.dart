@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/address_api.dart';
 import 'package:wy/model/address_model.dart';
@@ -10,6 +10,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/address/default_address.dart';
 import 'package:wy/ui/shop/cart/pay_button.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import 'cart_item.dart';
 import 'dart:convert';
@@ -184,7 +185,7 @@ class CartPageController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
   }
 
   void selectAddress() async{

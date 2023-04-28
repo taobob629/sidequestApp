@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
@@ -12,6 +12,7 @@ import 'package:wy/model/beans/jump_match_suc_bean.dart';
 
 import '../../../model/match/match_operation_model.dart';
 import '../../../model/send_match_model.dart';
+import '../../../utils/toast_utils.dart';
 
 class SideKickMatchingController extends GetxController {
   late Timer timer;
@@ -106,8 +107,8 @@ class SideKickMatchingController extends GetxController {
   }
 
   void stopMatching() async {
-    EasyLoading.show();
-    await MatchApi.stopMatch(model.orderId).whenComplete(() => EasyLoading.dismiss());
+    showLoading();
+    await MatchApi.stopMatch(model.orderId).whenComplete(() => dismissLoading());
 
     StorageManager.clear(StorageManager.kCountDown);
     Get.back(result: 'stopMatching');

@@ -1,10 +1,11 @@
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/im_api.dart';
 
+import '../../utils/toast_utils.dart';
 import '../common/colorful_button.dart';
 import '../common/wy_dialog.dart';
 
@@ -135,21 +136,21 @@ class CommentDialogController extends GetxController{
   }
 
   void comment() async{
-    EasyLoading.show();
+    showLoading();
     if(isReject){
       var res = await ImApi.rejectOrder(orderId.toString(), commentController.text).catchError((v){});
       if(res!=null){
-        EasyLoading.showToast('${res.statusMessage}');
+        showToast('${res.statusMessage}');
       }
     }else if(isRefund){
       var res = await ImApi.refundOrder(orderId.toString(), commentController.text).catchError((v){});
       if(res!=null){
-        EasyLoading.showToast('${res.statusMessage}');
+        showToast('${res.statusMessage}');
       }
     }else{
       await ImApi.finishOrder(orderId.toString(), star, commentController.text);
     }
-    EasyLoading.dismiss();
+    dismissLoading();
     Get.back();
     onDone.call();
   }

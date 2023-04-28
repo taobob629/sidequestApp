@@ -2,17 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/config/app_config.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/ui/common/dialog_password.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/utils/storage_manager.dart';
 
-import '../../common/dialog_input.dart';
+import '../../../utils/toast_utils.dart';
 
 class DeveloperPage extends StatelessWidget {
 
@@ -36,7 +33,7 @@ class DeveloperPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: controller.pushToken.value));
-                      EasyLoading.showToast("The push token has been copied to your clipboard".tr);
+                      showToast("The push token has been copied to your clipboard".tr);
                     },
                     child: Text("${controller.pushToken.value}",
                         style: TextStyle(

@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
+import '../utils/toast_utils.dart';
 import '../view/views.dart';
 
 ///Verification code component
@@ -99,14 +100,14 @@ class _CodeWidgetState extends State<CodeWidget> {
             bool matched = 1 == 1;
             flog(matched);
             if (!matched) {
-              if (mounted) return EasyLoading.showToast('请输入手机号');
+              if (mounted) return showToast('请输入手机号');
             } else {
-              if (isShowCode) return EasyLoading.showToast(widget.successText!);
+              if (isShowCode) return showToast(widget.successText!);
               await widget.callApi!(
                 widget.phoneCon!.text,
-                (v) => EasyLoading.showToast(widget.errorText!),
+                (v) => showToast(widget.errorText!),
                 (v) {
-                  EasyLoading.showToast(widget.successText!);
+                  showToast(widget.successText!);
                   setState(() => isShowCode = true);
                   timer = Timer.periodic(const Duration(seconds: 1), (v) {
                     setState(() {

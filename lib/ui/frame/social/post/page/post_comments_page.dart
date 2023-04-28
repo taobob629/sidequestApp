@@ -1,6 +1,6 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/post_api.dart';
@@ -13,6 +13,7 @@ import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../../../../utils/toast_utils.dart';
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
 import '../view/gift_animation.dart';
@@ -223,7 +224,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
 
   postComment() {
     if (commentController.text.trim().isEmpty) {
-      EasyLoading.showInfo("Please enter comment!".tr);
+      showInfo("Please enter comment!".tr);
       return;
     }
     PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {

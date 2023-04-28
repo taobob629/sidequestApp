@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/shop_api.dart';
@@ -13,6 +13,7 @@ import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/shop/product/comb_item.dart';
 import 'package:wy/ui/shop/product/recommend_item.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import 'add_button.dart';
 import 'spec_item.dart';
@@ -347,7 +348,7 @@ class ProductPageController extends GetxController {
   @override
   void onClose() {
     scrollController.dispose();
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
     super.onClose();
   }
 
@@ -370,7 +371,7 @@ class ProductPageController extends GetxController {
 
   void initData(double headerHeight) async {
     this.headerHeight.value = headerHeight;
-    EasyLoading.show();
+    showLoading();
     this.productDetailModel.value = await ShopApi.getProductDetail(id);
     if(this.productDetailModel.value.imageList.isNotEmpty){
       this.productDetailModel.value.imageList.forEach((element) {
@@ -378,7 +379,7 @@ class ProductPageController extends GetxController {
       });
     }
     this.recommends.addAll(await ShopApi.recommend(id));
-    EasyLoading.dismiss();
+    dismissLoading();
   }
 
   void changeSpecIndex(int index) {

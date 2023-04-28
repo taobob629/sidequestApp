@@ -9,6 +9,7 @@ import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../utils/toast_utils.dart';
 
 class BadgeDetailWidget extends StatefulWidget {
   TrophieModel trophies;
@@ -67,7 +68,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget>
             setState(() {
               _scaleFactorEnd = _animationEnd.value;
               Future.delayed(
-                  Duration(milliseconds: 900), () => SmartDialog.dismiss());
+                  Duration(milliseconds: 900), () => dismissLoading());
             });
           });
 

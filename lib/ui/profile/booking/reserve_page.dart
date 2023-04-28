@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/booking_api.dart';
@@ -22,6 +22,7 @@ import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/time_utils.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import '../../common/select_view.dart';
 import '../balance/balance_page.dart';
@@ -369,9 +370,9 @@ class ReservePageController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    EasyLoading.show(maskType: EasyLoadingMaskType.black);
+    showLoading();
     stores.addAll(await BookingApi.listStores());
-    EasyLoading.dismiss();
+    dismissLoading();
     for (int i = 1; i <= 10; i++) {
       BookingSelectModel model = BookingSelectModel();
       model.id = i;
@@ -386,7 +387,7 @@ class ReservePageController extends GetxController {
 
   @override
   void onClose() {
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
     phoneController.dispose();
     focusNode.dispose();
     super.onClose();
@@ -411,9 +412,9 @@ class ReservePageController extends GetxController {
   void storeSelect(BookingSelectModel storeModel) async {
     store.value = storeModel;
     areas.clear();
-    EasyLoading.show(maskType: EasyLoadingMaskType.black);
+    showLoading();
     areas.addAll(await BookingApi.listAreas(storeModel.id));
-    EasyLoading.dismiss();
+    dismissLoading();
     showSelectArea();
   }
 
@@ -480,12 +481,12 @@ class ReservePageController extends GetxController {
         DateTime end = storeModel.getEnd();
         DateTime start = storeModel.getStart();
         if (value.hour > end.hour - 1) {
-          EasyLoading.showError(
+          showError(
               "${storeModel.name} ${'closed at this time, please choose another time.'.tr}");
           this.time.value = tomorrow.add(Duration(hours: (end.hour - start.hour - 1)));
           return;
         } else if (value.hour < start.hour) {
-          EasyLoading.showError(
+          showError(
               "${storeModel.name} ${'not open at this time, please choose another time.'.tr}");
           this.time.value = tomorrow;
           return;
@@ -546,38 +547,38 @@ class ReservePageController extends GetxController {
     model.phone = phoneController.text;
 
     if (model.storeId == 0) {
-      EasyLoading.showInfo("Please select store location".tr);
+      showInfo("Please select store location".tr);
       return;
     }
 
     if (model.areaId == 0) {
-      EasyLoading.showInfo("Please select one area".tr);
+      showInfo("Please select one area".tr);
       return;
     }
 
     if (model.duration == 0) {
-      EasyLoading.showInfo("Please select how long".tr);
+      showInfo("Please select how long".tr);
       return;
     }
 
     // if(model.people == 0){
-    //   EasyLoading.showToast("Please select number of people");
+    //   SmartDialog.showToast("Please select number of people");
     //   return;
     // }
     if (time.value == bookingTime) {
-      EasyLoading.showInfo("Please select what time".tr);
+      showInfo("Please select what time".tr);
       return;
     }
 
     if (model.phone.isEmpty) {
-      EasyLoading.showInfo("Please input your phone".tr);
+      showInfo("Please input your phone".tr);
       return;
     }
 
     checkFee(() async {
-      EasyLoading.show();
+      showLoading();
       await BookingApi.reserve(model);
-      EasyLoading.dismiss();
+      dismissLoading();
 
       Get.dialog(
           ConfirmDialog(

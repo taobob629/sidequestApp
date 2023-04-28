@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -34,6 +33,7 @@ import '../../api_service/profile_api.dart';
 import '../../event_bus/beans/match_event.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
+import '../../utils/toast_utils.dart';
 import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
@@ -196,7 +196,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login({String? email, String? password, bool showLoading = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
+  Future<void> login({String? email, String? password, bool showLoadings = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
         return;
@@ -212,11 +212,11 @@ class UserController extends GetxController {
     if (email.isEmpty || password.isEmpty) {
       return;
     }
-    if (showLoading == true) {
-      EasyLoading.show();
+    if (showLoadings == true) {
+      showLoading();
     }
     LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
-      EasyLoading.dismiss();
+      dismissLoading();
     });
 
     if (loginModel.validate == 0) {
@@ -229,8 +229,8 @@ class UserController extends GetxController {
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }
-    if (showLoading == true) {
-      EasyLoading.dismiss();
+    if (showLoadings == true) {
+      dismissLoading();
     }
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
@@ -370,7 +370,7 @@ class UserController extends GetxController {
           // 15分钟以内的才弹出
           if (Get.isRegistered<DialogMatchTopController>()) {
             // 防止多次弹窗
-            SmartDialog.dismiss();
+            dismissLoading();
             DialogMatchTopController ctr = Get.find<DialogMatchTopController>();
             if (ctr.countDownUtil.isShow) {
               ctr.player = player;
@@ -422,10 +422,10 @@ class UserController extends GetxController {
   }
 
   Future<void> appLogout() async {
-    EasyLoading.show();
+    showLoading();
     await AuthApi.signOut();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
-    EasyLoading.dismiss();
+    dismissLoading();
     logout(done: () => Get.offAllNamed(AppPages.Login));
   }
 

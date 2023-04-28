@@ -1,6 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/api/auth_api.dart';
@@ -11,6 +11,8 @@ import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+
+import '../../../utils/toast_utils.dart';
 
 /**
     author:mac
@@ -41,6 +43,7 @@ class RegisterPageController extends GetxController {
   String code = "";
   String password = "";
   String pin = "";
+
 //  String firstName = "";
   // String lastName = "";
   String nick = "";
@@ -83,7 +86,8 @@ class RegisterPageController extends GetxController {
     emailFocusNode.requestFocus();
     if (loginModel != null) {
       if (loginModel!.user.birth.isNotEmpty) {
-        DateTime bd = DateFormat('dd/MM/y', 'en_GB').parse(loginModel!.user.birth);
+        DateTime bd =
+            DateFormat('dd/MM/y', 'en_GB').parse(loginModel!.user.birth);
         setBirthday(bd);
       }
       if (loginModel!.user.firstName.isNotEmpty) {
@@ -126,40 +130,41 @@ class RegisterPageController extends GetxController {
     String email = emailEditingController.text.trim();
     if (email.isEmpty) {
       emailFocusNode.requestFocus();
-      EasyLoading.showInfo("Please input a email as your account".tr);
+      showInfo("Please input a email as your account".tr);
       return;
     }
 
     if (!email.contains("@")) {
       emailFocusNode.requestFocus();
-      EasyLoading.showInfo("Please input a valid email".tr);
+      showInfo("Please input a valid email".tr);
       return;
     }
 
     if (DatetimeUtils.getAge(birthday.value) < 13) {
-      EasyLoading.showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr);
+      showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+                  .tr,);
       return;
     }
 
     String guardian = guardianEditingController.text.trim();
     if (DatetimeUtils.getAge(birthday.value) < 16) {
       if (guardian.isEmpty) {
-        EasyLoading.showInfo("Please input your guardian email".tr);
+        showInfo("Please input your guardian email".tr,);
         return;
       }
       if (!guardian.contains("@")) {
-        EasyLoading.showInfo("Please input a valid guardian email".tr);
+        showInfo("Please input a valid guardian email".tr,);
         return;
       }
       if (guardian == email) {
-        EasyLoading.showError("Guardian email cannot be the same as your account".tr);
+        showInfo("Guardian email cannot be the same as your account".tr);
         return;
       }
     }
-    EasyLoading.show();
+    showLoading();
     uid = await AuthApi.sendEmail(email, guardian, type);
     if (uid.isNotEmpty) {
-      await EasyLoading.showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
+      await showSuccess("Verification code sent".tr,);
       codeFocusNode.requestFocus();
       step.value = 2;
     }
@@ -168,7 +173,8 @@ class RegisterPageController extends GetxController {
   void setBirthday(DateTime? date) {
     if (date != null) {
       if (DatetimeUtils.getAge(date) < 13) {
-        EasyLoading.showError("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf.".tr, duration: Duration(seconds: 4));
+        showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+                    .tr);
         return;
       }
       this.birthday.value = date;
@@ -189,41 +195,41 @@ class RegisterPageController extends GetxController {
     pin = pinEditingController.text.trim();
 
     if (code.isEmpty) {
-      EasyLoading.showInfo("Please input your verification code".tr);
+      showInfo("Please input your verification code".tr,);
       return;
     }
 
     if (password.length < 6) {
-      EasyLoading.showInfo("Password no less than 6 characters".tr);
+      showInfo( "Password no less than 6 characters".tr,);
       return;
     }
 
     // if (firstName.isEmpty) {
-    //   EasyLoading.showInfo("Please input your first name".tr);
+    //   showInfo("Please input your first name".tr);
     //   return;
     // }
     //
     // if (lastName.isEmpty) {
-    //   EasyLoading.showInfo("Please input your last name".tr);
+    //   showInfo("Please input your last name".tr);
     //   return;
     // }
 
     if (nick.isEmpty) {
-      EasyLoading.showInfo("Please input your nick name".tr);
+      showInfo("Please input your nick name".tr,);
       return;
     }
 
     if (phone.isEmpty) {
-      EasyLoading.showInfo("Please input your phone number".tr);
+      showInfo("Please input your phone number".tr,);
       return;
     }
 
     if (pin.length < 6) {
-      EasyLoading.showInfo("Only 6 numbers accepted as your payment pin".tr);
+      showInfo("Only 6 numbers accepted as your payment pin".tr,);
       return;
     }
 
-    EasyLoading.show();
+    showLoading();
     if (type == 1) {
       await AuthApi.signUp(
           // firstName,
@@ -238,16 +244,29 @@ class RegisterPageController extends GetxController {
           pin,
           invite,
           sex.value);
-      await EasyLoading.showSuccess("Congratulations and welcome, please sign in with your new account!".tr, duration: Duration(seconds: 3));
+      await showSuccess(
+          "Congratulations and welcome, please sign in with your new account!"
+              .tr);
     } else {
-      await AuthApi.updateProfile(password, nick, phone, email, formatDate(birthday.value, [dd, '/', mm, '/', yyyy]), code, uid, pin, loginModel!.token);
+      await AuthApi.updateProfile(
+          password,
+          nick,
+          phone,
+          email,
+          formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+          code,
+          uid,
+          pin,
+          loginModel!.token);
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
       UserController userController = Get.find<UserController>();
       await userController.login();
-      await EasyLoading.showSuccess("Congratulations and welcome, your profile has been updated!".tr, duration: Duration(seconds: 3));
+      await showSuccess(
+          "Congratulations and welcome, your profile has been updated!".tr);
     }
-    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login), arguments: Map()..['fromRegister'] = true);
+    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login),
+        arguments: Map()..['fromRegister'] = true);
     // Get.back();
   }
 }

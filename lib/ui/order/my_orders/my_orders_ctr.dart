@@ -1,4 +1,4 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
@@ -9,6 +9,7 @@ import '../../../common/getx_refresh_controller.dart';
 import '../../../model/beans/order_status_bean.dart';
 import '../../../model/service_list_model.dart';
 import '../../../model/vistor_model.dart';
+import '../../../utils/toast_utils.dart';
 
 class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {
   var ifScaleBigReceived = true.obs;
@@ -47,7 +48,7 @@ class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {
     if (!ifScaleBigReceived.value) {
       type = 1;
     }
-    EasyLoading.show();
+    showLoading();
 
     String url = '/peiwan/app/new/orders/list?type=$type&status=$selectStatus';
     var response = await http.get(url,
@@ -58,7 +59,7 @@ class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {
     list = response.data['rows']
         .map<ServiceListModel>((item) => ServiceListModel.fromJson(item))
         .toList();
-    EasyLoading.dismiss();
+    dismissLoading();
     return list;
   }
 }

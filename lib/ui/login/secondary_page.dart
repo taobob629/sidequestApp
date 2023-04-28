@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/app_pages.dart';
 
 import '../../model/login_model.dart';
 import '../../model/user_model.dart';
+import '../../utils/toast_utils.dart';
 import '../common/colorful_button.dart';
 import '../common/dialog_selector.dart';
 import '../common/input_view.dart';
@@ -127,13 +128,13 @@ class SecondaryPageController extends GetxController{
   void validate() async{
     String data = validateEditingController.text;
     if (data.isEmpty) {
-      EasyLoading.showInfo('Please input your'.tr + " $way");
+      showInfo('Please input your'.tr + " $way");
       return;
     }
-    EasyLoading.show();
+    showLoading();
 
     UserModel userModel = await AuthApi.validateInfo(fieldSelect.name, data, loginModel.token);
-    EasyLoading.dismiss();
+    dismissLoading();
     loginModel.user = userModel;
     Get.offAndToNamed(AppPages.REGISTER,
         arguments: Map()

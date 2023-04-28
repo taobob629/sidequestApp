@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -117,7 +117,7 @@ class CouponPageController extends GetxListController<CouponModel> {
   }
 
   Future<List<CouponModel>> loadData() async {
-    //  EasyLoading.show();
+    //  showLoading();
     // flog('preOrder---$preOrder ');
     List<CouponModel> list;
     if (payOrderModel != null) {
@@ -127,7 +127,7 @@ class CouponPageController extends GetxListController<CouponModel> {
     } else {
       list = await CouponApi.list(couponType: couponType, tab: this.tab);
     }
-//    EasyLoading.dismiss();
+//    dismissLoading();
 
     return list;
   }

@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart' as Get;
-import 'package:wy/main.dart';
 import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/login/login_page.dart';
@@ -14,6 +13,7 @@ import 'package:wy/widget/show_error_widget.dart';
 import '../config/app_config.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
+import '../utils/toast_utils.dart';
 import 'base_http.dart';
 
 ///是否正在登录
@@ -85,7 +85,7 @@ class ApiInterceptor extends InterceptorsWrapper {
         if (requestPath == '/peiwan/app/tim/getSig') {
           return handler.next(response);
         }
-        EasyLoading.dismiss(animation: false);
+        dismissLoading();
         var email = StorageManager.getAccount();
         var password = StorageManager.getPassword();
         if (email.isEmpty || password.isEmpty) {
@@ -97,7 +97,7 @@ class ApiInterceptor extends InterceptorsWrapper {
           isSigningIn = false;
         }
       } else {
-        EasyLoading.dismiss(animation: false);
+        dismissLoading();
         if (respData.msg.isEmpty) {
           showErrorWidget("Server Failure");
         } else {
@@ -114,8 +114,8 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
-    EasyLoading.dismiss(animation: false);
-    EasyLoading.showToast("Networking Failure");
+    dismissLoading();
+    showToast("Networking Failure");
   }
 }
 

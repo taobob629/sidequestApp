@@ -2,8 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 // import 'package:ota_update/ota_update.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -134,7 +132,7 @@ class UpgradeDialogController extends GetxController {
 //       if(event.status == OtaStatus.DOWNLOADING) {
 //         progress.value = int.parse(event.value??"0");
 //       }else if(event.status == OtaStatus.ALREADY_RUNNING_ERROR){
-//         EasyLoading.showToast("Upgrade already started".tr);
+//         SmartDialog.showToast("Upgrade already started".tr);
 //       }else if(event.status == OtaStatus.PERMISSION_NOT_GRANTED_ERROR){
 //         Get.dialog(
 //           ConfirmDialog(title: "Permission required".tr, info: "File access denied, please click the button below to change current setting.".tr),barrierColor: Colors.black26
@@ -144,7 +142,7 @@ class UpgradeDialogController extends GetxController {
 //           }
 //         });
 //       }else if(event.status == OtaStatus.INTERNAL_ERROR || event.status == OtaStatus.DOWNLOAD_ERROR){
-//         EasyLoading.showError("${'Upgrade failed'.tr} :${event.value}");
+//         SmartDialog.showError("${'Upgrade failed'.tr} :${event.value}");
 //         showProgress.value = false;
 //         progress.value = 0;
 //       }else if(event.status == OtaStatus.INSTALLING){

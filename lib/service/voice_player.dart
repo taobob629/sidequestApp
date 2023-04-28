@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:wy/utils/index.dart';
+
+import '../utils/toast_utils.dart';
 
 /**
     author:mac
@@ -87,12 +87,12 @@ class AudioManager {
       return;
     }
     if (voice.isEmpty) {
-      EasyLoading.showError('No Voice'.tr);
+      showInfo('No Voice'.tr,);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     final duration = await audioPlayer?.setUrl(voice); // Schemes: (https: | file: | asset: )
-    EasyLoading.dismiss();
+    dismissLoading();
     audioPlayer?.play();
   }
 

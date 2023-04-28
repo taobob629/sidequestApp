@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -8,6 +8,8 @@ import 'package:wy/model/match_item_model.dart';
 import 'package:wy/ui/common/activity_item.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/match_item.dart';
+
+import '../../../utils/toast_utils.dart';
 
 class TabEventPage extends StatelessWidget {
 
@@ -49,14 +51,14 @@ class TabEventPageController extends GetxListController {
 
   @override
   Future<List> loadData() async{
-    EasyLoading.show();
+    showLoading();
     if(type == 1){
       List list = await EventsApi.userActivities();
-      EasyLoading.dismiss();
+      dismissLoading();
       return list;
     }else{
       List list = await EventsApi.userMatches();
-      EasyLoading.dismiss();
+      dismissLoading();
       return list;
     }
   }

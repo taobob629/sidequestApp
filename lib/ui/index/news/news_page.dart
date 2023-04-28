@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -10,6 +10,7 @@ import 'package:wy/model/news_item_model.dart';
 import 'package:wy/ui/common/flexible_header.dart';
 import 'package:wy/ui/common/page_title.dart';
 
+import '../../../utils/toast_utils.dart';
 import 'news_info.dart';
 import 'news_text.dart';
 import 'news_title.dart';
@@ -106,15 +107,15 @@ class NewsPageController extends GetxListController<NewsContent> {
 
   @override
   void onClose() {
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
     scrollController.dispose();
     super.onClose();
   }
 
   Future<List<NewsContent>> loadData() async {
-    EasyLoading.show();
+    showLoading();
     NewsDetailModel detail = await IndexApi.getNewsDetail(id);
-    EasyLoading.dismiss();
+    dismissLoading();
 
     headerImage.value = detail.image;
 

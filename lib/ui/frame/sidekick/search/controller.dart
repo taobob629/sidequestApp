@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:get/get.dart';
+
+import '../../../../utils/toast_utils.dart';
 /**
     author:mac
     创建日期:2023/2/2
@@ -43,9 +45,9 @@ class SearchUserController extends GetxListController<GameUserModel> {
     if (key.isEmpty) {
       return [];
     }
-    EasyLoading.show();
+    showLoading();
     List<GameUserModel> list = await UserApi.search(key,type: type);
-    EasyLoading.dismiss();
+    dismissLoading();
     return list;
   }
 

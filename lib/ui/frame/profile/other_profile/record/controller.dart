@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/service/voice_player.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/voice_record.dart';
 
@@ -63,7 +64,7 @@ class RecordController extends BasePageController {
         //onComplete(sec, path);
         flog('录制时长 $sec');
         if (sec < minSeconds) {
-          err('The recording duration shall not be less than 3 seconds'.tr);
+          showError('The recording duration shall not be less than 3 seconds'.tr);
           stopRecord();
           return;
         }
@@ -84,23 +85,23 @@ class RecordController extends BasePageController {
   onComplete(var sec, var path) async {
     File file = File(path);
     if (await file.exists() == false) return;
-    showLoadding();
+    showLoading();
     var url;
     if (type == record_type_service) {
       url= await Common.uploadServiceRecordFile(File(path), (count, total) {
         flog('(count / total ${count / total}');
       }, isVoiceFile: true)
           .catchError((e) {
-        err('${e}');
-        dismissLoadding();
+        dismissLoading();
+        showError('$e');
       });
     }else {
       url = await Common.uploadFile(File(path), (count, total) {
         flog('(count / total ${count / total}');
       }, isVoiceFile: true);
     }
-    dismissLoadding();
-    toast('Upload success!'.tr);
+    dismissLoading();
+    showToast('Upload success!'.tr);
     Get.back(result: url);
   }
 

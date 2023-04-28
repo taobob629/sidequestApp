@@ -1,13 +1,8 @@
 // ignore_for_file: dead_code, implementation_imports
-import 'package:flutter_easyloading/src/widgets/indicator.dart';
 import 'dart:io';
-import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -15,6 +10,7 @@ import 'package:wy/widget/sheet_widget.dart';
 import 'package:wy/widget/widget_tap.dart';
 import '../model/data_model.dart';
 import '../utils/utils.dart';
+import '../view/custom_loading_widget.dart';
 import 'CPicker_widget.dart';
 import 'anima_switch_widget.dart';
 import 'button.dart';
@@ -364,7 +360,11 @@ Widget buildLoad({
         height: size,
         width: size,
         child: Center(
-          child: LoadingIndicator(),
+          child: CustomLoadingWidget(
+            backgroundColor: Colors.transparent,
+            color: Colors.white,
+            size: 40.sp,
+          ),
           // child: CircularProgressIndicator(
           //   strokeWidth: 2,
           //   valueColor: AlwaysStoppedAnimation<Color>(color ?? Theme.of(context!).primaryColor),
@@ -378,7 +378,11 @@ Widget buildLoad({
       height: size,
       width: size,
       child: Center(
-        child: LoadingIndicator(),
+        child: CustomLoadingWidget(
+          backgroundColor: Colors.transparent,
+          color: Colors.white,
+          size: 40.sp,
+        ),
         // child: CircularProgressIndicator(
         //   strokeWidth: 2,
         //   valueColor: AlwaysStoppedAnimation<Color>(color ?? Theme.of(context!).primaryColor),
@@ -405,7 +409,11 @@ CustomFooter buildCustomFooter({
           height: 40,
           width: 40,
           child: Center(
-            child: LoadingIndicator(),
+            child: CustomLoadingWidget(
+              backgroundColor: Colors.transparent,
+              color: Colors.white,
+              size: 40.sp,
+            ),
             // child: CircularProgressIndicator(
             //   strokeWidth: 2,
             //   valueColor: AlwaysStoppedAnimation<Color>(color!.withOpacity(1)),
@@ -463,11 +471,11 @@ myh.MyClassicHeader buildClassicHeader({
       height: 40,
       width: 40,
       child: Center(
-        child: LoadingIndicator(),
-        // child: CircularProgressIndicator(
-        //   strokeWidth: 2,
-        //   valueColor: AlwaysStoppedAnimation<Color>(color.withOpacity(1)),
-        // ),
+        child: CustomLoadingWidget(
+          backgroundColor: Colors.transparent,
+          color: Colors.white,
+          size: 40.sp,
+        ),
       ),
     ),
   );

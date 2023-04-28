@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+
+import '../../utils/toast_utils.dart';
 
 class QrLoginPage extends StatelessWidget {
 
@@ -121,8 +123,8 @@ class QrLoginPageController extends GetxController{
 
   QrLoginPageController({required this.code});
   void login() async{
-    EasyLoading.show();
+    showLoading();
     await AuthApi.qrCodeLogin(code);
-    EasyLoading.showSuccess("Success".tr, duration: Duration(seconds: 3)).then((value) => Get.back());
+    showSuccess("Success".tr, duration: Duration(seconds: 3)).then((value) => Get.back());
   }
 }

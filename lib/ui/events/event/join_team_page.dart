@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/config/app_color.dart';
@@ -17,6 +17,7 @@ import 'package:wy/ui/common/select_view.dart';
 import 'package:wy/ui/events/event/dialog_passcode.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/event/team_page.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../common/dialog_confirm.dart';
@@ -353,7 +354,7 @@ class JoinTeamPageController extends GetxController {
 
   void copy() {
     Clipboard.setData(ClipboardData(text: genPasscode.value));
-    EasyLoading.showToast("The team passcode copied, you can send it to your team members.".tr);
+    showToast("The team passcode copied, you can send it to your team members.".tr);
   }
 
   void join() async {
@@ -362,35 +363,35 @@ class JoinTeamPageController extends GetxController {
 
     if (create) {
       if (name.isEmpty) {
-        EasyLoading.showToast("Please input your team name".tr);
+        showToast("Please input your team name".tr);
         return;
       }
     } else {
       if (code.length != 4) {
-        EasyLoading.showToast("Please input correct team passcode".tr);
+        showToast("Please input correct team passcode".tr);
         return;
       }
     }
 
     String role = roleController.text;
     if (role.isEmpty) {
-      EasyLoading.showToast("Please input your playing role".tr);
+      showToast("Please input your playing role".tr);
       return;
     }
 
     String tag = tagController.text;
     if (tag.isEmpty) {
-      EasyLoading.showToast("Please input your discord tag".tr);
+      showToast("Please input your discord tag".tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     if (create) {
       int code = await EventsApi.createTeam(id, name, genPasscode.value, role, tag, selectLocation.value.id);
-      EasyLoading.dismiss();
+      dismissLoading();
       Get.dialog(PasscodeDialog(passcode: code), barrierColor: Colors.black26).whenComplete(() => Get.off(() => TeamPage(eventId: id)));
     } else {
       await EventsApi.joinTeam(id, code, role, tag);
-      EasyLoading.dismiss();
+      dismissLoading();
       Get.dialog(
           ConfirmDialog(
             title: "Tips".tr,

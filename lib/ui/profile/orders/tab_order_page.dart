@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/order_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 
+import '../../../utils/toast_utils.dart';
 import 'orders_item.dart';
 
 class TabOrderPage extends StatelessWidget {
@@ -42,9 +43,9 @@ class TabOrderPageController extends GetxListController<OrderModel> {
 
   @override
   Future<List<OrderModel>> loadData({int pageNum = 0}) async {
-    EasyLoading.show();
+    showLoading();
     List<OrderModel> list = await OrderApi.list(status);
-    EasyLoading.dismiss();
+    dismissLoading();
     return list;
   }
 

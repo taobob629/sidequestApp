@@ -1,11 +1,12 @@
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 class DialogComment extends StatelessWidget {
   Function(String)? onConfirm;
@@ -60,7 +61,7 @@ class DialogComment extends StatelessWidget {
               onTap: () {
                 var text = controller.text;
                 if (text.isEmpty) {
-                  EasyLoading.showToast(hint ?? 'please input');
+                  showToast(hint ?? 'please input');
                   return;
                 }
                 onConfirm?.call(text);
@@ -102,23 +103,25 @@ class CommentDialogController extends GetxController {
   }
 
   void comment() async {
-    EasyLoading.show();
+    showLoading();
     if (isReject) {
       var res =
           await ImApi.rejectOrder(orderId.toString(), commentController.text).catchError((v) {});
+      dismissLoading();
       if (res != null) {
-        EasyLoading.showToast('${res.statusMessage}');
+        showToast('${res.statusMessage}');
       }
     } else if (isRefund) {
       var res =
           await ImApi.refundOrder(orderId.toString(), commentController.text).catchError((v) {});
+      dismissLoading();
       if (res != null) {
-        EasyLoading.showToast('${res.statusMessage}');
+        showToast('${res.statusMessage}');
       }
     } else {
       await ImApi.finishOrder(orderId.toString(), star, commentController.text);
+      dismissLoading();
     }
-    EasyLoading.dismiss();
     Get.back();
     onDone.call();
   }

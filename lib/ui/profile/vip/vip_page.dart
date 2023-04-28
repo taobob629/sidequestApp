@@ -1,6 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/vip_api.dart';
 import 'package:wy/config/app_color.dart';
@@ -15,6 +15,7 @@ import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 import 'package:wy/widget/views.dart';
 
 import '../../../utils/navigator_helper.dart';
+import '../../../utils/toast_utils.dart';
 import 'privilege_view.dart';
 
 class VipPage extends StatelessWidget {
@@ -24,7 +25,10 @@ class VipPage extends StatelessWidget {
 
   final userController = Get.find<UserController>();
 
-  VipPage({required this.vipLevel, required this.vipIndex, List<VipInfoModel>? list}) {
+  VipPage(
+      {required this.vipLevel,
+      required this.vipIndex,
+      List<VipInfoModel>? list}) {
     controller = Get.put(VipPageController(list));
   }
 
@@ -47,163 +51,197 @@ class VipPage extends StatelessWidget {
                   "VIP",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: controller.titleColor.value, fontSize: 16),
+                  style: TextStyle(
+                      color: controller.titleColor.value, fontSize: 16),
                 );
               }),
               flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
-                  background: Obx(()=>controller.vipInfoList.isEmpty?Container():Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Obx(() {
-                          return Image.asset(
-                            "assets/images/bg_vip${controller.vipLevel.value}.webp",
-                            fit: BoxFit.cover,
-                          );
-                        }),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Obx(() {
-                          return Swiper(
-                            controller: controller.swiperController,
-                            autoplay: false,
-                            loop: false,
-                            viewportFraction: 0.35,
-                            scale: 0.01,
-                            physics: PagePhysics(parent: MyBouncingScrollPhysics()),
-                            index: controller.vipIndex.value,
-                            itemBuilder: (BuildContext context, int index) {
-                              int level = controller.vipInfoList[index].level;
-                              String asset = "assets/images/ic_level$level.webp";
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 40),
-                                child: Image.asset(
-                                  asset,
-                                  fit: BoxFit.contain,
-                                ),
-                              );
-                            },
-                            itemCount: controller.vipInfoList.length,
-                            onIndexChanged: (index) => controller.levelChange(index),
-                            onTap: (index) {
-                              controller.swiperController.move(index);
-                            },
-                          );
-                        }),
-                      ),
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: ClipPath(
-                            clipper: _BottomPath(),
-                            child: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: AppColor.background,
-                              ),
-                            ),
-                          )),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 20,
-                        height: 108,
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Obx(() {
-                                return Text(
-                                  "${controller.vipInfoList[controller.vipIndex.value].name}",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 26, fontFamily: "DIN"),
+                  background: Obx(() => controller.vipInfoList.isEmpty
+                      ? Container()
+                      : Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              top: 0,
+                              child: Obx(() {
+                                return Image.asset(
+                                  "assets/images/bg_vip${controller.vipLevel.value}.webp",
+                                  fit: BoxFit.cover,
                                 );
                               }),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Obx(() {
-                                if (controller.vipInfoList[controller.vipIndex.value].monthFee ==
-                                    0) {
-                                  return Container(
-                                    width: 251,
-                                    height: 66,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(40),
-                                        color: Colors.white54),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 6.0),
-                                        child: Text(
-                                          "Invite Only".tr,
-                                          style: TextStyle(
-                                              color: Colors.black, fontSize: 24, fontFamily: "DIN"),
-                                        ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              top: 0,
+                              child: Obx(() {
+                                return Swiper(
+                                  controller: controller.swiperController,
+                                  autoplay: false,
+                                  loop: false,
+                                  viewportFraction: 0.35,
+                                  scale: 0.01,
+                                  physics: PagePhysics(
+                                      parent: MyBouncingScrollPhysics()),
+                                  index: controller.vipIndex.value,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    int level =
+                                        controller.vipInfoList[index].level;
+                                    String asset =
+                                        "assets/images/ic_level$level.webp";
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 40),
+                                      child: Image.asset(
+                                        asset,
+                                        fit: BoxFit.contain,
                                       ),
-                                    ),
-                                  );
-                                }
-                                return GestureDetector(
-                                  onTap: () => controller.openMonth(),
+                                    );
+                                  },
+                                  itemCount: controller.vipInfoList.length,
+                                  onIndexChanged: (index) =>
+                                      controller.levelChange(index),
+                                  onTap: (index) {
+                                    controller.swiperController.move(index);
+                                  },
+                                );
+                              }),
+                            ),
+                            Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: ClipPath(
+                                  clipper: _BottomPath(),
                                   child: Container(
-                                    width: 251,
-                                    height: 66,
+                                    height: 30,
                                     decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/vip_btn${controller.vipInfoList[controller.vipIndex.value].level}.png"),
-                                            fit: BoxFit.contain)),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 6),
-                                        child: Text(
-                                          userController.userProfile.vipLevel >=
-                                              controller
-                                                  .vipInfoList[controller.vipIndex.value].level
-                                              ? "Subscribed".tr
-                                              : "£ ${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
-                                          style: TextStyle(
-                                              color: Colors.black, fontSize: 30, fontFamily: "DIN"),
-                                        ),
-                                      ),
+                                      color: AppColor.background,
                                     ),
                                   ),
-                                );
-                              })
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ))),
+                                )),
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 20,
+                              height: 108,
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Obx(() {
+                                      return Text(
+                                        "${controller.vipInfoList[controller.vipIndex.value].name}",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 26,
+                                            fontFamily: "DIN"),
+                                      );
+                                    }),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Obx(() {
+                                      if (controller
+                                              .vipInfoList[
+                                                  controller.vipIndex.value]
+                                              .monthFee ==
+                                          0) {
+                                        return Container(
+                                          width: 251,
+                                          height: 66,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(40),
+                                              color: Colors.white54),
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 6.0),
+                                              child: Text(
+                                                "Invite Only".tr,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 24,
+                                                    fontFamily: "DIN"),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      return GestureDetector(
+                                        onTap: () => controller.openMonth(),
+                                        child: Container(
+                                          width: 251,
+                                          height: 66,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/images/vip_btn${controller.vipInfoList[controller.vipIndex.value].level}.png"),
+                                                  fit: BoxFit.contain)),
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 6),
+                                              child: Text(
+                                                userController.userProfile
+                                                            .vipLevel >=
+                                                        controller
+                                                            .vipInfoList[
+                                                                controller
+                                                                    .vipIndex
+                                                                    .value]
+                                                            .level
+                                                    ? "Subscribed".tr
+                                                    : "£ ${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 30,
+                                                    fontFamily: "DIN"),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ))),
             ),
             SliverToBoxAdapter(
               child: _buildTitle(),
             ),
             Obx(() => controller.vipInfoList.isEmpty
-                ? SliverToBoxAdapter(child: buildLoad(),)
+                ? SliverToBoxAdapter(
+                    child: buildLoad(),
+                  )
                 : SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                         return PrivilegeView(
                           index: index,
                           showIndex: controller.showPrivilegeIndex.value,
-                          title:
-                              controller.vipInfoList[controller.vipIndex.value].intro[index].title,
-                          content:
-                              controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
-                          onTap: (tapIndex) => controller.showPrivilegeIndex.value = tapIndex,
+                          title: controller
+                              .vipInfoList[controller.vipIndex.value]
+                              .intro[index]
+                              .title,
+                          content: controller
+                              .vipInfoList[controller.vipIndex.value]
+                              .intro[index]
+                              .intro,
+                          onTap: (tapIndex) =>
+                              controller.showPrivilegeIndex.value = tapIndex,
                         );
                       },
-                      childCount: controller.vipInfoList[controller.vipIndex.value].intro.length,
+                      childCount: controller
+                          .vipInfoList[controller.vipIndex.value].intro.length,
                     ),
                   )),
             // Obx(()=>SliverGrid(
@@ -236,13 +274,17 @@ class VipPage extends StatelessWidget {
       child: Container(
         height: 46,
         width: 140,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(23)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(23)),
         child: Center(
             child: Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Obx(() => Text("£${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
+          child: Obx(() => Text(
+              "£${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
               style: TextStyle(
-                  foreground: Paint()..shader = shader, fontSize: 20, fontFamily: "DIN"))),
+                  foreground: Paint()..shader = shader,
+                  fontSize: 20,
+                  fontFamily: "DIN"))),
         )),
       ),
     );
@@ -259,7 +301,8 @@ class VipPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               "VIP Benefits".tr,
-              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: "DIN", fontSize: 22),
             ),
           ),
           _buildWing(false)
@@ -270,13 +313,14 @@ class VipPage extends StatelessWidget {
 
   Widget _buildWing(bool left) {
     return Column(
-      crossAxisAlignment: left ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment:
+          left ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Container(
           height: 3,
           width: 22,
-          decoration:
-              BoxDecoration(color: Color(0xFFEAD66F), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFEAD66F), borderRadius: BorderRadius.circular(2)),
         ),
         SizedBox(
           height: 3,
@@ -284,8 +328,8 @@ class VipPage extends StatelessWidget {
         Container(
           height: 3,
           width: 18,
-          decoration:
-              BoxDecoration(color: Color(0xFFCBB336), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFCBB336), borderRadius: BorderRadius.circular(2)),
         ),
         SizedBox(
           height: 3,
@@ -293,8 +337,8 @@ class VipPage extends StatelessWidget {
         Container(
           height: 3,
           width: 14,
-          decoration:
-              BoxDecoration(color: Color(0xFFD2B23A), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFD2B23A), borderRadius: BorderRadius.circular(2)),
         )
       ],
     );
@@ -309,8 +353,8 @@ class _BottomPath extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     var firstControlPoint = Offset(size.width / 2, 0); //曲线开始点
     var firstEndPoint = Offset(size.width, size.height); // 曲线结束点
-    path.quadraticBezierTo(
-        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
     path.lineTo(size.width, size.height); //第四个点
     path.lineTo(size.width, size.height); // 第五个点
     return path;
@@ -423,7 +467,7 @@ class VipPageController extends GetxController {
   void showConfirm(PayOrderModel model) {
     var userController = Get.find<UserController>();
     if (userController.user.value.getAge() < 16) {
-      EasyLoading.showInfo("Subscription members must be at least 16 years old.".tr,
+      showInfo("Subscription members must be at least 16 years old.".tr,
           duration: Duration(seconds: 3));
       return;
     }

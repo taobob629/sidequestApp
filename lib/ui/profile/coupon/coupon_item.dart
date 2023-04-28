@@ -1,12 +1,14 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/widget/paixs_widget.dart';
+
+import '../../../utils/toast_utils.dart';
 
 class CouponItem extends StatelessWidget {
   final CouponModel model;
@@ -45,7 +47,7 @@ class CouponItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => model.available == CouponModel.AVILABLE
           ? onTap?.call(model)
-          : {EasyLoading.showToast('Voucher Unavailable'.tr)},
+          : {showToast('Voucher Unavailable'.tr)},
       child: Stack(
         children: [
           Container(

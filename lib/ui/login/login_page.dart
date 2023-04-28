@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,6 +15,7 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../model/login_model.dart';
+import '../../utils/toast_utils.dart';
 import '../common/base_scaffold.dart';
 import 'auth_input_view.dart';
 
@@ -213,12 +214,12 @@ class LoginPageController extends BasePageController
     String password = passwordEditingController.text;
 
     if (email.isEmpty) {
-      EasyLoading.showToast("Please input your email".tr);
+      showToast("Please input your email".tr);
       return;
     }
 
     if (password.isEmpty) {
-      EasyLoading.showToast("Please input your password".tr);
+      showToast("Please input your password".tr);
       return;
     }
 
@@ -227,7 +228,7 @@ class LoginPageController extends BasePageController
       userController.login(
           email: email,
           password: password,
-          showLoading: true,
+          showLoadings: true,
           done: (LoginModel loginModel) {
             if (loginModel.validate == 0) {
               userController.imLogin();

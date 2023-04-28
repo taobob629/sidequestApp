@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -12,10 +12,10 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
-import 'package:flutter_easyloading/src/widgets/indicator.dart';
 import 'package:wy/widget/views.dart';
 import '../../model/pay_order_model.dart';
 import '../../model/play_detail_model.dart';
+import '../../utils/toast_utils.dart';
 import '../common/base_scaffold.dart';
 import '../common/dialog_date_time_picker.dart';
 import '../common/input_view.dart';
@@ -486,7 +486,7 @@ class PlayOrderController extends GetxController {
   //   return preOrderDm.value.flag;
   // }
   Future<int> changeQuantity(int quantity, String skillAuthId) async {
-    EasyLoading.show();
+    showLoading();
     nums.value = quantity;
     this.code = code;
     Map params = Get.find<PlayOrderController>().getPayOrderModel().toJson();
@@ -500,10 +500,10 @@ class PlayOrderController extends GetxController {
 
       this.couponId = res.data['couponId'];
     }).catchError((e) {
-      EasyLoading.dismiss();
+      dismissLoading();
       preOrderDm.value.toError(e.toString());
     });
-    EasyLoading.dismiss();
+    dismissLoading();
     preOrderDm.refresh();
     return quantity;
   }

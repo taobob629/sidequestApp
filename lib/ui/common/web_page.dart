@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wy/utils/storage_manager.dart';
 
+import '../../utils/toast_utils.dart';
 import 'action_button.dart';
 import 'base_scaffold.dart';
 
@@ -24,9 +25,8 @@ class WebPage extends StatelessWidget {
         ActionButton(
           icon: Icon(Icons.refresh,color: Colors.white,),
           onTap: (){
-            if(!EasyLoading.isShow){
-              EasyLoading.show();
-            }
+            dismissLoading();
+            showLoading();
             webPageController.webViewController.reload();
             },
         )
@@ -38,17 +38,17 @@ class WebPage extends StatelessWidget {
           webPageController.setWebViewController(webViewController);
         },
         onPageStarted: (url){
-          EasyLoading.dismiss();
+          dismissLoading();
         },
         onPageFinished: (url) {
-          EasyLoading.dismiss();
+          dismissLoading();
           String cookie = '''
             document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()}';
           ''';
           webPageController.webViewController.runJavascript(cookie);
         },
         onWebResourceError: (error){
-          EasyLoading.dismiss();
+          dismissLoading();
         },
       ),
     );
@@ -67,6 +67,6 @@ class WebPageController extends GetxController{
   @override
   void onReady() {
     super.onReady();
-    EasyLoading.show();
+    showLoading();
   }
 }

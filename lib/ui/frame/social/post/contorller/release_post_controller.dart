@@ -2,13 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
+
+import '../../../../../utils/toast_utils.dart';
 
 class ReleasePostController extends GetxController {
   TextEditingController textController = TextEditingController();
@@ -42,12 +44,12 @@ class ReleasePostController extends GetxController {
       return;
     }
 
-    EasyLoading.show();
+    showLoading();
     for (int i = 0; i < files.length; i++) {
       File file = File(files[i].path);
       // 最大5M
       if (file.lengthSync() > 2 * 1024 * 1024) {
-        EasyLoading.dismiss();
+        dismissLoading();
         showInfoDialog('The maximum size of the photo is 5MB'.tr);
         return;
       }
@@ -55,7 +57,7 @@ class ReleasePostController extends GetxController {
       Common.uploadFile(file, (p0, p1) {}).then((url) {
         if (url.isNotEmpty) {
           photoList.add(url);
-          EasyLoading.dismiss();
+          dismissLoading();
         }
       });
     }
@@ -71,14 +73,14 @@ class ReleasePostController extends GetxController {
       showInfoDialog('Please enter content'.tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     PostApi.releasePost(
             content: textController.text, images: jsonEncode(photoList))
         .then((value) {
       Get.back(result: "ReloadData");
     }).onError((error, stackTrace) {
-      EasyLoading.dismiss();
-    }).whenComplete(() => EasyLoading.dismiss());
+      dismissLoading();
+    }).whenComplete(() => dismissLoading());
   }
 
   @override

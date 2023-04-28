@@ -1,13 +1,14 @@
 
 import 'dart:convert';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/model/product_item_model.dart';
 import 'package:wy/utils/storage_manager.dart';
+
+import '../../utils/toast_utils.dart';
 
 class CartController extends GetxController {
   RxList<ProductItemModel> productList = RxList();
@@ -131,9 +132,9 @@ class CartController extends GetxController {
       payOrderModel.couponId = coupon.value.id;
       payOrderModel.couponCode = coupon.value.couponCode;
       payOrderModel.orderShot = json.encode(productList);
-      EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      showLoading();
       OrderPriceModel orderPriceModel = await PayApi.getPrice(payOrderModel);
-      EasyLoading.dismiss();
+      dismissLoading();
       totalAmount.value = double.parse(orderPriceModel.total);
       totalTax.value = double.parse(orderPriceModel.tax);
       shippingFee.value = double.parse(orderPriceModel.deliveryFee);
