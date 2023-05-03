@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,6 +25,7 @@ import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../../utils/toast_utils.dart';
 import '../../common/dialog_confirm.dart';
 import 'setting_item.dart';
 
@@ -117,22 +118,21 @@ class SettingsPageController extends GetxController {
   }
 
   Future<void> logout() async {
-    EasyLoading.show();
+    showLoading();
     await AuthApi.signOut();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
-    EasyLoading.dismiss();
+    dismissLoading();
     UserController userController = Get.find<UserController>();
     userController.logout(done: () => Get.offAllNamed(AppPages.Login));
   }
 
   void checkVersion() async {
-    EasyLoading.show();
+    showLoading();
     VersionModel model = await IndexApi.checkVersion();
+    dismissLoading();
     if (!model.upgrade) {
-      EasyLoading.dismiss();
       showInfoDialog("You are using the latest version".tr);
     } else {
-      EasyLoading.dismiss();
       Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);
     }
   }
@@ -148,7 +148,7 @@ Deleting your account will remove your profile and all of your content from Side
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
             Get.back();
-            EasyLoading.show();
+            showLoading();
             await UserApi.deleteAccount();
             await logout();
           },
@@ -168,9 +168,9 @@ Deleting your account will remove your profile and all of your content from Side
   }
 
   void cancelVip(int level) async {
-    EasyLoading.show();
+    showLoading();
     String info = await VipApi.cancelInfo();
-    EasyLoading.dismiss();
+    dismissLoading();
     Get.dialog(
         ConfirmDialog(
           title: "Cancel Subscription".tr,
@@ -178,9 +178,9 @@ Deleting your account will remove your profile and all of your content from Side
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
             Get.back();
-            EasyLoading.show();
+            showLoading();
             String info = await VipApi.cancel();
-            EasyLoading.dismiss();
+            dismissLoading();
             Get.dialog(
                 ConfirmDialog(
                     title: "Subscription Cancelled".tr,

@@ -6,7 +6,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
@@ -29,6 +29,7 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
+import '../../../utils/toast_utils.dart';
 import '../skill/list/controller.dart';
 
 class AddGamePageController extends GetxController {
@@ -157,7 +158,7 @@ class AddGamePageController extends GetxController {
   onPriceUnitChange(int index, PriceRangeModel model) {
     if (mPriceRanges[index] == model) return;
     if (mPriceRanges.contains(model)) {
-      EasyLoading.showToast('Service type already exist');
+      showToast('Service type already exist');
       return;
     }
     mPriceRanges[index] = model;
@@ -180,7 +181,7 @@ class AddGamePageController extends GetxController {
       return;
     }
     if (mPriceRanges.length >= priceRanges.length) {
-      EasyLoading.showToast(
+      showToast(
           '${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
       return;
     }
@@ -200,7 +201,7 @@ class AddGamePageController extends GetxController {
 
   bioUpdate() {
     if (voiceUrl.isEmpty) {
-      EasyLoading.showToast('Please add a voice!'.tr);
+      showToast('Please add a voice!'.tr);
       return;
     }
     updateService();
@@ -211,27 +212,27 @@ class AddGamePageController extends GetxController {
     //flog('priceRanges $mPriceRanges');
     if (!isEdit) {
       if (mPriceRanges.isEmpty) {
-        EasyLoading.showToast('Please select service!'.tr);
+        showToast('Please select service!'.tr);
         return;
       }
       var nameEmpty = mPriceRanges.firstWhereOrNull((element) {
         return element.name.isEmpty;
       });
       if (nameEmpty != null) {
-        EasyLoading.showToast('Please input a name!'.tr);
+        showToast('Please input a name!'.tr);
         return;
       }
       if (desc.isEmpty) {
-        EasyLoading.showToast('Please input a service intro!'.tr);
+        showToast('Please input a service intro!'.tr);
         return;
       }
       if (background.isEmpty) {
-        EasyLoading.showToast(
+        showToast(
             'Please upload a picture as the service cover image!'.tr);
         return;
       }
     }
-    EasyLoading.show();
+    showLoading();
     var data = {
       if (isEdit) "id": id,
       "skillid": game?.id,
@@ -248,8 +249,8 @@ class AddGamePageController extends GetxController {
       // "des": beGoodAtCon.text,
     };
     http.post('/peiwan/app/service/addService', data: data).then((v) {
-      EasyLoading.showToast('Submitted successfully'.tr);
-      EasyLoading.dismiss();
+      dismissLoading();
+      showToast('Submitted successfully'.tr);
       if (isEdit) {
         var route = Get.currentRoute;
         flog(
@@ -285,7 +286,7 @@ class AddGamePageController extends GetxController {
       }
     }).catchError((e) {
       flog('e $e');
-      EasyLoading.showToast(e);
+      showToast(e);
     }).whenComplete(() {});
   }
 
@@ -356,9 +357,9 @@ class AddGamePageController extends GetxController {
                 ifFixedSize: true,
               ))!
           .then((value) async {
-        EasyLoading.show();
+        showLoading();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
-        EasyLoading.dismiss();
+        dismissLoading();
         background = url;
       });
     } else {
@@ -379,7 +380,7 @@ class AddGamePageController extends GetxController {
       return element.name.isEmpty;
     });
     if (nameEmpty != null) {
-      EasyLoading.showToast('Please input a name!'.tr);
+      showToast('Please input a name!'.tr);
       return;
     }
     Get.toNamed(AppPages.bio_page, preventDuplicates: false)?.then((refresh) {

@@ -8,9 +8,10 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/config/app_config.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 /// 调起拨号页
 void launchTelURL(phone) async {
@@ -18,7 +19,7 @@ void launchTelURL(phone) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
-    EasyLoading.showToast("Dialing failed!");
+    showToast("Dialing failed!");
     // showToast('拨号失败！', position: StyledToastPosition.center);
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/getx_list_controller.dart';
 
 import '../../model/store_model.dart';
+import '../../utils/toast_utils.dart';
 import '../common/base_scaffold.dart';
 import '../common/empty_view.dart';
 import 'store_item.dart';
@@ -64,9 +65,9 @@ class StorePageController extends GetxListController<StoreModel> {
 
   @override
   Future<List<StoreModel>> loadData() async{
-    EasyLoading.show();
+    showLoading();
     List<StoreModel> list = [];
-    EasyLoading.dismiss();
+    dismissLoading();
     return list;
   }
 

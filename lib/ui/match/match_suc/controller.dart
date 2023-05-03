@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
@@ -10,6 +10,7 @@ import 'package:wy/model/beans/jump_match_suc_bean.dart';
 import '../../../event_bus/beans/match_event.dart';
 import '../../../event_bus/event_bus.dart';
 import '../../../model/match/match_operation_model.dart';
+import '../../../utils/toast_utils.dart';
 import '../../common/dialog_show_info.dart';
 import '../../controller/user_controller.dart';
 import '../../frame/main_page.dart';
@@ -111,15 +112,15 @@ class SideKickMatchSucController extends GetxController {
   }
 
   void cancelOrder() async {
-    EasyLoading.show();
+    showLoading();
     await MatchApi.cancelAcceptMatchOrder(bean.orderId, bean.uid == UserController.find.userProfile.pwId);
-    EasyLoading.dismiss();
+    dismissLoading();
 
     Get.back();
   }
 
   void playGame() async {
-    EasyLoading.show();
+    showLoading();
     List<Map<String, int>> params = [];
     selectItemList.forEach((item) {
       Map<String, int> map = {"skillAuthId": item.skillAuthId, "liveuid": item.liveuid, "serviceItemId": item.serviceItemId, "nums": UserController.find.nums};
@@ -128,7 +129,7 @@ class SideKickMatchSucController extends GetxController {
     });
 
     final result = await MatchApi.playGame(params);
-    EasyLoading.dismiss();
+    dismissLoading();
     if (result != null) {
       List<ServiceItem> serviceItems = result.serviceItems;
       serviceItems.forEach((element) {

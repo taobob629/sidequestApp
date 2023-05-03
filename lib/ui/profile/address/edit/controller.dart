@@ -13,6 +13,8 @@ import 'package:wy/config/app_config.dart';
 import 'package:wy/model/address_model.dart';
 import 'package:wy/model/shire.dart';
 import 'package:wy/utils/index.dart';
+
+import '../../../../utils/toast_utils.dart';
 class EditAddressPageController extends GetxListController<Shire> {
   var useAsDefault = true.obs;
 
@@ -67,49 +69,49 @@ class EditAddressPageController extends GetxListController<Shire> {
   }
 
   void delete() async {
-    showLoadding();
+    showLoading();
     await AddressApi.delete(id);
-    dismissLoadding();
+    dismissLoading();
     Get.back(result: true);
   }
 
   void save() async{
     String firstName = firstNameController.text;
     if(firstName.isEmpty){
-      toast("Please input a first name".tr);
+      showToast("Please input a first name".tr);
       return;
     }
     String lastName = lastNameController.text;
     if(lastName.isEmpty){
-      toast("Please input a last name".tr);
+      showToast("Please input a last name".tr);
       return;
     }
     String email = emailController.text;
     if(email.isEmpty||!StringUtil.isEmail(email)){
-      toast("Please input a email".tr);
+      showToast("Please input a email".tr);
       return;
     }
     String phone = phoneController.text;
     if(phone.isEmpty){
-      toast("Please input a phone number".tr);
+      showToast("Please input a phone number".tr);
       return;
     }
     String line1 = line1Controller.text;
     if(line1.isEmpty){
-      toast("Please input a detail address".tr);
+      showToast("Please input a detail address".tr);
       return;
     }
     String line2 = line2Controller.text;
 
     String code = codeController.text;
     if(code.isEmpty){
-      toast("Please input a post code".tr);
+      showToast("Please input a post code".tr);
       return;
     }
 
     String city = cityController.text;
     if(city.isEmpty){
-      toast("Please input your city".tr);
+      showToast("Please input your city".tr);
       return;
     }
     AddressModel model = AddressModel();
@@ -123,9 +125,9 @@ class EditAddressPageController extends GetxListController<Shire> {
     model.postCode = code;
     model.city = city;
     model.useDefault = useAsDefault.value;
-    showLoadding();
+    showLoading();
     await AddressApi.save(model);
-    dismissLoadding();
+    dismissLoading();
     Get.back(result: true);
   }
 }

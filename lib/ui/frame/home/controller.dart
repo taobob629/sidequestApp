@@ -34,9 +34,9 @@ class HomePageController extends GetxListController<SimpleUserInfoModel> {
     // if (key.isEmpty) {
     //   return [];
     // }
-    // EasyLoading.show();
+    // showLoading();
     // List<SimpleUserInfoModel> list = await UserApi.search(key);
-    // EasyLoading.dismiss();
+    // dismissLoading();
     return list;
   }
 }

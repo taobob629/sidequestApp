@@ -4,6 +4,8 @@ import 'package:wy/api/address_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/address_model.dart';
 
+import '../../../../utils/toast_utils.dart';
+
 /**
     author:mac
     创建日期:2023/4/1
@@ -49,9 +51,9 @@ class AddressPageController extends GetxListController<AddressModel> {
 
   Future<List<AddressModel>> loadData() async {
     List<AddressModel> addressList = [];
-    showLoadding();
+    showLoading();
     addressList = await AddressApi.list();
-    dismissLoadding();
+    dismissLoading();
     if(addressList.length > 0) {
       defaultAddress.value = addressList.firstWhere((element) => element.useDefault, orElse:()=>addressList.first);
     }

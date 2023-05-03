@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/user_api.dart';
@@ -9,6 +9,8 @@ import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/utils/utils.dart';
+
+import '../../../../../utils/toast_utils.dart';
 
 /*
     controller
@@ -58,7 +60,7 @@ class SkillItemAddPageController extends BasePageController {
     priceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
     if (priceRanges.isEmpty) {
-      EasyLoading.showToast('Can\'nt Add More Types'.tr);
+      showToast('Can\'nt Add More Types'.tr);
       Get.back();
       return;
     }
@@ -69,10 +71,10 @@ class SkillItemAddPageController extends BasePageController {
 
   onConfirm() async {
     if (teContent.text.isEmpty) {
-      toast('Please Input a name'.tr);
+      showToast('Please Input a name'.tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = teContent.text
       ..['skillid'] = model?.skillid
@@ -83,7 +85,7 @@ class SkillItemAddPageController extends BasePageController {
       ..['price'] = price
       ..['levelId'] = model?.levelid
       ..['enabled'] = 1);
-    EasyLoading.dismiss();
+    dismissLoading();
     if (response.statusCode == 200) {
       Get.back(result: true);
     }

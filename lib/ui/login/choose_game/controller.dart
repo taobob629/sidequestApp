@@ -5,6 +5,7 @@ import 'package:wy/api/game_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 
 /**
@@ -46,7 +47,7 @@ class ChooseGamePageController extends BasePageController {
     if (result.statusCode == 200) {
       Get.offAllNamed(AppPages.Main);
     } else {
-      err(result.statusMessage);
+      showError(result.statusMessage);
     }
   }
 
@@ -56,7 +57,7 @@ class ChooseGamePageController extends BasePageController {
     } else {
       int itemCount = selected_games.length;
       if (itemCount >= 4) {
-        toast('Up to Four'.tr);
+        showToast('Up to Four'.tr);
         return;
       }
       selected_games.add(item);

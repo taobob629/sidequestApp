@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 
+import '../../utils/toast_utils.dart';
 import '../common/colorful_button.dart';
 
 
@@ -49,7 +50,7 @@ class RejectDialog extends StatelessWidget {
               ),
             height: 40,
               onTap: () => textEditingController.text.isEmpty
-                  ? EasyLoading.showToast('Input your reject reason'.tr)
+                  ? showToast('Input your reject reason'.tr)
                   : Get.back(result: textEditingController.text))
         ],
       ),

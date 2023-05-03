@@ -119,18 +119,18 @@ class OtherAlbumController extends GetxRefreshController<AlbumItemModel> {
   //   _picker.pickImage(source: ImageSource.gallery).then((xfile) {
   //     if (xfile != null) {
   //       Common.uploadFile(File(xfile.path), (p0, p1) {
-  //         EasyLoading.show();
+  //         showLoading();
   //       }).then((val) {
-  //         EasyLoading.dismiss();
+  //         dismissLoading();
   //         if (val.isNotEmpty) {
   //           ProfileApi.addPhoto(val).then((value) {
   //             onRefresh();
   //           });
   //         }
-  //       }).whenComplete(() => EasyLoading.dismiss());
+  //       }).whenComplete(() => dismissLoading());
   //     }
   //   }).onError((error, stackTrace) {
-  //     EasyLoading.dismiss();
+  //     dismissLoading();
   //   });
   // }
 

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -21,7 +21,6 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
-import 'package:flutter_easyloading/src/widgets/indicator.dart';
 import 'package:wy/widget/views.dart';
 
 import '../../../im/pay_button.dart';
@@ -498,7 +497,7 @@ class MulitablePlayOrderController extends GetxController {
   //   return preOrderDm.value.flag;
   // }
   // Future<int> changeQuantity(int quantity, String skillAuthId) async {
-  //   EasyLoading.show();
+  //   showLoading();
   //   nums.value = quantity;
   //   this.code = code;
   //   Map params = Get.find<MulitablePlayOrderController>().getPayOrderModel().toJson();
@@ -512,10 +511,10 @@ class MulitablePlayOrderController extends GetxController {
 
   //     this.couponId = res.data['couponId'];
   //   }).catchError((e) {
-  //     EasyLoading.dismiss();
+  //     dismissLoading();
   //     preOrderDm.value.toError(e.toString());
   //   });
-  //   EasyLoading.dismiss();
+  //   dismissLoading();
   //   preOrderDm.refresh();
   //   return quantity;
   // }

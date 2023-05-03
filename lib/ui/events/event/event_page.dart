@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -22,6 +22,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/utils/time_utils.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../utils/toast_utils.dart';
 import 'join_button.dart';
 import 'tab_overview_page.dart';
 import 'tab_participants_page.dart';
@@ -263,7 +264,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
 
   @override
   void onClose() {
-    EasyLoading.dismiss(animation: false);
+    dismissLoading();
     tabController.dispose();
     scrollController.dispose();
     super.onClose();
@@ -282,7 +283,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     tabs.add("Rules".tr);
     tabs.add("Participants".tr);
     EventDetailModel model;
-    EasyLoading.show();
+    showLoading();
     if (type == 1) {
       model = await EventsApi.getActivityDetail(id);
     } else {
@@ -290,7 +291,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
       model = await EventsApi.getMatchDetail(id);
     }
     flog('stop time${model.kopStartTime}');
-    EasyLoading.dismiss();
+    dismissLoading();
     title.value = model.title;
     eventDetailModel.value = model;
   }
@@ -347,12 +348,12 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           timeSplit.removeLast();
           var dateTime = timeSplit.join(':');
           checkFee(() async {
-            EasyLoading.show();
+            showLoading();
             await EventsApi.joinActivity(
                 eventDetailModel.value.id, userController.user.value.id, store.id,
                 cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
-            EasyLoading.dismiss();
+            dismissLoading();
             Get.dialog(
                 ConfirmDialog(
                     title: "Congratulations".tr, info: "You have successfully signed up!".tr),
@@ -370,11 +371,11 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
         if (item != null) {
           LocationModel store = item as LocationModel;
           checkFee(() async {
-            EasyLoading.show();
+            showLoading();
             await EventsApi.joinActivity(
                 eventDetailModel.value.id, userController.user.value.id, store.id);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
-            EasyLoading.dismiss();
+            dismissLoading();
             Get.dialog(
                 ConfirmDialog(
                     title: "Congratulations".tr, info: "You have successfully signed up!".tr),
@@ -386,12 +387,12 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
   }
 
   cancelActivity() async {
-    EasyLoading.show();
+    showLoading();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
     onRefresh();
     Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
         barrierColor: Colors.black26);
-    EasyLoading.dismiss();
+    dismissLoading();
   }
 
   void joinMatch(BuildContext context) async {
@@ -400,7 +401,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     if (type == 5) {
        timeResult = await chooseTime();
       if (timeResult == null) {
-        EasyLoading.showToast('PLease Choose Time First'.tr);
+        showToast('PLease Choose Time First'.tr);
         return;
       }
     }
@@ -416,13 +417,13 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
       if (item != null) {
         LocationModel store = item as LocationModel;
         checkFee(() async {
-          EasyLoading.show();
+          showLoading();
           await EventsApi.joinMatch(
               eventDetailModel.value.id, userController.user.value.id, store.id,
               cupsleeve: timeResult==null?null:TimeUtils.getYYYYMMDDHHMM(
                   DateTime.fromMillisecondsSinceEpoch(timeResult*1000), '-', ':'));
           eventDetailModel.value.canCancel = true;
-          EasyLoading.dismiss();
+          dismissLoading();
           Get.dialog(
               ConfirmDialog(
                   title: "Congratulations".tr, info: "You have successfully signed up!".tr),

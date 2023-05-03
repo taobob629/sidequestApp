@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
+
+import '../../../../utils/toast_utils.dart';
 
 /*
     controller
@@ -64,20 +66,20 @@ class SkillItemPageController extends GetxController {
   addGame() async {
     var name = teContent.text;
     if (name.isEmpty) {
-      EasyLoading.showToast('please input'.tr);
+      showToast('please input'.tr);
       return;
     }
     if (price == 0) {
-      EasyLoading.showToast('Please enter the price'.tr);
+      showToast('Please enter the price'.tr);
       return;
     }
     double priceRangeMax = skillModel?.priceRangeMax ?? 0;
     double priceRangeMin = skillModel?.priceRangeMin ?? 0;
     if (price < priceRangeMin || price > priceRangeMax) {
-      EasyLoading.showError('the service price not in the price range');
+      showError('the service price not in the price range');
       return;
     }
-    EasyLoading.show();
+    showLoading();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = name
       ..['skillId'] = Get.arguments['skillid']
@@ -88,7 +90,7 @@ class SkillItemPageController extends GetxController {
       ..['levelId'] = Get.arguments['levelid']
       ..['skillAuthid'] = Get.arguments['skillAuthid']
       ..['enabled'] = status ? 1 : 0);
-    EasyLoading.dismiss();
+    dismissLoading();
     if (response.statusCode == 200) {
       Get.back(result: true);
     }
@@ -100,9 +102,9 @@ class SkillItemPageController extends GetxController {
           title: "Confirm".tr,
           info: "Are you sure to delete this?".tr,
           onConfirm: () async {
-            EasyLoading.show();
+            showLoading();
             await UserApi.deleteSkillItem(id);
-            EasyLoading.dismiss();
+            dismissLoading();
             Get.back();
             Get.back(result: true);
 

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/index_api.dart';
@@ -11,6 +11,8 @@ import 'package:wy/model/bank_card_model.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
+
+import '../../../utils/toast_utils.dart';
 
 /**
     controller
@@ -154,10 +156,10 @@ class BindBankCardController extends GetxController {
   save() async {
     // if (privacyCheckController.check()) {
     if (!validateForm()) {
-      EasyLoading.showToast('Incomplete information!');
+      showToast('Incomplete information!');
       return;
     }
-    EasyLoading.show();
+    showLoading();
     var sortcode = sortCodeTEC.text;
     var swiftCode = swiftCodeTEC.text;
     var bankName = bankNameTEC.text;
@@ -182,10 +184,10 @@ class BindBankCardController extends GetxController {
             isEdit: model != null)
         //..['iban'] = iban)
         .catchError((e) {
-      EasyLoading.dismiss();
+      dismissLoading();
     });
     refreshBankList();
-    EasyLoading.dismiss();
+    dismissLoading();
     Get.back();
     //  }
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
@@ -12,6 +11,7 @@ import '../../model/beans/jump_match_suc_bean.dart';
 import '../../model/match/match_operation_model.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/count_down_util.dart';
+import '../../utils/toast_utils.dart';
 
 class MatchTopDialog extends StatelessWidget {
   final _ctr = Get.put(DialogMatchTopController());
@@ -233,11 +233,11 @@ class MatchTopDialog extends StatelessWidget {
   void joinGame(int operation) async {
     _ctr.countDownUtil.stopCountDown();
 
-    EasyLoading.show();
+    showLoading();
     Map<String, dynamic> params = {"operation": operation};
     List<MatchOperationModel>? result =
         await MatchApi.acceptMatchOrder(_ctr.player.orderId.toString(), params);
-    EasyLoading.dismiss();
+    dismissLoading();
 
     if (result == null) {
       return;

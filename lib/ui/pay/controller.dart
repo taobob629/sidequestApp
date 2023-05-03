@@ -9,7 +9,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/address_api.dart';
@@ -31,6 +31,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+
+import '../../utils/toast_utils.dart';
 
 class PayPageController extends GetxController {
   static const MethodChannel _channel = const MethodChannel('uk.co.wanyoo.wy.method');
@@ -72,7 +74,7 @@ class PayPageController extends GetxController {
       }
     }
     _streamSubscription = _eventChannel.receiveBroadcastStream().listen(_onPayResult, onError: (e) {
-      EasyLoading.dismiss();
+      dismissLoading();
     }, cancelOnError: true);
     await havePassword();
   }
@@ -114,9 +116,9 @@ class PayPageController extends GetxController {
   }
 
   Future<void> havePassword() async {
-    EasyLoading.show();
+    showLoading();
     havePayPassword.value = await UserApi.havePayPassword();
-    EasyLoading.dismiss();
+    dismissLoading();
   }
 
   @override
@@ -134,7 +136,7 @@ class PayPageController extends GetxController {
   void pay({bool isPlay = false}) async {
     if (!isPlay) {
       if (address.value.id == 0) {
-        EasyLoading.showInfo("Please select your billing address".tr);
+        showInfo("Please select your billing address".tr);
         return;
       }
     }
@@ -174,7 +176,7 @@ class PayPageController extends GetxController {
         //    flog('appdata $params');
         await _channel.invokeMethod('getAlipay', params);
       } else {
-        EasyLoading.showError("Server response error!".tr);
+        showError("Server response error!".tr);
         return;
       }
       Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr), barrierColor: Colors.black26).whenComplete(() {
@@ -183,7 +185,7 @@ class PayPageController extends GetxController {
       });
       startTimer(payInfoModel);
     } else if (payType.value == 1) {
-      EasyLoading.show();
+      showLoading();
       final billingDetails = BillingDetails(
         name: "${address.value.firstName} ${address.value.lastName}",
         email: address.value.email,
@@ -242,7 +244,7 @@ class PayPageController extends GetxController {
         ),
       );
       try {
-        EasyLoading.dismiss();
+        dismissLoading();
         await Stripe.instance.presentPaymentSheet();
         // Get.dialog(
         //   ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
@@ -254,7 +256,7 @@ class PayPageController extends GetxController {
         startTimer(payInfoModel);
       } on Exception catch (e) {
         if (e is StripeException) {
-          EasyLoading.showInfo(e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
+          showInfo(e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
         }
       }
     } else if (payType.value == 2) {
@@ -290,7 +292,7 @@ class PayPageController extends GetxController {
           }
         } else {
           if (payInfoModel.orderNo.isEmpty) {
-            EasyLoading.showError("Server response error!".tr);
+            showError("Server response error!".tr);
           } else {
             if (payOrderModel.type == -1) {
               var cartController = Get.find<CartController>();
@@ -369,7 +371,7 @@ class PayPageController extends GetxController {
   }
 
   Future<void> manualCheckPay(String orderNo) async {
-    EasyLoading.show();
+    showLoading();
     bool payStatus = await PayApi.status(payOrderModel.type, orderNo);
     if (payStatus) {
       _onPayDone();
@@ -400,7 +402,7 @@ class PayPageController extends GetxController {
       //alipay
       if (content.toString() == "6001") {
         //cancel
-        EasyLoading.dismiss();
+        dismissLoading();
         _timer?.cancel();
         _timer = null;
         Get.back(result: true);
@@ -410,7 +412,7 @@ class PayPageController extends GetxController {
       var result = content as Map;
       String code = result["code"];
       if (code == "0") {
-        EasyLoading.showError("Payment failed".tr);
+        showError("Payment failed".tr);
         return;
       }
       String transactionId = result["data"];
@@ -431,7 +433,7 @@ class PayPageController extends GetxController {
         var cartController = Get.find<CartController>();
         cartController.clearCart();
       }
-      EasyLoading.dismiss();
+      dismissLoading();
       Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
     }
   }

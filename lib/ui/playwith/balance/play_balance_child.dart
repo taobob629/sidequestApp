@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
@@ -19,6 +19,7 @@ import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/num_utils.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -416,7 +417,7 @@ class WalletBalancePageController extends GetxListController {
   late ChargeRuleModel chargeRule;
 
   Future<List<CoinChargeRuleModel>> loadData() async {
-    EasyLoading.show();
+    showLoading();
     chargeRule = await BalanceApi.chargeRule();
     chargeRule.receipt.forEach((element) {
       if (element.name.toLowerCase().contains('paypal')) {
@@ -438,7 +439,7 @@ class WalletBalancePageController extends GetxListController {
     coin = chargeRule.coin;
     diamonds = chargeRule.votes;
 
-    EasyLoading.dismiss();
+    dismissLoading();
     return chargeRule.pwChargeRules ?? [];
   }
 
@@ -483,7 +484,7 @@ class WalletBalancePageController extends GetxListController {
     if (amountStr.isNotEmpty) {
       amount = double.parse(amountStr);
       if (!isValidateAmount(amountStr, 1)) {
-        EasyLoading.showInfo('Please enter an valid number greater than 1'.tr);
+        showInfo('Please enter an valid number greater than 1'.tr);
         return;
       }
     }
@@ -516,11 +517,11 @@ class WalletBalancePageController extends GetxListController {
   }
 
   void deleteBank(var id) async {
-    EasyLoading.show();
+    showLoading();
     await BalanceApi.unbindBankCard(id);
     getBankList();
-    EasyLoading.showToast('Success');
-    EasyLoading.dismiss();
+    dismissLoading();
+    showToast('Success');
   }
 
   /*
@@ -539,22 +540,22 @@ class WalletBalancePageController extends GetxListController {
     UserController userController = Get.find<UserController>();
     var votes = amountController.text;
     if (votes.isEmpty) {
-      EasyLoading.showInfo('Please Enter withdraw amount!'.tr);
+      showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
     if (!isValidateAmount(votes, chargeRule.limit ?? 600)) {
-      EasyLoading.showInfo('Please enter an valid number greater than'.tr +
+      showInfo('Please enter an valid number greater than'.tr +
           " ${chargeRule.limit}");
       return;
     }
     double votesDouble = double.parse(votes);
     double votesSum = double.parse(userController.userProfile.diamond);
     if (votesDouble.isGreaterThan(votesSum)) {
-      EasyLoading.showInfo('${'Insufficient Diamonds'.tr}!');
+      showInfo('${'Insufficient Diamonds'.tr}!');
       return;
     }
     if (type == "paypal" && paypalController.text.trim().isEmpty) {
-      EasyLoading.showInfo('Please Enter paypal account!'.tr);
+      showInfo('Please Enter paypal account!'.tr);
       return;
     }
     Get.dialog(PasswordDialog(),
@@ -571,11 +572,11 @@ class WalletBalancePageController extends GetxListController {
   }
 
   Future<void> paypalWithdrawRequest(String cardNumber, String votes) async {
-    EasyLoading.show();
+    showLoading();
     var response;
 
     // if (selectedBank == null) {
-    //   EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+    //   SmartDialog.showNotify('Please Add withdraw account First!'.tr);
     //   return;
     // }
     response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
@@ -584,22 +585,22 @@ class WalletBalancePageController extends GetxListController {
       ..['cardId'] = currentPayMethod?.id
       ..['votes'] = votes
       ..['accountType'] = 1);
+    dismissLoading();
     if (response.statusCode == 200) {
       diamonds = double.parse(response.data['votes'].toString()).toInt();
       coin = double.parse(response.data['coin'].toString()).toInt();
       Get.find<UserController>().updateInfo();
-      EasyLoading.showSuccess(response.statusMessage!);
+      showSuccess(response.statusMessage!);
     }
-    EasyLoading.dismiss();
   }
 
   Future<void> withdrawRequest(String type, String votes) async {
-    EasyLoading.show();
+    showLoading();
     var response;
     if (type == 'withDraw') {
       if (currentPayMethod?.name.contains('bank') == true) {
         if (selectedBank == null) {
-          EasyLoading.showInfo('Please Add withdraw account First!'.tr);
+          showInfo('Please Add withdraw account First!'.tr);
           return;
         }
         response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
@@ -612,8 +613,8 @@ class WalletBalancePageController extends GetxListController {
           ..['chargeRatio'] = chargeRule.chargeRatio);
       } else {
         if (accountCtr.text.length == 0) {
-          EasyLoading.dismiss();
-          EasyLoading.showInfo('please input your account'.tr);
+          dismissLoading();
+          showInfo('please input your account'.tr);
           return;
         }
         response = await BalanceApi.withDrawOrder(Map<String, dynamic>()
@@ -627,13 +628,13 @@ class WalletBalancePageController extends GetxListController {
     } else {
       response = await BalanceApi.exchangeToCoin(votes);
     }
+    dismissLoading();
     if (response.statusCode == 200) {
       diamonds = double.parse(response.data['votes'].toString()).toInt();
       coin = double.parse(response.data['coin'].toString()).toInt();
       Get.find<UserController>().updateInfo();
-      EasyLoading.showSuccess(response.statusMessage!);
+      showSuccess(response.statusMessage!);
     }
-    EasyLoading.dismiss();
   }
 
   void selectMethodReceipt() async {

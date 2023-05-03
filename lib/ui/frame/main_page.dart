@@ -6,7 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +32,7 @@ import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/scan/scan_page.dart';
 import 'package:wy/utils/index.dart';
 
+import '../../utils/toast_utils.dart';
 import 'drawer.dart';
 import 'messages/messages_page.dart';
 import 'profile/my_profile/my_profile_page.dart';
@@ -53,7 +54,7 @@ class MainPage extends GetView<MainPageController> {
         }
         if (controller.lastPopTime == null || DateTime.now().difference(controller.lastPopTime!) > Duration(seconds: 2)) {
           controller.lastPopTime = DateTime.now();
-          EasyLoading.showInfo("Press again to exit".tr, duration: Duration(seconds: 2));
+          showInfo("Press again to exit".tr);
         } else {
           controller.lastPopTime = DateTime.now();
           // 退出app

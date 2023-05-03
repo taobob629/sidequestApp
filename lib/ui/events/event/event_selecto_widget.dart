@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/event_detail_model.dart';
@@ -7,8 +6,9 @@ import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
+
+import '../../../utils/toast_utils.dart';
 
 class EventSelectoWidget extends StatefulWidget {
   final String title;
@@ -137,8 +137,8 @@ class _EventSelectoWidgetState extends State<EventSelectoWidget> {
             ),
             height: 48,
             onTap: () {
-              if (item == null) return EasyLoading.showToast('Please select location'.tr);
-              if (dateTime1 == null) return EasyLoading.showToast('cup sleeve required'.tr);
+              if (item == null) return showToast('Please select location'.tr);
+              if (dateTime1 == null) return showToast('cup sleeve required'.tr);
               Get.back(result: {'location': store, 'time': dateTime1});
             },
           ),

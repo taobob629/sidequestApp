@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
 
+import '../../../utils/toast_utils.dart';
 import '../../common/colorful_button.dart';
 
 class AddCouponDialog extends StatelessWidget {
@@ -137,11 +138,12 @@ class AddCouponDialogController extends GetxController{
   void add() async{
     String code = codeController.text;
     if(code.isEmpty){
-      EasyLoading.showInfo("Please input your voucher code".tr);
+      showInfo("Please input your voucher code".tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     String? msg =tab==CouponPage.TYPE_STORE?  await CouponApi.add(code):await CouponApi.addPW(code);
+    dismissLoading();
     Get.back(result: msg);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/index_api.dart';
@@ -11,6 +11,8 @@ import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
+
+import '../../../../utils/toast_utils.dart';
 
 /*
     controller
@@ -94,10 +96,10 @@ class SkillListPageController extends GetxController {
   }
 
   Future<void> changeServiceStatus(SkillItemModel? item, bool checkState) async {
-    EasyLoading.show();
+    showLoading();
     var response = await GamesApi.changeServiceStatus(
         id: item?.id, skillAuthid: item?.skillAuthid, status: checkState ? 1 : 0);
-    EasyLoading.dismiss();
+    dismissLoading();
     if (response.statusCode == 200) {
       item?.enabled = checkState ? 1 : 0;
     }

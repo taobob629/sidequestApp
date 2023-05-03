@@ -1,6 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/profile_api.dart';
@@ -14,6 +14,7 @@ import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
 import '../../../../api/vip_api.dart';
 import '../../../../utils/navigator_helper.dart';
+import '../../../../utils/toast_utils.dart';
 import '../../../common/dialog_confirm.dart';
 import '../../../controller/user_controller.dart';
 import '../model/vip_info_model.dart';
@@ -45,7 +46,8 @@ class VipPage extends StatelessWidget {
                     "VIP",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: controller.titleColor.value, fontSize: 16),
+                    style: TextStyle(
+                        color: controller.titleColor.value, fontSize: 16),
                   );
                 }),
               ),
@@ -60,7 +62,8 @@ class VipPage extends StatelessWidget {
                       physics: PagePhysics(parent: MyBouncingScrollPhysics()),
                       index: controller.vipIndex.value,
                       itemBuilder: (BuildContext context, int index) {
-                        final vipModel = controller.vipInfoList[controller.vipIndex.value];
+                        final vipModel =
+                            controller.vipInfoList[controller.vipIndex.value];
                         return Container(
                           padding: EdgeInsets.only(right: 15, left: 15).w,
                           alignment: Alignment.topCenter,
@@ -74,7 +77,9 @@ class VipPage extends StatelessWidget {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Positioned(child: Image.asset("assets/images/profile/vip_bg_${vipModel.level}.webp")),
+                                    Positioned(
+                                        child: Image.asset(
+                                            "assets/images/profile/vip_bg_${vipModel.level}.webp")),
                                     Positioned(
                                         top: -10,
                                         right: 10,
@@ -87,27 +92,41 @@ class VipPage extends StatelessWidget {
                                         top: 20,
                                         child: Text(
                                           "Pre Month",
-                                          style: TextStyle(color: Color(0xFF40280E), fontSize: 16),
+                                          style: TextStyle(
+                                              color: Color(0xFF40280E),
+                                              fontSize: 16),
                                         )),
                                     Positioned(
                                         left: 15,
                                         top: 40,
                                         child: Text(
                                           vipModel.name.toCapitalize,
-                                          style: TextStyle(color: Color(0xFF40280E), fontSize: 22, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              color: Color(0xFF40280E),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold),
                                         )),
                                     Positioned(
                                         bottom: 14,
                                         left: 15,
                                         right: 15,
                                         child: Obx(() {
-                                          var vipCanceled = userController.userProfile.vipCanceled;
-                                          var diff = userController.userProfile.vipLevel - controller.vipInfoList[controller.vipIndex.value].level;
-                                          var showNextRenewal = (diff == 0) && !userController.userProfile.vipCanceled;
+                                          var vipCanceled = userController
+                                              .userProfile.vipCanceled;
+                                          var diff = userController
+                                                  .userProfile.vipLevel -
+                                              controller
+                                                  .vipInfoList[
+                                                      controller.vipIndex.value]
+                                                  .level;
+                                          var showNextRenewal = (diff == 0) &&
+                                              !userController
+                                                  .userProfile.vipCanceled;
                                           var btnTitle = "";
                                           if (diff > 0) {
                                             // btnTitle = "Subscribed".tr;
-                                            btnTitle = "£ ${vipModel.monthFee.toString()} PM";
+                                            btnTitle =
+                                                "£ ${vipModel.monthFee.toString()} PM";
                                           } else if (diff == 0) {
                                             if (vipCanceled) {
                                               btnTitle = "Cancelled".tr;
@@ -115,7 +134,8 @@ class VipPage extends StatelessWidget {
                                               btnTitle = "Cancel".tr;
                                             }
                                           } else {
-                                            btnTitle = "£ ${vipModel.monthFee.toString()} PM";
+                                            btnTitle =
+                                                "£ ${vipModel.monthFee.toString()} PM";
                                           }
 
                                           return Row(
@@ -146,11 +166,27 @@ class VipPage extends StatelessWidget {
                                                     width: 124,
                                                     alignment: Alignment.center,
                                                     decoration: BoxDecoration(
-                                                        color: userController.userProfile.vipLevel >= controller.vipInfoList[controller.vipIndex.value].level ? Color(0xff707070) : Color(0xFFEDA82D),
-                                                        borderRadius: BorderRadius.circular(20)),
+                                                        color: userController
+                                                                    .userProfile
+                                                                    .vipLevel >=
+                                                                controller
+                                                                    .vipInfoList[
+                                                                        controller
+                                                                            .vipIndex
+                                                                            .value]
+                                                                    .level
+                                                            ? Color(0xff707070)
+                                                            : Color(0xFFEDA82D),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20)),
                                                     child: Text(
                                                       btnTitle,
-                                                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     )),
                                               ),
                                               Spacer(),
@@ -158,8 +194,19 @@ class VipPage extends StatelessWidget {
                                                 visible: showNextRenewal,
                                                 child: Container(
                                                   child: Text(
-                                                    "Next Renewal: ".tr + controller.vipInfoList[controller.vipIndex.value].renewDateStr,
-                                                    style: TextStyle(color: Color(0xFF40280E), fontSize: 12, fontWeight: FontWeight.bold),
+                                                    "Next Renewal: ".tr +
+                                                        controller
+                                                            .vipInfoList[
+                                                                controller
+                                                                    .vipIndex
+                                                                    .value]
+                                                            .renewDateStr,
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF40280E),
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 ),
                                               )
@@ -173,8 +220,13 @@ class VipPage extends StatelessWidget {
                                 return Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    controller.vipInfoList.isNotEmpty ? "Tips: ${controller.vipInfoList[controller.vipIndex.value].tips}" : "",
-                                    style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "DIN"),
+                                    controller.vipInfoList.isNotEmpty
+                                        ? "Tips: ${controller.vipInfoList[controller.vipIndex.value].tips}"
+                                        : "",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: "DIN"),
                                   ),
                                 );
                               })),
@@ -207,16 +259,31 @@ class VipPage extends StatelessWidget {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           return VipBenefitItem(
-                            model: controller.vipInfoList[controller.vipIndex.value].intro[index],
+                            model: controller
+                                .vipInfoList[controller.vipIndex.value]
+                                .intro[index],
                             index: index,
                             showIndex: controller.showPrivilegeIndex.value,
-                            title: controller.vipInfoList[controller.vipIndex.value].intro[index].title,
-                            subTitle: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
-                            content: controller.vipInfoList[controller.vipIndex.value].intro[index].intro,
-                            onTap: (tapIndex) => controller.showPrivilegeIndex.value = tapIndex,
+                            title: controller
+                                .vipInfoList[controller.vipIndex.value]
+                                .intro[index]
+                                .title,
+                            subTitle: controller
+                                .vipInfoList[controller.vipIndex.value]
+                                .intro[index]
+                                .intro,
+                            content: controller
+                                .vipInfoList[controller.vipIndex.value]
+                                .intro[index]
+                                .intro,
+                            onTap: (tapIndex) =>
+                                controller.showPrivilegeIndex.value = tapIndex,
                           );
                         },
-                        childCount: controller.vipInfoList.isNotEmpty ? controller.vipInfoList[controller.vipIndex.value].intro.length : 0,
+                        childCount: controller.vipInfoList.isNotEmpty
+                            ? controller.vipInfoList[controller.vipIndex.value]
+                                .intro.length
+                            : 0,
                       ),
                     )),
             ],
@@ -227,18 +294,27 @@ class VipPage extends StatelessWidget {
   }
 
   Widget _buildMonthBtn() {
-    Gradient gradient = LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFFFC3C02), Color(0xFF841FC3)]);
+    Gradient gradient = LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Color(0xFFFC3C02), Color(0xFF841FC3)]);
     Shader shader = gradient.createShader(Rect.fromLTWH(10, 0, 130, 46));
     return GestureDetector(
       onTap: () => controller.openMonth(),
       child: Container(
         height: 46,
         width: 140,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(23)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(23)),
         child: Center(
             child: Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Obx(() => Text("£${controller.vipInfoList[controller.vipIndex.value].monthFee} PM", style: TextStyle(foreground: Paint()..shader = shader, fontSize: 20, fontFamily: "DIN"))),
+          child: Obx(() => Text(
+              "£${controller.vipInfoList[controller.vipIndex.value].monthFee} PM",
+              style: TextStyle(
+                  foreground: Paint()..shader = shader,
+                  fontSize: 20,
+                  fontFamily: "DIN"))),
         )),
       ),
     );
@@ -255,7 +331,8 @@ class VipPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               "VIP Benefits".tr,
-              style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: "DIN", fontSize: 22),
             ),
           ),
           _buildWing(false)
@@ -266,12 +343,14 @@ class VipPage extends StatelessWidget {
 
   Widget _buildWing(bool left) {
     return Column(
-      crossAxisAlignment: left ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment:
+          left ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Container(
           height: 3,
           width: 22,
-          decoration: BoxDecoration(color: Color(0xFFEAD66F), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFEAD66F), borderRadius: BorderRadius.circular(2)),
         ),
         SizedBox(
           height: 3,
@@ -279,7 +358,8 @@ class VipPage extends StatelessWidget {
         Container(
           height: 3,
           width: 18,
-          decoration: BoxDecoration(color: Color(0xFFCBB336), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFCBB336), borderRadius: BorderRadius.circular(2)),
         ),
         SizedBox(
           height: 3,
@@ -287,7 +367,8 @@ class VipPage extends StatelessWidget {
         Container(
           height: 3,
           width: 14,
-          decoration: BoxDecoration(color: Color(0xFFD2B23A), borderRadius: BorderRadius.circular(2)),
+          decoration: BoxDecoration(
+              color: Color(0xFFD2B23A), borderRadius: BorderRadius.circular(2)),
         )
       ],
     );
@@ -302,7 +383,8 @@ class _BottomPath extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     var firstControlPoint = Offset(size.width / 2, 0); //曲线开始点
     var firstEndPoint = Offset(size.width, size.height); // 曲线结束点
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
     path.lineTo(size.width, size.height); //第四个点
     path.lineTo(size.width, size.height); // 第五个点
     return path;
@@ -410,7 +492,7 @@ class VipPageController extends GetxController {
   void showConfirm(PayOrderModel model) {
     var userController = Get.find<UserController>();
     if (userController.user.value.getAge() < 16) {
-      EasyLoading.showInfo("Subscription members must be at least 16 years old.".tr, duration: Duration(seconds: 3));
+      showInfo("Subscription members must be at least 16 years old.".tr,);
       return;
     }
     Get.dialog(VipInfoDialog(), barrierColor: Colors.black26).then((value) {
@@ -426,9 +508,9 @@ class VipPageController extends GetxController {
   }
 
   void cancelVip() async {
-    EasyLoading.show();
+    showLoading();
     String info = await VipApi.cancelInfo();
-    EasyLoading.dismiss();
+    dismissLoading();
     Get.dialog(
         ConfirmDialog(
           title: "Cancel Subscription".tr,
@@ -436,9 +518,9 @@ class VipPageController extends GetxController {
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
             Get.back();
-            EasyLoading.show();
+            showLoading();
             String info = await VipApi.cancelVip();
-            EasyLoading.dismiss();
+            dismissLoading();
             UserController.find.updateInfo();
             Get.dialog(
                 ConfirmDialog(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
@@ -8,6 +8,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/utils/storage_manager.dart';
 
+import '../../../utils/toast_utils.dart';
 import '../../login/forget_page.dart';
 
 class ChangePasswordPage extends StatelessWidget {
@@ -115,9 +116,9 @@ class ChangePasswordPageController extends GetxController {
   void onReady() async {
     super.onReady();
     if (type == 2 && check) {
-      EasyLoading.show();
+      showLoading();
       have.value = await UserApi.havePayPassword();
-      EasyLoading.dismiss();
+      dismissLoading();
     }
   }
 
@@ -133,21 +134,23 @@ class ChangePasswordPageController extends GetxController {
     var newPwd = newController.text;
 
     if (newPwd.length < 6) {
-      EasyLoading.showToast("Password can not less than 6 characters".tr);
+      showToast("Password can not less than 6 characters".tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     if (type == 1) {
       bool ret = await UserApi.updateLoginPassword(oldPwd, newPwd);
+      dismissLoading();
       if (ret) {
-        EasyLoading.showSuccess("Success".tr);
+        showSuccess("Success".tr);
         StorageManager.setPassword(newPwd);
         Get.back();
       }
     } else {
       bool ret = await UserApi.updatePayPassword(oldPwd, newPwd);
+      dismissLoading();
       if (ret) {
-        EasyLoading.showSuccess("Success".tr);
+        showSuccess("Success".tr);
         Get.back();
       }
     }

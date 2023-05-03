@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
 
+import '../../utils/toast_utils.dart';
 import '../login/forget_page.dart';
 import 'colorful_button.dart';
 
@@ -171,17 +172,17 @@ class PasswordDialogController extends GetxController{
   void check() async{
     String code = codeController.text;
     if(code.isEmpty){
-      EasyLoading.showToast("Please input your payment pin".tr);
+      showToast("Please input your payment pin".tr);
       return;
     }
-    EasyLoading.show();
+    showLoading();
     bool check = await PayApi.checkPassword(code);
-    EasyLoading.dismiss();
+    dismissLoading();
     if(check){
       codeController.text = "";
       Get.back(result: check);
     }else{
-      EasyLoading.showToast("Wrong payment pin".tr);
+      showToast("Wrong payment pin".tr);
     }
   }
 }

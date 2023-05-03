@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/user_api.dart';
@@ -21,6 +21,7 @@ import 'package:wy/utils/permission_helper.dart';
 import '../../../api/auth_api.dart';
 import '../../../config/app_config.dart';
 import '../../../utils/datetime_utils.dart';
+import '../../../utils/toast_utils.dart';
 import '../../common/action_button.dart';
 import '../../common/dialog_confirm.dart';
 
@@ -207,7 +208,7 @@ class EditProfilePageController extends GetxController {
   }
 
   void updateInfo() async {
-    EasyLoading.show();
+    showLoading();
     String avatarUrl = userController.userProfile.avatar;
     if(avatar.value.path != "") {
       avatarUrl = await UserApi.uploadAvatar(avatar.value, (p0, p1) => print("$p0,$p1"));
@@ -219,7 +220,7 @@ class EditProfilePageController extends GetxController {
     // if(DatetimeUtils.getAge(this.birthday.value) >= 16) {
     //   birth = formatDate(this.birthday.value, [dd, '/', mm, '/', yyyy]);
     // }else{
-    //   EasyLoading.showError("Your age can not less than 16!");
+    //   SmartDialog.showError("Your age can not less than 16!");
     //   return;
     // }
 
@@ -228,7 +229,7 @@ class EditProfilePageController extends GetxController {
     String phone = phoneController.text.isEmpty ? userController.user.value.phone : phoneController.text;
 
     await UserApi.updateProfile(nick, birth, firstName, lastName, phone);
-    EasyLoading.showSuccess("Success".tr);
+    showSuccess("Success".tr);
     Get.back(result: true);
   }
 
@@ -241,11 +242,11 @@ class EditProfilePageController extends GetxController {
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
             Get.back();
-            EasyLoading.show();
+            showLoading();
             await UserApi.deleteAccount();
             await AuthApi.signOut();
             await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
-            EasyLoading.dismiss();
+            dismissLoading();
             UserController userController = Get.find<UserController>();
             userController.logout(done: () => Get.back());
           },

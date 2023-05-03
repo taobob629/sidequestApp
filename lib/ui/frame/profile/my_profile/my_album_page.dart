@@ -1,7 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +17,7 @@ import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../../utils/toast_utils.dart';
 import '../model/album_item_model.dart';
 
 class MyAlbumPage extends StatelessWidget {
@@ -350,18 +351,18 @@ class ProfileAlbumController extends GetxRefreshController<AlbumItemModel> {
     _picker.pickImage(source: ImageSource.gallery).then((xfile) {
       if (xfile != null) {
         Common.uploadFile(File(xfile.path), (p0, p1) {
-          EasyLoading.show();
+          showLoading();
         }).then((val) {
-          EasyLoading.dismiss();
+          dismissLoading();
           if (val.isNotEmpty) {
             ProfileApi.addPhoto(val).then((value) {
               onRefresh();
             });
           }
-        }).whenComplete(() => EasyLoading.dismiss());
+        }).whenComplete(() => dismissLoading());
       }
     }).onError((error, stackTrace) {
-      EasyLoading.dismiss();
+      dismissLoading();
     });
   }
 

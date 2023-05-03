@@ -6,7 +6,7 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
@@ -26,7 +26,7 @@ import 'package:wy/widget/home/index.dart';
 List<Map> supports = [
   // Map()
   //   ..['title'] = 'FAQ'
-  //   ..['action'] = () => EasyLoading.showToast('FAQ'),
+  //   ..['action'] = () => SmartDialog.showToast('FAQ'),
   Map()
     ..['title'] = 'Help Centre'.tr
     ..['action'] = () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),

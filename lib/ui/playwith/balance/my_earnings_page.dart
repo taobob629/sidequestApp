@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -9,6 +9,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
@@ -250,7 +251,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () {
                                     if (controller.bankList.length >= 4) {
-                                      EasyLoading.showToast(
+                                      showToast(
                                           'Only 4 bankcards allowed!'.tr);
                                       return;
                                     }
@@ -348,7 +349,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
               controller.withDraw("paypal");
             }
           } else {
-            EasyLoading.showInfo(
+            showInfo(
                 'You should read and agree to our seller payment terms first.'
                     .tr);
           }
@@ -364,7 +365,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
       //         }
       //       });
       //     } else {
-      //       EasyLoading.showInfo('You should read and agree to our seller payment terms first.'.tr);
+      //       SmartDialog.showNotify('You should read and agree to our seller payment terms first.'.tr);
       //     }
       //   },
       // ),
@@ -372,7 +373,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         behavior: HitTestBehavior.translucent,
         onTap: () => controller.privacyCheckController.check()
             ? controller.withDraw('exchange')
-            : EasyLoading.showInfo(
+            : showInfo(
                 'You should read and agree to our seller payment terms first.'
                     .tr,
               ),

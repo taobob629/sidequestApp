@@ -4,7 +4,7 @@
     描述:
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
@@ -21,6 +21,8 @@ import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/dialog/dialog_comment.dart';
 import 'package:dio/src/response.dart';
+
+import '../../../utils/toast_utils.dart';
 
 class OrderDetailPageController extends BasePageController {
   static const double starInit = 5;
@@ -142,20 +144,20 @@ class OrderDetailPageController extends BasePageController {
 
   //申诉
   Future<void> apealOrderRequest(var text) async {
-    EasyLoading.show();
+    showLoading();
     var res = await OrderApi.apealOrder(id, text).catchError((err) {
       flog('err $err');
     });
-    EasyLoading.showToast('${res?.statusMessage}');
-    EasyLoading.dismiss();
+    dismissLoading();
+    showToast('${res?.statusMessage}');
     Get.back(result: true);
   }
 
   Future<void> acceptOrder() async {
-    EasyLoading.show();
+    showLoading();
     var res = await ImApi.acceptOrder(id).catchError((v) {});
-    EasyLoading.showToast('${res.statusMessage}');
-    EasyLoading.dismiss();
+    dismissLoading();
+    showToast('${res.statusMessage}');
     Get.back(result: true);
   }
 
@@ -163,39 +165,39 @@ class OrderDetailPageController extends BasePageController {
   Future<void> dsRejectOrder() async {
     Get.dialog(RejectDialog()).then((value) async {
       if (value == null) return;
-      EasyLoading.show();
+      showLoading();
       var res = await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});
-      EasyLoading.showToast('${res.statusMessage}');
-      EasyLoading.dismiss();
+      dismissLoading();
+      showToast('${res.statusMessage}');
       Get.back(result: true);
     });
   }
 
   Future<void> cancelOrderRequest() async {
     Get.back();
-    EasyLoading.show();
+    showLoading();
     await ImApi.cancelOrder(id);
     refreshList();
-    EasyLoading.dismiss();
+    dismissLoading();
     Get.back(result: true);
   }
 
   ///大神同意退款
   Future<void> dsRefundOrder() async {
-    EasyLoading.show();
+    showLoading();
     var res = await ImApi.dsRefundOrder(id, '5').catchError((v) {});
-    EasyLoading.showToast('${res.statusMessage}');
-    EasyLoading.dismiss();
+    dismissLoading();
+    showToast('${res.statusMessage}');
     Get.back(result: true);
   }
 
   Future<void> finishOrder() async {
     var response;
     if (type == TYPE_ORDER_RECEIVED) {
-      EasyLoading.show();
-      response = await OrderApi.finishOrder(id).whenComplete(() => EasyLoading.dismiss());
+      showLoading();
+      response = await OrderApi.finishOrder(id).whenComplete(() => dismissLoading());
       if (response.statusCode != 200) {
-        EasyLoading.showToast('${response.statusMessage}');
+        showToast('${response.statusMessage}');
       }
       Get.back(result: true);
     } else {
@@ -218,7 +220,7 @@ class OrderDetailPageController extends BasePageController {
         }
       }
       response = await custumFinishOrderRequest(response);
-      EasyLoading.dismiss();
+      dismissLoading();
       Get.back(result: true);
     }
   }
@@ -231,9 +233,9 @@ class OrderDetailPageController extends BasePageController {
           ..['friendless'] = starFri.value
           ..['id'] = id
           ..['comments'] = etCommnetController.text)
-        .whenComplete(() => EasyLoading.dismiss());
+        .whenComplete(() => dismissLoading());
     if (response.statusCode != 200) {
-      EasyLoading.showToast('${response.statusMessage}');
+      showToast('${response.statusMessage}');
     }
     return response;
   }

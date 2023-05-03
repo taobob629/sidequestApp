@@ -1,8 +1,10 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/withdraw_record_model.dart';
+
+import '../../../../../utils/toast_utils.dart';
 
 /*
     controller
@@ -29,9 +31,9 @@ class WithDrawRecordPageController extends GetxRefreshController {
   }
 
   void cancelWithDraw(id) async {
-    EasyLoading.show();
+    showLoading();
     await http.post('/peiwan/app/withDrawal/cancel', data: {"id": id});
-    EasyLoading.dismiss();
+    dismissLoading();
 
     onRefresh();
   }

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -14,6 +14,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/utils/index.dart';
+
+import '../../utils/toast_utils.dart';
 
 class PlayState {
   static const int idle = 0;
@@ -168,7 +170,7 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
                           var fileLength = file.lengthSync();
                           //文件大小限制
                           if (fileLength / 1000 / 1000 > MAX_RECORD_FILE_SIZE) {
-                            EasyLoading.showError(
+                            showError(
                                 'Only files below ${MAX_RECORD_FILE_SIZE}M are supported!');
                             return;
                           }
@@ -202,17 +204,17 @@ Future<String?> uploadFile(String? path) async {
   if (path == null) return null;
   File file = File(path);
   if (await file.exists() == false) return null;
-  EasyLoading.show();
+  showLoading();
   var url = await Common.uploadServiceRecordFile(File(path), (count, total) {
     flog('(count / total ${count / total}');
   }, isVoiceFile: true)
       .catchError((e) {
-    EasyLoading.showError('${e}');
-    EasyLoading.dismiss();
+    dismissLoading();
+    showError('${e}');
   });
   flog('url $url');
   Get.back();
-  EasyLoading.dismiss();
-  EasyLoading.showToast('Upload success!'.tr);
+  dismissLoading();
+  showToast('Upload success!'.tr);
   return url;
 }

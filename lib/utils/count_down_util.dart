@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
+import 'toast_utils.dart';
+
 class CountDownUtil {
   late Timer _timer;
   int _seconds = 60 * 15;
@@ -38,7 +40,7 @@ class CountDownUtil {
   void stopCountDown() {
     isShow = false;
     _timer.cancel();
-    SmartDialog.dismiss();
+    dismissLoading();
   }
 
   void _formatTime() {

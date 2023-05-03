@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/config/app_pages.dart';
@@ -19,6 +19,7 @@ import 'package:wy/ui/profile/coupon/coupon_page.dart';
 import 'package:wy/ui/profile/edit/edit_profile_page.dart';
 import 'package:wy/ui/search/search_page.dart';
 import 'package:wy/ui/shop/product/product_page.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../api_service/profile_api.dart';
@@ -46,28 +47,28 @@ class NavigatorHelper {
     if (Get.isRegistered<OtherProfileController>()) {
       Get.back();
     }
-    EasyLoading.show();
+    showLoading();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
           Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
         })
-        .whenComplete(() => EasyLoading.dismiss())
+        .whenComplete(() => dismissLoading())
         .catchError((err) {
           print(err);
-          EasyLoading.dismiss();
+          dismissLoading();
         });
   }
 
   static void toPostDetail(postId) {
-    EasyLoading.show();
+    showLoading();
     PostApi.getPostDetail(postsId: postId)
         .then((postItem) {
           Get.toNamed(AppPages.PostDetail, arguments: postItem);
         })
-        .whenComplete(() => EasyLoading.dismiss())
+        .whenComplete(() => dismissLoading())
         .catchError((err) {
           print(err);
-          EasyLoading.dismiss();
+          dismissLoading();
         });
   }
 

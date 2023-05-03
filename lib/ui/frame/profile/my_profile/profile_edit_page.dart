@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
@@ -22,6 +22,8 @@ import 'package:wy/res/index.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/icon_text.dart';
 import 'package:wy/widget/phone_input/intl_phone_number_input.dart';
+
+import '../../../../utils/toast_utils.dart';
 
 class ProfileEditPage extends StatelessWidget {
   ProfileEditPage({Key? key}) : super(key: key);
@@ -600,7 +602,7 @@ class ProfileEditController extends GetxController {
 
   updateProfile() {
     if (languageList.isEmpty) {
-      EasyLoading.showInfo("Please set language first".tr);
+      showInfo("Please set language first".tr,);
       return;
     }
     ProfileApi.updateProfile(
@@ -640,9 +642,9 @@ class ProfileEditController extends GetxController {
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
         isUploadFile = true;
-        EasyLoading.show();
+        showLoading();
         await Common.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
-        EasyLoading.dismiss();
+        dismissLoading();
         isUploadFile = false;
         UserController.find.updateInfo();
       });

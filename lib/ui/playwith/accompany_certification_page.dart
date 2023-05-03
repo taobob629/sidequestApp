@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -24,6 +24,8 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
+
+import '../../utils/toast_utils.dart';
 
 // 认证页面
 class AccompanyCertificationPage extends StatefulWidget {
@@ -105,17 +107,17 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
       btnBar: FloatingButton(
         label: "Reserve".tr,
         onTap: () {
-          if (nameCon.text.isEmpty) return EasyLoading.showToast('Please enter realName'.tr);
-          if (idNumberCon.text.isEmpty) return EasyLoading.showToast('Please enter idNumber'.tr);
-          if (phoneCon.text.isEmpty) return EasyLoading.showToast('Please enter phoneCon'.tr);
-          if (codeCon.text.isEmpty) return EasyLoading.showToast('Please enter verification code'.tr);
-          if (front == null) return EasyLoading.showToast('Please upload ID card front photo'.tr);
-          if (back == null) return EasyLoading.showToast('Please upload ID card back photo'.tr);
+          if (nameCon.text.isEmpty) return showToast('Please enter realName'.tr);
+          if (idNumberCon.text.isEmpty) return showToast('Please enter idNumber'.tr);
+          if (phoneCon.text.isEmpty) return showToast('Please enter phoneCon'.tr);
+          if (codeCon.text.isEmpty) return showToast('Please enter verification code'.tr);
+          if (front == null) return showToast('Please upload ID card front photo'.tr);
+          if (back == null) return showToast('Please upload ID card back photo'.tr);
 
-          if (platform == null) return EasyLoading.showToast('Please select category'.tr);
-          if (game == null) return EasyLoading.showToast('Please add service type'.tr);
-          // if (gameLv == null) return EasyLoading.showToast('Please select gameLv');
-          if (beGoodAtCon.text.isEmpty) return EasyLoading.showToast('Please enter be Good At'.tr);
+          if (platform == null) return showToast('Please select category'.tr);
+          if (game == null) return showToast('Please add service type'.tr);
+          // if (gameLv == null) return SmartDialog.showToast('Please select gameLv');
+          if (beGoodAtCon.text.isEmpty) return showToast('Please enter be Good At'.tr);
         },
       ),
     );
@@ -169,7 +171,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (skillDm.list.isEmpty) return EasyLoading.showToast('Please check the network settings'.tr);
+          if (skillDm.list.isEmpty) return showToast('Please check the network settings'.tr);
           var res = await Get.dialog(
             SelectorDialog(
               items: List.generate(skillDm.list.length, (i) {
@@ -201,7 +203,7 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
+          if (platformIndex == null) return showToast('Please select category first'.tr);
           var list = skillDm.list[platformIndex]['skill'] as List;
           var res = await Get.dialog(
             SelectorDialog(
@@ -232,9 +234,9 @@ class _AccompanyCertificationPageState extends State<AccompanyCertificationPage>
           rightJtView(16, Colors.white54),
         ]),
         fun: () async {
-          if (platformIndex == null) return EasyLoading.showToast('Please select category first'.tr);
+          if (platformIndex == null) return showToast('Please select category first'.tr);
           var list = skillDm.list[platformIndex]['skill'] as List;
-          if (gameIndex == null) return EasyLoading.showToast('Please select service first'.tr);
+          if (gameIndex == null) return showToast('Please select service first'.tr);
           var levels = list[gameIndex]['level'] as List;
           var res = await Get.dialog(
             SelectorDialog(

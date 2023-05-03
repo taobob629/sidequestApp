@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,6 +34,7 @@ import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../utils/toast_utils.dart';
 import 'controller.dart';
 import 'widget/fields_widget.dart';
 
@@ -131,21 +132,21 @@ class _AddGamePageState extends State<AddGamePage> {
     var priceRanges = controller.mPriceRanges;
     // flog('priceRanges ${json.encode(priceRanges)}');
     //   return;
-    if (isUploadFile) return EasyLoading.showToast('Uploading failed, please try again later'.tr);
-    //  if (isSending) return EasyLoading.showToast('Submitting');
-    if (controller.platform == null) return EasyLoading.showToast('Please select category'.tr);
-    if (controller.game == null) return EasyLoading.showToast('Please select service'.tr);
-    if (controller.platformIndex == null) return EasyLoading.showToast('Please select category'.tr);
+    if (isUploadFile) return showToast('Uploading failed, please try again later'.tr);
+    //  if (isSending) return SmartDialog.showToast('Submitting');
+    if (controller.platform == null) return showToast('Please select category'.tr);
+    if (controller.game == null) return showToast('Please select service'.tr);
+    if (controller.platformIndex == null) return showToast('Please select category'.tr);
     var list = controller.services[controller.platformIndex].skill;
-    if (controller.gameIndex == null) return EasyLoading.showToast('Please select service'.tr);
+    if (controller.gameIndex == null) return showToast('Please select service'.tr);
     var levels = list[controller.gameIndex].level;
     if (levels.isNotEmpty) {
-      if (controller.gameLv == null) return EasyLoading.showToast('Please select rank'.tr);
+      if (controller.gameLv == null) return showToast('Please select rank'.tr);
     }
     var fields = controller.buildFiledsParams();
     if (levels.isNotEmpty) {
       if (controller.gamePhotos.isEmpty)
-        return EasyLoading.showToast('Please upload screenshot'.tr);
+        return showToast('Please upload screenshot'.tr);
     }
 
     //var priceRanges = json.encode(controller.mPriceRanges);
@@ -177,9 +178,9 @@ class _AddGamePageState extends State<AddGamePage> {
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
         isUploadFile = true;
-        EasyLoading.show();
+        showLoading();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
-        EasyLoading.dismiss();
+        dismissLoading();
         isUploadFile = false;
         // var url = await UserApi.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
         setState(() => controller.gamePhotos.add('$url'));
@@ -236,7 +237,7 @@ class _AddGamePageState extends State<AddGamePage> {
                       if (controller.isEdit) return;
                       flog('${controller.services.isEmpty}');
                       if (controller.services.isEmpty)
-                        return EasyLoading.showToast('Please check the network settings'.tr);
+                        return showToast('Please check the network settings'.tr);
                       var res = await Get.dialog(
                         Obx(() => SelectorDialog(
                               items: List.generate(controller.services.length, (i) {
@@ -277,9 +278,9 @@ class _AddGamePageState extends State<AddGamePage> {
                     fun: () async {
                       if (controller.isEdit) return;
                       if (controller.platformIndex == null)
-                        return EasyLoading.showToast('Please select category first'.tr);
+                        return showToast('Please select category first'.tr);
                       var list = controller.services[controller.platformIndex].skill;
-                      if (list.isEmpty) return EasyLoading.showToast('No service'.tr);
+                      if (list.isEmpty) return showToast('No service'.tr);
                       var res = await Get.dialog(
                         SelectorDialog(
                           items: List.generate(list.length, (i) {
@@ -328,10 +329,10 @@ class _AddGamePageState extends State<AddGamePage> {
                     ]),
                     fun: () async {
                       if (controller.platformIndex == null)
-                        return EasyLoading.showToast('Please select category first'.tr);
+                        return showToast('Please select category first'.tr);
                       var list = controller.services[controller.platformIndex].skill;
                       if (controller.gameIndex == null)
-                        return EasyLoading.showToast('Please select service first'.tr);
+                        return showToast('Please select service first'.tr);
                       var levels = list[controller.gameIndex].level;
                       var res = await Get.dialog(
                         SelectorDialog(
@@ -473,7 +474,7 @@ class _AddGamePageState extends State<AddGamePage> {
             return GestureDetector(
                 onTap: () {
                   if (isUploadFile)
-                    EasyLoading.showToast('Uploading failed, please try again later'.tr);
+                    showToast('Uploading failed, please try again later'.tr);
                   this.selectAvatar(context!);
                 },
                 child: Container(

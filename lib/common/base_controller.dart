@@ -3,7 +3,6 @@
     创建日期:2023/2/12
     描述:
  */
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'page/empty_view.dart';
@@ -25,29 +24,6 @@ class BasePageController extends GetxController {
     _pageState.value = value;
   }
 
-  showLoadding() {
-    EasyLoading.show();
-  }
-
-  dismissLoadding() {
-    EasyLoading.dismiss();
-  }
-
-  toast(var msg) {
-    EasyLoading.showToast(msg);
-  }
-
-  info(var msg) {
-    EasyLoading.showInfo(msg);
-  }
-
-  err(var msg) {
-    EasyLoading.showError(msg);
-  }
-
-  progress(double progress){
-    EasyLoading.showProgress(progress,status: 'uploadding..');
-}
   buildEmpty() {
     return EmptyView();
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/shop_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -7,6 +7,8 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/product_item_model.dart';
 import 'package:wy/ui/shop/product_item.dart';
+
+import '../../utils/toast_utils.dart';
 
 class SearchPage extends StatelessWidget {
 
@@ -115,9 +117,9 @@ class SearchPageController extends GetxListController<ProductItemModel> {
     if(key.isEmpty){
       return [];
     }
-    EasyLoading.show();
+    showLoading();
     List<ProductItemModel> list = await ShopApi.search(key);
-    EasyLoading.dismiss();
+    dismissLoading();
     return list;
   }
 
