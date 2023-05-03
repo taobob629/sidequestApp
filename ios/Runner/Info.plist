@@ -53,11 +53,11 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This allows you to upload a photo to your profile album from your gallery.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to location when in the background and open.</string>
+	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
+	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow SideQuest to obtain microphone permission for sending voice messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>

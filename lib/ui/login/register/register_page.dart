@@ -229,40 +229,40 @@ class RegisterPage extends GetView<RegisterPageController> {
     //     )
     //   ],
     // ));
-    list.add(SizedBox(
-      height: 20,
-    ));
+    // list.add(SizedBox(
+    //   height: 20,
+    // ));
     list.add(AuthInputView(
       tips: "Nick Name".tr,
       editingController: controller.nickEditingController,
       keyboardType: TextInputType.name,
     ));
+    // list.add(SizedBox(
+    //   height: 10,
+    // ));
+    // list.add(Row(
+    //   children: [
+    //     Radio<int>(value: 0, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
+    //     Text(
+    //       "Male".tr,
+    //       style: TextStyle(color: Colors.white, fontSize: 14.sp),
+    //     ),
+    //     Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
+    //     Text(
+    //       "Female".tr,
+    //       style: TextStyle(color: Colors.white, fontSize: 14.sp),
+    //     ),
+    //     Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
+    //     Text(
+    //       "Non-binary".tr,
+    //       style: TextStyle(color: Colors.white, fontSize: 14.sp),
+    //     ),
+    //     // Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
+    //     // Text("Others",style: TextStyle(color: Colors.white,fontSize: 14),),
+    //   ],
+    // ));
     list.add(SizedBox(
-      height: 10,
-    ));
-    list.add(Row(
-      children: [
-        Radio<int>(value: 0, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
-        Text(
-          "Male".tr,
-          style: TextStyle(color: Colors.white, fontSize: 14.sp),
-        ),
-        Radio<int>(value: 1, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
-        Text(
-          "Female".tr,
-          style: TextStyle(color: Colors.white, fontSize: 14.sp),
-        ),
-        Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value) => controller.changeSex(value)),
-        Text(
-          "Non-binary".tr,
-          style: TextStyle(color: Colors.white, fontSize: 14.sp),
-        ),
-        // Radio<int>(value: 2, groupValue: controller.sex.value, onChanged: (value)=>controller.changeSex(value)),
-        // Text("Others",style: TextStyle(color: Colors.white,fontSize: 14),),
-      ],
-    ));
-    list.add(SizedBox(
-      height: 10,
+      height: 20,
     ));
     list.add(Container(
       height: 50,
