@@ -23,6 +23,13 @@ class ImageUtils {
   static const String icon_wechat = 'assets/images/icon_wechat.webp';
   static const String icon_alipay = 'assets/images/icon_alipay.webp';
   static const String icon_wise = 'assets/images/icon_wise.webp';
+  static const String icon_phone = 'assets/images/icon_phone.webp';
+  static const String icon_navigation = 'assets/images/icon_navigation.webp';
+  static const String icon_public_area = 'assets/images/icon_public_area.webp';
+  static const String icon_duo_room = 'assets/images/icon_duo_room.webp';
+  static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
+  static const String icon_battle_room = 'assets/images/icon_battle_room.webp';
+  static const String icon_ps = 'assets/images/icon_ps.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';

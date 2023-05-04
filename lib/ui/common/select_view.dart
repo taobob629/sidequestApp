@@ -6,11 +6,15 @@ class SelectView extends StatelessWidget {
   final String label;
   final String tips;
   final String? value;
+  final Color backgroundColor;
   final Function? onTap;
+  final double marginDis;
 
   SelectView({
     required this.label,
     required this.tips,
+    this.backgroundColor = const Color(0xff48464a),
+    this.marginDis = 15,
     this.value,
     this.onTap,
   });
@@ -26,22 +30,27 @@ class SelectView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
+              padding: EdgeInsets.only(
+                left: marginDis,
+                right: marginDis,
                 top: 10,
               ).h,
               child: Text(
                 label,
-                style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM),
               ),
             ),
             Container(
                 height: 45.h,
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 3),
+                margin: EdgeInsets.only(
+                    left: marginDis, right: marginDis, top: 5, bottom: 3),
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
-                    color: Color(0xff48464a), borderRadius: BorderRadius.circular(10).r),
+                    color: backgroundColor,
+                    borderRadius: BorderRadius.circular(10).r),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -51,14 +60,18 @@ class SelectView extends StatelessWidget {
                             maxLines: 1,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                color: textColor, fontFamily: FONT_LIGHT, fontSize: 14.sp),
+                                color: textColor,
+                                fontFamily: FONT_LIGHT,
+                                fontSize: 14.sp),
                           )
                         : Text(
                             value!,
                             maxLines: 1,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                color: textColor, fontFamily: FONT_LIGHT, fontSize: 14.sp),
+                                color: textColor,
+                                fontFamily: FONT_LIGHT,
+                                fontSize: 14.sp),
                           ),
                     Icon(
                       Icons.arrow_forward_ios_rounded,
