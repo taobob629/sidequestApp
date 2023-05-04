@@ -21,8 +21,7 @@ class PayPage extends StatelessWidget {
   PayPage({
     required PayOrderModel payOrderModel,
   }) {
-    controller =
-        Get.put(PayPageController(payOrderModel: payOrderModel), tag: payOrderModel.totalAmount);
+    controller = Get.put(PayPageController(payOrderModel: payOrderModel), tag: payOrderModel.totalAmount);
   }
 
   @override
@@ -240,9 +239,9 @@ class PayPage extends StatelessWidget {
   Widget _buildCredit(int value, int groupValue) {
     String payMethod = "";
     if (Platform.isAndroid) {
-      payMethod = "Google Pay";
+      payMethod = "&  Google Pay";
     } else if (Platform.isIOS) {
-      payMethod = "Apple Pay";
+      // payMethod = "&  Apple Pay";
     }
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -272,7 +271,7 @@ class PayPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        "${'Credit Card'.tr}  &  $payMethod",
+                        "${'Credit Card'.tr}  $payMethod",
                         style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
                       ),
                     ),
