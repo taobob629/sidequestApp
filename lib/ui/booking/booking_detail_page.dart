@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/image_utils.dart';
-import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/utils/image_util.dart';
 
 import '../../config/app_color.dart';
 import '../../config/icon_font.dart';
+import '../../model/cybercafe_detail_model.dart';
 import '../common/colorful_button.dart';
 import 'booking_detail_ctr.dart';
 import 'booking_dialog.dart';
@@ -168,50 +167,97 @@ class BookingDetailPage extends StatelessWidget {
                         itemCount: _ctr.model?.areaVoList.length ?? 0,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (c, i) => Container(
-                          decoration: BoxDecoration(
-                            color: i % 2 == 0
-                                ? Color(0xff262731)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(5.r),
-                          ),
-                          height: 45.h,
-                          padding: EdgeInsets.symmetric(horizontal: 15.w),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                _ctr.getIconRes(
-                                    _ctr.model?.areaVoList[i].areaName),
-                                width: 16.w,
-                                height: 16.h,
-                              ),
-                              13.horizontalSpace,
-                              Text(
-                                _ctr.model?.areaVoList[i].areaName ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  color: Colors.white,
+                        itemBuilder: (c, i) {
+                          List<DescriptionBean> dList = _ctr
+                              .dealPrice(_ctr.model?.areaVoList[i].description);
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: i % 2 == 0
+                                  ? Color(0xff262731)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                15.verticalSpace,
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      _ctr.getIconRes(
+                                          _ctr.model?.areaVoList[i].areaName),
+                                      width: 16.w,
+                                      height: 16.h,
+                                    ),
+                                    13.horizontalSpace,
+                                    Text(
+                                      _ctr.model?.areaVoList[i].areaName ?? '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      dList.length == 1
+                                          ? '${dList[0].price}'
+                                          : '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        color: Color(0xffFFD20E),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Spacer(),
-                              Text(
-                                _ctr.dealPrice(
-                                    _ctr.model?.areaVoList[i].description),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  color: Color(0xffFFD20E),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                if (dList.length == 1)
+                                  15.verticalSpace,
+                                if (dList.length > 1)
+                                  ...dList
+                                      .map(
+                                        (e) => Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.h),
+                                          child: Row(
+                                            children: [
+                                              29.horizontalSpace,
+                                              Text(
+                                                '${e.startTime}-${e.endTime}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Text(
+                                                '£ ${e.price}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                  color: Color(0xffFFD20E),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       20.verticalSpace,
                       ColorfulButton(

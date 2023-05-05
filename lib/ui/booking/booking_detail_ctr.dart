@@ -40,7 +40,8 @@ class BookingDetailCtr extends GetxController {
       return;
     }
 
-    Uri uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=${model?.map}');
+    Uri uri = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=${model?.map}');
     // Uri uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
@@ -64,9 +65,10 @@ class BookingDetailCtr extends GetxController {
     return ImageUtils.icon_public_area;
   }
 
-  String dealPrice(String? description) {
+  List<DescriptionBean> dealPrice(String? description) {
     if (description == null) {
-      return '£ 0.0';
+      return [];
+      // return '£ 0.0';
     }
 
     List<DescriptionBean> list = jsonDecode(description)
@@ -74,23 +76,40 @@ class BookingDetailCtr extends GetxController {
         .toList();
 
     List<DescriptionBean> filterList = list.where((element) {
-      double startTime = double.parse(element.startTime.replaceAll(':', '.'));
-      double endTime = double.parse(element.endTime.replaceAll(':', '.'));
-      double currentTime = double.parse(formatDate(DateTime.now(), [HH, '.', nn]));
-
-      if (currentTime >= startTime && currentTime <= endTime) {
-        // 当前时间在 startTime 和 endTime 之间
-        return true;
-      } else {
-        // 当前时间不在 startTime 和 endTime 之间
-        return false;
+      String week = formatDate(DateTime(2023, 05, 07), [DD]);
+      // String week = formatDate(DateTime.now(), [DD]);
+      int weekDay = 0;
+      switch (week) {
+        case "Monday":
+          weekDay = 1;
+          break;
+        case "Tuesday":
+          weekDay = 2;
+          break;
+        case "Wednesday":
+          weekDay = 3;
+          break;
+        case "Thursday":
+          weekDay = 4;
+          break;
+        case "Friday":
+          weekDay = 5;
+          break;
+        case "Saturday":
+          weekDay = 6;
+          break;
+        case "Sunday":
+          weekDay = 0;
+          break;
       }
+
+      return element.week == weekDay;
     }).toList();
 
     if (filterList.isNotEmpty) {
-      return '£ ${filterList[0].price}';
+      return filterList;
     }
-    return '£ 0.0';
+    return [];
   }
 
   List<String> dealTime() {
