@@ -181,7 +181,8 @@ class BookingDetailPage extends StatelessWidget {
                           child: Row(
                             children: [
                               Image.asset(
-                                _ctr.getIconRes(_ctr.model?.areaVoList[i].areaName),
+                                _ctr.getIconRes(
+                                    _ctr.model?.areaVoList[i].areaName),
                                 width: 16.w,
                                 height: 16.h,
                               ),
@@ -198,7 +199,8 @@ class BookingDetailPage extends StatelessWidget {
                               ),
                               Spacer(),
                               Text(
-                                '£ ${_ctr.model?.areaVoList[i].bookingPrice}',
+                                _ctr.dealPrice(
+                                    _ctr.model?.areaVoList[i].description),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(

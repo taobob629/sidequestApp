@@ -137,3 +137,36 @@ class AreaVoList {
     "useFree": useFree,
   };
 }
+
+class DescriptionBean {
+  String startTime;
+  String endTime;
+  String price;
+  int priceType;
+  int week;
+
+  DescriptionBean({
+    required this.startTime,
+    required this.endTime,
+    required this.price,
+    required this.priceType,
+    required this.week,
+  });
+
+  factory DescriptionBean.fromJson(Map<String, dynamic> json) => DescriptionBean(
+    startTime: json["startTime"],
+    endTime: json["endTime"],
+    price: json["price"],
+    priceType: json["priceType"],
+    week: json["week"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "startTime": startTime,
+    "endTime": endTime,
+    "price": price,
+    "priceType": priceType,
+    "week": week,
+  };
+}
+
