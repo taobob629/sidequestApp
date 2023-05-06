@@ -80,7 +80,7 @@ class IndexPageController extends GetxController
       "Games".tr,
     ));
     tabs.add(Text(
-      "Cybercafe".tr,
+      "Stores".tr,
     ));
 
     return tabs;
