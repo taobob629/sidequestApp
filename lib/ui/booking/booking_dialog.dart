@@ -94,23 +94,13 @@ class BookingDialog extends StatelessWidget {
                 ],
               ),
               SelectView(
-                label: "When".tr,
+                label: "What Time".tr,
                 tips: "Select One When".tr,
                 backgroundColor: Color(0xff262731),
                 marginDis: 4,
                 value: !ifSelectDuration.value
                     ? null
-                    : formatDate(time.value, [dd, '/', M, '/', yyyy]),
-                onTap: showSelectTime,
-              ),
-              SelectView(
-                label: "Time".tr,
-                tips: "Select One Time".tr,
-                backgroundColor: Color(0xff262731),
-                marginDis: 4,
-                value: !ifSelectDuration.value
-                    ? null
-                    : formatDate(time.value, [HH, ':', nn]),
+                    : formatDate(time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
                 onTap: showSelectTime,
               ),
               SelectView(
