@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/common/string_ext.dart';
 
 import '../../../model/balance_record_model.dart';
 
@@ -118,7 +119,7 @@ class RecordItem extends StatelessWidget {
                       ),
                       4.verticalSpace,
                       Text(
-                        model.time,
+                        model.addtime.toDateStr,
                         style: TextStyle(
                           color: Color(0xffB2B9C9),
                           fontSize: 12.sp,
@@ -427,7 +428,7 @@ class RecordItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Balance:${double.parse(model.nowBalance) / 100}',
+                  'Balance:£${double.parse(model.nowBalance) / 100}',
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
