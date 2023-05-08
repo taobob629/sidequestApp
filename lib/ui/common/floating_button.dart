@@ -7,8 +7,9 @@ import 'colorful_button.dart';
 class FloatingButton extends StatelessWidget {
   final String label;
   final Function? onTap;
-
-  FloatingButton({required this.label, this.onTap});
+   double? width;
+  List<Color>? colors;
+  FloatingButton({required this.label, this.onTap,this.colors,this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,8 @@ class FloatingButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: ColorfulButton(
         height: 20.h,
+        width: width,
+        colors: colors,
         borderRadius: 20.h,
         child: Padding(
           padding: const EdgeInsets.only(top: 4),

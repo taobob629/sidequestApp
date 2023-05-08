@@ -13,26 +13,28 @@ import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/az_list_view.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:wy/config/app_color.dart';
 
 typedef GroupItemBuilder = Widget Function(BuildContext context, V2TimGroupInfo groupInfo);
 
-class TIMUIKitGroup extends StatefulWidget {
+class MYTIMUIKitGroup extends StatefulWidget {
   final void Function(V2TimGroupInfo groupInfo, V2TimConversation conversation)? onTapItem;
+  final void Function(V2TimGroupInfo groupInfo, V2TimConversation conversation)? onLongPressItem;
   final Widget Function(BuildContext context)? emptyBuilder;
   final GroupItemBuilder? itemBuilder;
 
   /// the filter for group conversation
   final bool Function(V2TimGroupInfo? groupInfo)? groupCollector;
 
-  const TIMUIKitGroup(
-      {Key? key, this.onTapItem, this.emptyBuilder, this.itemBuilder, this.groupCollector})
+  const MYTIMUIKitGroup(
+      {Key? key, this.onTapItem, this.emptyBuilder, this.itemBuilder, this.groupCollector,this.onLongPressItem})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TIMUIKitGroupState();
 }
 
-class _TIMUIKitGroupState extends TIMUIKitState<TIMUIKitGroup> {
+class _TIMUIKitGroupState extends TIMUIKitState<MYTIMUIKitGroup> {
   final TUIFriendShipViewModel _friendshipViewModel = serviceLocator<TUIFriendShipViewModel>();
   final TUIGroupListenerModel _groupListenerModel = serviceLocator<TUIGroupListenerModel>();
 
@@ -64,56 +66,71 @@ class _TIMUIKitGroupState extends TIMUIKitState<TIMUIKitGroup> {
     return Container(
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
-      child: Material(
-        color: isDesktopScreen ? theme.wideBackgroundColor : null,
-        child: InkWell(
-          onTap: (() async {
-            if (widget.onTapItem != null) {
-              V2TimConversation conversation = V2TimConversation(
-                conversationID: "group_${groupInfo.groupID}",
-                groupID: groupInfo.groupID,
-                type: 2,
-                showName: groupInfo.groupName,
-                groupType: groupInfo.groupType,
-                faceUrl: groupInfo.faceUrl,
-              );
-              final res = await TencentImSDKPlugin.v2TIMManager.v2ConversationManager
-                  .getConversation(conversationID: "group_${groupInfo.groupID}");
-              if (res.code == 0 && res.data != null) {
-                conversation = res.data!;
-              }
-              widget.onTapItem!(groupInfo, conversation);
+              bottom: BorderSide(color: AppColor.dividerColor))),
+      child: InkWell(
+        onTap: (() async {
+          if (widget.onTapItem != null) {
+            V2TimConversation conversation = V2TimConversation(
+              conversationID: "group_${groupInfo.groupID}",
+              groupID: groupInfo.groupID,
+              type: 2,
+              showName: groupInfo.groupName,
+              groupType: groupInfo.groupType,
+              faceUrl: groupInfo.faceUrl,
+            );
+            final res = await TencentImSDKPlugin.v2TIMManager.v2ConversationManager
+                .getConversation(conversationID: "group_${groupInfo.groupID}");
+            if (res.code == 0 && res.data != null) {
+              conversation = res.data!;
             }
-          }),
-          child: Container(
-            padding: const EdgeInsets.only(top: 10, left: 16),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  margin: const EdgeInsets.only(right: 12),
-                  child: SizedBox(
-                    height: isDesktopScreen ? 30 : 40,
-                    width: isDesktopScreen ? 30 : 40,
-                    child: Avatar(
-                      faceUrl: faceUrl,
-                      showName: showName,
-                      type: 2,
-                    ),
+            widget.onTapItem!(groupInfo, conversation);
+          }
+        }),
+        onLongPress: () async {
+          if (widget.onLongPressItem != null) {
+            V2TimConversation conversation = V2TimConversation(
+              conversationID: "group_${groupInfo.groupID}",
+              groupID: groupInfo.groupID,
+              type: 2,
+              showName: groupInfo.groupName,
+              groupType: groupInfo.groupType,
+              faceUrl: groupInfo.faceUrl,
+            );
+            final res = await TencentImSDKPlugin.v2TIMManager.v2ConversationManager
+                .getConversation(conversationID: "group_${groupInfo.groupID}");
+            if (res.code == 0 && res.data != null) {
+              conversation = res.data!;
+            }
+            widget.onLongPressItem!(groupInfo, conversation);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.only(top: 10, left: 16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 12),
+                margin: const EdgeInsets.only(right: 12),
+                child: SizedBox(
+                  height:  40,
+                  width:  40,
+                  child: Avatar(
+                    faceUrl: faceUrl,
+                    showName: showName,
+                    type: 2,
                   ),
                 ),
-                Expanded(
-                    child: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(top: 10, bottom: 20),
-                  child: Text(
-                    showName,
-                    style: TextStyle(color: Colors.black, fontSize: isDesktopScreen ? 14 : 18),
-                  ),
-                ))
-              ],
-            ),
+              ),
+              Expanded(
+                  child: Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                child: Text(
+                  showName,
+                  style: TextStyle(color: Colors.white, fontSize: isDesktopScreen ? 14 : 18),
+                ),
+              ))
+            ],
           ),
         ),
       ),
@@ -159,6 +176,17 @@ class _TIMUIKitGroupState extends TIMUIKitState<TIMUIKitGroup> {
         }
         if (groupList.isNotEmpty) {
           final showList = _getShowList(groupList);
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              final groupInfo = showList[index].memberInfo;
+              return _getItemBuilder()(context, groupInfo);
+            },
+            itemCount: showList.length,
+            // separatorBuilder: (BuildContext context, int index) => Divider(
+            //   color: AppColor.accent,
+            //   height: 1,
+            // ),
+          );
           return AZListViewContainer(
               isShowIndexBar: false,
               memberList: showList,

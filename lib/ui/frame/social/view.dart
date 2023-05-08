@@ -16,6 +16,7 @@ import 'package:wy/ui/frame/social/post/page/post_list_page.dart';
 import 'package:wy/widget/tab_widget.dart';
 
 import 'activity/view.dart';
+import 'group/list/group_list.dart';
 
 class SocialPage extends StatefulWidget {
   @override
@@ -46,9 +47,11 @@ class _State extends State<SocialPage> with SingleTickerProviderStateMixin {
             alignment: Alignment.centerLeft,
             tabController: controller.tabbarController,
             tabList: controller.tabs,
+            pagePhysics: NeverScrollableScrollPhysics(),
             tabPage: [
               PostListPage(),
               KeepAliveWrapper(child: ActivityTabPage()),
+              KeepAliveWrapper(child: GroupList()),
             ],
           ),
         ));

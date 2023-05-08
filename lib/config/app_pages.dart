@@ -10,6 +10,8 @@ import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/frame/sidekick/search/bindings.dart';
 import 'package:wy/ui/frame/sidekick/search/search_page.dart';
 import 'package:wy/ui/frame/sidekick/view.dart';
+import 'package:wy/ui/frame/social/group/create/bindings.dart';
+import 'package:wy/ui/frame/social/group/create/create_group.dart';
 import 'package:wy/ui/frame/social/post/page/post_detail_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
@@ -92,6 +94,7 @@ class AppPages {
   static const Refound = '/refound_page';
   static const AddSkillItem = '/add_skill_item_page';
   static const Record = '/record_page';
+  static const CreateGroup = '/create_group_page';
   static const side_kick_match_page = '/side_kick_match_page';
   static const side_kick_match_suc_page = '/side_kick_match_suc_page';
   static const side_kick_matching_page = '/side_kick_matching_page';
@@ -220,6 +223,11 @@ class AppPages {
     GetPage(
       name: bio_page,
       page: () => BioPage(),
+    ),
+    GetPage(
+      name: CreateGroup,
+      binding: CreateGroupBinding(),
+      page: () => CreateGroupPage(),
     ),
   ];
 }
