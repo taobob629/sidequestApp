@@ -345,7 +345,7 @@ class RecordItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'free time: '.tr,
+                  'Free Time: '.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -353,12 +353,45 @@ class RecordItem extends StatelessWidget {
                   ),
                 ),
                 6.horizontalSpace,
+                Container(
+                  width: 60.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    model.free,
+                    style: TextStyle(
+                      color: Color(0xffffffff),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
                 Text(
-                  model.free,
+                  'Discount: '.tr,
                   style: TextStyle(
-                    color: Color(0xffffffff),
+                    color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
                     fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                6.horizontalSpace,
+                Container(
+                  width: 60.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '￡ ${model.discount}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Color(0xffffffff),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
                   ),
                 ),
               ],
