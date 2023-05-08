@@ -75,36 +75,34 @@ class BookingDetailCtr extends GetxController {
         .map<DescriptionBean>((item) => DescriptionBean.fromJson(item))
         .toList();
 
-    List<DescriptionBean> filterList = list.where((element) {
-      String week = formatDate(DateTime(2023, 05, 07), [DD]);
-      // String week = formatDate(DateTime.now(), [DD]);
-      int weekDay = 0;
-      switch (week) {
-        case "Monday":
-          weekDay = 1;
-          break;
-        case "Tuesday":
-          weekDay = 2;
-          break;
-        case "Wednesday":
-          weekDay = 3;
-          break;
-        case "Thursday":
-          weekDay = 4;
-          break;
-        case "Friday":
-          weekDay = 5;
-          break;
-        case "Saturday":
-          weekDay = 6;
-          break;
-        case "Sunday":
-          weekDay = 0;
-          break;
-      }
+    String week = formatDate(DateTime.now(), [DD]);
+    int weekDay = 0;
+    switch (week) {
+      case "Monday":
+        weekDay = 1;
+        break;
+      case "Tuesday":
+        weekDay = 2;
+        break;
+      case "Wednesday":
+        weekDay = 3;
+        break;
+      case "Thursday":
+        weekDay = 4;
+        break;
+      case "Friday":
+        weekDay = 5;
+        break;
+      case "Saturday":
+        weekDay = 6;
+        break;
+      case "Sunday":
+        weekDay = 0;
+        break;
+    }
 
-      return element.week == weekDay;
-    }).toList();
+    List<DescriptionBean> filterList =
+        list.where((element) => element.week == weekDay).toList();
 
     if (filterList.isNotEmpty) {
       return filterList;
