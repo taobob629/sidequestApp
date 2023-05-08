@@ -159,28 +159,28 @@ class RecordItem extends StatelessWidget {
                 ),
               ],
             ),
-            10.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Coupon Code'.tr,
-                  style: TextStyle(
-                    color: Color(0xffB2B9C9),
-                    fontSize: 12.sp,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                ),
-                Text(
-                  model.couponCode,
-                  style: TextStyle(
-                    color: Color(0xffB2B9C9),
-                    fontSize: 12.sp,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                ),
-              ],
-            ),
+            // 10.verticalSpace,
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Coupon Code'.tr,
+            //       style: TextStyle(
+            //         color: Color(0xffB2B9C9),
+            //         fontSize: 12.sp,
+            //         fontFamily: FONT_MEDIUM,
+            //       ),
+            //     ),
+            //     Text(
+            //       model.couponCode,
+            //       style: TextStyle(
+            //         color: Color(0xffB2B9C9),
+            //         fontSize: 12.sp,
+            //         fontFamily: FONT_MEDIUM,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             10.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -392,7 +392,7 @@ class RecordItem extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  model.refund == 1
+                  model.refund == 0
                       ? ImageUtils.icon_top_up
                       : ImageUtils.icon_refound,
                   width: 30.w,
@@ -400,7 +400,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  model.refund == 1 ? 'Top Up'.tr : 'Top Up Refund'.tr,
+                  model.refund == 0 ? 'Top Up'.tr : 'Top Up Refund'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
