@@ -149,7 +149,7 @@ class RecordItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  model.discount.toString(),
+                  '£ ${model.discount}',
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,

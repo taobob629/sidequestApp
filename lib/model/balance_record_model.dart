@@ -16,7 +16,7 @@ class ConsumeRecordModel {
   late String orderNo;
   late String goodsUrl;
   late int num;
-  late bool discount;
+  late String discount;
   late String couponCode;
 
   ConsumeRecordModel();
@@ -38,7 +38,7 @@ class ConsumeRecordModel {
     orderNo = json['orderNo'] ?? '';
     goodsUrl = json['goodsUrl'] ?? '';
     num = json['num'] ?? 0;
-    discount = json['discount'] ?? false;
+    discount = json['discount'] ?? '0.00';
     couponCode = json['couponCode'] ?? '';
   }
 }
