@@ -87,43 +87,46 @@ class RecordItem extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.r),
                   child: ImageUtil.networkImage(
-                    url: model.goodsUrl,
-                    width: 68.w,
-                    height: 68.w,
-                    fit: BoxFit.cover
-                  ),
+                      url: model.goodsUrl,
+                      width: 68.w,
+                      height: 68.w,
+                      fit: BoxFit.cover),
                 ),
                 15.horizontalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Sprite'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontFamily: FONT_MEDIUM,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        model.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
                       ),
-                    ),
-                    4.verticalSpace,
-                    Text(
-                      'X${model.num}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontFamily: FONT_MEDIUM,
+                      4.verticalSpace,
+                      Text(
+                        'X${model.num}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
                       ),
-                    ),
-                    4.verticalSpace,
-                    Text(
-                      model.time,
-                      style: TextStyle(
-                        color: Color(0xffB2B9C9),
-                        fontSize: 12.sp,
-                        fontFamily: FONT_MEDIUM,
+                      4.verticalSpace,
+                      Text(
+                        model.time,
+                        style: TextStyle(
+                          color: Color(0xffB2B9C9),
+                          fontSize: 12.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -396,7 +399,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'Top Up'.tr,
+                  model.refund == 1 ? 'Top Up'.tr : 'Top Up Refund'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -424,7 +427,7 @@ class RecordItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Balance:${model.nowBalance}',
+                  'Balance:${double.parse(model.nowBalance) / 100}',
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
