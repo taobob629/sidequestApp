@@ -19,7 +19,8 @@ class TabConsumePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SmartRefresher(
+    return Obx(
+      () => SmartRefresher(
         controller: controller.refreshController,
         onRefresh: controller.onRefresh,
         onLoading: controller.loadMore,
@@ -28,37 +29,35 @@ class TabConsumePage extends StatelessWidget {
             ? Container()
             : controller.list.length == 0
                 ? Stack(
-                    children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
+                    children: [
+                      Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: EmptyView())
+                    ],
                   )
                 : CustomScrollView(
                     slivers: [
                       Obx(() {
                         return SliverList(
-                            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                          ConsumeRecordModel model = controller.list[index];
-                          return RecordItem(
-                            title: model.title,
-                            detail: model.time,
-                            amount: model.amount,
-                            type: type,
-                            remaining: model.remaining,
-                          );
-                        }, childCount: controller.list.length));
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              ConsumeRecordModel model = controller.list[index];
+                              return RecordItem(
+                                type: type,
+                                model: model,
+                              );
+                            },
+                            childCount: controller.list.length,
+                          ),
+                        );
                       })
                     ],
-                  )));
-    // return Obx(()=> controller.list.length == 0 ? EmptyView() :
-    // ListView.separated(
-    //   itemBuilder: (context, index){
-    //     ConsumeRecordModel model = controller.list[index];
-    //     return RecordItem(title: model.title, detail: model.time, amount: model.amount,type: type,);
-    //   },
-    //   separatorBuilder: (context, index){
-    //     return Container(height: 20,);
-    //   },
-    //   itemCount: controller.list.length
-    // )
-    // );
+                  ),
+      ),
+    );
   }
 }
 
@@ -78,14 +77,17 @@ class TabConsumePageController extends GetxRefreshController {
   @override
   Future<List<ConsumeRecordModel>> loadData({int pageNum = 1}) async {
     if (type == 1) {
-      List<ConsumeRecordModel> list = await BalanceApi.chargeRecords(pageNum, pageSize);
+      List<ConsumeRecordModel> list =
+          await BalanceApi.chargeRecords(pageNum, pageSize);
 
       return list;
     } else if (type == 2) {
-      List<ConsumeRecordModel> list = await BalanceApi.machineRecords(pageNum, pageSize);
+      List<ConsumeRecordModel> list =
+          await BalanceApi.machineRecords(pageNum, pageSize);
       return list;
     } else {
-      List<ConsumeRecordModel> list = await BalanceApi.consumeRecords(pageNum, pageSize);
+      List<ConsumeRecordModel> list =
+          await BalanceApi.consumeRecords(pageNum, pageSize);
       flog(type, 'ConsumeRecordModel');
       return list;
     }

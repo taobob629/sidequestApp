@@ -9,7 +9,7 @@ import 'package:wy/model/withdraw_record_model.dart';
 class BalanceApi {
 
   static Future<List<ConsumeRecordModel>> chargeRecords(int pageNum, int pageSize) async {
-    var response = await http.get('/app/balance/chargeRecords',
+    var response = await http.get('/peiwan/app/consume/chargeRecords',
       queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
     );
     if(response.data == null){
@@ -22,7 +22,7 @@ class BalanceApi {
   }
 
   static Future<List<ConsumeRecordModel>> machineRecords(int pageNum, int pageSize) async {
-    var response = await http.get('/app/consume/machineRecords',
+    var response = await http.get('/peiwan/app/consume/gaming',
       queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
     );
     if(response.data == null){
@@ -35,7 +35,7 @@ class BalanceApi {
   }
 
   static Future<List<ConsumeRecordModel>> consumeRecords(int pageNum, int pageSize) async {
-    var response = await http.get('/app/consume/consumeRecords',
+    var response = await http.get('/peiwan/app/consume/consumeRecords',
       queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
     );
     if(response.data == null){

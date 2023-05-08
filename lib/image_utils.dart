@@ -30,6 +30,11 @@ class ImageUtils {
   static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
   static const String icon_battle_room = 'assets/images/icon_battle_room.webp';
   static const String icon_ps = 'assets/images/icon_ps.webp';
+  static const String icon_location = 'assets/images/icon_location.webp';
+  static const String icon_computer = 'assets/images/icon_computer.webp';
+  static const String icon_time = 'assets/images/icon_time.webp';
+  static const String icon_top_up = 'assets/images/icon_top_up.webp';
+  static const String icon_refound = 'assets/images/icon_refound.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
