@@ -90,9 +90,7 @@ class AudioManager {
       showInfo('No Voice'.tr,);
       return;
     }
-    showLoading();
     final duration = await audioPlayer?.setUrl(voice); // Schemes: (https: | file: | asset: )
-    dismissLoading();
     audioPlayer?.play();
   }
 
