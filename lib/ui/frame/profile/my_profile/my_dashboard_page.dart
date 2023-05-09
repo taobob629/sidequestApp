@@ -32,7 +32,10 @@ class MyDashboardPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 15.w),
                     child: Text(
                       "Subscriptions".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Obx(() => Container(
@@ -41,7 +44,14 @@ class MyDashboardPage extends StatelessWidget {
                         margin: EdgeInsets.only(top: 10),
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: UserController.find.userProfile.vips.asMap().map((index, value) => MapEntry(index, _subscriptionItem(value, index))).values.toList(),
+                          children: UserController.find.userProfile.vips
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                  index, InkWell(
+                            onTap: ()=>Get.toNamed(AppPages.VIP_PAGE, arguments: index),
+                            child: _subscriptionItem(value, index),)))
+                              .values
+                              .toList(),
                         ),
                       ))
                 ],
@@ -49,7 +59,9 @@ class MyDashboardPage extends StatelessWidget {
             ))),
 
         /// Trophies
-        ...UserController.find.userProfile.badges.map((badge) => BadgesWidget(badge)).toList()
+        ...UserController.find.userProfile.badges
+            .map((badge) => BadgesWidget(badge))
+            .toList()
       ],
     );
   }
@@ -59,7 +71,9 @@ class MyDashboardPage extends StatelessWidget {
       // width: 128.w,
       height: 48,
       margin: EdgeInsets.only(left: 12),
-      decoration: BoxDecoration(border: Border.all(color: Color(0xff707070), width: 1.5), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+          border: Border.all(color: Color(0xff707070), width: 1.5),
+          borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
           Padding(
@@ -74,33 +88,44 @@ class MyDashboardPage extends StatelessWidget {
           ),
           Text(
             vipModel.name,
-            style: TextStyle(color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.bold),
           ),
-          GestureDetector(
-            onTap: () {
-              // if (vipModel.level > t.vm.value.vipLevel) {
-              Get.toNamed(AppPages.VIP_PAGE, arguments: index);
-              // }
-              // Get.to(VipPage(vipLevel: vipLevel, vipIndex: vipIndex, list: list))
-            },
-            child: Container(
-              width: 50,
-              height: 20,
-              margin: EdgeInsets.only(left: 10, right: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                gradient: vipModel.level <= UserController.find.userProfile.vipLevel
-                    ? LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xff707070), Color(0xff707070)])
-                    : LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [Color(0xFF632BDA), Color(0xFF6029D4), Color(0xFF652CDF), Color(0xFF7231DE), Color(0xFF8A39DE), Color(0xFFBE38D0), Color(0xFFDE5D85), Color(0xFFE68887)]),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "£${vipModel.price}",
-                style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-              ),
+          Container(
+            width: 50,
+            height: 20,
+            margin: EdgeInsets.only(left: 10, right: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              gradient:
+              vipModel.level <= UserController.find.userProfile.vipLevel
+                  ? LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xff707070), Color(0xff707070)])
+                  : LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFF632BDA),
+                    Color(0xFF6029D4),
+                    Color(0xFF652CDF),
+                    Color(0xFF7231DE),
+                    Color(0xFF8A39DE),
+                    Color(0xFFBE38D0),
+                    Color(0xFFDE5D85),
+                    Color(0xFFE68887)
+                  ]),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "£${vipModel.price}",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold),
             ),
           )
         ],
