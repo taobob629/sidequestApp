@@ -324,7 +324,7 @@ class AddGamePageController extends GetxController {
     //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
     // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
     return UserController.find.userProfile.isAuth == 0 &&
-        UserController.find.userProfile.voice.isEmpty;
+        UserController.find.userProfile.voice?.isEmpty==true;
   }
 
   toRecordPage(BuildContext context, {int type = record_type_service}) {

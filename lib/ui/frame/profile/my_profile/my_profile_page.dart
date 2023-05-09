@@ -122,14 +122,14 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                               ),
                               Spacer(),
-                              VoiceProfileWidget(
+                              Obx(()=>VoiceProfileWidget(
                                 pwId: userController.userProfile.pwId,
-                                voice: userController.userProfile.voice,
+                                voice: userController.userProfile.voice?.value,
                                 maginBottom: 0,
                                 marginLeft: 12.w,
                                 width: 100.w,
                                 toRecordPage: () => userController.toRecordPage(context),
-                              )
+                              ))
                               // Container(
                               //   width: 98.w,
                               //   height: 30.h,

@@ -169,7 +169,7 @@ class UserController extends GetxController {
   }
 
   void voiceCheck() {
-    if (userProfile.isAuth == TYPE_VIP && userProfile.voice.isEmpty) {
+    if (userProfile.isAuth == TYPE_VIP && userProfile.voice?.isEmpty==true) {
       hasDidVoiceCheck=true;
       Get.dialog(ConfirmDialog(
         title: 'Confirm'.tr,
@@ -439,9 +439,9 @@ class UserController extends GetxController {
   }
 
   toRecordPage(BuildContext context,{int type=0}) {
-    pickVoiceDialog(context, userProfile.voice, (result) {
+    pickVoiceDialog(context, userProfile.voice?.value, (result) {
       flog('callback $result');
-      if (result != null) userProfile.voice = result;
+      if (result != null) userProfile.voice?.value = result;
     },recordType: type);
     // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
     //   if (result != null) userProfile.voice = result;

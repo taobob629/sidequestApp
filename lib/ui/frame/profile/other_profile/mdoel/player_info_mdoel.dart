@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 class PlayerInfoModel {
-  String voice = "";
+  RxString _voice = ''.obs;
   String signature = "";
   String nickName = "";
   String language = "";
@@ -26,6 +26,12 @@ class PlayerInfoModel {
   int uid = 0;
   String uk = "";
   List<TrophieModel> trophies = [];
+
+  String get voice => _voice.value;
+
+  set voice(String value) {
+    _voice.value = value;
+  }
 
   PlayerInfoModel();
 
