@@ -264,7 +264,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  '${model.howLong}H',
+                  '${model.duration}',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
@@ -286,7 +286,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'Start Time:'.tr,
+                  'Start Time: '.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -294,7 +294,7 @@ class RecordItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  model.startTime,
+                  model.timeStart.toDateStr,
                   style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 12.sp,
@@ -316,7 +316,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'End Time:'.tr,
+                  'End  Time:'.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -325,7 +325,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 6.horizontalSpace,
                 Text(
-                  model.endTime,
+                  model.timeEnd.toDateStr,
                   style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 12.sp,

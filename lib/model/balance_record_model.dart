@@ -9,8 +9,12 @@ class ConsumeRecordModel {
   late String name = '';
   late String startTime = '';
   late String endTime = '';
+  late int timeEnd=0;
+  late int timeStart=0;
+
   late String title = '';
   late String free = '';
+  late String duration = '';
   late int howLong;
 
   late String orderNo;
@@ -27,6 +31,10 @@ class ConsumeRecordModel {
     addtime = json['addtime'] ?? 0;
     time = json['time'] ?? '';
     refund = json['refund'] ?? 0;
+    duration= json['duration'] ?? '';
+
+    timeEnd=json['timeEnd'] ?? 0;
+    timeStart=json['timeStart'] ?? 0;
 
     name = json['name'] ?? '';
     startTime = json['startTime'] ?? '';
