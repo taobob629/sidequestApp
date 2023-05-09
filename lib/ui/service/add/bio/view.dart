@@ -67,12 +67,14 @@ class BioPage extends GetView<AddGamePageController> {
                       cursorColor: Colors.white70,
                       textAlign: TextAlign.start,
                       maxLength: 255,
+                      minLines: 4,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                         hintText: 'Please input Service Intro'.tr,
-                        counterText: '',
                         hintStyle: inputHint(),
                         border: InputBorder.none,
+                        helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
                         //  contentPadding: EdgeInsets.only(bottom: 8)
                       ),
                     ),

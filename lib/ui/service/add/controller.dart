@@ -205,6 +205,12 @@ class AddGamePageController extends GetxController {
       showToast('Please add a voice!'.tr);
       return;
     }
+    var desc = teServiceIntro.text;
+    if (desc.isEmpty) {
+      showToast('Please input a service intro!'.tr);
+      return;
+    }
+    
     updateService();
   }
 
@@ -221,10 +227,6 @@ class AddGamePageController extends GetxController {
       });
       if (nameEmpty != null) {
         showToast('Please input a name!'.tr);
-        return;
-      }
-      if (desc.isEmpty) {
-        showToast('Please input a service intro!'.tr);
         return;
       }
       if (background.isEmpty) {
