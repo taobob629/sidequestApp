@@ -80,6 +80,7 @@ class AddGamePageController extends GetxController {
   void onClose() {
     super.onClose();
     privacyCheckController.dispose();
+    teServiceIntro.dispose();
     flog('onClose ---${privacyCheckController.check()}');
   }
 
