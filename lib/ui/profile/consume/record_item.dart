@@ -379,7 +379,7 @@ class RecordItem extends StatelessWidget {
                     fontFamily: FONT_MEDIUM,
                   ),
                 ),
-                6.horizontalSpace,
+                3.horizontalSpace,
                 Container(
                   width: 60.w,
                   alignment: Alignment.centerRight,
@@ -396,7 +396,7 @@ class RecordItem extends StatelessWidget {
                 ),
               ],
             ),
-            10.verticalSpace,
+            7.verticalSpace,
             Align(
               alignment: Alignment.centerRight,
               child: Text(
