@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/event_bus/event_bus.dart';
+import 'package:wy/service/voice_player.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/badge_detail_widget.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
 import '../../game/game_home_page.dart';
@@ -173,36 +177,12 @@ class OtherDashboardPage extends StatelessWidget {
                                                     maintainAnimation: true,
                                                     maintainState: true,
                                                     maintainSize: true,
-                                                    child: GestureDetector(
-                                                      behavior: HitTestBehavior.translucent,
-                                                      onTap: () {
-                                                        OtherProfileController.find.audioManager.play(game.gameVoice);
-                                                      },
-                                                      child: Container(
-                                                        height: 30.h,
-                                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topLeft: Radius.circular(15.r),
-                                                            topRight: Radius.circular(15.r),
-                                                            bottomLeft: Radius.circular(15.r),
-                                                          ),
-                                                          gradient: LinearGradient(
-                                                            colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)],
-                                                          ),
-                                                          boxShadow: [
-                                                            BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                                            BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                                          ],
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                                            8.horizontalSpace,
-                                                            Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                    child: VoiceProfileWidget(
+                                                      voice: game.gameVoice,
+                                                      maginBottom: 0,
+                                                      marginLeft: 12.w,
+                                                      width: 70.w,
+                                                      needEdit: false,
                                                     ),
                                                   ),
                                                   EditPlayBtn(

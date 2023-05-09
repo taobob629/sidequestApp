@@ -15,6 +15,7 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_profile.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../model/pay_info_model.dart';
@@ -112,7 +113,16 @@ class OtherProfilePage extends StatelessWidget {
                                         Spacer(),
                                         Obx(() => Visibility(
                                               visible: t.player.value.voice.isNotEmpty,
-                                              child: Container(
+                                         child: VoiceProfileWidget(
+                                           pwId: UserController.find.userProfile.pwId,
+                                           voice: t.player.value.voice,
+                                           maginBottom: 0,
+                                           marginLeft: 12.w,
+                                           needEdit: t.isSelf,
+                                           width: t.isSelf ? 98.w : 80.w,
+                                           toRecordPage: ()=> t.toRecordPage(context),
+                                         ),
+                                         /*     child: Container(
                                                 width: t.isSelf ? 98.w : 60.w,
                                                 height: 30.h,
                                                 decoration: BoxDecoration(
@@ -153,7 +163,7 @@ class OtherProfilePage extends StatelessWidget {
                                                       )
                                                   ],
                                                 ),
-                                              ),
+                                              ),*/
                                             ))
                                       ],
                                     ),
