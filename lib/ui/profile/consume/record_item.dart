@@ -433,7 +433,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  model.refund == 0 ? 'Top Up'.tr : 'Top Up Refund'.tr,
+                  model.title,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
