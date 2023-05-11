@@ -605,6 +605,10 @@ class ProfileEditController extends GetxController {
       showInfo("Please set language first".tr,);
       return;
     }
+    if (curCountry.value.isEmpty) {
+      showInfo("Please choose a Country".tr,);
+      return;
+    }
     ProfileApi.updateProfile(
             nickController.text,
             signatureController.text,
