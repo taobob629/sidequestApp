@@ -136,8 +136,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
     }
   }
 
-  void onSubmit() {
-    controller.createGroup();
+  void onSubmit(Build) {
     return;
     //  if (selectedFriendList.isNotEmpty) {
     switch (controller.convType) {
@@ -185,48 +184,58 @@ class CreateGroupPage extends GetView<CreateGroupController> {
           context: context,
           child: ListView(
             children: [
-              InputView(label: 'Room Name'.tr, tips: 'Enter room name'.tr),
               InputView(
-                label: 'Number Limit'.tr,
+                label: 'Room Name'.tr,
                 tips: 'Enter room name'.tr,
-                customInput: Container(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Number Limit',
-                        style: ts1,
-                      ),
-                      Expanded(
-                          child: Container(
-                        child: PriceSlider(
-                          min: 10,
-                          max: 20,
-                          value: 15,
-                          index: 0,
-                          model: PriceRangeModel(gameCoinMax: 20, gameCoinMin: 10),
-                        ),
-                        height: 45.h,
-                      ))
-                    ],
-                  ),
-                  height: 45.h,
-                ),
+                controller: controller.teRoomName,
               ),
               InputView(
-                label: 'Game name'.tr,
-                tips: '',
-                customInput: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Number Limit',
-                      style: ts1,
-                    ),
-                    arrowMore(color: Color(0xFFC5C3C6))
-                  ],
-                ),
+                label: 'Password'.tr,
+                tips: 'Enter password'.tr,
+                obscureText: true,
+                controller: controller.tePwd,
               ),
+              // InputView(
+              //   label: 'Number Limit'.tr,
+              //   tips: 'Enter room name'.tr,
+              //   customInput: Container(
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         Text(
+              //           'Number Limit',
+              //           style: ts1,
+              //         ),
+              //         Expanded(
+              //             child: Container(
+              //           child: PriceSlider(
+              //             min: 10,
+              //             max: 20,
+              //             value: 15,
+              //             index: 0,
+              //             model: PriceRangeModel(gameCoinMax: 20, gameCoinMin: 10),
+              //           ),
+              //           height: 45.h,
+              //         ))
+              //       ],
+              //     ),
+              //     height: 45.h,
+              //   ),
+              // ),
+              // InputView(
+              //   label: 'Game name'.tr,
+              //   tips: '',
+              //   customInput: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         'Number Limit',
+              //         style: ts1,
+              //       ),
+              //       arrowMore(color: Color(0xFFC5C3C6))
+              //     ],
+              //   ),
+              // ),
               InputView(
                 label: 'Room introduction'.tr,
                 autoHeight: true,
@@ -234,6 +243,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
                 customInput: TextField(
                   maxLines: 10,
                   maxLength: 120,
+                  controller: controller.teIntrodution,
                   cursorColor: Colors.white70,
                   textAlign: TextAlign.start,
                   style: const TextStyle(color: Colors.white, fontSize: 14),
@@ -247,10 +257,13 @@ class CreateGroupPage extends GetView<CreateGroupController> {
                   ),
                 ),
               ),
+
               30.verticalSpace,
               FloatingButton(
                 label: 'Create Room',
-                onTap: onSubmit,
+                onTap: ()=>{
+                controller.createGroup(context)
+                },
               )
             ],
           )),

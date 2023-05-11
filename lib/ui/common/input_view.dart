@@ -25,6 +25,7 @@ class InputView extends StatelessWidget {
   final bool autoHeight;
   Decoration? decoration;
   bool showRightIcon;
+  bool obscureText;
 
   InputView(
       {required this.label,
@@ -33,6 +34,7 @@ class InputView extends StatelessWidget {
       this.controller,
       this.focusNode,
       this.inputFormatters,
+        this.obscureText=false,
       this.maxLength,
       this.customInput,
       this.customLabel,
@@ -95,6 +97,7 @@ class InputView extends StatelessWidget {
                             keyboardType: textInputType,
                             inputFormatters: inputFormatters,
                             maxLength: maxLength,
+                            obscureText:obscureText,
                             readOnly: readOnly,
                             style: const TextStyle(color: Colors.white, fontSize: 14),
                             onSubmitted: (text) => {},

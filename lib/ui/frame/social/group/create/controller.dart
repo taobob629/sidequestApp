@@ -4,9 +4,13 @@
     描述:
  */
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:get/get.dart';
+import 'package:wy/ui/frame/messages/chat/chat_page.dart';
+import 'package:wy/utils/index.dart';
 
 enum GroupTypeForUIKit { single, work, chat, meeting, public }
 
@@ -15,6 +19,9 @@ class CreateGroupController extends BasePageController {
   ValueChanged<V2TimConversation>? directToChat;
   final V2TIMManager _sdkInstance = TIMUIKitCore.getSDKInstance();
   List<V2TimFriendInfo> friendList = [];
+  TextEditingController teRoomName = TextEditingController();
+  TextEditingController teIntrodution = TextEditingController();
+  TextEditingController tePwd = TextEditingController();
 
   @override
   void onInit() {
@@ -24,7 +31,9 @@ class CreateGroupController extends BasePageController {
     _getConversationList();
   }
 
-  createGroup() async {
+  void create() {}
+
+  createGroup(BuildContext context) async {
     var groupType;
     switch (convType) {
       case GroupTypeForUIKit.chat:
@@ -40,39 +49,39 @@ class CreateGroupController extends BasePageController {
         groupType = GroupType.Public;
         break;
     }
-    String groupName = "test112";
-    final res = await _sdkInstance.getGroupManager().createGroup(
-          groupType: groupType,
-          groupName: groupName,
-        );
+    String groupName = teRoomName.text;
+    String desc = teIntrodution.text;
+    final res = await _sdkInstance
+        .getGroupManager()
+        .createGroup(groupType: groupType, groupName: groupName, introduction: desc);
+    // if (res.code == 0) {
+    //   var name = teRoomName.text;
+    //   var content = teIntrodution.text;
+    //   var pwd = tePwd.text;
+    //   var result = ImApi.createGroup(Map()
+    //     ..['name'] = name
+    //     ..['password'] = pwd
+    //     ..['content'] = content);
+    //    flog('result$result');
+    // }
     if (res.code == 0) {
       final groupID = res.data;
       final conversationID = "group_$groupID";
-      if (groupType == "AVChatRoom" && groupID != null) {
-        await _sdkInstance.joinGroup(groupID: groupID, message: "Hi");
-      }
       final convRes = await _sdkInstance
           .getConversationManager()
           .getConversation(conversationID: conversationID);
-      if (convRes.code == 0) {
-        final conversation = convRes.data ??
-            V2TimConversation(
-                conversationID: conversationID,
-                type: 2,
-                showName: groupName,
-                groupType: groupType,
-                groupID: groupID);
-
-        if (directToChat != null) {
-          directToChat!(conversation);
-        } else {
-          // Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) =>
-          //             Chat(selectedConversation: conversation)));
-        }
-      }
+      final conversation = convRes.data ??
+          V2TimConversation(
+              conversationID: conversationID,
+              type: 2,
+              showName: groupName,
+              groupType: groupType,
+              groupID: groupID);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ChatPage(selectedConversation: conversation)));
     }
   }
 
