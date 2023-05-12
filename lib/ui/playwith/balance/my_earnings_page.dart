@@ -68,8 +68,26 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                     {'exp': true}),
               ]),
               PWidget.boxh(10),
-              Obx(() => PWidget.text(
-                  '${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
+              Obx(() => Row(
+                    children: [
+                      PWidget.text(
+                        '${controller.diamonds}',
+                        [Color(0xffEEF3FF), 32, true],
+                      ),
+                      Spacer(),
+                      Transform.translate(
+                        offset: Offset(0, 6.h),
+                        child: Text(
+                          '£ ${(controller.diamonds / 6).toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: Color(0x80ffffff),
+                            fontSize: 18.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
             ]),
             [null, null, null],
             {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
@@ -447,16 +465,16 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                 ),
               ),
             ),
-            Obx(
-              () => Text(
-                '£ ${controller.englishMoney.value.toStringAsFixed(2)}',
-                style: TextStyle(
-                  color: Color(0xffffffff),
-                  fontSize: 14.sp,
-                  fontFamily: FONT_MEDIUM,
-                ),
-              ),
-            ),
+            // Obx(
+            //   () => Text(
+            //     '£ ${controller.englishMoney.value.toStringAsFixed(2)}',
+            //     style: TextStyle(
+            //       color: Color(0xffffffff),
+            //       fontSize: 14.sp,
+            //       fontFamily: FONT_MEDIUM,
+            //     ),
+            //   ),
+            // ),
           ],
         ));
   }

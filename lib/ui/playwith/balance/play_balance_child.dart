@@ -26,6 +26,8 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../dialog_pay_psd.dart';
+
 class PlayBalanceChild extends StatefulWidget {
   @override
   _PlayBalanceChildState createState() => _PlayBalanceChildState();
@@ -322,7 +324,7 @@ class WalletBalancePageController extends GetxListController {
     }
     double amount = double.parse(amountController.text);
 
-    englishMoney.value = amount / 6 * 0.97;
+    englishMoney.value = amount;
 
     if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
@@ -563,17 +565,17 @@ class WalletBalancePageController extends GetxListController {
       showInfo('Please Enter paypal account!'.tr);
       return;
     }
-    Get.dialog(PasswordDialog(),
-            barrierDismissible: true, barrierColor: Colors.black26)
-        .then((value) async {
-      if (value == true) {
-        if (type == "paypal") {
-          await paypalWithdrawRequest(paypalController.text, votes);
-        } else {
-          await withdrawRequest(type, votes);
-        }
+    final value = await SmartDialog.show(
+      tag: 'DialogPayPsd',
+      builder: (BuildContext context) => DialogPayPsd(diamonds: englishMoney.value),
+    );
+    if (value == true) {
+      if (type == "paypal") {
+        await paypalWithdrawRequest(paypalController.text, votes);
+      } else {
+        await withdrawRequest(type, votes);
       }
-    });
+    }
   }
 
   Future<void> paypalWithdrawRequest(String cardNumber, String votes) async {
@@ -714,7 +716,7 @@ class WalletBalancePageController extends GetxListController {
         title: 'Tips'.tr,
         info:
             'In order to receive payment via Wise, registration and verification are required in advance. After the payment is received in Wise, it can be withdrawn to Alipay internally.'
-             'Wise Registration and verification：https://wise.com/'
+                    'Wise Registration and verification：https://wise.com/'
                 .tr,
         onConfirm: () => Get.back(),
       ));
