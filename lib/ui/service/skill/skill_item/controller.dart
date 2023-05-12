@@ -172,15 +172,15 @@ class SkillItemPageController extends GetxController {
       // Discount
       discount = {
         'type': 1,
-        'discount': currentDiscount.value.name,
-        'enable': 1,
+        'discount': currentDiscount.value.name.split('%')[0],
+        'enable': promotionSwitch.value ? 1 : 0,
       };
     } else if (currentPromotion.value.id == 1) {
       // 1st OrderFree
       discount = {
         'type': 3,
-        'discount': currentOrderFree.value.name,
-        'enable': 1,
+        'discount': currentOrderFree.value.name.split('%')[0],
+        'enable': promotionSwitch.value ? 1 : 0,
       };
     } else if (currentPromotion.value.id == 2) {
       // Buy X Get Y
