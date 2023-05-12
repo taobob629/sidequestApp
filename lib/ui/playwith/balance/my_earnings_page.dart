@@ -251,8 +251,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () {
                                     if (controller.bankList.length >= 4) {
-                                      showToast(
-                                          'Only 4 bankcards allowed!'.tr);
+                                      showToast('Only 4 bankcards allowed!'.tr);
                                       return;
                                     }
                                     Get.toNamed(AppPages.BindBankCard,
@@ -445,6 +444,16 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                   ),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(top: 0),
+                ),
+              ),
+            ),
+            Obx(
+              () => Text(
+                '£ ${controller.englishMoney.value.toStringAsFixed(2)}',
+                style: TextStyle(
+                  color: Color(0xffffffff),
+                  fontSize: 14.sp,
+                  fontFamily: FONT_MEDIUM,
                 ),
               ),
             ),

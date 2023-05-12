@@ -283,6 +283,8 @@ class WalletBalancePageController extends GetxListController {
   var _iconByChargeRatio = 0.obs;
   final withdrawType = 0.obs;
 
+  var englishMoney = 0.0.obs;
+
   get iconByChargeRatio => _iconByChargeRatio.value;
 
   set iconByChargeRatio(value) {
@@ -319,6 +321,9 @@ class WalletBalancePageController extends GetxListController {
       return;
     }
     double amount = double.parse(amountController.text);
+
+    englishMoney.value = amount / 6 * 0.97;
+
     if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
     try {
