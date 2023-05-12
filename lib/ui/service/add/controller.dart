@@ -71,6 +71,8 @@ class AddGamePageController extends GetxController {
     _platform.value = value;
   }
 
+  var promotionSwitch = true.obs;
+
   List<BookingSelectModel> promotionList = [];
   var currentPromotion = BookingSelectModel().obs;
 

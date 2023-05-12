@@ -76,35 +76,51 @@ class _AddGamePageState extends State<AddGamePage> {
     return ScaffoldWidget(
       appBar: AppBar(
         title: Obx(() => PageTitle(
-              title: controller.isEdit ? '${controller.game?.name ?? ''}' : 'Add Service'.tr,
+              title: controller.isEdit
+                  ? '${controller.game?.name ?? ''}'
+                  : 'Add Service'.tr,
             )),
         centerTitle: true,
         elevation: 0,
-        actions: controller.isEdit?[IconButton(onPressed: () => controller.toBioPage(), icon: Text('Bio'))]:[],
+        actions: controller.isEdit
+            ? [
+                IconButton(
+                    onPressed: () => controller.toBioPage(), icon: Text('Bio'))
+              ]
+            : [],
       ),
-      body: PWidget.column([
-        if (1 != 1)
-          PWidget.container(
-            PWidget.row([
-              PWidget.image('assets/images/hall_ic_notice.png', [24, 24]),
-              PWidget.boxw(8),
-              Expanded(
-                child: TextScroll(
-                  'The following items are required. To ensure your interests, please fill them out truthfully'
-                      .tr,
-                  style: TextStyle(color: Color(0xff4488FF)),
+      body: Obx(() => SingleChildScrollView(
+        child: Column(
+          children: [
+            controller.isEdit && controller.serviceModel == null
+                ? buildLoad()
+                : gameMaterialsView(context),
+            15.verticalSpace,
+            Row(
+              children: [
+                15.horizontalSpace,
+                Text(
+                  'Setting Promotion',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
                 ),
-              ),
-            ]),
-            [null, null, Color(0xffDEEAFF).withOpacity(0.1)],
-            {'pd': 8},
-          ),
-        Expanded(
-          child: Obx(() => controller.isEdit && controller.serviceModel == null
-              ? buildLoad()
-              : gameMaterialsView(context)),
+                Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: controller.promotionSwitch.value,
+                    onChanged: (value) => controller.promotionSwitch.value =
+                    !controller.promotionSwitch.value,
+                  ),
+                ),
+              ],
+            ),
+            if (controller.promotionSwitch.value) _discountWidget(),
+          ],
         ),
-      ]),
+      )),
       btnBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -125,6 +141,260 @@ class _AddGamePageState extends State<AddGamePage> {
     );
   }
 
+  Widget _discountWidget() => Container(
+        margin: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Get.dialog(
+                        SelectorDialog(
+                            items: controller.promotionList,
+                            title: "Choose".tr),
+                        barrierColor: Colors.black26)
+                    .then((value) {
+                  if (value != null) {
+                    controller.currentPromotion.value = value;
+                  }
+                });
+              },
+              child: Container(
+                height: 46.h,
+                decoration: innerDecoration(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.symmetric(vertical: 15.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        controller.currentPromotion.value.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (controller.currentPromotion.value.id == 0)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Discount',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Get.dialog(
+                              SelectorDialog(
+                                  items: controller.discountList,
+                                  title: "Choose a Discount".tr),
+                              barrierColor: Colors.black26)
+                          .then((value) {
+                        if (value != null) {
+                          controller.currentDiscount.value = value;
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 46.h,
+                      decoration: innerDecoration(),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      margin: EdgeInsets.only(top: 6.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              controller.currentDiscount.value.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 18.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            if (controller.currentPromotion.value.id == 1)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '1st OrderFree',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Get.dialog(
+                              SelectorDialog(
+                                  items: controller.orderFreeList,
+                                  title: "Choose a 1st Order Free".tr),
+                              barrierColor: Colors.black26)
+                          .then((value) {
+                        if (value != null) {
+                          controller.currentOrderFree.value = value;
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 46.h,
+                      decoration: innerDecoration(),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      margin: EdgeInsets.only(top: 6.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              controller.currentOrderFree.value.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 18.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            if (controller.currentPromotion.value.id == 2)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Buy X',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Get.dialog(
+                              SelectorDialog(
+                                  items: controller.xAndYList,
+                                  title: "Choose a Buy X".tr),
+                              barrierColor: Colors.black26)
+                          .then((value) {
+                        if (value != null) {
+                          controller.currentBuyX.value = value;
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 46.h,
+                      decoration: innerDecoration(),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      margin: EdgeInsets.only(top: 6.h, bottom: 15.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              controller.currentBuyX.value.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 18.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Get Y',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Get.dialog(
+                              SelectorDialog(
+                                  items: controller.xAndYList,
+                                  title: "Choose a Get Y".tr),
+                              barrierColor: Colors.black26)
+                          .then((value) {
+                        if (value != null) {
+                          controller.currentGetY.value = value;
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 46.h,
+                      decoration: innerDecoration(),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      margin: EdgeInsets.only(top: 6.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              controller.currentGetY.value.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 18.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ),
+      );
+
   update() async {
     if (controller.privacyCheckController.check() == false) return;
     // var fields = buildFiledsParams();
@@ -132,13 +402,17 @@ class _AddGamePageState extends State<AddGamePage> {
     var priceRanges = controller.mPriceRanges;
     // flog('priceRanges ${json.encode(priceRanges)}');
     //   return;
-    if (isUploadFile) return showToast('Uploading failed, please try again later'.tr);
+    if (isUploadFile)
+      return showToast('Uploading failed, please try again later'.tr);
     //  if (isSending) return SmartDialog.showToast('Submitting');
-    if (controller.platform == null) return showToast('Please select category'.tr);
+    if (controller.platform == null)
+      return showToast('Please select category'.tr);
     if (controller.game == null) return showToast('Please select service'.tr);
-    if (controller.platformIndex == null) return showToast('Please select category'.tr);
+    if (controller.platformIndex == null)
+      return showToast('Please select category'.tr);
     var list = controller.services[controller.platformIndex].skill;
-    if (controller.gameIndex == null) return showToast('Please select service'.tr);
+    if (controller.gameIndex == null)
+      return showToast('Please select service'.tr);
     var levels = list[controller.gameIndex].level;
     if (levels.isNotEmpty) {
       if (controller.gameLv == null) return showToast('Please select rank'.tr);
@@ -237,12 +511,16 @@ class _AddGamePageState extends State<AddGamePage> {
                       if (controller.isEdit) return;
                       flog('${controller.services.isEmpty}');
                       if (controller.services.isEmpty)
-                        return showToast('Please check the network settings'.tr);
+                        return showToast(
+                            'Please check the network settings'.tr);
                       var res = await Get.dialog(
                         Obx(() => SelectorDialog(
-                              items: List.generate(controller.services.length, (i) {
-                                return VerifyField.fromJson(
-                                    {'name': '$i', 'label': controller.services[i].name});
+                              items: List.generate(controller.services.length,
+                                  (i) {
+                                return VerifyField.fromJson({
+                                  'name': '$i',
+                                  'label': controller.services[i].name
+                                });
                               }),
                               title: "Select Category".tr,
                               showInfo: true,
@@ -252,7 +530,8 @@ class _AddGamePageState extends State<AddGamePage> {
                       if (res != null) {
                         setState(() {
                           controller.platformIndex = int.parse(res.name);
-                          controller.platform = controller.services[controller.platformIndex];
+                          controller.platform =
+                              controller.services[controller.platformIndex];
                           controller.priceRanges.clear();
                           controller.gameIndex = null;
                           controller.game = null;
@@ -270,7 +549,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       PWidget.text('Service'.tr, [textColor]),
                       PWidget.boxw(8),
                       PWidget.text(
-                          controller.game == null ? 'Please select'.tr : controller.game?.name,
+                          controller.game == null
+                              ? 'Please select'.tr
+                              : controller.game?.name,
                           [textColor, 12.sp],
                           {'ali': 1, 'exp': true}),
                       rightJtView(14.sp, textColor),
@@ -279,12 +560,14 @@ class _AddGamePageState extends State<AddGamePage> {
                       if (controller.isEdit) return;
                       if (controller.platformIndex == null)
                         return showToast('Please select category first'.tr);
-                      var list = controller.services[controller.platformIndex].skill;
+                      var list =
+                          controller.services[controller.platformIndex].skill;
                       if (list.isEmpty) return showToast('No service'.tr);
                       var res = await Get.dialog(
                         SelectorDialog(
                           items: List.generate(list.length, (i) {
-                            return VerifyField.fromJson({'name': '$i', 'label': list[i].name});
+                            return VerifyField.fromJson(
+                                {'name': '$i', 'label': list[i].name});
                           }),
                           title: "Select Service".tr,
                           showInfo: true,
@@ -305,7 +588,8 @@ class _AddGamePageState extends State<AddGamePage> {
                   ),
                 Builder(builder: (context) {
                   if (controller.platformIndex == null) return PWidget.boxh(0);
-                  var list = controller.services[controller.platformIndex].skill;
+                  var list =
+                      controller.services[controller.platformIndex].skill;
                   if (controller.gameIndex == null) return PWidget.boxh(0);
                   var levels = list[controller.gameIndex].level;
                   if (levels.isEmpty) return PWidget.boxh(0);
@@ -313,7 +597,8 @@ class _AddGamePageState extends State<AddGamePage> {
                 }),
                 Builder(builder: (context) {
                   if (controller.platformIndex == null) return PWidget.boxh(0);
-                  var list = controller.services[controller.platformIndex].skill;
+                  var list =
+                      controller.services[controller.platformIndex].skill;
                   if (controller.gameIndex == null) return PWidget.boxh(0);
                   var levels = list[controller.gameIndex].level;
                   if (levels.isEmpty) return PWidget.boxh(0);
@@ -322,7 +607,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       PWidget.text('Rank'.tr, [textColor]),
                       PWidget.boxw(8),
                       PWidget.text(
-                          controller.gameLv == null ? 'Please select'.tr : controller.gameLv?.name,
+                          controller.gameLv == null
+                              ? 'Please select'.tr
+                              : controller.gameLv?.name,
                           [textColor, 12.sp],
                           {'ali': 1, 'exp': true}),
                       rightJtView(16, textColor),
@@ -330,14 +617,16 @@ class _AddGamePageState extends State<AddGamePage> {
                     fun: () async {
                       if (controller.platformIndex == null)
                         return showToast('Please select category first'.tr);
-                      var list = controller.services[controller.platformIndex].skill;
+                      var list =
+                          controller.services[controller.platformIndex].skill;
                       if (controller.gameIndex == null)
                         return showToast('Please select service first'.tr);
                       var levels = list[controller.gameIndex].level;
                       var res = await Get.dialog(
                         SelectorDialog(
                           items: List.generate(levels.length, (i) {
-                            return VerifyField.fromJson({'name': '$i', 'label': levels[i].name});
+                            return VerifyField.fromJson(
+                                {'name': '$i', 'label': levels[i].name});
                           }),
                           title: "Select Rank".tr,
                           showInfo: true,
@@ -425,8 +714,10 @@ class _AddGamePageState extends State<AddGamePage> {
   }
 
   TextStyle text_style() => TextStyle(
-      color: textColor, fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis);
-
+      color: textColor,
+      fontSize: 14.sp,
+      fontFamily: FONT_LIGHT,
+      overflow: TextOverflow.ellipsis);
 
   fieldsRange(BuildContext? context) => FieldsWidget();
 
@@ -455,7 +746,9 @@ class _AddGamePageState extends State<AddGamePage> {
                 Positioned.fill(
                     child: Container(
                   child: ImageUtil.networkImage(
-                      url: controller.gamePhotos[i], fit: BoxFit.cover, border: 10.r),
+                      url: controller.gamePhotos[i],
+                      fit: BoxFit.cover,
+                      border: 10.r),
                   margin: EdgeInsets.only(top: 10),
                   decoration: itemDecoration(),
                 )),
@@ -508,7 +801,8 @@ Widget outerBg(Widget view, {EdgeInsets? padding}) {
   );
 }
 
-BoxDecoration innerDecoration() => itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r);
+BoxDecoration innerDecoration() =>
+    itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r);
 
 Widget innnerBg(Widget view) {
   return Container(
