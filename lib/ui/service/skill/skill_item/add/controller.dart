@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ import 'package:wy/model/skill_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../../../../model/booking_model.dart';
 import '../../../../../utils/toast_utils.dart';
 
 /*
@@ -42,6 +45,21 @@ class SkillItemAddPageController extends BasePageController {
     _price.value = value;
   }
 
+  var promotionSwitch = false.obs;
+
+  List<BookingSelectModel> promotionList = [];
+  var currentPromotion = BookingSelectModel().obs;
+
+  List<BookingSelectModel> discountList = [];
+  var currentDiscount = BookingSelectModel().obs;
+
+  List<BookingSelectModel> orderFreeList = [];
+  var currentOrderFree = BookingSelectModel().obs;
+
+  List<BookingSelectModel> xAndYList = [];
+  var currentBuyX = BookingSelectModel().obs;
+  var currentGetY = BookingSelectModel().obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -67,6 +85,65 @@ class SkillItemAddPageController extends BasePageController {
     priceRange=priceRanges.first;
     price = priceRange?.gameCoinMin??0;
     unit=priceRange?.unit??"";
+
+    BookingSelectModel model = BookingSelectModel();
+    model.id = 0;
+    model.name = "Discount";
+    promotionList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "1st Order Free";
+    promotionList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "Buy X Get Y Free";
+    promotionList.add(model);
+    currentPromotion.value = promotionList[0];
+
+    model = BookingSelectModel();
+    model.id = 0;
+    model.name = "5% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "10% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "15% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 3;
+    model.name = "20% Off";
+    discountList.add(model);
+    currentDiscount.value = discountList[0];
+
+    model = BookingSelectModel();
+    model.id = 0;
+    model.name = "30% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "50% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "80% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 3;
+    model.name = "100% Off";
+    orderFreeList.add(model);
+    currentOrderFree.value = orderFreeList[0];
+
+    for (int i = 1; i <= 10; i++) {
+      model = BookingSelectModel();
+      model.id = i;
+      model.name = "$i";
+      xAndYList.add(model);
+    }
+
+    currentBuyX.value = currentGetY.value = xAndYList[0];
   }
 
   onConfirm() async {
@@ -74,6 +151,31 @@ class SkillItemAddPageController extends BasePageController {
       showToast('Please Input a name'.tr);
       return;
     }
+    Map discount = {};
+    if (currentPromotion.value.id == 0) {
+      // Discount
+      discount = {
+        'type': 1,
+        'discount': currentDiscount.value.name,
+        'enable': 1,
+      };
+    } else if (currentPromotion.value.id == 1) {
+      // 1st OrderFree
+      discount = {
+        'type': 3,
+        'discount': currentOrderFree.value.name,
+        'enable': 1,
+      };
+    } else if (currentPromotion.value.id == 2) {
+      // Buy X Get Y
+      discount = {
+        'type': 2,
+        'buy': currentBuyX.value.name,
+        'get': currentGetY.value.name,
+        'enable': 1,
+      };
+    }
+
     showLoading();
     var response = await UserApi.addSkillItem(Map<String, dynamic>()
       ..['name'] = teContent.text
@@ -83,6 +185,7 @@ class SkillItemAddPageController extends BasePageController {
       ..['id'] = null
       ..['skillName'] = model?.skillName
       ..['price'] = price
+      ..['discount'] = json.encode(discount)
       ..['levelId'] = model?.levelid
       ..['enabled'] = 1);
     dismissLoading();

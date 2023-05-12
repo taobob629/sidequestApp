@@ -7,6 +7,7 @@ class SkillItemConfigModel {
     this.priceRangeMin,
     this.level,
     this.priceRangeMax,
+    this.discount,
   });
 
   SkillItemConfigModel.fromJson(dynamic json) {
@@ -23,6 +24,7 @@ class SkillItemConfigModel {
     name = json['name'];
     unit = json['unit'];
     enabled = json['enabled'] ?? 1;
+    discount = json['discount'];
   }
 
   double? priceRangeMin;
@@ -32,6 +34,7 @@ class SkillItemConfigModel {
   String? name;
   int? enabled;
   double? priceRangeMax;
+  String? discount;
 
   SkillItemConfigModel copyWith({
     double? priceRangeMin,
@@ -47,6 +50,7 @@ class SkillItemConfigModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['priceRangeMin'] = priceRangeMin;
+    map['discount'] = discount;
     map['level'] = level;
     map['unit'] = unit;
     map['priceRangeMax'] = priceRangeMax;

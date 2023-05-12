@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
@@ -21,6 +22,8 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../common/dialog_selector.dart';
+import '../../add/add_game_page.dart';
 import 'controller.dart';
 
 class SkillItemPage extends GetView<SkillItemPageController> {
@@ -39,7 +42,9 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       body: Padding(
           padding: EdgeInsets.all(16),
           child: Obx(
-            () => controller.skillModel == null ? buildLoad() : PWidget.column(items()),
+            () => controller.skillModel == null
+                ? buildLoad()
+                : PWidget.column(items()),
           )),
       btnBar: FloatingButton(
         onTap: () => controller.addGame(),
@@ -51,9 +56,10 @@ class SkillItemPage extends GetView<SkillItemPageController> {
   items() {
     double priceRangeMax = controller.skillModel?.priceRangeMax ?? 0;
     double priceRangeMin = controller.skillModel?.priceRangeMin ?? 0;
-    var value = (controller.price > priceRangeMax || controller.price < priceRangeMin)
-        ? 0
-        : controller.price;
+    var value =
+        (controller.price > priceRangeMax || controller.price < priceRangeMin)
+            ? 0
+            : controller.price;
     return [
       PWidget.boxh(16),
       itemBg(PWidget.row([
@@ -80,7 +86,8 @@ class SkillItemPage extends GetView<SkillItemPageController> {
             child: PriceSlider(
                 min: controller.skillModel?.priceRangeMin?.toDouble() ?? 0,
                 max: controller.skillModel?.priceRangeMax?.toDouble() ?? 0,
-                value: (controller.price > priceRangeMax || controller.price < priceRangeMin)
+                value: (controller.price > priceRangeMax ||
+                        controller.price < priceRangeMin)
                     ? priceRangeMin
                     : controller.price,
                 fun: (v) => controller.price = v)),
@@ -101,12 +108,284 @@ class SkillItemPage extends GetView<SkillItemPageController> {
         )
         //  fun: (v) => priceRangeCon.text = '${v.toInt()}',
       ])),
+      15.verticalSpace,
+      Row(
+        children: [
+          Text(
+            'Setting Promotion',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
+          ),
+          Transform.scale(
+            scale: 0.8,
+            child: CupertinoSwitch(
+              value: controller.promotionSwitch.value,
+              onChanged: (value) => controller.promotionSwitch.value =
+                  !controller.promotionSwitch.value,
+            ),
+          ),
+        ],
+      ),
+      if (controller.promotionSwitch.value) _discountWidget(),
     ];
   }
 
+  Widget _discountWidget() => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Get.dialog(
+                      SelectorDialog(
+                          items: controller.promotionList, title: "Choose".tr),
+                      barrierColor: Colors.black26)
+                  .then((value) {
+                if (value != null) {
+                  controller.currentPromotion.value = value;
+                }
+              });
+            },
+            child: Container(
+              height: 46.h,
+              decoration: innerDecoration(),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      controller.currentPromotion.value.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Colors.white,
+                    size: 18.sp,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (controller.currentPromotion.value.id == 0)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Discount',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                            SelectorDialog(
+                                items: controller.discountList,
+                                title: "Choose a Discount".tr),
+                            barrierColor: Colors.black26)
+                        .then((value) {
+                      if (value != null) {
+                        controller.currentDiscount.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            controller.currentDiscount.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          if (controller.currentPromotion.value.id == 1)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '1st OrderFree',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                            SelectorDialog(
+                                items: controller.orderFreeList,
+                                title: "Choose a 1st Order Free".tr),
+                            barrierColor: Colors.black26)
+                        .then((value) {
+                      if (value != null) {
+                        controller.currentOrderFree.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            controller.currentOrderFree.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          if (controller.currentPromotion.value.id == 2)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Buy X',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                            SelectorDialog(
+                                items: controller.xAndYList,
+                                title: "Choose a Buy X".tr),
+                            barrierColor: Colors.black26)
+                        .then((value) {
+                      if (value != null) {
+                        controller.currentBuyX.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h, bottom: 15.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            controller.currentBuyX.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  'Get Y',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                            SelectorDialog(
+                                items: controller.xAndYList,
+                                title: "Choose a Get Y".tr),
+                            barrierColor: Colors.black26)
+                        .then((value) {
+                      if (value != null) {
+                        controller.currentGetY.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            controller.currentGetY.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+        ],
+      );
+
   Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(
-        view, [null, 45, AppColor.itemBg2], {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
+    return PWidget.container(view, [null, 45, Color(0xFF2D2E3C)],
+        {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 16), 'fun': fun});
   }
 }
 
@@ -127,7 +406,13 @@ class PriceSlider extends GetView<SkillItemPageController> {
 
   final Function(double)? fun;
 
-  PriceSlider({this.max, this.min, this.fun, this.value = 0, this.model, this.index = 0}) {
+  PriceSlider(
+      {this.max,
+      this.min,
+      this.fun,
+      this.value = 0,
+      this.model,
+      this.index = 0}) {
     this.price = value;
   }
 
@@ -146,20 +431,22 @@ class PriceSlider extends GetView<SkillItemPageController> {
           min: min!,
           handlerWidth: 40.w,
           trackBar: FlutterSliderTrackBar(
-            inactiveTrackBar:
-                BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
-            activeTrackBar:
-                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+            inactiveTrackBar: BoxDecoration(
+                color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+            activeTrackBar: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(8)),
           ),
           tooltip: FlutterSliderTooltip(
             positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
             custom: (v) => PWidget.container(
               PWidget.row([
-                Image.asset("assets/images/ic_balance_money.webp", width: 16, height: 16),
+                Image.asset("assets/images/ic_balance_money.webp",
+                    width: 16, height: 16),
                 PWidget.boxw(4),
                 PWidget.text('${double.parse('$v').toInt()}'),
                 PWidget.boxw(4),
-                PWidget.text('(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
+                PWidget.text(
+                    '(£${(double.parse('$v') / 6.0).toStringAsFixed(2)})'),
               ]),
               [null, null, Colors.white],
               {'pd': PFun.lg(4, 4, 8, 8), 'br': 56},
@@ -169,10 +456,12 @@ class PriceSlider extends GetView<SkillItemPageController> {
             child: Container(
               padding: EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 2).r,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white),
               child: Text(
                 '${price.toInt()}',
-                style: TextStyle(color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
+                style: TextStyle(
+                    color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
               ),
             ),
             foregroundDecoration: BoxDecoration(),

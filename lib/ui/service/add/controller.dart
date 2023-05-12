@@ -29,6 +29,7 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
+import '../../../model/booking_model.dart';
 import '../../../utils/toast_utils.dart';
 import '../skill/list/controller.dart';
 
@@ -70,10 +71,82 @@ class AddGamePageController extends GetxController {
     _platform.value = value;
   }
 
+  List<BookingSelectModel> promotionList = [];
+  var currentPromotion = BookingSelectModel().obs;
+
+  List<BookingSelectModel> discountList = [];
+  var currentDiscount = BookingSelectModel().obs;
+
+  List<BookingSelectModel> orderFreeList = [];
+  var currentOrderFree = BookingSelectModel().obs;
+
+  List<BookingSelectModel> xAndYList = [];
+  var currentBuyX = BookingSelectModel().obs;
+  var currentGetY = BookingSelectModel().obs;
+
   @override
   void onInit() {
     super.onInit();
     isShowVoice = showVoice();
+
+    BookingSelectModel model = BookingSelectModel();
+    model.id = 0;
+    model.name = "Discount";
+    promotionList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "1st Order Free";
+    promotionList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "Buy X Get Y Free";
+    promotionList.add(model);
+    currentPromotion.value = promotionList[0];
+
+    model = BookingSelectModel();
+    model.id = 0;
+    model.name = "5% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "10% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "15% Off";
+    discountList.add(model);
+    model = BookingSelectModel();
+    model.id = 3;
+    model.name = "20% Off";
+    discountList.add(model);
+    currentDiscount.value = discountList[0];
+
+    model = BookingSelectModel();
+    model.id = 0;
+    model.name = "30% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 1;
+    model.name = "50% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 2;
+    model.name = "80% Off";
+    orderFreeList.add(model);
+    model = BookingSelectModel();
+    model.id = 3;
+    model.name = "100% Off";
+    orderFreeList.add(model);
+    currentOrderFree.value = orderFreeList[0];
+
+    for (int i = 1; i <= 10; i++) {
+      model = BookingSelectModel();
+      model.id = i;
+      model.name = "$i";
+      xAndYList.add(model);
+    }
+
+    currentBuyX.value = currentGetY.value = xAndYList[0];
   }
 
   @override
