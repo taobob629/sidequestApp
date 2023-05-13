@@ -13,6 +13,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/social/group/create/controller.dart';
 import 'package:wy/utils/toast_utils.dart';
 
+import 'chat/chat_page.dart';
+
 class MessagesPageController extends BasePageController {
   static MessagesPageController get find => Get.find();
   var popMenus = ['Scan', 'Create Room', 'Friends', 'Share'];
@@ -57,14 +59,32 @@ class MessagesPageController extends BasePageController {
     Get.toNamed(AppPages.CreateGroup, arguments: Map()..['convType'] = GroupTypeForUIKit.public);
   }
 
+  /**
+   * @TGS#2Y65HYWLEP woshiliaotian
+   */
   Future<void> testAddGroup() async {
+    var groupId='@TGS#2Y65HYWLEP';
     V2TimCallback joinGroupRes = await TencentImSDKPlugin.v2TIMManager.joinGroup(
         groupID: "@TGS#2Y65HYWLEP", // 需要加入群组 ID
         message: "hello", // 加群申请信息
         groupType: "Public"); // 群类型
     if (joinGroupRes.code == 0) {
       // 加入成功
-      showToast("加入成功");
+      final conversationID = "group_$groupId";
+      final convRes = await TIMUIKitCore.getSDKInstance()
+          .getConversationManager()
+          .getConversation(conversationID: conversationID);
+      if (convRes.code == 0) {
+        final conversation = convRes.data ??
+            V2TimConversation(
+                conversationID: conversationID,
+                type: 2,
+                groupID: groupId);
+        Get.to(
+            ChatPage(selectedConversation: conversation));
+        showToast("加入成功");
+        //跳转到chatpage
+      }
 
     }
   }

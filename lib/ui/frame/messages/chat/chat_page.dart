@@ -29,10 +29,17 @@ class ChatPage extends StatelessWidget {
   final String orderSn;
   final V2TimMessage? initFindingMsg;
 
-  ChatPage({Key? key, required this.selectedConversation, this.orderSn = '',  this.initFindingMsg,}) : super(key: key);
+  ChatPage({
+    Key? key,
+    required this.selectedConversation,
+    this.orderSn = '',
+    this.initFindingMsg,
+  }) : super(key: key);
 
   String? _getConvID() {
-    return selectedConversation.type == 1 ? selectedConversation.userID : selectedConversation.groupID;
+    return selectedConversation.type == 1
+        ? selectedConversation.userID
+        : selectedConversation.groupID;
   }
 
   String pwId = "";
@@ -53,37 +60,39 @@ class ChatPage extends StatelessWidget {
     getUserId();
 
     return TIMUIKitChat(
-      appBarConfig:selectedConversation.type == 1? AppBar(backgroundColor: Colors.transparent, elevation: 0):AppBar(
-        actions: [
-          IconButton(
-              padding: const EdgeInsets.only(left: 8, right: 16),
-              onPressed: () async {
-                final conversationType = selectedConversation.type;
+      appBarConfig: selectedConversation.type == 1
+          ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
+          : AppBar(
+              actions: [
+                IconButton(
+                    padding: const EdgeInsets.only(left: 8, right: 16),
+                    onPressed: () async {
+                      final conversationType = selectedConversation.type;
 
-                if (conversationType == 1) {
-                  final userID = selectedConversation.userID;
-                  // if had remark modified its will back new remark
+                      if (conversationType == 1) {
+                        final userID = selectedConversation.userID;
+                        // if had remark modified its will back new remark
 
-                } else {
-                  final groupID = selectedConversation.groupID;
-                  if (groupID != null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GroupProfilePage(
-                            groupID: groupID,
-                          ),
-                        ));
-                  }
-                }
-              },
-              icon: Icon(
-                Icons.more_horiz,
-                color: hexToColor("010000"),
-                size: 20,
-              ))
-        ],
-      ),
+                      } else {
+                        final groupID = selectedConversation.groupID;
+                        if (groupID != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GroupProfilePage(
+                                  groupID: groupID,
+                                ),
+                              ));
+                        }
+                      }
+                    },
+                    icon: Icon(
+                      Icons.more_horiz,
+                      color: Colors.white,
+                      size: 20,
+                    ))
+              ],
+            ),
       config: TIMUIKitChatConfig(
         isUseDefaultEmoji: true,
       ),
@@ -117,7 +126,8 @@ class ChatPage extends StatelessWidget {
                     height: 64,
                     width: 64,
                     margin: const EdgeInsets.only(bottom: 4),
-                    decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
+                    decoration: const BoxDecoration(
+                        color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: Image.asset(
                       "assets/images/post/icon_gift.png",
                       height: 64,
@@ -133,7 +143,8 @@ class ChatPage extends StatelessWidget {
                   width: 60.w,
                   height: 60.h,
                   // padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(color: AppColor.color2E3C, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                      color: AppColor.color2E3C, borderRadius: BorderRadius.circular(10)),
                   alignment: Alignment.center,
                   child: Image.asset(
                     "assets/images/im/icon_${item.title.toLowerCase()}.webp",
@@ -199,7 +210,8 @@ class ChatPage extends StatelessWidget {
           shape: BoxShape.circle,
         );
       },
-      messageItemBuilder: MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
+      messageItemBuilder:
+          MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
         var type = data['type'];
@@ -212,11 +224,13 @@ class ChatPage extends StatelessWidget {
           onTap: () {
             switch (type) {
               case "play_order":
-                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])?.whenComplete(() => _getPlayOrder());
+                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])
+                    ?.whenComplete(() => _getPlayOrder());
                 break;
               case "TopUp_Credit":
                 int orderId = json['orderId'];
-                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)?.whenComplete(() => _getPlayOrder());
+                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)
+                    ?.whenComplete(() => _getPlayOrder());
                 break;
               case "PostMessage":
                 NavigatorHelper.toPostDetail(data["postId"]);
@@ -232,7 +246,8 @@ class ChatPage extends StatelessWidget {
           ),
         );
       }),
-      conversation: selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.
+      conversation:
+          selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.
     );
   }
 
@@ -256,7 +271,11 @@ class ChatPage extends StatelessWidget {
           baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
           isEmoji: customEmojiPackage.isEmoji,
           isDefaultEmoji: true,
-          stickerList: customEmojiPackage.list.asMap().keys.map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx])).toList(),
+          stickerList: customEmojiPackage.list
+              .asMap()
+              .keys
+              .map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
+              .toList(),
           menuItem: CustomSticker(
             index: 0,
             name: customEmojiPackage.icon,
