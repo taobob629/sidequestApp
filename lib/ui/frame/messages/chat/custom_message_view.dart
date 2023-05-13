@@ -7,6 +7,11 @@ import 'package:get/get.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/image_utils.dart';
+import 'package:wy/res/index.dart';
+
+class MessageType {
+  static const TYPE_INVITE = 'invite';
+}
 
 class CustomMessageView extends StatelessWidget {
   var type;
@@ -30,6 +35,8 @@ class CustomMessageView extends StatelessWidget {
         return _orderWidget();
       case "PostMessage":
         return _postMsgItem();
+      case MessageType.TYPE_INVITE:
+        return _inviteWidget();
       default:
         return Text(
           "Unsupported message type, please update your app!",
@@ -85,6 +92,18 @@ class CustomMessageView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _inviteWidget() {
+    return Container(
+        padding: EdgeInsets.all(16).r,
+        width: width,
+        alignment: Alignment.center,
+        decoration: itemDecoration(color: AppColor.navBarInactive),
+        child: Text(
+          '${data['invitor']} ${'has invite you join'.tr} room " ${data['group_name']}" ',
+          style: TextStyle(color: Colors.white, fontSize: 12.sp),
+        ));
   }
 
   Widget _topUpCreditWidget() => Container(

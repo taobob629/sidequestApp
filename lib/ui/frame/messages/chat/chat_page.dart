@@ -4,7 +4,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
@@ -14,7 +13,9 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/frame/messages/group/group_profile.dart';
+import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import '../../../../model/play_order_detail_model.dart';
 import '../../social/post/view/gift_animation.dart';
@@ -218,7 +219,7 @@ class ChatPage extends StatelessWidget {
         if (data["message"] != null) {
           data = data['message'];
         }
-        print('data = $data');
+        flog('data = $data');
 
         return GestureDetector(
           onTap: () {
@@ -235,7 +236,9 @@ class ChatPage extends StatelessWidget {
               case "PostMessage":
                 NavigatorHelper.toPostDetail(data["postId"]);
                 // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
-
+                break;
+              case MessageType.TYPE_INVITE:
+                ImUtils.joniGroup(context,data['gid']);
                 break;
               default:
             }

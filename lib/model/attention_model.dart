@@ -29,6 +29,13 @@ class AttentionModel {
   String signature = "";
   int isfans = 0;
   int id = 0;
+  RxBool _isSelet=RxBool(false);
+
+  bool get isSelet => _isSelet.value;
+
+  set isSelet(bool value) {
+    _isSelet.value = value;
+  }
 
   bool get isFans => isfans == 1;
 

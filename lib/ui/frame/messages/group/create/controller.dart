@@ -51,9 +51,11 @@ class CreateGroupController extends BasePageController {
     }
     String groupName = teRoomName.text;
     String desc = teIntrodution.text;
-    final res = await _sdkInstance
-        .getGroupManager()
-        .createGroup(groupType: groupType, groupName: groupName, introduction: desc);
+    final res = await _sdkInstance.getGroupManager().createGroup(
+        groupType: groupType,
+        groupName: groupName,
+        introduction: desc,
+        addOpt: GroupAddOptTypeEnum.V2TIM_GROUP_ADD_ANY);
     // if (res.code == 0) {
     //   var name = teRoomName.text;
     //   var content = teIntrodution.text;
@@ -77,11 +79,8 @@ class CreateGroupController extends BasePageController {
               showName: groupName,
               groupType: groupType,
               groupID: groupID);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ChatPage(selectedConversation: conversation)));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => ChatPage(selectedConversation: conversation)));
     }
   }
 

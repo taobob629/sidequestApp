@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
+import 'package:wy/ui/frame/messages/group/create/bindings.dart';
+import 'package:wy/ui/frame/messages/group/create/create_group.dart';
 import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/bindings.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/view.dart';
@@ -10,8 +13,6 @@ import 'package:wy/ui/frame/profile/vip/vip_page.dart';
 import 'package:wy/ui/frame/sidekick/search/bindings.dart';
 import 'package:wy/ui/frame/sidekick/search/search_page.dart';
 import 'package:wy/ui/frame/sidekick/view.dart';
-import 'package:wy/ui/frame/social/group/create/bindings.dart';
-import 'package:wy/ui/frame/social/group/create/create_group.dart';
 import 'package:wy/ui/frame/social/post/page/post_detail_page.dart';
 import 'package:wy/ui/login/choose_game/bindings.dart';
 import 'package:wy/ui/login/choose_game/view.dart';
@@ -99,6 +100,7 @@ class AppPages {
   static const side_kick_match_suc_page = '/side_kick_match_suc_page';
   static const side_kick_matching_page = '/side_kick_matching_page';
   static const bio_page = '/bio_page';
+  static const FollowList = '/folllow_list';
 
   static final routes = [
     GetPage(
@@ -228,6 +230,10 @@ class AppPages {
       name: CreateGroup,
       binding: CreateGroupBinding(),
       page: () => CreateGroupPage(),
+    ),
+    GetPage(
+      name: FollowList,
+      page: () => FollowListPage(),
     ),
   ];
 }

@@ -10,14 +10,14 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/ui/frame/social/group/create/controller.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import 'chat/chat_page.dart';
+import 'group/create/controller.dart';
 
 class MessagesPageController extends BasePageController {
   static MessagesPageController get find => Get.find();
-  var popMenus = ['Scan', 'Create Room', 'Friends', 'Share'];
+  var popMenus = ['Scan', 'Create Room'];
   var showMenu = false.obs;
   var tabs = [
     "Message".tr,

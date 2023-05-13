@@ -2,10 +2,10 @@
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
-
 
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitGroupProfile/group_member/tui_add_group_member.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitGroupProfile/group_member/tui_delete_group_member.dart';
@@ -14,6 +14,8 @@ import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
+import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 
 class GroupMemberTile extends TIMUIKitStatelessWidget {
   GroupMemberTile({
@@ -69,9 +71,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                 showName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: theme.weakTextColor,
-                    fontSize: 10),
+                    overflow: TextOverflow.ellipsis, color: theme.weakTextColor, fontSize: 10),
               )
             ],
           ),
@@ -80,8 +80,8 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
     }).toList();
   }
 
-  List<Widget> _inviteMemberBuilder(bool isCanInviteMember,
-      bool isCanKickOffMember, theme, BuildContext context) {
+  List<Widget> _inviteMemberBuilder(
+      bool isCanInviteMember, bool isCanKickOffMember, theme, BuildContext context) {
     return [];
   }
 
@@ -105,31 +105,26 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
             padding: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(
-                        color: theme.weakDividerColor ??
-                            CommonColor.weakDividerColor))),
+                    bottom:
+                        BorderSide(color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
             child: InkWell(
               onTap: () async {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroupProfileMemberListPage(
-                          model: model, memberList: memberList),
+                      builder: (context) =>
+                          GroupProfileMemberListPage(model: model, memberList: memberList),
                     ));
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(TIM_t("群成员"),
-                      style:
-                          TextStyle(color: theme.darkTextColor, fontSize: 16)),
+                  Text(TIM_t("群成员"), style: TextStyle(color: theme.darkTextColor, fontSize: 16)),
                   Row(
                     children: [
                       Text(
-                        TIM_t_para("{{option1}}人", "$option1人")(
-                            option1: option1),
-                        style:
-                            TextStyle(color: theme.darkTextColor, fontSize: 16),
+                        TIM_t_para("{{option1}}人", "$option1人")(option1: option1),
+                        style: TextStyle(color: theme.darkTextColor, fontSize: 16),
                       ),
                       Icon(
                         Icons.keyboard_arrow_right,
@@ -161,12 +156,8 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                         height: 48,
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddGroupMemberPage(model: model),
-                                ));
+                            FollowListPage.to(
+                                gid: model.groupID, groupName: model.groupInfo?.groupName);
                           },
                           icon: const Icon(Icons.add),
                           color: theme.weakTextColor,
@@ -190,8 +181,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      DeleteGroupMemberPage(model: model),
+                                  builder: (context) => DeleteGroupMemberPage(model: model),
                                 ));
                           },
                           icon: const Icon(Icons.remove),
@@ -215,8 +205,8 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroupProfileMemberListPage(
-                          model: model, memberList: memberList),
+                      builder: (context) =>
+                          GroupProfileMemberListPage(model: model, memberList: memberList),
                     ));
               },
             ),

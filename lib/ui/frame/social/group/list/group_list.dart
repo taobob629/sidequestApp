@@ -10,10 +10,10 @@ import 'package:tencent_cloud_chat_uikit/ui/utils/screen_utils.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/messages/chat/chat_page.dart';
+import 'package:wy/ui/frame/messages/group/create/create_group_introduction.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/tim_ui/my_tim_uikit_group.dart';
 
-import '../create/create_group_introduction.dart';
 
 class GroupList extends StatelessWidget {
   final sdkInstance = TIMUIKitCore.getSDKInstance();
