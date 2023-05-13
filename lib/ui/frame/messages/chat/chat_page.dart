@@ -4,6 +4,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
@@ -12,6 +13,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
+import 'package:wy/ui/frame/messages/group/group_profile.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../model/play_order_detail_model.dart';
@@ -25,8 +27,9 @@ class ChatController extends GetxController {}
 class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
   final String orderSn;
+  final V2TimMessage? initFindingMsg;
 
-  ChatPage({Key? key, required this.selectedConversation, this.orderSn = ''}) : super(key: key);
+  ChatPage({Key? key, required this.selectedConversation, this.orderSn = '',  this.initFindingMsg,}) : super(key: key);
 
   String? _getConvID() {
     return selectedConversation.type == 1 ? selectedConversation.userID : selectedConversation.groupID;
@@ -50,10 +53,41 @@ class ChatPage extends StatelessWidget {
     getUserId();
 
     return TIMUIKitChat(
-      appBarConfig: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      appBarConfig:selectedConversation.type == 1? AppBar(backgroundColor: Colors.transparent, elevation: 0):AppBar(
+        actions: [
+          IconButton(
+              padding: const EdgeInsets.only(left: 8, right: 16),
+              onPressed: () async {
+                final conversationType = selectedConversation.type;
+
+                if (conversationType == 1) {
+                  final userID = selectedConversation.userID;
+                  // if had remark modified its will back new remark
+
+                } else {
+                  final groupID = selectedConversation.groupID;
+                  if (groupID != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GroupProfilePage(
+                            groupID: groupID,
+                          ),
+                        ));
+                  }
+                }
+              },
+              icon: Icon(
+                Icons.more_horiz,
+                color: hexToColor("010000"),
+                size: 20,
+              ))
+        ],
+      ),
       config: TIMUIKitChatConfig(
         isUseDefaultEmoji: true,
       ),
+      initFindingMsg: initFindingMsg,
       morePanelConfig: MorePanelConfig(
         showFilePickAction: false,
         extraAction: [

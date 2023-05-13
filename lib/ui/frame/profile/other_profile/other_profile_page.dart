@@ -59,7 +59,8 @@ class OtherProfilePage extends StatelessWidget {
                           style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: (248 + 200 - Get.mediaQuery.padding.top - (t.isSelf ? 66 : 0)).h,
+                    expandedHeight:
+                        (248 + 200 - Get.mediaQuery.padding.top - (t.isSelf ? 66 : 0)).h,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
@@ -116,11 +117,24 @@ class OtherProfilePage extends StatelessWidget {
                                                 width: t.isSelf ? 98.w : 60.w,
                                                 height: 30.h,
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
-                                                    gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(15.r),
+                                                        bottomLeft: Radius.circular(15.r)),
+                                                    gradient: LinearGradient(colors: [
+                                                      Color(0xFF6B5BFF),
+                                                      Color(0xFF7643E3)
+                                                    ]),
                                                     boxShadow: [
-                                                      BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                                      BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
+                                                      BoxShadow(
+                                                          color: Color(0x29632BDA),
+                                                          offset: Offset(0, 3.5),
+                                                          blurRadius: 8,
+                                                          spreadRadius: 0.5),
+                                                      BoxShadow(
+                                                          color: Color(0x29FFFFFF),
+                                                          offset: Offset(0, -1.5),
+                                                          blurRadius: 10,
+                                                          spreadRadius: 0.5),
                                                     ]),
                                                 child: Row(
                                                   children: [
@@ -132,9 +146,15 @@ class OtherProfilePage extends StatelessWidget {
                                                       child: Row(
                                                         children: [
                                                           6.horizontalSpace,
-                                                          Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
+                                                          Image.asset(
+                                                              "assets/images/profile/icon_voice_play.webp",
+                                                              width: 20,
+                                                              height: 20),
                                                           8.horizontalSpace,
-                                                          Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
+                                                          Image.asset(
+                                                              "assets/images/profile/icon_voice_progress.webp",
+                                                              height: 13.h,
+                                                              fit: BoxFit.cover),
                                                         ],
                                                       ),
                                                     ),
@@ -147,7 +167,8 @@ class OtherProfilePage extends StatelessWidget {
                                                           },
                                                           child: Container(
                                                             alignment: Alignment.center,
-                                                            child: ImageUtil.assetImage('ic_edit', width: 14),
+                                                            child: ImageUtil.assetImage('ic_edit',
+                                                                width: 14),
                                                           ),
                                                         ),
                                                       )
@@ -205,38 +226,50 @@ class OtherProfilePage extends StatelessWidget {
                                                       child: Row(
                                                         children: [
                                                           Container(
-                                                            constraints: BoxConstraints(maxWidth: 240),
+                                                            constraints:
+                                                                BoxConstraints(maxWidth: 240),
                                                             height: 24.h,
                                                             child: Text(
                                                               t.player.value.nickName,
                                                               maxLines: 1,
                                                               overflow: TextOverflow.clip,
-                                                              style: TextStyle(fontSize: 19.sp, fontFamily: FONT_LIGHT),
+                                                              style: TextStyle(
+                                                                  fontSize: 19.sp,
+                                                                  fontFamily: FONT_LIGHT),
                                                             ),
                                                           ),
                                                           12.horizontalSpace,
                                                           Container(
-                                                            padding: EdgeInsets.symmetric(horizontal: 5),
+                                                            padding:
+                                                                EdgeInsets.symmetric(horizontal: 5),
                                                             height: 16.h,
                                                             decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(3),
-                                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                                  if (t.player.value.sex == 0) ...[
-                                                                    Color(0xFF1F84C9),
-                                                                    Color(0xFF7CB9D5),
-                                                                  ] else if (t.player.value.sex == 1) ...[
-                                                                    Color(0xFFD57CAB),
-                                                                    Color(0xFFC91FA7),
-                                                                  ] else ...[
-                                                                    Color(0xFF99BCCC),
-                                                                    Color(0xFF587284),
-                                                                  ]
-                                                                ])),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(3),
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment.centerLeft,
+                                                                    end: Alignment.centerRight,
+                                                                    colors: [
+                                                                      if (t.player.value.sex ==
+                                                                          0) ...[
+                                                                        Color(0xFF1F84C9),
+                                                                        Color(0xFF7CB9D5),
+                                                                      ] else if (t
+                                                                              .player.value.sex ==
+                                                                          1) ...[
+                                                                        Color(0xFFD57CAB),
+                                                                        Color(0xFFC91FA7),
+                                                                      ] else ...[
+                                                                        Color(0xFF99BCCC),
+                                                                        Color(0xFF587284),
+                                                                      ]
+                                                                    ])),
                                                             child: Row(
                                                               children: [
                                                                 if (t.player.value.sex != 2)
                                                                   Padding(
-                                                                    padding: const EdgeInsets.only(right: 3),
+                                                                    padding: const EdgeInsets.only(
+                                                                        right: 3),
                                                                     child: Image.asset(
                                                                       "assets/images/profile/icon_sex_${t.player.value.sex}.png",
                                                                       width: 8,
@@ -245,29 +278,43 @@ class OtherProfilePage extends StatelessWidget {
                                                                 else
                                                                   Text(
                                                                     "?",
-                                                                    style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                    style: TextStyle(
+                                                                        fontSize: 10.sp,
+                                                                        color: Colors.white,
+                                                                        fontWeight:
+                                                                            FontWeight.normal),
                                                                   ),
                                                                 Text(
                                                                   "${t.player.value.age}",
-                                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                  style: TextStyle(
+                                                                      fontSize: 10.sp,
+                                                                      color: Colors.white,
+                                                                      fontWeight:
+                                                                          FontWeight.normal),
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
                                                           7.horizontalSpace,
                                                           Container(
-                                                            padding: EdgeInsets.symmetric(horizontal: 8),
+                                                            padding:
+                                                                EdgeInsets.symmetric(horizontal: 8),
                                                             height: 19.h,
                                                             decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(10.r),
-                                                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                                                  Color(0xFF9A6FE9),
-                                                                  Color(0xFF8050E5),
-                                                                ])),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(10.r),
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment.centerLeft,
+                                                                    end: Alignment.centerRight,
+                                                                    colors: [
+                                                                      Color(0xFF9A6FE9),
+                                                                      Color(0xFF8050E5),
+                                                                    ])),
                                                             child: Row(
                                                               children: [
                                                                 Padding(
-                                                                  padding: const EdgeInsets.only(right: 5),
+                                                                  padding: const EdgeInsets.only(
+                                                                      right: 5),
                                                                   child: Image.asset(
                                                                     "assets/images/profile/icon_level_${(t.player.value.userLevel ~/ 5) * 5}.webp",
                                                                     width: 12.w,
@@ -275,7 +322,9 @@ class OtherProfilePage extends StatelessWidget {
                                                                 ),
                                                                 Text(
                                                                   "${t.player.value.userLevel}",
-                                                                  style: TextStyle(fontSize: 11.sp, color: Colors.white),
+                                                                  style: TextStyle(
+                                                                      fontSize: 11.sp,
+                                                                      color: Colors.white),
                                                                 ),
                                                               ],
                                                             ),
@@ -309,10 +358,13 @@ class OtherProfilePage extends StatelessWidget {
                                                         children: [
                                                           5.horizontalSpace,
                                                           Visibility(
-                                                            visible: t.player.value.location.country.isNotEmpty,
+                                                            visible: t.player.value.location.country
+                                                                .isNotEmpty,
                                                             child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment.center,
                                                               children: [
                                                                 Image.asset(
                                                                   "assets/images/profile/icon_dibiao.webp",
@@ -320,26 +372,35 @@ class OtherProfilePage extends StatelessWidget {
                                                                 ),
                                                                 4.horizontalSpace,
                                                                 Container(
-                                                                  constraints: BoxConstraints(maxWidth: 120.w),
+                                                                  constraints: BoxConstraints(
+                                                                      maxWidth: 120.w),
                                                                   child: Text(
                                                                     '${t.player.value.location.country}',
-                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
+                                                                    strutStyle: StrutStyle(
+                                                                        forceStrutHeight: true),
                                                                     maxLines: 1,
                                                                     softWrap: false,
-                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                    style: TextStyle(
+                                                                        fontSize: 11.sp,
+                                                                        color: Colors.white,
+                                                                        fontWeight:
+                                                                            FontWeight.normal),
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
                                                           Visibility(
-                                                            visible: t.player.value.language.isNotEmpty,
+                                                            visible:
+                                                                t.player.value.language.isNotEmpty,
                                                             child: Container(
                                                               padding: EdgeInsets.only(left: 15.w),
                                                               height: 16.h,
                                                               child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment.center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment.center,
                                                                 children: [
                                                                   Image.asset(
                                                                     "assets/images/profile/icon_language.webp",
@@ -348,8 +409,13 @@ class OtherProfilePage extends StatelessWidget {
                                                                   2.horizontalSpace,
                                                                   Text(
                                                                     t.player.value.language,
-                                                                    strutStyle: StrutStyle(forceStrutHeight: true),
-                                                                    style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                                    strutStyle: StrutStyle(
+                                                                        forceStrutHeight: true),
+                                                                    style: TextStyle(
+                                                                        fontSize: 11.sp,
+                                                                        color: Colors.white,
+                                                                        fontWeight:
+                                                                            FontWeight.normal),
                                                                   ),
                                                                 ],
                                                               ),
@@ -358,8 +424,12 @@ class OtherProfilePage extends StatelessWidget {
                                                           15.horizontalSpace,
                                                           Text(
                                                             "ID:" + t.player.value.uk,
-                                                            strutStyle: StrutStyle(forceStrutHeight: true),
-                                                            style: TextStyle(fontSize: 11.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                                            strutStyle:
+                                                                StrutStyle(forceStrutHeight: true),
+                                                            style: TextStyle(
+                                                                fontSize: 11.sp,
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.normal),
                                                           ),
                                                         ],
                                                       ),
@@ -387,10 +457,15 @@ class OtherProfilePage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 20, right: 20),
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    t.player.value.signature.isNotEmpty ? t.player.value.signature : "Thank you for your attention and love",
+                                    t.player.value.signature.isNotEmpty
+                                        ? t.player.value.signature
+                                        : "Thank you for your attention and love",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: TextStyle(fontSize: 12.sp, color: Color(0xFF808388), fontFamily: FONT_LIGHT),
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Color(0xFF808388),
+                                        fontFamily: FONT_LIGHT),
                                   ),
                                 ),
                               ),
@@ -411,21 +486,33 @@ class OtherProfilePage extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Followings".tr + ": ${t.player.value.followers}",
-                                          style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.white,
+                                              fontFamily: FONT_LIGHT),
                                         ),
                                         Text(
                                           "Followers".tr + ": ${t.player.value.fans}",
-                                          style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.white,
+                                              fontFamily: FONT_LIGHT),
                                         ),
                                         Visibility(
                                           child: Text(
                                             "Rating".tr + ": ${t.player.value.ranking}",
-                                            style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                            style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.white,
+                                                fontFamily: FONT_LIGHT),
                                           ),
                                         ),
                                         Text(
                                           "Orders".tr + ": ${t.player.value.age}",
-                                          style: TextStyle(fontSize: 12.sp, color: Colors.white, fontFamily: FONT_LIGHT),
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: Colors.white,
+                                              fontFamily: FONT_LIGHT),
                                         ),
                                       ],
                                     ),
@@ -454,8 +541,14 @@ class OtherProfilePage extends StatelessWidget {
                               indicatorWeight: 2,
                               indicatorPadding: EdgeInsets.only(bottom: 5),
                               labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                              labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
-                              unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+                              labelStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: FONT_MEDIUM),
+                              unselectedLabelStyle: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: FONT_MEDIUM),
                               tabs: createTabs(),
                             ),
                           ),
@@ -488,8 +581,12 @@ class OtherProfilePage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 15),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    border: t.player.value.follow ? null : Border.all(color: AppColor.yellow),
-                                    gradient: t.player.value.follow ? LinearGradient(colors: AppColor.yellowGradient) : null,
+                                    border: t.player.value.follow
+                                        ? null
+                                        : Border.all(color: AppColor.yellow),
+                                    gradient: t.player.value.follow
+                                        ? LinearGradient(colors: AppColor.yellowGradient)
+                                        : null,
                                     borderRadius: BorderRadius.circular(21.r),
                                   ),
                                   child: Row(
@@ -582,7 +679,7 @@ class OtherProfilePage extends StatelessWidget {
   }
 }
 
-class OtherProfileController extends BasePageController with GetSingleTickerProviderStateMixin {
+class OtherProfileController extends BasePageController {
   static OtherProfileController get find => Get.find();
   AudioPlayer audioPlayer = AudioPlayer();
   AudioManager audioManager = AudioManager.instance;
@@ -737,9 +834,9 @@ class OtherProfileController extends BasePageController with GetSingleTickerProv
     // });
   }
 
-  // stop() async {
-  //   playState=PlayState.idle;
-  //   if(audioPlayer?.playing == true)
-  //   await audioPlayer?.stop();
-  // }
+// stop() async {
+//   playState=PlayState.idle;
+//   if(audioPlayer?.playing == true)
+//   await audioPlayer?.stop();
+// }
 }
