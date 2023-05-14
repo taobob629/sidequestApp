@@ -3,6 +3,8 @@
     创建日期:2023/5/13
     描述:
  */
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -10,6 +12,9 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/im/im_util.dart';
+import 'package:wy/ui/scan/scan_page.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import 'chat/chat_page.dart';
@@ -63,7 +68,7 @@ class MessagesPageController extends BasePageController {
    * @TGS#2Y65HYWLEP woshiliaotian
    */
   Future<void> testAddGroup() async {
-    var groupId='@TGS#2Y65HYWLEP';
+    var groupId = '@TGS#2Y65HYWLEP';
     V2TimCallback joinGroupRes = await TencentImSDKPlugin.v2TIMManager.joinGroup(
         groupID: "@TGS#2Y65HYWLEP", // 需要加入群组 ID
         message: "hello", // 加群申请信息
@@ -76,17 +81,28 @@ class MessagesPageController extends BasePageController {
           .getConversation(conversationID: conversationID);
       if (convRes.code == 0) {
         final conversation = convRes.data ??
-            V2TimConversation(
-                conversationID: conversationID,
-                type: 2,
-                groupID: groupId);
-        Get.to(
-            ChatPage(selectedConversation: conversation));
+            V2TimConversation(conversationID: conversationID, type: 2, groupID: groupId);
+        Get.to(ChatPage(selectedConversation: conversation));
         showToast("加入成功");
         //跳转到chatpage
       }
-
     }
+  }
+
+  void toScan(BuildContext context) {
+    Get.to(() => ScanPage())?.then((value) {
+      flog('sanc value $value');
+      if (value == null) {
+        return;
+      }
+      String data = value.toString();
+      var map = jsonDecode(data);
+      if(map is Map){
+        if (map['gid'] != null) {
+          ImUtils.joniGroup(context, map['gid'],isNeedReplace: false);
+        }
+      }
+    });
   }
 
   @override

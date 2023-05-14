@@ -11,6 +11,7 @@ import 'package:wy/res/index.dart';
 
 class MessageType {
   static const TYPE_INVITE = 'invite';
+  static const TYPE_CREATE_GROUP = 'create_group';
 }
 
 class CustomMessageView extends StatelessWidget {
@@ -37,6 +38,8 @@ class CustomMessageView extends StatelessWidget {
         return _postMsgItem();
       case MessageType.TYPE_INVITE:
         return _inviteWidget();
+      case MessageType.TYPE_CREATE_GROUP:
+        return _groupWidget();
       default:
         return Text(
           "Unsupported message type, please update your app!",
@@ -44,7 +47,14 @@ class CustomMessageView extends StatelessWidget {
         );
     }
   }
-
+  Widget _groupWidget(){
+   return Container(
+     color: Colors.black,
+     child: Text(
+     "${data['desc']}",
+     style: TextStyle(fontSize: 12, color: Colors.white24),
+   ),);
+ }
   Widget _postMsgItem() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),

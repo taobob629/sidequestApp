@@ -6,14 +6,10 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
-import 'package:tencent_cloud_chat_uikit/ui/utils/screen_utils.dart';
-import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/model/price_range_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
-import 'package:wy/ui/service/skill/skill_item/view.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 import 'controller.dart';

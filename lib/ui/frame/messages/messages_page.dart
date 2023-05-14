@@ -26,27 +26,27 @@ class MessagesPage extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             actions: [
-              Obx(()=>Visibility(
+              Obx(() => Visibility(
                   visible: controller.showMenu.value,
                   child: PopupMenuButton(
-                  color: AppColor.itemBg,
-                  onSelected: (item) {
-                    if (item == 'Create Room'.tr) {
-                      controller.toCreatGoupPage();
-                    }
-                    if(item=="Friends".tr){
-                      controller.testAddGroup();
-                    }
-                  },
-                  itemBuilder: (context) => <PopupMenuEntry<String>>[
-                    ...controller.popMenus.map((e) => PopupMenuItem<String>(
-                      value: e,
-                      child: Text(
-                        '$e'.tr,
-                        style: TextStyle(),
-                      ),
-                    ))
-                  ])))
+                      color: AppColor.itemBg,
+                      onSelected: (item) {
+                        if (item == 'Create Room'.tr) {
+                          controller.toCreatGoupPage();
+                        }
+                        if (item == "Scan".tr) {
+                          controller.toScan(context);
+                        }
+                      },
+                      itemBuilder: (context) => <PopupMenuEntry<String>>[
+                            ...controller.popMenus.map((e) => PopupMenuItem<String>(
+                                  value: e,
+                                  child: Text(
+                                    '$e'.tr,
+                                    style: TextStyle(),
+                                  ),
+                                ))
+                          ])))
             ],
             flexibleSpace: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,5 +86,3 @@ class MessagesPage extends StatelessWidget {
     );
   }
 }
-
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
@@ -20,7 +21,7 @@ class GroupProfileNotification extends TIMUIKitStatelessWidget {
     final String notification = (model.groupInfo?.notification != null &&
             model.groupInfo!.notification!.isNotEmpty)
         ? model.groupInfo!.notification!
-        : TIM_t("暂无群公告");
+        : '暂无群公告'.tr;
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
       decoration: BoxDecoration(

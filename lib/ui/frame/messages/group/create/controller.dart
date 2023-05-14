@@ -9,7 +9,10 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:get/get.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/chat_page.dart';
+import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
+import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 
 enum GroupTypeForUIKit { single, work, chat, meeting, public }
@@ -66,6 +69,7 @@ class CreateGroupController extends BasePageController {
     //     ..['content'] = content);
     //    flog('result$result');
     // }
+    var user = UserController.find.userProfile;
     if (res.code == 0) {
       final groupID = res.data;
       final conversationID = "group_$groupID";
@@ -79,6 +83,14 @@ class CreateGroupController extends BasePageController {
               showName: groupName,
               groupType: groupType,
               groupID: groupID);
+      // ImUtils.sendGroupCustomMsg(
+      //     Map()
+      //       ..['desc'] = '${user.nickName} has created group'.tr
+      //       ..['type'] = MessageType.TYPE_CREATE_GROUP,
+      //     gid: groupID);
+      ImUtils.changeNotification( Map()
+        ..['desc'] = desc
+        ..['type'] = MessageType.TYPE_CREATE_GROUP,gid: groupID);
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => ChatPage(selectedConversation: conversation)));
     }

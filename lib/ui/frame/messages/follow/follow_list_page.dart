@@ -187,7 +187,7 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
     var params = Map()
       ..['invitor'] = nickName // 邀请人名字
       ..['type'] = MessageType.TYPE_INVITE //invite
-      ..['gid'] = gid //群id
+      ..['groupId'] = gid //群id
       ..['group_name'] = groupName; //群名字
     flog('params $params');
     V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
