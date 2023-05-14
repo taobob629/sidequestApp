@@ -226,7 +226,7 @@ class SkillItemPageController extends GetxController {
         'type': 2,
         'buy': currentBuyX.value.name,
         'get': currentGetY.value.name,
-        'enable': 1,
+        'enable': promotionSwitch.value ? 1 : 0,
       };
     }
 
