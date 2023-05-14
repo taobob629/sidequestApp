@@ -62,27 +62,6 @@ class SkillItemPageController extends GetxController {
 
   void initParams() {
     id = Get.arguments['id']; //id不为空表示是编辑
-  }
-
-  initData() async {
-    if (id == null) {
-      skillModel = await UserApi.skillItemConfig(Get.arguments['skillAuthid']);
-    } else {
-      skillModel = await UserApi.skillItemDetail(id);
-    }
-    price = skillModel?.price ?? 0;
-    status = skillModel?.enabled == 1 ? true : false;
-    teContent.text = skillModel?.name ?? '';
-
-    if (skillModel?.discount != null) {
-      if (jsonDecode(skillModel!.discount!)['enable'] == 1) {
-        promotionSwitch.value = true;
-      } else {
-        promotionSwitch.value = false;
-      }
-    } else {
-      promotionSwitch.value = false;
-    }
 
     BookingSelectModel model = BookingSelectModel();
     model.id = 0;
@@ -142,6 +121,65 @@ class SkillItemPageController extends GetxController {
     }
 
     currentBuyX.value = currentGetY.value = xAndYList[0];
+  }
+
+  initData() async {
+    if (id == null) {
+      skillModel = await UserApi.skillItemConfig(Get.arguments['skillAuthid']);
+    } else {
+      skillModel = await UserApi.skillItemDetail(id);
+    }
+    price = skillModel?.price ?? 0;
+    status = skillModel?.enabled == 1 ? true : false;
+    teContent.text = skillModel?.name ?? '';
+
+    if (skillModel?.discount != null) {
+      dynamic json = jsonDecode(skillModel!.discount!);
+      if (json['enable'] == 1) {
+        promotionSwitch.value = true;
+        if (json['type'] == 1) {
+          currentPromotion.value = promotionList[0];
+          if (json['discount'].toString() == '5') {
+            currentDiscount.value = discountList[0];
+          } else if (json['discount'].toString() == '10') {
+            currentDiscount.value = discountList[1];
+          } else if (json['discount'].toString() == '15') {
+            currentDiscount.value = discountList[2];
+          } else if (json['discount'].toString() == '20') {
+            currentDiscount.value = discountList[3];
+          }
+        } else if (json['type'] == 2) {
+          currentPromotion.value = promotionList[2];
+          for (int i = 1; i <= 10; i++) {
+            if (i.toString() == json['buy']) {
+              currentBuyX.value = xAndYList[i - 1];
+            }
+            if (i.toString() == json['get']) {
+              currentGetY.value = xAndYList[i - 1];
+            }
+          }
+        } else if (json['type'] == 3) {
+          currentPromotion.value = promotionList[1];
+          if (json['discount'].toString().contains('30')) {
+            currentOrderFree.value = orderFreeList[0];
+          } else if (json['discount'].toString().contains('50')) {
+            currentOrderFree.value = orderFreeList[1];
+          } else if (json['discount'].toString().contains('80')) {
+            currentOrderFree.value = orderFreeList[2];
+          } else if (json['discount'].toString().contains('100')) {
+            currentOrderFree.value = orderFreeList[3];
+          }
+        }
+      } else {
+        promotionSwitch.value = false;
+      }
+    } else {
+      promotionSwitch.value = false;
+    }
+
+    ///  {\"type\":2,\"buy\":\"1\",\"get\":\"1\",\"enable\":1}
+    ///  {\"type\":1,\"discount\":\"5\",\"enable\":1}
+    ///  {\"type\":3,\"discount\":\"30\",\"enable\":1}
   }
 
   @override

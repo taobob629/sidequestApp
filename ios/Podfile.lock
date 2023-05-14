@@ -208,6 +208,8 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - smart_auth (0.0.1):
+    - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -290,6 +292,7 @@ DEPENDENCIES:
   - scan (from `.symlinks/plugins/scan/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
+  - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - store_redirect (from `.symlinks/plugins/store_redirect/ios`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
@@ -402,6 +405,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/ios"
+  smart_auth:
+    :path: ".symlinks/plugins/smart_auth/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   store_redirect:
@@ -483,6 +488,7 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 18503de6621dd2c420d680e33d46bf8e1d5169b0
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
+  smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   store_redirect: 2977747cf81689a39bd62c248c2deacb7a0d131e
   Stripe: 2b2decd03146e08a350960966d41f3028c2eac29
