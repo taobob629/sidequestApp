@@ -14,6 +14,7 @@ class AuthInputView extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Function(String)? onSubmitted;
   final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
 
   AuthInputView({
     required this.tips,
@@ -24,6 +25,7 @@ class AuthInputView extends StatelessWidget {
     this.focusNode,
     this.textInputAction,
     this.inputFormatters,
+    this.readOnly = false,
     this.onSubmitted
   });
 
@@ -47,6 +49,7 @@ class AuthInputView extends StatelessWidget {
         textInputAction: textInputAction,
         inputFormatters: inputFormatters,
         style: const TextStyle(color: Colors.white, fontSize: 16),
+        readOnly: readOnly,
         decoration: InputDecoration(
           hintText:isRequired? '* $tips':tips,
           hintStyle: TextStyle(fontSize: 14, color: AppColor.whiteGray),

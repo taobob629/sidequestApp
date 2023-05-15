@@ -10,7 +10,6 @@ import '../../utils/toast_utils.dart';
 import '../login/forget_page.dart';
 
 class DialogPayPsd extends StatelessWidget {
-
   double diamonds;
 
   DialogPayPsd({required this.diamonds});
@@ -152,6 +151,7 @@ class DialogPayPsd extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Get.to(() => ForgetPage(
                     type: 2,
+                    flag: 'payPsd',
                   )),
               child: Container(
                 color: Colors.transparent,
