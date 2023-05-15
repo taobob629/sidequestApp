@@ -561,13 +561,21 @@ class WalletBalancePageController extends GetxListController {
       showInfo('${'Insufficient Diamonds'.tr}!');
       return;
     }
-    if (type == "paypal" && paypalController.text.trim().isEmpty) {
-      showInfo('Please Enter paypal account!'.tr);
-      return;
+    if (ifBankPay.value) {
+      if (selectedBankCardNumber.value == 'Account') {
+        showInfo('Please Add your bank!'.tr);
+        return;
+      }
+    } else {
+      if (accountCtr.text.trim().isEmpty) {
+        showInfo('Please Enter your account!'.tr);
+        return;
+      }
     }
     final value = await SmartDialog.show(
       tag: 'DialogPayPsd',
-      builder: (BuildContext context) => DialogPayPsd(diamonds: englishMoney.value),
+      builder: (BuildContext context) =>
+          DialogPayPsd(diamonds: englishMoney.value),
     );
     if (value == true) {
       if (type == "paypal") {
