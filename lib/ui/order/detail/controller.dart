@@ -3,6 +3,8 @@
     创建日期:2023/3/21
     描述:
  */
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
@@ -25,6 +28,11 @@ import 'package:dio/src/response.dart';
 import '../../../utils/toast_utils.dart';
 
 class OrderDetailPageController extends BasePageController {
+  Timer? timer;
+  int seconds = 60 * 15;
+  var countTime = "00:00".obs;
+  var ifShowCountDown = false.obs;
+
   static const double starInit = 5;
   RxDouble starPer = RxDouble(starInit);
   RxDouble starRes = RxDouble(starInit);
@@ -58,6 +66,14 @@ class OrderDetailPageController extends BasePageController {
     super.onInit();
   }
 
+  void _formatTime() {
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+    String formattedMinutes = minutes.toString().padLeft(2, '0');
+    String formattedSeconds = remainingSeconds.toString().padLeft(2, '0');
+    countTime.value = '$formattedMinutes:$formattedSeconds';
+  }
+
   initData() async {
     model = await OrderApi.getOrderDetail(id);
     if (type == null) {
@@ -71,6 +87,33 @@ class OrderDetailPageController extends BasePageController {
       starRes.value = model?.comments?.responsive ?? 5.0;
       starEnj.value = model?.comments?.enjoyment ?? 5.0;
     }
+
+    if (model?.status == 1) {
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch((model?.addtime ?? 0) * 1000);
+      seconds = dateTime.difference(DateTime.now()).inSeconds + 15 * 60;
+      if (seconds <= 0) {
+        ifShowCountDown.value = false;
+      } else {
+        ifShowCountDown.value = true;
+      }
+
+      timer = Timer.periodic(const Duration(seconds: 1), (v) {
+        if (seconds > 0) {
+          seconds--;
+          _formatTime();
+        } else {
+          ifShowCountDown.value = false;
+          timer?.cancel();
+          initData();
+        }
+      });
+    }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    timer?.cancel();
   }
 
   void onRefresh(orderId) {

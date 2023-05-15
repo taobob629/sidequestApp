@@ -66,7 +66,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                                   color: Colors.transparent,
                                   height: 13.h,
                                 ),
-                            itemCount: controller.model?.history?.isNotEmpty == true ? 3 : 2))))),
+                            itemCount:
+                                controller.model?.history?.isNotEmpty == true
+                                    ? 3
+                                    : 2))))),
         btnBar: bottom_bar());
   }
 
@@ -84,7 +87,12 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
             Row(
               children: [
                 GestureDetector(
-                  child: ImageUtil.networkImage(url: '${item?.userAvatar}', fit: BoxFit.cover, width: 32.w, height: 32.w, border: 16.w),
+                  child: ImageUtil.networkImage(
+                      url: '${item?.userAvatar}',
+                      fit: BoxFit.cover,
+                      width: 32.w,
+                      height: 32.w,
+                      border: 16.w),
                   onTap: () {
                     // NavigatorHelper.toOtherProfile(item?.pwuserId);
                   },
@@ -103,9 +111,44 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
           ],
         ),
         divider(),
+        if (controller.ifShowCountDown.value)
+          Obx(() => RichText(
+                text: TextSpan(
+                  text: 'Order will be cancelled automatically in ',
+                  style: TextStyle(
+                    color: Color(0xFFB2B9C9),
+                    fontSize: 12.sp,
+                    fontFamily: FONT_LIGHT,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: controller.countTime.value,
+                      style: TextStyle(
+                        color: Color(0xffFFCB0E),
+                        fontSize: 14.sp,
+                        fontFamily: FONT_LIGHT,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' if player doesn\'t accept it.',
+                      style: TextStyle(
+                        color: Color(0xFFB2B9C9),
+                        fontSize: 12.sp,
+                        fontFamily: FONT_LIGHT,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        if (controller.ifShowCountDown.value) divider(),
         Row(
           children: [
-            ImageUtil.networkImage(url: '${item?.skillThumb}', width: 68.w, height: 68.w, border: 15.r, fit: BoxFit.cover),
+            ImageUtil.networkImage(
+                url: '${item?.skillThumb}',
+                width: 68.w,
+                height: 68.w,
+                border: 15.r,
+                fit: BoxFit.cover),
             10.horizontalSpace,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,21 +173,33 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                       Row(
                         children: [
                           Image(
-                            image: AssetImage('assets/images/ic_balance_money.webp'),
+                            image: AssetImage(
+                                'assets/images/ic_balance_money.webp'),
                             width: 15,
                             height: 15,
                           ),
                           3.horizontalSpace,
                           Text.rich(TextSpan(children: [
-                            TextSpan(text: '${item?.price}', style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
-                            TextSpan(text: '/${item?.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
+                            TextSpan(
+                                text: '${item?.price}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM)),
+                            TextSpan(
+                                text: '/${item?.unit}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8.sp,
+                                    fontFamily: FONT_MEDIUM)),
                           ])),
                         ],
                       ),
                       Text(
                         'X${item?.amount}',
                         textAlign: TextAlign.end,
-                        style: TextStyle(fontFamily: FONT_LIGHT, fontSize: 12.sp),
+                        style:
+                            TextStyle(fontFamily: FONT_LIGHT, fontSize: 12.sp),
                       ),
                     ],
                   ),
@@ -171,7 +226,12 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               ),
               3.horizontalSpace,
               Text.rich(TextSpan(children: [
-                TextSpan(text: '${item?.subtotal}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                TextSpan(
+                    text: '${item?.subtotal}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontFamily: FONT_MEDIUM)),
                 // TextSpan(
                 //     text: '/${item?.unit}',
                 //     style:
@@ -184,7 +244,12 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         rowLine2(
           'Discount'.tr,
           Text.rich(TextSpan(children: [
-            TextSpan(text: '${item?.discount}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+            TextSpan(
+                text: '${item?.discount}',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontFamily: FONT_MEDIUM)),
           ])),
         ),
         5.verticalSpace,
@@ -201,7 +266,12 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
               ),
               3.horizontalSpace,
               Text.rich(TextSpan(children: [
-                TextSpan(text: '${item?.total}', style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                TextSpan(
+                    text: '${item?.total}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontFamily: FONT_MEDIUM)),
               ])),
               //  Spacer(),
             ],
@@ -212,7 +282,9 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   }
 
   evaluateWidget() {
-    if (controller.model?.status == -2 || (controller.model?.status == 2 && controller.type == TYPE_ORDER_PROVIDED)) {
+    if (controller.model?.status == -2 ||
+        (controller.model?.status == 2 &&
+            controller.type == TYPE_ORDER_PROVIDED)) {
       return innnerBg(Column(
         children: [
           rowLine2(
@@ -226,7 +298,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                       },
                       child: Text(
                         'Submit'.tr,
-                        style: TextStyle(color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                        style: TextStyle(
+                            color: AppColor.textYellow,
+                            fontFamily: FONT_MEDIUM,
+                            fontSize: 13.sp),
                       )))),
           listDivider,
           10.verticalSpace,
@@ -243,7 +318,8 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
   commentsWidget() {
     List<CommentsModel> history = controller.model?.history ?? [];
     if (history.isEmpty == true) return Container();
-    return innnerBg(Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return innnerBg(
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       rowLine2('Order Timeline'.tr, Container()),
       10.verticalSpace,
       FixedTimeline.tileBuilder(
@@ -256,14 +332,22 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       '${history[index].addtime.toDateStr}',
-                      style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: Colors.white60),
+                      style: TextStyle(
+                          fontFamily: FONT_MEDIUM,
+                          fontSize: 10.sp,
+                          color: Colors.white60),
                     ),
                   ),
-              connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
+              connectorStyleBuilder: (context, index) =>
+                  ConnectorStyle.solidLine,
               indicatorStyleBuilder: (context, index) => IndicatorStyle.dot,
               contentsBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('${history[index].content}', style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 12.sp, color: Colors.white)),
+                    child: Text('${history[index].content}',
+                        style: TextStyle(
+                            fontFamily: FONT_MEDIUM,
+                            fontSize: 12.sp,
+                            color: Colors.white)),
                   ),
               itemCount: history.length))
     ]));
@@ -276,10 +360,14 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
 
   starLine() {
     return [
-      rowLine2('Performance'.tr, startItem(controller.starPer, type: 'Performance')),
-      rowLine2('Responsive'.tr, startItem(controller.starRes, type: 'Responsive')),
-      rowLine2('Enjoyment'.tr, startItem(controller.starEnj, type: 'Enjoyment')),
-      rowLine2('Friendless'.tr, startItem(controller.starFri, type: 'Friendless')),
+      rowLine2(
+          'Performance'.tr, startItem(controller.starPer, type: 'Performance')),
+      rowLine2(
+          'Responsive'.tr, startItem(controller.starRes, type: 'Responsive')),
+      rowLine2(
+          'Enjoyment'.tr, startItem(controller.starEnj, type: 'Enjoyment')),
+      rowLine2(
+          'Friendless'.tr, startItem(controller.starFri, type: 'Friendless')),
     ];
   }
 
@@ -331,7 +419,9 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
         maxLength: 150,
         decoration: InputDecoration(
             border: InputBorder.none,
-            label: controller.model?.status == 2 ? ImageUtil.assetImage('ic_edit_yellow', width: 17.w) : null,
+            label: controller.model?.status == 2
+                ? ImageUtil.assetImage('ic_edit_yellow', width: 17.w)
+                : null,
             counterStyle: TextStyle(color: Colors.white60),
             // labelText: 'Please write down your comments'.tr,
             hintStyle: TextStyle(color: Color(0xFFB2B9C9), fontSize: 13.sp)),
