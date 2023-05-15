@@ -7,6 +7,7 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_detail_controller.dart';
+import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../../widget/cs_photo_viewer.dart';
@@ -77,12 +78,8 @@ class PostDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    t.postItem.value.content,
-                                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                    // maxLines: null,
-                                    // overflow: TextOverflow.ellipsis,
-                                  ),
+                                  buildGroupInviteWidget(context, t.postItem.value.content),
+                                  10.verticalSpace
                                 ],
                               ),
                             ))

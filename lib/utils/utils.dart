@@ -65,7 +65,9 @@ String toTime(date, [bool isParse = true]) {
   var day = hour * 24;
   var week = day * 7;
   var month = day * 30;
-  var now = DateTime.now().millisecondsSinceEpoch; //获取当前时间毫秒
+  var now = DateTime
+      .now()
+      .millisecondsSinceEpoch; //获取当前时间毫秒
   var diffValue = now - old.millisecondsSinceEpoch; //时间差
   if (diffValue < 0) return "刚刚";
   var result = '';
@@ -105,7 +107,10 @@ String toTime(date, [bool isParse = true]) {
 }
 
 ///获取当前时间戳
-int getTime() => DateTime.now().millisecondsSinceEpoch;
+int getTime() =>
+    DateTime
+        .now()
+        .millisecondsSinceEpoch;
 
 // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 var context = AppConfig.navigatorKey.currentState?.overlay?.context;
@@ -129,8 +134,14 @@ void flog(v, [String? name]) => f.log(v.toString(), name: name ?? 'flog');
 ///是否移动端
 bool get isMobile {
   if (kIsWeb) {
-    if (MediaQuery.of(context!).size.aspectRatio <= 1 ||
-        MediaQuery.of(context!).size.width <= 500) {
+    if (MediaQuery
+        .of(context!)
+        .size
+        .aspectRatio <= 1 ||
+        MediaQuery
+            .of(context!)
+            .size
+            .width <= 500) {
       return true;
     } else {
       return false;
@@ -188,15 +199,20 @@ searchDelay(Function doSomething, {durationTime = 500}) {
     timer = null;
   });
 }
-  /**
-   * 只显示最后四位数字
-   */
-  getPayCardStr(String? code) {
-  if(code==null||code.length<=4)return code;
-    final int length = code.length;
-    final int replaceLength = length - 4;
-    final String replacement =
-        List<String>.generate((replaceLength / 4).ceil(), (int _) => '****    ')
-            .join('');
-    return code.replaceRange(0, replaceLength, replacement);
-  }
+/**
+ * 只显示最后四位数字
+ */
+getPayCardStr(String? code) {
+  if (code == null || code.length <= 4) return code;
+  final int length = code.length;
+  final int replaceLength = length - 4;
+  final String replacement =
+  List<String>.generate((replaceLength / 4).ceil(), (int _) => '****    ')
+      .join('');
+  return code.replaceRange(0, replaceLength, replacement);
+}
+
+buildGroupQrData(var gid) {
+  return jsonEncode(Map()
+    ..['gid'] = gid);
+}

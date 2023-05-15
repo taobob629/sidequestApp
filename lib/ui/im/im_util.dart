@@ -1,12 +1,21 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/play_item_model.dart';
+import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +30,7 @@ class ImUtils {
   /**
    * 加入群聊
    */
-  static Future<void> joniGroup(BuildContext context, var gid,{bool isNeedReplace=true}) async {
+  static Future<void> joniGroup(BuildContext context, var gid, {bool isNeedReplace = true}) async {
     V2TimCallback joinGroupRes = await TencentImSDKPlugin.v2TIMManager.joinGroup(
       groupID: gid, // 需要加入群组 ID
       message: "hello", // 加群申请信息
@@ -37,11 +46,12 @@ class ImUtils {
       if (convRes.code == 0) {
         final conversation = convRes.data ??
             V2TimConversation(conversationID: conversationID, type: 2, groupID: gid);
-        if(isNeedReplace) {
-          Navigator.pushReplacement(context,
+        if (isNeedReplace) {
+          Navigator.pushReplacement(
+              context,
               MaterialPageRoute(
                   builder: (context) => ChatPage(selectedConversation: conversation)));
-        }else{
+        } else {
           flog('isNeedReplace== $isNeedReplace');
           Get.to(ChatPage(selectedConversation: conversation));
         }
@@ -73,7 +83,6 @@ class ImUtils {
       } else {
         flog('发送失败 ${sendMessageRes.desc}');
       }
-
     }
   }
 
@@ -83,10 +92,95 @@ class ImUtils {
   static void changeNotification(var data, {var gid}) {
     final GroupServices _groupServices = serviceLocator<GroupServices>();
     _groupServices.setGroupInfo(
-        info: V2TimGroupInfo.fromJson({
-          "groupID": gid,
-          "groupType":GroupType.Public,
-          "notification": data['desc']
-        }));
+        info: V2TimGroupInfo.fromJson(
+            {"groupID": gid, "groupType": GroupType.Public, "notification": data['desc']}));
   }
+}
+
+var actions = [
+  AcitionModel('', 'Share to User'.tr, 0),
+  AcitionModel('', 'Create Post'.tr, 1),
+  // AcitionModel('', 'Join Room'.tr, 2),
+];
+
+showShareDialog(V2TimConversation conversation, BuildContext context) {
+  Get.bottomSheet(
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...actions
+              .map(
+                (item) => ListTile(
+                    title: RawMaterialButton(
+                        onPressed: () {
+                          switch (item.type) {
+                            case 0:
+                              Get.back();
+                              FollowListPage.to(
+                                  gid: conversation.groupID, groupName: conversation.showName);
+                              break;
+                            case 1:
+                              flog('conversation.showName ${conversation.showName}');
+                              Get.back();
+                              Get.toNamed(AppPages.ReleasePost,
+                                  arguments: Map()
+                                    ..['gid'] = conversation.groupID
+                                    ..['group_name'] = conversation.showName
+                                    ..['type'] = TYPE_INVITE);
+
+                              break;
+                            case 2:
+                              break;
+                          }
+                        },
+                        child: Text(
+                          item.name,
+                        ))),
+              )
+              .toList(),
+          20.verticalSpace,
+          InkWell(
+            child: Text('Cancel'),
+            onTap: () => Get.back(),
+          ),
+          20.verticalSpace
+        ],
+      ),
+      backgroundColor: AppColor.primary,
+      enableDrag: false);
+}
+
+var gidPrefix = 'SiqdequestGid';
+RegExp exp = RegExp(r'SiqdequestGid=([^]*?)=');
+
+buildShareGroupText(var content, var gid) {
+  return '$content $gidPrefix=$gid=';
+}
+
+Widget buildGroupInviteWidget(BuildContext context, var content) {
+  RegExpMatch? match = exp.firstMatch(content);
+  var gid = match?.group(1) ?? '';
+  flog('gid$gid');
+  return RichText(
+      text: TextSpan(children: [
+    TextSpan(
+        text: content.substring(0, content.lastIndexOf(gidPrefix)),
+        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+    TextSpan(
+        text: ' Join Now '.tr,
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            ImUtils.joniGroup(context, gid);
+          },
+        style: TextStyle(
+            letterSpacing: 2,
+            wordSpacing: 1,
+            fontFamily: FONT_MEDIUM,
+            decoration: TextDecoration.underline,
+            decorationStyle: TextDecorationStyle.dashed,
+            // backgroundColor: Colors.red,
+            color: Colors.green,
+            fontSize: 14,
+            fontWeight: FontWeight.bold)),
+  ]));
 }

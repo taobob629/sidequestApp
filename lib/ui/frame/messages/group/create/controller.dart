@@ -59,17 +59,6 @@ class CreateGroupController extends BasePageController {
         groupName: groupName,
         introduction: desc,
         addOpt: GroupAddOptTypeEnum.V2TIM_GROUP_ADD_ANY);
-    // if (res.code == 0) {
-    //   var name = teRoomName.text;
-    //   var content = teIntrodution.text;
-    //   var pwd = tePwd.text;
-    //   var result = ImApi.createGroup(Map()
-    //     ..['name'] = name
-    //     ..['password'] = pwd
-    //     ..['content'] = content);
-    //    flog('result$result');
-    // }
-    var user = UserController.find.userProfile;
     if (res.code == 0) {
       final groupID = res.data;
       final conversationID = "group_$groupID";
@@ -91,8 +80,13 @@ class CreateGroupController extends BasePageController {
       ImUtils.changeNotification( Map()
         ..['desc'] = desc
         ..['type'] = MessageType.TYPE_CREATE_GROUP,gid: groupID);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => ChatPage(selectedConversation: conversation)));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ChatPage(selectedConversation: conversation)));
+      showShareDialog(conversation,context);
+
     }
   }
 

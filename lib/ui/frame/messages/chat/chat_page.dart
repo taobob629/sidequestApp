@@ -105,6 +105,7 @@ class ChatPage extends StatelessWidget {
   ChatController? controller;
   @override
   Widget build(BuildContext context) {
+
     if (!Get.isRegistered<ChatController>(tag: "ChatKey")) {
       controller= Get.put(ChatController(selectedConversation), tag: selectedConversation.conversationID);
     }
