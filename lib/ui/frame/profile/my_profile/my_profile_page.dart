@@ -719,7 +719,7 @@ class MyProfilePage extends StatelessWidget {
 
   Widget achievementItem(var text, var icon) {
     var textStyle = TextStyle(
-        color: Color(0xFFC5C5C5), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
+        color: Color(0xFFFFFFFF), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
     double width = 18;
     double height = 18;
     switch (icon) {
@@ -729,7 +729,7 @@ class MyProfilePage extends StatelessWidget {
         break;
       case 'ic_coupons_new':
         width = 22;
-        height = 15;
+        height = 18;
         break;
       case 'diamonds_red':
         width = 18;
@@ -741,41 +741,43 @@ class MyProfilePage extends StatelessWidget {
         break;
     }
     return Expanded(
-        child: InkWell(
-      onTap: () {
-        switch (icon) {
-          case 'ic_balance_money':
-            if (StorageManager.getOnline())
-              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-            break;
-          case 'ic_coupons_new':
-            NavigatorHelper.gotoCouponTabPage(
-                whenComplete: () => UserController.instance().updateInfo());
-            break;
-          case 'diamonds_red':
-            StorageManager.getOnline()
-                ? Get.toNamed(AppPages.WALLET_PAGE,
-                    arguments: Map()..['page'] = 1)
-                : null;
-            break;
-          case 'ic_corns_new':
-            if (StorageManager.getOnline())
-              Get.to(() => BalancePage())
-                  ?.whenComplete(() => UserController.instance().updateInfo());
-            break;
-        }
-      },
-      child: Column(
-        children: [
-          ImageUtil.assetImage(icon, width: width, height: height),
-          2.verticalSpace,
-          Text(
-            '$text' ?? '',
-            style: textStyle,
-          ),
-        ],
+      child: InkWell(
+        onTap: () {
+          switch (icon) {
+            case 'ic_balance_money':
+              if (StorageManager.getOnline())
+                Get.toNamed(AppPages.WALLET_PAGE,
+                    arguments: Map()..['page'] = 0);
+              break;
+            case 'ic_coupons_new':
+              NavigatorHelper.gotoCouponTabPage(
+                  whenComplete: () => UserController.instance().updateInfo());
+              break;
+            case 'diamonds_red':
+              StorageManager.getOnline()
+                  ? Get.toNamed(AppPages.WALLET_PAGE,
+                      arguments: Map()..['page'] = 1)
+                  : null;
+              break;
+            case 'ic_corns_new':
+              if (StorageManager.getOnline())
+                Get.to(() => BalancePage())?.whenComplete(
+                    () => UserController.instance().updateInfo());
+              break;
+          }
+        },
+        child: Column(
+          children: [
+            ImageUtil.assetImage(icon, width: width, height: height),
+            6.verticalSpace,
+            Text(
+              '$text' ?? '',
+              style: textStyle,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget _dashboardLabelItem(String imageName, String title,

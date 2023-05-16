@@ -574,6 +574,7 @@ class WalletBalancePageController extends GetxListController {
     }
     final value = await SmartDialog.show(
       tag: 'DialogPayPsd',
+      alignment: Alignment.center,
       builder: (BuildContext context) =>
           DialogPayPsd(diamonds: englishMoney.value),
     );
