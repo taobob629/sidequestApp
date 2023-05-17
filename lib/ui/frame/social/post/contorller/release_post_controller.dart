@@ -24,7 +24,14 @@ class ReleasePostController extends GetxController {
   final photoList = <String>[].obs;
 
   final textLength = 0.obs;
-  var type = TYPE_DEFAULT; //0是图文 1是建群邀请
+  RxInt _type =RxInt(TYPE_DEFAULT);
+
+  int get type => _type.value;
+
+  set type(int value) {
+    _type.value = value;
+  } //0是图文 1是建群邀请
+
   var gid;
 
   @override

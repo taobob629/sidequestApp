@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
@@ -181,7 +182,20 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
 
   invite() async {
     var selects = list.where((item) => item.isSelet);
-    flog('$selects ');
+    if (selects.isEmpty) {
+      showToast('please select at least one user to share!'.tr);
+      return;
+    }
+    var ids = selects.map((e) => e.uk).toList();
+    flog('$ids ');
+    ImApi.shareGroup(Map()
+      ..['shareIds'] = ids
+      ..['groupId'] = gid
+      ..['name'] = groupName
+      ..['invitor'] = UserController.find.userProfile.nickName);
+    showToast('Share sucess!'.tr);
+    Get.back();
+    return;
     var nickName = UserController.find.userProfile.nickName;
     var params = Map()
       ..['invitor'] = nickName // 邀请人名字

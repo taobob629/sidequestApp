@@ -239,12 +239,14 @@ class ChatPage extends StatelessWidget {
       },
       messageItemBuilder:
           MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
+            flog('isself ${message.isSelf}');
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
         var type = data['type'];
         if (data["message"] != null) {
           data = data['message'];
         }
+        data['isself']=message.isSelf;
         flog('data = $data');
         return GestureDetector(
           onTap: () {
@@ -264,6 +266,11 @@ class ChatPage extends StatelessWidget {
                 break;
               case MessageType.TYPE_INVITE:
                 flog('$data');
+                var gid=data['groupId'];
+                if(gid==null){
+                  showToast('gid为空');
+                  return;
+                }
                 ImUtils.joniGroup(context, data['groupId'], isNeedReplace: true);
                 break;
               default:
@@ -289,8 +296,12 @@ class ChatPage extends StatelessWidget {
                 if (item == 'QR'.tr) {
                   flog('share');
                   controller?.share();
+                  return;
                 }
-                if (item == "Share to Posts".tr) {}
+                if (item == "Share to Posts".tr) {
+                  toCreatePostPage(selectedConversation);
+                  return;
+                }
                 if (item == "Group Info".tr) {
                   final conversationType = selectedConversation.type;
 

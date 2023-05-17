@@ -90,7 +90,7 @@ class ImApi {
         queryParameters: ({'orderId': orderId}), data: formData);
   }
 
-  static Future<Response> createGroup(Map<String, String> parmas) async {
-    return await http.post('/peiwan/app/groups/groups', queryParameters:parmas,data: parmas);
+  static Future<Response> shareGroup(Map params) async {
+    return await http.post('/peiwan/app/groups/share',  data: params);
   }
 }

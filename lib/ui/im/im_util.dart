@@ -15,6 +15,7 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/play_item_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/utils/index.dart';
@@ -141,18 +142,13 @@ showShareDialog(V2TimConversation conversation, BuildContext context) {
                           switch (item.type) {
                             case 0:
                               Get.back();
-                              FollowListPage.to(
+                              FansListPage.to(
                                   gid: conversation.groupID, groupName: conversation.showName);
                               break;
                             case 1:
                               flog('conversation.showName ${conversation.showName}');
                               Get.back();
-                              Get.toNamed(AppPages.ReleasePost,
-                                  arguments: Map()
-                                    ..['gid'] = conversation.groupID
-                                    ..['group_name'] = conversation.showName
-                                    ..['type'] = TYPE_INVITE);
-
+                              toCreatePostPage(conversation);
                               break;
                             case 2:
                               break;
@@ -173,6 +169,14 @@ showShareDialog(V2TimConversation conversation, BuildContext context) {
       ),
       backgroundColor: AppColor.primary,
       enableDrag: false);
+}
+
+void toCreatePostPage(V2TimConversation conversation) {
+     Get.toNamed(AppPages.ReleasePost,
+      arguments: Map()
+        ..['gid'] = conversation.groupID
+        ..['group_name'] = conversation.showName
+        ..['type'] = TYPE_INVITE);
 }
 
 var gidPrefix = 'SiqdequestGid';
@@ -208,7 +212,6 @@ Widget buildGroupInviteWidget(BuildContext context, var content) {
             wordSpacing: 1,
             fontFamily: FONT_MEDIUM,
             decoration: TextDecoration.underline,
-            decorationStyle: TextDecorationStyle.dashed,
             // backgroundColor: Colors.red,
             color: Colors.green,
             fontSize: 14,

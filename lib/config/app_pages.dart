@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/frame/main_page.dart';
+import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 import 'package:wy/ui/frame/messages/group/create/bindings.dart';
 import 'package:wy/ui/frame/messages/group/create/create_group.dart';
@@ -101,6 +102,7 @@ class AppPages {
   static const side_kick_matching_page = '/side_kick_matching_page';
   static const bio_page = '/bio_page';
   static const FollowList = '/folllow_list';
+  static const FansList = '/fans_list';
 
   static final routes = [
     GetPage(
@@ -234,6 +236,10 @@ class AppPages {
     GetPage(
       name: FollowList,
       page: () => FollowListPage(),
+    ),
+    GetPage(
+      name: FansList,
+      page: () => FansListPage(),
     ),
   ];
 }

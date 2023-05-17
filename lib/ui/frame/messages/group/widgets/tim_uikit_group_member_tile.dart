@@ -15,6 +15,7 @@ import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 
 class GroupMemberTile extends TIMUIKitStatelessWidget {
@@ -156,7 +157,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                         height: 48,
                         child: IconButton(
                           onPressed: () {
-                            FollowListPage.to(
+                            FansListPage.to(
                                 gid: model.groupID, groupName: model.groupInfo?.groupName);
                           },
                           icon: const Icon(Icons.add),

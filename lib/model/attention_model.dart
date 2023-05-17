@@ -19,6 +19,7 @@ class AttentionModel {
     isfans = json['isfans'] ?? 0;
     status.value = json['status'] ?? 0;
     id = json['id'] ?? 0;
+    uk = json['uk'] ?? 0;
   }
 
   int sex = 0;
@@ -27,6 +28,7 @@ class AttentionModel {
   String name = "";
   String avatar = "";
   String signature = "";
+  String uk = "";
   int isfans = 0;
   int id = 0;
   RxBool _isSelet=RxBool(false);
@@ -47,6 +49,7 @@ class AttentionModel {
     map['avatar'] = avatar;
     map['isfans'] = isfans;
     map['id'] = id;
+    map['uk'] = uk;
     return map;
   }
 }

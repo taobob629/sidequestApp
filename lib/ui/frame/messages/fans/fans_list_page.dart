@@ -6,15 +6,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/toast_utils.dart';
 
@@ -23,7 +26,13 @@ import '../../../common/base_scaffold.dart';
 
 class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
-
+  static void to({var groupName, var gid}) {
+    Get.toNamed(AppPages.FollowList,
+        arguments: Map()
+          ..['group_name'] = groupName
+          ..['gid'] = gid
+          ..['select_mode'] = true);
+  }
   final t = Get.put(FansListController());
 
   @override
@@ -183,12 +192,27 @@ class FansListController extends GetxRefreshController<AttentionModel> {
   }
   invite() async {
     var selects = list.where((item) => item.isSelet);
-    var nickName = UserController.find.userProfile.nickName;
-    var params = Map()
-      ..['invitor'] = nickName // 邀请人名字
-      ..['type'] = MessageType.TYPE_INVITE //invite
-      ..['groupId'] = gid //群id
-      ..['group_name'] = groupName; //群名字
-      ImUtils.invite(params);
+    if(selects.isEmpty){
+      showToast('please select at least one user to share!'.tr);
+      return;
+    }
+    var ids=selects.map((e) => e.uk).toList();
+    flog(ids);
+    // var nickName = UserController.find.userProfile.nickName;
+    // var params = Map()
+    //   ..['invitor'] = nickName // 邀请人名字
+    //   ..['type'] = MessageType.TYPE_INVITE //invite
+    //   ..['groupId'] = gid //群id
+    //   ..['group_name'] = groupName; //群名字
+    //   ImUtils.invite(params);
+   var res =await ImApi.shareGroup(Map()
+      ..['shareIds'] = jsonEncode(ids)
+      ..['groupId'] = gid
+      ..['group_name'] = groupName
+      ..['name'] = groupName
+      ..['invitor'] = UserController.find.userProfile.nickName);
+    showToast('Share sucess!'.tr);
+    Get.back();
   }
+
 }
