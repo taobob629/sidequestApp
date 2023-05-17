@@ -89,7 +89,7 @@ class ReleasePostController extends GetxController {
 
     PostApi.releasePost(
             content: type == TYPE_INVITE ? buildShareGroupText(content, gid) : content,
-            images: jsonEncode(photoList),
+            images:type == TYPE_INVITE ?jsonEncode([gid]): jsonEncode(photoList),
             type: type)
         .then((value) {
       Get.back(result: "ReloadData");

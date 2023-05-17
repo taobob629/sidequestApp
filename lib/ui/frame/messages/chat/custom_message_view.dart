@@ -47,14 +47,17 @@ class CustomMessageView extends StatelessWidget {
         );
     }
   }
-  Widget _groupWidget(){
-   return Container(
-     color: Colors.black,
-     child: Text(
-     "${data['desc']}",
-     style: TextStyle(fontSize: 12, color: Colors.white24),
-   ),);
- }
+
+  Widget _groupWidget() {
+    return Container(
+      color: Colors.black,
+      child: Text(
+        "${data['desc']}",
+        style: TextStyle(fontSize: 12, color: Colors.white24),
+      ),
+    );
+  }
+
   Widget _postMsgItem() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -106,14 +109,58 @@ class CustomMessageView extends StatelessWidget {
 
   _inviteWidget() {
     return Container(
-        padding: EdgeInsets.all(16).r,
-        width: width,
-        alignment: Alignment.center,
-        decoration: itemDecoration(color: AppColor.navBarInactive),
-        child: Text(
-          '${data['invitor']} ${'has invite you join'.tr} room " ${data['group_name']}" ',
-          style: TextStyle(color: Colors.white, fontSize: 12.sp),
-        ));
+      padding: EdgeInsets.all(18),
+      width: Get.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ShaderMask(
+            shaderCallback: (rect) {
+              return const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  transform: GradientRotation(90),
+                  colors: [Colors.red, Colors.blue, Colors.yellow, Colors.pink],
+                  stops: [0.2, 0.3, 0.4, 0.9]).createShader(rect);
+            },
+            child: Text(
+              "💌 WELCOME TO JOIN 💌",
+              style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+            ),
+          ),
+          20.verticalSpace,
+          Text.rich(TextSpan(children: [
+            TextSpan(
+                text: '${data['invitor']}',
+                style: TextStyle(color: Color(0xffFFD20E), fontSize: 13.sp)),
+            TextSpan(
+                text: ' "invites you to join"',
+                style: TextStyle(color: Color(0xffFFD20E), fontSize: 13.sp)),
+            TextSpan(
+                text: ' ${data['group_name'] }',
+                style: TextStyle( fontSize: 13.sp))
+          ]))
+        ],
+      ),
+      decoration: message_decoration(),
+    );
+  }
+
+  BoxDecoration message_decoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(15.r),
+        bottomRight: Radius.circular(15.r),
+        bottomLeft: Radius.circular(15.r),
+      ),
+      border: Border.all(color: Color(0xff9186FF), width: 0.5.h),
+      gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+        Color(0x00262731),
+        Color(0x22BD56B6),
+      ]),
+    );
   }
 
   Widget _topUpCreditWidget() => Container(

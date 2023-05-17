@@ -156,7 +156,11 @@ RegExp exp = RegExp(r'SiqdequestGid=([^]*?)=');
 buildShareGroupText(var content, var gid) {
   return '$content $gidPrefix=$gid=';
 }
-
+decodeGroupGid(var content){
+  RegExpMatch? match = exp.firstMatch(content);
+  var gid = match?.group(1) ?? '';
+  return gid;
+}
 Widget buildGroupInviteWidget(BuildContext context, var content) {
   RegExpMatch? match = exp.firstMatch(content);
   var gid = match?.group(1) ?? '';

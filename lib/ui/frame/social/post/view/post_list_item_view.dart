@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
@@ -131,7 +132,16 @@ class PostListItemView extends StatelessWidget {
                 crossAxisSpacing: 10,
                 childAspectRatio: model.imageList.length == 1 ? 345 / 195 : 1,
                 children: model.imageList
-                    .map((imgUrl) => GestureDetector(
+                    .map((imgUrl) => (model.type==TYPE_INVITE)?Container(
+                  alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                    clipBehavior: Clip.antiAlias,
+                    child:QrImage(
+                      foregroundColor: Colors.white,
+                      data: imgUrl,
+                    ),
+                ):GestureDetector(
                           onTap: () {
                             Get.dialog(
                                 CsPhotoViewer(
