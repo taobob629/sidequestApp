@@ -1,4 +1,4 @@
-
+import 'package:wy/model/cybercafe_detail_model.dart';
 import 'package:wy/model/selector_item.dart';
 
 class BookingModel {
@@ -7,12 +7,12 @@ class BookingModel {
   late String store = "";
   late int areaId = 0;
   late String area = "";
-  late int people= 0;
+  late int people = 0;
   late int duration = 0;
   late int time = 0;
   late bool done = false;
   late String phone = "";
-  late String timeString="";
+  late String timeString = "";
 
   BookingModel();
 
@@ -27,7 +27,7 @@ class BookingModel {
     duration = json['duration'] == null ? 0 : json['duration'];
     time = json['time'] == null ? 0 : json['time'];
     done = json['done'] == null ? false : json['done'];
-    timeString=json['timeString'] == null ? "" : json['timeString'];
+    timeString = json['timeString'] == null ? "" : json['timeString'];
   }
 }
 
@@ -48,18 +48,18 @@ class StoreModel {
     openTime = json['openTime'] == null ? "" : json['openTime'];
   }
 
-  DateTime getStart(){
+  DateTime getStart() {
     List<String> times = openTime.trim().split("-");
-    if(times.length > 0){
+    if (times.length > 0) {
       String startTime = times[0].trim();
       return DateTime.parse("1970-01-01 $startTime:00");
     }
     return DateTime.parse("1970-01-01 00:00:00");
   }
 
-  DateTime getEnd(){
+  DateTime getEnd() {
     List<String> times = openTime.trim().split("-");
-    if(times.length == 2){
+    if (times.length == 2) {
       String endTime = times[1].trim();
       return DateTime.parse("1970-01-01 $endTime:00");
     }
@@ -81,7 +81,7 @@ class StoreAreaModel {
   }
 }
 
-class BookingSelectModel extends SelectorItem{
+class BookingSelectModel extends SelectorItem {
   late int id = 0;
   late String name = "";
 
@@ -96,12 +96,15 @@ class BookingSelectModel extends SelectorItem{
 
   @override
   String displayInfo() {
-    if(model != null){
-      if(model is StoreModel){
+    if (model != null) {
+      if (model is StoreModel) {
         StoreModel storeModel = model as StoreModel;
         return "Location: ${storeModel.address}\nBusiness Hours: ${storeModel.openTime}";
-      }else if(model is StoreAreaModel){
+      } else if (model is StoreAreaModel) {
         StoreAreaModel areaModel = model as StoreAreaModel;
+        return "Booking Deposit: £ ${areaModel.bookingPrice.toStringAsFixed(2)}";
+      } else if (model is AreaVoList) {
+        AreaVoList areaModel = model as AreaVoList;
         return "Booking Deposit: £ ${areaModel.bookingPrice.toStringAsFixed(2)}";
       }
     }
@@ -109,12 +112,12 @@ class BookingSelectModel extends SelectorItem{
   }
 
   @override
-  bool selectable(){
+  bool selectable() {
     return true;
   }
 
   @override
-  String toString(){
+  String toString() {
     return name;
   }
 }

@@ -280,6 +280,7 @@ class BookingDialog extends StatelessWidget {
       if (value != null) {
         ifSelectRoom.value = true;
         this.area.value = value as BookingSelectModel;
+        showSelectPlayers();
       }
     });
   }
@@ -298,6 +299,7 @@ class BookingDialog extends StatelessWidget {
       if (value != null) {
         ifSelectDuration.value = true;
         this.time.value = value;
+        showSelectHowLong();
       }
     });
   }
@@ -317,6 +319,7 @@ class BookingDialog extends StatelessWidget {
         ifSelectHowLong.value = true;
         BookingSelectModel duration = value as BookingSelectModel;
         this.duration.value = duration;
+        showSelectRoom();
       }
     });
   }
