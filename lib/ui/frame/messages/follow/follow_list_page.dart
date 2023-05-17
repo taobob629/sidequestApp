@@ -177,7 +177,6 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
   Future<List<AttentionModel>> loadData({int pageNum = 1}) async {
     // TODO: implement loadData
     return await UserApi.followList(pageNum, 20);
-    throw UnimplementedError();
   }
 
   invite() async {

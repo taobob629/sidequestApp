@@ -24,6 +24,7 @@ class MessagesPage extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
+            leading: Container(),
             backgroundColor: Colors.transparent,
             actions: [
               Obx(() => Visibility(

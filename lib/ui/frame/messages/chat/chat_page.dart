@@ -33,7 +33,8 @@ class ChatController extends BasePageController {
   V2TimConversation selectedConversation;
 
   ChatController(this.selectedConversation);
-  var count=0.obs;
+
+  var count = 0.obs;
 
   @override
   void onInit() {
@@ -42,12 +43,12 @@ class ChatController extends BasePageController {
   }
 
   Future<void> getGroupInfo() async {
-    var res =await TencentImSDKPlugin.v2TIMManager
+    var res = await TencentImSDKPlugin.v2TIMManager
         .getGroupManager()
         .getGroupsInfo(groupIDList: [selectedConversation.groupID!]);
-    if(res.code==0) {
+    if (res.code == 0) {
       var groupInfo = res.data?.first;
-      count.value= groupInfo?.groupInfo?.memberCount??0;
+      count.value = groupInfo?.groupInfo?.memberCount ?? 0;
     }
   }
 
@@ -58,12 +59,11 @@ class ChatController extends BasePageController {
             height: 200,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16.0))),
             child: QrImage(
               // backgroundColor: Colors.white,
               foregroundColor: AppColor.itemBg,
-              data: jsonEncode(Map()..['gid']=selectedConversation.groupID),
+              data: jsonEncode(Map()..['gid'] = selectedConversation.groupID),
               size: 100.0,
             )),
         animationTime: Duration.zero,
@@ -76,7 +76,7 @@ class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
   final String orderSn;
   final V2TimMessage? initFindingMsg;
-  var popMenus = ['Share', 'Group Info'];
+  var popMenus = ['QR', 'Share to Posts', 'Group Info'];
 
   ChatPage({
     Key? key,
@@ -103,11 +103,12 @@ class ChatPage extends StatelessWidget {
 
   PlayOrderDetailModel? playOrderDetailModel;
   ChatController? controller;
+
   @override
   Widget build(BuildContext context) {
-
     if (!Get.isRegistered<ChatController>(tag: "ChatKey")) {
-      controller= Get.put(ChatController(selectedConversation), tag: selectedConversation.conversationID);
+      controller =
+          Get.put(ChatController(selectedConversation), tag: selectedConversation.conversationID);
     }
     getUserId();
 
@@ -115,7 +116,8 @@ class ChatPage extends StatelessWidget {
       appBarConfig: selectedConversation.type == 1
           ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
           : AppBar(
-        title: Obx(()=>Text('${selectedConversation.showName} (${'${controller?.count.value}'})')),
+              title: Obx(
+                  () => Text('${selectedConversation.showName} (${'${controller?.count.value}'})')),
               actions: actions(context),
             ),
       config: TIMUIKitChatConfig(
@@ -261,7 +263,8 @@ class ChatPage extends StatelessWidget {
                 // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
                 break;
               case MessageType.TYPE_INVITE:
-                ImUtils.joniGroup(context, data['gid'],isNeedReplace: true);
+                flog('$data');
+                ImUtils.joniGroup(context, data['groupId'], isNeedReplace: true);
                 break;
               default:
             }
@@ -283,11 +286,11 @@ class ChatPage extends StatelessWidget {
           child: PopupMenuButton(
               color: AppColor.itemBg,
               onSelected: (item) {
-                if (item == 'Share'.tr) {
+                if (item == 'QR'.tr) {
                   flog('share');
                   controller?.share();
-                
                 }
+                if (item == "Share to Posts".tr) {}
                 if (item == "Group Info".tr) {
                   final conversationType = selectedConversation.type;
 
@@ -315,7 +318,7 @@ class ChatPage extends StatelessWidget {
                           child: IconTextWidget(
                             icon: '',
                             iconWidget: Icon(
-                              index == 0 ? Icons.share : IconFonts.setting,
+                              menuIcon(index),
                               size: 22,
                               color: Colors.white,
                             ),
@@ -324,6 +327,17 @@ class ChatPage extends StatelessWidget {
                         ))
                   ])),
     ];
+  }
+
+  menuIcon(var index) {
+    switch (index) {
+      case 0:
+        return Icons.qr_code;
+      case 1:
+        return Icons.share;
+      case 2:
+        return Icons.settings;
+    }
   }
 
   _getPlayOrder() {

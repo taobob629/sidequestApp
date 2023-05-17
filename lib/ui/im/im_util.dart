@@ -14,6 +14,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/play_item_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/utils/index.dart';
@@ -27,6 +28,30 @@ import '../frame/messages/chat/chat_page.dart';
     描述:
  */
 class ImUtils {
+  static Future<void> invite(var params) async {
+    var nickName = UserController.find.userProfile.nickName;
+    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
+        await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
+              data: json.encode(params),
+              desc: '',
+              extension: '自定义extension',
+            );
+    if (createCustomMessageRes.code == 0) {
+      //发送消息
+      String? id = createCustomMessageRes.data?.id;
+      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin.v2TIMManager
+          .getMessageManager()
+          .sendMessage(id: id!, receiver: "UK20021778", groupID: "");
+      if (sendMessageRes.code == 0) {
+        // 发送成功
+      } else {
+        showToast('邀请失败,错误码${sendMessageRes.code}');
+      }
+    } else {
+      showToast('邀请失败,错误码${createCustomMessageRes.code}');
+    }
+  }
+
   /**
    * 加入群聊
    */
@@ -156,11 +181,13 @@ RegExp exp = RegExp(r'SiqdequestGid=([^]*?)=');
 buildShareGroupText(var content, var gid) {
   return '$content $gidPrefix=$gid=';
 }
-decodeGroupGid(var content){
+
+decodeGroupGid(var content) {
   RegExpMatch? match = exp.firstMatch(content);
   var gid = match?.group(1) ?? '';
   return gid;
 }
+
 Widget buildGroupInviteWidget(BuildContext context, var content) {
   RegExpMatch? match = exp.firstMatch(content);
   var gid = match?.group(1) ?? '';
@@ -188,3 +215,5 @@ Widget buildGroupInviteWidget(BuildContext context, var content) {
             fontWeight: FontWeight.bold)),
   ]));
 }
+
+buildShareQr(var gid) {}

@@ -136,30 +136,26 @@ class CustomMessageView extends StatelessWidget {
                 text: '${data['invitor']}',
                 style: TextStyle(color: Color(0xffFFD20E), fontSize: 13.sp)),
             TextSpan(
-                text: ' "invites you to join"',
-                style: TextStyle(color: Color(0xffFFD20E), fontSize: 13.sp)),
+                text: ' invites you to join ',
+                style: TextStyle(color: Colors.white, fontSize: 13.sp)),
             TextSpan(
                 text: ' ${data['group_name'] }',
-                style: TextStyle( fontSize: 13.sp))
+                style: TextStyle( fontSize: 13.sp,color: Color(0xffFFD20E)))
           ]))
         ],
       ),
-      decoration: message_decoration(),
-    );
-  }
-
-  BoxDecoration message_decoration() {
-    return BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(15.r),
-        bottomRight: Radius.circular(15.r),
-        bottomLeft: Radius.circular(15.r),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15.r),
+          bottomRight: Radius.circular(15.r),
+          bottomLeft: Radius.circular(15.r),
+        ),
+        border: Border.all(color: Color(0xff9186FF), width: 0.5.h),
+        gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+          Color(0x00262731),
+          Color(0x22BD56B6),
+        ]),
       ),
-      border: Border.all(color: Color(0xff9186FF), width: 0.5.h),
-      gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-        Color(0x00262731),
-        Color(0x22BD56B6),
-      ]),
     );
   }
 
