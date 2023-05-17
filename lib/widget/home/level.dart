@@ -28,7 +28,7 @@ class GameLevelWidget extends StatelessWidget {
         : GestureDetector(
             onTap: () => userId == user.pwId ? Get.toNamed(AppPages.Grade) : null,
             child: ImageUtil.assetImage(
-                (isAuth == TYPE_VIP ? 'play/level_$level' : 'play/titles_$level'),
-                imageType: IMG_PNG,width: 15.w,height: 15.w));
+                (isAuth == TYPE_VIP ? 'play/lv$level' : 'play/titles_$level'),
+                imageType: IMG_WEBP,height: 15.w));
   }
 }
