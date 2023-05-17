@@ -3,24 +3,21 @@
     创建日期:2023/3/9
     描述:
  */
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/wy_http.dart';
-import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
-import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/game/game_home_page.dart';
-import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
@@ -29,7 +26,6 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
-import '../../../model/booking_model.dart';
 import '../../../utils/toast_utils.dart';
 import '../skill/list/controller.dart';
 
@@ -71,84 +67,10 @@ class AddGamePageController extends GetxController {
     _platform.value = value;
   }
 
-  var promotionSwitch = true.obs;
-
-  List<BookingSelectModel> promotionList = [];
-  var currentPromotion = BookingSelectModel().obs;
-
-  List<BookingSelectModel> discountList = [];
-  var currentDiscount = BookingSelectModel().obs;
-
-  List<BookingSelectModel> orderFreeList = [];
-  var currentOrderFree = BookingSelectModel().obs;
-
-  List<BookingSelectModel> xAndYList = [];
-  var currentBuyX = BookingSelectModel().obs;
-  var currentGetY = BookingSelectModel().obs;
-
   @override
   void onInit() {
     super.onInit();
     isShowVoice = showVoice();
-
-    BookingSelectModel model = BookingSelectModel();
-    model.id = 0;
-    model.name = "Discount";
-    promotionList.add(model);
-    model = BookingSelectModel();
-    model.id = 1;
-    model.name = "1st Order Free";
-    promotionList.add(model);
-    model = BookingSelectModel();
-    model.id = 2;
-    model.name = "Buy X Get Y Free";
-    promotionList.add(model);
-    currentPromotion.value = promotionList[0];
-
-    model = BookingSelectModel();
-    model.id = 0;
-    model.name = "5% Off";
-    discountList.add(model);
-    model = BookingSelectModel();
-    model.id = 1;
-    model.name = "10% Off";
-    discountList.add(model);
-    model = BookingSelectModel();
-    model.id = 2;
-    model.name = "15% Off";
-    discountList.add(model);
-    model = BookingSelectModel();
-    model.id = 3;
-    model.name = "20% Off";
-    discountList.add(model);
-    currentDiscount.value = discountList[0];
-
-    model = BookingSelectModel();
-    model.id = 0;
-    model.name = "30% Off";
-    orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 1;
-    model.name = "50% Off";
-    orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 2;
-    model.name = "80% Off";
-    orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 3;
-    model.name = "100% Off";
-    orderFreeList.add(model);
-    currentOrderFree.value = orderFreeList[0];
-
-    for (int i = 1; i <= 10; i++) {
-      model = BookingSelectModel();
-      model.id = i;
-      model.name = "$i";
-      xAndYList.add(model);
-    }
-
-    currentBuyX.value = currentGetY.value = xAndYList[0];
   }
 
   @override
@@ -253,6 +175,7 @@ class AddGamePageController extends GetxController {
       return;
     }
     if (mPriceRanges.isEmpty) {
+      priceRanges.first.initData();
       mPriceRanges.add(priceRanges.first);
       return;
     }
@@ -266,6 +189,7 @@ class AddGamePageController extends GetxController {
     var item = priceRanges
         .firstWhereOrNull((element) => !mPriceRanges.contains(element));
     if (item != null) {
+      item.initData();
       mPriceRanges.add(item);
     }
   }
@@ -285,7 +209,7 @@ class AddGamePageController extends GetxController {
       showToast('Please input a service intro!'.tr);
       return;
     }
-    
+
     updateService();
   }
 
@@ -305,37 +229,48 @@ class AddGamePageController extends GetxController {
         return;
       }
       if (background.isEmpty) {
-        showToast(
-            'Please upload a picture as the service cover image!'.tr);
+        showToast('Please upload a picture as the service cover image!'.tr);
         return;
       }
     }
     showLoading();
 
-    Map discount = {};
-    if (currentPromotion.value.id == 0) {
-      // Discount
-      discount = {
-        'type': 1,
-        'discount': currentDiscount.value.name.split('%')[0],
-        'enable': promotionSwitch.value ? 1 : 0,
-      };
-    } else if (currentPromotion.value.id == 1) {
-      // 1st OrderFree
-      discount = {
-        'type': 3,
-        'discount': currentOrderFree.value.name.split('%')[0],
-        'enable': promotionSwitch.value ? 1 : 0,
-      };
-    } else if (currentPromotion.value.id == 2) {
-      // Buy X Get Y
-      discount = {
-        'type': 2,
-        'buy': currentBuyX.value.name,
-        'get': currentGetY.value.name,
-        'enable': promotionSwitch.value ? 1 : 0,
-      };
-    }
+    List<LocalPriceRangeBean> priceRangeList = [];
+    LocalPriceRangeBean rangeModel;
+    mPriceRanges.forEach((element) {
+      Map discount = {};
+      if (element.currentPromotion.value.id == 0) {
+        // Discount
+        discount = {
+          'type': 1,
+          'discount': element.currentDiscount.value.name.split('%')[0],
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      } else if (element.currentPromotion.value.id == 1) {
+        // 1st OrderFree
+        discount = {
+          'type': 3,
+          'discount': element.currentOrderFree.value.name.split('%')[0],
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      } else if (element.currentPromotion.value.id == 2) {
+        // Buy X Get Y
+        discount = {
+          'type': 2,
+          'buy': element.currentBuyX.value.name,
+          'get': element.currentGetY.value.name,
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      }
+
+      rangeModel = LocalPriceRangeBean(
+        unit: element.unit,
+        price: element.curPrice == 0 ? element.gameCoinMin : element.curPrice,
+        name: element.name,
+        discount: jsonEncode(discount),
+      );
+      priceRangeList.add(rangeModel);
+    });
 
     var data = {
       if (isEdit) "id": id,
@@ -345,11 +280,10 @@ class AddGamePageController extends GetxController {
       "wswitch": isWswitch,
       "coinid": 0,
       // "coin": priceRangeCon.text,
-      'serviceTypes': mPriceRanges,
+      'serviceTypes': priceRangeList,
       'fieldItems': buildFiledsParams(),
       'des': desc,
       'backGround': background,
-      'discount': discount,
       'voice': voiceUrl,
       // "des": beGoodAtCon.text,
     };
@@ -428,7 +362,7 @@ class AddGamePageController extends GetxController {
     //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
     // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
     return UserController.find.userProfile.isAuth == 0 &&
-        UserController.find.userProfile.voice?.isEmpty==true;
+        UserController.find.userProfile.voice?.isEmpty == true;
   }
 
   toRecordPage(BuildContext context, {int type = record_type_service}) {
@@ -488,6 +422,7 @@ class AddGamePageController extends GetxController {
       showToast('Please input a name!'.tr);
       return;
     }
+
     Get.toNamed(AppPages.bio_page, preventDuplicates: false)?.then((refresh) {
       if (refresh) {
         if (isEdit) onRefresh();
