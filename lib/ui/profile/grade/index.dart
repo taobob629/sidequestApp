@@ -71,13 +71,13 @@ class GradePage extends GetView<GradeController> {
                                               Image(
                                                 image: AssetImage(
                                                     controller.curLevelImg()),
-                                                height: 32,
+                                                height: 23,
                                               ),
                                               Spacer(),
                                               Image(
                                                 image: AssetImage(
                                                     controller.nextLevelImg()),
-                                                height: 32,
+                                                height: 23,
                                               ),
                                               Spacer()
                                             ],
@@ -85,7 +85,7 @@ class GradePage extends GetView<GradeController> {
                                 Positioned(
                                   left: 10,
                                   right: 10,
-                                  bottom: 20,
+                                  bottom: 22,
                                   child: Visibility(
                                       visible: controller.isauth == TYPE_VIP,
                                       child: Center(
