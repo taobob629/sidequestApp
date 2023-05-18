@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
@@ -7,23 +8,23 @@ import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_chat_controller.dart';
 
 import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/ui/frame/messages/group/widgets/transimit_group_owner_select.dart';
 
 class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
   final String groupID;
   final TUIGroupProfileModel model;
   final sdkInstance = TIMUIKitCore.getSDKInstance();
   final coreInstance = TIMUIKitCore.getInstance();
-  final TIMUIKitChatController _timuiKitChatController =
-      TIMUIKitChatController();
+  final TIMUIKitChatController _timuiKitChatController = TIMUIKitChatController();
 
-  GroupProfileButtonArea(this.groupID, this.model, {Key? key})
-      : super(key: key);
+  GroupProfileButtonArea(this.groupID, this.model, {Key? key}) : super(key: key);
 
   final _operationList = [
-    {"label": TIM_t("清空聊天记录"), "id": "clearHistory"},
-    {"label": TIM_t("转让群主"), "id": "transimitOwner"},
-    {"label": TIM_t("删除并退出"), "id": "quitGroup"},
-    {"label": TIM_t("解散该群"), "id": "dismissGroup"}
+    {"label": "清空聊天记录".tr, "id": "clearHistory"},
+    {"label": "转让群主".tr, "id": "transimitOwner"},
+    {"label": "删除并退出".tr, "id": "quitGroup"},
+    {"label": "解散该群".tr, "id": "dismissGroup"}
   ];
 
   _clearHistory(BuildContext context, theme) async {
@@ -37,7 +38,10 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                 context,
               );
             },
-            child: Text(TIM_t("取消")),
+            child: Text(
+              "Cancel".tr,
+              style: textStyle,
+            ),
             isDefaultAction: false,
           ),
           actions: [
@@ -63,7 +67,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                 }
               },
               child: Text(
-                TIM_t("清空聊天记录"),
+                "清空聊天记录".tr,
                 style: TextStyle(color: theme.cautionColor),
               ),
               isDefaultAction: false,
@@ -79,14 +83,17 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return CupertinoActionSheet(
-          title: Text(TIM_t("退出后不会接收到此群聊消息")),
+          title: Text("退出后不会接收到此群聊消息".tr),
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(
                 context,
               );
             },
-            child: Text(TIM_t("取消")),
+            child: Text(
+              'Cancel'.tr,
+              style: textStyle,
+            ),
             isDefaultAction: false,
           ),
           actions: [
@@ -106,7 +113,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                 }
               },
               child: Text(
-                TIM_t("确定"),
+                'Confirm'.tr,
                 style: TextStyle(color: theme.cautionColor),
               ),
               isDefaultAction: false,
@@ -117,19 +124,24 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
     );
   }
 
+  var textStyle = TextStyle(color: AppColor.textC3);
+
   _dismissGroup(BuildContext context, theme) async {
     showCupertinoModalPopup<String>(
       context: context,
       builder: (BuildContext context) {
         return CupertinoActionSheet(
-          title: Text(TIM_t("解散后不会接收到此群聊消息")),
+          title: Text("解散后不会接收到此群聊消息".tr),
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(
                 context,
               );
             },
-            child: Text(TIM_t("取消")),
+            child: Text(
+              'Cancel'.tr,
+              style: textStyle,
+            ),
             isDefaultAction: false,
           ),
           actions: [
@@ -147,7 +159,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                 }
               },
               child: Text(
-                TIM_t("确定"),
+                'Confirm'.tr,
                 style: TextStyle(color: theme.cautionColor),
               ),
               isDefaultAction: false,
@@ -170,9 +182,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
     );
     if (selectedMember != null) {
       final userID = selectedMember.first.userID;
-      await sdkInstance
-          .getGroupManager()
-          .transferGroupOwner(groupID: groupID, userID: userID);
+      await sdkInstance.getGroupManager().transferGroupOwner(groupID: groupID, userID: userID);
     }
   }
 
@@ -184,12 +194,10 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
             return ["quitGroup", "clearHistory"].contains(element["id"]);
           } else {
             if (groupType == "Work") {
-              return ["clearHistory", "quitGroup", "transimitOwner"]
-                  .contains(element["id"]);
+              return ["clearHistory", "quitGroup", "transimitOwner"].contains(element["id"]);
             }
             if (groupType != "Work") {
-              return ["clearHistory", "dismissGroup", "transimitOwner"]
-                  .contains(element["id"]);
+              return ["clearHistory", "dismissGroup", "transimitOwner"].contains(element["id"]);
             }
             return true;
           }
@@ -213,8 +221,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                     color: Colors.white,
                     border: Border(
                         bottom: BorderSide(
-                            color: theme.weakDividerColor ??
-                                CommonColor.weakDividerColor))),
+                            color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
                 child: Text(
                   e["label"]!,
                   style: TextStyle(color: theme.cautionColor, fontSize: 17),
@@ -230,11 +237,8 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
     final groupInfo = model.groupInfo;
     return Column(
       children: [
-        ..._renderGroupOperation(
-            context,
-            theme,
-            groupInfo?.owner == coreInstance.loginUserInfo?.userID,
-            groupInfo?.groupType ?? "")
+        ..._renderGroupOperation(context, theme,
+            groupInfo?.owner == coreInstance.loginUserInfo?.userID, groupInfo?.groupType ?? "")
       ],
     );
   }

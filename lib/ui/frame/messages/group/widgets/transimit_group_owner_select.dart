@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
@@ -104,7 +105,7 @@ class _SelectCallInviterState extends TIMUIKitState<SelectTransimitOwner> {
               Navigator.pop(context);
             },
             child: Text(
-              TIM_t("取消"),
+              'Cancel'.tr,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -119,7 +120,7 @@ class _SelectCallInviterState extends TIMUIKitState<SelectTransimitOwner> {
                 }
               },
               child: Text(
-                TIM_t("完成"),
+                "完成".tr,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -129,8 +130,8 @@ class _SelectCallInviterState extends TIMUIKitState<SelectTransimitOwner> {
           ],
           centerTitle: true,
           leadingWidth: 100,
-          title: const Text(
-            "转让群主",
+          title:  Text(
+            "转让群主".tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 17,

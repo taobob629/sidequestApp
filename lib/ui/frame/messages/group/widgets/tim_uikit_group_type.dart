@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
@@ -48,7 +49,7 @@ class GroupProfileType extends TIMUIKitStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            TIM_t("群类型"),
+            "群类型".tr,
             style: TextStyle(fontSize: 16, color: theme.darkTextColor),
           ),
           Text(

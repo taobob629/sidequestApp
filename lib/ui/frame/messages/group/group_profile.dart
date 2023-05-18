@@ -67,6 +67,7 @@ class GroupProfilePage extends StatelessWidget {
                   }
                 },
                 profileWidgetBuilder: MyGroupProfileWidgetBuilder(searchMessage: () {
+                  return SizedBox(height: 1,);
                   return TIMUIKitGroupProfileWidget.searchMessage(
                       (V2TimConversation? conversation) {
                     Navigator.push(
@@ -90,6 +91,6 @@ class GroupProfilePage extends StatelessWidget {
                 }),
               ),
             )),
-        name: 'groupProfile');
+        name: 'groupProfile'.tr);
   }
 }

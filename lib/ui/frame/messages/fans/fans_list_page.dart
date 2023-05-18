@@ -54,6 +54,14 @@ class FansListPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
+                        Visibility(
+                            visible: t.selelctMode,
+                            child: Obx(() => Checkbox(
+                              value: model.isSelet,
+                              onChanged: (bool? value) {
+                                model.isSelet = value ?? false;
+                              },
+                            ))),
                         GestureDetector(
                             onTap: () =>
                                 NavigatorHelper.toOtherProfile(model.id),
@@ -69,14 +77,6 @@ class FansListPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Visibility(
-                                  visible: t.selelctMode,
-                                  child: Obx(() => Checkbox(
-                                    value: model.isSelet,
-                                    onChanged: (bool? value) {
-                                      model.isSelet = value ?? false;
-                                    },
-                                  ))),
                               Row(
                                 children: [
                                   Text(

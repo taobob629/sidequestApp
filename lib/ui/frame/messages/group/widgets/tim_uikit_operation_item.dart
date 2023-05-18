@@ -38,6 +38,7 @@ class TIMUIKitOperationItem extends TIMUIKitStatelessWidget {
     final TUITheme theme = value.theme;
 
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 1),
       child: Row(

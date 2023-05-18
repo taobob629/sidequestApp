@@ -11,7 +11,6 @@ import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitGroupProfile/group_profile_widget.dart';
 
 import 'widgets/index.dart';
-export 'package:tencent_cloud_chat_uikit/ui/widgets/transimit_group_owner_select.dart';
 class GroupProfile extends StatefulWidget {
   /// Group ID
   final String groupID;

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
@@ -8,6 +9,7 @@ import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:wy/config/app_color.dart';
 
 class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   final V2TimGroupInfo groupInfo;
@@ -17,7 +19,7 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   GroupProfileDetailCard(
       {Key? key, required this.groupInfo, this.updateGroupName})
       : super(key: key);
-
+var textColor=Colors.black;
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final TUITheme theme = value.theme;
@@ -37,7 +39,7 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                       context,
                     );
                   },
-                  child: Text(TIM_t("取消")),
+                  child: Text('Cancel'.tr),
                   isDefaultAction: false,
                 ),
                 actions: [
@@ -63,7 +65,7 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
-                                    child: Text(TIM_t("修改群名称")),
+                                    child: Text('修改群名称'.tr,style: TextStyle(color: Colors.black),),
                                   ),
                                   Divider(
                                       height: 2, color: theme.weakDividerColor),
@@ -87,10 +89,10 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                           height: 10,
                                         ),
                                         Text(
-                                          TIM_t("修改群名称"),
+                                        '修改群名称'.tr,
                                           style: TextStyle(
                                               fontSize: 13,
-                                              color: theme.weakTextColor),
+                                              color: AppColor.textC3),
                                           textAlign: TextAlign.left,
                                         ),
                                         const SizedBox(
@@ -110,7 +112,7 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                                 Navigator.pop(context);
                                                 Navigator.pop(context);
                                               },
-                                              child: Text(TIM_t("确定")),
+                                              child: Text('Confirm'.tr),
                                             )),
                                         const SizedBox(
                                           height: 20,
@@ -130,8 +132,8 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                           });
                     },
                     child: Text(
-                      TIM_t("修改群名称"),
-                      style: TextStyle(color: theme.primaryColor),
+                      "修改群名称".tr,
+                      style: TextStyle(color: Colors.black),
                     ),
                     isDefaultAction: false,
                   )
@@ -165,7 +167,7 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                     Text(
                       showName,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600),
+                          fontSize: 18, fontWeight: FontWeight.w600,color: Colors.black),
                     ),
                     const SizedBox(
                       height: 8,
