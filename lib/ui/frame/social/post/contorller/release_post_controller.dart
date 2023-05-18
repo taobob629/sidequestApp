@@ -37,12 +37,14 @@ class ReleasePostController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    var arg = Get.arguments as Map;
-    type = arg['type'] ?? TYPE_DEFAULT;
-    gid = arg['gid'];
-    if (gid != null) {
-      var group_name = arg['group_name'];
-      textController.text = '我刚创建了一个 " $group_name " 交流群，大家快来加入吧!';
+    if(Get.arguments!=null) {
+      var arg = Get.arguments as Map;
+      type = arg['type'] ?? TYPE_DEFAULT;
+      gid = arg['gid'];
+      if (gid != null) {
+        var group_name = arg['group_name'];
+        textController.text = '我刚创建了一个 " $group_name " 交流群，大家快来加入吧!';
+      }
     }
   }
 
