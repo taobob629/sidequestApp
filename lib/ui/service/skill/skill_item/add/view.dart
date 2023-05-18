@@ -164,7 +164,7 @@ class SkillItemAddPage extends GetView<SkillItemAddPageController> {
           Row(
             children: [
               Text(
-                'Setting Promotion',
+                'Promotion Setting'.tr,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

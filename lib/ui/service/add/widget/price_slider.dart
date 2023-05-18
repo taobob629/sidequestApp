@@ -237,7 +237,7 @@ class PriceSlider extends GetView<AddGamePageController> {
             Row(
               children: [
                 Text(
-                  'Setting Promotion',
+                  'Promotion Setting'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -374,7 +374,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 Get.dialog(
                     SelectorDialog(
                         items: PromotionConfig().orderFreeList,
-                        title: "Choose a 1st Order Free".tr),
+                        title: "Choose a 1st Order Discount".tr),
                     barrierColor: Colors.black26)
                     .then((value) {
                   if (value != null) {
