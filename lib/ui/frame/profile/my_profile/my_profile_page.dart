@@ -641,6 +641,7 @@ class MyProfilePage extends StatelessWidget {
                           onTap: () => Get.to(
                             () => MyOrdersPage(),
                           ),
+                          badgeNum: userController.userProfile.orderNum,
                         ),
                       ),
                       Expanded(
@@ -661,6 +662,7 @@ class MyProfilePage extends StatelessWidget {
                           ImageUtils.icon_post,
                           "Post".tr,
                           onTap: () => Get.to(() => MyPostsPage()),
+                          badgeNum: userController.userProfile.postNum,
                         ),
                       ),
                       Expanded(
@@ -781,7 +783,7 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget _dashboardLabelItem(String imageName, String title,
-          {Function()? onTap}) =>
+          {Function()? onTap, int badgeNum = 0}) =>
       GestureDetector(
         onTap: () => onTap?.call(),
         behavior: HitTestBehavior.opaque,
@@ -790,11 +792,23 @@ class MyProfilePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                imageName,
-                width: 26,
+              badges.Badge(
+                showBadge: badgeNum > 0,
+                badgeContent: Text(
+                  '$badgeNum',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.sp,
+                  ),
+                ),
+                badgeColor: Color(0xffFF4848),
+                position: badges.BadgePosition(end: -10, top: -6),
+                alignment: Alignment.topRight,
+                child: Image.asset(
+                  imageName,
+                  width: 26,
+                ),
               ),
-              4.verticalSpace,
               Text(
                 title,
                 style: TextStyle(

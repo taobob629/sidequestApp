@@ -1,6 +1,5 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,6 @@ import '../../../image_utils.dart';
 import '../../../utils/image_util.dart';
 import '../../controller/user_controller.dart';
 import '../../playwith/balance/widget/tips_dialog.dart';
-import '../profile/model/game_detail_model.dart';
 import '../profile/other_profile/mdoel/player_info_mdoel.dart';
 
 class GameHomePage extends StatelessWidget {
@@ -389,211 +387,241 @@ class GameHomePage extends StatelessWidget {
         ),
       );
 
-  Widget _gameInfoWidget() => Container(
-        margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
-        decoration: BoxDecoration(
-          color: Color(0xff262731),
-          borderRadius: BorderRadius.circular(15.r),
-        ),
-        child: Column(
-          children: [
-            6.verticalSpace,
-            ClipRRect(
+  Widget _gameInfoWidget() => Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
+            decoration: BoxDecoration(
+              color: Color(0xff262731),
               borderRadius: BorderRadius.circular(15.r),
-              child: ImageUtil.networkImage(
-                url: _ctr.model?.backGround ?? '',
-                fit: BoxFit.cover,
-                height: 188.w,
-              ),
             ),
-            20.verticalSpace,
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _ctr.model?.intro ?? '',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: FONT_MEDIUM,
+            child: Column(
+              children: [
+                6.verticalSpace,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: ImageUtil.networkImage(
+                    url: _ctr.model?.backGround ?? '',
+                    fit: BoxFit.cover,
+                    height: 188.w,
+                  ),
                 ),
-                maxLines: 8,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
-            if (_ctr.model?.server.isNotEmpty == true)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Server'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
+                20.verticalSpace,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _ctr.model?.intro ?? '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM,
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.server ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
+                    maxLines: 8,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
-            if (_ctr.model?.position.isNotEmpty == true)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Position'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.position ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
-            if (_ctr.model?.style.isNotEmpty == true)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        'Styles'.tr,
-                        style: TextStyle(
-                            color: Color(0xff808388),
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        _ctr.model?.style ?? '',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: FONT_MEDIUM),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            15.verticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      'Platform'.tr,
-                      style: TextStyle(
-                          color: Color(0xff808388),
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+                if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
+                if (_ctr.model?.server.isNotEmpty == true)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            'Server'.tr,
+                            style: TextStyle(
+                                color: Color(0xff808388),
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            _ctr.model?.server ?? '',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      _ctr.model?.platform ?? '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: FONT_MEDIUM),
+                if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
+                if (_ctr.model?.position.isNotEmpty == true)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            'Position'.tr,
+                            style: TextStyle(
+                                color: Color(0xff808388),
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            _ctr.model?.position ?? '',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            if (_ctr.model?.status == 0)
-              Container(
-                padding: EdgeInsets.only(left: 15.w, top: 10.h),
-                child: Row(
-                  children: [
-                    ImageUtil.assetImage('ic_under_review',
-                        width: 13.w, height: 13.w),
-                    4.horizontalSpace,
-                    Text(
-                      'under review'.tr,
-                      style: TextStyle(
-                          color: Color(0xFF3F92FF),
-                          fontSize: 10.sp,
-                          fontFamily: FONT_LIGHT),
-                    )
-                  ],
-                ),
-              ),
-            if (_ctr.model?.status == 2)
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTapDown: (details) {
-                  print(details.globalPosition);
-                  Get.dialog(TipsDialog(
-                    offset: details.globalPosition,
-                    tips: _ctr.model?.rejectReason ?? "",
-                  ));
-                },
-                child: Container(
-                  padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
+                if (_ctr.model?.style.isNotEmpty == true)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            'Styles'.tr,
+                            style: TextStyle(
+                                color: Color(0xff808388),
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            _ctr.model?.style ?? '',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                15.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Row(
                     children: [
-                      ImageUtil.assetImage('ic_info_red',
-                          width: 13.w, height: 13.w),
-                      4.horizontalSpace,
-                      Text(
-                        'REJECT'.tr,
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 10.sp,
-                            fontFamily: FONT_LIGHT),
-                      )
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          'Platform'.tr,
+                          style: TextStyle(
+                              color: Color(0xff808388),
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: FONT_MEDIUM),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          _ctr.model?.platform ?? '',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: FONT_MEDIUM),
+                        ),
+                      ),
                     ],
                   ),
                 ),
+                if (_ctr.model?.status == 0)
+                  Container(
+                    padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                    child: Row(
+                      children: [
+                        ImageUtil.assetImage('ic_under_review',
+                            width: 13.w, height: 13.w),
+                        4.horizontalSpace,
+                        Text(
+                          'under review'.tr,
+                          style: TextStyle(
+                              color: Color(0xFF3F92FF),
+                              fontSize: 10.sp,
+                              fontFamily: FONT_LIGHT),
+                        )
+                      ],
+                    ),
+                  ),
+                if (_ctr.model?.status == 2)
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTapDown: (details) {
+                      print(details.globalPosition);
+                      Get.dialog(TipsDialog(
+                        offset: details.globalPosition,
+                        tips: _ctr.model?.rejectReason ?? "",
+                      ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                      child: Row(
+                        children: [
+                          ImageUtil.assetImage('ic_info_red',
+                              width: 13.w, height: 13.w),
+                          4.horizontalSpace,
+                          Text(
+                            'REJECT'.tr,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 10.sp,
+                                fontFamily: FONT_LIGHT),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                20.verticalSpace,
+              ],
+            ),
+          ),
+          Visibility(
+            visible: _ctr.getDiscount() != '',
+            child: Container(
+              margin: EdgeInsets.only(left: 15.w),
+              decoration: BoxDecoration(
+                color: Color(0xffDA7A19),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.r),
+                  topRight: Radius.circular(15.r),
+                  bottomRight: Radius.circular(15.r),
+                ),
               ),
-            20.verticalSpace,
-          ],
-        ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 4.h,
+              ),
+              child: Text(
+                _ctr.getDiscount(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 9.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+              ),
+            ),
+          ),
+        ],
       );
 
   Widget _userInfoWidget() => Container(

@@ -430,7 +430,7 @@ class OtherDashboardPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              if (game.serviceItem.length == 1 &&
+                              if (game.serviceItem.length >= 1 &&
                                   game.serviceItem[0].enabled == 1 &&
                                   t
                                       .getDiscount(game.serviceItem[0].discount)

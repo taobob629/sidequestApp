@@ -1,4 +1,5 @@
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'dart:convert';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +28,7 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   int total = 0;
   bool isSelf = false;
   String gameName = "";
+  String discount = "";
 
   bool ifShow = false;
   String gameInfoId = "gameInfoId";
@@ -101,6 +103,12 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
           ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
           : 0;
     }
+    for (int i = 0; i < model!.serviceItem.length; i++) {
+      if (model!.serviceItem[i].discount != '') {
+        discount = model!.serviceItem[i].discount;
+        break;
+      }
+    }
 
     update([gameInfoId]);
   }
@@ -113,5 +121,21 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     return response["rows"]
         .map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e))
         .toList();
+  }
+
+  String getDiscount() {
+    if (model == null || discount == '') {
+      return '';
+    }
+    dynamic result = jsonDecode(discount);
+    int type = result['type'];
+    if (type == 1) {
+      return 'Discount ${result['discount']}% OFF';
+    } else if (type == 2) {
+      return 'Buy ${result['buy']} Get ${result['get']}';
+    } else if (type == 3) {
+      return '1st Order Free ${result['discount']}% OFF';
+    }
+    return discount;
   }
 }

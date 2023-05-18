@@ -33,6 +33,7 @@ class ProfileModel {
   int coupons = 0;
   double ranking = 0.0;
   int postNum = 0;
+  int orderNum = 0;
   String diamond = "";
   String phone = "";
   List<BadgesItem> badges = [];
@@ -72,6 +73,7 @@ class ProfileModel {
       this.coupons = 0,
       this.ranking = 0,
       this.postNum = 0,
+      this.orderNum = 0,
       this.diamond = "",
       this.vipCanceled = false});
 
@@ -113,6 +115,7 @@ class ProfileModel {
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 5.0;
     postNum = json["postNum"] ?? 0;
+    orderNum = json["OrderNum"] ?? 0;
     avamins = json["avamins"] ?? 0;
     totalmins = json["totalmins"] ?? 0;
     diamond = json["diamond"] ?? "";
