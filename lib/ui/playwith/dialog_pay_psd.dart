@@ -64,7 +64,7 @@ class DialogPayPsd extends StatelessWidget {
               ),
               15.verticalSpace,
               Text(
-                'Withdraw'.tr,
+                '提现'.tr,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

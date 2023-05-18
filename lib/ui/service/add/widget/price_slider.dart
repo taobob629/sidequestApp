@@ -237,7 +237,7 @@ class PriceSlider extends GetView<AddGamePageController> {
             Row(
               children: [
                 Text(
-                  'Setting Promotion',
+                  'Promotion Setting'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -270,7 +270,7 @@ class PriceSlider extends GetView<AddGamePageController> {
           Get.dialog(
               SelectorDialog(
                   items: PromotionConfig().promotionList,
-                  title: "Choose".tr),
+                  title: "Choose a promotion".tr),
               barrierColor: Colors.black26)
               .then((value) {
             if (value != null) {
@@ -308,7 +308,7 @@ class PriceSlider extends GetView<AddGamePageController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Discount',
+              'Discount'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,
@@ -321,7 +321,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 Get.dialog(
                     SelectorDialog(
                         items: PromotionConfig().discountList,
-                        title: "Choose a Discount".tr),
+                        title: "Discount".tr),
                     barrierColor: Colors.black26)
                     .then((value) {
                   if (value != null) {
@@ -361,7 +361,7 @@ class PriceSlider extends GetView<AddGamePageController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '1st OrderFree',
+              '1st Order Discount'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,
@@ -374,7 +374,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 Get.dialog(
                     SelectorDialog(
                         items: PromotionConfig().orderFreeList,
-                        title: "Choose a 1st Order Free".tr),
+                        title: "1st Order Discount".tr),
                     barrierColor: Colors.black26)
                     .then((value) {
                   if (value != null) {
@@ -427,7 +427,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 Get.dialog(
                     SelectorDialog(
                         items: PromotionConfig().xAndYList,
-                        title: "Choose a Buy X".tr),
+                        title: "Buy X".tr),
                     barrierColor: Colors.black26)
                     .then((value) {
                   if (value != null) {
@@ -461,7 +461,7 @@ class PriceSlider extends GetView<AddGamePageController> {
               ),
             ),
             Text(
-              'Get Y',
+              'Free Y'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,
@@ -474,7 +474,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 Get.dialog(
                     SelectorDialog(
                         items: PromotionConfig().xAndYList,
-                        title: "Choose a Get Y".tr),
+                        title: "Free Y".tr),
                     barrierColor: Colors.black26)
                     .then((value) {
                   if (value != null) {

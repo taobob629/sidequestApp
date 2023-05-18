@@ -940,11 +940,11 @@ class OtherProfileController extends BasePageController
     dynamic result = jsonDecode(discount);
     int type = result['type'];
     if (type == 1) {
-      return 'Discount ${result['discount']}% Off';
+      return 'Discount ${result['discount']}% OFF';
     } else if (type == 2) {
       return 'Buy ${result['buy']} Get ${result['get']}';
     } else if (type == 3) {
-      return '1st Order Free ${result['discount']}% Off';
+      return '1st Order Free ${result['discount']}% OFF';
     }
     return discount;
   }

@@ -137,50 +137,50 @@ class PromotionConfig {
     }
     BookingSelectModel model = BookingSelectModel();
     model.id = 0;
-    model.name = "Discount";
+    model.name = "Discount".tr;
     promotionList.add(model);
     model = BookingSelectModel();
     model.id = 1;
-    model.name = "1st Order Free";
+    model.name = "1st Order Discount".tr;
     promotionList.add(model);
     model = BookingSelectModel();
     model.id = 2;
-    model.name = "Buy X Get Y Free";
+    model.name = "Buy X Get Y Free".tr;
     promotionList.add(model);
 
     model = BookingSelectModel();
     model.id = 0;
-    model.name = "5% Off";
+    model.name = "5% OFF";
     discountList.add(model);
     model = BookingSelectModel();
     model.id = 1;
-    model.name = "10% Off";
+    model.name = "10% OFF";
     discountList.add(model);
     model = BookingSelectModel();
     model.id = 2;
-    model.name = "15% Off";
+    model.name = "15% OFF";
     discountList.add(model);
     model = BookingSelectModel();
     model.id = 3;
-    model.name = "20% Off";
+    model.name = "20% OFF";
     discountList.add(model);
 
     model = BookingSelectModel();
     model.id = 0;
-    model.name = "30% Off";
+    model.name = "30% OFF";
     orderFreeList.add(model);
     model = BookingSelectModel();
     model.id = 1;
-    model.name = "50% Off";
+    model.name = "50% OFF";
     orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 2;
-    model.name = "80% Off";
-    orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 3;
-    model.name = "100% Off";
-    orderFreeList.add(model);
+    // model = BookingSelectModel();
+    // model.id = 2;
+    // model.name = "80% OFF";
+    // orderFreeList.add(model);
+    // model = BookingSelectModel();
+    // model.id = 3;
+    // model.name = "100% OFF";
+    // orderFreeList.add(model);
 
     for (int i = 1; i <= 10; i++) {
       model = BookingSelectModel();

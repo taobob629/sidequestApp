@@ -101,7 +101,7 @@ class BookingDialog extends StatelessWidget {
                 ),
                 SelectView(
                   label: "What Time".tr,
-                  tips: "Select One What Time".tr,
+                  tips: "What Time".tr,
                   backgroundColor: Color(0xff262731),
                   marginDis: 4,
                   value: !ifSelectDuration.value
@@ -112,7 +112,7 @@ class BookingDialog extends StatelessWidget {
                 ),
                 SelectView(
                   label: "How long".tr,
-                  tips: "Select One How long".tr,
+                  tips: "How long".tr,
                   value: !ifSelectHowLong.value ? null : duration.value.name,
                   backgroundColor: Color(0xff262731),
                   marginDis: 4,
@@ -120,7 +120,7 @@ class BookingDialog extends StatelessWidget {
                 ),
                 SelectView(
                   label: "Room".tr,
-                  tips: "Select One Room".tr,
+                  tips: "Select Room".tr,
                   backgroundColor: Color(0xff262731),
                   marginDis: 4,
                   value: ifSelectRoom.value ? area.value.name : null,
@@ -128,7 +128,7 @@ class BookingDialog extends StatelessWidget {
                 ),
                 SelectView(
                   label: "Players".tr,
-                  tips: "Select One Players".tr,
+                  tips: "Select Players".tr,
                   backgroundColor: Color(0xff262731),
                   value: players.value == -1 ? null : players.value.toString(),
                   marginDis: 4,

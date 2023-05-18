@@ -112,7 +112,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
       Row(
         children: [
           Text(
-            'Setting Promotion',
+            'Promotion Setting'.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.sp,
@@ -141,7 +141,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
             onTap: () {
               Get.dialog(
                       SelectorDialog(
-                          items: controller.promotionList, title: "Choose".tr),
+                          items: controller.promotionList, title: "Choose a promotion".tr),
                       barrierColor: Colors.black26)
                   .then((value) {
                 if (value != null) {
@@ -192,7 +192,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                     Get.dialog(
                             SelectorDialog(
                                 items: controller.discountList,
-                                title: "Choose a Discount".tr),
+                                title: "Discount".tr),
                             barrierColor: Colors.black26)
                         .then((value) {
                       if (value != null) {
@@ -232,7 +232,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '1st OrderFree',
+                  '1st Order Discount'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -245,7 +245,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                     Get.dialog(
                             SelectorDialog(
                                 items: controller.orderFreeList,
-                                title: "Choose a 1st Order Free".tr),
+                                title: "Discount".tr),
                             barrierColor: Colors.black26)
                         .then((value) {
                       if (value != null) {
@@ -285,7 +285,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Buy X',
+                  'Buy X'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -298,7 +298,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                     Get.dialog(
                             SelectorDialog(
                                 items: controller.xAndYList,
-                                title: "Choose a Buy X".tr),
+                                title: "Buy X".tr),
                             barrierColor: Colors.black26)
                         .then((value) {
                       if (value != null) {
@@ -332,7 +332,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                   ),
                 ),
                 Text(
-                  'Get Y',
+                  'Free Y'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -345,7 +345,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                     Get.dialog(
                             SelectorDialog(
                                 items: controller.xAndYList,
-                                title: "Choose a Get Y".tr),
+                                title: "Free Y".tr),
                             barrierColor: Colors.black26)
                         .then((value) {
                       if (value != null) {
