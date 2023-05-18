@@ -174,7 +174,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
     List<V2TimGroupMemberFullInfo>? selectedMember = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SelectTransimitOwner(
+        builder: (context) => MySelectTransimitOwner(
           model: model,
           groupID: groupID,
         ),

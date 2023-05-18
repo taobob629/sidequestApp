@@ -122,6 +122,9 @@ dependency_overrides:
   firebase_core_platform_interface: 4.5.0
   firebase_core: 1.20.0
   firebase_messaging: 12.0.1
+  modal_bottom_sheet: ^3.0.0-pre
+  tencent_extended_text: ^1.0.2
+  tencent_extended_text_field: ^1.0.1
   js: 0.6.4
 #  path_provider: 2.0.11
 #  uuid: 3.0.6

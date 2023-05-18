@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
@@ -11,10 +10,10 @@ import 'package:tencent_cloud_chat_uikit/ui/widgets/group_member_list.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 
-class MySelectTransimitOwner extends StatefulWidget {
+class SelectTransimitOwner extends StatefulWidget {
   final String? groupID;
   final TUIGroupProfileModel model;
-  const MySelectTransimitOwner({
+  const SelectTransimitOwner({
     this.groupID,
     Key? key,
     required this.model,
@@ -24,7 +23,7 @@ class MySelectTransimitOwner extends StatefulWidget {
   State<StatefulWidget> createState() => _SelectCallInviterState();
 }
 
-class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
+class _SelectCallInviterState extends TIMUIKitState<SelectTransimitOwner> {
   final CoreServicesImpl _coreServicesImpl = serviceLocator<CoreServicesImpl>();
   List<V2TimGroupMemberFullInfo> selectedMember = [];
   List<V2TimGroupMemberFullInfo?>? searchMemberList;
@@ -105,7 +104,7 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
               Navigator.pop(context);
             },
             child: Text(
-              'Cancel'.tr,
+              TIM_t("取消"),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -120,7 +119,7 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
                 }
               },
               child: Text(
-                '完成'.tr,
+                TIM_t("完成"),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -130,8 +129,8 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
           ],
           centerTitle: true,
           leadingWidth: 100,
-          title:  Text(
-            "转让群主".tr,
+          title: const Text(
+            "转让群主",
             style: TextStyle(
               color: Colors.white,
               fontSize: 17,
