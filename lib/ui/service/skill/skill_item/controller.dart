@@ -69,7 +69,7 @@ class SkillItemPageController extends GetxController {
     promotionList.add(model);
     model = BookingSelectModel();
     model.id = 1;
-    model.name = "1st Order Free";
+    model.name = "1st Order Discount";
     promotionList.add(model);
     model = BookingSelectModel();
     model.id = 2;

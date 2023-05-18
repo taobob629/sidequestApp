@@ -810,6 +810,14 @@ const Map<String, String> zh_CN = {
   "My Followers":"我的粉丝",
   "My Followings":"我的关注",
   "My Visitors":"访问者",
+  "1st Order Discount":"首单折扣",
+  "Free Y":"折扣 Y",
+  "Buy X":"购买 X",
+  "Promotion":"优惠",
+  "Choose a promotion":"选择优惠",
+  "Promotion Setting":"优惠设置",
+  "Setting Promotion":"优惠设置",
+  "Buy X Get Y Free":"买X送Y",
 
 
 };
