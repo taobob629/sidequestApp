@@ -405,7 +405,6 @@ class WalletBalancePageController extends GetxListController {
         .add(CoinCategoryBean(icon: ImageUtils.england_flag_icon, name: 'GBP'));
     coinCategoryList.add(
         CoinCategoryBean(icon: ImageUtils.eruption_flag_icon, name: 'EUR'));
-    currentSelectCoin.value = coinCategoryList[1];
   }
 
   @override
@@ -446,14 +445,23 @@ class WalletBalancePageController extends GetxListController {
     chargeRule = await BalanceApi.chargeRule();
 
     chargeRule.receipt.forEach((element) {
-      if (element.name.toLowerCase().contains('paypal')) {
-        element.icon = ImageUtils.icon_pay_pal;
-      } else if (element.name.toLowerCase().contains('bankcard')) {
+      if (element.name.toLowerCase().contains('bankcard')) {
         element.icon = ImageUtils.icon_bank;
       } else if (element.name.toLowerCase().contains('alipay')) {
         element.icon = ImageUtils.icon_alipay;
       } else if (element.name.toLowerCase().contains('wise')) {
         element.icon = ImageUtils.icon_wise;
+        if (element.currency.toUpperCase() == 'CNY') {
+          currentSelectCoin.value = coinCategoryList[0];
+        } else if (element.currency.toUpperCase() == 'RUB') {
+          currentSelectCoin.value = coinCategoryList[2];
+        } else if (element.currency.toUpperCase() == 'GBP') {
+          currentSelectCoin.value = coinCategoryList[3];
+        } else if (element.currency.toUpperCase() == 'EUR') {
+          currentSelectCoin.value = coinCategoryList[4];
+        } else {
+          currentSelectCoin.value = coinCategoryList[1];
+        }
       } else {
         element.icon = ImageUtils.icon_pay_pal;
       }
