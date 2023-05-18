@@ -1,5 +1,6 @@
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/ui/frame/messages/chat/conversation_list_page.dart';
 
 import '../../../../utils/utils.dart';
 
@@ -10,9 +11,14 @@ class ChatTool {
   static final converFilters = ["sq_hide_notify"];
 
   /// 通过id 筛选会话
-  static bool converFilter(userId) {
-    if (userId == null) {
-      return false;
+  static bool converFilter(userId,groupId,  type) {
+    switch(type){
+      case type_single_chat:
+        if(userId==null)return false;
+        break;
+      case type_group:
+        if(groupId==null)return false;
+        break;
     }
     return !converFilters.contains(userId);
   }

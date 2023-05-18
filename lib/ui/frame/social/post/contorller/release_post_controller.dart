@@ -9,8 +9,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
+import 'package:wy/ui/im/im_util.dart';
+import 'package:wy/utils/utils.dart';
 
 import '../../../../../utils/toast_utils.dart';
+
+const int TYPE_INVITE = 1;
+const int TYPE_DEFAULT = 0;
 
 class ReleasePostController extends GetxController {
   TextEditingController textController = TextEditingController();
@@ -19,23 +24,37 @@ class ReleasePostController extends GetxController {
   final photoList = <String>[].obs;
 
   final textLength = 0.obs;
+  RxInt _type =RxInt(TYPE_DEFAULT);
+
+  int get type => _type.value;
+
+  set type(int value) {
+    _type.value = value;
+  } //0是图文 1是建群邀请
+
+  var gid;
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
+    var arg = Get.arguments as Map;
+    type = arg['type'] ?? TYPE_DEFAULT;
+    gid = arg['gid'];
+    if (gid != null) {
+      var group_name = arg['group_name'];
+      textController.text = '我刚创建了一个 " $group_name " 交流群，大家快来加入吧!';
+    }
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
   }
 
   pickUploadPhoto() async {
     print('photoList = ${photoList.length}');
     List<XFile>? files = await _picker.pickMultiImage();
-    if (files==null||files?.isEmpty == true) {
+    if (files == null || files?.isEmpty == true) {
       return;
     }
 
@@ -61,7 +80,6 @@ class ReleasePostController extends GetxController {
         }
       });
     }
-
   }
 
   delPhoto(String photoUrl) {
@@ -74,8 +92,12 @@ class ReleasePostController extends GetxController {
       return;
     }
     showLoading();
+    var content = textController.text;
+
     PostApi.releasePost(
-            content: textController.text, images: jsonEncode(photoList))
+            content: type == TYPE_INVITE ? buildShareGroupText(content, gid) : content,
+            images:type == TYPE_INVITE ?jsonEncode([gid]): jsonEncode(photoList),
+            type: type)
         .then((value) {
       Get.back(result: "ReloadData");
     }).onError((error, stackTrace) {
@@ -85,7 +107,6 @@ class ReleasePostController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 }

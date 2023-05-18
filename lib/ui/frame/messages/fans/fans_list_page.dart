@@ -1,21 +1,38 @@
+import 'dart:convert';
+
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/api/im_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/attention_model.dart';
+import 'package:wy/ui/common/floating_button.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
+import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
 
 class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
-
+  static void to({var groupName, var gid}) {
+    Get.toNamed(AppPages.FansList,
+        arguments: Map()
+          ..['group_name'] = groupName
+          ..['gid'] = gid
+          ..['select_mode'] = true);
+  }
   final t = Get.put(FansListController());
 
   @override
@@ -37,6 +54,14 @@ class FansListPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
+                        Visibility(
+                            visible: t.selelctMode,
+                            child: Obx(() => Checkbox(
+                              value: model.isSelet,
+                              onChanged: (bool? value) {
+                                model.isSelet = value ?? false;
+                              },
+                            ))),
                         GestureDetector(
                             onTap: () =>
                                 NavigatorHelper.toOtherProfile(model.id),
@@ -118,20 +143,35 @@ class FansListPage extends StatelessWidget {
                   );
                 })),
       ),
+      floatingActionButton: Visibility(
+        visible: t.selelctMode,
+        child: FloatingButton(
+          label: 'Invite'.tr,
+          onTap: () => t.invite(),
+        ),
+      ),
     );
   }
 }
 
 class FansListController extends GetxRefreshController<AttentionModel> {
+  bool selelctMode = false;
+  var gid = '';
+  var groupName = '';
+  var selects = [];
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
+    Map? param = Get.arguments;
+    if (param != null) {
+      selelctMode = param['select_mode'];
+      gid = param['gid'];
+      groupName = param['group_name'];
+    }
   }
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
   }
 
@@ -143,13 +183,36 @@ class FansListController extends GetxRefreshController<AttentionModel> {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 
   @override
   Future<List<AttentionModel>> loadData({int pageNum = 1}) async {
-    // TODO: implement loadData
     return await UserApi.fansList(pageNum, 20);
   }
+  invite() async {
+    var selects = list.where((item) => item.isSelet);
+    if(selects.isEmpty){
+      showToast('please select at least one user to share!'.tr);
+      return;
+    }
+    var ids=selects.map((e) => e.uk).toList();
+    flog(ids);
+    // var nickName = UserController.find.userProfile.nickName;
+    // var params = Map()
+    //   ..['invitor'] = nickName // 邀请人名字
+    //   ..['type'] = MessageType.TYPE_INVITE //invite
+    //   ..['groupId'] = gid //群id
+    //   ..['group_name'] = groupName; //群名字
+    //   ImUtils.invite(params);
+   var res =await ImApi.shareGroup(Map()
+      ..['shareIds'] = ids
+      ..['groupId'] = gid
+      ..['group_name'] = groupName
+      ..['name'] = groupName
+      ..['invitor'] = UserController.find.userProfile.nickName);
+    showToast('Share sucess!'.tr);
+    Get.back();
+  }
+
 }

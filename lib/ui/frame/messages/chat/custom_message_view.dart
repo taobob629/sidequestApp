@@ -1,12 +1,23 @@
 import 'package:date_format/date_format.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
+import 'package:wy/res/index.dart';
+import 'package:wy/ui/im/im_util.dart';
+import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
+
+class MessageType {
+  static const TYPE_INVITE = 'invite';
+  static const TYPE_CREATE_GROUP = 'create_group';
+}
 
 class CustomMessageView extends StatelessWidget {
   var type;
@@ -30,12 +41,26 @@ class CustomMessageView extends StatelessWidget {
         return _orderWidget();
       case "PostMessage":
         return _postMsgItem();
+      case MessageType.TYPE_INVITE:
+        return _inviteWidget();
+      case MessageType.TYPE_CREATE_GROUP:
+        return _groupWidget();
       default:
         return Text(
           "Unsupported message type, please update your app!",
           style: TextStyle(fontSize: 12, color: Colors.white24),
         );
     }
+  }
+
+  Widget _groupWidget() {
+    return Container(
+      color: Colors.black,
+      child: Text(
+        "${data['desc']}",
+        style: TextStyle(fontSize: 12, color: Colors.white24),
+      ),
+    );
   }
 
   Widget _postMsgItem() {
@@ -83,6 +108,65 @@ class CustomMessageView extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  _inviteWidget() {
+    flog(data);
+    return Container(
+      padding: EdgeInsets.all(18),
+      width: width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ImageUtil.assetImage('group_invite', width: 115.w),
+          20.verticalSpace,
+          Text.rich(TextSpan(children: [
+            TextSpan(
+                text: '${data['invitor']}',
+                style: TextStyle(color: Color(0xffFFD20E), fontSize: 13.sp)),
+            TextSpan(
+                text: ' invites you to join ',
+                style: TextStyle(color: Colors.white, fontSize: 13.sp)),
+            TextSpan(
+                text: ' ${data['name']}',
+                style: TextStyle(fontSize: 13.sp, color: Color(0xffFFD20E))),
+            TextSpan(
+                text: ' Join Now '.tr,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    ImUtils.joniGroup(Get.context!, data['groupId']);
+                  },
+                style: TextStyle(
+                    letterSpacing: 2,
+                    wordSpacing: 1,
+                    fontFamily: FONT_MEDIUM,
+                    decoration: TextDecoration.underline,
+                    // backgroundColor: Colors.red,
+                    color: Colors.green,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold)),
+          ]))
+        ],
+      ),
+      decoration: BoxDecoration(
+        borderRadius:data['isself']==true?BorderRadius.only(
+          topLeft: Radius.circular(15.r),
+          bottomRight: Radius.circular(15.r),
+          bottomLeft: Radius.circular(15.r),
+        ): BorderRadius.only(
+          topRight: Radius.circular(15.r),
+          bottomRight: Radius.circular(15.r),
+          bottomLeft: Radius.circular(15.r),
+        ),
+        border: Border.all(color: Color(0xff9186FF), width: 0.5),
+        gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
+          Color(0x00262731),
+          Color(0x22BD56B6),
+        ]),
       ),
     );
   }

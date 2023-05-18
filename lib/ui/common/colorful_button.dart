@@ -6,9 +6,9 @@ class ColorfulButton extends StatelessWidget {
   final double? width;
   final Function? onTap;
   double borderRadius;
-
+  List<Color>? colors;
   ColorfulButton(
-      {required this.child, this.height, this.width, this.onTap, this.borderRadius = 15});
+      {required this.child, this.height, this.width, this.onTap, this.borderRadius = 15,this.colors});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ColorfulButton extends StatelessWidget {
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFD49C21), Color(0xFFE96524)])),
+                    colors:colors?? [Color(0xFFD49C21), Color(0xFFE96524)])),
             child: Center(
               child: child,
             ),

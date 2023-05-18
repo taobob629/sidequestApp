@@ -413,6 +413,7 @@ class MainPageController extends FullLifeCycleController with FullLifeCycleMixin
 
   void scan() {
     Get.to(() => ScanPage())?.then((value) {
+      flog('value $value');
       if (value == null) {
         return;
       }

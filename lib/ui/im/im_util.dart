@@ -1,0 +1,222 @@
+import 'dart:convert';
+
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/play_item_model.dart';
+import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
+import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
+import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
+import 'package:provider/provider.dart';
+import '../frame/messages/chat/chat_page.dart';
+
+/**
+    author:mac
+    创建日期:2023/5/13
+    描述:
+ */
+class ImUtils {
+  static Future<void> invite(var params) async {
+    var nickName = UserController.find.userProfile.nickName;
+    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
+        await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
+              data: json.encode(params),
+              desc: '',
+              extension: '自定义extension',
+            );
+    if (createCustomMessageRes.code == 0) {
+      //发送消息
+      String? id = createCustomMessageRes.data?.id;
+      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin.v2TIMManager
+          .getMessageManager()
+          .sendMessage(id: id!, receiver: "UK20021778", groupID: "");
+      if (sendMessageRes.code == 0) {
+        // 发送成功
+      } else {
+        showToast('邀请失败,错误码${sendMessageRes.code}');
+      }
+    } else {
+      showToast('邀请失败,错误码${createCustomMessageRes.code}');
+    }
+  }
+
+  /**
+   * 加入群聊
+   */
+  static Future<void> joniGroup(BuildContext context, var gid, {bool isNeedReplace = true}) async {
+    V2TimCallback joinGroupRes = await TencentImSDKPlugin.v2TIMManager.joinGroup(
+      groupID: gid, // 需要加入群组 ID
+      message: "hello", // 加群申请信息
+    ); // 群类型
+    flog('申请加群 $gid ${joinGroupRes.code}');
+    if (joinGroupRes.code == 0) {
+      // 加入成功
+      final conversationID = "group_$gid";
+      final convRes = await TIMUIKitCore.getSDKInstance()
+          .getConversationManager()
+          .getConversation(conversationID: conversationID);
+      flog('获取会话 ${convRes.code}');
+      if (convRes.code == 0) {
+        final conversation = convRes.data ??
+            V2TimConversation(conversationID: conversationID, type: 2, groupID: gid);
+        if (isNeedReplace) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage(selectedConversation: conversation)));
+        } else {
+          flog('isNeedReplace== $isNeedReplace');
+          Get.to(ChatPage(selectedConversation: conversation));
+        }
+        showToast("加入成功");
+        //跳转到chatpage
+      } else {
+        showError(convRes.desc);
+      }
+    } else {
+      showError(joinGroupRes.desc);
+    }
+  }
+
+  static Future<void> sendGroupCustomMsg(var data, {var gid}) async {
+    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
+        await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
+              data: jsonEncode(data),
+              desc: "asassaasas",
+            );
+    if (createCustomMessageRes.code == 0) {
+      String? id = createCustomMessageRes.data?.id;
+      // 发送自定义消息
+      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin.v2TIMManager
+          .getMessageManager()
+          .sendMessage(id: id!!, receiver: "", groupID: gid, isExcludedFromLastMessage: false);
+      if (sendMessageRes.code == 0) {
+        // 发送成功
+        showToast('发送成功');
+      } else {
+        flog('发送失败 ${sendMessageRes.desc}');
+      }
+    }
+  }
+
+  /**
+   * 发送群公告
+   */
+  static void changeNotification(var data, {var gid}) {
+    final GroupServices _groupServices = serviceLocator<GroupServices>();
+    _groupServices.setGroupInfo(
+        info: V2TimGroupInfo.fromJson(
+            {"groupID": gid, "groupType": GroupType.Public, "notification": data['desc']}));
+  }
+}
+
+var actions = [
+  AcitionModel('', 'Share to User'.tr, 0),
+  AcitionModel('', 'Create Post'.tr, 1),
+  // AcitionModel('', 'Join Room'.tr, 2),
+];
+
+showShareDialog(V2TimConversation conversation, BuildContext context) {
+  Get.bottomSheet(
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...actions
+              .map(
+                (item) => ListTile(
+                    title: RawMaterialButton(
+                        onPressed: () {
+                          switch (item.type) {
+                            case 0:
+                              Get.back();
+                              FansListPage.to(
+                                  gid: conversation.groupID, groupName: conversation.showName);
+                              break;
+                            case 1:
+                              flog('conversation.showName ${conversation.showName}');
+                              Get.back();
+                              toCreatePostPage(conversation);
+                              break;
+                            case 2:
+                              break;
+                          }
+                        },
+                        child: Text(
+                          item.name,
+                        ))),
+              )
+              .toList(),
+          20.verticalSpace,
+          InkWell(
+            child: Text('Cancel'),
+            onTap: () => Get.back(),
+          ),
+          20.verticalSpace
+        ],
+      ),
+      backgroundColor: AppColor.primary,
+      enableDrag: false);
+}
+
+void toCreatePostPage(V2TimConversation conversation) {
+     Get.toNamed(AppPages.ReleasePost,
+      arguments: Map()
+        ..['gid'] = conversation.groupID
+        ..['group_name'] = conversation.showName
+        ..['type'] = TYPE_INVITE);
+}
+
+var gidPrefix = 'SiqdequestGid';
+RegExp exp = RegExp(r'SiqdequestGid=([^]*?)=');
+
+buildShareGroupText(var content, var gid) {
+  return '$content $gidPrefix=$gid=';
+}
+
+decodeGroupGid(var content) {
+  RegExpMatch? match = exp.firstMatch(content);
+  var gid = match?.group(1) ?? '';
+  return gid;
+}
+
+Widget buildGroupInviteWidget(BuildContext context, var content) {
+  RegExpMatch? match = exp.firstMatch(content);
+  var gid = match?.group(1) ?? '';
+  flog('gid$gid');
+  return RichText(
+      text: TextSpan(children: [
+    TextSpan(
+        text: content.substring(0, content.lastIndexOf(gidPrefix)),
+        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+    TextSpan(
+        text: ' Join Now '.tr,
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            ImUtils.joniGroup(context, gid);
+          },
+        style: TextStyle(
+            letterSpacing: 2,
+            wordSpacing: 1,
+            fontFamily: FONT_MEDIUM,
+            decoration: TextDecoration.underline,
+            // backgroundColor: Colors.red,
+            color: Colors.green,
+            fontSize: 14,
+            fontWeight: FontWeight.bold)),
+  ]));
+}
+
+buildShareQr(var gid) {}

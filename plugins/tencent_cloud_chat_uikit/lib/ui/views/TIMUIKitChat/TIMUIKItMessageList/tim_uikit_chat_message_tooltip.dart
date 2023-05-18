@@ -318,7 +318,7 @@ class TIMUIKitMessageTooltipState
                           Expanded(
                               child: Wrap(
                             direction: Axis.horizontal,
-                            alignment: ScreenUtils.getFormFactor(context) ==
+                            alignment: TUIKitScreenUtils.getFormFactor(context) ==
                                     ScreenType.Handset
                                 ? WrapAlignment.spaceBetween
                                 : WrapAlignment.start,
@@ -333,7 +333,7 @@ class TIMUIKitMessageTooltipState
                         if (!widget.isUseMessageReaction)
                           Wrap(
                             direction: Axis.horizontal,
-                            alignment: ScreenUtils.getFormFactor(context) ==
+                            alignment: TUIKitScreenUtils.getFormFactor(context) ==
                                     ScreenType.Handset
                                 ? WrapAlignment.spaceAround
                                 : WrapAlignment.start,

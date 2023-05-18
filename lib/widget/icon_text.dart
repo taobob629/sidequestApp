@@ -11,6 +11,7 @@ import 'package:wy/utils/image_util.dart';
 class IconTextWidget extends StatelessWidget {
   Widget? spacing;
   String icon;
+  Widget? iconWidget;
   Color? iconColor;
   Color? textColor;
   String text;
@@ -24,6 +25,7 @@ class IconTextWidget extends StatelessWidget {
       this.iconColor,
       this.mainAxisAlignment = MainAxisAlignment.start,
       this.textColor,
+      this.iconWidget,
       required this.text});
 
   @override
@@ -31,7 +33,8 @@ class IconTextWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: mainAxisAlignment,
       children: [
-        ImageUtil.assetImage(icon, color: iconColor ?? Colors.white, width: size, height: size),
+        iconWidget ??
+            ImageUtil.assetImage(icon, color: iconColor ?? Colors.white, width: size, height: size),
         spacing ?? 8.5.horizontalSpace,
         Expanded(
             child: Text(

@@ -89,4 +89,8 @@ class ImApi {
     await http.post('/peiwan/app/new/orders/complete',
         queryParameters: ({'orderId': orderId}), data: formData);
   }
+
+  static Future<Response> shareGroup(Map params) async {
+    return await http.post('/peiwan/app/groups/share',  data: params);
+  }
 }

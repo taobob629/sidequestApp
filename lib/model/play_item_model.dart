@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-
-class PlayItemModel {
+class AcitionModel {
   late String icon;
   late String name;
+  int type;
+
+  AcitionModel(this.icon, this.name, this.type);
 }
