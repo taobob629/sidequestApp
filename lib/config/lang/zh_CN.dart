@@ -489,7 +489,7 @@ const Map<String, String> zh_CN = {
   'About Us': '关于我们',
   'Cancel Subscription': '取消订阅',
   'Version': '版本',
-  'SIGN OUT': '注销',
+  'SIGN OUT': '退出登录',
   'You are using the latest version': '当前已经是最新版本',
   'Up': 'Up',
   'VIP Subscription': '订阅VIP',
@@ -823,6 +823,17 @@ const Map<String, String> zh_CN = {
   "My Diamond":"我的钻石",
   "My Coin":"我的金币",
   "Service Charge":"提现手续费",
-  "Rate":"提现费率"
+  "Rate":"提现费率",
+  "Business hours":"营业时间",
+  "Configuration list":"上网价格",
+  "How long":"时长",
+  "Select Players":"人数",
+  "Room":"房间",
+  "Select Room":"选择房间",
+  "Players":"人数",
+  "Book Now":"预定",
+  "Reservation information":"预订信息"
+
+
 
 };
