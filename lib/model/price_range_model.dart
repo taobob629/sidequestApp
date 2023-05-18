@@ -173,14 +173,14 @@ class PromotionConfig {
     model.id = 1;
     model.name = "50% OFF";
     orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 2;
-    model.name = "80% OFF";
-    orderFreeList.add(model);
-    model = BookingSelectModel();
-    model.id = 3;
-    model.name = "100% OFF";
-    orderFreeList.add(model);
+    // model = BookingSelectModel();
+    // model.id = 2;
+    // model.name = "80% OFF";
+    // orderFreeList.add(model);
+    // model = BookingSelectModel();
+    // model.id = 3;
+    // model.name = "100% OFF";
+    // orderFreeList.add(model);
 
     for (int i = 1; i <= 10; i++) {
       model = BookingSelectModel();
