@@ -46,4 +46,9 @@ class ImageUtils {
   static const String icon_xiaoxi = 'assets/images/icon_xiaoxi.webp';
   static const String tip_info_bg = 'assets/images/tip_info_bg.webp';
   static const String rg_select = 'assets/images/rg_select.png';
+  static const String china_flag_icon = 'assets/images/china_flag_icon.jpg';
+  static const String england_flag_icon = 'assets/images/england_flag_icon.jpg';
+  static const String eruption_flag_icon = 'assets/images/eruption_flag_icon.jpg';
+  static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
+  static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
 }

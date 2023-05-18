@@ -125,7 +125,7 @@ class AddGamePageController extends GetxController {
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
       var item =
-          fieldItems?.firstWhereOrNull((item) => item.name == field.name);
+      fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -243,14 +243,14 @@ class AddGamePageController extends GetxController {
         // Discount
         discount = {
           'type': 1,
-          'discount': element.currentDiscount.value.name.split('%')[0],
+          'discount': int.parse(element.currentDiscount.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 1) {
         // 1st OrderFree
         discount = {
           'type': 3,
-          'discount': element.currentOrderFree.value.name.split('%')[0],
+          'discount': int.parse(element.currentOrderFree.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 2) {
@@ -388,13 +388,13 @@ class AddGamePageController extends GetxController {
       return;
     }
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(
-                image: _image,
-                ifFixedSize: true,
-              ))!
+        image: _image,
+        ifFixedSize: true,
+      ))!
           .then((value) async {
         showLoading();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));

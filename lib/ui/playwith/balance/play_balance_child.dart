@@ -26,6 +26,8 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../model/beans/coin_category_bean.dart';
+import '../../common/wy_dialog.dart';
 import '../dialog_pay_psd.dart';
 
 class PlayBalanceChild extends StatefulWidget {
@@ -299,6 +301,7 @@ class WalletBalancePageController extends GetxListController {
   int payMethodIndex = 0;
   String currentPayMethodId = "currentPayMethodId";
   Receipt? currentPayMethod;
+  var ifWisePay = false.obs;
 
   // 是否是银行卡支付
   var ifBankPay = false.obs;
@@ -347,6 +350,9 @@ class WalletBalancePageController extends GetxListController {
 
   List<BankCardModel> get bankList => _bankList;
 
+  var currentSelectCoin = CoinCategoryBean().obs;
+  List<CoinCategoryBean> coinCategoryList = [];
+
   set bankList(List<BankCardModel> value) {
     _bankList.value = value;
   }
@@ -388,6 +394,18 @@ class WalletBalancePageController extends GetxListController {
         }
       }
     });
+
+    coinCategoryList
+        .add(CoinCategoryBean(icon: ImageUtils.china_flag_icon, name: 'CNY'));
+    coinCategoryList
+        .add(CoinCategoryBean(icon: ImageUtils.us_flag_icon, name: 'USD'));
+    coinCategoryList
+        .add(CoinCategoryBean(icon: ImageUtils.russia_flag_icon, name: 'RUB'));
+    coinCategoryList
+        .add(CoinCategoryBean(icon: ImageUtils.england_flag_icon, name: 'GBP'));
+    coinCategoryList.add(
+        CoinCategoryBean(icon: ImageUtils.eruption_flag_icon, name: 'EUR'));
+    currentSelectCoin.value = coinCategoryList[1];
   }
 
   @override
@@ -426,6 +444,7 @@ class WalletBalancePageController extends GetxListController {
   Future<List<CoinChargeRuleModel>> loadData() async {
     showLoading();
     chargeRule = await BalanceApi.chargeRule();
+
     chargeRule.receipt.forEach((element) {
       if (element.name.toLowerCase().contains('paypal')) {
         element.icon = ImageUtils.icon_pay_pal;
@@ -435,6 +454,8 @@ class WalletBalancePageController extends GetxListController {
         element.icon = ImageUtils.icon_alipay;
       } else if (element.name.toLowerCase().contains('wise')) {
         element.icon = ImageUtils.icon_wise;
+      } else {
+        element.icon = ImageUtils.icon_pay_pal;
       }
     });
     currentPayMethod = chargeRule.receipt[0];
@@ -448,6 +469,63 @@ class WalletBalancePageController extends GetxListController {
 
     dismissLoading();
     return chargeRule.pwChargeRules ?? [];
+  }
+
+  void selectCoin() {
+    Get.dialog(
+      WyDialog(
+        child: Column(
+          children: [
+            Text(
+              'Select Recipient gets',
+              style: TextStyle(
+                color: Color(0xffffffff),
+                fontFamily: "DIN",
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            20.verticalSpace,
+            ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (c, i) => GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  currentSelectCoin.value = coinCategoryList[i];
+                  Get.back();
+                },
+                child: Row(
+                  children: [
+                    6.horizontalSpace,
+                    Image.asset(
+                      coinCategoryList[i].icon!,
+                      width: 30.w,
+                      height: 30.h,
+                    ),
+                    10.horizontalSpace,
+                    Text(
+                      coinCategoryList[i].name!,
+                      style: TextStyle(
+                        color: Color(0xffffffff),
+                        fontFamily: "DIN",
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              separatorBuilder: (c, i) => Container(
+                height: 1.h,
+                color: Colors.white24,
+                margin: EdgeInsets.symmetric(vertical: 20.h),
+              ),
+              itemCount: coinCategoryList.length,
+            ),
+          ],
+        ),
+      ),
+      barrierColor: Colors.black26,
+    );
   }
 
   void changeProductIndex(int index) {
@@ -600,6 +678,7 @@ class WalletBalancePageController extends GetxListController {
       ..['card'] = cardNumber
       ..['cardId'] = currentPayMethod?.id
       ..['votes'] = votes
+      ..['currency'] = currentSelectCoin.value.name
       ..['accountType'] = 1);
     dismissLoading();
     if (response.statusCode == 200) {
@@ -626,6 +705,7 @@ class WalletBalancePageController extends GetxListController {
           ..['votes'] = votes
           ..['withDrawalRatio'] = chargeRule.withdrawalRatio
           ..['accountType'] = 0
+          ..['currency'] = currentSelectCoin.value.name
           ..['chargeRatio'] = chargeRule.chargeRatio);
       } else {
         if (accountCtr.text.length == 0) {
@@ -638,6 +718,7 @@ class WalletBalancePageController extends GetxListController {
           ..['card'] = accountCtr.text
           ..['cardId'] = currentPayMethod?.id
           ..['votes'] = votes
+          ..['currency'] = currentSelectCoin.value.name
           ..['withDrawalRatio'] = chargeRule.withdrawalRatio
           ..['chargeRatio'] = chargeRule.chargeRatio);
       }
@@ -655,66 +736,44 @@ class WalletBalancePageController extends GetxListController {
 
   void selectMethodReceipt() async {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
-    final result = await Get.bottomSheet(Container(
-      decoration: BoxDecoration(
-        color: Color(0xff262731),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15.r),
-          topRight: Radius.circular(15.r),
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 26.h),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: GestureDetector(
-              onTap: () => Get.back(),
-              child: Text(
-                "Cancel".tr,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "DIN",
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
+    final result = await SmartDialog.show(
+        builder: (builder) => Container(
+              decoration: BoxDecoration(
+                color: Color(0xff262731),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.r),
+                  topRight: Radius.circular(15.r),
                 ),
               ),
-            ),
-          ),
-          26.verticalSpace,
-          Expanded(
-            child: GetBuilder<WalletBalancePageController>(
-              builder: (builder) => ListView.separated(
-                itemBuilder: (c, i) => _commonWidget(payMethodIndex == i, i),
-                separatorBuilder: (c, i) => Container(
-                  height: 1.h,
-                  color: Color(0xff2D2E3A),
-                  margin: EdgeInsets.symmetric(vertical: 20.h),
+              padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 26.h),
+              child: GetBuilder<WalletBalancePageController>(
+                builder: (builder) => ListView.separated(
+                  itemBuilder: (c, i) => _commonWidget(payMethodIndex == i, i),
+                  separatorBuilder: (c, i) => Container(
+                    height: 1.h,
+                    color: Color(0xff2D2E3A),
+                    margin: EdgeInsets.symmetric(vertical: 20.h),
+                  ),
+                  itemCount: chargeRule.receipt.length,
+                  shrinkWrap: true,
                 ),
-                itemCount: chargeRule.receipt.length,
-                shrinkWrap: true,
+                id: currentPayMethodId,
               ),
-              id: currentPayMethodId,
             ),
-          ),
-          15.verticalSpace,
-          FloatingButton(
-            label: "Submit".tr,
-            onTap: () {
-              Get.back(result: chargeRule.receipt[payMethodIndex]);
-            },
-          ),
-        ],
-      ),
-    ));
+        alignment: Alignment.bottomCenter);
     if (result != null) {
       currentPayMethod = result;
       accountCtr.text = currentPayMethod?.account ?? '';
       if (currentPayMethod?.name.toLowerCase().contains('bankcard') == true) {
         ifBankPay.value = true;
+        ifWisePay.value = false;
       } else {
         ifBankPay.value = false;
+        if (currentPayMethod?.name.toLowerCase().contains('wise') == true) {
+          ifWisePay.value = true;
+        } else {
+          ifWisePay.value = false;
+        }
       }
       update([currentPayMethodId]);
     }
@@ -738,6 +797,8 @@ class WalletBalancePageController extends GetxListController {
       onTap: () {
         payMethodIndex = index;
         update([currentPayMethodId]);
+
+        SmartDialog.dismiss(result: chargeRule.receipt[payMethodIndex]);
       },
       child: Row(
         children: [

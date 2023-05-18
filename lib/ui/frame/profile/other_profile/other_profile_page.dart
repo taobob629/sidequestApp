@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -930,6 +931,22 @@ class OtherProfileController extends BasePageController
     // Get.toNamed(AppPages.Record,arguments: player.value.voice)?.then((result) {
     //   if (result != null) player.value.voice = result;
     // });
+  }
+
+  String getDiscount(String discount) {
+    if (discount.isEmpty) {
+      return discount;
+    }
+    dynamic result = jsonDecode(discount);
+    int type = result['type'];
+    if (type == 1) {
+      return 'Discount ${result['discount']}% Off';
+    } else if (type == 2) {
+      return 'Buy ${result['buy']} Get ${result['get']}';
+    } else if (type == 3) {
+      return '1st Order Free ${result['discount']}% Off';
+    }
+    return discount;
   }
 
 // stop() async {
