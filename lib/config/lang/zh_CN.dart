@@ -819,7 +819,9 @@ const Map<String, String> zh_CN = {
   "Setting Promotion":"优惠设置",
   "Buy X Get Y Free":"买X送Y",
   "Select currency":"选择货币",
-  "Currency":"货币"
+  "Currency":"货币",
+  "My Diamond":"我的钻石",
+  "My Coin":"我的金币",
 
 
 };
