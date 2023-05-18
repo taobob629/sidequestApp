@@ -87,7 +87,12 @@ class PostDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  buildGroupInviteWidget(context, t.postItem.value.content),
+                                  t.postItem.value.type==TYPE_INVITE?buildGroupInviteWidget(context, t.postItem.value.content):   Text(
+                                    t.postItem.value.content,
+                                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                    // maxLines: null,
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
                                   10.verticalSpace
                                 ],
                               ),
