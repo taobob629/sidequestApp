@@ -485,7 +485,7 @@ class WalletBalancePageController extends GetxListController {
         child: Column(
           children: [
             Text(
-              'Select Recipient gets',
+              'Select currency',
               style: TextStyle(
                 color: Color(0xffffffff),
                 fontFamily: "DIN",
