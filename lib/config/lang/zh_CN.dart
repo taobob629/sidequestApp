@@ -832,7 +832,8 @@ const Map<String, String> zh_CN = {
   "Select Room":"选择房间",
   "Players":"人数",
   "Book Now":"预定",
-  "Reservation information":"预订信息"
+  "Reservation information":"预订信息",
+  "Telephone":"电话"
 
 
 
