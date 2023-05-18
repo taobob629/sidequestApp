@@ -62,9 +62,9 @@ class GradeController extends GetxController {
       }
     } else {
       if (level == 0) {
-        img = 'assets/images/play/lv1.webp';
+        img = 'assets/images/play/v_lv1.webp';
       } else {
-        img = 'assets/images/play/lv$level.webp';
+        img = 'assets/images/play/v_lv$level.webp';
       }
     }
     return img;
