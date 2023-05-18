@@ -285,7 +285,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Buy X',
+                  'Buy X'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
@@ -332,7 +332,7 @@ class SkillItemPage extends GetView<SkillItemPageController> {
                   ),
                 ),
                 Text(
-                  'Get Y',
+                  'Free Y'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
