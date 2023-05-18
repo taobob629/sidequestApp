@@ -27,7 +27,8 @@ class ChargeRuleModel {
     limit = json['limit'];
     withdrawalThreshold = json['withdrawal_threshold'];
     withdrawalRatio = json['withdrawal_ratio'];
-    receipt = List<Receipt>.from(json["receipt"].map((x) => Receipt.fromJson(x)));
+    receipt =
+        List<Receipt>.from(json["receipt"].map((x) => Receipt.fromJson(x)));
   }
 
   String? chargeRatio;
@@ -121,28 +122,31 @@ class CoinChargeRuleModel {
 }
 
 class Receipt {
-
   Receipt({
     required this.name,
     this.id,
     required this.account,
+    required this.currency,
   });
 
   String name;
   dynamic id;
   String account;
+  String currency;
   String? icon;
 
   factory Receipt.fromJson(Map<String, dynamic> json) => Receipt(
-    name: json["name"],
-    id: json["id"],
-    account: json["account"]??"",
-  );
+        name: json["name"],
+        id: json["id"],
+        account: json["account"] ?? "",
+        currency: json["currency"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "id": id,
-    "account": account,
-    "icon": icon,
-  };
+        "name": name,
+        "id": id,
+        "account": account,
+        "currency": currency,
+        "icon": icon,
+      };
 }

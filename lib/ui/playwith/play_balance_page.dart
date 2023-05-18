@@ -45,7 +45,7 @@ class _PlayBalancePageState extends State<PlayBalancePage> {
   }
 
   tabs() {
-    return ["SideKick".tr, "My Earnings".tr];
+    return ["My Coin".tr, "My Diamond".tr];
     //return userController.userInfoModel.value.isauth == TYPE_VIP ? ["Balance".tr, "My earnings".tr] : ['Balance'.tr];
   }
 

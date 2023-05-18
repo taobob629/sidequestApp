@@ -3,24 +3,21 @@
     创建日期:2023/3/9
     描述:
  */
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/wy_http.dart';
-import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/price_range_model.dart';
 import 'package:wy/model/service_detail_model.dart';
 import 'package:wy/model/service_info_model.dart';
-import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/game/game_home_page.dart';
-import 'package:wy/ui/frame/profile/my_profile/my_profile_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/utils/permission_helper.dart';
@@ -80,6 +77,7 @@ class AddGamePageController extends GetxController {
   void onClose() {
     super.onClose();
     privacyCheckController.dispose();
+    teServiceIntro.dispose();
     flog('onClose ---${privacyCheckController.check()}');
   }
 
@@ -127,7 +125,7 @@ class AddGamePageController extends GetxController {
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
       var item =
-          fieldItems?.firstWhereOrNull((item) => item.name == field.name);
+      fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -177,6 +175,7 @@ class AddGamePageController extends GetxController {
       return;
     }
     if (mPriceRanges.isEmpty) {
+      priceRanges.first.initData();
       mPriceRanges.add(priceRanges.first);
       return;
     }
@@ -190,6 +189,7 @@ class AddGamePageController extends GetxController {
     var item = priceRanges
         .firstWhereOrNull((element) => !mPriceRanges.contains(element));
     if (item != null) {
+      item.initData();
       mPriceRanges.add(item);
     }
   }
@@ -204,6 +204,12 @@ class AddGamePageController extends GetxController {
       showToast('Please add a voice!'.tr);
       return;
     }
+    var desc = teServiceIntro.text;
+    if (desc.isEmpty) {
+      showToast('Please input a service intro!'.tr);
+      return;
+    }
+
     updateService();
   }
 
@@ -222,17 +228,50 @@ class AddGamePageController extends GetxController {
         showToast('Please input a name!'.tr);
         return;
       }
-      if (desc.isEmpty) {
-        showToast('Please input a service intro!'.tr);
-        return;
-      }
       if (background.isEmpty) {
-        showToast(
-            'Please upload a picture as the service cover image!'.tr);
+        showToast('Please upload a picture as the service cover image!'.tr);
         return;
       }
     }
     showLoading();
+
+    List<LocalPriceRangeBean> priceRangeList = [];
+    LocalPriceRangeBean rangeModel;
+    mPriceRanges.forEach((element) {
+      Map discount = {};
+      if (element.currentPromotion.value.id == 0) {
+        // Discount
+        discount = {
+          'type': 1,
+          'discount': int.parse(element.currentDiscount.value.name.split('%')[0]),
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      } else if (element.currentPromotion.value.id == 1) {
+        // 1st OrderFree
+        discount = {
+          'type': 3,
+          'discount': int.parse(element.currentOrderFree.value.name.split('%')[0]),
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      } else if (element.currentPromotion.value.id == 2) {
+        // Buy X Get Y
+        discount = {
+          'type': 2,
+          'buy': element.currentBuyX.value.name,
+          'get': element.currentGetY.value.name,
+          'enable': element.promotionSwitch.value ? 1 : 0,
+        };
+      }
+
+      rangeModel = LocalPriceRangeBean(
+        unit: element.unit,
+        price: element.curPrice == 0 ? element.gameCoinMin : element.curPrice,
+        name: element.name,
+        discount: jsonEncode(discount),
+      );
+      priceRangeList.add(rangeModel);
+    });
+
     var data = {
       if (isEdit) "id": id,
       "skillid": game?.id,
@@ -241,7 +280,7 @@ class AddGamePageController extends GetxController {
       "wswitch": isWswitch,
       "coinid": 0,
       // "coin": priceRangeCon.text,
-      'serviceTypes': mPriceRanges,
+      'serviceTypes': priceRangeList,
       'fieldItems': buildFiledsParams(),
       'des': desc,
       'backGround': background,
@@ -323,7 +362,7 @@ class AddGamePageController extends GetxController {
     //flog('UserController.find.userProfile.isAuth  ${UserController.find.userProfile.isAuth}');
     // flog('UserController.find.userProfile.voice.isEmpty  ${UserController.find.userProfile.voice}');
     return UserController.find.userProfile.isAuth == 0 &&
-        UserController.find.userProfile.voice.isEmpty;
+        UserController.find.userProfile.voice?.isEmpty == true;
   }
 
   toRecordPage(BuildContext context, {int type = record_type_service}) {
@@ -349,13 +388,13 @@ class AddGamePageController extends GetxController {
       return;
     }
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(
-                image: _image,
-                ifFixedSize: true,
-              ))!
+        image: _image,
+        ifFixedSize: true,
+      ))!
           .then((value) async {
         showLoading();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));
@@ -383,6 +422,7 @@ class AddGamePageController extends GetxController {
       showToast('Please input a name!'.tr);
       return;
     }
+
     Get.toNamed(AppPages.bio_page, preventDuplicates: false)?.then((refresh) {
       if (refresh) {
         if (isEdit) onRefresh();

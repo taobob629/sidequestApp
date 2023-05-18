@@ -83,8 +83,9 @@ class SideKickController extends RefreshListController<GameUserModel> {
       refresh();
     }else {
       UserController.find.user.listen((user) {
-        flog('user---$user');
-        refresh();
+        if(user?.id!=0) {
+          refresh();
+        }
       });
     }
   }

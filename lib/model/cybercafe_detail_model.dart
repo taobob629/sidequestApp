@@ -3,6 +3,7 @@ class CyberCafeDetailModel {
   String name;
   String address;
   String telephone;
+  String userPhone;
   String headImage;
   dynamic images;
   String email;
@@ -20,6 +21,7 @@ class CyberCafeDetailModel {
     required this.name,
     required this.address,
     required this.telephone,
+    required this.userPhone,
     required this.headImage,
     this.images,
     required this.email,
@@ -38,6 +40,7 @@ class CyberCafeDetailModel {
     name: json["name"],
     address: json["address"],
     telephone: json["telephone"],
+    userPhone: json["userPhone"],
     headImage: json["headImage"],
     images: json["images"],
     email: json["email"],
@@ -56,6 +59,7 @@ class CyberCafeDetailModel {
     "name": name,
     "address": address,
     "telephone": telephone,
+    "userPhone": userPhone,
     "headImage": headImage,
     "images": images,
     "email": email,

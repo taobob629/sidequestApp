@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:wy/model/safe_convert.dart';
 import 'package:wy/utils/index.dart';
 
@@ -7,7 +8,7 @@ class ProfileModel {
   int memberId = 0;
   int pwId = 0;
   String backGround = "";
-  String voice = "";
+  RxString? voice = "".obs;
   String language = "";
   String signature = "";
   int isAuth = 0;
@@ -46,7 +47,7 @@ class ProfileModel {
   ProfileModel(
       {this.language = "",
       this.signature = "",
-      this.voice = "",
+      this.voice,
       this.totalmins = 0,
       this.avamins = 0,
       this.isAuth = 0,
@@ -76,7 +77,7 @@ class ProfileModel {
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     language = json["language"] ?? "";
-    voice = json["voice"] ?? "";
+    voice?.value = json["voice"] ?? "";
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 0;
     memberId = json["memberId"] ?? 0;

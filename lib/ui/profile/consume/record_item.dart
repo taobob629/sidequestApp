@@ -264,7 +264,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  '${model.howLong}H',
+                  '${model.duration}',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
@@ -286,7 +286,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'Start Time:'.tr,
+                  'Start Time: '.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -294,7 +294,7 @@ class RecordItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  model.startTime,
+                  model.timeStart.toDateStr,
                   style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 12.sp,
@@ -316,7 +316,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  'End Time:'.tr,
+                  'End  Time:'.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -325,7 +325,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 6.horizontalSpace,
                 Text(
-                  model.endTime,
+                  model.timeEnd.toDateStr,
                   style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 12.sp,
@@ -345,7 +345,7 @@ class RecordItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'free time: '.tr,
+                  'Free Time: '.tr,
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
@@ -353,12 +353,45 @@ class RecordItem extends StatelessWidget {
                   ),
                 ),
                 6.horizontalSpace,
+                Container(
+                  width: 60.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    model.free,
+                    style: TextStyle(
+                      color: Color(0xffffffff),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
                 Text(
-                  model.free,
+                  'Discount: '.tr,
                   style: TextStyle(
-                    color: Color(0xffffffff),
+                    color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
                     fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                6.horizontalSpace,
+                Container(
+                  width: 60.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '￡ ${model.discount}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Color(0xffffffff),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
                   ),
                 ),
               ],
@@ -400,7 +433,7 @@ class RecordItem extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 Text(
-                  model.refund == 0 ? 'Top Up'.tr : 'Top Up Refund'.tr,
+                  model.title,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,

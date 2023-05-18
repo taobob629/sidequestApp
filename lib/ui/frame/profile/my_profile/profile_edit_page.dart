@@ -601,6 +601,10 @@ class ProfileEditController extends GetxController {
   }
 
   updateProfile() {
+    if (curCountry.value.isEmpty) {
+      showInfo("Please choose a Country".tr,);
+      return;
+    }
     if (languageList.isEmpty) {
       showInfo("Please set language first".tr,);
       return;

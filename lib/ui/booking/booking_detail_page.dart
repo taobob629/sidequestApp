@@ -205,7 +205,7 @@ class BookingDetailPage extends StatelessWidget {
                                     Spacer(),
                                     Text(
                                       dList.length == 1
-                                          ? '${dList[0].price}'
+                                          ? '￡ ${dList[0].price}'
                                           : '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -271,7 +271,7 @@ class BookingDetailPage extends StatelessWidget {
                         height: 40.h,
                         borderRadius: 20.r,
                         onTap: () => Get.bottomSheet(
-                          BookingDialog(_ctr.model?.id ?? 0),
+                          BookingDialog(_ctr.model?.id ?? 0, _ctr.model?.userPhone ?? ''),
                           isScrollControlled: true,
                         ),
                       ),

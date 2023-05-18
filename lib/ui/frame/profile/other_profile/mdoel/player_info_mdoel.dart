@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 
 class PlayerInfoModel {
-  String voice = "";
+  RxString _voice = ''.obs;
   String signature = "";
   String nickName = "";
   String language = "";
@@ -26,6 +26,12 @@ class PlayerInfoModel {
   int uid = 0;
   String uk = "";
   List<TrophieModel> trophies = [];
+
+  String get voice => _voice.value;
+
+  set voice(String value) {
+    _voice.value = value;
+  }
 
   PlayerInfoModel();
 
@@ -129,9 +135,10 @@ class ServiceItem {
   int levelId = 0;
   String price = "";
   String unit = "";
-  bool enabled = false;
+  int enabled = 0;
   int skillAuthid = 0;
   String createTime = "";
+  String discount = "";
   bool isDefault = false;
   String avatar = "";
   RxInt num = RxInt(1);
@@ -146,9 +153,10 @@ class ServiceItem {
     levelId = json['levelId'] ?? levelId;
     price = json['price'] ?? price;
     unit = json['unit'] ?? unit;
-    enabled = json['enabled'] == 1;
+    enabled = json['enabled'] ?? 0;
     skillAuthid = json['skillAuthid'] ?? skillAuthid;
     createTime = json['createTime'] ?? createTime;
+    discount = json['discount'] ?? discount;
     avatar = json['avatar'] ?? avatar;
 
     isDefault = json['isDefault'] == 1;
@@ -167,6 +175,7 @@ class ServiceItem {
     data['enabled'] = this.enabled;
     data['skillAuthid'] = this.skillAuthid;
     data['createTime'] = this.createTime;
+    data['discount'] = this.discount;
     data['isDefault'] = this.isDefault;
     data["avatar"] = this.avatar;
     return data;

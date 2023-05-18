@@ -418,7 +418,7 @@ class GameHomePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontFamily: FONT_MEDIUM,
                 ),
-                maxLines: 2,
+                maxLines: 8,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

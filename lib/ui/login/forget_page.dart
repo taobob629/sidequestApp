@@ -14,9 +14,10 @@ class ForgetPage extends StatelessWidget {
 
   //1登录 2支付
   final int type;
+  final String flag;
   late final ForgetPageController controller;
 
-  ForgetPage({required this.type}){
+  ForgetPage({required this.type, this.flag = ''}){
     controller = Get.put(ForgetPageController(type: type));
   }
 
@@ -60,6 +61,7 @@ class ForgetPage extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.go,
       onSubmitted: (value) => controller.gotoStep2(),
+      readOnly: 'payPsd' == flag,
     ));
     list.add(SizedBox(height: 100,));
     list.add(ColorfulButton(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -7,6 +6,7 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/privacy_check.dart';
+import 'package:wy/ui/common/wy_dialog.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -17,6 +17,8 @@ import 'package:wy/widget/views.dart';
 
 import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
+import '../../../model/beans/coin_category_bean.dart';
+import '../../../model/booking_model.dart';
 
 class MyEarningsPage extends StatefulWidget {
   @override
@@ -68,8 +70,26 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                     {'exp': true}),
               ]),
               PWidget.boxh(10),
-              Obx(() => PWidget.text(
-                  '${controller.diamonds}', [Color(0xffEEF3FF), 32, true])),
+              Obx(() => Row(
+                    children: [
+                      PWidget.text(
+                        '${controller.diamonds}',
+                        [Color(0xffEEF3FF), 32, true],
+                      ),
+                      Spacer(),
+                      Transform.translate(
+                        offset: Offset(0, 6.h),
+                        child: Text(
+                          '£ ${(controller.diamonds / 6).toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: Color(0x80ffffff),
+                            fontSize: 18.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
             ]),
             [null, null, null],
             {'pd': 16, 'br': 12, 'mg': PFun.lg(0, 0, 16, 16)},
@@ -124,103 +144,56 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
               behavior: HitTestBehavior.translucent,
               onTap: controller.selectMethodReceipt,
               child: GetBuilder<WalletBalancePageController>(
-                builder: (builder) {
-                  return Row(
-                    children: [
-                      Text(
-                        "Payment Method".tr,
-                        style: TextStyle(
-                          color: Color(0xffb2b9c9),
-                          fontFamily: "DIN",
-                          fontSize: 14.sp,
-                        ),
+                builder: (builder) => Row(
+                  children: [
+                    Text(
+                      "Payment Method".tr,
+                      style: TextStyle(
+                        color: Color(0xffb2b9c9),
+                        fontFamily: "DIN",
+                        fontSize: 14.sp,
                       ),
-                      Spacer(),
-                      Image.asset(
-                        controller.currentPayMethod == null
-                            ? ImageUtils.icon_bank
-                            : controller.currentPayMethod!.icon!,
-                        width: 16.w,
-                        height: 16.w,
-                      ),
-                      8.horizontalSpace,
-                      Text(
-                        controller.currentPayMethod == null
-                            ? ""
-                            : controller.currentPayMethod!.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "DIN",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      8.horizontalSpace,
-                      Icon(
-                        Icons.arrow_forward_ios,
+                    ),
+                    Spacer(),
+                    Image.asset(
+                      controller.currentPayMethod == null
+                          ? ImageUtils.icon_bank
+                          : controller.currentPayMethod!.icon!,
+                      width: 16.w,
+                      height: 16.w,
+                    ),
+                    8.horizontalSpace,
+                    Text(
+                      controller.currentPayMethod == null
+                          ? ""
+                          : controller.currentPayMethod!.name,
+                      style: TextStyle(
                         color: Colors.white,
-                        size: 16.sp,
+                        fontFamily: "DIN",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  );
-                },
+                    ),
+                    8.horizontalSpace,
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 16.sp,
+                    ),
+                  ],
+                ),
                 id: controller.currentPayMethodId,
               ),
             ),
+            15.verticalSpace,
+            Obx(() => controller.ifWisePay.value
+                ? _coinCategoryWidget()
+                : Container())
           ],
         ),
       ),
       Obx(() => Column(
             children: [
-              // Container(
-              //   margin: EdgeInsets.only(left: 15, right: 15, top: 20),
-              //   clipBehavior: Clip.antiAlias,
-              //   decoration: BoxDecoration(
-              //       color: Color(0xff282640),
-              //       borderRadius: BorderRadius.circular(20)),
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: [
-              //             Radio(
-              //                 value: 0,
-              //                 groupValue: controller.withdrawType.value,
-              //                 onChanged: (value) {
-              //                   print(value);
-              //                   controller.withdrawType.value =
-              //                       int.parse(value.toString());
-              //                 }),
-              //             Text(
-              //               "Bank Card".tr,
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Expanded(
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: [
-              //             Radio(
-              //                 value: 1,
-              //                 groupValue: controller.withdrawType.value,
-              //                 onChanged: (value) {
-              //                   print(value);
-              //                   controller.withdrawType.value =
-              //                       int.parse(value.toString());
-              //                 }),
-              //             Text(
-              //               "Paypal",
-              //               style: TextStyle(color: Colors.white),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               if (controller.withdrawType.value == 0) ...[
                 Column(
                   children: [
@@ -251,8 +224,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () {
                                     if (controller.bankList.length >= 4) {
-                                      showToast(
-                                          'Only 4 bankcards allowed!'.tr);
+                                      showToast('Only 4 bankcards allowed!'.tr);
                                       return;
                                     }
                                     Get.toNamed(AppPages.BindBankCard,
@@ -355,20 +327,6 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           }
         },
       ),
-      // FloatingButton(
-      //   label: "Paypal Withdrawal".tr,
-      //   onTap: () {
-      //     if (controller.privacyCheckController.check()) {
-      //       Get.dialog(PaypalWithdrawDialog()).then((value) {
-      //         if (value != null && value.toString().isNotEmpty) {
-      //           controller.withDraw('paypal', cardNum: value);
-      //         }
-      //       });
-      //     } else {
-      //       SmartDialog.showNotify('You should read and agree to our seller payment terms first.'.tr);
-      //     }
-      //   },
-      // ),
       GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => controller.privacyCheckController.check()
@@ -398,12 +356,49 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
           ),
         ),
       ),
-
       PWidget.boxh(8),
       PrivacyCheck(
           controller: controller.privacyCheckController, type: TYPE_ADD_BANK),
     ];
   }
+
+  Widget _coinCategoryWidget() => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => controller.selectCoin(),
+        child: Row(
+          children: [
+            Text(
+              "Currency".tr,
+              style: TextStyle(
+                color: Color(0xffb2b9c9),
+                fontFamily: "DIN",
+                fontSize: 14.sp,
+              ),
+            ),
+            Spacer(),
+            Image.asset(
+              controller.currentSelectCoin.value.icon!,
+              width: 30.w,
+              height: 30.h,
+            ),
+            10.horizontalSpace,
+            Text(
+              controller.currentSelectCoin.value.name!,
+              style: TextStyle(
+                color: Color(0xffffffff),
+                fontFamily: "DIN",
+                fontSize: 16.sp,
+              ),
+            ),
+            8.horizontalSpace,
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+              size: 16.sp,
+            ),
+          ],
+        ),
+      );
 
   Widget _buildCustomInput() {
     return Container(
@@ -448,6 +443,16 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                 ),
               ),
             ),
+            // Obx(
+            //   () => Text(
+            //     '£ ${controller.englishMoney.value.toStringAsFixed(2)}',
+            //     style: TextStyle(
+            //       color: Color(0xffffffff),
+            //       fontSize: 14.sp,
+            //       fontFamily: FONT_MEDIUM,
+            //     ),
+            //   ),
+            // ),
           ],
         ));
   }

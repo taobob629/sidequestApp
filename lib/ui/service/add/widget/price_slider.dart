@@ -3,6 +3,7 @@
     创建日期:2023/3/9
     描述:
  */
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/another_xlider.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
+import '../../../common/dialog_selector.dart';
 import '../add_game_page.dart';
 import '../controller.dart';
 
@@ -44,26 +46,31 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
         child: Obx(() => ListView.separated(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount:
-                  showLable ? controller.mPriceRanges.length + 1 : controller.mPriceRanges.length,
+              itemCount: showLable
+                  ? controller.mPriceRanges.length + 1
+                  : controller.mPriceRanges.length,
               itemBuilder: (BuildContext context, int index) {
                 if (showLable && index == 0) {
-                  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    itemLable('Price'.tr),
-                    Visibility(
-                      visible: showLable,
-                      child: InkWell(
-                          onTap: () {
-                            controller.toAddServiceTypePage();
-                          },
-                          child: Text(
-                            'Edit'.tr,
-                            style: TextStyle(color: Colors.white, fontSize: 15.sp),
-                          )),
-                    )
-                  ]);
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        itemLable('Price'.tr),
+                        Visibility(
+                          visible: showLable,
+                          child: InkWell(
+                              onTap: () {
+                                controller.toAddServiceTypePage();
+                              },
+                              child: Text(
+                                'Edit'.tr,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15.sp),
+                              )),
+                        )
+                      ]);
                 }
-                var item = controller.mPriceRanges[showLable ? index - 1 : index];
+                var item =
+                    controller.mPriceRanges[showLable ? index - 1 : index];
                 return PriceSlider(
                   min: item.gameCoinMin,
                   max: item.gameCoinMax,
@@ -72,21 +79,22 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
                   model: item,
                 );
               },
-              separatorBuilder: (BuildContext context, int index) => showLable && index == 0
-                  ? Divider(
-                      height: 0,
-                    )
-                  : Divider(
-                      color: Colors.transparent,
-                      height: 16.h,
-                    ),
+              separatorBuilder: (BuildContext context, int index) =>
+                  showLable && index == 0
+                      ? Divider(
+                          height: 0,
+                        )
+                      : Divider(
+                          color: Colors.transparent,
+                          height: 16.h,
+                        ),
             )));
   }
 }
 
 // 价格滑块
 class PriceSlider extends GetView<AddGamePageController> {
-  PriceRangeModel? model;
+  PriceRangeModel model;
   int index = 0;
   final double? max;
   final double? min;
@@ -101,7 +109,13 @@ class PriceSlider extends GetView<AddGamePageController> {
 
   final Function(double)? fun;
 
-  PriceSlider({this.max, this.min, this.fun, this.value = 0, this.model, this.index = 0}) {
+  PriceSlider(
+      {this.max,
+      this.min,
+      this.fun,
+      this.value = 0,
+      required this.model,
+      this.index = 0}) {
     this.price = value;
   }
 
@@ -111,16 +125,16 @@ class PriceSlider extends GetView<AddGamePageController> {
   Widget build(BuildContext context) {
     TextEditingController textController = TextEditingController();
     textController.addListener(() {
-      model?.name = textController.text;
+      model.name = textController.text;
     });
-    textController.text = model?.name ?? '';
+    textController.text = model.name;
     return outerBg(Column(
       children: [
         InputView(
           maxLength: 15,
           decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
           controller: textController,
-          label: 'ServiceType_''${model?.unit}',
+          label: 'ServiceType_' '${model.unit}',
           tips: 'Please input service name'.tr,
           margin: EdgeInsets.only(top: 2).h,
           padding: EdgeInsets.only(bottom: 8.h),
@@ -141,7 +155,8 @@ class PriceSlider extends GetView<AddGamePageController> {
             children: [
               Expanded(
                   child: Container(
-                      decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
+                      decoration: itemDecoration(
+                          color: Color(0xFF2D2E3C), radius: 10.r),
                       child: Obx(() => FlutterSlider(
                             values: [price],
                             max: max!,
@@ -149,16 +164,21 @@ class PriceSlider extends GetView<AddGamePageController> {
                             handlerWidth: 40.w,
                             trackBar: FlutterSliderTrackBar(
                               inactiveTrackBar: BoxDecoration(
-                                  color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+                                  color: Colors.white24,
+                                  borderRadius: BorderRadius.circular(8)),
                               activeTrackBar: BoxDecoration(
-                                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
                             tooltip: FlutterSliderTooltip(
-                              positionOffset: FlutterSliderTooltipPositionOffset(top: -16),
+                              positionOffset:
+                                  FlutterSliderTooltipPositionOffset(top: -16),
                               custom: (v) => PWidget.container(
                                 PWidget.row([
-                                  Image.asset("assets/images/ic_balance_money.webp",
-                                      width: 16, height: 16),
+                                  Image.asset(
+                                      "assets/images/ic_balance_money.webp",
+                                      width: 16,
+                                      height: 16),
                                   PWidget.boxw(4),
                                   PWidget.text('${double.parse('$v').toInt()}'),
                                   PWidget.boxw(4),
@@ -171,12 +191,18 @@ class PriceSlider extends GetView<AddGamePageController> {
                             ),
                             handler: FlutterSliderHandler(
                               child: Container(
-                                padding: EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 2).r,
+                                padding: EdgeInsets.only(
+                                        left: 5, right: 5, top: 2, bottom: 2)
+                                    .r,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.white),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Colors.white),
                                 child: Text(
                                   '${price.toInt()}',
-                                  style: TextStyle(color: Colors.black.withOpacity(0.75), fontSize: 12.sp),
+                                  style: TextStyle(
+                                      color: Colors.black.withOpacity(0.75),
+                                      fontSize: 12.sp),
                                 ),
                               ),
                               foregroundDecoration: BoxDecoration(),
@@ -195,7 +221,7 @@ class PriceSlider extends GetView<AddGamePageController> {
               10.horizontalSpace,
               Container(
                 height: 45.h,
-               // width: 50.w,
+                // width: 50.w,
                 constraints: BoxConstraints(minWidth: 100.w),
                 decoration: innerDecoration(),
                 alignment: Alignment.center,
@@ -204,13 +230,291 @@ class PriceSlider extends GetView<AddGamePageController> {
               )
             ],
           ),
-        )
+        ),
+        Obx(() => Column(
+          children: [
+            15.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  'Promotion Setting'.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    value: model.promotionSwitch.value == true,
+                    onChanged: (value) =>
+                    model.promotionSwitch.value = !model.promotionSwitch.value,
+                  ),
+                ),
+              ],
+            ),
+            if (model.promotionSwitch.value) _discountWidget(),
+          ],
+        ))
       ],
     ));
   }
 
+  Widget _discountWidget() => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          Get.dialog(
+              SelectorDialog(
+                  items: PromotionConfig().promotionList,
+                  title: "Choose a promotion".tr),
+              barrierColor: Colors.black26)
+              .then((value) {
+            if (value != null) {
+              model.currentPromotion.value = value;
+            }
+          });
+        },
+        child: Container(
+          height: 46.h,
+          decoration: innerDecoration(),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          margin: EdgeInsets.symmetric(vertical: 15.h),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  model.currentPromotion.value.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios_outlined,
+                color: Colors.white,
+                size: 18.sp,
+              ),
+            ],
+          ),
+        ),
+      ),
+      if (model.currentPromotion.value.id == 0)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Discount'.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Get.dialog(
+                    SelectorDialog(
+                        items: PromotionConfig().discountList,
+                        title: "Discount".tr),
+                    barrierColor: Colors.black26)
+                    .then((value) {
+                  if (value != null) {
+                    model.currentDiscount.value = value;
+                  }
+                });
+              },
+              child: Container(
+                height: 46.h,
+                decoration: innerDecoration(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.only(top: 6.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.currentDiscount.value.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      if (model.currentPromotion.value.id == 1)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '1st Order Discount'.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Get.dialog(
+                    SelectorDialog(
+                        items: PromotionConfig().orderFreeList,
+                        title: "1st Order Discount".tr),
+                    barrierColor: Colors.black26)
+                    .then((value) {
+                  if (value != null) {
+                    model.currentOrderFree.value = value;
+                  }
+                });
+              },
+              child: Container(
+                height: 46.h,
+                decoration: innerDecoration(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.only(top: 6.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.currentOrderFree.value.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      if (model.currentPromotion.value.id == 2)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Buy X',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Get.dialog(
+                    SelectorDialog(
+                        items: PromotionConfig().xAndYList,
+                        title: "Buy X".tr),
+                    barrierColor: Colors.black26)
+                    .then((value) {
+                  if (value != null) {
+                    model.currentBuyX.value = value;
+                  }
+                });
+              },
+              child: Container(
+                height: 46.h,
+                decoration: innerDecoration(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.only(top: 6.h, bottom: 15.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.currentBuyX.value.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Text(
+              'Free Y'.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Get.dialog(
+                    SelectorDialog(
+                        items: PromotionConfig().xAndYList,
+                        title: "Free Y".tr),
+                    barrierColor: Colors.black26)
+                    .then((value) {
+                  if (value != null) {
+                    model.currentGetY.value = value;
+                  }
+                });
+              },
+              child: Container(
+                height: 46.h,
+                decoration: innerDecoration(),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.only(top: 6.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        model.currentGetY.value.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+    ],
+  );
+
   dropDownButton(int index, var init) {
-    var seclet = controller.priceRanges.firstWhereOrNull((element) => element.unit == init);
+    var seclet = controller.priceRanges
+        .firstWhereOrNull((element) => element.unit == init);
     return DropdownButtonHideUnderline(
         child: DropdownButton<PriceRangeModel>(
             borderRadius: BorderRadius.all(Radius.circular(10)).r,

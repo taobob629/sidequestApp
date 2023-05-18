@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/event_bus/event_bus.dart';
+import 'package:wy/service/voice_player.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/badge_detail_widget.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
 import '../../game/game_home_page.dart';
@@ -31,7 +35,11 @@ class OtherDashboardPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       margin: EdgeInsets.only(bottom: 12),
                       child: Row(
-                        children: [Text("Badge".tr, style: TextStyle(fontSize: 14.sp, color: Colors.white))],
+                        children: [
+                          Text("Badge".tr,
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: Colors.white))
+                        ],
                       ),
                     ),
                     Container(
@@ -67,7 +75,12 @@ class OtherDashboardPage extends StatelessWidget {
                                         width: 36.w,
                                         height: 36.h,
                                       ),
-                                      Text(e.iconName, maxLines: 1, overflow: TextOverflow.clip, style: TextStyle(fontSize: 10.sp, color: Colors.white))
+                                      Text(e.iconName,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                              fontSize: 10.sp,
+                                              color: Colors.white))
                                     ],
                                   ),
                                 ),
@@ -80,195 +93,379 @@ class OtherDashboardPage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [Text("Services  ".tr, style: TextStyle(fontSize: 14.sp, color: Colors.white))],
-                    ),
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    children: [
+                      Text("Services  ".tr,
+                          style:
+                              TextStyle(fontSize: 14.sp, color: Colors.white))
+                    ],
                   ),
-                  ...t.player.value.games
-                      .map((game) => GestureDetector(
-                            onTap: () => Get.to(() => GameHomePage(), arguments: {
-                              "liveid": t.player.value.uid,
-                              "skillId": game.serviceItem[0].skillid,
-                              "gameId": game.id,
-                              "avatar": t.player.value.avatar,
-                              "nickName": t.player.value.nickName,
-                              "sex": t.player.value.sex,
-                              "age": t.player.value.age,
-                              "uk": t.player.value.uk,
-                              "price": game.serviceItem.first.price,
-                              "unit": game.serviceItem.first.unit,
-                            }),
-                            child: Container(
-                              margin: EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.r), color: Color(0xFF292F3F)),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(right: 12),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                                          child: ImageUtil.networkImage(url: game.thumb, width: 96, height: 90, fit: BoxFit.cover)),
-                                      Expanded(
-                                          child: SizedBox(
-                                        height: 90,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
+                ),
+                ...t.player.value.games
+                    .map((game) => GestureDetector(
+                          onTap: () => Get.to(() => GameHomePage(), arguments: {
+                            "liveid": t.player.value.uid,
+                            "skillId": game.serviceItem[0].skillid,
+                            "gameId": game.id,
+                            "avatar": t.player.value.avatar,
+                            "nickName": t.player.value.nickName,
+                            "sex": t.player.value.sex,
+                            "age": t.player.value.age,
+                            "uk": t.player.value.uk,
+                            "price": game.serviceItem.first.price,
+                            "unit": game.serviceItem.first.unit,
+                          }),
+                          child: Stack(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 16),
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.r),
+                                  color: AppColor.itemBg,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.only(right: 12),
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: ImageUtil.networkImage(
+                                                url: game.thumb,
+                                                width: 96,
+                                                height: 90,
+                                                fit: BoxFit.cover)),
+                                        Expanded(
+                                            child: SizedBox(
+                                          height: 90,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(game.name,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      if (game.serviceItem
+                                                          .isNotEmpty) ...[
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              constraints: BoxConstraints(
+                                                                  maxWidth: Get
+                                                                          .width -
+                                                                      128.w -
+                                                                      150.w),
+                                                              child: Text(
+                                                                game.level
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10.sp,
+                                                                    color: AppColor
+                                                                        .textC3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                            13.horizontalSpace,
+                                                            Image(
+                                                              image: AssetImage(
+                                                                  'assets/images/ic_balance_money.webp'),
+                                                              width: 15,
+                                                              height: 15,
+                                                            ),
+                                                            3.horizontalSpace,
+                                                            SizedBox(
+                                                              // width: 150,
+                                                              child: Text.rich(
+                                                                  TextSpan(
+                                                                      children: [
+                                                                    TextSpan(
+                                                                        text:
+                                                                            '${double.parse(game.serviceItem.first.price).floor()}',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize: 16.sp,
+                                                                            fontFamily: FONT_MEDIUM)),
+                                                                    TextSpan(
+                                                                        text:
+                                                                            '/${game.serviceItem.first.unit}',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize: 8.sp,
+                                                                            fontFamily: FONT_MEDIUM)),
+                                                                  ])),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ]
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Text(game.name, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)),
-                                                    if (game.serviceItem.isNotEmpty) ...[
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            constraints: BoxConstraints(maxWidth: Get.width - 128.w - 150.w),
-                                                            child: Text(
-                                                              game.level.toString(),
-                                                              style: TextStyle(fontSize: 10.sp, color: AppColor.textC3, fontWeight: FontWeight.bold),
+                                                    Visibility(
+                                                      visible: game
+                                                          .gameVoice.isNotEmpty,
+                                                      maintainAnimation: true,
+                                                      maintainState: true,
+                                                      maintainSize: true,
+                                                      child: VoiceProfileWidget(
+                                                        voice: game.gameVoice,
+                                                        maginBottom: 0,
+                                                        marginLeft: 12.w,
+                                                        width: 70.w,
+                                                        needEdit: false,
+                                                      ),
+                                                    ),
+                                                    EditPlayBtn(
+                                                      isEdit: t.isSelf,
+                                                      onTap: () {
+                                                        if (game.serviceItem
+                                                                .length ==
+                                                            1) {
+                                                          t.editService(
+                                                              game,
+                                                              game.serviceItem
+                                                                  .first);
+                                                        } else {
+                                                          game.ifShow.value =
+                                                              !game
+                                                                  .ifShow.value;
+                                                        }
+                                                      },
+                                                    ).marginOnly(bottom: 13)
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ))
+                                      ],
+                                    ),
+                                    if (game.ifShow.value) ...[
+                                      ...game.serviceItem.map((service) {
+                                        return Container(
+                                          height: 55.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.itemBg,
+                                          ),
+                                          margin: EdgeInsets.only(
+                                              top: service.enabled == 1
+                                                  ? 10.h
+                                                  : 0),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                height: 45.h,
+                                                margin: EdgeInsets.only(
+                                                  top: 10.h,
+                                                  left: 10.w,
+                                                  right: 10.w,
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.w),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xff2D2E3C),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.r),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(service.name,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    Spacer(),
+                                                    Row(
+                                                      children: [
+                                                        Image(
+                                                          image: AssetImage(
+                                                              'assets/images/ic_balance_money.webp'),
+                                                          width: 15,
+                                                          height: 15,
+                                                        ),
+                                                        3.horizontalSpace,
+                                                        Text.rich(
+                                                            TextSpan(children: [
+                                                          TextSpan(
+                                                              text:
+                                                                  '${double.parse(service.price).floor()}',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                  fontFamily:
+                                                                      FONT_MEDIUM)),
+                                                          TextSpan(
+                                                              text:
+                                                                  '/${service.unit}',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      8.sp,
+                                                                  fontFamily:
+                                                                      FONT_MEDIUM)),
+                                                        ])),
+                                                        10.horizontalSpace,
+                                                        GestureDetector(
+                                                          behavior:
+                                                              HitTestBehavior
+                                                                  .translucent,
+                                                          onTap: () =>
+                                                              t.editService(
+                                                                  game,
+                                                                  service),
+                                                          child: Container(
+                                                            width: 28.w,
+                                                            height: 28.w,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xff3F4050),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          14.w),
+                                                            ),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 14.sp,
                                                             ),
                                                           ),
-                                                          13.horizontalSpace,
-                                                          Image(
-                                                            image: AssetImage('assets/images/ic_balance_money.webp'),
-                                                            width: 15,
-                                                            height: 15,
-                                                          ),
-                                                          3.horizontalSpace,
-                                                          SizedBox(
-                                                            // width: 150,
-                                                            child: Text.rich(TextSpan(children: [
-                                                              TextSpan(
-                                                                  text: '${double.parse(game.serviceItem.first.price).floor()}',
-                                                                  style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
-                                                              TextSpan(text: '/${game.serviceItem.first.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
-                                                            ])),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ]
+                                                        ),
+                                                      ],
+                                                    )
                                                   ],
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Visibility(
-                                                    visible: game.gameVoice.isNotEmpty,
-                                                    maintainAnimation: true,
-                                                    maintainState: true,
-                                                    maintainSize: true,
-                                                    child: GestureDetector(
-                                                      behavior: HitTestBehavior.translucent,
-                                                      onTap: () {
-                                                        OtherProfileController.find.audioManager.play(game.gameVoice);
-                                                      },
-                                                      child: Container(
-                                                        height: 30.h,
-                                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topLeft: Radius.circular(15.r),
-                                                            topRight: Radius.circular(15.r),
-                                                            bottomLeft: Radius.circular(15.r),
-                                                          ),
-                                                          gradient: LinearGradient(
-                                                            colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)],
-                                                          ),
-                                                          boxShadow: [
-                                                            BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                                            BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                                          ],
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                                            8.horizontalSpace,
-                                                            Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
-                                                          ],
-                                                        ),
-                                                      ),
+                                              if (service.enabled == 1 &&
+                                                  t
+                                                      .getDiscount(
+                                                          service.discount)
+                                                      .isNotEmpty)
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 10.w),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xffDA7A19),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(15.r),
+                                                      topRight:
+                                                          Radius.circular(15.r),
+                                                      bottomRight:
+                                                          Radius.circular(15.r),
                                                     ),
                                                   ),
-                                                  EditPlayBtn(
-                                                    isEdit: t.isSelf,
-                                                    onTap: () {
-                                                      if (game.serviceItem.length == 1) {
-                                                        t.editService(game, game.serviceItem.first);
-                                                      } else {
-                                                        game.ifShow.value = !game.ifShow.value;
-                                                      }
-                                                    },
-                                                  ).marginOnly(bottom: 13)
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ))
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.w,
+                                                    vertical: 4.h,
+                                                  ),
+                                                  child: Text(
+                                                    t.getDiscount(
+                                                        service.discount),
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: FONT_MEDIUM,
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        );
+                                      })
                                     ],
-                                  ),
-                                  if (game.ifShow.value) ...[
-                                    ...game.serviceItem.map((service) {
-                                      return Container(
-                                        height: 44,
-                                        decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColor.itemBg, width: 1))),
-                                        padding: EdgeInsets.only(left: 20),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Text(service.name, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold)),
-                                            Spacer(),
-                                            Row(
-                                              children: [
-                                                Image(
-                                                  image: AssetImage('assets/images/ic_balance_money.webp'),
-                                                  width: 15,
-                                                  height: 15,
-                                                ),
-                                                3.horizontalSpace,
-                                                Text.rich(TextSpan(children: [
-                                                  TextSpan(text: '${double.parse(service.price).floor()}', style: TextStyle(color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
-                                                  TextSpan(text: '/${service.unit}', style: TextStyle(color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
-                                                ])),
-                                                10.horizontalSpace,
-                                                EditPlayBtn(
-                                                  isEdit: t.isSelf,
-                                                  onTap: () {
-                                                    t.editService(game, service);
-                                                  },
-                                                ),
-                                                10.horizontalSpace,
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    })
-                                  ]
-                                ],
+                                    if (game.ifShow.value) 10.verticalSpace,
+                                  ],
+                                ),
                               ),
-                            ),
-                          ))
-                      .toList()
-                ],
-              ),
+                              if (game.serviceItem.length == 1 &&
+                                  game.serviceItem[0].enabled == 1 &&
+                                  t
+                                      .getDiscount(game.serviceItem[0].discount)
+                                      .isNotEmpty)
+                                Transform.translate(
+                                  offset: Offset(20, -5.h),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffDA7A19),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15.r),
+                                        topRight: Radius.circular(15.r),
+                                        bottomRight: Radius.circular(15.r),
+                                      ),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 4.h,
+                                    ),
+                                    child: Text(
+                                      t.getDiscount(
+                                          game.serviceItem[0].discount),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ))
+                    .toList()
+              ],
             ),
           ],
         ));
@@ -296,7 +493,11 @@ class EditPlayBtn extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           isEdit ? "EDIT" : "PLAY",
-          style: TextStyle(fontSize: 12, color: AppColor.tabBackGround, fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM),
+          style: TextStyle(
+              fontSize: 12,
+              color: AppColor.tabBackGround,
+              fontWeight: FontWeight.bold,
+              fontFamily: FONT_MEDIUM),
         ),
       ),
     );

@@ -104,8 +104,9 @@ class ApiInterceptor extends InterceptorsWrapper {
           showErrorWidget("${respData.msg}");
         }
 
-        response.data = respData.data;
-        response.statusMessage = respData.msg;
+        // response.data = respData.data;
+        // response.statusMessage = respData.msg;
+        // response.statusCode = respData.code;
         return handler.next(response);
       }
     }

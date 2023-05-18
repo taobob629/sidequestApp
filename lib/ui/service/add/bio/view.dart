@@ -56,13 +56,28 @@ class BioPage extends GetView<AddGamePageController> {
               child: Column(
                 children: [
                   InputView(
-                    maxLength: 15,
                     decoration: itemDecoration(color: Color(0xFF2D2E3C), radius: 10.r),
-                    controller:controller.teServiceIntro,
                     label: 'Service Intro'.tr,
                     tips: 'Please input Service Intro'.tr,
                     margin: EdgeInsets.only(top: 2).h,
                     padding: EdgeInsets.only(bottom: 8.h),
+                    customInput: TextField(
+                      maxLines: 5,
+                      controller: controller.teServiceIntro,
+                      cursorColor: Colors.white70,
+                      textAlign: TextAlign.start,
+                      maxLength: 255,
+                      minLines: 4,
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: 'Please input Service Intro'.tr,
+                        hintStyle: inputHint(),
+                        border: InputBorder.none,
+                        helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        //  contentPadding: EdgeInsets.only(bottom: 8)
+                      ),
+                    ),
                     autoHeight: true,
                   ),
                   16.verticalSpace,

@@ -35,6 +35,7 @@ class ImageUtils {
   static const String icon_time = 'assets/images/icon_time.webp';
   static const String icon_top_up = 'assets/images/icon_top_up.webp';
   static const String icon_refound = 'assets/images/icon_refound.webp';
+  static const String pay_psd_zuanshi_icon = 'assets/images/pay_psd_zuanshi_icon.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
@@ -45,4 +46,9 @@ class ImageUtils {
   static const String icon_xiaoxi = 'assets/images/icon_xiaoxi.webp';
   static const String tip_info_bg = 'assets/images/tip_info_bg.webp';
   static const String rg_select = 'assets/images/rg_select.png';
+  static const String china_flag_icon = 'assets/images/china_flag_icon.jpg';
+  static const String england_flag_icon = 'assets/images/england_flag_icon.jpg';
+  static const String eruption_flag_icon = 'assets/images/eruption_flag_icon.jpg';
+  static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
+  static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
 }

@@ -8,11 +8,14 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/profile/voice_profile.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../../../config/app_pages.dart';
+import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
 import '../../../order/my_orders/my_orders_page.dart';
+import '../../../profile/balance/balance_page.dart';
 import '../../../profile/events/my_events_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
 import '../../main_page.dart';
@@ -28,6 +31,7 @@ class MyProfilePage extends StatelessWidget {
   MyProfilePage({Key? key}) : super(key: key);
   final t = Get.put(ProfileController());
   final userController = UserController.find;
+  final user = UserController.find.userProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -87,87 +91,101 @@ class MyProfilePage extends StatelessWidget {
                                   margin: EdgeInsets.only(right: 25),
                                   child: Row(
                                     children: [
-                                      Stack(alignment: AlignmentDirectional.center, clipBehavior: Clip.none, children: [
-                                        Obx(() => Container(
-                                              height: 64,
-                                              alignment: Alignment.bottomCenter,
-                                              child: ClipOval(
-                                                child: ImageUtil.networkImage(
-                                                  url: userController.userProfile.avatar,
-                                                  width: 60,
-                                                  height: 60,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            )),
-                                        Image.asset(
-                                          "assets/images/profile_avatar_border.webp",
-                                          width: 64,
-                                        ),
-                                        Obx(() => Visibility(
-                                              visible: userController.userProfile.vipLevel >= 5 && userController.userProfile.isAuth == 1,
-                                              child: Positioned(
-                                                  bottom: -10,
-                                                  child: Image.asset(
-                                                    "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
-                                                    height: 28,
-                                                  )),
-                                            )),
-                                      ]),
-
-                                      // VoiceWidget(
-                                      //   pwId: userController.userProfile.pwId,
-                                      //   voice: userController.userProfile.voice,
-                                      //   maginBottom: 0,
-                                      //   marginLeft: 12.w,
-                                      //   play: () => AudioManager.instance.play(userController.userProfile.voice),
-                                      //   toRecordPage: () => userController.toRecordPage(context),
-                                      // )
+                                      Stack(
+                                          alignment:
+                                              AlignmentDirectional.center,
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            Obx(() => Container(
+                                                  height: 64,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: ClipOval(
+                                                    child:
+                                                        ImageUtil.networkImage(
+                                                      url: userController
+                                                          .userProfile.avatar,
+                                                      width: 60,
+                                                      height: 60,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                )),
+                                            Image.asset(
+                                              "assets/images/profile_avatar_border.webp",
+                                              width: 64,
+                                            ),
+                                            Obx(() => Visibility(
+                                                  visible: userController
+                                                              .userProfile
+                                                              .vipLevel >=
+                                                          5 &&
+                                                      userController.userProfile
+                                                              .isAuth ==
+                                                          1,
+                                                  child: Positioned(
+                                                      bottom: -10,
+                                                      child: Image.asset(
+                                                        "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                                        height: 28,
+                                                      )),
+                                                )),
+                                          ]),
                                     ],
                                   ),
                                 ),
                               ),
                               Spacer(),
-                              Container(
-                                width: 98.w,
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
-                                    gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                                    boxShadow: [
-                                      BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                      BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                    ]),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        //播放
-                                        AudioManager.instance.play(userController.userProfile.voice);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          6.horizontalSpace,
-                                          Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                          8.horizontalSpace,
-                                          Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            //编辑
-                                            userController.toRecordPage(context);
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: ImageUtil.assetImage('ic_edit', width: 14),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ),
+                              Obx(() => VoiceProfileWidget(
+                                    pwId: userController.userProfile.pwId,
+                                    voice:
+                                        userController.userProfile.voice?.value,
+                                    maginBottom: 0,
+                                    marginLeft: 12.w,
+                                    width: 100.w,
+                                    toRecordPage: () =>
+                                        userController.toRecordPage(context),
+                                  ))
+                              // Container(
+                              //   width: 98.w,
+                              //   height: 30.h,
+                              //   decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
+                              //       gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
+                              //       boxShadow: [
+                              //         BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
+                              //         BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
+                              //       ]),
+                              //   child: Row(
+                              //     children: [
+                              //       GestureDetector(
+                              //         onTap: () {
+                              //           //播放
+                              //           AudioManager.instance.play(userController.userProfile.voice);
+                              //         },
+                              //         child: Row(
+                              //           children: [
+                              //             6.horizontalSpace,
+                              //             Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
+                              //             8.horizontalSpace,
+                              //             Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       Expanded(
+                              //           child: GestureDetector(
+                              //             onTap: () {
+                              //               //编辑
+                              //               userController.toRecordPage(context);
+                              //             },
+                              //             child: Container(
+                              //               alignment: Alignment.center,
+                              //               child: ImageUtil.assetImage('ic_edit', width: 14),
+                              //             ),
+                              //           )),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -212,28 +230,40 @@ class MyProfilePage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 5),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
                                       margin: EdgeInsets.only(right: 10),
                                       height: 16.h,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(3),
-                                          gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [
-                                            if (userController.userProfile.gender == 0) ...[
-                                              Color(0xFF1F84C9),
-                                              Color(0xFF7CB9D5),
-                                            ] else if (userController.userProfile.gender == 1) ...[
-                                              Color(0xFFD57CAB),
-                                              Color(0xFFC91FA7),
-                                            ] else ...[
-                                              Color(0xFF99BCCC),
-                                              Color(0xFF587284),
-                                            ]
-                                          ])),
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          gradient: LinearGradient(
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight,
+                                              colors: [
+                                                if (userController
+                                                        .userProfile.gender ==
+                                                    0) ...[
+                                                  Color(0xFF1F84C9),
+                                                  Color(0xFF7CB9D5),
+                                                ] else if (userController
+                                                        .userProfile.gender ==
+                                                    1) ...[
+                                                  Color(0xFFD57CAB),
+                                                  Color(0xFFC91FA7),
+                                                ] else ...[
+                                                  Color(0xFF99BCCC),
+                                                  Color(0xFF587284),
+                                                ]
+                                              ])),
                                       child: Row(
                                         children: [
-                                          if (userController.userProfile.gender != 2)
+                                          if (userController
+                                                  .userProfile.gender !=
+                                              2)
                                             Padding(
-                                              padding: const EdgeInsets.only(right: 3),
+                                              padding: const EdgeInsets.only(
+                                                  right: 3),
                                               child: Image.asset(
                                                 "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
                                                 width: 8,
@@ -242,36 +272,55 @@ class MyProfilePage extends StatelessWidget {
                                           else
                                             Text(
                                               "?",
-                                              style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                              style: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.white,
+                                                  fontWeight:
+                                                      FontWeight.normal),
                                             ),
                                           Text(
                                             "${userController.userProfile.age}",
-                                            style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                            style: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 5),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5),
                                       margin: EdgeInsets.only(right: 10),
                                       height: 16.h,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          color: Color(0xff32353D)),
                                       child: Row(
                                         children: [
                                           Text(
                                             userController.userProfile.language,
-                                            style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                            style: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Visibility(
-                                      visible: userController.userProfile.location.country.isNotEmpty,
+                                      visible: userController.userProfile
+                                          .location.country.isNotEmpty,
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
                                         margin: EdgeInsets.only(right: 10),
                                         height: 16.h,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: Color(0xff32353D)),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            color: Color(0xff32353D)),
                                         child: Row(
                                           children: [
                                             Image.asset(
@@ -282,8 +331,13 @@ class MyProfilePage extends StatelessWidget {
                                               width: 5,
                                             ),
                                             Text(
-                                              userController.userProfile.location.country,
-                                              style: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
+                                              userController
+                                                  .userProfile.location.country,
+                                              style: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.white,
+                                                  fontWeight:
+                                                      FontWeight.normal),
                                             ),
                                           ],
                                         ),
@@ -302,7 +356,10 @@ class MyProfilePage extends StatelessWidget {
                                       padding: const EdgeInsets.only(right: 15),
                                       child: Text(
                                         "ID:${userController.userProfile.uk}",
-                                        style: TextStyle(fontSize: 10.sp, color: Color(0xffC5C5C5), fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Color(0xffC5C5C5),
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     // Text(
@@ -316,14 +373,17 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Spacer(),
                       InkWell(
-                        onTap: () => NavigatorHelper.toOtherProfile(userController.userProfile.pwId),
+                        onTap: () => NavigatorHelper.toOtherProfile(
+                            userController.userProfile.pwId),
                         child: Container(
-                          padding: EdgeInsets.only(left: 20.w,top: 10.h,bottom: 10.h,right: 10.w),
+                          padding: EdgeInsets.only(
+                              left: 20.w, top: 10.h, bottom: 10.h, right: 10.w),
                           child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 16.w,
-                        ),),
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.white,
+                            size: 16.w,
+                          ),
+                        ),
                       ),
                       20.horizontalSpace,
                     ],
@@ -331,6 +391,8 @@ class MyProfilePage extends StatelessWidget {
                 ),
               ),
             ),
+
+            achievements(),
 
             /// Followers、Fans、Rating
             Obx(
@@ -355,7 +417,9 @@ class MyProfilePage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               badges.Badge(
-                                showBadge: userController.userProfile.followerToday > 0,
+                                showBadge:
+                                    userController.userProfile.followerToday >
+                                        0,
                                 badgeContent: Container(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -368,11 +432,17 @@ class MyProfilePage extends StatelessWidget {
                                   ),
                                 ),
                                 badgeColor: Color(0xffFF4848),
-                                position: badges.BadgePosition(end: -10, top: -6),
+                                position:
+                                    badges.BadgePosition(end: -10, top: -6),
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  userController.userProfile.followers < 10000 ? '${userController.userProfile.followers}' : '9999+',
-                                  style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                  userController.userProfile.followers < 10000
+                                      ? '${userController.userProfile.followers}'
+                                      : '9999+',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               7.verticalSpace,
@@ -409,7 +479,10 @@ class MyProfilePage extends StatelessWidget {
                               alignment: Alignment.topRight,
                               child: Text(
                                 "${userController.userProfile.fans}",
-                                style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             7.verticalSpace,
@@ -445,11 +518,15 @@ class MyProfilePage extends StatelessWidget {
                                     ),
                                   ),
                                   badgeColor: Color(0xffFF4848),
-                                  position: badges.BadgePosition(end: -10, top: -6),
+                                  position:
+                                      badges.BadgePosition(end: -10, top: -6),
                                   alignment: Alignment.topRight,
                                   child: Text(
                                     "${userController.userProfile.ranking}",
-                                    style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 7.verticalSpace,
@@ -478,7 +555,8 @@ class MyProfilePage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               badges.Badge(
-                                showBadge: userController.userProfile.visitorToday > 0,
+                                showBadge:
+                                    userController.userProfile.visitorToday > 0,
                                 badgeContent: Text(
                                   '${userController.userProfile.visitorToday}',
                                   style: TextStyle(
@@ -487,11 +565,17 @@ class MyProfilePage extends StatelessWidget {
                                   ),
                                 ),
                                 badgeColor: Color(0xffFF4848),
-                                position: badges.BadgePosition(end: -10, top: -6),
+                                position:
+                                    badges.BadgePosition(end: -10, top: -6),
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  userController.userProfile.visitor < 10000 ? '${userController.userProfile.visitor}' : '9999+',
-                                  style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                  userController.userProfile.visitor < 10000
+                                      ? '${userController.userProfile.visitor}'
+                                      : '9999+',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                   maxLines: 1,
                                 ),
                               ),
@@ -616,7 +700,89 @@ class MyProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _dashboardLabelItem(String imageName, String title, {Function()? onTap}) => GestureDetector(
+  Widget achievements() => Container(
+        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+        padding: EdgeInsets.all(15).r,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
+          color: Color(0xff262731),
+        ),
+        child: Row(
+          children: [
+            achievementItem(user.coin, 'ic_balance_money'),
+            achievementItem(user.diamond, 'diamonds_red'),
+            achievementItem(user.balanceMoney(), 'ic_corns_new'),
+            achievementItem(user.coupons, 'ic_coupons_new'),
+          ],
+        ),
+      );
+
+  Widget achievementItem(var text, var icon) {
+    var textStyle = TextStyle(
+        color: Color(0xFFFFFFFF), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
+    double width = 18;
+    double height = 18;
+    switch (icon) {
+      case 'ic_balance_money':
+        width = 18;
+        height = 18;
+        break;
+      case 'ic_coupons_new':
+        width = 22;
+        height = 18;
+        break;
+      case 'diamonds_red':
+        width = 18;
+        height = 18;
+        break;
+      case 'ic_corns_new':
+        width = 22;
+        height = 18;
+        break;
+    }
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          switch (icon) {
+            case 'ic_balance_money':
+              if (StorageManager.getOnline())
+                Get.toNamed(AppPages.WALLET_PAGE,
+                    arguments: Map()..['page'] = 0);
+              break;
+            case 'ic_coupons_new':
+              NavigatorHelper.gotoCouponTabPage(
+                  whenComplete: () => UserController.instance().updateInfo());
+              break;
+            case 'diamonds_red':
+              StorageManager.getOnline()
+                  ? Get.toNamed(AppPages.WALLET_PAGE,
+                      arguments: Map()..['page'] = 1)
+                  : null;
+              break;
+            case 'ic_corns_new':
+              if (StorageManager.getOnline())
+                Get.to(() => BalancePage())?.whenComplete(
+                    () => UserController.instance().updateInfo());
+              break;
+          }
+        },
+        child: Column(
+          children: [
+            ImageUtil.assetImage(icon, width: width, height: height),
+            6.verticalSpace,
+            Text(
+              '$text' ?? '',
+              style: textStyle,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _dashboardLabelItem(String imageName, String title,
+          {Function()? onTap}) =>
+      GestureDetector(
         onTap: () => onTap?.call(),
         behavior: HitTestBehavior.opaque,
         child: Container(
@@ -669,7 +835,8 @@ class MyProfilePage extends StatelessWidget {
   }
 }
 
-class ProfileController extends GetxController with GetSingleTickerProviderStateMixin {
+class ProfileController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   static ProfileController get find => Get.find();
 
   late TabController tabController;
@@ -685,7 +852,8 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   void onInit() {
     super.onInit();
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
-    background.value = StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
+    background.value =
+        StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
     if (userController.userProfile.backGround.isNotEmpty) {
       background.value = userController.userProfile.backGround;
     }
@@ -715,7 +883,9 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
     }
     devCount = 0;
 
-    Get.dialog(InputDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+    Get.dialog(InputDialog(),
+            barrierDismissible: true, barrierColor: Colors.black26)
+        .then((value) {
       if (value == "9637") {
         Get.to(() => DeveloperPage());
       } else {
