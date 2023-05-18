@@ -776,8 +776,7 @@ class OtherProfilePage extends StatelessWidget {
   }
 }
 
-class OtherProfileController extends BasePageController
-    with GetSingleTickerProviderStateMixin {
+class OtherProfileController extends BasePageController {
   static OtherProfileController get find => Get.find();
   AudioPlayer audioPlayer = AudioPlayer();
   AudioManager audioManager = AudioManager.instance;
