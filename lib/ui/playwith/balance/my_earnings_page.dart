@@ -368,7 +368,7 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
         child: Row(
           children: [
             Text(
-              "Recipient gets".tr,
+              "Currency".tr,
               style: TextStyle(
                 color: Color(0xffb2b9c9),
                 fontFamily: "DIN",
