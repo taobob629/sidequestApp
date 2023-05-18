@@ -217,8 +217,7 @@ class BookingDetailPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                if (dList.length == 1)
-                                  15.verticalSpace,
+                                if (dList.length == 1) 15.verticalSpace,
                                 if (dList.length > 1)
                                   ...dList
                                       .map(
@@ -259,24 +258,24 @@ class BookingDetailPage extends StatelessWidget {
                           );
                         },
                       ),
-                      20.verticalSpace,
-                      ColorfulButton(
-                        child: Text(
-                          "Book Now".tr,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "DIN",
-                              fontSize: 18.sp),
-                        ),
-                        height: 40.h,
-                        borderRadius: 20.r,
-                        onTap: () => Get.bottomSheet(
-                          BookingDialog(_ctr.model?.id ?? 0, _ctr.model?.userPhone ?? ''),
-                          isScrollControlled: true,
-                        ),
-                      ),
-                      30.verticalSpace,
                     ],
+                  ),
+                ),
+              ),
+              bottomNavigationBar: Container(
+                margin: EdgeInsets.only(bottom: 30.h, left: 15.w, right: 15.w,),
+                child: ColorfulButton(
+                  child: Text(
+                    "Book Now".tr,
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
+                  ),
+                  height: 40.h,
+                  borderRadius: 20.r,
+                  onTap: () => Get.bottomSheet(
+                    BookingDialog(
+                        _ctr.model?.id ?? 0, _ctr.model?.userPhone ?? ''),
+                    isScrollControlled: true,
                   ),
                 ),
               ),
