@@ -822,6 +822,7 @@ const Map<String, String> zh_CN = {
   "Currency":"货币",
   "My Diamond":"我的钻石",
   "My Coin":"我的金币",
-
+  "Service Charge":"提现手续费",
+  "Rate":"提现费率"
 
 };
