@@ -292,6 +292,7 @@ class ChatPage extends StatelessWidget {
       Visibility(
           child: PopupMenuButton(
               color: AppColor.itemBg,
+              icon: Icon(Icons.more_vert_outlined,color: Colors.white,),
               onSelected: (item) {
                 if (item == 'QR'.tr) {
                   flog('share');

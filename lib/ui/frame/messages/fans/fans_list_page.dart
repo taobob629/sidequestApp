@@ -27,7 +27,7 @@ import '../../../common/base_scaffold.dart';
 class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
   static void to({var groupName, var gid}) {
-    Get.toNamed(AppPages.FollowList,
+    Get.toNamed(AppPages.FansList,
         arguments: Map()
           ..['group_name'] = groupName
           ..['gid'] = gid
@@ -206,7 +206,7 @@ class FansListController extends GetxRefreshController<AttentionModel> {
     //   ..['group_name'] = groupName; //群名字
     //   ImUtils.invite(params);
    var res =await ImApi.shareGroup(Map()
-      ..['shareIds'] = jsonEncode(ids)
+      ..['shareIds'] = ids
       ..['groupId'] = gid
       ..['group_name'] = groupName
       ..['name'] = groupName

@@ -31,6 +31,7 @@ class MessagesPage extends StatelessWidget {
                   visible: controller.showMenu.value,
                   child: PopupMenuButton(
                       color: AppColor.itemBg,
+                      icon: Icon(Icons.more_vert_outlined,color: Colors.white,),
                       onSelected: (item) {
                         if (item == 'Create Room'.tr) {
                           controller.toCreatGoupPage();
