@@ -62,9 +62,9 @@ class GradeController extends GetxController {
       }
     } else {
       if (level == 0) {
-        img = 'assets/images/grade/level1.webp';
+        img = 'assets/images/play/lv1.webp';
       } else {
-        img = 'assets/images/grade/level$level.webp';
+        img = 'assets/images/play/lv$level.webp';
       }
     }
     return img;
@@ -73,17 +73,17 @@ class GradeController extends GetxController {
   curLevelImg() {
     if (model.userLevel == 0) {
       if (isauth == TYPE_VIP)
-        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+        return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv1.webp';
     }
-    return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${model.userLevel}.webp';
+    return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv${model.userLevel}.webp';
   }
 
   nextLevelImg(){
     if (model.userLevel == 0) {
       if (isauth == TYPE_VIP)
-        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+        return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv1.webp';
     }
-    return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${model.userLevel+1}.webp';
+    return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv${model.userLevel+1}.webp';
   }
 
  bool isTopLevel(){
