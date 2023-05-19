@@ -636,7 +636,8 @@ class WalletBalancePageController extends GetxListController {
       showInfo('Please Enter withdraw amount!'.tr);
       return;
     }
-    if (!isValidateAmount(votes, chargeRule.limit ?? 600)) {
+    if (type == 'withDraw' &&
+        !isValidateAmount(votes, chargeRule.limit ?? 600)) {
       showInfo('Please enter an valid number greater than'.tr +
           " ${chargeRule.limit}");
       return;
@@ -661,8 +662,10 @@ class WalletBalancePageController extends GetxListController {
     final value = await SmartDialog.show(
       tag: 'DialogPayPsd',
       alignment: Alignment.center,
-      builder: (BuildContext context) =>
-          DialogPayPsd(diamonds: englishMoney.value),
+      builder: (BuildContext context) => DialogPayPsd(
+        diamonds: englishMoney.value,
+        type: type,
+      ),
     );
     if (value == true) {
       if (type == "paypal") {

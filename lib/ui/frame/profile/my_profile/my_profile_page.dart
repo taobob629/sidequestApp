@@ -17,6 +17,7 @@ import '../../../../image_utils.dart';
 import '../../../order/my_orders/my_orders_page.dart';
 import '../../../profile/balance/balance_page.dart';
 import '../../../profile/events/my_events_page.dart';
+import '../../../profile/task/task_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
 import '../../main_page.dart';
 import '../../messages/fans/fans_list_page.dart';
@@ -683,7 +684,14 @@ class MyProfilePage extends StatelessWidget {
                           },
                         ),
                       ),
-                      if (userController.online.value) Spacer(),
+                      Expanded(
+                        child: _dashboardLabelItem(
+                          "assets/images/profile/icon_activities.webp",
+                          "Task".tr,
+                          onTap: () => Get.to(() => TaskPage()),
+                          badgeNum: userController.userProfile.taskNum,
+                        ),
+                      ),
                     ],
                   ),
                 ],

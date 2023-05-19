@@ -36,6 +36,8 @@ class ImageUtils {
   static const String icon_top_up = 'assets/images/icon_top_up.webp';
   static const String icon_refound = 'assets/images/icon_refound.webp';
   static const String pay_psd_zuanshi_icon = 'assets/images/pay_psd_zuanshi_icon.webp';
+  static const String task_received_icon = 'assets/images/task_received_icon.webp';
+  static const String task_expired_icon = 'assets/images/task_expired_icon.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
