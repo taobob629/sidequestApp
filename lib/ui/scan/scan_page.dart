@@ -19,6 +19,7 @@ class ScanPage extends StatelessWidget {
               scanAreaScale: .7,
               scanLineColor: Colors.green.shade400,
               onCapture: (data) {
+
                 Get.back(result: data);
               },
             ),

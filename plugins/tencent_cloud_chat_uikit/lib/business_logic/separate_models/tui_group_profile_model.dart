@@ -284,8 +284,7 @@ class TUIGroupProfileModel extends ChangeNotifier {
   }
 
   bool canInviteMember() {
-    final groupType = _groupInfo?.groupType;
-    return groupType == GroupType.Work;
+    return  _groupInfo?.role == GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_OWNER;
   }
 
   bool canKickOffMember() {

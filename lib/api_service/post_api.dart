@@ -1,5 +1,6 @@
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/ui/frame/social/post/model/post_comment_model.dart';
 
 import '../ui/frame/social/post/view/give_gifts_dialog.dart';
@@ -7,10 +8,11 @@ import '../ui/frame/social/post/view/give_gifts_dialog.dart';
 class PostApi {
   PostApi._();
   //Social-发布post
-  static Future releasePost({content = "", images = const []}) async {
+  static Future releasePost({content = "", images = const [],var type=TYPE_DEFAULT}) async {
     var response = await http.post('/peiwan/app/posts/posts', data: {
       "content": content,
       "images": images,
+      "type": type,
     });
     return response.data;
   }

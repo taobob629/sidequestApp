@@ -15,7 +15,7 @@ class PageState {
   static const int sucess = 4;
 }
 
-class BasePageController extends GetxController {
+class BasePageController extends GetxController with GetSingleTickerProviderStateMixin{
   RxInt _pageState = RxInt(PageState.initialing);
 
   int get pageState => _pageState.value;

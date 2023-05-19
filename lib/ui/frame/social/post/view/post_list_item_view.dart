@@ -5,18 +5,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
+import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends StatelessWidget {
-  PostListItemView({Key? key, required this.model, this.onTap, this.onDelete, this.isSelf = false}) : super(key: key);
+  PostListItemView({Key? key, required this.model, this.onTap, this.onDelete, this.isSelf = false})
+      : super(key: key);
   final PostItemModel model;
   bool isSelf = false;
   Function()? onTap;
@@ -30,7 +34,8 @@ class PostListItemView extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.all(15),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+        decoration:
+            BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
         child: Column(
           children: [
             Container(
@@ -68,7 +73,10 @@ class PostListItemView extends StatelessWidget {
                                   model.nickname,
                                   maxLines: 1,
                                   softWrap: false,
-                                  style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               SizedBox(
@@ -78,18 +86,24 @@ class PostListItemView extends StatelessWidget {
                                 width: 120.w,
                                 child: Text(
                                   model.addTime.toDateStr,
-                                  style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.normal),
+                                  style: TextStyle(
+                                      color: Color(0xff808388),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Text(
-                          model.content,
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                          // maxLines: null,
-                          // overflow: TextOverflow.ellipsis,
-                        ),
+                        model.type == TYPE_DEFAULT
+                            ? Text(
+                                model.content,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                // maxLines: null,
+                                // overflow: TextOverflow.ellipsis,
+                              )
+                            : buildGroupInviteWidget(context, model.content),
                         15.horizontalSpace
                       ],
                     ),
@@ -118,7 +132,16 @@ class PostListItemView extends StatelessWidget {
                 crossAxisSpacing: 10,
                 childAspectRatio: model.imageList.length == 1 ? 345 / 195 : 1,
                 children: model.imageList
-                    .map((imgUrl) => GestureDetector(
+                    .map((imgUrl) => (model.type==TYPE_INVITE)?Container(
+                  alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                    clipBehavior: Clip.antiAlias,
+                    child:QrImage(
+                      foregroundColor: Colors.white,
+                      data: imgUrl,
+                    ),
+                ):GestureDetector(
                           onTap: () {
                             Get.dialog(
                                 CsPhotoViewer(
@@ -128,7 +151,8 @@ class PostListItemView extends StatelessWidget {
                                 useSafeArea: false);
                           },
                           child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
                             clipBehavior: Clip.antiAlias,
                             child: ImageUtil.networkImage(
                               url: imgUrl,

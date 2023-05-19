@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
+import 'package:wy/ui/im/im_util.dart';
 
 class PostItemModel {
   int commentNum = 0;
@@ -13,7 +15,13 @@ class PostItemModel {
   String content = "";
   int uid = 0;
   int id = 0;
+  int type = 0;
   int addTime = 0;
+
+  showContent() {
+    if (type == TYPE_DEFAULT) return content;
+    return content.substring(0, content.lastIndexOf(gidPrefix));
+  }
 
   List<String> get imageList {
     if (images.contains("[") && images.contains("]")) {
@@ -36,6 +44,7 @@ class PostItemModel {
     content = json["content"] ?? "";
     uid = json["uid"] ?? 0;
     id = json["id"] ?? 0;
+    type = json["type"] ?? 0;
     addTime = json["addtime"] ?? 0;
   }
 }

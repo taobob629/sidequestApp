@@ -152,8 +152,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class LoginPageController extends BasePageController
-    with GetSingleTickerProviderStateMixin {
+class LoginPageController extends BasePageController {
   late PrivacyCheckController controller;
 
   var email = "".obs;

@@ -10,7 +10,6 @@ class PostDetailController extends GetxController with GetSingleTickerProviderSt
 
   @override
   void onInit() {
-    // TODO: implement onInit
 
     postItem.value = Get.arguments;
     tabController = TabController(vsync: this, length: 2, initialIndex: 0);
