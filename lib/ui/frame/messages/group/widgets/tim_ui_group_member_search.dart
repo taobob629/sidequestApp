@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/ui/utils/optimize_utils.dart';
 
@@ -27,7 +28,7 @@ class GroupMemberSearchTextField extends TIMUIKitStatelessWidget {
           child: TextField(
             onChanged: debounceFunc,
             decoration: InputDecoration(
-              hintText: TIM_t("搜索"),
+              hintText: "Search".tr,
               prefixIcon: const Icon(Icons.search),
             ),
           ),

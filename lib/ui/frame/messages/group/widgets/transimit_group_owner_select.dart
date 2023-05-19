@@ -120,7 +120,7 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
                 }
               },
               child: Text(
-                '完成'.tr,
+                'Done'.tr,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/order/refound/view.dart';
@@ -67,7 +68,7 @@ class TextInputBottomSheet {
                             onSubmitted(text);
                             Navigator.pop(context);
                           },
-                          child: Text(TIM_t("确定"))),
+                          child: Text('Confirm'.tr)),
                     ),
                   ],
                 ),

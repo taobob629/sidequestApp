@@ -120,7 +120,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(TIM_t("群成员"), style: TextStyle(color: theme.darkTextColor, fontSize: 16)),
+                  Text("群成员".tr, style: TextStyle(color: theme.darkTextColor, fontSize: 16)),
                   Row(
                     children: [
                       Text(
@@ -198,7 +198,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(top: 16),
                 child: Text(
-                  TIM_t("查看更多群成员"),
+                  "查看更多群成员".tr,
                   style: TextStyle(color: theme.weakTextColor, fontSize: 14),
                 ),
               ),

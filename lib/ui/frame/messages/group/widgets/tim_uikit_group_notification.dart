@@ -47,7 +47,7 @@ class GroupProfileNotification extends TIMUIKitStatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    TIM_t("群公告"),
+                    "群公告".tr,
                     style: TextStyle(color: theme.darkTextColor, fontSize: 16),
                   ),
                   Text(notification,
@@ -104,7 +104,7 @@ class _GroupProfileNotificationPageState
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          TIM_t("群公告"),
+          "群公告".tr,
           style: const TextStyle(color: Colors.white, fontSize: 17),
         ),
         shadowColor: theme.weakDividerColor,
@@ -131,7 +131,7 @@ class _GroupProfileNotificationPageState
               }
             },
             child: Text(
-              isUpdated ? TIM_t("编辑") : TIM_t("完成"),
+              isUpdated ? "Edit".tr : 'FINISHED'.tr,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
