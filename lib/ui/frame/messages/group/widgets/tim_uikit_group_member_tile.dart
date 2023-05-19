@@ -98,7 +98,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
     final isCanKickOffMember = model.canKickOffMember();
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -120,12 +120,12 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("群成员".tr, style: TextStyle(color: theme.darkTextColor, fontSize: 16)),
+                  Text("群成员".tr, style: TextStyle(color: theme.textColor, fontSize: 16)),
                   Row(
                     children: [
                       Text(
                         TIM_t_para("{{option1}}人", "$option1人")(option1: option1),
-                        style: TextStyle(color: theme.darkTextColor, fontSize: 16),
+                        style: TextStyle(color: theme.textColor, fontSize: 16),
                       ),
                       Icon(
                         Icons.keyboard_arrow_right,

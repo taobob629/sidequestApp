@@ -25,7 +25,7 @@ class GroupProfileNotification extends TIMUIKitStatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.weakBackgroundColor,
           border: Border(
               bottom: BorderSide(
                   color:
@@ -105,7 +105,6 @@ class _GroupProfileNotificationPageState
       appBar: AppBar(
         title: Text(
           "群公告".tr,
-          style: const TextStyle(color: Colors.white, fontSize: 17),
         ),
         shadowColor: theme.weakDividerColor,
         flexibleSpace: Container(

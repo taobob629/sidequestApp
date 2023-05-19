@@ -38,7 +38,7 @@ class TIMUIKitOperationItem extends TIMUIKitStatelessWidget {
     final TUITheme theme = value.theme;
 
     return Container(
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 1),
       child: Row(
@@ -48,12 +48,12 @@ class TIMUIKitOperationItem extends TIMUIKitStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(operationName,style: TextStyle(color: Colors.black),),
+                Text(operationName,),
                 if (operationDescription != null)
                   Text(
                     operationDescription!,
                     style:
-                        TextStyle(color: Colors.black, fontSize: 12),
+                        TextStyle( fontSize: 12),
                   )
               ],
             ),

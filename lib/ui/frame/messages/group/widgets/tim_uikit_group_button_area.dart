@@ -218,7 +218,7 @@ class GroupProfileButtonArea extends TIMUIKitStatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: theme.wideBackgroundColor,
                     border: Border(
                         bottom: BorderSide(
                             color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),

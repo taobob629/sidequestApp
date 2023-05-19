@@ -19,10 +19,12 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   GroupProfileDetailCard(
       {Key? key, required this.groupInfo, this.updateGroupName})
       : super(key: key);
-var textColor=Colors.black;
+  var textColor;
+
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final TUITheme theme = value.theme;
+    textColor = theme.textColor;
     final model = Provider.of<TUIGroupProfileModel>(context);
     final faceUrl = groupInfo.faceUrl ?? "";
     final groupID = groupInfo.groupID;
@@ -65,7 +67,10 @@ var textColor=Colors.black;
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
-                                    child: Text('修改群名称'.tr,style: TextStyle(color: Colors.black),),
+                                    child: Text(
+                                      '修改群名称'.tr,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                   Divider(
                                       height: 2, color: theme.weakDividerColor),
@@ -89,7 +94,7 @@ var textColor=Colors.black;
                                           height: 10,
                                         ),
                                         Text(
-                                        '修改群名称'.tr,
+                                          '修改群名称'.tr,
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: AppColor.textC3),
@@ -142,7 +147,6 @@ var textColor=Colors.black;
         );
       }),
       child: Container(
-        color: Colors.white,
         padding: const EdgeInsets.only(top: 12, bottom: 12, left: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,14 +171,16 @@ var textColor=Colors.black;
                     Text(
                       showName,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600,color: Colors.black),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                         ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     Text("ID: $groupID",
-                        style: TextStyle(
-                            fontSize: 13, color: theme.weakTextColor))
+                        style:
+                            TextStyle(fontSize: 13, color: theme.weakTextColor))
                   ],
                 ),
               ),

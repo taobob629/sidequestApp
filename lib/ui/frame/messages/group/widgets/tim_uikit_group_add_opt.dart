@@ -48,7 +48,7 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.weakBackgroundColor,
           border: Border(
               bottom: BorderSide(
                   color:
@@ -77,7 +77,6 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
                           },
                           child: Text(
                             e["label"] as String,
-                            style: TextStyle(color: theme.primaryColor),
                           ),
                           isDefaultAction: false,
                         ))
