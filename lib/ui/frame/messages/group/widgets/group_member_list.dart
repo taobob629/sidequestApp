@@ -3,6 +3,7 @@
 import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable_for_tencent_im/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
@@ -128,7 +129,7 @@ class _GroupProfileMemberListState
                       backgroundColor:
                           theme.cautionColor ?? CommonColor.cautionColor,
                       autoClose: true,
-                      label: TIM_t("删除"),
+                      label:'Delete'.tr,
                     )
                   ])
                 : null,
@@ -175,7 +176,7 @@ class _GroupProfileMemberListState
                             GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_OWNER
                         ? Container(
                             margin: const EdgeInsets.only(left: 5),
-                            child: Text(TIM_t("群主"),
+                            child: Text('群主'.tr,
                                 style: TextStyle(
                                   color: theme.ownerColor,
                                   fontSize: 12,
@@ -195,7 +196,7 @@ class _GroupProfileMemberListState
                                     .V2TIM_GROUP_MEMBER_ROLE_ADMIN
                             ? Container(
                                 margin: const EdgeInsets.only(left: 5),
-                                child: Text(TIM_t("管理员"),
+                                child: Text('管理员'.tr,
                                     style: TextStyle(
                                       color: theme.adminColor,
                                       fontSize: 12,
@@ -247,7 +248,7 @@ class _GroupProfileMemberListState
   static Widget getSusItem(BuildContext context, TUITheme theme, String tag,
       {double susHeight = 40}) {
     if (tag == '@') {
-      tag = TIM_t("群主、管理员");
+      tag = "群主、管理员".tr;
     }
     return Container(
       height: susHeight,
@@ -296,7 +297,7 @@ class _GroupProfileMemberListState
             },
             child: (showList.isEmpty)
                 ? Center(
-                    child: Text(TIM_t("暂无群成员")),
+                    child: Text("暂无群成员".tr),
                   )
                 : AZListViewContainer(
                     memberList: showList,
