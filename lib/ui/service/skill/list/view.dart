@@ -26,11 +26,13 @@ import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/profile/header_widget.dart';
 import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';
+import 'widget/service_header.dart';
 
 class SkillListPage extends GetView<SkillListPageController> {
   bool tabWidget = false; //如果是tab内，不需要titilebar
@@ -57,16 +59,24 @@ class SkillListPage extends GetView<SkillListPageController> {
             : controller.list.isEmpty
                 ? EmptyView()
                 : Container(
-          padding: EdgeInsets.all(20),
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) => item(index),
-            separatorBuilder: (context, index) => Container(
-              height: 10.h,
-            ),
-            itemCount: controller.list.length,
-          ),
-        )));
+                    padding: EdgeInsets.all(20),
+                    child: NestedScrollView(
+                      headerSliverBuilder: (context, _) => [
+                        SliverToBoxAdapter(
+                          child: ProfileHeaderWidget(),
+                        ),
+                        SliverToBoxAdapter(child: ServiceHeader(),)
+                      ],
+                      body: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => item(index),
+                        separatorBuilder: (context, index) => Container(
+                          height: 10.h,
+                        ),
+                        itemCount: controller.list.length,
+                      ),
+                    ),
+                  )));
   }
 
   Divider divider = Divider(color: Color(0xFF54555d), height: 1.h);
@@ -114,18 +124,22 @@ class SkillListPage extends GetView<SkillListPageController> {
           divider,
           if (data.status == SkillModel.ONGOING)
             Container(
-              padding: EdgeInsets.only(left:5.w,top: 5).h,
-              child: Row(children: [
-                ImageUtil.assetImage('ic_under_review',width:13.w,height: 13.w ),
-                4.horizontalSpace,
-                Text(
-                'under review'.tr,
-                style: TextStyle(color: Color(0xFF3F92FF), fontSize: 10.sp, fontFamily: FONT_LIGHT),
-              )],),
+              padding: EdgeInsets.only(left: 5.w, top: 5).h,
+              child: Row(
+                children: [
+                  ImageUtil.assetImage('ic_under_review', width: 13.w, height: 13.w),
+                  4.horizontalSpace,
+                  Text(
+                    'under review'.tr,
+                    style: TextStyle(
+                        color: Color(0xFF3F92FF), fontSize: 10.sp, fontFamily: FONT_LIGHT),
+                  )
+                ],
+              ),
             ),
           if (data.status == SkillModel.DENIED)
             Container(
-              padding: EdgeInsets.only(left:5.w,top: 5).h,
+              padding: EdgeInsets.only(left: 5.w, top: 5).h,
               child: Row(
                 children: [
                   Visibility(
@@ -138,7 +152,7 @@ class SkillListPage extends GetView<SkillListPageController> {
                           tips: data.reason ?? "",
                         ));
                       },
-                      child: ImageUtil.assetImage('ic_info_red',width:13.w,height: 13.w ),
+                      child: ImageUtil.assetImage('ic_info_red', width: 13.w, height: 13.w),
                     ),
                   ),
                   4.horizontalSpace,
@@ -221,17 +235,19 @@ class SkillListPage extends GetView<SkillListPageController> {
           // ]),
           Transform.scale(
             scale: 0.6,
-            child: Obx(()=>CupertinoSwitch(
-                activeColor: Colors.green, value: item?.enabled == 1, onChanged: (value) {
-              controller.changeServiceStatus(item,value);
-
-            })),
+            child: Obx(() => CupertinoSwitch(
+                activeColor: Colors.green,
+                value: item?.enabled == 1,
+                onChanged: (value) {
+                  controller.changeServiceStatus(item, value);
+                })),
           ),
           Container(
             constraints: BoxConstraints(maxWidth: 150.w),
             child: Text(
               '${item?.name}',
-              style: TextStyle(fontSize: 14.sp, fontFamily: FONT_LIGHT,overflow: TextOverflow.ellipsis),
+              style: TextStyle(
+                  fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis),
             ),
           ),
           10.horizontalSpace,

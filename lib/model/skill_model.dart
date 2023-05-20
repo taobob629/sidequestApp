@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:wy/model/skill_item_model.dart';
 
+import 'safe_convert.dart';
+
 /// id : 22
 /// uid : 64
 /// sex : 0
@@ -30,6 +32,57 @@ import 'package:wy/model/skill_item_model.dart';
 /// childItemVoList : []
 /// uname : null
 
+class ServiceTopModel {
+  // 61
+  final int followers;
+  // 0
+  final int visitorToday;
+  // 2
+  final int service;
+  // 5
+  final int following;
+  // 0
+  final int followerToday;
+  // 5.0
+  final double ranking;
+  // 6
+  final int orders;
+  // 225
+  final int visitor;
+
+  ServiceTopModel({
+    this.followers = 0,
+    this.visitorToday = 0,
+    this.service = 0,
+    this.following = 0,
+    this.followerToday = 0,
+    this.ranking = 0.0,
+    this.orders = 0,
+    this.visitor = 0,
+  });
+
+  factory ServiceTopModel.fromJson(Map<String, dynamic>? json) => ServiceTopModel(
+    followers: asT<int>(json, 'followers'),
+    visitorToday: asT<int>(json, 'visitorToday'),
+    service: asT<int>(json, 'service'),
+    following: asT<int>(json, 'following'),
+    followerToday: asT<int>(json, 'followerToday'),
+    ranking: asT<double>(json, 'ranking'),
+    orders: asT<int>(json, 'orders'),
+    visitor: asT<int>(json, 'visitor'),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'followers': followers,
+    'visitorToday': visitorToday,
+    'service': service,
+    'following': following,
+    'followerToday': followerToday,
+    'ranking': ranking,
+    'orders': orders,
+    'visitor': visitor,
+  };
+}
 class SkillModel {
   static const int ONGOING = 0;
   static const int PASS = 1;
