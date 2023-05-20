@@ -67,14 +67,16 @@ class SkillListPage extends GetView<SkillListPageController> {
                         ),
                         SliverToBoxAdapter(child: ServiceHeader(),)
                       ],
-                      body: ListView.separated(
+                      body: MediaQuery.removePadding(
+                          removeTop: true,
+                          context: context, child: ListView.separated(
                         shrinkWrap: true,
                         itemBuilder: (context, index) => item(index),
                         separatorBuilder: (context, index) => Container(
                           height: 10.h,
                         ),
                         itemCount: controller.list.length,
-                      ),
+                      )),
                     ),
                   )));
   }

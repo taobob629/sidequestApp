@@ -21,40 +21,37 @@ class ServiceHeader extends GetView<UserController> {
       height: 76.h,
       child: Row(
         children: [
-          InkWell(
-           // onTap: () => Get.toNamed(AppPages.MoreGames),
-            child: Expanded(
-                child: Container(
-              padding: EdgeInsets.only(left: 15, right: 15).r,
-              decoration: itemDeraction(),
-              child: Row(
-                children: [
-                  ImageUtil.assetImage('profile/ic_games', height: 32.h),
-                  10.horizontalSpace,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Sidekick services'.tr,
-                        style: TextStyle(
-                          fontFamily: FONT_LIGHT,
-                          fontSize: 11.sp,
-                          color: Color(0xff808388),
+          Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 15, right: 15).r,
+                decoration: itemDeraction(),
+                child: Row(
+                  children: [
+                    ImageUtil.assetImage('profile/ic_games', height: 32.h),
+                    10.horizontalSpace,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Sidekick services'.tr,
+                          style: TextStyle(
+                            fontFamily: FONT_LIGHT,
+                            fontSize: 11.sp,
+                            color: Color(0xff808388),
+                          ),
                         ),
-                      ),
-                      6.verticalSpace,
-                      Text(
-                        '${controller.userProfile.service}',
-                        style: TextStyle(
-                            fontFamily: FONT_MEDIUM, fontWeight: FontWeight.bold, fontSize: 16.sp),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )),
-          ),
+                        6.verticalSpace,
+                        Text(
+                          '${controller.userProfile.service}',
+                          style: TextStyle(
+                              fontFamily: FONT_MEDIUM, fontWeight: FontWeight.bold, fontSize: 16.sp),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )),
           10.horizontalSpace,
           Expanded(
               child: Container(

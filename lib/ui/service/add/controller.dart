@@ -303,7 +303,7 @@ class AddGamePageController extends GetxController {
         // }
       } else {
         Get.until(
-            (route) => Get.currentRoute.contains(AppPages.ServiceAndOrders));
+            (route) => Get.currentRoute.contains(AppPages.SkillList));
         SkillListPageController skillListPageController =
             Get.find<SkillListPageController>();
         skillListPageController.onRefresh();

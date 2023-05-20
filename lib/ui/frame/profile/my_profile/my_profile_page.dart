@@ -395,214 +395,214 @@ class MyProfilePage extends StatelessWidget {
             achievements(),
 
             /// Followers、Fans、Rating
-            Obx(
-              () => Container(
-                height: 76.h,
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                margin: EdgeInsets.all(15.w),
-                decoration: BoxDecoration(
-                  color: Color(0xff262731),
-                  borderRadius: BorderRadius.circular(15.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.to(() => FollowListPage()),
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              badges.Badge(
-                                showBadge:
-                                    userController.userProfile.followerToday >
-                                        0,
-                                badgeContent: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "${userController.userProfile.followerToday}",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.sp,
-                                    ),
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                badgeColor: Color(0xffFF4848),
-                                position:
-                                    badges.BadgePosition(end: -10, top: -6),
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  userController.userProfile.followers < 10000
-                                      ? '${userController.userProfile.followers}'
-                                      : '9999+',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              7.verticalSpace,
-                              Text(
-                                "Followings".tr,
-                                style: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Color(0xff808388),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.to(() => FansListPage()),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            badges.Badge(
-                              showBadge: false,
-                              badgeContent: Text(
-                                "${userController.userProfile.fans}",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                              badgeColor: Color(0xffFF4848),
-                              position: badges.BadgePosition(end: -10, top: -6),
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                "${userController.userProfile.fans}",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            7.verticalSpace,
-                            Text(
-                              "Followers".tr,
-                              style: TextStyle(
-                                fontSize: 11.sp,
-                                color: Color(0xff808388),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (userController.userProfile.isAuth == 1)
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(() => RatingCommentPage());
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                badges.Badge(
-                                  showBadge: false,
-                                  badgeContent: Text(
-                                    "${userController.userProfile.ranking}",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10.sp,
-                                    ),
-                                  ),
-                                  badgeColor: Color(0xffFF4848),
-                                  position:
-                                      badges.BadgePosition(end: -10, top: -6),
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    "${userController.userProfile.ranking}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                7.verticalSpace,
-                                Text(
-                                  "Rating".tr,
-                                  style: TextStyle(
-                                    fontSize: 11.sp,
-                                    color: Color(0xff808388),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () async {
-                          await Get.to(() => VisitorPage());
-                          userController.updateInfo();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              badges.Badge(
-                                showBadge:
-                                    userController.userProfile.visitorToday > 0,
-                                badgeContent: Text(
-                                  '${userController.userProfile.visitorToday}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                                badgeColor: Color(0xffFF4848),
-                                position:
-                                    badges.BadgePosition(end: -10, top: -6),
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  userController.userProfile.visitor < 10000
-                                      ? '${userController.userProfile.visitor}'
-                                      : '9999+',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold),
-                                  maxLines: 1,
-                                ),
-                              ),
-                              7.verticalSpace,
-                              Text(
-                                "Visitors".tr,
-                                style: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: Color(0xff808388),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Obx(
+            //   () => Container(
+            //     height: 76.h,
+            //     padding: EdgeInsets.symmetric(horizontal: 15.w),
+            //     margin: EdgeInsets.all(15.w),
+            //     decoration: BoxDecoration(
+            //       color: Color(0xff262731),
+            //       borderRadius: BorderRadius.circular(15.r),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       children: [
+            //         Expanded(
+            //           child: GestureDetector(
+            //             behavior: HitTestBehavior.translucent,
+            //             onTap: () => Get.to(() => FollowListPage()),
+            //             child: Padding(
+            //               padding: const EdgeInsets.only(right: 15),
+            //               child: Column(
+            //                 mainAxisSize: MainAxisSize.min,
+            //                 children: [
+            //                   badges.Badge(
+            //                     showBadge:
+            //                         userController.userProfile.followerToday >
+            //                             0,
+            //                     badgeContent: Container(
+            //                       alignment: Alignment.center,
+            //                       child: Text(
+            //                         "${userController.userProfile.followerToday}",
+            //                         style: TextStyle(
+            //                           color: Colors.white,
+            //                           fontSize: 10.sp,
+            //                         ),
+            //                         maxLines: 1,
+            //                       ),
+            //                     ),
+            //                     badgeColor: Color(0xffFF4848),
+            //                     position:
+            //                         badges.BadgePosition(end: -10, top: -6),
+            //                     alignment: Alignment.topRight,
+            //                     child: Text(
+            //                       userController.userProfile.followers < 10000
+            //                           ? '${userController.userProfile.followers}'
+            //                           : '9999+',
+            //                       style: TextStyle(
+            //                           color: Colors.white,
+            //                           fontSize: 20.sp,
+            //                           fontWeight: FontWeight.bold),
+            //                     ),
+            //                   ),
+            //                   7.verticalSpace,
+            //                   Text(
+            //                     "Followings".tr,
+            //                     style: TextStyle(
+            //                       fontSize: 11.sp,
+            //                       color: Color(0xff808388),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: GestureDetector(
+            //             behavior: HitTestBehavior.translucent,
+            //             onTap: () => Get.to(() => FansListPage()),
+            //             child: Column(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 badges.Badge(
+            //                   showBadge: false,
+            //                   badgeContent: Text(
+            //                     "${userController.userProfile.fans}",
+            //                     style: TextStyle(
+            //                       color: Colors.white,
+            //                       fontSize: 10.sp,
+            //                     ),
+            //                   ),
+            //                   badgeColor: Color(0xffFF4848),
+            //                   position: badges.BadgePosition(end: -10, top: -6),
+            //                   alignment: Alignment.topRight,
+            //                   child: Text(
+            //                     "${userController.userProfile.fans}",
+            //                     style: TextStyle(
+            //                         color: Colors.white,
+            //                         fontSize: 20.sp,
+            //                         fontWeight: FontWeight.bold),
+            //                   ),
+            //                 ),
+            //                 7.verticalSpace,
+            //                 Text(
+            //                   "Followers".tr,
+            //                   style: TextStyle(
+            //                     fontSize: 11.sp,
+            //                     color: Color(0xff808388),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //         if (userController.userProfile.isAuth == 1)
+            //           Expanded(
+            //             child: GestureDetector(
+            //               onTap: () {
+            //                 Get.to(() => RatingCommentPage());
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.only(left: 15),
+            //                 child: Column(
+            //                   mainAxisSize: MainAxisSize.min,
+            //                   children: [
+            //                     badges.Badge(
+            //                       showBadge: false,
+            //                       badgeContent: Text(
+            //                         "${userController.userProfile.ranking}",
+            //                         style: TextStyle(
+            //                           color: Colors.white,
+            //                           fontSize: 10.sp,
+            //                         ),
+            //                       ),
+            //                       badgeColor: Color(0xffFF4848),
+            //                       position:
+            //                           badges.BadgePosition(end: -10, top: -6),
+            //                       alignment: Alignment.topRight,
+            //                       child: Text(
+            //                         "${userController.userProfile.ranking}",
+            //                         style: TextStyle(
+            //                             color: Colors.white,
+            //                             fontSize: 20.sp,
+            //                             fontWeight: FontWeight.bold),
+            //                       ),
+            //                     ),
+            //                     7.verticalSpace,
+            //                     Text(
+            //                       "Rating".tr,
+            //                       style: TextStyle(
+            //                         fontSize: 11.sp,
+            //                         color: Color(0xff808388),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         Expanded(
+            //           child: GestureDetector(
+            //             behavior: HitTestBehavior.translucent,
+            //             onTap: () async {
+            //               await Get.to(() => VisitorPage());
+            //               userController.updateInfo();
+            //             },
+            //             child: Padding(
+            //               padding: const EdgeInsets.only(left: 15),
+            //               child: Column(
+            //                 mainAxisSize: MainAxisSize.min,
+            //                 children: [
+            //                   badges.Badge(
+            //                     showBadge:
+            //                         userController.userProfile.visitorToday > 0,
+            //                     badgeContent: Text(
+            //                       '${userController.userProfile.visitorToday}',
+            //                       style: TextStyle(
+            //                         color: Colors.white,
+            //                         fontSize: 10.sp,
+            //                       ),
+            //                     ),
+            //                     badgeColor: Color(0xffFF4848),
+            //                     position:
+            //                         badges.BadgePosition(end: -10, top: -6),
+            //                     alignment: Alignment.topRight,
+            //                     child: Text(
+            //                       userController.userProfile.visitor < 10000
+            //                           ? '${userController.userProfile.visitor}'
+            //                           : '9999+',
+            //                       style: TextStyle(
+            //                           color: Colors.white,
+            //                           fontSize: 20.sp,
+            //                           fontWeight: FontWeight.bold),
+            //                       maxLines: 1,
+            //                     ),
+            //                   ),
+            //                   7.verticalSpace,
+            //                   Text(
+            //                     "Visitors".tr,
+            //                     style: TextStyle(
+            //                       fontSize: 11.sp,
+            //                       color: Color(0xff808388),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 4.w,
                 vertical: 15.h,
               ),
-              margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
+              margin: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
               decoration: BoxDecoration(
                 color: Color(0xff262731),
                 borderRadius: BorderRadius.circular(15.r),
@@ -630,7 +630,7 @@ class MyProfilePage extends StatelessWidget {
                           "SideKick".tr,
                           onTap: () {
                             //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                            Get.toNamed(AppPages.ServiceAndOrders)?.then((value) => userController.updateInfo());
+                            Get.toNamed(AppPages.SkillList)?.then((value) => userController.updateInfo());
                           },
                           badgeNum: userController.userProfile.sidekickNum,
                         ),
@@ -641,7 +641,7 @@ class MyProfilePage extends StatelessWidget {
                           "Orders".tr,
                           onTap: () => Get.to(
                             () => MyOrdersPage(),
-                          ),
+                          )?.then((value) => userController.updateInfo()),
                           badgeNum: userController.userProfile.orderNum,
                         ),
                       ),
@@ -662,7 +662,7 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           ImageUtils.icon_post,
                           "Post".tr,
-                          onTap: () => Get.to(() => MyPostsPage()),
+                          onTap: () => Get.to(() => MyPostsPage())?.then((value) => userController.updateInfo()),
                           badgeNum: userController.userProfile.postNum,
                         ),
                       ),
