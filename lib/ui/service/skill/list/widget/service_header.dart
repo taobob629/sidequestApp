@@ -23,35 +23,35 @@ class ServiceHeader extends GetView<UserController> {
         children: [
           Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 15, right: 15).r,
-                decoration: itemDeraction(),
-                child: Row(
+            padding: EdgeInsets.only(left: 15, right: 15).r,
+            decoration: itemDeraction(),
+            child: Row(
+              children: [
+                ImageUtil.assetImage('profile/ic_games', height: 32.h),
+                10.horizontalSpace,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ImageUtil.assetImage('profile/ic_games', height: 32.h),
-                    10.horizontalSpace,
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Sidekick services'.tr,
-                          style: TextStyle(
-                            fontFamily: FONT_LIGHT,
-                            fontSize: 11.sp,
-                            color: Color(0xff808388),
-                          ),
-                        ),
-                        6.verticalSpace,
-                        Text(
-                          '${controller.userProfile.service}',
-                          style: TextStyle(
-                              fontFamily: FONT_MEDIUM, fontWeight: FontWeight.bold, fontSize: 16.sp),
-                        )
-                      ],
+                    Text(
+                      'Sidekick services'.tr,
+                      style: TextStyle(
+                        fontFamily: FONT_LIGHT,
+                        fontSize: 11.sp,
+                        color: Color(0xff808388),
+                      ),
+                    ),
+                    6.verticalSpace,
+                    Text(
+                      '${controller.userProfile.service}',
+                      style: TextStyle(
+                          fontFamily: FONT_MEDIUM, fontWeight: FontWeight.bold, fontSize: 16.sp),
                     )
                   ],
-                ),
-              )),
+                )
+              ],
+            ),
+          )),
           10.horizontalSpace,
           Expanded(
               child: Container(
@@ -60,7 +60,7 @@ class ServiceHeader extends GetView<UserController> {
             child: InkWell(
               onTap: () => Get.to(
                 () => MyOrdersPage(),
-              ),
+              )?.then((value) => controller.updateInfo()),
               child: Row(
                 children: [
                   ImageUtil.assetImage('profile/ic_orders', width: 32.w, height: 32.h),
@@ -78,11 +78,11 @@ class ServiceHeader extends GetView<UserController> {
                         ),
                       ),
                       6.verticalSpace,
-                      Text(
+                      Obx(()=>Text(
                         '${controller.userProfile.orders}',
                         style: TextStyle(
                             fontFamily: FONT_MEDIUM, fontWeight: FontWeight.bold, fontSize: 16.sp),
-                      )
+                      ))
                     ],
                   )
                 ],
