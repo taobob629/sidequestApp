@@ -524,18 +524,18 @@ class _GroupProfileAddAdminState extends TIMUIKitState<GroupProfileAddAdmin> {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        leading: TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(
-            "Cancel".tr,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        // leading: TextButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   },
+        //   child: Text(
+        //     "Cancel".tr,
+        //     style: const TextStyle(
+        //       color: Colors.white,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        // ),
         actions: [
           TextButton(
             onPressed: () {
@@ -569,7 +569,7 @@ class _GroupProfileAddAdminState extends TIMUIKitState<GroupProfileAddAdmin> {
           ...widget.memberList
               .map((e) => Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.weakBackgroundColor,
                         border: Border(
                             bottom: BorderSide(
                                 color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),

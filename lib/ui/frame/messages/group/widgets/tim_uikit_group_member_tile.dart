@@ -18,6 +18,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 
+import 'tui_group_member_list.dart';
+
 class GroupMemberTile extends TIMUIKitStatelessWidget {
   GroupMemberTile({
     Key? key,
@@ -114,7 +116,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          GroupProfileMemberListPage(model: model, memberList: memberList),
+                          MyGroupProfileMemberListPage(model: model, memberList: memberList),
                     ));
               },
               child: Row(
