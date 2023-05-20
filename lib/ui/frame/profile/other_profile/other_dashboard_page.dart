@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -387,11 +389,13 @@ class OtherDashboardPage extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
-                                              if (service.enable == 1 &&
-                                                  t
+                                              if (t
                                                       .getDiscount(
                                                           service.discount)
-                                                      .isNotEmpty)
+                                                      .isNotEmpty &&
+                                                  jsonDecode(service.discount)[
+                                                          'enable'] ==
+                                                      1)
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       left: 10.w),
@@ -431,10 +435,12 @@ class OtherDashboardPage extends StatelessWidget {
                                 ),
                               ),
                               if (game.serviceItem.length >= 1 &&
-                                  game.serviceItem[0].enable == 1 &&
                                   t
                                       .getDiscount(game.serviceItem[0].discount)
-                                      .isNotEmpty)
+                                      .isNotEmpty &&
+                                  jsonDecode(game.serviceItem[0].discount)[
+                                          'enable'] ==
+                                      1)
                                 Transform.translate(
                                   offset: Offset(20, -5.h),
                                   child: Container(
