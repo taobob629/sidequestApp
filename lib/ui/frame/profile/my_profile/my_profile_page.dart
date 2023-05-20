@@ -632,6 +632,7 @@ class MyProfilePage extends StatelessWidget {
                             //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
                             Get.toNamed(AppPages.ServiceAndOrders);
                           },
+                          badgeNum: userController.userProfile.sidekickNum,
                         ),
                       ),
                       Expanded(
