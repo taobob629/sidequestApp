@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
@@ -10,6 +11,8 @@ import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/res/dimens.dart';
+import 'package:wy/widget/gradient_button.dart';
 
 class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   final V2TimGroupInfo groupInfo;
@@ -34,7 +37,9 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
         showCupertinoModalPopup<String>(
           context: context,
           builder: (BuildContext context) {
-            return CupertinoActionSheet(
+            return CupertinoTheme( data: CupertinoThemeData(
+              barBackgroundColor: theme.weakBackgroundColor, // Add your desired color
+            ), child: CupertinoActionSheet(
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
                     Navigator.pop(
@@ -56,8 +61,8 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                           context: context,
                           builder: (context) {
                             return Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
+                              decoration:  BoxDecoration(
+                                  color: theme.weakBackgroundColor,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0))),
@@ -69,7 +74,6 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                         vertical: 20),
                                     child: Text(
                                       '修改群名称'.tr,
-                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ),
                                   Divider(
@@ -78,14 +82,14 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                     padding: const EdgeInsets.all(20),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         TextField(
                                           controller: controller,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               fillColor:
-                                                  theme.weakBackgroundColor,
+                                              theme.inputFillColor,
                                               filled: true,
                                               isDense: true,
                                               hintText: ''),
@@ -96,8 +100,8 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                         Text(
                                           '修改群名称'.tr,
                                           style: TextStyle(
-                                              fontSize: 13,
-                                              color: AppColor.textC3),
+                                            color: theme.weakTextColor,
+                                            fontSize: 13,),
                                           textAlign: TextAlign.left,
                                         ),
                                         const SizedBox(
@@ -105,10 +109,11 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                                         ),
                                         SizedBox(
                                             width: double.infinity,
-                                            child: ElevatedButton(
-                                              onPressed: () {
+                                            child: GradientButton(
+                                              height: Dimens.btnHeightSmall,
+                                              tapCallback: () {
                                                 final text =
-                                                    controller.text.trim();
+                                                controller.text.trim();
                                                 if (updateGroupName != null) {
                                                   updateGroupName!(text);
                                                 } else {
@@ -138,11 +143,10 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
                     },
                     child: Text(
                       "修改群名称".tr,
-                      style: TextStyle(color: Colors.black),
                     ),
                     isDefaultAction: false,
                   )
-                ]);
+                ]));
           },
         );
       }),
