@@ -286,7 +286,7 @@ class OtherDashboardPage extends StatelessWidget {
                                             color: AppColor.itemBg,
                                           ),
                                           margin: EdgeInsets.only(
-                                              top: service.enabled == 1
+                                              top: service.enable == 1
                                                   ? 10.h
                                                   : 0),
                                           child: Stack(
@@ -387,7 +387,7 @@ class OtherDashboardPage extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
-                                              if (service.enabled == 1 &&
+                                              if (service.enable == 1 &&
                                                   t
                                                       .getDiscount(
                                                           service.discount)
@@ -431,7 +431,7 @@ class OtherDashboardPage extends StatelessWidget {
                                 ),
                               ),
                               if (game.serviceItem.length >= 1 &&
-                                  game.serviceItem[0].enabled == 1 &&
+                                  game.serviceItem[0].enable == 1 &&
                                   t
                                       .getDiscount(game.serviceItem[0].discount)
                                       .isNotEmpty)

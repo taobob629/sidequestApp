@@ -135,7 +135,7 @@ class ServiceItem {
   int levelId = 0;
   String price = "";
   String unit = "";
-  int enabled = 0;
+  int enable = 0;
   int skillAuthid = 0;
   String createTime = "";
   String discount = "";
@@ -153,7 +153,7 @@ class ServiceItem {
     levelId = json['levelId'] ?? levelId;
     price = json['price'] ?? price;
     unit = json['unit'] ?? unit;
-    enabled = json['enabled'] ?? 0;
+    enable = json['enable'] ?? 0;
     skillAuthid = json['skillAuthid'] ?? skillAuthid;
     createTime = json['createTime'] ?? createTime;
     discount = json['discount'] ?? discount;
@@ -172,7 +172,7 @@ class ServiceItem {
     data['levelId'] = this.levelId;
     data['price'] = this.price;
     data['unit'] = this.unit;
-    data['enabled'] = this.enabled;
+    data['enable'] = this.enable;
     data['skillAuthid'] = this.skillAuthid;
     data['createTime'] = this.createTime;
     data['discount'] = this.discount;
