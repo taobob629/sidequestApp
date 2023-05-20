@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/order/refound/view.dart';
+import 'package:wy/widget/stadium_button.dart';
 
 class TextInputBottomSheet {
   static showTextInputBottomSheet(BuildContext context, String title,
@@ -14,6 +16,7 @@ class TextInputBottomSheet {
         builder: (BuildContext context) {
           return SingleChildScrollView(
               child: Container(
+                color: theme.weakBackgroundColor,
                 padding: EdgeInsets.only(
                   top: 16,
                   left: 16,
@@ -27,11 +30,22 @@ class TextInputBottomSheet {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: Text(title,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16,color: AppColor.textC5C5)),
+                              fontWeight: FontWeight.w500, fontSize: 16)),
                     ),
                     Divider(height: 2, color: theme.weakDividerColor),
                     TextField(
-                      style: const TextStyle(color: Colors.black, fontSize: 14),
+                      cursorColor: Colors.white70,
+                      decoration: InputDecoration(
+                        hintText: 'Please enter...',
+                        counterText: '',
+                        hintStyle: TextStyle(color: theme.weakTextColor),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: 0, color: theme.weakDividerColor!!),
+                        ),
+                        //  contentPadding: EdgeInsets.only(bottom: 8)
+                      ),
+
+                      style: const TextStyle( fontSize: 14,),
                       controller: _selectionController,
                     ),
                     Row(
@@ -50,12 +64,14 @@ class TextInputBottomSheet {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                          ),
-                          onPressed: () {
+                      child: StadiumButton(
+                          'Confirm'.tr,
+                          // style: ButtonStyle(
+                          //   backgroundColor: AppColor.buttonGradientBg,
+                          //   shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(5))),
+                          // ),
+                          onTap: () {
                             String text = _selectionController.text;
                             // if (text == "") {
                             //   _coreService.callOnCallback(TIMCallback(
@@ -67,7 +83,7 @@ class TextInputBottomSheet {
                             onSubmitted(text);
                             Navigator.pop(context);
                           },
-                          child: Text(TIM_t("确定"))),
+                      ),
                     ),
                   ],
                 ),

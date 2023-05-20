@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/ui/utils/optimize_utils.dart';
 
@@ -6,9 +7,9 @@ import 'package:tencent_cloud_chat_uikit/ui/utils/optimize_utils.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 
-class GroupMemberSearchTextField extends TIMUIKitStatelessWidget {
+class MyGroupMemberSearchTextField extends TIMUIKitStatelessWidget {
   final Function(String text) onTextChange;
-  GroupMemberSearchTextField({Key? key, required this.onTextChange})
+  MyGroupMemberSearchTextField({Key? key, required this.onTextChange})
       : super(key: key);
 
   @override
@@ -18,7 +19,7 @@ class GroupMemberSearchTextField extends TIMUIKitStatelessWidget {
     var debounceFunc = OptimizeUtils.debounce(
         (text) => onTextChange(text), const Duration(milliseconds: 300));
     return Container(
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       child: Column(children: [
         Container(
           decoration: BoxDecoration(
@@ -27,8 +28,9 @@ class GroupMemberSearchTextField extends TIMUIKitStatelessWidget {
           child: TextField(
             onChanged: debounceFunc,
             decoration: InputDecoration(
-              hintText: TIM_t("搜索"),
-              prefixIcon: const Icon(Icons.search),
+              hintStyle: TextStyle(color: theme.textColor),
+              hintText: "Search".tr,
+              prefixIcon: const Icon(Icons.search,color: Colors.white,),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
@@ -10,6 +11,8 @@ import 'package:tencent_cloud_chat_uikit/ui/widgets/avatar.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/res/dimens.dart';
+import 'package:wy/widget/gradient_button.dart';
 
 class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   final V2TimGroupInfo groupInfo;
@@ -19,10 +22,12 @@ class GroupProfileDetailCard extends TIMUIKitStatelessWidget {
   GroupProfileDetailCard(
       {Key? key, required this.groupInfo, this.updateGroupName})
       : super(key: key);
-var textColor=Colors.black;
+  var textColor;
+
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final TUITheme theme = value.theme;
+    textColor = theme.textColor;
     final model = Provider.of<TUIGroupProfileModel>(context);
     final faceUrl = groupInfo.faceUrl ?? "";
     final groupID = groupInfo.groupID;
@@ -32,7 +37,9 @@ var textColor=Colors.black;
         showCupertinoModalPopup<String>(
           context: context,
           builder: (BuildContext context) {
-            return CupertinoActionSheet(
+            return CupertinoTheme( data: CupertinoThemeData(
+              barBackgroundColor: theme.weakBackgroundColor, // Add your desired color
+            ), child: CupertinoActionSheet(
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
                     Navigator.pop(
@@ -54,8 +61,8 @@ var textColor=Colors.black;
                           context: context,
                           builder: (context) {
                             return Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
+                              decoration:  BoxDecoration(
+                                  color: theme.weakBackgroundColor,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0))),
@@ -65,7 +72,9 @@ var textColor=Colors.black;
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
-                                    child: Text('修改群名称'.tr,style: TextStyle(color: Colors.black),),
+                                    child: Text(
+                                      '修改群名称'.tr,
+                                    ),
                                   ),
                                   Divider(
                                       height: 2, color: theme.weakDividerColor),
@@ -73,14 +82,14 @@ var textColor=Colors.black;
                                     padding: const EdgeInsets.all(20),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         TextField(
                                           controller: controller,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               fillColor:
-                                                  theme.weakBackgroundColor,
+                                              theme.inputFillColor,
                                               filled: true,
                                               isDense: true,
                                               hintText: ''),
@@ -89,10 +98,10 @@ var textColor=Colors.black;
                                           height: 10,
                                         ),
                                         Text(
-                                        '修改群名称'.tr,
+                                          '修改群名称'.tr,
                                           style: TextStyle(
-                                              fontSize: 13,
-                                              color: AppColor.textC3),
+                                            color: theme.weakTextColor,
+                                            fontSize: 13,),
                                           textAlign: TextAlign.left,
                                         ),
                                         const SizedBox(
@@ -100,10 +109,11 @@ var textColor=Colors.black;
                                         ),
                                         SizedBox(
                                             width: double.infinity,
-                                            child: ElevatedButton(
-                                              onPressed: () {
+                                            child: GradientButton(
+                                              height: Dimens.btnHeightSmall,
+                                              tapCallback: () {
                                                 final text =
-                                                    controller.text.trim();
+                                                controller.text.trim();
                                                 if (updateGroupName != null) {
                                                   updateGroupName!(text);
                                                 } else {
@@ -133,16 +143,14 @@ var textColor=Colors.black;
                     },
                     child: Text(
                       "修改群名称".tr,
-                      style: TextStyle(color: Colors.black),
                     ),
                     isDefaultAction: false,
                   )
-                ]);
+                ]));
           },
         );
       }),
       child: Container(
-        color: Colors.white,
         padding: const EdgeInsets.only(top: 12, bottom: 12, left: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,14 +175,16 @@ var textColor=Colors.black;
                     Text(
                       showName,
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600,color: Colors.black),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                         ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     Text("ID: $groupID",
-                        style: TextStyle(
-                            fontSize: 13, color: theme.weakTextColor))
+                        style:
+                            TextStyle(fontSize: 13, color: theme.weakTextColor))
                   ],
                 ),
               ),

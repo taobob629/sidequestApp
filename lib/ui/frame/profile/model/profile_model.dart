@@ -35,6 +35,9 @@ class ProfileModel {
   int postNum = 0;
   int orderNum = 0;
   int taskNum = 0;
+  int service = 0;
+  int orders = 0;
+  int sidekickNum = 0;
   String diamond = "";
   String phone = "";
   List<BadgesItem> badges = [];
@@ -76,6 +79,9 @@ class ProfileModel {
       this.postNum = 0,
       this.orderNum = 0,
       this.taskNum = 0,
+      this.service = 0,
+      this.orders = 0,
+      this.sidekickNum = 0,
       this.diamond = "",
       this.vipCanceled = false});
 
@@ -106,14 +112,20 @@ class ProfileModel {
     followerToday = json["followerToday"] ?? 0;
     balance = json["balance"] ?? "";
     uk = json["uk"] ?? "";
-    trophies = json["trophies"] != null ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList() : [];
-    badges = json["badges"] != null ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList() : [];
+    trophies = json["trophies"] != null
+        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
+        : [];
+    badges = json["badges"] != null
+        ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList()
+        : [];
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
-    vips = json["vips"] != null ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList() : [];
+    vips = json["vips"] != null
+        ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
+        : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 5.0;
     postNum = json["postNum"] ?? 0;
@@ -121,6 +133,9 @@ class ProfileModel {
     taskNum = json["taskNum"] ?? 0;
     avamins = json["avamins"] ?? 0;
     totalmins = json["totalmins"] ?? 0;
+    orders = json["orders"] ?? 0;
+    service = json["service"] ?? 0;
+    sidekickNum = json["sidekickNum"] ?? 0;
     diamond = json["diamond"] ?? "";
     vipCanceled = json["vipCanceled"] ?? false;
   }
@@ -151,7 +166,7 @@ class TrophieModel {
   int id = 0;
   String iconName = "";
   String iconImage = "";
-  String iconLightImage="";
+  String iconLightImage = "";
   String tips = "";
   bool lighted = false;
   int medalType = 0;

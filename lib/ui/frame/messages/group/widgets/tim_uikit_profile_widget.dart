@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_class.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
@@ -21,7 +22,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
         }
       },
       child: TIMUIKitOperationItem(
-        operationName: TIM_t("备注名"),
+        operationName: "备注名".tr,
         operationRightWidget: Text(remark),
       ),
     );
@@ -31,7 +32,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
   static Widget addToBlackListBar(
       bool value, BuildContext context, Function(bool value)? onChanged) {
     return TIMUIKitOperationItem(
-      operationName: TIM_t("加入黑名单"),
+      operationName: "加入黑名单".tr,
       type: "switch",
       operationValue: value,
       onSwitchChange: (value) {
@@ -46,7 +47,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
   static Widget pinConversationBar(
       bool value, BuildContext context, Function(bool value)? onChanged) {
     return TIMUIKitOperationItem(
-      operationName: TIM_t("置顶聊天"),
+      operationName: "置顶聊天".tr,
       type: "switch",
       operationValue: value,
       onSwitchChange: (value) {
@@ -61,7 +62,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
   static Widget messageDisturb(
       BuildContext context, bool isDisturb, Function(bool value)? onChanged) {
     return TIMUIKitOperationItem(
-      operationName: TIM_t("消息免打扰"),
+      operationName: "消息免打扰".tr,
       type: "switch",
       operationValue: isDisturb,
       onSwitchChange: (value) {
@@ -98,7 +99,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
         }
       },
       child: TIMUIKitOperationItem(
-        operationName: TIM_t("查找聊天内容"),
+        operationName: "查找聊天内容".tr,
       ),
     );
   }
@@ -107,7 +108,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
   static Widget portraitBar(Widget portraitWidget) {
     return SizedBox(
       child: TIMUIKitOperationItem(
-        operationName: TIM_t("头像"),
+        operationName: "头像".tr,
         operationRightWidget: portraitWidget,
         showArrowRightIcon: false,
       ),
@@ -134,7 +135,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
     return SizedBox(
       child: TIMUIKitOperationItem(
         showArrowRightIcon: false,
-        operationName: TIM_t("昵称"),
+        operationName: "Nick Name".tr,
         operationRightWidget: Text(nickName),
       ),
     );
@@ -145,7 +146,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
     return SizedBox(
       child: TIMUIKitOperationItem(
         showArrowRightIcon: false,
-        operationName: TIM_t("账号"),
+        operationName: "账号".tr,
         operationRightWidget: SelectableText(userNum),
       ),
     );
@@ -156,7 +157,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
     return SizedBox(
       child: TIMUIKitOperationItem(
         showArrowRightIcon: false,
-        operationName: TIM_t("个性签名"),
+        operationName: "Signature".tr,
         operationRightWidget: Text(signature),
       ),
     );
@@ -181,13 +182,13 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
   /// gender
   static Widget genderBarWithArrow(int gender) {
     Map genderMap = {
-      0: TIM_t("未填写"),
-      1: TIM_t("男"),
-      2: TIM_t("女"),
+      0: "未填写".tr,
+      1: 'Male'.tr,
+      2:'Female'.tr,
     };
     return SizedBox(
       child: TIMUIKitOperationItem(
-        operationName: TIM_t("性别"),
+        operationName: "Gender".tr,
         operationRightWidget: Text(genderMap[gender]),
       ),
     );
@@ -202,7 +203,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
         onTap: () {},
         child: TIMUIKitOperationItem(
           showArrowRightIcon: false,
-          operationName: TIM_t("生日"),
+          operationName: 'Birthday'.tr,
           operationRightWidget: Text(formatter.format(date)),
         ),
       );
@@ -211,8 +212,8 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
         onTap: () {},
         child: TIMUIKitOperationItem(
           showArrowRightIcon: false,
-          operationName: TIM_t("生日"),
-          operationRightWidget: Text(TIM_t("未填写")),
+          operationName: 'Birthday'.tr,
+          operationRightWidget: Text("未填写".tr),
         ),
       );
     }
@@ -242,7 +243,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
               border:
                   Border(bottom: BorderSide(color: theme.weakDividerColor))),
           child: Text(
-            TIM_t("清除好友"),
+            "清除好友".tr,
             style: TextStyle(color: theme.cautionColor, fontSize: 17),
           ),
         ),
@@ -262,7 +263,7 @@ class TIMUIKitProfileWidget extends TIMUIKitClass {
         child: Row(children: [
           Expanded(
             child: TextButton(
-                child: Text(TIM_t("加为好友"),
+                child: Text("加为好友".tr,
                     style: TextStyle(color: theme.primaryColor, fontSize: 17)),
                 onPressed: () {
                   handleAddFriend();

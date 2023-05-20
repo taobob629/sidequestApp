@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/app.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
@@ -56,6 +57,13 @@ class MessagesPageController extends BasePageController {
           lightPrimaryColor: AppColor.background,
           inputFillColor: AppColor.color3033,
           chatMessageItemFromSelfBgColor: AppColor.color302D,
+          primaryColor: AppColor.primary,
+          weakBackgroundColor: AppColor.itemBg,
+          secondaryColor:AppColor.itemBg ,
+          wideBackgroundColor:AppColor.background,
+          weakDividerColor:AppColor.dividerColor,
+          darkTextColor: Colors.white,
+          weakTextColor: Colors.white60,
           chatMessageItemFromOthersBgColor: AppColor.itemBg),
     );
   }

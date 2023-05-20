@@ -23,27 +23,15 @@ class GroupProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TUISelfInfoViewModel _selfInfoViewModel = serviceLocator<TUISelfInfoViewModel>();
+    final TUISelfInfoViewModel _selfInfoViewModel =
+        serviceLocator<TUISelfInfoViewModel>();
     return TencentPage(
         child: Scaffold(
             appBar: AppBar(
                 title: Text(
-                 'Group Chat'.tr,
-                  style: TextStyle(color: hexToColor("1f2329"), fontSize: 16),
+                  'Group Chat'.tr,
                 ),
-                shadowColor: Colors.white,
-                backgroundColor: hexToColor("f2f3f5"),
-                leading: IconButton(
-                  padding: const EdgeInsets.only(left: 16),
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: hexToColor("2a2e35"),
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )),
+              ),
             body: SafeArea(
               child: GroupProfile(
                 lifeCycle: GroupProfileLifeCycle(didLeaveGroup: () async {
@@ -53,7 +41,8 @@ class GroupProfilePage extends StatelessWidget {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   } else {
-                    Navigator.of(context).popUntil(ModalRoute.withName("/homePage"));
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName("/homePage"));
                   }
                 }),
                 groupID: groupID,
@@ -66,8 +55,11 @@ class GroupProfilePage extends StatelessWidget {
                     //     ));
                   }
                 },
-                profileWidgetBuilder: MyGroupProfileWidgetBuilder(searchMessage: () {
-                  return SizedBox(height: 1,);
+                profileWidgetBuilder:
+                    MyGroupProfileWidgetBuilder(searchMessage: () {
+                  return SizedBox(
+                    height: 1,
+                  );
                   return TIMUIKitGroupProfileWidget.searchMessage(
                       (V2TimConversation? conversation) {
                     Navigator.push(
@@ -75,7 +67,8 @@ class GroupProfilePage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => Search(
                                   onTapConversation:
-                                      (V2TimConversation conversation, V2TimMessage? targetMsg) {
+                                      (V2TimConversation conversation,
+                                          V2TimMessage? targetMsg) {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

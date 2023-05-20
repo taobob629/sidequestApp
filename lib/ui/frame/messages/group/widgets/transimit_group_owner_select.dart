@@ -10,6 +10,9 @@ import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitGroupProfile/widgets/t
 import 'package:tencent_cloud_chat_uikit/ui/widgets/group_member_list.dart';
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
+import 'package:wy/ui/frame/messages/group/widgets/tim_ui_group_member_search.dart';
+
+import 'group_member_list.dart';
 
 class MySelectTransimitOwner extends StatefulWidget {
   final String? groupID;
@@ -120,7 +123,7 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
                 }
               },
               child: Text(
-                '完成'.tr,
+                'Done'.tr,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -138,10 +141,10 @@ class _SelectCallInviterState extends TIMUIKitState<MySelectTransimitOwner> {
             ),
           ),
         ),
-        body: GroupProfileMemberList(
+        body: MyGroupProfileMemberList(
           customTopArea: PlatformUtils().isWeb
               ? null
-              : GroupMemberSearchTextField(
+              : MyGroupMemberSearchTextField(
                   onTextChange: (text) =>
                       handleSearchGroupMembers(text, context),
                 ),

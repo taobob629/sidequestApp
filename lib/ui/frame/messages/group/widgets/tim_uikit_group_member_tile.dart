@@ -18,6 +18,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 
+import 'tui_group_member_list.dart';
+
 class GroupMemberTile extends TIMUIKitStatelessWidget {
   GroupMemberTile({
     Key? key,
@@ -98,7 +100,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
     final isCanKickOffMember = model.canKickOffMember();
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -114,18 +116,18 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          GroupProfileMemberListPage(model: model, memberList: memberList),
+                          MyGroupProfileMemberListPage(model: model, memberList: memberList),
                     ));
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(TIM_t("群成员"), style: TextStyle(color: theme.darkTextColor, fontSize: 16)),
+                  Text("群成员".tr, style: TextStyle(color: theme.textColor, fontSize: 16)),
                   Row(
                     children: [
                       Text(
                         TIM_t_para("{{option1}}人", "$option1人")(option1: option1),
-                        style: TextStyle(color: theme.darkTextColor, fontSize: 16),
+                        style: TextStyle(color: theme.textColor, fontSize: 16),
                       ),
                       Icon(
                         Icons.keyboard_arrow_right,
@@ -198,7 +200,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(top: 16),
                 child: Text(
-                  TIM_t("查看更多群成员"),
+                  "查看更多群成员".tr,
                   style: TextStyle(color: theme.weakTextColor, fontSize: 14),
                 ),
               ),

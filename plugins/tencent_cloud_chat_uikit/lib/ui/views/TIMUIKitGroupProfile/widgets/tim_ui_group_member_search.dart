@@ -18,7 +18,7 @@ class GroupMemberSearchTextField extends TIMUIKitStatelessWidget {
     var debounceFunc = OptimizeUtils.debounce(
         (text) => onTextChange(text), const Duration(milliseconds: 300));
     return Container(
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       child: Column(children: [
         Container(
           decoration: BoxDecoration(

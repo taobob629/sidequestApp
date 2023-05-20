@@ -30,7 +30,7 @@ class GroupProfileNameCard extends TIMUIKitStatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.weakBackgroundColor,
           border: Border(
               bottom: BorderSide(color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
       child: InkWell(
@@ -52,7 +52,7 @@ class GroupProfileNameCard extends TIMUIKitStatelessWidget {
               children: [
                 Text(
                   nameCard,
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)
               ],

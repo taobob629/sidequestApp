@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
@@ -31,7 +32,7 @@ class TIMUIKitProfileUserInfoCard extends TIMUIKitStatelessWidget {
     final option1 = signature;
     final signatureText = option1 != null
         ? TIM_t_para("个性签名: {{option1}}", "个性签名: $option1")(option1: option1)
-        : TIM_t("暂无个性签名");
+        : "暂无个性签名".tr;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

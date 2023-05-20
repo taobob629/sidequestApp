@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable_for_tencent_im/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_state.dart';
@@ -35,14 +36,14 @@ class GroupProfileGroupManage extends TIMUIKitStatelessWidget {
       child: Container(
         padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: theme.weakBackgroundColor,
             border: Border(
                 bottom: BorderSide(color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              TIM_t("群管理"),
+              "群管理".tr,
               style: TextStyle(fontSize: 16, color: theme.darkTextColor),
             ),
             Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)
@@ -96,8 +97,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                TIM_t("群管理"),
-                style: const TextStyle(color: Colors.white, fontSize: 17),
+              '群管理'.tr,
               ),
               shadowColor: theme.weakDividerColor,
               flexibleSpace: Container(
@@ -133,7 +133,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                 Container(
                   padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12, right: 12),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: theme.weakBackgroundColor,
                       border: Border(
                           bottom: BorderSide(
                               color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
@@ -150,7 +150,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(TIM_t("设置管理员"),
+                        Text("设置管理员".tr,
                             style: TextStyle(fontSize: 16, color: theme.darkTextColor)),
                         Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)
                       ],
@@ -160,7 +160,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                 Container(
                   padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12, right: 12),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: theme.weakBackgroundColor,
                       border: Border(
                           bottom: BorderSide(
                               color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
@@ -168,7 +168,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        TIM_t("全员禁言"),
+                       "全员禁言".tr,
                         style: TextStyle(fontSize: 16, color: theme.darkTextColor),
                       ),
                       CupertinoSwitch(
@@ -185,21 +185,21 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                   color: theme.weakBackgroundColor,
                   alignment: Alignment.topLeft,
                   child: Text(
-                    TIM_t("全员禁言开启后，只允许群主和管理员发言。"),
+                 "全员禁言开启后，只允许群主和管理员发言。".tr,
                     style: TextStyle(fontSize: 12, color: theme.weakTextColor),
                   ),
                 ),
                 if (!isAllMuted)
                   InkWell(
                     child: Container(
-                        color: Colors.white,
+                        color: theme.weakBackgroundColor,
                         padding: const EdgeInsets.only(left: 16),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             vertical: 12,
                           ),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: theme.weakBackgroundColor,
                               border: Border(
                                   bottom: BorderSide(
                                       color:
@@ -208,13 +208,13 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                             children: [
                               Icon(
                                 Icons.add_circle_outline,
-                                color: theme.primaryColor,
+                                color: theme.white,
                                 size: 20,
                               ),
                               const SizedBox(
                                 width: 12,
                               ),
-                              Text(TIM_t("添加需要禁言的群成员"))
+                              Text("添加需要禁言的群成员".tr)
                             ],
                           ),
                         )),
@@ -223,7 +223,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                           context,
                           MaterialPageRoute(
                               builder: (context) => GroupProfileAddAdmin(
-                                    appbarTitle: TIM_t("设置禁言"),
+                                    appbarTitle: "设置禁言".tr,
                                     memberList: memberList.where((element) {
                                       final isMute = (serverTime != null
                                           ? (element?.muteUntil ?? 0) > serverTime!
@@ -258,7 +258,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                               flex: 1,
                               backgroundColor: theme.cautionColor ?? CommonColor.cautionColor,
                               autoClose: true,
-                              label: TIM_t("删除"),
+                              label: "Delete".tr,
                             )
                           ])))
                       .toList()
@@ -287,7 +287,7 @@ Widget _buildListItem(
     BuildContext context, V2TimGroupMemberFullInfo memberInfo, ActionPane? endActionPane) {
   final theme = Provider.of<TUIThemeViewModel>(context).theme;
   return Container(
-      color: Colors.white,
+      color: theme.weakBackgroundColor,
       child: ListView.builder(
           itemCount: 1,
           shrinkWrap: true,
@@ -350,7 +350,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
     final res = await widget.model.setMemberToNormal(memberFullInfo.userID);
     if (res.code == 0) {
       onTIMCallback(TIMCallback(
-          type: TIMCallbackType.INFO, infoRecommendText: TIM_t("成功取消管理员身份"), infoCode: 6661003));
+          type: TIMCallbackType.INFO, infoRecommendText: "成功取消管理员身份".tr, infoCode: 6661003));
     }
   }
 
@@ -369,7 +369,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              TIM_t("设置管理员"),
+              "设置管理员".tr,
               style: const TextStyle(color: Colors.white, fontSize: 17),
             ),
             shadowColor: theme.weakDividerColor,
@@ -393,7 +393,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
                 color: theme.weakDividerColor,
                 padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                 child: Text(
-                  TIM_t("群主"),
+                  "群主",
                   style: TextStyle(fontSize: 14, color: theme.weakTextColor),
                 ),
               ),
@@ -407,20 +407,20 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
                 color: theme.weakDividerColor,
                 padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                 child: Text(
-                  TIM_t_para("管理员 ({{option2}}/10)", "管理员 ($option2/10)")(option2: option2),
+                  TIM_t_para("${'管理员'.tr} ({{option2}}/10)", "${'管理员'.tr} ($option2/10)")(option2: option2),
                   style: TextStyle(fontSize: 14, color: theme.weakTextColor),
                 ),
               ),
               InkWell(
                 child: Container(
-                    color: Colors.white,
+                  //  color: theme.wideBackgroundColor,
                     padding: const EdgeInsets.only(left: 16),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                       //   color:  theme.wideBackgroundColor,
                           border: Border(
                               bottom: BorderSide(
                                   color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),
@@ -434,7 +434,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
                           const SizedBox(
                             width: 12,
                           ),
-                          Text(TIM_t("添加管理员"))
+                          Text("添加管理员".tr)
                         ],
                       ),
                     )),
@@ -448,7 +448,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
                                         element?.role ==
                                         GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_MEMBER)
                                     .toList(),
-                                appbarTitle: TIM_t("设置管理员"),
+                                appbarTitle: "设置管理员".tr,
                                 selectCompletedHandler: (context, selectedMember) async {
                                   if (selectedMember.isNotEmpty) {
                                     for (var member in selectedMember) {
@@ -472,7 +472,7 @@ class _GroupProfileSetManagerPageState extends TIMUIKitState<GroupProfileSetMana
                           flex: 1,
                           backgroundColor: theme.cautionColor ?? CommonColor.cautionColor,
                           autoClose: true,
-                          label: TIM_t("删除"),
+                          label: "Delete".tr,
                         )
                       ])))
                   .toList(),
@@ -524,18 +524,18 @@ class _GroupProfileAddAdminState extends TIMUIKitState<GroupProfileAddAdmin> {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        leading: TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(
-            TIM_t("取消"),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
+        // leading: TextButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   },
+        //   child: Text(
+        //     "Cancel".tr,
+        //     style: const TextStyle(
+        //       color: Colors.white,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        // ),
         actions: [
           TextButton(
             onPressed: () {
@@ -545,7 +545,7 @@ class _GroupProfileAddAdminState extends TIMUIKitState<GroupProfileAddAdmin> {
               Navigator.of(context).pop();
             },
             child: Text(
-              TIM_t("完成"),
+              "Done".tr,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -562,14 +562,14 @@ class _GroupProfileAddAdminState extends TIMUIKitState<GroupProfileAddAdmin> {
             color: theme.weakDividerColor,
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
             child: Text(
-              TIM_t("群成员"),
+              "群成员".tr,
               style: TextStyle(fontSize: 14, color: theme.weakTextColor),
             ),
           ),
           ...widget.memberList
               .map((e) => Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.weakBackgroundColor,
                         border: Border(
                             bottom: BorderSide(
                                 color: theme.weakDividerColor ?? CommonColor.weakDividerColor))),

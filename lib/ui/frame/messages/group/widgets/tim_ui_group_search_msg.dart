@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
@@ -50,7 +51,7 @@ class GroupProfileGroupSearch extends TIMUIKitStatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              TIM_t("查找聊天内容"),
+              '查找聊天内容'.tr,
               style: TextStyle(fontSize: 16, color: theme.darkTextColor),
             ),
             Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)

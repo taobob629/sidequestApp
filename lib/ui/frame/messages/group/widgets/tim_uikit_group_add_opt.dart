@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_statelesswidget.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
-
-
 
 import 'package:tencent_cloud_chat_uikit/base_widgets/tim_ui_kit_base.dart';
 
@@ -17,25 +16,25 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
     final TUITheme theme = value.theme;
     final model = Provider.of<TUIGroupProfileModel>(context);
 
-    String addOpt = TIM_t("未知");
+    String addOpt = "未知".tr;
 
     final groupAddOpt = model.groupInfo?.groupAddOpt;
     switch (groupAddOpt) {
       case GroupAddOptType.V2TIM_GROUP_ADD_ANY:
-        addOpt = TIM_t("自动审批");
+        addOpt = "自动审批".tr;
         break;
       case GroupAddOptType.V2TIM_GROUP_ADD_AUTH:
-        addOpt = TIM_t("管理员审批");
+        addOpt = "管理员审批".tr;
         break;
       case GroupAddOptType.V2TIM_GROUP_ADD_FORBID:
-        addOpt = TIM_t("禁止加群");
+        addOpt = "禁止加群".tr;
         break;
     }
 
     final actionList = [
-      {"label": TIM_t("禁止加群"), "id": GroupAddOptType.V2TIM_GROUP_ADD_FORBID},
-      {"label": TIM_t("自动审批"), "id": GroupAddOptType.V2TIM_GROUP_ADD_ANY},
-      {"label": TIM_t("管理员审批"), "id": GroupAddOptType.V2TIM_GROUP_ADD_AUTH}
+      {"label": "禁止加群".tr, "id": GroupAddOptType.V2TIM_GROUP_ADD_FORBID},
+      {"label": "自动审批".tr, "id": GroupAddOptType.V2TIM_GROUP_ADD_ANY},
+      {"label": "管理员审批".tr, "id": GroupAddOptType.V2TIM_GROUP_ADD_AUTH}
     ];
 
     _handleActionTap(int addOpt) async {
@@ -49,7 +48,7 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.weakBackgroundColor,
           border: Border(
               bottom: BorderSide(
                   color:
@@ -60,7 +59,7 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return CupertinoActionSheet(
-                title: Text(TIM_t("加群方式")),
+                title: Text("加群方式".tr),
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
                     Navigator.pop(
@@ -68,7 +67,7 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
                       "cancel",
                     );
                   },
-                  child: Text(TIM_t("取消")),
+                  child: Text('Cancel'.tr),
                   isDefaultAction: false,
                 ),
                 actions: actionList
@@ -78,7 +77,6 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
                           },
                           child: Text(
                             e["label"] as String,
-                            style: TextStyle(color: theme.primaryColor),
                           ),
                           isDefaultAction: false,
                         ))
@@ -91,7 +89,7 @@ class GroupProfileAddOpt extends TIMUIKitStatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              TIM_t("加群方式"),
+              "加群方式".tr,
               style: TextStyle(fontSize: 16, color: theme.darkTextColor),
             ),
             Row(

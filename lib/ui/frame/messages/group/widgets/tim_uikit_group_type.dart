@@ -21,19 +21,19 @@ class GroupProfileType extends TIMUIKitStatelessWidget {
     final type = model.groupInfo?.groupType;
     switch (type) {
       case GroupType.AVChatRoom:
-        groupType = TIM_t("聊天室");
+        groupType = "聊天室".tr;
         break;
       case GroupType.Meeting:
-        groupType = TIM_t("会议群");
+        groupType = "会议群".tr;
         break;
       case GroupType.Public:
-        groupType = TIM_t("公开群");
+        groupType = "公开群".tr;
         break;
       case GroupType.Work:
-        groupType = TIM_t("工作群");
+        groupType = "工作群".tr;
         break;
       default:
-        groupType = TIM_t("未知群");
+        groupType = "未知群".tr;
         break;
     }
 
