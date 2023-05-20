@@ -288,7 +288,7 @@ class OtherDashboardPage extends StatelessWidget {
                                             color: AppColor.itemBg,
                                           ),
                                           margin: EdgeInsets.only(
-                                              top: service.enable == 1
+                                              top: service.enabled
                                                   ? 10.h
                                                   : 0),
                                           child: Stack(
