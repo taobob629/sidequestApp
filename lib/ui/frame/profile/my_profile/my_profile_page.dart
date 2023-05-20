@@ -630,7 +630,7 @@ class MyProfilePage extends StatelessWidget {
                           "SideKick".tr,
                           onTap: () {
                             //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                            Get.toNamed(AppPages.ServiceAndOrders);
+                            Get.toNamed(AppPages.ServiceAndOrders)?.then((value) => userController.updateInfo());
                           },
                           badgeNum: userController.userProfile.sidekickNum,
                         ),
