@@ -1,0 +1,63 @@
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:wy/utils/toast_utils.dart';
+
+import '../../../../api/wy_http.dart';
+import '../../../../model/task_detail_model.dart';
+import '../../../../model/task_model.dart';
+import '../../../../utils/time_utils.dart';
+
+class TaskDetailCtr extends GetxController {
+  TaskDetailModel? model;
+  late TaskModel taskModel;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    taskModel = Get.arguments as TaskModel;
+
+    _requestData(true);
+  }
+
+  void _requestData(bool ifShowLoading) async {
+    if (ifShowLoading) {
+      showLoading();
+    }
+    ;
+    var response = await http.get(
+      '/app/client/task/taskDetail?id=${taskModel.id}&type=${taskModel.type}',
+    );
+    model = TaskDetailModel.fromJson(response.data);
+    update();
+    dismissLoading();
+  }
+
+  void receive(int drawId) async {
+    showLoading();
+    await http.get(
+      '/app/client/task/draw?id=$drawId',
+    );
+    _requestData(false);
+  }
+
+  String getTime(int createTime) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(createTime * 1000);
+    String formattedDateTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    return formattedDateTime;
+  }
+
+  bool ifShowExpired(int draw, int createTime) {
+    if (draw == 0) {
+      if (TimeUtils.daysBetweenDay(DateTime.now(),
+              DateTime.fromMillisecondsSinceEpoch(createTime * 1000)) >
+          3) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+}

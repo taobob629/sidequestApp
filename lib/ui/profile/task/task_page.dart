@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/image_utils.dart';
 import 'package:wy/ui/profile/task/detail/task_detail_page.dart';
 import 'package:wy/ui/profile/task/task_ctr.dart';
 import 'package:wy/utils/index.dart';
@@ -27,7 +28,11 @@ class TaskPage extends StatelessWidget {
             itemCount: t.list.length,
             itemBuilder: (context, index) => GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: () => Get.to(() => TaskDetailPage()),
+              onTap: () {
+                if (t.list[index].enabled == 0) {
+                  Get.to(() => TaskDetailPage(), arguments: t.list[index]);
+                }
+              },
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xff262731),
@@ -45,38 +50,37 @@ class TaskPage extends StatelessWidget {
                             topRight: Radius.circular(15.r),
                           ),
                           child: ImageUtil.networkImage(
-                            url:
-                                'https://up.enterdesk.com/edpic_source/2f/ca/21/2fca21e447219c2cdd31940fc9cd0a1f.jpg',
+                            url: t.list[index].url,
                             height: 150.h,
                             width: Get.width - 30.w,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        Positioned(
-                          right: 10.w,
-                          top: 10.h,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xff18D07A),
-                              borderRadius: BorderRadius.circular(5.r),
-                            ),
-                            padding: EdgeInsets.all(4.r),
-                            child: Text(
-                              'ACTIVE',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   right: 10.w,
+                        //   top: 10.h,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: Color(0xff18D07A),
+                        //       borderRadius: BorderRadius.circular(5.r),
+                        //     ),
+                        //     padding: EdgeInsets.all(4.r),
+                        //     child: Text(
+                        //       'ACTIVE'.tr,
+                        //       style: TextStyle(
+                        //         color: Colors.white,
+                        //         fontSize: 12.sp,
+                        //         fontFamily: FONT_MEDIUM,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 30.h),
+                      padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 20.h),
                       child: Text(
-                        'Milk tea Buy ten and get one free'.tr,
+                        t.list[index].name,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: FONT_MEDIUM,
@@ -84,46 +88,69 @@ class TaskPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Row(
+                    Stack(
                       children: [
-                        10.horizontalSpace,
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6.r),
-                            child: LinearProgressIndicator(
-                              value: 0.2,
-                              backgroundColor: Color(0xff2D2E3A),
-                              valueColor: AlwaysStoppedAnimation(Color(0xffEAA18D)),
-                              minHeight: 10.h,
-                            ),
+                        Container(
+                          height: 22.w,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              20.horizontalSpace,
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.r),
+                                  child: LinearProgressIndicator(
+                                    value: t.list[index].userNum /
+                                        t.list[index].threshold,
+                                    backgroundColor: Color(0xff2D2E3A),
+                                    valueColor: AlwaysStoppedAnimation(
+                                      t.list[index].enabled == 0
+                                          ? Color(0xffEAA18D)
+                                          : Colors.grey,
+                                    ),
+                                    minHeight: 10.h,
+                                  ),
+                                ),
+                              ),
+                              8.horizontalSpace,
+                              Text(
+                                t.list[index].userNum.toString(),
+                                style: TextStyle(
+                                  color: t.list[index].enabled == 0
+                                      ? Color(0xffEAA18D)
+                                      : Colors.grey,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              Text(
+                                '/',
+                                style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              Text(
+                                t.list[index].threshold.toString(),
+                                style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              10.horizontalSpace,
+                            ],
                           ),
                         ),
-                        8.horizontalSpace,
-                        Text(
-                          '2',
-                          style: TextStyle(
-                            color: Color(0xffEAA18D),
-                            fontFamily: FONT_MEDIUM,
-                            fontSize: 10.sp,
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.w),
+                          child: Image.asset(
+                            ImageUtils.icon_naicha,
+                            width: 22.w,
+                            height: 22.w,
                           ),
                         ),
-                        Text(
-                          '/',
-                          style: TextStyle(
-                            color: Color(0xffffffff),
-                            fontFamily: FONT_MEDIUM,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                        Text(
-                          '10',
-                          style: TextStyle(
-                            color: Color(0xffffffff),
-                            fontFamily: FONT_MEDIUM,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                        10.horizontalSpace,
                       ],
                     ),
                     Container(
@@ -134,19 +161,24 @@ class TaskPage extends StatelessWidget {
                     Row(
                       children: [
                         10.horizontalSpace,
-                        Text(
-                          '* You have participated'.tr,
-                          style: TextStyle(
-                            color: Color(0xffc3c3c3),
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
+                        Expanded(
+                          child: Text(
+                            t.list[index].description,
+                            style: TextStyle(
+                              color: Color(0xffc3c3c3),
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Spacer(),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.r),
-                            color: AppColor.yellow,
+                            color: t.list[index].enabled == 0
+                                ? AppColor.yellow
+                                : Colors.grey,
                           ),
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(

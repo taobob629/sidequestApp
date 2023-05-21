@@ -631,7 +631,8 @@ class MyProfilePage extends StatelessWidget {
                           "SideKick".tr,
                           onTap: () {
                             //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                            Get.toNamed(AppPages.SkillList)?.then((value) => userController.updateInfo());
+                            Get.toNamed(AppPages.SkillList)
+                                ?.then((value) => userController.updateInfo());
                           },
                           badgeNum: userController.userProfile.sidekickNum,
                         ),
@@ -663,7 +664,8 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           ImageUtils.icon_post,
                           "Post".tr,
-                          onTap: () => Get.to(() => MyPostsPage())?.then((value) => userController.updateInfo()),
+                          onTap: () => Get.to(() => MyPostsPage())
+                              ?.then((value) => userController.updateInfo()),
                           badgeNum: userController.userProfile.postNum,
                         ),
                       ),
@@ -689,7 +691,8 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           "assets/images/profile/icon_activities.webp",
                           "Task".tr,
-                          onTap: () => Get.to(() => TaskPage()),
+                          onTap: () => Get.to(() => TaskPage())
+                              ?.then((value) => userController.updateInfo()),
                           badgeNum: userController.userProfile.taskNum,
                         ),
                       ),

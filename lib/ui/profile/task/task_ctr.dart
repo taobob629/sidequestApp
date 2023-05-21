@@ -1,21 +1,30 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../api/user_api.dart';
+import '../../../api/wy_http.dart';
 import '../../../common/getx_refresh_controller.dart';
-import '../../../model/vistor_model.dart';
+import '../../../model/task_model.dart';
 
-class TaskCtr extends GetxRefreshController<VisitorModel>
+class TaskCtr extends GetxRefreshController<TaskModel>
     with GetSingleTickerProviderStateMixin {
-
   @override
   void onInit() {
     super.onInit();
   }
 
   @override
-  Future<List<VisitorModel>> loadData({int pageNum = 1}) async {
-    return await UserApi.visitorList(pageNum, 20);
+  Future<List<TaskModel>> loadData({int pageNum = 1}) async {
+    List<TaskModel> list = [];
+    var response = await http.get(
+      '/app/client/task/list',
+    );
+
+    if (response.data == null) {
+      return list;
+    }
+    list = response.data
+        .map<TaskModel>((item) => TaskModel.fromJson(item))
+        .toList();
+
+    return list;
   }
 }
