@@ -13,6 +13,7 @@ class TaskModel {
   int memberLevel;
   int userNum;
   dynamic rewardList;
+  int newReward;
 
   TaskModel({
     required this.id,
@@ -29,6 +30,7 @@ class TaskModel {
     required this.memberLevel,
     required this.userNum,
     this.rewardList,
+    required this.newReward,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
@@ -46,6 +48,7 @@ class TaskModel {
     memberLevel: json["memberLevel"],
     userNum: json["userNum"],
     rewardList: json["rewardList"],
+    newReward: json["newReward"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +66,6 @@ class TaskModel {
     "memberLevel": memberLevel,
     "userNum": userNum,
     "rewardList": rewardList,
+    "newReward": newReward,
   };
 }

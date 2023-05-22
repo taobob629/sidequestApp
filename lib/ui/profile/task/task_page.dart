@@ -7,6 +7,7 @@ import 'package:wy/image_utils.dart';
 import 'package:wy/ui/profile/task/detail/task_detail_page.dart';
 import 'package:wy/ui/profile/task/task_ctr.dart';
 import 'package:wy/utils/index.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../../config/app_color.dart';
 import '../../common/base_scaffold.dart';
@@ -79,12 +80,25 @@ class TaskPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 20.h),
-                      child: Text(
-                        t.list[index].name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: FONT_MEDIUM,
-                          fontSize: 16.sp,
+                      child: badges.Badge(
+                        showBadge: t.list[index].newReward > 0,
+                        badgeContent: Text(
+                          '${t.list[index].newReward}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                        badgeColor: Color(0xffFF4848),
+                        position: badges.BadgePosition(end: -16.w, top: -6.h),
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          t.list[index].name,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: FONT_MEDIUM,
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ),
                     ),
