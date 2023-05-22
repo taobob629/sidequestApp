@@ -31,7 +31,15 @@ class ConversationListPage extends StatelessWidget {
           },
           lastMessageBuilder: (lastMsg, groupAtInfoList) {
             if (lastMsg?.customElem?.data != null) {
-              var data = jsonDecode(lastMsg!.customElem!.data!);
+              var data;
+              try {
+                data = jsonDecode(lastMsg!.customElem!.data!);
+              } catch (e) {
+                return   Text(
+                  "Unknown",
+                  style: TextStyle(color: AppColor.colorB9C9, fontSize: 12),
+                );
+              }
               return Text(
                 data["desc"] ?? "",
                 style: TextStyle(color: AppColor.colorB9C9, fontSize: 12),
