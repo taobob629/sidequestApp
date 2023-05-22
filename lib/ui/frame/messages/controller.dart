@@ -23,7 +23,7 @@ import 'group/create/controller.dart';
 
 class MessagesPageController extends BasePageController {
   static MessagesPageController get find => Get.find();
-  var popMenus = ['Scan', 'Create Room'];
+  var popMenus = [{'title':'Scan'.tr,'img':'ic_scan'},{'title':'Create Room'.tr,'img':'ic_create_group'}];
   var showMenu = false.obs;
   var tabs = [
     "Message".tr,

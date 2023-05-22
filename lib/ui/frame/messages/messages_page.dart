@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/image_utils.dart';
+import 'package:wy/utils/index.dart';
 import '../../../common/keep_alive_wrapper.dart';
 import 'chat/conversation_list_page.dart';
 import 'controller.dart';
@@ -31,7 +33,10 @@ class MessagesPage extends StatelessWidget {
                   visible: controller.showMenu.value,
                   child: PopupMenuButton(
                       color: AppColor.itemBg,
-                      icon: Icon(Icons.more_vert_outlined,color: Colors.white,),
+                      icon: Icon(
+                        Icons.more_vert_outlined,
+                        color: Colors.white,
+                      ),
                       onSelected: (item) {
                         if (item == 'Create Room'.tr) {
                           controller.toCreatGoupPage();
@@ -42,10 +47,16 @@ class MessagesPage extends StatelessWidget {
                       },
                       itemBuilder: (context) => <PopupMenuEntry<String>>[
                             ...controller.popMenus.map((e) => PopupMenuItem<String>(
-                                  value: e,
-                                  child: Text(
-                                    '$e'.tr,
-                                    style: TextStyle(),
+                                  value: e['title'],
+                                  child: Row(
+                                    children: [
+                                      ImageUtil.assetImage(e['img']!, width: 20.w),
+                                      10.horizontalSpace,
+                                      Text(
+                                        '${e['title']}',
+                                        style: TextStyle(),
+                                      )
+                                    ],
                                   ),
                                 ))
                           ])))
