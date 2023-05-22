@@ -24,7 +24,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
-        title: Text('Create Room'.tr),
+        title: Text('Create Group'.tr),
       ),
       body: MediaQuery.removePadding(
           removeTop: true,
@@ -32,8 +32,8 @@ class CreateGroupPage extends GetView<CreateGroupController> {
           child: ListView(
             children: [
               InputView(
-                label: 'Room Name'.tr,
-                tips: 'Enter room name'.tr,
+                label: 'Group Name'.tr,
+                tips: 'Enter group name'.tr,
                 maxLength: 30,
                 controller: controller.teRoomName,
               ),
@@ -85,7 +85,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
               //   ),
               // ),
               InputView(
-                label: 'Room introduction'.tr,
+                label: 'Group introduction'.tr,
                 autoHeight: true,
                 tips: '',
                 customInput: TextField(
@@ -108,7 +108,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
 
               30.verticalSpace,
               FloatingButton(
-                label: 'Create Room',
+                label: 'Create Group'.tr,
                 onTap: () => {controller.createGroup(context)},
               )
             ],
