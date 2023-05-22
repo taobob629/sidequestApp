@@ -833,7 +833,11 @@ const Map<String, String> zh_CN = {
   "Players":"人数",
   "Book Now":"预定",
   "Reservation information":"预订信息",
-  "Telephone":"电话"
+  "Telephone":"电话",
+  "Create Group":"创建群聊",
+  "Group Name":"群名称",
+  "Enter group name":"请输入群名称",
+  "Group introduction":"群介绍"
 
 
 

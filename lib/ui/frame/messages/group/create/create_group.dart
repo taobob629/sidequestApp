@@ -85,7 +85,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
               //   ),
               // ),
               InputView(
-                label: 'Room introduction'.tr,
+                label: 'Group introduction'.tr,
                 autoHeight: true,
                 tips: '',
                 customInput: TextField(
@@ -108,7 +108,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
 
               30.verticalSpace,
               FloatingButton(
-                label: 'Create Room',
+                label: 'Create Group'.tr,
                 onTap: () => {controller.createGroup(context)},
               )
             ],
