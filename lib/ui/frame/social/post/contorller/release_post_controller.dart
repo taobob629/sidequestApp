@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:wy/api/common.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/im/im_util.dart';
-import 'package:wy/utils/utils.dart';
 
+import '../../../../../api/common.dart';
 import '../../../../../utils/toast_utils.dart';
 
 const int TYPE_INVITE = 1;
@@ -24,7 +23,7 @@ class ReleasePostController extends GetxController {
   final photoList = <String>[].obs;
 
   final textLength = 0.obs;
-  RxInt _type =RxInt(TYPE_DEFAULT);
+  RxInt _type = RxInt(TYPE_DEFAULT);
 
   int get type => _type.value;
 
@@ -37,7 +36,7 @@ class ReleasePostController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if(Get.arguments!=null) {
+    if (Get.arguments != null) {
       var arg = Get.arguments as Map;
       type = arg['type'] ?? TYPE_DEFAULT;
       gid = arg['gid'];
@@ -55,8 +54,8 @@ class ReleasePostController extends GetxController {
 
   pickUploadPhoto() async {
     print('photoList = ${photoList.length}');
-    List<XFile>? files = await _picker.pickMultiImage();
-    if (files == null || files?.isEmpty == true) {
+    List<XFile> files = await _picker.pickMultiImage();
+    if (files.isEmpty == true) {
       return;
     }
 
@@ -66,22 +65,51 @@ class ReleasePostController extends GetxController {
     }
 
     showLoading();
-    for (int i = 0; i < files.length; i++) {
-      File file = File(files[i].path);
-      // 最大5M
-      if (file.lengthSync() > 2 * 1024 * 1024) {
-        dismissLoading();
-        showInfoDialog('The maximum size of the photo is 5MB'.tr);
-        return;
-      }
-
-      Common.uploadFile(file, (p0, p1) {}).then((url) {
+    List<File> compressList = await compressImages(files, 5 * 1024 * 1024);
+    for (int i = 0; i < compressList.length; i++) {
+      Common.uploadFile(compressList[i], (p0, p1) {}).then((url) {
         if (url.isNotEmpty) {
           photoList.add(url);
+        }
+        if (i == compressList.length - 1) {
           dismissLoading();
         }
       });
     }
+  }
+
+  Future<List<File>> compressImages(List<XFile> images, int maxSize) async {
+    List<File> compressedImages = [];
+
+    for (final imageFile in images) {
+      File file = File(imageFile.path);
+
+      final String filePath = imageFile.path;
+
+      final int originalFileSize = File(filePath).lengthSync();
+
+      if (originalFileSize > maxSize) {
+        final String fileName = path.basename(filePath);
+        final String compressedFileName =
+            '${path.withoutExtension(fileName)}_compressed.jpg';
+        final String compressedFilePath =
+            path.join(path.dirname(filePath), compressedFileName);
+
+        final compressedImage = await FlutterImageCompress.compressAndGetFile(
+          filePath,
+          compressedFilePath,
+          quality: 50,
+        );
+
+        if (compressedImage != null) {
+          compressedImages.add(compressedImage);
+        }
+      } else {
+        compressedImages.add(file);
+      }
+    }
+
+    return compressedImages;
   }
 
   delPhoto(String photoUrl) {
@@ -97,8 +125,11 @@ class ReleasePostController extends GetxController {
     var content = textController.text;
 
     PostApi.releasePost(
-            content: type == TYPE_INVITE ? buildShareGroupText(content, gid) : content,
-            images:type == TYPE_INVITE ?jsonEncode([gid]): jsonEncode(photoList),
+            content: type == TYPE_INVITE
+                ? buildShareGroupText(content, gid)
+                : content,
+            images:
+                type == TYPE_INVITE ? jsonEncode([gid]) : jsonEncode(photoList),
             type: type)
         .then((value) {
       Get.back(result: "ReloadData");
