@@ -33,7 +33,7 @@ class MyReleasedPostPage extends StatelessWidget {
                     model: t.list[index],
                     isSelf: true,
                     onTap: () {
-                      Get.toNamed(AppPages.PostDetail, arguments: t.list[index]);
+                      Get.toNamed(AppPages.PostDetail, arguments: t.list[index])?.then((value) =>t.onRefresh() );
                     },
                     onDelete: () {
                       t.deletePost(t.list[index].id);
