@@ -42,13 +42,45 @@ class ChatController extends BasePageController {
     getGroupInfo();
   }
 
+  Rxn _memberInfo = Rxn<V2TimGroupInfo?>();
+
+  V2TimGroupInfo get memberInfo => _memberInfo.value;
+
+  set memberInfo(V2TimGroupInfo? value) {
+    _memberInfo.value = value;
+  }
+
+  // ///未定义（没有获取该字段）
+  // ///
+  // static const int V2TIM_GROUP_MEMBER_UNDEFINED = 0;
+  // ///群成员
+  // ///
+  // static const int V2TIM_GROUP_MEMBER_ROLE_MEMBER = 200;
+  // ///群管理员
+  // ///
+  // static const int V2TIM_GROUP_MEMBER_ROLE_ADMIN = 300;
+  // ///群主
+  // ///
+  // static const int V2TIM_GROUP_MEMBER_ROLE_OWNER = 400;
+  List<String> menuAdmin = ['QR', 'Share to Posts', 'Group Info']; //管理员
+  List<String> menuUser = ['QR', 'Group Info']; //普通用户
+  RxList<String> popMenus = ['QR', 'Share to Posts', 'Group Info'].obs;
+
   Future<void> getGroupInfo() async {
+    popMenus.clear();
     var res = await TencentImSDKPlugin.v2TIMManager
         .getGroupManager()
         .getGroupsInfo(groupIDList: [selectedConversation.groupID!]);
     if (res.code == 0) {
       var groupInfo = res.data?.first;
+      memberInfo = groupInfo?.groupInfo;
       count.value = groupInfo?.groupInfo?.memberCount ?? 0;
+      if (memberInfo.role == GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_OWNER ||
+          memberInfo.role == GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_ADMIN) {
+        popMenus.addAll(menuAdmin);
+      } else {
+        popMenus.addAll(menuUser);
+      }
     }
   }
 
@@ -76,7 +108,6 @@ class ChatPage extends StatelessWidget {
   final V2TimConversation selectedConversation;
   final String orderSn;
   final V2TimMessage? initFindingMsg;
-  var popMenus = ['QR', 'Share to Posts', 'Group Info'];
 
   ChatPage({
     Key? key,
@@ -102,7 +133,7 @@ class ChatPage extends StatelessWidget {
   getGroupInfo() {}
 
   PlayOrderDetailModel? playOrderDetailModel;
-  ChatController? controller;
+  late ChatController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -239,14 +270,14 @@ class ChatPage extends StatelessWidget {
       },
       messageItemBuilder:
           MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
-            flog('isself ${message.isSelf}');
+        flog('isself ${message.isSelf}');
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
         var type = data['type'];
         if (data["message"] != null) {
           data = data['message'];
         }
-        data['isself']=message.isSelf;
+        data['isself'] = message.isSelf;
         flog('data = $data');
         return GestureDetector(
           onTap: () {
@@ -266,8 +297,8 @@ class ChatPage extends StatelessWidget {
                 break;
               case MessageType.TYPE_INVITE:
                 flog('$data');
-                var gid=data['groupId'];
-                if(gid==null){
+                var gid = data['groupId'];
+                if (gid == null) {
                   showToast('gid为空');
                   return;
                 }
@@ -289,55 +320,58 @@ class ChatPage extends StatelessWidget {
 
   List<Widget> actions(BuildContext context) {
     return [
-      Visibility(
-          child: PopupMenuButton(
-              color: AppColor.itemBg,
-              icon: Icon(Icons.more_vert_outlined,color: Colors.white,),
-              onSelected: (item) {
-                if (item == 'QR'.tr) {
-                  flog('share');
-                  controller?.share();
-                  return;
-                }
-                if (item == "Share to Posts".tr) {
-                  toCreatePostPage(selectedConversation);
-                  return;
-                }
-                if (item == "Group Info".tr) {
-                  final conversationType = selectedConversation.type;
+     Obx(()=>Visibility(
+         visible: controller.popMenus.isNotEmpty,
+         child:  PopupMenuButton(
+         color: AppColor.itemBg,
+         icon: Icon(
+           Icons.more_vert_outlined,
+           color: Colors.white,
+         ),
+         onSelected: (item) {
+           if (item == 'QR'.tr) {
+             flog('share');
+             controller?.share();
+             return;
+           }
+           if (item == "Share to Posts".tr) {
+             toCreatePostPage(selectedConversation);
+             return;
+           }
+           if (item == "Group Info".tr) {
+             final conversationType = selectedConversation.type;
 
-                  if (conversationType == 1) {
-                    final userID = selectedConversation.userID;
-                    // if had remark modified its will back new remark
-
-                  } else {
-                    final groupID = selectedConversation.groupID;
-                    if (groupID != null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GroupProfilePage(
-                              groupID: groupID,
-                            ),
-                          ));
-                    }
-                  }
-                }
-              },
-              itemBuilder: (context) => <PopupMenuEntry<String>>[
-                    ...popMenus.mapIndexed((index, e) => PopupMenuItem<String>(
-                          value: e,
-                          child: IconTextWidget(
-                            icon: '',
-                            iconWidget: Icon(
-                              menuIcon(index),
-                              size: 22,
-                              color: Colors.white,
-                            ),
-                            text: '$e'.tr,
-                          ),
-                        ))
-                  ])),
+             if (conversationType == 1) {
+               final userID = selectedConversation.userID;
+               // if had remark modified its will back new remark
+             } else {
+               final groupID = selectedConversation.groupID;
+               if (groupID != null) {
+                 Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) => GroupProfilePage(
+                         groupID: groupID,
+                       ),
+                     ));
+               }
+             }
+           }
+         },
+         itemBuilder: (context) => <PopupMenuEntry<String>>[
+           ...controller.popMenus.mapIndexed((index, e) => PopupMenuItem<String>(
+             value: e,
+             child: IconTextWidget(
+               icon: '',
+               iconWidget: Icon(
+                 menuIcon(index),
+                 size: 22,
+                 color: Colors.white,
+               ),
+               text: '$e'.tr,
+             ),
+           ))
+         ]))),
     ];
   }
 
