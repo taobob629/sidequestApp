@@ -54,31 +54,35 @@ class SkillListPage extends GetView<SkillListPageController> {
           },
           label: 'Add Service'.tr,
         ),
-        body: Obx(() => controller.pageState == SkillListPageController.INIT
-            ? buildLoad()
-            : controller.list.isEmpty
-                ? EmptyView()
-                : Container(
-                    padding: EdgeInsets.all(20),
-                    child: NestedScrollView(
-                      headerSliverBuilder: (context, _) => [
-                        SliverToBoxAdapter(
-                          child: ProfileHeaderWidget(),
-                        ),
-                        SliverToBoxAdapter(child: ServiceHeader(),)
-                      ],
-                      body: MediaQuery.removePadding(
-                          removeTop: true,
-                          context: context, child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => item(index),
-                        separatorBuilder: (context, index) => Container(
-                          height: 10.h,
-                        ),
-                        itemCount: controller.list.length,
-                      )),
+        body: Container(
+          padding: EdgeInsets.all(20),
+          child: NestedScrollView(
+              headerSliverBuilder: (context, _) => [
+                    SliverToBoxAdapter(
+                      child: ProfileHeaderWidget(),
                     ),
-                  )));
+                    SliverToBoxAdapter(
+                      child: ServiceHeader(),
+                    )
+                  ],
+              body: Obx(
+                () => controller.pageState == SkillListPageController.INIT
+                    ? buildLoad()
+                    : controller.list.isEmpty
+                        ? EmptyView()
+                        : MediaQuery.removePadding(
+                            removeTop: true,
+                            context: context,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => item(index),
+                              separatorBuilder: (context, index) => Container(
+                                height: 10.h,
+                              ),
+                              itemCount: controller.list.length,
+                            )),
+              )),
+        ));
   }
 
   Divider divider = Divider(color: Color(0xFF54555d), height: 1.h);
@@ -113,8 +117,10 @@ class SkillListPage extends GetView<SkillListPageController> {
                   ),
                   Text(
                     '${data.levelName}',
-                    style:
-                        TextStyle(fontFamily: FONT_MEDIUM, fontSize: 10.sp, color: AppColor.textC3),
+                    style: TextStyle(
+                        fontFamily: FONT_MEDIUM,
+                        fontSize: 10.sp,
+                        color: AppColor.textC3),
                   ),
                 ],
               )),
@@ -129,12 +135,15 @@ class SkillListPage extends GetView<SkillListPageController> {
               padding: EdgeInsets.only(left: 5.w, top: 5).h,
               child: Row(
                 children: [
-                  ImageUtil.assetImage('ic_under_review', width: 13.w, height: 13.w),
+                  ImageUtil.assetImage('ic_under_review',
+                      width: 13.w, height: 13.w),
                   4.horizontalSpace,
                   Text(
                     'under review'.tr,
                     style: TextStyle(
-                        color: Color(0xFF3F92FF), fontSize: 10.sp, fontFamily: FONT_LIGHT),
+                        color: Color(0xFF3F92FF),
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT),
                   )
                 ],
               ),
@@ -154,13 +163,17 @@ class SkillListPage extends GetView<SkillListPageController> {
                           tips: data.reason ?? "",
                         ));
                       },
-                      child: ImageUtil.assetImage('ic_info_red', width: 13.w, height: 13.w),
+                      child: ImageUtil.assetImage('ic_info_red',
+                          width: 13.w, height: 13.w),
                     ),
                   ),
                   4.horizontalSpace,
                   Text(
                     'REJECT'.tr,
-                    style: TextStyle(color: Colors.red, fontSize: 10.sp, fontFamily: FONT_LIGHT),
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT),
                   )
                 ],
               ),
@@ -186,7 +199,8 @@ class SkillListPage extends GetView<SkillListPageController> {
               height: 32.w,
               padding: EdgeInsets.all(10),
               decoration: itemDecoration(color: AppColor.yellow, radius: 16.w),
-              child: ImageUtil.assetImage('ic_edit2', width: 13.w, height: 13.w),
+              child:
+                  ImageUtil.assetImage('ic_edit2', width: 13.w, height: 13.w),
             ),
           )
         : Container();
@@ -199,7 +213,8 @@ class SkillListPage extends GetView<SkillListPageController> {
             child: Container(
               width: 32.w,
               height: 32.w,
-              decoration: itemDecoration(color: Color(0xFF54555d), radius: 16.w),
+              decoration:
+                  itemDecoration(color: Color(0xFF54555d), radius: 16.w),
               child: Icon(Icons.add_outlined, size: 20.w, color: Colors.white),
             ),
           )
@@ -221,7 +236,8 @@ class SkillListPage extends GetView<SkillListPageController> {
     );
   }
 
-  Widget skill_item(SkillModel data, SkillItemModel? item, {bool showAdd = false}) {
+  Widget skill_item(SkillModel data, SkillItemModel? item,
+      {bool showAdd = false}) {
     double icon_size = 13;
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5).r,
@@ -249,7 +265,9 @@ class SkillListPage extends GetView<SkillListPageController> {
             child: Text(
               '${item?.name}',
               style: TextStyle(
-                  fontSize: 14.sp, fontFamily: FONT_LIGHT, overflow: TextOverflow.ellipsis),
+                  fontSize: 14.sp,
+                  fontFamily: FONT_LIGHT,
+                  overflow: TextOverflow.ellipsis),
             ),
           ),
           10.horizontalSpace,
@@ -270,18 +288,23 @@ class SkillListPage extends GetView<SkillListPageController> {
                       TextSpan(
                           text: '${item?.price?.floor()}',
                           style: TextStyle(
-                              color: Colors.white, fontSize: 16.sp, fontFamily: FONT_MEDIUM)),
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontFamily: FONT_MEDIUM)),
                       TextSpan(
                           text: '/${item?.unit}',
                           style: TextStyle(
-                              color: Colors.white, fontSize: 8.sp, fontFamily: FONT_MEDIUM)),
+                              color: Colors.white,
+                              fontSize: 8.sp,
+                              fontFamily: FONT_MEDIUM)),
                     ])),
                   ],
                 ),
               PWidget.boxw(5),
               if (item != null)
                 GestureDetector(
-                    onTap: () => controller.addSkillItem(data, skillItemModel: item),
+                    onTap: () =>
+                        controller.addSkillItem(data, skillItemModel: item),
                     child: Container(
                       height: 13.w,
                       width: 13.w,
