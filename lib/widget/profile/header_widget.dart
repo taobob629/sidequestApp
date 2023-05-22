@@ -84,7 +84,7 @@ class ProfileHeaderWidget extends GetView<UserController> {
                     badges.Badge(
                       showBadge: controller.userProfile.followerToday > 0,
                       badgeContent: Text(
-                        "${controller.userProfile.fans}",
+                        "${controller.userProfile.followerToday}",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10.sp,
