@@ -58,7 +58,7 @@ class TaskDetailPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 15.w, top: 20.h),
                       child: Text(
-                        'Activity Rules'.tr,
+                        'Info'.tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: FONT_MEDIUM,
@@ -143,7 +143,7 @@ class TaskDetailPage extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Activity Name： '.tr,
+                                'Name: '.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
@@ -163,7 +163,7 @@ class TaskDetailPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Activity Rule： ',
+                                'Rule: '.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
@@ -191,7 +191,7 @@ class TaskDetailPage extends StatelessWidget {
                           top: 10.h,
                         ),
                         child: Text(
-                          'Active record'.tr,
+                          'Record'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: FONT_MEDIUM,
