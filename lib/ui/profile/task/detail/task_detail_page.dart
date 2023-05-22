@@ -249,7 +249,7 @@ class TaskDetailPage extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Image.asset(
-                                          ImageUtils.icon_naicha,
+                                          ImageUtils.ic_coupons_new,
                                           width: 20.w,
                                           height: 19.h,
                                         ),

@@ -39,6 +39,7 @@ class ImageUtils {
   static const String task_received_icon = 'assets/images/task_received_icon.webp';
   static const String task_expired_icon = 'assets/images/task_expired_icon.webp';
   static const String icon_naicha = 'assets/images/icon_naicha.webp';
+  static const String ic_coupons_new = 'assets/images/ic_coupons_new.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
