@@ -38,7 +38,7 @@ class ProfileHeaderWidget extends GetView<UserController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       badges.Badge(
-                        showBadge: controller.userProfile.followerToday > 0,
+                        showBadge: false,
                         badgeContent: Container(
                           alignment: Alignment.center,
                           child: Text(
@@ -82,7 +82,7 @@ class ProfileHeaderWidget extends GetView<UserController> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     badges.Badge(
-                      showBadge: false,
+                      showBadge: controller.userProfile.followerToday > 0,
                       badgeContent: Text(
                         "${controller.userProfile.fans}",
                         style: TextStyle(
