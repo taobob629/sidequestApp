@@ -246,6 +246,7 @@ class TaskDetailPage extends StatelessWidget {
                                           EdgeInsets.fromLTRB(0, 8.h, 0, 8.h),
                                     ),
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Image.asset(
                                           ImageUtils.icon_naicha,
@@ -262,8 +263,6 @@ class TaskDetailPage extends StatelessWidget {
                                               fontSize: 14.sp,
                                               fontFamily: FONT_MEDIUM,
                                             ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         Visibility(
