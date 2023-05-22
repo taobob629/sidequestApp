@@ -69,6 +69,9 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     var uk = await Get.to(() {
       return MulitablePlayOrderPage(
         serviceItemList: [serviceItem],
+        discount: jsonDecode(serviceItem.discount)['enable'] == 1
+            ? getItemDiscount(serviceItem.discount)
+            : '',
       );
     });
     // flog('$res', 'Get.to(()=>PlayOrder');
@@ -104,7 +107,8 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
           : 0;
     }
     for (int i = 0; i < model!.serviceItem.length; i++) {
-      if (model!.serviceItem[i].discount != '') {
+      if (model!.serviceItem[i].discount != '' &&
+          jsonDecode(model!.serviceItem[i].discount)['enable'] == 1) {
         discount = model!.serviceItem[i].discount;
         break;
       }
@@ -126,6 +130,24 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   String getDiscount() {
     if (model == null || discount == '') {
       return '';
+    }
+    if (discount.contains('type')) {
+      dynamic result = jsonDecode(discount);
+      int type = result['type'];
+      if (type == 1) {
+        return 'Discount ${result['discount']}% OFF';
+      } else if (type == 2) {
+        return 'Buy ${result['buy']} Get ${result['get']}';
+      } else if (type == 3) {
+        return '1st Order Free ${result['discount']}% OFF';
+      }
+    }
+    return discount;
+  }
+
+  String getItemDiscount(String discount) {
+    if (discount.isEmpty) {
+      return discount;
     }
     dynamic result = jsonDecode(discount);
     int type = result['type'];

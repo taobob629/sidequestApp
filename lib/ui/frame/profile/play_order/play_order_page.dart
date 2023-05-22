@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/model/play_detail_model.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/common/input_view.dart';
@@ -30,10 +29,15 @@ import '../../../im/pay_button.dart';
 class MulitablePlayOrderPage extends StatelessWidget {
   late final List<ServiceItem> serviceItemList;
   late final MulitablePlayOrderController controller;
+  late final String discount;
 
   TextEditingController textCon = TextEditingController();
 
-  MulitablePlayOrderPage({required this.serviceItemList, String code = ""}) {
+  MulitablePlayOrderPage({
+    required this.serviceItemList,
+    String code = "",
+    this.discount = '',
+  }) {
     controller = Get.put(MulitablePlayOrderController(serviceItemList, code));
   }
 
@@ -71,18 +75,23 @@ class MulitablePlayOrderPage extends StatelessWidget {
                 value: controller.preOrderDm.value,
                 errorOnTap: () async => getTime(),
                 initViewIsCenter: true,
-                initialState: PWidget.container(buildLoad(), {'pd': PFun.lg(16, 16)}),
+                initialState:
+                    PWidget.container(buildLoad(), {'pd': PFun.lg(16, 16)}),
                 isAnimatedSize: true,
                 objectBuilder: (v) {
                   return PWidget.column([
                     PWidget.container(
                       PWidget.column([
                         PWidget.row([
-                          PWidget.text('SUBTOTAL'.tr, [Colors.white, 18], {'exp': true}),
-                          PWidget.image("assets/images/ic_balance_money.webp", [20, 20]),
+                          PWidget.text(
+                              'SUBTOTAL'.tr, [Colors.white, 18], {'exp': true}),
+                          PWidget.image(
+                              "assets/images/ic_balance_money.webp", [20, 20]),
                           PWidget.boxw(5),
                           // PWidget.text('112', [Colors.white, 16]),
-                          PWidget.text(controller.preOrderDm.value.object?['subtotal'], [Colors.white, 16]),
+                          PWidget.text(
+                              controller.preOrderDm.value.object?['subtotal'],
+                              [Colors.white, 16]),
                         ]),
                         PWidget.boxh(15),
                         // PWidget.row([
@@ -98,21 +107,23 @@ class MulitablePlayOrderPage extends StatelessWidget {
                         // }),
                         ///优惠卷
                         GestureDetector(
-                          onTap: () => Get.find<UserController>().checkLogin(() => NavigatorHelper.gotoCouponPage(
-                              preOrder: controller.getPayOrderModel().toJson(),
-                              //  payOrderModel: pageController.getPayOrderModel(),
-                              onSelect: (model) async {
-                                //  flog('v $model');
-                                controller.couponId = model.id ?? 0;
-                                controller.calculateMulit();
-                                // await controller.calculate(
-                                //   serviceItem.skillAuthid.toString(),
-                                //   liveUid,
-                                //   '${serviceItem['id']}',
-                                //   model.id,
-                                //   model.couponCode,
-                                // );
-                              })),
+                          onTap: () => Get.find<UserController>().checkLogin(
+                              () => NavigatorHelper.gotoCouponPage(
+                                  preOrder:
+                                      controller.getPayOrderModel().toJson(),
+                                  //  payOrderModel: pageController.getPayOrderModel(),
+                                  onSelect: (model) async {
+                                    //  flog('v $model');
+                                    controller.couponId = model.id ?? 0;
+                                    controller.calculateMulit();
+                                    // await controller.calculate(
+                                    //   serviceItem.skillAuthid.toString(),
+                                    //   liveUid,
+                                    //   '${serviceItem['id']}',
+                                    //   model.id,
+                                    //   model.couponCode,
+                                    // );
+                                  })),
                           child: Container(
                             color: Colors.transparent,
                             child: Row(
@@ -120,7 +131,8 @@ class MulitablePlayOrderPage extends StatelessWidget {
                               children: [
                                 Text(
                                   "Vouchers".tr,
-                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 ),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
@@ -132,17 +144,28 @@ class MulitablePlayOrderPage extends StatelessWidget {
                           ),
                         ),
                         Obx(() {
-                          if (controller.preOrderDm.value.object?['discount'] == null || controller.preOrderDm.value.object?['discount'] == 0) return PWidget.boxh(0);
+                          if (controller.preOrderDm.value.object?['discount'] ==
+                                  null ||
+                              controller.preOrderDm.value.object?['discount'] ==
+                                  0) return PWidget.boxh(0);
                           return PWidget.container(
                             PWidget.row([
-                              PWidget.text("${'Discount'.tr}", [Colors.white, 18], {'exp': true}),
+                              PWidget.text("${'Discount'.tr}",
+                                  [Colors.white, 18], {'exp': true}),
                               Stack(clipBehavior: Clip.none, children: [
                                 PWidget.row([
-                                  PWidget.image("assets/images/ic_balance_money.webp", [16, 16]),
+                                  PWidget.image(
+                                      "assets/images/ic_balance_money.webp",
+                                      [16, 16]),
                                   PWidget.boxw(5),
-                                  PWidget.text('${controller.preOrderDm.value.object?['coupon'] ?? ''}  ${controller.preOrderDm.value.object?['discount'] ?? ''}', [Colors.white54, 16]),
+                                  PWidget.text(
+                                      '${controller.preOrderDm.value.object?['coupon'] ?? ''}  ${controller.preOrderDm.value.object?['discount'] ?? ''}',
+                                      [Colors.white54, 16]),
                                 ]),
-                                PWidget.positioned(PWidget.container(null, [null, 1, Colors.white]), [10, null, -4, -4]),
+                                PWidget.positioned(
+                                    PWidget.container(
+                                        null, [null, 1, Colors.white]),
+                                    [10, null, -4, -4]),
                               ]),
                             ]),
                             {'pd': PFun.lg(15, 15)},
@@ -150,11 +173,15 @@ class MulitablePlayOrderPage extends StatelessWidget {
                         }),
                         PWidget.boxh(15),
                         PWidget.row([
-                          PWidget.text("${'TOTAL'.tr}", [Color(0xffeeca46), 24, true], {'exp': true}),
-                          PWidget.image("assets/images/ic_balance_money.webp", [28, 28]),
+                          PWidget.text("${'TOTAL'.tr}",
+                              [Color(0xffeeca46), 24, true], {'exp': true}),
+                          PWidget.image(
+                              "assets/images/ic_balance_money.webp", [28, 28]),
                           PWidget.boxw(5),
                           Obx(() {
-                            return PWidget.text(controller.preOrderDm.value.object?['total'], [Color(0xffeeca46), 24]);
+                            return PWidget.text(
+                                controller.preOrderDm.value.object?['total'],
+                                [Color(0xffeeca46), 24]);
                           }),
                         ]),
                       ]),
@@ -180,8 +207,10 @@ class MulitablePlayOrderPage extends StatelessWidget {
         Container(
           clipBehavior: Clip.antiAlias,
           margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-          decoration: BoxDecoration(color: Color(0xff28253D), borderRadius: BorderRadius.circular(12)),
-          child: Column(
+          decoration: BoxDecoration(
+              color: Color(0xff28253D),
+              borderRadius: BorderRadius.circular(12)),
+          child: Stack(
             children: [
               Container(
                 height: 105,
@@ -195,7 +224,8 @@ class MulitablePlayOrderPage extends StatelessWidget {
                       width: 80,
                       height: 80,
                       clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
                       child: serviceItem.avatar.isNotEmpty
                           ? CachedNetworkImage(
                               imageUrl: serviceItem.avatar,
@@ -217,7 +247,10 @@ class MulitablePlayOrderPage extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 serviceItem.skillName,
-                                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: "DIN"),
                               ),
                             ),
                           ),
@@ -226,7 +259,10 @@ class MulitablePlayOrderPage extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 serviceItem.name,
-                                style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "DIN"),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontFamily: "DIN"),
                               ),
                             ),
                           ),
@@ -234,6 +270,31 @@ class MulitablePlayOrderPage extends StatelessWidget {
                       ),
                     )
                   ],
+                ),
+              ),
+              Visibility(
+                visible: discount != '',
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xffDA7A19),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      topRight: Radius.circular(15.r),
+                      bottomRight: Radius.circular(15.r),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
+                  child: Text(
+                    discount,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9.sp,
+                      fontFamily: 'DIN',
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -244,15 +305,20 @@ class MulitablePlayOrderPage extends StatelessWidget {
             PWidget.text(serviceItem.skillName, [Colors.white], {'exp': true}),
             PWidget.image("assets/images/ic_balance_money.webp", [18, 18]),
             PWidget.boxw(5),
-            PWidget.text("${serviceItem.price}", [Colors.white, 18, true], {'null': ''}),
-            PWidget.text(" / ${serviceItem.unit}", [Colors.white, 12], {'null': '', 'exp': true}),
+            PWidget.text(
+                "${serviceItem.price}", [Colors.white, 18, true], {'null': ''}),
+            PWidget.text(" / ${serviceItem.unit}", [Colors.white, 12],
+                {'null': '', 'exp': true}),
             PWidget.boxw(4),
             Obx(() => QuantitySelector(
                   initValue: serviceItem.num.value,
                   tag: serviceItem.id.toString(),
                   onQuantityChanged: (quantity) async {
                     // serviceItem.num.value = quantity;
-                    controller.serviceItemList.firstWhere((service) => service.id == serviceItem.id).num.value = quantity;
+                    controller.serviceItemList
+                        .firstWhere((service) => service.id == serviceItem.id)
+                        .num
+                        .value = quantity;
                     // flog(serviceItem);
                     controller.calculateMulit();
                   },
@@ -268,7 +334,8 @@ class MulitablePlayOrderPage extends StatelessWidget {
     return SelectView(
       label: "Play Time",
       tips: "What Time",
-      value: formatDate(controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
+      value: formatDate(
+          controller.time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
       onTap: () {
         controller.showSelectTime();
       },
@@ -288,7 +355,8 @@ class YouhuiquanInputWidget extends StatefulWidget {
   final TextEditingController textCon;
   final Function(String) fun;
 
-  const YouhuiquanInputWidget(this.textCon, this.fun, {Key? key}) : super(key: key);
+  const YouhuiquanInputWidget(this.textCon, this.fun, {Key? key})
+      : super(key: key);
 
   @override
   _YouhuiquanInputWidgetState createState() => _YouhuiquanInputWidgetState();
@@ -311,9 +379,20 @@ class _YouhuiquanInputWidgetState extends State<YouhuiquanInputWidget> {
           onChanged: (v) => setState(() {}),
         ),
         PWidget.container(
-          PWidget.text('Submit'.tr, [Colors.white.withOpacity(widget.textCon.text.isEmpty ? 0.2 : 0.7)]),
-          [null, null, Colors.white.withOpacity(widget.textCon.text.isEmpty ? 0.1 : 0.2)],
-          {'pd': PFun.lg(4, 4, 12, 12), 'br': 4, if (widget.textCon.text.isNotEmpty) 'fun': () => widget.fun(widget.textCon.text)},
+          PWidget.text('Submit'.tr, [
+            Colors.white.withOpacity(widget.textCon.text.isEmpty ? 0.2 : 0.7)
+          ]),
+          [
+            null,
+            null,
+            Colors.white.withOpacity(widget.textCon.text.isEmpty ? 0.1 : 0.2)
+          ],
+          {
+            'pd': PFun.lg(4, 4, 12, 12),
+            'br': 4,
+            if (widget.textCon.text.isNotEmpty)
+              'fun': () => widget.fun(widget.textCon.text)
+          },
         ),
       ]),
       [null, null, Colors.white.withOpacity(0.1)],
@@ -401,7 +480,9 @@ class MulitablePlayOrderController extends GetxController {
       //     .toList();
 
       serviceItemList.value = res.data["serviceItems"].map<ServiceItem>((e) {
-        return ServiceItem.fromJson(e)..num.value = serviceItemList.firstWhere((ser) => ser.id == e["id"]).num.value;
+        return ServiceItem.fromJson(e)
+          ..num.value =
+              serviceItemList.firstWhere((ser) => ser.id == e["id"]).num.value;
       }).toList();
 
       // serviceItemList.value = serviceItemList;
@@ -414,6 +495,7 @@ class MulitablePlayOrderController extends GetxController {
     preOrderDm.refresh();
     return preOrderDm.value.flag;
   }
+
   // Future<CalculateModel> getPreorder(String skillAuthId, String liveuid, String serviceItemId) async {
   //
   //   await http.get('/peiwan/app/order/preOrder', queryParameters: {

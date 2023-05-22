@@ -841,7 +841,7 @@ class OtherProfileController extends BasePageController {
     });
   }
 
-  editService(GamesItem game, ServiceItem serviceItem) async {
+  editService(GamesItem game, ServiceItem serviceItem, String discount) async {
     if (isSelf) {
       // Get.toNamed(AppPages.ServiceAndOrders);
       List<SkillModel> list = await UserApi.myauthlist();
@@ -854,6 +854,7 @@ class OtherProfileController extends BasePageController {
       var uk = await Get.to(() {
         return MulitablePlayOrderPage(
           serviceItemList: [serviceItem],
+          discount: discount,
         );
       });
       // flog('$res', 'Get.to(()=>PlayOrder');
@@ -932,7 +933,32 @@ class OtherProfileController extends BasePageController {
     // });
   }
 
-  String getDiscount(String discount) {
+  String getDiscount(List<ServiceItem> serviceItem) {
+    String discount = '';
+    for (int i = 0; i < serviceItem.length; i++) {
+      if (serviceItem[i].discount != '' &&
+          jsonDecode(serviceItem[i].discount)['enable'] == 1) {
+        discount = serviceItem[i].discount;
+        break;
+      }
+    }
+
+    if (discount.contains('type')) {
+      dynamic result = jsonDecode(discount);
+      int type = result['type'];
+      if (type == 1) {
+        return 'Discount ${result['discount']}% OFF';
+      } else if (type == 2) {
+        return 'Buy ${result['buy']} Get ${result['get']}';
+      } else if (type == 3) {
+        return '1st Order Free ${result['discount']}% OFF';
+      }
+    }
+
+    return discount;
+  }
+
+  String getItemDiscount(String discount) {
     if (discount.isEmpty) {
       return discount;
     }

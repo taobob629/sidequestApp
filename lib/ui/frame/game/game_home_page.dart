@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -387,241 +389,211 @@ class GameHomePage extends StatelessWidget {
         ),
       );
 
-  Widget _gameInfoWidget() => Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
-            decoration: BoxDecoration(
-              color: Color(0xff262731),
+  Widget _gameInfoWidget() => Container(
+        margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 15.h),
+        decoration: BoxDecoration(
+          color: Color(0xff262731),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Column(
+          children: [
+            6.verticalSpace,
+            ClipRRect(
               borderRadius: BorderRadius.circular(15.r),
+              child: ImageUtil.networkImage(
+                url: _ctr.model?.backGround ?? '',
+                fit: BoxFit.cover,
+                height: 188.w,
+              ),
             ),
-            child: Column(
-              children: [
-                6.verticalSpace,
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.r),
-                  child: ImageUtil.networkImage(
-                    url: _ctr.model?.backGround ?? '',
-                    fit: BoxFit.cover,
-                    height: 188.w,
-                  ),
+            20.verticalSpace,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _ctr.model?.intro ?? '',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: FONT_MEDIUM,
                 ),
-                20.verticalSpace,
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _ctr.model?.intro ?? '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: FONT_MEDIUM,
+                maxLines: 8,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.server.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Server'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
                     ),
-                    maxLines: 8,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.server ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
                 ),
-                if (_ctr.model?.server.isNotEmpty == true) 15.verticalSpace,
-                if (_ctr.model?.server.isNotEmpty == true)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Server'.tr,
-                            style: TextStyle(
-                                color: Color(0xff808388),
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            _ctr.model?.server ?? '',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                      ],
+              ),
+            if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.position.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Position'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.position ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
+            if (_ctr.model?.style.isNotEmpty == true)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Styles'.tr,
+                        style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        _ctr.model?.style ?? '',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            15.verticalSpace,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Platform'.tr,
+                      style: TextStyle(
+                          color: Color(0xff808388),
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM),
                     ),
                   ),
-                if (_ctr.model?.position.isNotEmpty == true) 15.verticalSpace,
-                if (_ctr.model?.position.isNotEmpty == true)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Position'.tr,
-                            style: TextStyle(
-                                color: Color(0xff808388),
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            _ctr.model?.position ?? '',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                      ],
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      _ctr.model?.platform ?? '',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM),
                     ),
                   ),
-                if (_ctr.model?.style.isNotEmpty == true) 15.verticalSpace,
-                if (_ctr.model?.style.isNotEmpty == true)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Styles'.tr,
-                            style: TextStyle(
-                                color: Color(0xff808388),
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            _ctr.model?.style ?? '',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                15.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                ],
+              ),
+            ),
+            if (_ctr.model?.status == 0)
+              Container(
+                padding: EdgeInsets.only(left: 15.w, top: 10.h),
+                child: Row(
+                  children: [
+                    ImageUtil.assetImage('ic_under_review',
+                        width: 13.w, height: 13.w),
+                    4.horizontalSpace,
+                    Text(
+                      'under review'.tr,
+                      style: TextStyle(
+                          color: Color(0xFF3F92FF),
+                          fontSize: 10.sp,
+                          fontFamily: FONT_LIGHT),
+                    )
+                  ],
+                ),
+              ),
+            if (_ctr.model?.status == 2)
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTapDown: (details) {
+                  print(details.globalPosition);
+                  Get.dialog(TipsDialog(
+                    offset: details.globalPosition,
+                    tips: _ctr.model?.rejectReason ?? "",
+                  ));
+                },
+                child: Container(
+                  padding: EdgeInsets.only(left: 15.w, top: 10.h),
                   child: Row(
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          'Platform'.tr,
-                          style: TextStyle(
-                              color: Color(0xff808388),
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: FONT_MEDIUM),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Text(
-                          _ctr.model?.platform ?? '',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: FONT_MEDIUM),
-                        ),
-                      ),
+                      ImageUtil.assetImage('ic_info_red',
+                          width: 13.w, height: 13.w),
+                      4.horizontalSpace,
+                      Text(
+                        'REJECT'.tr,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 10.sp,
+                            fontFamily: FONT_LIGHT),
+                      )
                     ],
                   ),
                 ),
-                if (_ctr.model?.status == 0)
-                  Container(
-                    padding: EdgeInsets.only(left: 15.w, top: 10.h),
-                    child: Row(
-                      children: [
-                        ImageUtil.assetImage('ic_under_review',
-                            width: 13.w, height: 13.w),
-                        4.horizontalSpace,
-                        Text(
-                          'under review'.tr,
-                          style: TextStyle(
-                              color: Color(0xFF3F92FF),
-                              fontSize: 10.sp,
-                              fontFamily: FONT_LIGHT),
-                        )
-                      ],
-                    ),
-                  ),
-                if (_ctr.model?.status == 2)
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTapDown: (details) {
-                      print(details.globalPosition);
-                      Get.dialog(TipsDialog(
-                        offset: details.globalPosition,
-                        tips: _ctr.model?.rejectReason ?? "",
-                      ));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 15.w, top: 10.h),
-                      child: Row(
-                        children: [
-                          ImageUtil.assetImage('ic_info_red',
-                              width: 13.w, height: 13.w),
-                          4.horizontalSpace,
-                          Text(
-                            'REJECT'.tr,
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 10.sp,
-                                fontFamily: FONT_LIGHT),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                20.verticalSpace,
-              ],
-            ),
-          ),
-          Visibility(
-            visible: _ctr.getDiscount() != '',
-            child: Container(
-              margin: EdgeInsets.only(left: 15.w),
-              decoration: BoxDecoration(
-                color: Color(0xffDA7A19),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.r),
-                  topRight: Radius.circular(15.r),
-                  bottomRight: Radius.circular(15.r),
-                ),
               ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 10.w,
-                vertical: 4.h,
-              ),
-              child: Text(
-                _ctr.getDiscount(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 9.sp,
-                  fontFamily: FONT_MEDIUM,
-                ),
-              ),
-            ),
-          ),
-        ],
+            20.verticalSpace,
+          ],
+        ),
       );
 
   Widget _userInfoWidget() => Container(
@@ -793,86 +765,142 @@ class GameHomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+            if (_ctr.getDiscount() != '')
+              Positioned(
+                left: 15.w,
+                top: 10.h,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xffDA7A19),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      topRight: Radius.circular(15.r),
+                      bottomRight: Radius.circular(15.r),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
+                  ),
+                  child: Text(
+                    _ctr.getItemDiscount(
+                        _ctr.model?.serviceItem[0].discount ?? ''),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       );
 
-  Widget itemWidget(ServiceItem service) => Container(
-        height: 44.h,
-        padding: EdgeInsets.only(left: 15.w),
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColor.itemBg2,
-              width: 1.w,
-            ),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              service.name,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+  Widget itemWidget(ServiceItem service) => Stack(
+        children: [
+          Container(
+            height: 44.h,
+            padding: EdgeInsets.only(left: 15.w),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColor.itemBg2,
+                  width: 1.w,
+                ),
               ),
             ),
-            Spacer(),
-            Row(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image(
-                  image: AssetImage('assets/images/ic_balance_money.webp'),
-                  width: 15.w,
-                  height: 15.w,
+                Text(
+                  service.name,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                3.horizontalSpace,
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                    text: '${double.parse(service.price).floor()}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: FONT_MEDIUM,
+                Spacer(),
+                Row(
+                  children: [
+                    Image(
+                      image: AssetImage('assets/images/ic_balance_money.webp'),
+                      width: 15.w,
+                      height: 15.w,
                     ),
-                  ),
-                  TextSpan(
-                    text: '/${service.unit}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 8.sp,
-                      fontFamily: FONT_MEDIUM,
-                    ),
-                  ),
-                ])),
-                10.horizontalSpace,
-                GestureDetector(
-                  onTap: () => _ctr.editService(service),
-                  child: Container(
-                    width: 52,
-                    height: 26,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
-                      color: AppColor.yellow,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Play".tr,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColor.tabBackGround,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM,
+                    3.horizontalSpace,
+                    Text.rich(TextSpan(children: [
+                      TextSpan(
+                        text: '${double.parse(service.price).floor()}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '/${service.unit}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                      ),
+                    ])),
+                    10.horizontalSpace,
+                    GestureDetector(
+                      onTap: () => _ctr.editService(service),
+                      child: Container(
+                        width: 52,
+                        height: 26,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(13),
+                          color: AppColor.yellow,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Play".tr,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColor.tabBackGround,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+          if (_ctr.getItemDiscount(service.discount).isNotEmpty &&
+              jsonDecode(service.discount)['enable'] == 1)
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xffDA7A19),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.r),
+                  topRight: Radius.circular(15.r),
+                  bottomRight: Radius.circular(15.r),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 4.h,
+              ),
+              child: Text(
+                _ctr.getItemDiscount(service.discount),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 9.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+              ),
+            ),
+        ],
       );
 }

@@ -16,6 +16,7 @@ import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
 import '../../game/game_home_page.dart';
+import 'mdoel/player_info_mdoel.dart';
 import 'other_profile_page.dart';
 
 class OtherDashboardPage extends StatelessWidget {
@@ -264,7 +265,24 @@ class OtherDashboardPage extends StatelessWidget {
                                                           t.editService(
                                                               game,
                                                               game.serviceItem
-                                                                  .first);
+                                                                  .first,
+                                                              (game.serviceItem
+                                                                              .length >=
+                                                                          1 &&
+                                                                      t
+                                                                          .getItemDiscount(game
+                                                                              .serviceItem[
+                                                                                  0]
+                                                                              .discount)
+                                                                          .isNotEmpty &&
+                                                                      jsonDecode(game.serviceItem[0].discount)[
+                                                                              'enable'] ==
+                                                                          1)
+                                                                  ? t.getItemDiscount(game
+                                                                      .serviceItem[
+                                                                          0]
+                                                                      .discount)
+                                                                  : '');
                                                         } else {
                                                           game.ifShow.value =
                                                               !game
@@ -288,9 +306,7 @@ class OtherDashboardPage extends StatelessWidget {
                                             color: AppColor.itemBg,
                                           ),
                                           margin: EdgeInsets.only(
-                                              top: service.enabled
-                                                  ? 10.h
-                                                  : 0),
+                                              top: service.enabled ? 10.h : 0),
                                           child: Stack(
                                             children: [
                                               Container(
@@ -361,8 +377,20 @@ class OtherDashboardPage extends StatelessWidget {
                                                                   .translucent,
                                                           onTap: () =>
                                                               t.editService(
-                                                                  game,
-                                                                  service),
+                                                            game,
+                                                            service,
+                                                            ((t
+                                                                        .getItemDiscount(service
+                                                                            .discount)
+                                                                        .isNotEmpty &&
+                                                                    jsonDecode(service.discount)[
+                                                                            'enable'] ==
+                                                                        1))
+                                                                ? t.getItemDiscount(
+                                                                    service
+                                                                        .discount)
+                                                                : '',
+                                                          ),
                                                           child: Container(
                                                             width: 28.w,
                                                             height: 28.w,
@@ -390,7 +418,7 @@ class OtherDashboardPage extends StatelessWidget {
                                                 ),
                                               ),
                                               if (t
-                                                      .getDiscount(
+                                                      .getItemDiscount(
                                                           service.discount)
                                                       .isNotEmpty &&
                                                   jsonDecode(service.discount)[
@@ -416,7 +444,7 @@ class OtherDashboardPage extends StatelessWidget {
                                                     vertical: 4.h,
                                                   ),
                                                   child: Text(
-                                                    t.getDiscount(
+                                                    t.getItemDiscount(
                                                         service.discount),
                                                     style: TextStyle(
                                                       color: Colors.white,
@@ -434,13 +462,7 @@ class OtherDashboardPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              if (game.serviceItem.length >= 1 &&
-                                  t
-                                      .getDiscount(game.serviceItem[0].discount)
-                                      .isNotEmpty &&
-                                  jsonDecode(game.serviceItem[0].discount)[
-                                          'enable'] ==
-                                      1)
+                              if (t.getDiscount(game.serviceItem) != '')
                                 Transform.translate(
                                   offset: Offset(20, -5.h),
                                   child: Container(
@@ -457,8 +479,7 @@ class OtherDashboardPage extends StatelessWidget {
                                       vertical: 4.h,
                                     ),
                                     child: Text(
-                                      t.getDiscount(
-                                          game.serviceItem[0].discount),
+                                      t.getDiscount(game.serviceItem),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 9.sp,
