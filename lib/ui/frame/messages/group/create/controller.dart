@@ -14,6 +14,7 @@ import 'package:wy/ui/frame/messages/chat/chat_page.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 enum GroupTypeForUIKit { single, work, chat, meeting, public }
 
@@ -54,6 +55,7 @@ class CreateGroupController extends BasePageController {
     }
     String groupName = teRoomName.text;
     String desc = teIntrodution.text;
+    showLoading();
     final res = await _sdkInstance.getGroupManager().createGroup(
         groupType: groupType,
         groupName: groupName,
@@ -72,21 +74,23 @@ class CreateGroupController extends BasePageController {
               showName: groupName,
               groupType: groupType,
               groupID: groupID);
+      dismissLoading();
       // ImUtils.sendGroupCustomMsg(
       //     Map()
       //       ..['desc'] = '${user.nickName} has created group'.tr
       //       ..['type'] = MessageType.TYPE_CREATE_GROUP,
       //     gid: groupID);
-      ImUtils.changeNotification( Map()
-        ..['desc'] = desc
-        ..['type'] = MessageType.TYPE_CREATE_GROUP,gid: groupID);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ChatPage(selectedConversation: conversation)));
-      showShareDialog(conversation,context);
-
+      ImUtils.changeNotification(
+          Map()
+            ..['desc'] = desc
+            ..['type'] = MessageType.TYPE_CREATE_GROUP,
+          gid: groupID);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => ChatPage(selectedConversation: conversation)));
+      showShareDialog(conversation, context);
+    } else {
+      showToast(res.desc);
+      dismissLoading();
     }
   }
 

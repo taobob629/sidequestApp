@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:badges/badges.dart';
@@ -151,7 +152,7 @@ class PostListItemView extends GetView<PostListController> {
                             clipBehavior: Clip.antiAlias,
                             child: QrImage(
                               foregroundColor: Colors.white,
-                              data: imgUrl,
+                              data: jsonEncode(Map()..['gid'] = imgUrl),
                             ),
                           )
                         : GestureDetector(

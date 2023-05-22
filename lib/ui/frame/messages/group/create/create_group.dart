@@ -34,6 +34,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
               InputView(
                 label: 'Room Name'.tr,
                 tips: 'Enter room name'.tr,
+                maxLength: 30,
                 controller: controller.teRoomName,
               ),
               // InputView(
@@ -108,9 +109,7 @@ class CreateGroupPage extends GetView<CreateGroupController> {
               30.verticalSpace,
               FloatingButton(
                 label: 'Create Room',
-                onTap: ()=>{
-                controller.createGroup(context)
-                },
+                onTap: () => {controller.createGroup(context)},
               )
             ],
           )),
