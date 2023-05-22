@@ -12,6 +12,8 @@ class PostItemModel {
   String head = "";
   String createTime = "";
   RxBool isPraise = RxBool(false);
+  var newComment = RxInt(0);
+  var newPraise = RxInt(0);
   String content = "";
   int uid = 0;
   int id = 0;
@@ -41,6 +43,8 @@ class PostItemModel {
     head = json["head"] ?? "";
     createTime = json["createTime"] ?? "";
     isPraise.value = (json["isPraise"] ?? 0) == 1;
+    newComment.value = json["newComment"] ?? 0;
+    newPraise.value = json["newPraise"] ?? 0;
     content = json["content"] ?? "";
     uid = json["uid"] ?? 0;
     id = json["id"] ?? 0;

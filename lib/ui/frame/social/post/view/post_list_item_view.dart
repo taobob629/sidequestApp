@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,11 +17,16 @@ import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
-
+import 'package:badges/badges.dart' as badges;
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends GetView<PostListController> {
-  PostListItemView({Key? key, required this.model, this.onTap, this.onDelete, this.isSelf = false})
+  PostListItemView(
+      {Key? key,
+      required this.model,
+      this.onTap,
+      this.onDelete,
+      this.isSelf = false})
       : super(key: key);
   final PostItemModel model;
   bool isSelf = false;
@@ -35,8 +41,9 @@ class PostListItemView extends GetView<PostListController> {
       },
       child: Container(
         margin: EdgeInsets.all(15),
-        decoration:
-            BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+        decoration: BoxDecoration(
+            border:
+                Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
         child: Column(
           children: [
             Container(
@@ -100,7 +107,9 @@ class PostListItemView extends GetView<PostListController> {
                             ? Text(
                                 model.content,
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
                                 // maxLines: null,
                                 // overflow: TextOverflow.ellipsis,
                               )
@@ -133,34 +142,38 @@ class PostListItemView extends GetView<PostListController> {
                 crossAxisSpacing: 10,
                 childAspectRatio: model.imageList.length == 1 ? 345 / 195 : 1,
                 children: model.imageList
-                    .map((imgUrl) => (model.type==TYPE_INVITE)?Container(
-                  alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
-                    clipBehavior: Clip.antiAlias,
-                    child:QrImage(
-                      foregroundColor: Colors.white,
-                      data: imgUrl,
-                    ),
-                ):GestureDetector(
-                          onTap: () {
-                            Get.dialog(
-                                CsPhotoViewer(
-                                  photoList: model.imageList,
-                                  tapIndex: model.imageList.indexOf(imgUrl),
-                                ),
-                                useSafeArea: false);
-                          },
-                          child: Container(
+                    .map((imgUrl) => (model.type == TYPE_INVITE)
+                        ? Container(
+                            alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15), color: Color(0xff313033)),
+                                borderRadius: BorderRadius.circular(15),
+                                color: Color(0xff313033)),
                             clipBehavior: Clip.antiAlias,
-                            child: ImageUtil.networkImage(
-                              url: imgUrl,
-                              fit: BoxFit.cover,
+                            child: QrImage(
+                              foregroundColor: Colors.white,
+                              data: imgUrl,
                             ),
-                          ),
-                        ))
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              Get.dialog(
+                                  CsPhotoViewer(
+                                    photoList: model.imageList,
+                                    tapIndex: model.imageList.indexOf(imgUrl),
+                                  ),
+                                  useSafeArea: false);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color(0xff313033)),
+                              clipBehavior: Clip.antiAlias,
+                              child: ImageUtil.networkImage(
+                                url: imgUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ))
                     .toList(),
               ),
             Container(
@@ -181,13 +194,21 @@ class PostListItemView extends GetView<PostListController> {
                               width: 16,
                             ),
                           ),
-                          Text(
-                            model.commentNum.toString(),
-                            style: TextStyle(
-                              color: Color(0xff808388),
-                              fontSize: 11.sp,
+                          badges.Badge(
+                            showBadge: model.newComment.value > 0,
+                            badgeContent: Text(
+                              '${model.newComment.value}',
+                              style: TextStyle(fontSize: 10.sp),
                             ),
-                          )
+                            position: BadgePosition.topEnd(),
+                            child: Text(
+                              model.commentNum.toString(),
+                              style: TextStyle(
+                                color: Color(0xff808388),
+                                fontSize: 11.sp,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -197,7 +218,9 @@ class PostListItemView extends GetView<PostListController> {
                       behavior: HitTestBehavior.opaque,
                       onTapDown: (details) {
                         if (!isSelf) {
-                          PostListController.find.praisePost(model).then((value) {
+                          PostListController.find
+                              .praisePost(model)
+                              .then((value) {
                             if (value) {
                               model.isPraise.value = !model.isPraise.value;
                               if (model.isPraise.value) {
@@ -207,8 +230,9 @@ class PostListItemView extends GetView<PostListController> {
                               }
                             }
                           });
-                        }else{
-                          Get.toNamed(AppPages.PostDetail, arguments: model)!.whenComplete(() => controller.onRefresh());
+                        } else {
+                          Get.toNamed(AppPages.PostDetail, arguments: model)!
+                              .whenComplete(() => controller.onRefresh());
                         }
                       },
                       child: Container(
@@ -221,14 +245,27 @@ class PostListItemView extends GetView<PostListController> {
                                   child: Image.asset(
                                     "assets/images/profile/icon_dianzan.webp",
                                     width: 16,
-                                    color: model.isPraise.value ? Colors.pink : null,
+                                    color: model.isPraise.value
+                                        ? Colors.pink
+                                        : null,
                                   ),
                                 ),
-                                Text(
-                                  model.praiseNum.toString(),
-                                  style: TextStyle(
-                                    color: Color(0xff808388),
-                                    fontSize: 11.sp,
+                                badges.Badge(
+                                  showBadge: model.newPraise.value > 0,
+                                  badgeContent: Text(
+                                    '${model.newPraise.value}',
+                                    style: TextStyle(fontSize: 10.sp),
+                                  ),
+                                  position: BadgePosition.topEnd(),
+                                  child: Container(
+                                    //   padding: EdgeInsets.all(5).r,
+                                    child: Text(
+                                      model.praiseNum.toString(),
+                                      style: TextStyle(
+                                        color: Color(0xff808388),
+                                        fontSize: 11.sp,
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
@@ -251,7 +288,8 @@ class PostListItemView extends GetView<PostListController> {
                           if (heartNum != null) {
                             Future.delayed(Duration(milliseconds: 300)).then(
                               (v) {
-                                showHearts(context, details.globalPosition, heartNum);
+                                showHearts(
+                                    context, details.globalPosition, heartNum);
                               },
                             );
                           }
