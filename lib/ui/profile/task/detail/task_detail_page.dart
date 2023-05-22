@@ -137,6 +137,7 @@ class TaskDetailPage extends StatelessWidget {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
+                                  fontFamily: FONT_MEDIUM,
                                 ),
                               ),
                               Text(
@@ -157,6 +158,7 @@ class TaskDetailPage extends StatelessWidget {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,
+                                  fontFamily: FONT_MEDIUM,
                                 ),
                               ),
                               Expanded(
