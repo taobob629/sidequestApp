@@ -78,62 +78,52 @@ class TaskDetailPage extends StatelessWidget {
                       padding: EdgeInsets.all(15.r),
                       child: Column(
                         children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height: 22.w,
-                                margin: EdgeInsets.only(left: 10.w),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6.r),
-                                        child: LinearProgressIndicator(
-                                          value: ctr.taskModel.userNum /
-                                              ctr.taskModel.threshold,
-                                          backgroundColor: Color(0xff2D2E3A),
-                                          valueColor: AlwaysStoppedAnimation(
-                                              Color(0xffEAA18D)),
-                                          minHeight: 10.h,
-                                        ),
-                                      ),
+                          Container(
+                            height: 22.w,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(6.r),
+                                    child: LinearProgressIndicator(
+                                      value: ctr.taskModel.userNum /
+                                          ctr.taskModel.threshold,
+                                      backgroundColor: Color(0xff2D2E3A),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Color(0xffEAA18D)),
+                                      minHeight: 10.h,
                                     ),
-                                    8.horizontalSpace,
-                                    Text(
-                                      ctr.taskModel.userNum.toString(),
-                                      style: TextStyle(
-                                        color: Color(0xffEAA18D),
-                                        fontFamily: FONT_MEDIUM,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                    Text(
-                                      '/',
-                                      style: TextStyle(
-                                        color: Color(0xffffffff),
-                                        fontFamily: FONT_MEDIUM,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                    Text(
-                                      ctr.taskModel.threshold.toString(),
-                                      style: TextStyle(
-                                        color: Color(0xffffffff),
-                                        fontFamily: FONT_MEDIUM,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Image.asset(
-                                ImageUtils.icon_naicha,
-                                width: 22.w,
-                                height: 22.w,
-                              ),
-                            ],
+                                8.horizontalSpace,
+                                Text(
+                                  ctr.taskModel.userNum.toString(),
+                                  style: TextStyle(
+                                    color: Color(0xffEAA18D),
+                                    fontFamily: FONT_MEDIUM,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                                Text(
+                                  '/',
+                                  style: TextStyle(
+                                    color: Color(0xffffffff),
+                                    fontFamily: FONT_MEDIUM,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                                Text(
+                                  ctr.taskModel.threshold.toString(),
+                                  style: TextStyle(
+                                    color: Color(0xffffffff),
+                                    fontFamily: FONT_MEDIUM,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           Container(
                             height: 1.h,

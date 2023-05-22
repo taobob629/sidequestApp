@@ -31,7 +31,8 @@ class TaskPage extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 if (t.list[index].enabled == 0) {
-                  Get.to(() => TaskDetailPage(), arguments: t.list[index]);
+                  Get.to(() => TaskDetailPage(), arguments: t.list[index])
+                      ?.then((value) => t.onRefresh());
                 }
               },
               child: Container(
@@ -102,70 +103,58 @@ class TaskPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 22.w,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              20.horizontalSpace,
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6.r),
-                                  child: LinearProgressIndicator(
-                                    value: t.list[index].userNum /
-                                        t.list[index].threshold,
-                                    backgroundColor: Color(0xff2D2E3A),
-                                    valueColor: AlwaysStoppedAnimation(
-                                      t.list[index].enabled == 0
-                                          ? Color(0xffEAA18D)
-                                          : Colors.grey,
-                                    ),
-                                    minHeight: 10.h,
-                                  ),
-                                ),
-                              ),
-                              8.horizontalSpace,
-                              Text(
-                                t.list[index].userNum.toString(),
-                                style: TextStyle(
-                                  color: t.list[index].enabled == 0
+                    Container(
+                      height: 22.w,
+                      padding: EdgeInsets.only(left: 10.w),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(6.r),
+                              child: LinearProgressIndicator(
+                                value: t.list[index].userNum /
+                                    t.list[index].threshold,
+                                backgroundColor: Color(0xff2D2E3A),
+                                valueColor: AlwaysStoppedAnimation(
+                                  t.list[index].enabled == 0
                                       ? Color(0xffEAA18D)
                                       : Colors.grey,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontSize: 10.sp,
                                 ),
+                                minHeight: 10.h,
                               ),
-                              Text(
-                                '/',
-                                style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontFamily: FONT_MEDIUM,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                              Text(
-                                t.list[index].threshold.toString(),
-                                style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontFamily: FONT_MEDIUM,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
-                              10.horizontalSpace,
-                            ],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: Image.asset(
-                            ImageUtils.icon_naicha,
-                            width: 22.w,
-                            height: 22.w,
+                          8.horizontalSpace,
+                          Text(
+                            t.list[index].userNum.toString(),
+                            style: TextStyle(
+                              color: t.list[index].enabled == 0
+                                  ? Color(0xffEAA18D)
+                                  : Colors.grey,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            '/',
+                            style: TextStyle(
+                              color: Color(0xffffffff),
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          Text(
+                            t.list[index].threshold.toString(),
+                            style: TextStyle(
+                              color: Color(0xffffffff),
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          10.horizontalSpace,
+                        ],
+                      ),
                     ),
                     Container(
                       height: 1.h,
