@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
@@ -18,7 +19,7 @@ import 'package:wy/widget/cs_photo_viewer.dart';
 
 import 'give_gifts_dialog.dart';
 
-class PostListItemView extends StatelessWidget {
+class PostListItemView extends GetView<PostListController> {
   PostListItemView({Key? key, required this.model, this.onTap, this.onDelete, this.isSelf = false})
       : super(key: key);
   final PostItemModel model;
@@ -206,6 +207,8 @@ class PostListItemView extends StatelessWidget {
                               }
                             }
                           });
+                        }else{
+                          Get.toNamed(AppPages.PostDetail, arguments: model)!.whenComplete(() => controller.onRefresh());
                         }
                       },
                       child: Container(
