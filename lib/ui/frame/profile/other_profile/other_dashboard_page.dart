@@ -39,9 +39,14 @@ class OtherDashboardPage extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 12),
                       child: Row(
                         children: [
-                          Text("Badge".tr,
-                              style: TextStyle(
-                                  fontSize: 14.sp, color: Colors.white))
+                          Text(
+                            "Badge".tr,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -103,9 +108,14 @@ class OtherDashboardPage extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 12),
                   child: Row(
                     children: [
-                      Text("Services  ".tr,
-                          style:
-                              TextStyle(fontSize: 14.sp, color: Colors.white))
+                      Text(
+                        "Services  ".tr,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.white,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -145,157 +155,167 @@ class OtherDashboardPage extends StatelessWidget {
                                                     BorderRadius.circular(15)),
                                             child: ImageUtil.networkImage(
                                                 url: game.thumb,
-                                                width: 96,
-                                                height: 90,
+                                                width: 96.w,
+                                                height: 90.h,
                                                 fit: BoxFit.cover)),
                                         Expanded(
-                                            child: SizedBox(
-                                          height: 90,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Container(
+                                          child: SizedBox(
+                                            height: 90.h,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          game.name,
+                                                          style: TextStyle(
+                                                            fontSize: 14.sp,
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                FONT_MEDIUM,
+                                                          ),
+                                                        ),
+                                                        Visibility(
+                                                          visible: game
+                                                              .serviceItem
+                                                              .isNotEmpty,
+                                                          child: Container(
+                                                            child: Text(
+                                                              game.level
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                fontSize: 10.sp,
+                                                                color: AppColor
+                                                                    .textC3,
+                                                                fontFamily:
+                                                                    FONT_MEDIUM,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        10.verticalSpace,
+                                                        if (game.serviceItem
+                                                            .isNotEmpty) ...[
+                                                          Row(
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    'assets/images/ic_balance_money.webp'),
+                                                                width: 15,
+                                                                height: 15,
+                                                              ),
+                                                              3.horizontalSpace,
+                                                              SizedBox(
+                                                                // width: 150,
+                                                                child: Text.rich(
+                                                                    TextSpan(
+                                                                        children: [
+                                                                      TextSpan(
+                                                                        text:
+                                                                            '${double.parse(game.serviceItem.first.price).floor()}',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              16.sp,
+                                                                          fontFamily:
+                                                                              FONT_MEDIUM,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text:
+                                                                            '/${game.serviceItem.first.unit}',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              8.sp,
+                                                                          fontFamily:
+                                                                              FONT_MEDIUM,
+                                                                        ),
+                                                                      ),
+                                                                    ])),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ]
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                            .spaceBetween,
                                                     children: [
-                                                      Text(game.name,
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      if (game.serviceItem
-                                                          .isNotEmpty) ...[
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                              constraints: BoxConstraints(
-                                                                  maxWidth: Get
-                                                                          .width -
-                                                                      128.w -
-                                                                      150.w),
-                                                              child: Text(
-                                                                game.level
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10.sp,
-                                                                    color: AppColor
-                                                                        .textC3,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                            ),
-                                                            13.horizontalSpace,
-                                                            Image(
-                                                              image: AssetImage(
-                                                                  'assets/images/ic_balance_money.webp'),
-                                                              width: 15,
-                                                              height: 15,
-                                                            ),
-                                                            3.horizontalSpace,
-                                                            SizedBox(
-                                                              // width: 150,
-                                                              child: Text.rich(
-                                                                  TextSpan(
-                                                                      children: [
-                                                                    TextSpan(
-                                                                        text:
-                                                                            '${double.parse(game.serviceItem.first.price).floor()}',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize: 16.sp,
-                                                                            fontFamily: FONT_MEDIUM)),
-                                                                    TextSpan(
-                                                                        text:
-                                                                            '/${game.serviceItem.first.unit}',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize: 8.sp,
-                                                                            fontFamily: FONT_MEDIUM)),
-                                                                  ])),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ]
+                                                      Visibility(
+                                                        visible: game.gameVoice
+                                                            .isNotEmpty,
+                                                        maintainAnimation: true,
+                                                        maintainState: true,
+                                                        maintainSize: true,
+                                                        child:
+                                                            VoiceProfileWidget(
+                                                          voice: game.gameVoice,
+                                                          maginBottom: 0,
+                                                          marginLeft: 12.w,
+                                                          width: 70.w,
+                                                          needEdit: false,
+                                                        ),
+                                                      ),
+                                                      EditPlayBtn(
+                                                        isEdit: t.isSelf,
+                                                        onTap: () {
+                                                          if (game.serviceItem
+                                                                  .length ==
+                                                              1) {
+                                                            t.editService(
+                                                                game,
+                                                                game.serviceItem
+                                                                    .first,
+                                                                (game.serviceItem.length >=
+                                                                            1 &&
+                                                                        t
+                                                                            .getItemDiscount(game
+                                                                                .serviceItem[
+                                                                                    0]
+                                                                                .discount)
+                                                                            .isNotEmpty &&
+                                                                        jsonDecode(game.serviceItem[0].discount)['enable'] ==
+                                                                            1)
+                                                                    ? t.getItemDiscount(game
+                                                                        .serviceItem[
+                                                                            0]
+                                                                        .discount)
+                                                                    : '');
+                                                          } else {
+                                                            game.ifShow.value =
+                                                                !game.ifShow
+                                                                    .value;
+                                                          }
+                                                        },
+                                                      ).marginOnly(bottom: 13)
                                                     ],
                                                   ),
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Visibility(
-                                                      visible: game
-                                                          .gameVoice.isNotEmpty,
-                                                      maintainAnimation: true,
-                                                      maintainState: true,
-                                                      maintainSize: true,
-                                                      child: VoiceProfileWidget(
-                                                        voice: game.gameVoice,
-                                                        maginBottom: 0,
-                                                        marginLeft: 12.w,
-                                                        width: 70.w,
-                                                        needEdit: false,
-                                                      ),
-                                                    ),
-                                                    EditPlayBtn(
-                                                      isEdit: t.isSelf,
-                                                      onTap: () {
-                                                        if (game.serviceItem
-                                                                .length ==
-                                                            1) {
-                                                          t.editService(
-                                                              game,
-                                                              game.serviceItem
-                                                                  .first,
-                                                              (game.serviceItem
-                                                                              .length >=
-                                                                          1 &&
-                                                                      t
-                                                                          .getItemDiscount(game
-                                                                              .serviceItem[
-                                                                                  0]
-                                                                              .discount)
-                                                                          .isNotEmpty &&
-                                                                      jsonDecode(game.serviceItem[0].discount)[
-                                                                              'enable'] ==
-                                                                          1)
-                                                                  ? t.getItemDiscount(game
-                                                                      .serviceItem[
-                                                                          0]
-                                                                      .discount)
-                                                                  : '');
-                                                        } else {
-                                                          game.ifShow.value =
-                                                              !game
-                                                                  .ifShow.value;
-                                                        }
-                                                      },
-                                                    ).marginOnly(bottom: 13)
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ))
+                                        ),
                                       ],
                                     ),
                                     if (game.ifShow.value) ...[
@@ -332,11 +352,12 @@ class OtherDashboardPage extends StatelessWidget {
                                                   children: [
                                                     Text(service.name,
                                                         style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
+                                                          fontSize: 14,
+                                                          color: Colors.white,
+                                                          fontFamily:
+                                                              FONT_MEDIUM,
+                                                          fontWeight: FontWeight.bold,
+                                                        )),
                                                     Spacer(),
                                                     Row(
                                                       children: [
