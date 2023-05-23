@@ -6,6 +6,7 @@ import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
 import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/messages/chat/chat_page.dart';
 import 'package:wy/widget/im/search.dart';
 import 'package:wy/widget/im/tencent_page.dart';
@@ -42,7 +43,7 @@ class GroupProfilePage extends StatelessWidget {
                     Navigator.of(context).pop();
                   } else {
                     Navigator.of(context)
-                        .popUntil(ModalRoute.withName("/homePage"));
+                        .popUntil(ModalRoute.withName(AppPages.Main));
                   }
                 }),
                 groupID: groupID,
