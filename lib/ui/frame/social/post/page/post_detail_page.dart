@@ -41,19 +41,25 @@ class PostDetailPage extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+                      border: Border(
+                          bottom:
+                              BorderSide(color: AppColor.itemBg, width: 1))),
                   child: Column(
                     children: [
                       Container(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ClipOval(
-                              child: ImageUtil.networkImage(
-                                url: t.postItem.value.head,
-                                fit: BoxFit.cover,
-                                width: 50,
-                                height: 50,
+                            GestureDetector(
+                              onTap: () => NavigatorHelper.toOtherProfile(
+                                  t.postItem.value.uid),
+                              child: ClipOval(
+                                child: ImageUtil.networkImage(
+                                  url: t.postItem.value.head,
+                                  fit: BoxFit.cover,
+                                  width: 50,
+                                  height: 50,
+                                ),
                               ),
                             ),
                             Expanded(
@@ -67,12 +73,17 @@ class PostDetailPage extends StatelessWidget {
                                     margin: EdgeInsets.only(bottom: 5),
                                     child: Row(
                                       children: [
-                                        Text(
-                                          t.postItem.value.nickname,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              NavigatorHelper.toOtherProfile(
+                                                  t.postItem.value.uid),
+                                          child: Text(
+                                            t.postItem.value.nickname,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 10,
@@ -87,12 +98,18 @@ class PostDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  t.postItem.value.type==TYPE_INVITE?buildGroupInviteWidget(context, t.postItem.value.content):   Text(
-                                    t.postItem.value.content,
-                                    style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                                    // maxLines: null,
-                                    // overflow: TextOverflow.ellipsis,
-                                  ),
+                                  t.postItem.value.type == TYPE_INVITE
+                                      ? buildGroupInviteWidget(
+                                          context, t.postItem.value.content)
+                                      : Text(
+                                          t.postItem.value.content,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                          // maxLines: null,
+                                          // overflow: TextOverflow.ellipsis,
+                                        ),
                                   10.verticalSpace
                                 ],
                               ),
@@ -105,44 +122,54 @@ class PostDetailPage extends StatelessWidget {
                           shrinkWrap: true,
                           padding: EdgeInsets.only(top: 15),
                           physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: min(t.postItem.value.imageList.length, 3),
+                          crossAxisCount:
+                              min(t.postItem.value.imageList.length, 3),
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
-                          childAspectRatio: t.postItem.value.imageList.length == 1 ? 345 / 195 : 1,
+                          childAspectRatio:
+                              t.postItem.value.imageList.length == 1
+                                  ? 345 / 195
+                                  : 1,
                           children: t.postItem.value.imageList
-                              .map((imgUrl) => t.postItem.value.type == TYPE_INVITE
-                                  ? Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          color: Color(0xff313033)),
-                                      clipBehavior: Clip.antiAlias,
-                                      child: QrImage(
-                                        foregroundColor: Colors.white,
-                                        data: imgUrl,
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        Get.dialog(
-                                            CsPhotoViewer(
-                                              photoList: t.postItem.value.imageList,
-                                              tapIndex: t.postItem.value.imageList.indexOf(imgUrl),
+                              .map((imgUrl) =>
+                                  t.postItem.value.type == TYPE_INVITE
+                                      ? Container(
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Color(0xff313033)),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: QrImage(
+                                            foregroundColor: Colors.white,
+                                            data: imgUrl,
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            Get.dialog(
+                                                CsPhotoViewer(
+                                                  photoList: t
+                                                      .postItem.value.imageList,
+                                                  tapIndex: t
+                                                      .postItem.value.imageList
+                                                      .indexOf(imgUrl),
+                                                ),
+                                                useSafeArea: false);
+                                          },
+                                          child: Container(
+                                            // margin: EdgeInsets.only(top: 10, bottom: 10),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                color: Color(0xff313033)),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: ImageUtil.networkImage(
+                                              url: imgUrl,
+                                              fit: BoxFit.cover,
                                             ),
-                                            useSafeArea: false);
-                                      },
-                                      child: Container(
-                                        // margin: EdgeInsets.only(top: 10, bottom: 10),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            color: Color(0xff313033)),
-                                        clipBehavior: Clip.antiAlias,
-                                        child: ImageUtil.networkImage(
-                                          url: imgUrl,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ))
+                                          ),
+                                        ))
                               .toList(),
                         ),
                     ],
@@ -166,30 +193,37 @@ class PostDetailPage extends StatelessWidget {
                         indicatorColor: Color(0xFFFFCB0D),
                         indicatorSize: TabBarIndicatorSize.label,
                         indicatorWeight: 3,
-                        indicatorPadding: EdgeInsets.only(bottom: 0, left: 10, right: 10),
+                        indicatorPadding:
+                            EdgeInsets.only(bottom: 0, left: 10, right: 10),
                         labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
                         labelStyle: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold, fontFamily: "din"),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "din"),
                         unselectedLabelStyle: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold, fontFamily: "din"),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "din"),
                         tabs: [
                           Obx(
-                            () => Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Image.asset(
-                                  "assets/images/profile/icon_pinlun.webp",
-                                  width: 16,
-                                ),
-                              ),
-                              Text(
-                                t.postItem.value.commentNum.toString(),
-                                style: TextStyle(
-                                  color: Color(0xff808388),
-                                  fontSize: 11.sp,
-                                ),
-                              )
-                            ]),
+                            () => Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      "assets/images/profile/icon_pinlun.webp",
+                                      width: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    t.postItem.value.commentNum.toString(),
+                                    style: TextStyle(
+                                      color: Color(0xff808388),
+                                      fontSize: 11.sp,
+                                    ),
+                                  )
+                                ]),
                           ),
                           Obx(() => Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -199,7 +233,9 @@ class PostDetailPage extends StatelessWidget {
                                     child: Image.asset(
                                       "assets/images/profile/icon_dianzan.webp",
                                       width: 16,
-                                      color: t.postItem.value.isPraise.value ? Colors.pink : null,
+                                      color: t.postItem.value.isPraise.value
+                                          ? Colors.pink
+                                          : null,
                                     ),
                                   ),
                                   Text(

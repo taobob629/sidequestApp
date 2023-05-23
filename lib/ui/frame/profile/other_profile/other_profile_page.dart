@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/base_controller.dart';
@@ -19,12 +17,10 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
-import '../../../../model/pay_info_model.dart';
 import '../../../../model/skill_model.dart';
 import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/route.dart';
 import '../../../service/add/add_game_page.dart';
-import '../../messages/chat/chat_page.dart';
 import '../my_profile/badges_widget.dart';
 import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
@@ -62,7 +58,7 @@ class OtherProfilePage extends StatelessWidget {
                               fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: (248 +
+                    expandedHeight: (180 +
                             250 -
                             Get.mediaQuery.padding.top -
                             (t.isSelf ? 66 : 0))
@@ -551,65 +547,59 @@ class OtherProfilePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Column(
-                              children: [
-                                Obx(
-                                  () => Container(
-                                    height: 43.h,
-                                    margin: const EdgeInsets.only(
-                                        left: 20, right: 20),
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                      top: BorderSide(
-                                          color: AppColor.itemBg, width: 1),
-                                      bottom: BorderSide(
-                                          color: AppColor.itemBg, width: 1),
-                                    )),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Followings".tr +
-                                              ": ${t.player.value.followers}",
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Colors.white,
-                                              fontFamily: FONT_LIGHT),
-                                        ),
-                                        Text(
-                                          "Followers".tr +
-                                              ": ${t.player.value.fans}",
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Colors.white,
-                                              fontFamily: FONT_LIGHT),
-                                        ),
-                                        Visibility(
-                                          child: Text(
-                                            "Rating".tr +
-                                                ": ${t.player.value.ranking}",
-                                            style: TextStyle(
-                                                fontSize: 12.sp,
-                                                color: Colors.white,
-                                                fontFamily: FONT_LIGHT),
-                                          ),
-                                        ),
-                                        Text(
-                                          "Orders".tr +
-                                              ": ${t.player.value.age}",
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Colors.white,
-                                              fontFamily: FONT_LIGHT),
-                                        ),
-                                      ],
+                            Obx(
+                              () => Container(
+                                height: 43.h,
+                                margin:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                  top: BorderSide(
+                                      color: AppColor.itemBg, width: 1),
+                                  bottom: BorderSide(
+                                      color: AppColor.itemBg, width: 1),
+                                )),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Followings".tr +
+                                          ": ${t.player.value.followers}",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                          fontFamily: FONT_LIGHT),
                                     ),
-                                  ),
+                                    Text(
+                                      "Followers".tr +
+                                          ": ${t.player.value.fans}",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                          fontFamily: FONT_LIGHT),
+                                    ),
+                                    Visibility(
+                                      child: Text(
+                                        "Rating".tr +
+                                            ": ${t.player.value.ranking}",
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: Colors.white,
+                                            fontFamily: FONT_LIGHT),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Orders".tr + ": ${t.player.value.age}",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.white,
+                                          fontFamily: FONT_LIGHT),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                            40.verticalSpace
                           ],
                         ),
                       ),
