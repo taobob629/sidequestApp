@@ -192,20 +192,20 @@ decodeGroupGid(var content) {
   return gid;
 }
 
-Widget buildGroupInviteWidget(BuildContext context, var content) {
-  RegExpMatch? match = exp.firstMatch(content);
-  var gid = match?.group(1) ?? '';
-  flog('gid$gid');
+Widget buildGroupInviteWidget(BuildContext context, var content, String gid) {
+  // RegExpMatch? match = exp.firstMatch(content);
+  // var gid = match?.group(1) ?? '';
+   flog('gid$gid');
   return RichText(
       text: TextSpan(children: [
     TextSpan(
-        text: content.substring(0, content.lastIndexOf(gidPrefix)),
+        text: content,
         style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
     TextSpan(
         text: ' Join Now '.tr,
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            ImUtils.joniGroup(context, gid);
+            ImUtils.joniGroup(context, gid,isNeedReplace: false);
           },
         style: TextStyle(
             letterSpacing: 2,

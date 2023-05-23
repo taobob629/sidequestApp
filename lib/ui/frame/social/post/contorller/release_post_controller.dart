@@ -125,9 +125,7 @@ class ReleasePostController extends GetxController {
     var content = textController.text;
 
     PostApi.releasePost(
-            content: type == TYPE_INVITE
-                ? buildShareGroupText(content, gid)
-                : content,
+            content: content,
             images:
                 type == TYPE_INVITE ? jsonEncode([gid]) : jsonEncode(photoList),
             type: type)

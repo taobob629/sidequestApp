@@ -114,7 +114,7 @@ class PostListItemView extends GetView<PostListController> {
                                 // maxLines: null,
                                 // overflow: TextOverflow.ellipsis,
                               )
-                            : buildGroupInviteWidget(context, model.content),
+                            : buildGroupInviteWidget(context, model.content,model.imageList.first),
                         15.horizontalSpace
                       ],
                     ),
