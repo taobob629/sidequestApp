@@ -42,7 +42,7 @@ class ReleasePostController extends GetxController {
       gid = arg['gid'];
       if (gid != null) {
         var group_name = arg['group_name'];
-        textController.text = '我刚创建了一个 " $group_name " 交流群，大家快来加入吧!';
+        textController.text = 'Welcome to our new group" $group_name"! Join us and let\'s have fun together!';
       }
     }
   }
