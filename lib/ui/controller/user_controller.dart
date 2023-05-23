@@ -235,7 +235,7 @@ class UserController extends GetxController {
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
-    imLogin();
+    await imLogin();
     done?.call(loginModel);
   }
 
@@ -288,14 +288,15 @@ class UserController extends GetxController {
     uploadOfflinePushInfoToken();
   }
 
-  void imLogin() async {
+   imLogin() async {
+    flog('imLogin --${imLoginDone.value}');
     if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
       // if(userSig == ""){
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
+     await _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
         imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
@@ -411,6 +412,7 @@ class UserController extends GetxController {
   void logout({Function? done}) async {
     user.value = UserModel();
     userProfile = ProfileModel();
+    imLoginDone.value = false;
     StorageManager.clear(StorageManager.kUser);
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
