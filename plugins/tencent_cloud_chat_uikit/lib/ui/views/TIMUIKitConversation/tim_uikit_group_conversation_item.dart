@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, empty_catches
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation_item.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
@@ -98,20 +100,40 @@ class TIMUIKitGroupConversationItem extends TIMUIKitStatelessWidget {
 
     return Container();
   }
+  random(min, max) {
+    // + min  表示生成一个最小数 min 到最大数之间的是数字
+    var num = Random().nextInt(max) + min;
+
+    // floor() 返回的是一个整数。
+    return num.floor();
+  }
+
+  var colors=[
+    [
+      Color(0x088F438C),
+      Color(0x448F438C),
+    ],
+    [
+      Color(0x00438F75),
+      Color(0x38438F75),
+    ],
+    [
+      Color(0x008F7D43),
+      Color(0x388F7D43 ),
+    ],
+  ];
 
   @override
   Widget tuiBuild(BuildContext context, TUIKitBuildValue value) {
     final TUITheme theme = value.theme;
     return Container(
-      margin: EdgeInsets.only(bottom: 10,left:15,right: 15 ),
+      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
       padding: const EdgeInsets.only(top: 6, bottom: 6, left: 16, right: 16),
+    //  color: isPined ? Color(0xff0d2432) : null,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular( 15),
         gradient: LinearGradient(
-          colors: [
-             Color(0x088F438C),
-             Color(0x448F438C),
-          ],
+          colors:isPined?[Color(0xff0d2432),Color(0xff0d2432)]:colors[random(0,colors.length)],
           begin: Alignment.topCenter,
           end:Alignment.bottomCenter,
         ),

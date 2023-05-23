@@ -100,7 +100,7 @@ class PostDetailPage extends StatelessWidget {
                                   ),
                                   t.postItem.value.type == TYPE_INVITE
                                       ? buildGroupInviteWidget(
-                                          context, t.postItem.value.content)
+                                          context, t.postItem.value.content,t.postItem.value.imageList.first)
                                       : Text(
                                           t.postItem.value.content,
                                           style: TextStyle(
