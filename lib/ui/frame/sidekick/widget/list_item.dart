@@ -32,7 +32,9 @@ class GameListItemWidget extends GetView<SideKickController> {
         height: 80.h,
         padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10).r,
         margin: EdgeInsets.only(top: 10.r),
-        decoration: BoxDecoration(color: AppColor.itemBg, borderRadius: BorderRadius.all(Radius.circular(16)).w),
+        decoration: BoxDecoration(
+            color: AppColor.itemBg,
+            borderRadius: BorderRadius.all(Radius.circular(16)).w),
         child: Row(
           children: [
             Badge(
@@ -43,70 +45,85 @@ class GameListItemWidget extends GetView<SideKickController> {
               child: Container(
                 width: 50.h,
                 height: 50.h,
-                decoration: model.online == ONLINE ? BoxDecoration(border: Border.all(color: badgeColor, width: 1), borderRadius: BorderRadius.all(Radius.circular(25.h))) : null,
+                decoration: model.online == ONLINE
+                    ? BoxDecoration(
+                        border: Border.all(color: badgeColor, width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(25.h)))
+                    : null,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(25)).h,
-                  child: ImageUtil.networkImage(url: model.thumb, fit: BoxFit.cover),
+                  child: ImageUtil.networkImage(
+                      url: model.thumb, fit: BoxFit.cover),
                 ),
               ),
             ),
             15.horizontalSpace,
             Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Stack(
                 children: [
-                  Row(
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        child: Text(
-                          '${model.name}',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Dimens.normalText,
-                            overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.bold,
+                      Row(
+                        children: [
+                          Container(
+                            child: Text(
+                              '${model.name}',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: Dimens.normalText,
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            constraints: BoxConstraints(maxWidth: 100.w),
                           ),
+                          8.horizontalSpace,
+                          GameLevelWidget(
+                            level: model.userLevel,
+                            userId: model.id,
+                          ),
+                          8.horizontalSpace,
+                          SexAndAgeWidget(
+                            age: model.age,
+                            sex: model.sex,
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          UnitPriceWidget(
+                            price: model.price,
+                          ),
+                          12.horizontalSpace,
+                          StarWidget(
+                            star: model.star,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            LocationWidget(model.distance),
+                            Text(
+                              '${model.levelName}',
+                              style: TextStyle(
+                                  color: Color(0xFFC3C3C3),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10.sp),
+                            )
+                          ],
                         ),
-                        constraints: BoxConstraints(maxWidth: 100.w),
-                      ),
-                      8.horizontalSpace,
-                      GameLevelWidget(
-                        level: model.userLevel,
-                        userId: model.id,
-                      ),
-                      8.horizontalSpace,
-                      SexAndAgeWidget(
-                        age: model.age,
-                        sex: model.sex,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      UnitPriceWidget(
-                        price: model.price,
-                      ),
-                      12.horizontalSpace,
-                      StarWidget(
-                        star: model.star,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            8.horizontalSpace,
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  LocationWidget(model.distance),
-                  Text(
-                    '${model.levelName}',
-                    style: TextStyle(color: Color(0xFFC3C3C3), fontWeight: FontWeight.bold, fontSize: 10.sp),
-                  )
+                      ))
                 ],
               ),
             )
