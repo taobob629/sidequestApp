@@ -64,7 +64,7 @@ class TIMUIKitOperationItem extends TIMUIKitStatelessWidget {
                   child: CupertinoSwitch(
                     value: operationValue ?? false,
                     onChanged: onSwitchChange,
-                    activeColor: theme.primaryColor,
+                    activeColor: theme.conversationItemOnlineStatusBgColor,
                   ),
                 )
               : Row(
