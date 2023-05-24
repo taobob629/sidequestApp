@@ -1,8 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/ui/events/event/event_page.dart';
+import 'package:wy/ui/events/widget/timer_widget.dart';
+import 'package:wy/utils/index.dart';
 
-class FlexibleHeader extends StatelessWidget {
+class FlexibleHeader extends GetView<EventPageController> {
 
   final String image;
 
@@ -12,6 +17,7 @@ class FlexibleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
       background: Stack(
+        fit: StackFit.loose,
         children: [
           Positioned(
             left: 0,
@@ -37,7 +43,16 @@ class FlexibleHeader extends StatelessWidget {
                 )
               ),
             )
-          )
+          ),
+          Positioned(
+              right: 26,
+              bottom: 50.h,
+              child: Obx(()=>Visibility(
+                  visible: controller.eventDetailModel.value.kopStartTime!=0,
+                  child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
+                      controller.eventDetailModel.value.kopStartTime * 1000)
+                      .difference(DateTime.now())
+                      .inSeconds))))
         ],
       )
     );

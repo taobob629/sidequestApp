@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/ext.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/model/selector_item.dart';
@@ -17,12 +20,14 @@ import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_selecto_widget.dart';
 import 'package:wy/ui/events/event/team_page.dart';
+import 'package:wy/ui/events/widget/timer_widget.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/time_utils.dart';
 import 'package:wy/widget/views.dart';
 
 import '../../../utils/toast_utils.dart';
+import '../widget/event_header.dart';
 import 'join_button.dart';
 import 'tab_overview_page.dart';
 import 'tab_participants_page.dart';
@@ -61,21 +66,41 @@ class EventPage extends StatelessWidget {
                   expandedHeight: controller.headerHeight.value,
                   flexibleSpace: controller.eventDetailModel.value.image.isEmpty
                       ? null
-                      : FlexibleHeader(
+                      : EventFlexibleHeader(
                           image: controller.eventDetailModel.value.image,
                         ));
             }),
             SliverPersistentHeader(
-                pinned: true, delegate: _StickyTabBarDelegate(child: _buildTabBar())),
+                pinned: true,
+                delegate: _StickyTabBarDelegate(child: _buildTabBar())),
           ];
         },
         body: Container(
           padding: const EdgeInsets.only(top: 1),
-          child: TabBarView(controller: controller.tabController, children: createPages()),
+          child: TabBarView(
+              controller: controller.tabController, children: createPages()),
         ),
       ),
-      floatingActionButton: Obx(() => _buildBtn(context)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Obx(()=>controller.eventDetailModel.value.id==0?Container():Container(
+        //  height: 150,
+          constraints: BoxConstraints(maxHeight: 150.h),
+          child: Stack(children: [
+            Positioned(
+                bottom: 10,
+                left: 10,
+                right: 10,
+                child: Obx(() => _buildBtn(context))),
+            // Positioned(
+            //     right: 26,
+            //     bottom: 90,
+            //     child: Obx(()=>Visibility(
+            //         visible: controller.eventDetailModel.value.kopStartTime!=0,
+            //         child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
+            //             controller.eventDetailModel.value.kopStartTime * 1000)
+            //             .difference(DateTime.now())
+            //             .inSeconds))))
+          ]))),
+      //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -92,8 +117,11 @@ class EventPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Obx(() => Text(
-                  controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                  controller.eventDetailModel.value.canCancel
+                      ? 'CANCEL'.tr
+                      : "JOIN".tr,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
                 )),
           ),
           height: 48,
@@ -111,8 +139,11 @@ class EventPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Obx(() => Text(
-                    controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
-                    style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                    controller.eventDetailModel.value.canCancel
+                        ? 'CANCEL'.tr
+                        : "JOIN".tr,
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "DIN", fontSize: 18),
                   )),
             ),
             height: 48,
@@ -149,13 +180,16 @@ class EventPage extends StatelessWidget {
                     unselectedLabelColor: Colors.white38,
                     indicatorColor: AppColor.yellow,
                     indicatorSize: TabBarIndicatorSize.label,
-                    indicator:
-                        HomeIndicator(borderSide: BorderSide(width: 4.0.w, color: AppColor.yellow)),
+                    indicator: HomeIndicator(
+                        borderSide:
+                            BorderSide(width: 4.0.w, color: AppColor.yellow)),
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.only(bottom: 2),
                     labelPadding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
-                    labelStyle: TextStyle(fontSize: 16, fontFamily: FONT_MEDIUM),
-                    unselectedLabelStyle: TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
+                    labelStyle:
+                        TextStyle(fontSize: 16, fontFamily: FONT_MEDIUM),
+                    unselectedLabelStyle:
+                        TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
                     tabs: createTabs(),
                   )
                 ]),
@@ -196,7 +230,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   _StickyTabBarDelegate({required this.child});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return this.child;
   }
 
@@ -212,7 +247,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class EventPageController extends GetxController with SingleGetTickerProviderMixin {
+class EventPageController extends GetxController
+    with SingleGetTickerProviderMixin {
   late TabController tabController;
 
   late ScrollController scrollController;
@@ -254,7 +290,8 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
       }
     });
     initData();
-    tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
+    tabController =
+        TabController(length: tabs.length, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -349,21 +386,23 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           var dateTime = timeSplit.join(':');
           checkFee(() async {
             showLoading();
-            await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id,
+            await EventsApi.joinActivity(eventDetailModel.value.id,
+                userController.user.value.id, store.id,
                 cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                    title: "Congratulations".tr,
+                    info: "You have successfully signed up!".tr),
                 barrierColor: Colors.black26);
           });
         }
       } else {
         SelectorItem? item;
         if (eventDetailModel.value.location.length > 1) {
-          item = await SelectorDialog.show(context, eventDetailModel.value.location,
+          item = await SelectorDialog.show(
+              context, eventDetailModel.value.location,
               title: "Select Location".tr);
         } else {
           item = eventDetailModel.value.location[0];
@@ -372,13 +411,14 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           LocationModel store = item as LocationModel;
           checkFee(() async {
             showLoading();
-            await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id);
+            await EventsApi.joinActivity(eventDetailModel.value.id,
+                userController.user.value.id, store.id);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                    title: "Congratulations".tr,
+                    info: "You have successfully signed up!".tr),
                 barrierColor: Colors.black26);
           });
         }
@@ -390,7 +430,8 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     showLoading();
     await EventsApi.cancelActivity(eventDetailModel.value.id);
     onRefresh();
-    Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
+    Get.dialog(
+        ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
         barrierColor: Colors.black26);
     dismissLoading();
   }
@@ -399,7 +440,7 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     int type = eventDetailModel.value.matchDiff;
     var timeResult;
     if (type == 5) {
-       timeResult = await chooseTime();
+      timeResult = await chooseTime();
       if (timeResult == null) {
         showToast('PLease Choose Time First'.tr);
         return;
@@ -408,7 +449,8 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
-        item = await SelectorDialog.show(context, eventDetailModel.value.location,
+        item = await SelectorDialog.show(
+            context, eventDetailModel.value.location,
             title: "Select Location".tr);
       } else {
         item = eventDetailModel.value.location[0];
@@ -420,13 +462,18 @@ class EventPageController extends GetxController with SingleGetTickerProviderMix
           showLoading();
           await EventsApi.joinMatch(
               eventDetailModel.value.id, userController.user.value.id, store.id,
-              cupsleeve: timeResult==null?null:TimeUtils.getYYYYMMDDHHMM(
-                  DateTime.fromMillisecondsSinceEpoch(timeResult*1000), '-', ':'));
+              cupsleeve: timeResult == null
+                  ? null
+                  : TimeUtils.getYYYYMMDDHHMM(
+                      DateTime.fromMillisecondsSinceEpoch(timeResult * 1000),
+                      '-',
+                      ':'));
           eventDetailModel.value.canCancel = true;
           dismissLoading();
           Get.dialog(
               ConfirmDialog(
-                  title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                  title: "Congratulations".tr,
+                  info: "You have successfully signed up!".tr),
               barrierColor: Colors.black26);
         });
       }
