@@ -23,37 +23,14 @@ class TaskDetailPage extends StatelessWidget {
                   children: [
                     20.verticalSpace,
                     Center(
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(15.r),
-                            child: ImageUtil.networkImage(
-                              url: ctr.taskModel.url,
-                              height: 110.h,
-                              width: Get.width - 30.w,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          // Positioned(
-                          //   right: 10.w,
-                          //   top: 10.h,
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //       color: Color(0xff18D07A),
-                          //       borderRadius: BorderRadius.circular(5.r),
-                          //     ),
-                          //     padding: EdgeInsets.all(4.r),
-                          //     child: Text(
-                          //       'ACTIVE',
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 12.sp,
-                          //         fontFamily: FONT_MEDIUM,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.r),
+                        child: ImageUtil.networkImage(
+                          url: ctr.taskModel.url,
+                          height: 110.h,
+                          width: Get.width - 30.w,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Padding(
@@ -79,51 +56,61 @@ class TaskDetailPage extends StatelessWidget {
                       padding: EdgeInsets.all(15.r),
                       child: Column(
                         children: [
-                          Container(
-                            height: 22.w,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(6.r),
-                                    child: LinearProgressIndicator(
-                                      value: ctr.taskModel.userNum /
-                                          ctr.taskModel.threshold,
-                                      backgroundColor: Color(0xff2D2E3A),
-                                      valueColor: AlwaysStoppedAnimation(
-                                          Color(0xffEAA18D)),
-                                      minHeight: 10.h,
+                          Stack(
+                            children: [
+                              Container(
+                                height: 22.w,
+                                padding: EdgeInsets.only(left: 4.w),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(6.r),
+                                        child: LinearProgressIndicator(
+                                          value: ctr.taskModel.userNum /
+                                              ctr.taskModel.threshold,
+                                          backgroundColor: Color(0xff2D2E3A),
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Color(0xffFFD20E)),
+                                          minHeight: 10.h,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    8.horizontalSpace,
+                                    Text(
+                                      ctr.taskModel.userNum.toString(),
+                                      style: TextStyle(
+                                        color: Color(0xffFFD20E),
+                                        fontFamily: FONT_MEDIUM,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                    Text(
+                                      '/',
+                                      style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontFamily: FONT_MEDIUM,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                    Text(
+                                      ctr.taskModel.threshold.toString(),
+                                      style: TextStyle(
+                                        color: Color(0xffffffff),
+                                        fontFamily: FONT_MEDIUM,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                8.horizontalSpace,
-                                Text(
-                                  ctr.taskModel.userNum.toString(),
-                                  style: TextStyle(
-                                    color: Color(0xffEAA18D),
-                                    fontFamily: FONT_MEDIUM,
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                                Text(
-                                  '/',
-                                  style: TextStyle(
-                                    color: Color(0xffffffff),
-                                    fontFamily: FONT_MEDIUM,
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                                Text(
-                                  ctr.taskModel.threshold.toString(),
-                                  style: TextStyle(
-                                    color: Color(0xffffffff),
-                                    fontFamily: FONT_MEDIUM,
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                              Image.asset(
+                                ImageUtils.icon_task_gift,
+                                width: 22.w,
+                                height: 22.w,
+                              ),
+                            ],
                           ),
                           Container(
                             height: 1.h,

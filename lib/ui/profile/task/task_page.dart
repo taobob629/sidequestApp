@@ -103,58 +103,70 @@ class TaskPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 22.w,
-                      padding: EdgeInsets.only(left: 10.w),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6.r),
-                              child: LinearProgressIndicator(
-                                value: t.list[index].userNum /
-                                    t.list[index].threshold,
-                                backgroundColor: Color(0xff2D2E3A),
-                                valueColor: AlwaysStoppedAnimation(
-                                  t.list[index].enabled == 0
-                                      ? Color(0xffEAA18D)
-                                      : Colors.grey,
+                    Stack(
+                      children: [
+                        Container(
+                          height: 22.w,
+                          padding: EdgeInsets.only(left: 13.w),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.r),
+                                  child: LinearProgressIndicator(
+                                    value: t.list[index].userNum /
+                                        t.list[index].threshold,
+                                    backgroundColor: Color(0xff2D2E3A),
+                                    valueColor: AlwaysStoppedAnimation(
+                                      t.list[index].enabled == 0
+                                          ? Color(0xffFFD20E)
+                                          : Colors.grey,
+                                    ),
+                                    minHeight: 10.h,
+                                  ),
                                 ),
-                                minHeight: 10.h,
                               ),
-                            ),
+                              8.horizontalSpace,
+                              Text(
+                                t.list[index].userNum.toString(),
+                                style: TextStyle(
+                                  color: t.list[index].enabled == 0
+                                      ? Color(0xffFFD20E)
+                                      : Colors.grey,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              Text(
+                                '/',
+                                style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              Text(
+                                t.list[index].threshold.toString(),
+                                style: TextStyle(
+                                  color: Color(0xffffffff),
+                                  fontFamily: FONT_MEDIUM,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                              10.horizontalSpace,
+                            ],
                           ),
-                          8.horizontalSpace,
-                          Text(
-                            t.list[index].userNum.toString(),
-                            style: TextStyle(
-                              color: t.list[index].enabled == 0
-                                  ? Color(0xffEAA18D)
-                                  : Colors.grey,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10.w),
+                          child: Image.asset(
+                            ImageUtils.icon_task_gift,
+                            width: 22.w,
+                            height: 22.w,
                           ),
-                          Text(
-                            '/',
-                            style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                          Text(
-                            t.list[index].threshold.toString(),
-                            style: TextStyle(
-                              color: Color(0xffffffff),
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                          10.horizontalSpace,
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Container(
                       height: 1.h,
