@@ -123,7 +123,7 @@ class ServiceHeader extends GetView<UserController> {
                         ),
                         6.verticalSpace,
                         Obx(() => Text(
-                              '${controller.userProfile.newGift}',
+                              '${controller.userProfile.giftOrderNum}',
                               style: TextStyle(
                                   fontFamily: FONT_MEDIUM,
                                   fontWeight: FontWeight.bold,

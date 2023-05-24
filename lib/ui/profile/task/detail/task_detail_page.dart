@@ -6,6 +6,7 @@ import 'package:wy/ui/profile/task/detail/task_detail_ctr.dart';
 
 import '../../../../config/icon_font.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../utils/time_utils.dart';
 import '../../../common/base_scaffold.dart';
 
 class TaskDetailPage extends StatelessWidget {
@@ -85,8 +86,7 @@ class TaskDetailPage extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(6.r),
+                                    borderRadius: BorderRadius.circular(6.r),
                                     child: LinearProgressIndicator(
                                       value: ctr.taskModel.userNum /
                                           ctr.taskModel.threshold,
@@ -222,7 +222,7 @@ class TaskDetailPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      ctr.getTime(
+                                      TimeUtils.convertTime(
                                           ctr.model?.rewards[i].createtime ??
                                               0),
                                       style: TextStyle(
@@ -238,7 +238,8 @@ class TaskDetailPage extends StatelessWidget {
                                           EdgeInsets.fromLTRB(0, 8.h, 0, 8.h),
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Image.asset(
                                           ImageUtils.ic_coupons_new,

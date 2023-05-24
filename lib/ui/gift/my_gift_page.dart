@@ -10,6 +10,8 @@ import '../../../config/icon_font.dart';
 import '../../../model/service_list_model.dart';
 import '../../../res/styles.dart';
 import '../../../utils/image_util.dart';
+import '../../model/gift_model.dart';
+import '../../utils/time_utils.dart';
 import 'my_gift_ctr.dart';
 
 class MyGiftPage extends StatelessWidget {
@@ -149,16 +151,11 @@ class MyGiftPage extends StatelessWidget {
         child: view,
       );
 
-  Widget item(ServiceListModel model) => innnerBg(Column(
+  Widget item(GiftListModel model) => innnerBg(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Container(
-                  height: 10.w,
-                  width: 10.w,
-                  decoration: ShapeDecoration(
-                      shape: StadiumBorder(), color: model.statusColor())),
               10.horizontalSpace,
               Text(
                 '${orderStatusMap[model.status]}',
@@ -169,7 +166,7 @@ class MyGiftPage extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                '${model.addtime.toDateStr}',
+                '${TimeUtils.convertTime(model.createTime)}',
                 style: TextStyle(color: Color(0xFFB2B9C9), fontSize: 11.sp),
               )
             ],
@@ -180,55 +177,51 @@ class MyGiftPage extends StatelessWidget {
           Row(
             children: [
               ImageUtil.networkImage(
-                  url: model.icon,
+                  url: model.image,
                   border: 17.r,
                   width: 70.w,
                   height: 70.w,
                   fit: BoxFit.cover),
               10.horizontalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    '${model.gameName}',
-                    style: TextStyle(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      '${model.name}',
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM),
-                  ),
-                  16.verticalSpace,
-                  Row(
-                    children: [
-                      Image(
-                        image:
-                            AssetImage('assets/images/ic_balance_money.webp'),
-                        width: 15,
-                        height: 15,
+                        fontFamily: FONT_MEDIUM,
                       ),
-                      3.horizontalSpace,
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: '${model?.price}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontFamily: FONT_MEDIUM)),
-                        TextSpan(
-                            text: '/${model.unit}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 8.sp,
-                                fontFamily: FONT_MEDIUM)),
-                      ])),
-                      //  Spacer(),
-                    ],
-                  ),
-                ],
+                    ),
+                    16.verticalSpace,
+                    Row(
+                      children: [
+                        Image(
+                          image:
+                              AssetImage('assets/images/ic_balance_money.webp'),
+                          width: 15,
+                          height: 15,
+                        ),
+                        3.horizontalSpace,
+                        Text(
+                          '${model.price}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                        //  Spacer(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Spacer(),
               Text(
-                'X${model.amount}',
+                'X${model.nums}',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.sp,

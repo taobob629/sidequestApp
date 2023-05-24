@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import '../../../../api/wy_http.dart';
@@ -39,13 +38,6 @@ class TaskDetailCtr extends GetxController {
       '/app/client/task/draw?id=$drawId',
     );
     _requestData(false);
-  }
-
-  String getTime(int createTime) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(createTime * 1000);
-    String formattedDateTime =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
-    return formattedDateTime;
   }
 
   bool ifShowExpired(int draw, int createTime) {

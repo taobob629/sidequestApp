@@ -4,6 +4,7 @@
     描述:
  */
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:core';
 
 import 'package:wy/utils/utils.dart';
@@ -18,6 +19,14 @@ class TimeUtils {
   static int daysBetweenYear(DateTime a, DateTime b) {
     int v = a.millisecondsSinceEpoch - b.millisecondsSinceEpoch;
     return v ~/ 86400000 * 30 * 12;
+  }
+
+  /// 时间乘1000后转换成我们想要的格式
+  static String convertTime(int createTime) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(createTime * 1000);
+    String formattedDateTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    return formattedDateTime;
   }
 
   /**
@@ -66,9 +75,12 @@ class TimeUtils {
    */
   static String getYYYYMMDD(DateTime dateTime, String space) {
     String year = dateTime.year.toString();
-    String month =
-        dateTime.month.toString().length == 1 ? "0${dateTime.month}" : dateTime.month.toString();
-    String day = dateTime.day.toString().length == 1 ? "0${dateTime.day}" : dateTime.day.toString();
+    String month = dateTime.month.toString().length == 1
+        ? "0${dateTime.month}"
+        : dateTime.month.toString();
+    String day = dateTime.day.toString().length == 1
+        ? "0${dateTime.day}"
+        : dateTime.day.toString();
     return "${year}${space}${month}${space}${day}";
   }
 
@@ -82,55 +94,76 @@ class TimeUtils {
     String space2,
   ) {
     String year = dateTime.year.toString();
-    String month =
-        dateTime.month.toString().length == 1 ? "0${dateTime.month}" : dateTime.month.toString();
-    String day = dateTime.day.toString().length == 1 ? "0${dateTime.day}" : dateTime.day.toString();
-    String hour =
-        dateTime.hour.toString().length == 1 ? "0${dateTime.hour}" : dateTime.hour.toString();
-    String minute =
-        dateTime.minute.toString().length == 1 ? "0${dateTime.minute}" : dateTime.minute.toString();
-    String second =
-        dateTime.second.toString().length == 1 ? "0${dateTime.second}" : dateTime.second.toString();
+    String month = dateTime.month.toString().length == 1
+        ? "0${dateTime.month}"
+        : dateTime.month.toString();
+    String day = dateTime.day.toString().length == 1
+        ? "0${dateTime.day}"
+        : dateTime.day.toString();
+    String hour = dateTime.hour.toString().length == 1
+        ? "0${dateTime.hour}"
+        : dateTime.hour.toString();
+    String minute = dateTime.minute.toString().length == 1
+        ? "0${dateTime.minute}"
+        : dateTime.minute.toString();
+    String second = dateTime.second.toString().length == 1
+        ? "0${dateTime.second}"
+        : dateTime.second.toString();
     return "${year}${space1}${month}${space1}${day} ${hour}${space2}${minute}${space2}${second}";
   }
+
   static String getYYYYMMDDHHMM(
-      DateTime dateTime,
-      String space1,
-      String space2,
-      ) {
+    DateTime dateTime,
+    String space1,
+    String space2,
+  ) {
     String year = dateTime.year.toString();
-    String month =
-    dateTime.month.toString().length == 1 ? "0${dateTime.month}" : dateTime.month.toString();
-    String day = dateTime.day.toString().length == 1 ? "0${dateTime.day}" : dateTime.day.toString();
-    String hour =
-    dateTime.hour.toString().length == 1 ? "0${dateTime.hour}" : dateTime.hour.toString();
-    String minute =
-    dateTime.minute.toString().length == 1 ? "0${dateTime.minute}" : dateTime.minute.toString();
-    String second =
-    dateTime.second.toString().length == 1 ? "0${dateTime.second}" : dateTime.second.toString();
+    String month = dateTime.month.toString().length == 1
+        ? "0${dateTime.month}"
+        : dateTime.month.toString();
+    String day = dateTime.day.toString().length == 1
+        ? "0${dateTime.day}"
+        : dateTime.day.toString();
+    String hour = dateTime.hour.toString().length == 1
+        ? "0${dateTime.hour}"
+        : dateTime.hour.toString();
+    String minute = dateTime.minute.toString().length == 1
+        ? "0${dateTime.minute}"
+        : dateTime.minute.toString();
+    String second = dateTime.second.toString().length == 1
+        ? "0${dateTime.second}"
+        : dateTime.second.toString();
     return "${year}${space1}${month}${space1}${day} ${hour}${space2}${minute}";
   }
+
   /**
    *英国时区
    * space 需要拼接日期的字段
    */
   static String getYYYYMMDDHHMMSS_US(
-      DateTime dateTime,
-      String space1,
-      String space2,
-      ) {
+    DateTime dateTime,
+    String space1,
+    String space2,
+  ) {
     String year = dateTime.year.toString();
-    String month =
-    dateTime.month.toString().length == 1 ? "0${dateTime.month}" : dateTime.month.toString();
-    String day = dateTime.day.toString().length == 1 ? "0${dateTime.day}" : dateTime.day.toString();
-    String hour =
-    dateTime.hour.toString().length == 1 ? "0${dateTime.hour}" : dateTime.hour.toString();
-    String minute =
-    dateTime.minute.toString().length == 1 ? "0${dateTime.minute}" : dateTime.minute.toString();
-    String second =
-    dateTime.second.toString().length == 1 ? "0${dateTime.second}" : dateTime.second.toString();
+    String month = dateTime.month.toString().length == 1
+        ? "0${dateTime.month}"
+        : dateTime.month.toString();
+    String day = dateTime.day.toString().length == 1
+        ? "0${dateTime.day}"
+        : dateTime.day.toString();
+    String hour = dateTime.hour.toString().length == 1
+        ? "0${dateTime.hour}"
+        : dateTime.hour.toString();
+    String minute = dateTime.minute.toString().length == 1
+        ? "0${dateTime.minute}"
+        : dateTime.minute.toString();
+    String second = dateTime.second.toString().length == 1
+        ? "0${dateTime.second}"
+        : dateTime.second.toString();
     return "${year}${space1}${month}${space1}${day} ${hour}${space2}${minute}${space2}${second}";
   }
+
   /**
    * 获取昨天
    */
@@ -168,12 +201,14 @@ class TimeUtils {
         dateTime.millisecondsSinceEpoch + (index * 24 * 60 * 60 * 1000));
     return getYYYYMMDD(yesterDay, "-");
   }
+
   static DateTime getSomeDay(DateTime dateTime, int index) {
     DateTime yesterDay = new DateTime.fromMillisecondsSinceEpoch(
         dateTime.millisecondsSinceEpoch + (index * 24 * 60 * 60 * 1000));
     flog('time ${getYYYYMMDD(yesterDay, "-")}');
     return yesterDay;
   }
+
   /**
    * 获取后天
    */
@@ -189,7 +224,8 @@ class TimeUtils {
   static String getLastWeekFirstDayYYYYMMDD(DateTime dateTime) {
     int current = dateTime.weekday;
     DateTime firstDay = new DateTime.fromMillisecondsSinceEpoch(
-        dateTime.millisecondsSinceEpoch - (24 * 60 * 60 * 1000 * (current - 1)));
+        dateTime.millisecondsSinceEpoch -
+            (24 * 60 * 60 * 1000 * (current - 1)));
     DateTime day = new DateTime.fromMillisecondsSinceEpoch(
         firstDay.millisecondsSinceEpoch - (24 * 60 * 60 * 1000 * 7));
     return getYYYYMMDD(day, "-");
@@ -201,7 +237,8 @@ class TimeUtils {
   static String getLastWeekLastDayYYYYMMDD(DateTime dateTime) {
     int current = dateTime.weekday;
     DateTime lastDay = new DateTime.fromMillisecondsSinceEpoch(
-        dateTime.millisecondsSinceEpoch + (24 * 60 * 60 * 1000 * (7 - current)));
+        dateTime.millisecondsSinceEpoch +
+            (24 * 60 * 60 * 1000 * (7 - current)));
     DateTime day = new DateTime.fromMillisecondsSinceEpoch(
         lastDay.millisecondsSinceEpoch - (24 * 60 * 60 * 1000 * 7));
     return getYYYYMMDD(day, "-");

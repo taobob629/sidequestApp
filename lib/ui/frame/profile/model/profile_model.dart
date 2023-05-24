@@ -37,7 +37,7 @@ class ProfileModel {
   int taskNum = 0;
   int service = 0;
   int orders = 0;
-  int newGift = 0;
+  int giftOrderNum = 0;
   int sidekickNum = 0;
   String diamond = "";
   String phone = "";
@@ -82,7 +82,7 @@ class ProfileModel {
       this.taskNum = 0,
       this.service = 0,
       this.orders = 0,
-      this.newGift = 0,
+      this.giftOrderNum = 0,
       this.sidekickNum = 0,
       this.diamond = "",
       this.vipCanceled = false});
@@ -136,7 +136,7 @@ class ProfileModel {
     avamins = json["avamins"] ?? 0;
     totalmins = json["totalmins"] ?? 0;
     orders = json["orders"] ?? 0;
-    newGift = json["newGift"] ?? 0;
+    giftOrderNum = json["giftOrderNum"] ?? 0;
     service = json["service"] ?? 0;
     sidekickNum = json["sidekickNum"] ?? 0;
     diamond = json["diamond"] ?? "";
