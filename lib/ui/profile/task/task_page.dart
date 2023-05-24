@@ -53,7 +53,7 @@ class TaskPage extends StatelessWidget {
                           ),
                           child: ImageUtil.networkImage(
                             url: t.list[index].url,
-                            height: 150.h,
+                            height: 110.h,
                             width: Get.width - 30.w,
                             fit: BoxFit.cover,
                           ),
