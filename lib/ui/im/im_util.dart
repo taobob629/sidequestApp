@@ -64,30 +64,41 @@ class ImUtils {
     flog('申请加群 $gid ${joinGroupRes.code}');
     if (joinGroupRes.code == 0) {
       // 加入成功
-      final conversationID = "group_$gid";
-      final convRes = await TIMUIKitCore.getSDKInstance()
-          .getConversationManager()
-          .getConversation(conversationID: conversationID);
-      flog('获取会话 ${convRes.code}');
-      if (convRes.code == 0) {
-        final conversation = convRes.data ??
-            V2TimConversation(conversationID: conversationID, type: 2, groupID: gid);
-        if (isNeedReplace) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatPage(selectedConversation: conversation)));
-        } else {
-          flog('isNeedReplace== $isNeedReplace');
-          Get.to(ChatPage(selectedConversation: conversation));
-        }
-        showToast("加入成功");
-        //跳转到chatpage
-      } else {
-        showError(convRes.desc);
-      }
+      var conversation = await buildConverFromGid(gid);
+      goToChatPage(isNeedReplace, context, conversation);
+      showToast("加入成功");
     } else {
-      showError(joinGroupRes.desc);
+      //
+      if (joinGroupRes.code == 10013) {
+        //已经加入群跳转群聊
+        var conversation = await buildConverFromGid(gid);
+        goToChatPage(isNeedReplace, context, conversation);
+      }else {
+        showError(joinGroupRes.desc);
+      }
+    }
+  }
+
+  static void goToChatPage(bool isNeedReplace, BuildContext context, V2TimConversation conversation) {
+    if (isNeedReplace) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => ChatPage(selectedConversation: conversation)));
+    } else {
+      Get.to(ChatPage(selectedConversation: conversation));
+    }
+  }
+
+  static Future<V2TimConversation> buildConverFromGid(var gid) async {
+    final conversationID = "group_$gid";
+    final convRes = await TIMUIKitCore.getSDKInstance()
+        .getConversationManager()
+        .getConversation(conversationID: conversationID);
+    if (convRes.code == 0) {
+      final conversation =
+          convRes.data ?? V2TimConversation(conversationID: conversationID, type: 2, groupID: gid);
+      return conversation;
+    } else {
+      return V2TimConversation(conversationID: conversationID, type: 2, groupID: gid);
     }
   }
 
@@ -172,7 +183,7 @@ showShareDialog(V2TimConversation conversation, BuildContext context) {
 }
 
 void toCreatePostPage(V2TimConversation conversation) {
-     Get.toNamed(AppPages.ReleasePost,
+  Get.toNamed(AppPages.ReleasePost,
       arguments: Map()
         ..['gid'] = conversation.groupID
         ..['group_name'] = conversation.showName
@@ -195,7 +206,7 @@ decodeGroupGid(var content) {
 Widget buildGroupInviteWidget(BuildContext context, var content, String gid) {
   // RegExpMatch? match = exp.firstMatch(content);
   // var gid = match?.group(1) ?? '';
-   flog('gid$gid');
+  flog('gid$gid');
   return RichText(
       text: TextSpan(children: [
     TextSpan(
@@ -205,7 +216,7 @@ Widget buildGroupInviteWidget(BuildContext context, var content, String gid) {
         text: ' Join Now '.tr,
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            ImUtils.joniGroup(context, gid,isNeedReplace: false);
+            ImUtils.joniGroup(context, gid, isNeedReplace: false);
           },
         style: TextStyle(
             letterSpacing: 2,
