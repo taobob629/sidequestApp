@@ -45,7 +45,7 @@ class SkillListPage extends GetView<SkillListPageController> {
         appBar: tabWidget
             ? null
             : AppBar(
-                title: Text('My Services'.tr),
+                title: Text('SideKick'.tr),
                 elevation: 0,
               ),
         btnBar: FloatingButton(

@@ -20,37 +20,38 @@ class ServiceHeader extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 76.h,
+      height: 109.h,
       child: Row(
         children: [
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 4.r),
               decoration: itemDeraction(),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ImageUtil.assetImage('profile/ic_games', height: 32.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Sidekick'.tr,
-                        style: TextStyle(
-                          fontFamily: FONT_LIGHT,
-                          fontSize: 11.sp,
-                          color: Color(0xff808388),
-                        ),
-                      ),
-                      6.verticalSpace,
-                      Text(
-                        '${controller.userProfile.service}',
-                        style: TextStyle(
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp),
-                      )
-                    ],
+                  ImageUtil.assetImage(
+                    'profile/ic_games',
+                    height: 30.w,
+                    width: 30.w,
+                  ),
+                  6.verticalSpace,
+                  Text(
+                    'SideKick Services'.tr,
+                    style: TextStyle(
+                      fontFamily: FONT_LIGHT,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff808388),
+                    ),
+                  ),
+                  6.verticalSpace,
+                  Text(
+                    '${controller.userProfile.service}',
+                    style: TextStyle(
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp),
                   )
                 ],
               ),
@@ -65,32 +66,32 @@ class ServiceHeader extends GetView<UserController> {
                 onTap: () => Get.to(
                   () => MyOrdersPage(),
                 )?.then((value) => controller.updateInfo()),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ImageUtil.assetImage('profile/ic_orders',
-                        width: 32.w, height: 32.h),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Order'.tr,
+                    ImageUtil.assetImage(
+                      'profile/ic_orders',
+                      height: 30.w,
+                      width: 30.w,
+                    ),
+                    6.verticalSpace,
+                    Text(
+                      'Order Quantity'.tr,
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff808388),
+                      ),
+                    ),
+                    6.verticalSpace,
+                    Obx(() => Text(
+                          '${controller.userProfile.orders}',
                           style: TextStyle(
-                            fontSize: 11.sp,
-                            fontFamily: FONT_LIGHT,
-                            color: Color(0xff808388),
-                          ),
-                        ),
-                        6.verticalSpace,
-                        Obx(() => Text(
-                              '${controller.userProfile.orders}',
-                              style: TextStyle(
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp),
-                            ))
-                      ],
-                    )
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp),
+                        ))
                   ],
                 ),
               ),
@@ -105,32 +106,32 @@ class ServiceHeader extends GetView<UserController> {
                 onTap: () => Get.to(
                   () => MyGiftPage(),
                 )?.then((value) => controller.updateInfo()),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ImageUtil.assetImage('profile/ic_orders',
-                        width: 32.w, height: 32.h),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Gift'.tr,
+                    ImageUtil.assetImage(
+                      'profile/ic_gift',
+                      height: 30.w,
+                      width: 30.w,
+                    ),
+                    6.verticalSpace,
+                    Text(
+                      'Gift Order Num'.tr,
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff808388),
+                      ),
+                    ),
+                    6.verticalSpace,
+                    Obx(() => Text(
+                          '${controller.userProfile.giftOrderNum}',
                           style: TextStyle(
-                            fontSize: 11.sp,
-                            fontFamily: FONT_LIGHT,
-                            color: Color(0xff808388),
-                          ),
-                        ),
-                        6.verticalSpace,
-                        Obx(() => Text(
-                              '${controller.userProfile.giftOrderNum}',
-                              style: TextStyle(
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp),
-                            ))
-                      ],
-                    )
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp),
+                        ))
                   ],
                 ),
               ),
