@@ -32,9 +32,17 @@ class TimerWidget extends StatelessWidget {
     var sections = ['day'.tr, 'hour'.tr, 'min'.tr, 'sec'.tr];
     Shader shader = gradient.createShader(Rect.fromLTWH(0, 0, 1080, 1920));
     return Container(
+      decoration: BoxDecoration(
+        color: Color(0x77000000),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        // 阴影的颜色，模糊半径
+        boxShadow: [BoxShadow(color: Color(0x55000000), blurRadius: 16)],
+      ),
       constraints: BoxConstraints(minWidth: 120.w, maxWidth: 160.w),
       child: Column(
         children: [
+          5.verticalSpace,
           Text(
             'COMMING SOON..',
             style: TextStyle(fontSize: 18.sp, fontFamily: FONT_BLACK),
@@ -94,6 +102,7 @@ class TimerWidget extends StatelessWidget {
                   ))),
             ],
           ),
+          5.verticalSpace,
         ],
       ),
     );
@@ -188,6 +197,7 @@ class TimerController extends BasePageController {
       updateTime();
     });
   }
+
   @override
   void onClose() {
     super.onClose();
