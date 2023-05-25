@@ -41,6 +41,7 @@ class ChatController extends BasePageController {
   @override
   void onInit() {
     super.onInit();
+   if(selectedConversation.type == 1) return;
     getGroupInfo();
     checkGroup();
   }
