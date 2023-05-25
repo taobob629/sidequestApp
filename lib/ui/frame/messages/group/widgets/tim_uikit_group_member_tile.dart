@@ -148,7 +148,7 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
               alignment: WrapAlignment.start,
               children: [
                 ..._groupMemberListBuilder(memberList, theme, model),
-                if (isCanInviteMember)
+         //       if (isCanInviteMember)
                   DottedBorder(
                       borderType: BorderType.RRect,
                       radius: const Radius.circular(4.5),
