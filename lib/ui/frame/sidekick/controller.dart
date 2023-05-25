@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/network_method.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -26,6 +27,9 @@ List<KeyMap> gameInitFilter = [
   KeyMap('Rank'.tr, null),
   KeyMap('Level'.tr, null)
 ];
+
+final GlobalKey addGameKey = GlobalKey();
+final GlobalKey languageKey = GlobalKey();
 
 class SideKickController extends RefreshListController<GameUserModel> {
   RxList<KeyMap?> filters = RxList(gameInitFilter);
@@ -53,7 +57,8 @@ class SideKickController extends RefreshListController<GameUserModel> {
 
   getGameSection() async {
     try {
-      gameSections = await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
+      gameSections =
+      await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
     } catch (e) {
       flog('gameSection catchErr e $e');
     }
@@ -77,13 +82,18 @@ class SideKickController extends RefreshListController<GameUserModel> {
     _currentSelectIndex.listen((value) {});
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
   init() async {
-    if( UserController.find.user.value.id!=0){
+    if (UserController.find.user.value.id != 0) {
       //已经登录过了
       refresh();
-    }else {
+    } else {
       UserController.find.user.listen((user) {
-        if(user?.id!=0) {
+        if (user?.id != 0) {
           refresh();
         }
       });
@@ -128,7 +138,9 @@ class SideKickController extends RefreshListController<GameUserModel> {
 
   @override
   List<GameUserModel> dealData(dio.Response<dynamic> response) {
-    return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+    return response.data
+        .map<GameUserModel>((item) => GameUserModel.fromJson(item))
+        .toList();
   }
 
   @override
