@@ -23,9 +23,9 @@ class TimeUtils {
 
   /// 时间乘1000后转换成我们想要的格式
   static String convertTime(int createTime) {
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(createTime * 1000);
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(createTime * 1000,isUtc: false);
     String formattedDateTime =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+        DateFormat('dd/MM/yyyy HH:mm:ss').format(dateTime);
     return formattedDateTime;
   }
 
