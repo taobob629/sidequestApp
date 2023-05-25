@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/widget/timer_widget.dart';
 import 'package:wy/utils/index.dart';
@@ -43,8 +44,8 @@ class EventFlexibleHeader extends GetView<EventPageController> {
             right: 16,
             bottom: 50.h,
             child: Obx(() => Visibility(
-                visible: controller.eventDetailModel.value.matchDiff == 6 &&
-                    controller.eventDetailModel.value.kopStartTime != 0,
+                visible: controller.eventDetailModel.value.matchDiff == TYPE_PRIZE &&
+                    controller.eventDetailModel.value.showCounter(),
                 child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
                         controller.eventDetailModel.value.kopStartTime * 1000)
                     .difference(DateTime.now())

@@ -11,8 +11,6 @@ import 'package:wy/ui/index/tab_news_page.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:wy/widget/tab_widget.dart';
 
-GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
-
 class IndexPage extends StatelessWidget {
   final controller = Get.put(IndexPageController());
 

@@ -30,7 +30,9 @@ class EventDetailModel {
   int kopEndTime=0;
   int kopStartTime=0;//开始时间 结束时间
   bool get canCancel => _canCancel.value;
-
+  showCounter(){
+    return DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
+  }
   set canCancel(bool value) {
     _canCancel.value = value;
   }
@@ -86,7 +88,8 @@ class LocationModel extends SelectorItem {
   late String name = "";
   late bool full = false;
 
-  LocationModel();
+  LocationModel(this.id);
+
 
   LocationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -367,6 +367,7 @@ class EventPageController extends BasePageController {
   }
 
   void joinActivity(BuildContext context) async {
+    flog('joinActivity');
     userController.checkLogin(() async {
       if (eventDetailModel.value.matchDiff == 5) {
         var res = await showSheet(
@@ -441,8 +442,12 @@ class EventPageController extends BasePageController {
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
-        item = await SelectorDialog.show(context, eventDetailModel.value.location,
-            title: "Select Location".tr);
+        if(eventDetailModel.value.matchDiff==TYPE_PRIZE) {
+          item = LocationModel(5); //抽奖默认5
+        }else {
+          item = await SelectorDialog.show(context, eventDetailModel.value.location,
+              title: "Select Location".tr);
+        }
       } else {
         item = eventDetailModel.value.location[0];
       }

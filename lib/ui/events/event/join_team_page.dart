@@ -308,7 +308,7 @@ class JoinTeamPageController extends GetxController {
   int id;
   RxList<LocationModel> location = RxList([]);
 
-  var selectLocation = LocationModel().obs;
+  var selectLocation = LocationModel(0).obs;
 
   var genPasscode = "".obs;
 
