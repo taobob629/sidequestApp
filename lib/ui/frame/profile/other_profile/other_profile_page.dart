@@ -20,6 +20,7 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import '../../../../model/skill_model.dart';
 import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/route.dart';
+import '../../../playwith/balance/my_earnings_page.dart';
 import '../../../service/add/add_game_page.dart';
 import '../my_profile/badges_widget.dart';
 import '../play_order/play_order_page.dart';
@@ -509,9 +510,41 @@ class OtherProfilePage extends StatelessWidget {
                             GestureDetector(
                               onTapDown: (details) {
                                 print(details.globalPosition);
-                                Get.dialog(TipsDialog(
-                                  offset: details.globalPosition,
-                                  tips: t.player.value.signature,
+                                Offset offset = details.globalPosition;
+                                Get.dialog(Stack(
+                                  alignment: AlignmentDirectional.topCenter,
+                                  children: [
+                                    Positioned(
+                                      top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15,
+                                      left: offset.dx - 10,
+                                      child: ClipPath(
+                                        clipper: Triangle(dir: -1),
+                                        child: Container(
+                                          width: 20.0,
+                                          height: 10.0,
+                                          color: Color(0xff282640),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15 + 10,
+                                      child: Container(
+                                        width: Get.width - 30.w,
+                                        padding: EdgeInsets.all(10.r),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xff282640),
+                                            borderRadius: BorderRadius.circular(10.r)),
+                                        child: Text(
+                                          t.player.value.signature,
+                                          style: TextStyle(
+                                            color: Color(0xff8291B4),
+                                            height: 1.2,
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ));
                               },
                               child: Container(
