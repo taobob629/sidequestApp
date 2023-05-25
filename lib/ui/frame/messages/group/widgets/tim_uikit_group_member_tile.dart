@@ -37,7 +37,9 @@ class GroupMemberTile extends TIMUIKitStatelessWidget {
     final friendRemark = item?.friendRemark ?? "";
     final nickName = item?.nickName ?? "";
     final userID = item?.userID;
-    final showName = nickName != "" ? nickName : userID;
+    final nameCard = item?.nameCard??'';//群昵称
+
+    final showName =nameCard.isEmpty?(nickName != "" ? nickName : userID):nameCard;
     return friendRemark != "" ? friendRemark : showName;
   }
 

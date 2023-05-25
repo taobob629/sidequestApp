@@ -147,7 +147,9 @@ class _GroupProfileNotificationPageState
             maxLines: 4,
             controller: _controller,
             keyboardType: TextInputType.multiline,
+            cursorColor: Colors.white,
             autofocus: true,
+            showCursor: true,
             decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(

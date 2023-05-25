@@ -40,7 +40,7 @@ class EventFlexibleHeader extends GetView<EventPageController> {
                       colors: [Colors.transparent, AppColor.background])),
             )),
         Positioned(
-            right: 26,
+            right: 16,
             bottom: 50.h,
             child: Obx(() => Visibility(
                 visible: controller.eventDetailModel.value.matchDiff == 6 &&

@@ -105,7 +105,6 @@ class TIMUIKitMergerElemState extends TIMUIKitState<TIMUIKitMergerElem> {
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: widget.isSelf ? const Radius.circular(10) : Radius.zero,
           bottomLeft: const Radius.circular(10),
@@ -139,7 +138,6 @@ class TIMUIKitMergerElemState extends TIMUIKitState<TIMUIKitMergerElem> {
                       maxLines: 1,
                       style: const TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
                       ),
                     ),
                   )

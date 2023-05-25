@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/life_cycle/group_profile_life_cycle.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_conversation_view_model.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_self_info_view_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
@@ -44,6 +45,7 @@ class GroupProfilePage extends StatelessWidget {
                   } else {
                     Navigator.of(context)
                         .popUntil(ModalRoute.withName(AppPages.Main));
+                    serviceLocator<TUIConversationViewModel>().refresh();
                   }
                 }),
                 groupID: groupID,
