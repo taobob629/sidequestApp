@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:html/dom.dart' as dom;
@@ -36,7 +37,28 @@ class TabOverviewPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           decoration: itemDecoration(),
           child: Column(
-            children: [
+            children:controller.eventDetailModel.value.matchDiff==TYPE_PRIZE?[
+              _buildSectionTopItem(
+                "time".tr,
+                "Draw Time".tr,
+                "${controller.eventDetailModel.value.start.toDateStr}",
+              ),
+              _buildSectionTopItem(
+                "fee".tr,
+                "Price".tr,
+                "${controller.eventDetailModel.value.fee}",
+              ),
+              _buildSectionTopItem(
+                "day".tr,
+                "Constraint".tr,
+                "${controller.eventDetailModel.value.constraint}",
+              ),
+              _buildSectionTopItem(
+                "day".tr,
+                "formation".tr,
+                "${controller.eventDetailModel.value.formation}",
+              ),
+            ]: [
               // _buildSectionTopItem("time", "Check In", "${controller.eventDetailModel.value.checkinTime}"),
               // _buildSectionTopItem("day", "Event Time", "${controller.eventDetailModel.value.startTime}"),
               // controller.type == 2 ? _buildSectionTopItem("game", "Game", "${controller.eventDetailModel.value.gameName}") : Container(),

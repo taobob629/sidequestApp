@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/model/participant_model.dart';
 import 'package:wy/model/selector_item.dart';
-
+const int TYPE_PRIZE=6;//抽奖
 class EventDetailModel {
   late int id = 0;
   late String image = "";
