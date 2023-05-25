@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api_service/profile_api.dart';
@@ -40,6 +42,7 @@ class ChatController extends BasePageController {
   void onInit() {
     super.onInit();
     getGroupInfo();
+    checkGroup();
   }
 
   Rxn _memberInfo = Rxn<V2TimGroupInfo?>();
@@ -64,19 +67,36 @@ class ChatController extends BasePageController {
   // static const int V2TIM_GROUP_MEMBER_ROLE_OWNER = 400;
   List<String> menuAdmin = ['QR', 'Share to Posts', 'Group Info']; //管理员
   List<String> menuUser = ['QR', 'Group Info']; //普通用户
-  RxList<String> popMenus = ['QR', 'Share to Posts', 'Group Info'].obs;
+  RxList<String> popMenus = RxList([]);
+  RxBool groupExists = false.obs;
+
+  checkGroup() async {
+    final res = await serviceLocator<GroupServices>().getGroupMemberList(
+        groupID: selectedConversation.groupID!,
+        filter: GroupMemberFilterTypeEnum.V2TIM_GROUP_MEMBER_FILTER_ALL,
+        count: 100,
+        nextSeq: "0");
+    if (res.code == 10010) {
+      groupExists.value = false;
+    } else {
+      groupExists.value = true;
+    }
+  }
 
   Future<void> getGroupInfo() async {
     popMenus.clear();
     var res = await TencentImSDKPlugin.v2TIMManager
         .getGroupManager()
         .getGroupsInfo(groupIDList: [selectedConversation.groupID!]);
+    flog('result ${res.code} ');
     if (res.code == 0) {
       var groupInfo = res.data?.first;
       memberInfo = groupInfo?.groupInfo;
       count.value = groupInfo?.groupInfo?.memberCount ?? 0;
-      if (memberInfo.role == GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_OWNER ||
-          memberInfo.role == GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_ADMIN) {
+      if (memberInfo.role ==
+              GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_OWNER ||
+          memberInfo.role ==
+              GroupMemberRoleType.V2TIM_GROUP_MEMBER_ROLE_ADMIN) {
         popMenus.addAll(menuAdmin);
       } else {
         popMenus.addAll(menuUser);
@@ -91,7 +111,8 @@ class ChatController extends BasePageController {
             height: 200,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(16.0))),
             child: QrImage(
               // backgroundColor: Colors.white,
               foregroundColor: AppColor.itemBg,
@@ -125,7 +146,8 @@ class ChatPage extends StatelessWidget {
   String pwId = "";
 
   getUserId() {
-    ProfileApi.uk2id(selectedConversation.userID?.replaceAll("c2c_", "")).then((value) {
+    ProfileApi.uk2id(selectedConversation.userID?.replaceAll("c2c_", ""))
+        .then((value) {
       pwId = value.toString();
     });
   }
@@ -138,8 +160,8 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<ChatController>(tag: "ChatKey")) {
-      controller =
-          Get.put(ChatController(selectedConversation), tag: selectedConversation.conversationID);
+      controller = Get.put(ChatController(selectedConversation),
+          tag: selectedConversation.conversationID);
     }
     getUserId();
 
@@ -147,8 +169,8 @@ class ChatPage extends StatelessWidget {
       appBarConfig: selectedConversation.type == 1
           ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
           : AppBar(
-              title: Obx(
-                  () => Text('${selectedConversation.showName} (${'${controller?.count.value}'})')),
+              title: Obx(() => Text(
+                  '${selectedConversation.showName} (${'${controller?.count.value}'})')),
               actions: actions(context),
             ),
       config: TIMUIKitChatConfig(
@@ -159,7 +181,8 @@ class ChatPage extends StatelessWidget {
         showFilePickAction: false,
         extraAction: [
           if (selectedConversation.type == 1)
-            if (!(selectedConversation.userID ?? "").contains(UserController.find.userProfile.uk))
+            if (!(selectedConversation.userID ?? "")
+                .contains(UserController.find.userProfile.uk))
               MorePanelItem(
                   id: "customMessage",
                   title: "Gift".tr,
@@ -175,7 +198,8 @@ class ChatPage extends StatelessWidget {
                     if (heartNum != null) {
                       Future.delayed(Duration(milliseconds: 300)).then(
                         (v) {
-                          showHearts(context, Offset(Get.width / 2, Get.height / 2), heartNum);
+                          showHearts(context,
+                              Offset(Get.width / 2, Get.height / 2), heartNum);
                         },
                       );
                     }
@@ -185,7 +209,8 @@ class ChatPage extends StatelessWidget {
                     width: 64,
                     margin: const EdgeInsets.only(bottom: 4),
                     decoration: const BoxDecoration(
-                        color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: Image.asset(
                       "assets/images/post/icon_gift.png",
                       height: 64,
@@ -202,7 +227,8 @@ class ChatPage extends StatelessWidget {
                   height: 60.h,
                   // padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: AppColor.color2E3C, borderRadius: BorderRadius.circular(10)),
+                      color: AppColor.color2E3C,
+                      borderRadius: BorderRadius.circular(10)),
                   alignment: Alignment.center,
                   child: Image.asset(
                     "assets/images/im/icon_${item.title.toLowerCase()}.webp",
@@ -223,7 +249,8 @@ class ChatPage extends StatelessWidget {
       customStickerPanel: renderCustomStickerPanel,
       conversationID: _getConvID() ?? '',
       // groupID or UserID
-      conversationType: selectedConversation.type == 1 ? ConvType.c2c : ConvType.group,
+      conversationType:
+          selectedConversation.type == 1 ? ConvType.c2c : ConvType.group,
       // Conversation type
       conversationShowName: selectedConversation.showName ?? "",
       // Conversation display name
@@ -235,7 +262,9 @@ class ChatPage extends StatelessWidget {
         //     ))
         if (selectUk != UserController.find.userProfile.uk.toString()) {
           if (pwId.isEmpty) {
-            ProfileApi.uk2id(selectedConversation.userID?.replaceAll("c2c_", "")).then((value) {
+            ProfileApi.uk2id(
+                    selectedConversation.userID?.replaceAll("c2c_", ""))
+                .then((value) {
               pwId = value.toString();
               NavigatorHelper.toOtherProfile(pwId);
             });
@@ -268,8 +297,8 @@ class ChatPage extends StatelessWidget {
           shape: BoxShape.circle,
         );
       },
-      messageItemBuilder:
-          MessageItemBuilder(customMessageItemBuilder: (message, isShowJump, clearJump) {
+      messageItemBuilder: MessageItemBuilder(
+          customMessageItemBuilder: (message, isShowJump, clearJump) {
         flog('isself ${message.isSelf}');
         var json = jsonDecode(message.customElem!.data!);
         var data = json;
@@ -283,12 +312,14 @@ class ChatPage extends StatelessWidget {
           onTap: () {
             switch (type) {
               case "play_order":
-                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = data['orderId'])
+                Get.toNamed(AppPages.OrderDetail,
+                        arguments: Map()..['id'] = data['orderId'])
                     ?.whenComplete(() => _getPlayOrder());
                 break;
               case "TopUp_Credit":
                 int orderId = json['orderId'];
-                Get.toNamed(AppPages.OrderDetail, arguments: Map()..['id'] = orderId)
+                Get.toNamed(AppPages.OrderDetail,
+                        arguments: Map()..['id'] = orderId)
                     ?.whenComplete(() => _getPlayOrder());
                 break;
               case "PostMessage":
@@ -302,7 +333,8 @@ class ChatPage extends StatelessWidget {
                   showToast('gid为空');
                   return;
                 }
-                ImUtils.joniGroup(context, data['groupId'], isNeedReplace: true);
+                ImUtils.joniGroup(context, data['groupId'],
+                    isNeedReplace: true);
                 break;
               default:
             }
@@ -320,58 +352,60 @@ class ChatPage extends StatelessWidget {
 
   List<Widget> actions(BuildContext context) {
     return [
-     Obx(()=>Visibility(
-         visible: controller.popMenus.isNotEmpty,
-         child:  PopupMenuButton(
-         color: AppColor.itemBg,
-         icon: Icon(
-           Icons.more_vert_outlined,
-           color: Colors.white,
-         ),
-         onSelected: (item) {
-           if (item == 'QR'.tr) {
-             flog('share');
-             controller?.share();
-             return;
-           }
-           if (item == "Share to Posts".tr) {
-             toCreatePostPage(selectedConversation);
-             return;
-           }
-           if (item == "Group Info".tr) {
-             final conversationType = selectedConversation.type;
+      Obx(() => Visibility(
+          visible:
+              controller.popMenus.isNotEmpty && controller.groupExists.value,
+          child: PopupMenuButton(
+              color: AppColor.itemBg,
+              icon: Icon(
+                Icons.more_vert_outlined,
+                color: Colors.white,
+              ),
+              onSelected: (item) {
+                if (item == 'QR'.tr) {
+                  flog('share');
+                  controller?.share();
+                  return;
+                }
+                if (item == "Share to Posts".tr) {
+                  toCreatePostPage(selectedConversation);
+                  return;
+                }
+                if (item == "Group Info".tr) {
+                  final conversationType = selectedConversation.type;
 
-             if (conversationType == 1) {
-               final userID = selectedConversation.userID;
-               // if had remark modified its will back new remark
-             } else {
-               final groupID = selectedConversation.groupID;
-               if (groupID != null) {
-                 Navigator.push(
-                     context,
-                     MaterialPageRoute(
-                       builder: (context) => GroupProfilePage(
-                         groupID: groupID,
-                       ),
-                     ));
-               }
-             }
-           }
-         },
-         itemBuilder: (context) => <PopupMenuEntry<String>>[
-           ...controller.popMenus.mapIndexed((index, e) => PopupMenuItem<String>(
-             value: e,
-             child: IconTextWidget(
-               icon: '',
-               iconWidget: Icon(
-                 menuIcon(index),
-                 size: 22,
-                 color: Colors.white,
-               ),
-               text: '$e'.tr,
-             ),
-           ))
-         ]))),
+                  if (conversationType == 1) {
+                    final userID = selectedConversation.userID;
+                    // if had remark modified its will back new remark
+                  } else {
+                    final groupID = selectedConversation.groupID;
+                    if (groupID != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GroupProfilePage(
+                              groupID: groupID,
+                            ),
+                          ));
+                    }
+                  }
+                }
+              },
+              itemBuilder: (context) => <PopupMenuEntry<String>>[
+                    ...controller.popMenus
+                        .mapIndexed((index, e) => PopupMenuItem<String>(
+                              value: e,
+                              child: IconTextWidget(
+                                icon: '',
+                                iconWidget: Icon(
+                                  menuIcon(index),
+                                  size: 22,
+                                  color: Colors.white,
+                                ),
+                                text: '$e'.tr,
+                              ),
+                            ))
+                  ]))),
     ];
   }
 
@@ -387,7 +421,8 @@ class ChatPage extends StatelessWidget {
   }
 
   _getPlayOrder() {
-    ImApi.getCurrentPlayOrderDetail(selectedConversation.userID!, orderSn).then((value) {
+    ImApi.getCurrentPlayOrderDetail(selectedConversation.userID!, orderSn)
+        .then((value) {
       playOrderDetailModel = value;
     });
   }
@@ -400,7 +435,8 @@ class ChatPage extends StatelessWidget {
     addText,
     List<CustomEmojiFaceData> defaultCustomEmojiStickerList = const [],
   }) {
-    final defaultEmojiList = defaultCustomEmojiStickerList.map((customEmojiPackage) {
+    final defaultEmojiList =
+        defaultCustomEmojiStickerList.map((customEmojiPackage) {
       return CustomStickerPackage(
           name: customEmojiPackage.name,
           baseUrl: "assets/custom_face_resource/${customEmojiPackage.name}",
@@ -409,7 +445,8 @@ class ChatPage extends StatelessWidget {
           stickerList: customEmojiPackage.list
               .asMap()
               .keys
-              .map((idx) => CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
+              .map((idx) =>
+                  CustomSticker(index: idx, name: customEmojiPackage.list[idx]))
               .toList(),
           menuItem: CustomSticker(
             index: 0,
@@ -419,7 +456,8 @@ class ChatPage extends StatelessWidget {
 
     return StickerPanel(
       sendTextMsg: sendTextMessage,
-      sendFaceMsg: (index, data) => sendFaceMessage(index + 1, (data.split("/")[3]).split("@")[0]),
+      sendFaceMsg: (index, data) =>
+          sendFaceMessage(index + 1, (data.split("/")[3]).split("@")[0]),
       deleteText: deleteText,
       addText: addText,
       addCustomEmojiText: addCustomEmojiText,
