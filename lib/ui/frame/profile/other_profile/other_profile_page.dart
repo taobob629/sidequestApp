@@ -40,6 +40,26 @@ class OtherProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String text = t.player.value.signature.isNotEmpty
+        ? t.player.value.signature
+        : "Thank you for your attention and love";
+    final TextStyle textStyle = TextStyle(
+      fontSize: 13.sp,
+      color: Color(0xFFC5C5C5),
+      fontFamily: FONT_LIGHT,
+    );
+
+    final textSpan = TextSpan(text: text, style: textStyle);
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+      maxLines: 5,
+    );
+
+    // 必须要有这个maxWidth，不然就会只能是一行
+    textPainter.layout(maxWidth: Get.width - 40);
+    final expandedHeight = textPainter.height;
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -58,11 +78,7 @@ class OtherProfilePage extends StatelessWidget {
                               fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: (180.h +
-                            250.h -
-                            Get.mediaQuery.padding.top -
-                            (t.isSelf ? 66 : 0))
-                        .h,
+                    expandedHeight: t.isSelf ? expandedHeight + 60.h + 250.h : expandedHeight + 110.h + 250.h,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
@@ -505,16 +521,10 @@ class OtherProfilePage extends StatelessWidget {
                                     bottom: 10.h,
                                     top: 10.h),
                                 child: Text(
-                                  t.player.value.signature.isNotEmpty
-                                      ? t.player.value.signature
-                                      : "Thank you for your attention and love",
+                                  text,
                                   maxLines: 5,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Color(0xFFC5C5C5),
-                                    fontFamily: FONT_LIGHT,
-                                  ),
+                                  style: textStyle,
                                 ),
                               ),
                             ),
