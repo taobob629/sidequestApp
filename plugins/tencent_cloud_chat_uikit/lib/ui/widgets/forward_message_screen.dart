@@ -93,6 +93,7 @@ class _ForwardMessageScreenState extends TIMUIKitState<ForwardMessageScreen> {
             ]),
           ),
         ),
+        leadingWidth: 100,
         leading: TextButton(
           onPressed: () {
             if (isMultiSelect) {

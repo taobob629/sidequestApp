@@ -111,7 +111,7 @@ class _RecentForwardListState extends TIMUIKitState<RecentForwardList> {
                     showName,
                     // textAlign: TextAlign.center,
                     style:
-                        const TextStyle(color: Color(0xFF111111), fontSize: 18),
+                        const TextStyle( fontSize: 18),
                   ),
                 ))
               ],
