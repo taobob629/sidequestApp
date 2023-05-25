@@ -59,7 +59,14 @@ class OtherProfilePage extends StatelessWidget {
 
     // 必须要有这个maxWidth，不然就会只能是一行
     textPainter.layout(maxWidth: Get.width - 40);
-    final expandedHeight = textPainter.height;
+
+    final expandedHeight = Platform.isAndroid
+        ? t.isSelf
+            ? textPainter.height + 90.h + 250.h
+            : textPainter.height + 140.h + 250.h
+        : t.isSelf
+            ? textPainter.height + 60.h + 250.h
+            : textPainter.height + 110.h + 250.h;
 
     return Scaffold(
       body: Stack(
@@ -79,7 +86,7 @@ class OtherProfilePage extends StatelessWidget {
                               fontSize: 19.sp, fontFamily: FONT_LIGHT),
                         ))),
                     centerTitle: true,
-                    expandedHeight: t.isSelf ? expandedHeight + 60.h + 250.h : expandedHeight + 110.h + 250.h,
+                    expandedHeight: expandedHeight,
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.pin,
                       background: Container(
@@ -515,7 +522,11 @@ class OtherProfilePage extends StatelessWidget {
                                   alignment: AlignmentDirectional.topCenter,
                                   children: [
                                     Positioned(
-                                      top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15,
+                                      top: offset.dy -
+                                          MediaQuery.of(Get.context!)
+                                              .padding
+                                              .top +
+                                          15,
                                       left: offset.dx - 10,
                                       child: ClipPath(
                                         clipper: Triangle(dir: -1),
@@ -527,13 +538,19 @@ class OtherProfilePage extends StatelessWidget {
                                       ),
                                     ),
                                     Positioned(
-                                      top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15 + 10,
+                                      top: offset.dy -
+                                          MediaQuery.of(Get.context!)
+                                              .padding
+                                              .top +
+                                          15 +
+                                          10,
                                       child: Container(
                                         width: Get.width - 30.w,
                                         padding: EdgeInsets.all(10.r),
                                         decoration: BoxDecoration(
                                             color: Color(0xff282640),
-                                            borderRadius: BorderRadius.circular(10.r)),
+                                            borderRadius:
+                                                BorderRadius.circular(10.r)),
                                         child: Text(
                                           t.player.value.signature,
                                           style: TextStyle(
