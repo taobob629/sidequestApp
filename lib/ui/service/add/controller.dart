@@ -135,6 +135,7 @@ class AddGamePageController extends GetxController {
     flog(' serviceModel?.serviceTypes ${serviceModel?.serviceTypes}');
     serviceModel?.serviceTypes?.forEach((e) {
       e.curPrice = e.price;
+      e.initData();
       mPriceRanges?.add(e);
     });
     if (serviceModel?.pwSkillAuth?.thumb != null) {
