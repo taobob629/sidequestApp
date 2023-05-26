@@ -357,6 +357,10 @@ class UserController extends GetxController {
   }
 
   void _dealMsg(V2TimMessage msg) {
+    if (msg.customElem == null || msg.customElem?.data == null) {
+      return;
+    }
+
     Map<String, dynamic> map = json.decode(msg.customElem!.data!);
 
     switch (map["type"]) {
