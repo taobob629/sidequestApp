@@ -41,7 +41,7 @@ class TabParticipantsPage extends StatelessWidget {
           Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}",
+                "${controller.eventDetailModel.value.participantes()}",
                 style: TextStyle(color: Colors.white, fontSize: 12.sp, fontFamily: FONT_MEDIUM),
               ))
         ],

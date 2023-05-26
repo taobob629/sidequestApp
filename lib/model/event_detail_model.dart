@@ -34,6 +34,12 @@ class EventDetailModel {
   showCounter(){
     return DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
   }
+  participantes(){
+    if(matchDiff==TYPE_PRIZE&&participants.length==0){
+      return '';
+    }
+    return '${participants.length}/${totalMembers}';
+  }
   set canCancel(bool value) {
     _canCancel.value = value;
   }
