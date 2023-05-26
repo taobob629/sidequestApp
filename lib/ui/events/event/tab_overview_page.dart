@@ -55,7 +55,7 @@ class TabOverviewPage extends StatelessWidget {
               ),
               _buildSectionTopItem(
                 "day".tr,
-                "formation".tr,
+                "Formation".tr,
                 "${controller.eventDetailModel.value.formation}",
               ),
             ]: [
