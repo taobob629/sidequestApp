@@ -23,7 +23,7 @@ class SectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Visibility(
         visible:
-        controller.gameList.isNotEmpty && controller.gameSections != null,
+            controller.gameList.isNotEmpty && controller.gameSections != null,
         child: Container(
           margin: EdgeInsets.only(left: 15, right: 15).r,
           child: Stack(
@@ -49,33 +49,33 @@ class SectionWidget extends StatelessWidget {
         removeTop: true,
         child: Container(
           child: Obx(() => GZXDropDownHeader(
-            iconColor: Colors.white,
-            dropDownStyle:
-            TextStyle(color: AppColor.textYellow, fontSize: 12.sp),
-            iconDropDownColor: Colors.white,
-            style: TextStyle(color: Colors.white, fontSize: 12.sp),
-            dividerColor: Colors.transparent,
-            itemDecoration: BoxDecoration(
-                color: Color(0xff32353D),
-                borderRadius: BorderRadius.circular(5.w)),
-            color: Color(0xFF1B1A1E),
-            //  height: 30.h,
-            borderColor: Colors.transparent,
-            items: controller.filters
-                .map((item) => GZXDropDownHeaderItem(item?.name ?? '',
-                iconData: Icons.keyboard_arrow_down_rounded,
-                iconDropDownData: Icons.keyboard_arrow_up))
-                .toList(),
-            dividerHeight: 1,
-            //  style: TextStyle(color: Colors.white),
-            controller: dropDownController,
-            stackKey: _stackKey,
-            onItemTap: (item) {
-              //   controller.show(1);
-            },
+                iconColor: Colors.white,
+                dropDownStyle:
+                    TextStyle(color: AppColor.textYellow, fontSize: 12.sp),
+                iconDropDownColor: Colors.white,
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                dividerColor: Colors.transparent,
+                itemDecoration: BoxDecoration(
+                    color: Color(0xff32353D),
+                    borderRadius: BorderRadius.circular(5.w)),
+                color: Color(0xFF1B1A1E),
+                //  height: 30.h,
+                borderColor: Colors.transparent,
+                items: controller.filters
+                    .map((item) => GZXDropDownHeaderItem(item?.name ?? '',
+                        iconData: Icons.keyboard_arrow_down_rounded,
+                        iconDropDownData: Icons.keyboard_arrow_up))
+                    .toList(),
+                dividerHeight: 1,
+                //  style: TextStyle(color: Colors.white),
+                controller: dropDownController,
+                stackKey: _stackKey,
+                onItemTap: (item) {
+                  //   controller.show(1);
+                },
 
-            ///特殊模块,选中数据只亮起,不需要更改头部title,下标为1
-          )),
+                ///特殊模块,选中数据只亮起,不需要更改头部title,下标为1
+              )),
         ));
   }
 
@@ -113,24 +113,41 @@ class SectionWidget extends StatelessWidget {
         removeTop: true,
         child: ListView.builder(
           shrinkWrap: true,
-          itemBuilder: (context, index) => Showcase(
-              key: languageKey,
-              description: '请选择你的服务语言，筛选陪玩(APP语言可在个人设置中完成)',
-              child: InkWell(
-                onTap: () {
-                  controller.onSectionChange(0, index);
-                  dropDownController.hide();
-                },
-                child: Container(
-                  height: sectionHeight,
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 10).r,
-                  child: Text(
-                    '${controller.gameSections?.language[index].name}',
-                    style: TextStyle(color: Colors.white54, fontSize: 13.sp),
+          itemBuilder: (context, index) => index == 0
+              ? Showcase(
+                  key: languageKey,
+                  description: '请选择你的服务语言，筛选陪玩(APP语言可在个人设置中完成)',
+                  child: InkWell(
+                    onTap: () {
+                      controller.onSectionChange(0, index);
+                      dropDownController.hide();
+                    },
+                    child: Container(
+                      height: sectionHeight,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 10).r,
+                      child: Text(
+                        '${controller.gameSections?.language[index].name}',
+                        style:
+                            TextStyle(color: Colors.white54, fontSize: 13.sp),
+                      ),
+                    ),
+                  ))
+              : InkWell(
+                  onTap: () {
+                    controller.onSectionChange(0, index);
+                    dropDownController.hide();
+                  },
+                  child: Container(
+                    height: sectionHeight,
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 10).r,
+                    child: Text(
+                      '${controller.gameSections?.language[index].name}',
+                      style: TextStyle(color: Colors.white54, fontSize: 13.sp),
+                    ),
                   ),
                 ),
-              )),
           itemCount: controller.gameSections?.language?.length ?? 0,
         ));
   }
