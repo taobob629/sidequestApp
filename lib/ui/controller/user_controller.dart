@@ -426,6 +426,7 @@ class UserController extends GetxController {
   Future<void> appLogout() async {
     showLoading();
     await AuthApi.signOut();
+    await _coreInstance.logout();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     dismissLoading();
     logout(done: () => Get.offAllNamed(AppPages.Login));
