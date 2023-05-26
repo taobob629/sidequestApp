@@ -67,37 +67,19 @@ class BookingDialog extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(15.w, 20.h, 15.w, 0),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Reservation information'.tr,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Text(
-                        'Cancel'.tr,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff808388),
-                        ),
-                      ),
-                    ),
-                  ],
+                Text(
+                  'Reservation information'.tr,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 SelectView(
                   label: "What Time".tr,
@@ -359,6 +341,14 @@ class BookingDialog extends StatelessWidget {
       "phone": telephoneCtr.text,
     });
     dismissLoading();
+    if (response.data == null || response.data == '') {
+      if (response.statusCode == 200) {
+        Get.back();
+        Get.offAndToNamed(AppPages.BOOKING_PAGE);
+        return;
+      }
+    }
+
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.code == 1003) {
       // 跳转充值页面
