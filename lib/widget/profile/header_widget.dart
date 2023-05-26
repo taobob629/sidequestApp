@@ -58,7 +58,9 @@ class ProfileHeaderWidget extends GetView<UserController> {
                               ? '${controller.userProfile.followers}'
                               : '9999+',
                           style: TextStyle(
-                              color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       7.verticalSpace,
@@ -77,7 +79,8 @@ class ProfileHeaderWidget extends GetView<UserController> {
             Expanded(
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () => Get.to(() => FansListPage()),
+                onTap: () => Get.to(() => FansListPage())
+                    ?.then((value) => UserController.find.updateInfo()),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -96,7 +99,9 @@ class ProfileHeaderWidget extends GetView<UserController> {
                       child: Text(
                         "${controller.userProfile.fans}",
                         style: TextStyle(
-                            color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     7.verticalSpace,
@@ -137,7 +142,9 @@ class ProfileHeaderWidget extends GetView<UserController> {
                           child: Text(
                             "${controller.userProfile.ranking}",
                             style: TextStyle(
-                                color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                         7.verticalSpace,
@@ -182,7 +189,9 @@ class ProfileHeaderWidget extends GetView<UserController> {
                               ? '${controller.userProfile.visitor}'
                               : '9999+',
                           style: TextStyle(
-                              color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold),
                           maxLines: 1,
                         ),
                       ),
