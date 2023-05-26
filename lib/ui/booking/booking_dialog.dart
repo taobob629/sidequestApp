@@ -106,8 +106,8 @@ class BookingDialog extends StatelessWidget {
                   marginDis: 4,
                   value: !ifSelectDuration.value
                       ? null
-                      : formatDate(
-                          time.value, [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
+                      : formatDate(time.value,
+                          [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
                   onTap: showSelectTime,
                 ),
                 SelectView(
@@ -364,6 +364,8 @@ class BookingDialog extends StatelessWidget {
       // 跳转充值页面
       Get.back();
       Get.off(() => BalancePage());
+      return;
+    } else if (respData.code == 500) {
       return;
     }
 
