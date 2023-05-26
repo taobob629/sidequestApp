@@ -44,6 +44,11 @@ class TabOverviewPage extends StatelessWidget {
                 "${controller.eventDetailModel.value.start.toDateStr}",
               ),
               _buildSectionTopItem(
+                "people".tr,
+                "Participants".tr,
+                "${controller.eventDetailModel.value.participantNum}",
+              ),
+              _buildSectionTopItem(
                 "fee".tr,
                 "Price".tr,
                 "${controller.eventDetailModel.value.fee}",

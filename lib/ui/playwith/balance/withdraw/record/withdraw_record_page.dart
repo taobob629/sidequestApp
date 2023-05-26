@@ -178,7 +178,7 @@ class WithDrawRecordPage extends StatelessWidget {
                 ),
               if (model.status == 0) 10.verticalSpace,
               Text(
-                "${model.money}",
+                "£${model.money}",
                 style: TextStyle(fontSize: 16, color: Color(0xFFFFA900)),
               ),
             ],
