@@ -157,7 +157,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                     ),
                   ),
                 ),
-                Container(
+            /*    Container(
                   padding: const EdgeInsets.only(top: 12, left: 16, bottom: 12, right: 12),
                   decoration: BoxDecoration(
                       color: theme.weakBackgroundColor,
@@ -261,7 +261,7 @@ class _GroupProfileGroupManagePageState extends TIMUIKitState<GroupProfileGroupM
                               label: "Delete".tr,
                             )
                           ])))
-                      .toList()
+                      .toList()*/
               ],
             ),
           );
