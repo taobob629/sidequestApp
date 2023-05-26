@@ -31,13 +31,13 @@ class GroupProfileNotification extends TIMUIKitStatelessWidget {
                   color:
                       theme.weakDividerColor ?? CommonColor.weakDividerColor))),
       child: InkWell(
-        onTap: (() {
+        onTap:  model.canKickOffMember()? (() {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => GroupProfileNotificationPage(
                       model: model, notification: notification)));
-        }),
+        }):null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +58,7 @@ class GroupProfileNotification extends TIMUIKitStatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)
+           if(model.canKickOffMember())  Icon(Icons.keyboard_arrow_right, color: theme.weakTextColor)
           ],
         ),
       ),
