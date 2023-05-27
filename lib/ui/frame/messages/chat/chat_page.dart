@@ -152,7 +152,12 @@ class ChatPage extends StatelessWidget {
       pwId = value.toString();
     });
   }
-
+  getUserIdByUk(var uk) {
+    ProfileApi.uk2id(uk)
+        .then((value) {
+      pwId = value.toString();
+    });
+  }
   getGroupInfo() {}
 
   PlayOrderDetailModel? playOrderDetailModel;
@@ -164,7 +169,6 @@ class ChatPage extends StatelessWidget {
       controller = Get.put(ChatController(selectedConversation),
           tag: selectedConversation.conversationID);
     }
-    getUserId();
 
     return TIMUIKitChat(
       appBarConfig: selectedConversation.type == 1
@@ -255,23 +259,29 @@ class ChatPage extends StatelessWidget {
       // Conversation type
       conversationShowName: selectedConversation.showName ?? "",
       // Conversation display name
-      onTapAvatar: (selectUk) {
+      onTapAvatar: (selectUk) async {
+        flog('uk $selectUk $pwId $pwId');
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
         //       builder: (context) => UserProfile(userID: userID),
         //     ))
-        if (selectUk != UserController.find.userProfile.uk.toString()) {
-          if (pwId.isEmpty) {
-            ProfileApi.uk2id(
-                    selectedConversation.userID?.replaceAll("c2c_", ""))
-                .then((value) {
-              pwId = value.toString();
+        if(selectedConversation.type == 1) {
+          if (selectUk != UserController.find.userProfile.uk.toString()) {
+            if (pwId.isEmpty) {
+              ProfileApi.uk2id(
+                  selectedConversation.userID?.replaceAll("c2c_", ""))
+                  .then((value) {
+                pwId = value.toString();
+                NavigatorHelper.toOtherProfile(pwId);
+              });
+            } else {
               NavigatorHelper.toOtherProfile(pwId);
-            });
-          } else {
-            NavigatorHelper.toOtherProfile(pwId);
+            }
           }
+        }else{
+         var userId= await ProfileApi.uk2id(selectUk);
+          NavigatorHelper.toOtherProfile(userId);
         }
       },
       userAvatarBuilder: (context, message) {
