@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wy/common/string_ext.dart';
@@ -17,8 +18,10 @@ import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart'
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 import 'package:badges/badges.dart' as badges;
+import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends GetView<PostListController> {
@@ -114,7 +117,8 @@ class PostListItemView extends GetView<PostListController> {
                                 // maxLines: null,
                                 // overflow: TextOverflow.ellipsis,
                               )
-                            : buildGroupInviteWidget(context, model.content,model.imageList.first),
+                            : buildGroupInviteWidget(
+                                context, model.content, model.imageList.first),
                         15.horizontalSpace
                       ],
                     ),
@@ -289,8 +293,10 @@ class PostListItemView extends GetView<PostListController> {
                           if (heartNum != null) {
                             Future.delayed(Duration(milliseconds: 300)).then(
                               (v) {
-                                showHearts(
-                                    context, details.globalPosition, heartNum);
+                                SmartDialog.show(
+                                  builder: (builder) => GiftSucAnim(heartNum),
+                                  displayTime: Duration(seconds: 2),
+                                );
                               },
                             );
                           }

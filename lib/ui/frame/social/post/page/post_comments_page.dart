@@ -17,6 +17,7 @@ import '../../../../../utils/toast_utils.dart';
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
 import '../view/gift_animation.dart';
+import '../view/gift_suc_anim.dart';
 
 class PostCommentsPage extends StatelessWidget {
   PostCommentsPage({Key? key}) : super(key: key);
@@ -168,7 +169,10 @@ class PostCommentsPage extends StatelessWidget {
                             if (heartNum != null) {
                               Future.delayed(Duration(milliseconds: 300)).then(
                                 (v) {
-                                  showHearts(context, details.globalPosition, heartNum);
+                                  SmartDialog.show(
+                                    builder: (builder) => GiftSucAnim(heartNum),
+                                    displayTime: Duration(seconds: 2),
+                                  );
                                 },
                               );
                             }

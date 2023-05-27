@@ -145,7 +145,7 @@ class PayApi {
       "postId": model.postId,
       "nums": model.nums,
     };
-    var response = await http.post('/peiwan/app/new/orders/postGiftOrder', data: formData);
+    var response = await http.post('/peiwan/app/new/orders/giftOrder', data: formData);
 
     PayInfoModel payInfoModel = PayInfoModel();
     if (model.payType == 2) {
