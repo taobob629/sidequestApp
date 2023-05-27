@@ -274,7 +274,9 @@ class ChatPage extends StatelessWidget {
             }
           }
         }else{
+          showLoading();
          var userId= await ProfileApi.uk2id(selectUk);
+         dismissLoading();
           NavigatorHelper.toOtherProfile(userId);
         }
       },
