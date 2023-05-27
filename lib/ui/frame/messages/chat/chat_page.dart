@@ -152,13 +152,6 @@ class ChatPage extends StatelessWidget {
       pwId = value.toString();
     });
   }
-  getUserIdByUk(var uk) {
-    ProfileApi.uk2id(uk)
-        .then((value) {
-      pwId = value.toString();
-    });
-  }
-  getGroupInfo() {}
 
   PlayOrderDetailModel? playOrderDetailModel;
   late ChatController controller;
@@ -169,7 +162,8 @@ class ChatPage extends StatelessWidget {
       controller = Get.put(ChatController(selectedConversation),
           tag: selectedConversation.conversationID);
     }
-
+    if(selectedConversation.type == 1)
+    getUserId();
     return TIMUIKitChat(
       appBarConfig: selectedConversation.type == 1
           ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
