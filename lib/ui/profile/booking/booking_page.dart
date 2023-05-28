@@ -53,6 +53,7 @@ class BookingPage extends GetView<BookingPageController> {
                                   context: context,
                                   removeTop: true,
                                   child: ListView.separated(
+                                    physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                       controller: controller.scrollController,
                                       itemBuilder: (context, index) {
