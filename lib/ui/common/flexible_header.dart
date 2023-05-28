@@ -44,15 +44,15 @@ class FlexibleHeader extends GetView<EventPageController> {
               ),
             )
           ),
-          Positioned(
-              right: 26,
-              bottom: 50.h,
-              child: Obx(()=>Visibility(
-                  visible: controller.eventDetailModel.value.kopStartTime!=0,
-                  child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
-                      controller.eventDetailModel.value.kopStartTime * 1000)
-                      .difference(DateTime.now())
-                      .inSeconds))))
+          // Positioned(
+          //     right: 26,
+          //     bottom: 50.h,
+          //     child: Obx(()=>Visibility(
+          //         visible: controller.eventDetailModel.value.kopStartTime!=0,
+          //         child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
+          //             controller.eventDetailModel.value.kopStartTime * 1000)
+          //             .difference(DateTime.now())
+          //             .inSeconds))))
         ],
       )
     );
