@@ -19,6 +19,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/frame/messages/group/group_profile.dart';
+import 'package:wy/ui/frame/social/post/view/gift_suc_anim.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -197,8 +198,10 @@ class ChatPage extends StatelessWidget {
                     if (heartNum != null) {
                       Future.delayed(Duration(milliseconds: 300)).then(
                         (v) {
-                          showHearts(context,
-                              Offset(Get.width / 2, Get.height / 2), heartNum);
+                          SmartDialog.show(
+                            builder: (builder) => GiftSucAnim(heartNum),
+                            displayTime: Duration(seconds: 2),
+                          );
                         },
                       );
                     }

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
@@ -30,7 +31,9 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 
 import '../../api_service/profile_api.dart';
+import '../../config/icon_font.dart';
 import '../../event_bus/beans/match_event.dart';
+import '../../image_utils.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
 import '../../utils/toast_utils.dart';
@@ -39,7 +42,7 @@ import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
 
 class UserController extends GetxController {
-  bool hasDidVoiceCheck=false;//只检查一次
+  bool hasDidVoiceCheck = false; //只检查一次
   static UserController instance() {
     return Get.find<UserController>();
   }
@@ -137,8 +140,10 @@ class UserController extends GetxController {
           _cancelPayNotify();
         }
         list.forEach((payRecord) async {
-          print("notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(payRecord.orderId, payRecord.tranId);
+          print(
+              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(
+              payRecord.orderId, payRecord.tranId);
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -163,14 +168,14 @@ class UserController extends GetxController {
       //    userInfoModel.value = await UserApi.info();
       userProfile = await ProfileApi.getProfileInfo();
       //判断是否有语音
-      if(hasDidVoiceCheck)return;
+      if (hasDidVoiceCheck) return;
       voiceCheck();
     }
   }
 
   void voiceCheck() {
-    if (userProfile.isAuth == TYPE_VIP && userProfile.voice?.isEmpty==true) {
-      hasDidVoiceCheck=true;
+    if (userProfile.isAuth == TYPE_VIP && userProfile.voice?.isEmpty == true) {
+      hasDidVoiceCheck = true;
       Get.dialog(ConfirmDialog(
         title: 'Confirm'.tr,
         info: 'We suggest that you supplement the recording materials'.tr,
@@ -196,9 +201,16 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login({String? email, String? password, bool showLoadings = false, bool checkLastLoginTime = false, Function(LoginModel)? done}) async {
+  Future<void> login(
+      {String? email,
+      String? password,
+      bool showLoadings = false,
+      bool checkLastLoginTime = false,
+      Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
-      if (DateTime.now().millisecondsSinceEpoch - lastLoginTime.millisecondsSinceEpoch < 600000) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
         return;
       }
     }
@@ -215,7 +227,8 @@ class UserController extends GetxController {
     if (showLoadings == true) {
       showLoading();
     }
-    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel =
+        await AuthApi.signIn(email, password).catchError((e) {
       dismissLoading();
     });
 
@@ -243,7 +256,8 @@ class UserController extends GetxController {
     if (!kIsWeb) {
       ChannelPush.requestPermission();
       Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess = await ChannelPush.uploadToken(PushConfig.appInfo);
+        final bool isUploadSuccess =
+            await ChannelPush.uploadToken(PushConfig.appInfo);
         // ignore: avoid_print
         print("Push token upload result: $isUploadSuccess");
       });
@@ -257,8 +271,10 @@ class UserController extends GetxController {
     String convId = extMsp["conversationID"] ?? "";
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
-        var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: convId);
+        var conversationManager =
+            TencentImSDKPlugin.v2TIMManager.getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv =
+            await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
           Get.to(() => ChatPage(selectedConversation: conv.data!));
         }
@@ -274,8 +290,10 @@ class UserController extends GetxController {
     if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
       Get.back();
     } else {
-      var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-      V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${uk}");
+      var conversationManager =
+          TencentImSDKPlugin.v2TIMManager.getConversationManager();
+      V2TimValueCallback<V2TimConversation> conv = await conversationManager
+          .getConversation(conversationID: "c2c_${uk}");
       if (conv.data != null)
         Get.to(() => ChatPage(
               selectedConversation: conv.data!,
@@ -288,7 +306,7 @@ class UserController extends GetxController {
     uploadOfflinePushInfoToken();
   }
 
-   imLogin() async {
+  imLogin() async {
     flog('imLogin --${imLoginDone.value}');
     if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
@@ -296,13 +314,18 @@ class UserController extends GetxController {
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
       // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-     await _coreInstance.login(userID: "${userSig.uid}", userSig: userSig.token).then((value) async {
+      await _coreInstance
+          .login(userID: "${userSig.uid}", userSig: userSig.token)
+          .then((value) async {
         imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager.getConversationManager().addConversationListener(
-                listener: V2TimConversationListener(onTotalUnreadMessageCountChanged: (count) {
+        TencentImSDKPlugin.v2TIMManager
+            .getConversationManager()
+            .addConversationListener(
+                listener: V2TimConversationListener(
+                    onTotalUnreadMessageCountChanged: (count) {
               flog(count, 'onTotalUnreadMessageCountChanged');
               unreadMsgCount.value = count;
               FlutterAppBadger.isAppBadgeSupported().then((value) {
@@ -310,7 +333,8 @@ class UserController extends GetxController {
                 if (unreadMsgCount.value == 0) {
                   FlutterAppBadger.removeBadge();
                 } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                      title: 'New Message');
                 }
               });
             }, onConversationChanged: (v) {
@@ -318,7 +342,10 @@ class UserController extends GetxController {
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
             }));
-        TencentImSDKPlugin.v2TIMManager.getMessageManager().addAdvancedMsgListener(listener: V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+        TencentImSDKPlugin.v2TIMManager
+            .getMessageManager()
+            .addAdvancedMsgListener(listener:
+                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           if (msg.customElem?.data != null) {
             var data = msg.customElem!.data!;
@@ -368,8 +395,9 @@ class UserController extends GetxController {
         MatchOrderPlayer player = MatchOrderPlayer.fromJson(map["message"]);
 
         int inSeconds = DateTime.now()
-              .difference(DateTime.fromMillisecondsSinceEpoch(map["timestamp"] * 1000))
-              .inSeconds;
+            .difference(
+                DateTime.fromMillisecondsSinceEpoch(map["timestamp"] * 1000))
+            .inSeconds;
 
         if (inSeconds < 15 * 60) {
           // 15分钟以内的才弹出
@@ -382,10 +410,14 @@ class UserController extends GetxController {
               ctr.countDownUtil.updateSeconds(10);
               ctr.update();
             } else {
-              SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
+              SmartDialog.show(
+                  builder: (_) =>
+                      MatchTopDialog({'seconds': 10, 'player': player}));
             }
           } else {
-            SmartDialog.show(builder: (_) => MatchTopDialog({'seconds': 10, 'player': player}));
+            SmartDialog.show(
+                builder: (_) =>
+                    MatchTopDialog({'seconds': 10, 'player': player}));
           }
         }
         break;
@@ -407,6 +439,108 @@ class UserController extends GetxController {
         if (AppPages.side_kick_match_suc_page != str) {
           showInfoDialog(map['content']);
         }
+        break;
+
+      case 'gift_order':
+        // 有礼物
+        SmartDialog.show(
+            displayTime: Duration(seconds: 2),
+            builder: (builder) => Container(
+              height: 110.h,
+              width: Get.width - 30.w,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    ImageUtils.matchTopBg,
+                  ),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              padding: EdgeInsets.only(left: 20.w, right: 6.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 30.h,
+                    margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'You received a gift'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 50.w,
+                        height: 50.w,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            '${map['message']['icon']}',
+                          ),
+                        ),
+                      ),
+                      6.horizontalSpace,
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              map["message"]["game"],
+                              style: TextStyle(
+                                color: Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                            6.verticalSpace,
+                            Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/ic_balance_money.webp",
+                                  width: 15.w,
+                                  height: 15.w,
+                                ),
+                                3.horizontalSpace,
+                                Text(
+                                  '${map["message"]["price"]}',
+                                  style: TextStyle(
+                                    color: Color(0xff666666),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Spacer(),
+                                Text(
+                                  'num x${map["message"]["num"]}',
+                                  style: TextStyle(
+                                    color: Color(0xff666666),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                ),
+                                6.horizontalSpace,
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ));
         break;
     }
 
@@ -440,16 +574,17 @@ class UserController extends GetxController {
     int isauth = userProfile?.isAuth ?? 0;
     int level = userProfile?.sidekickLevel ?? 0;
     if (level == 0) {
-      if (isauth == TYPE_VIP) return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      if (isauth == TYPE_VIP)
+        return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
     }
     return 'assets/images/grade/${isauth == TYPE_VIP ? 'v_' : ''}grade${level}.webp';
   }
 
-  toRecordPage(BuildContext context,{int type=0}) {
+  toRecordPage(BuildContext context, {int type = 0}) {
     pickVoiceDialog(context, userProfile.voice?.value, (result) {
       flog('callback $result');
       if (result != null) userProfile.voice?.value = result;
-    },recordType: type);
+    }, recordType: type);
     // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
     //   if (result != null) userProfile.voice = result;
     // });
