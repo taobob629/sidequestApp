@@ -41,6 +41,10 @@ var listDivider10 = Divider(
   color: Colors.transparent,
   height: 10,
 );
+var listDivider15 = Divider(
+  color: Colors.transparent,
+  height: 15.h,
+);
 inputHint() => TextStyle(color: Color(0xFFB2B9C9), fontSize: 14.sp);
 bottomBtnText() => TextStyle(color: Colors.white, fontSize: 15.sp,fontFamily: FONT_BLACK);
 
