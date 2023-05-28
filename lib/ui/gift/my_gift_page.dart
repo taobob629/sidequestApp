@@ -13,6 +13,7 @@ import '../../../utils/image_util.dart';
 import '../../model/gift_model.dart';
 import '../../utils/time_utils.dart';
 import 'my_gift_ctr.dart';
+import 'my_gift_detail_page.dart';
 
 class MyGiftPage extends StatelessWidget {
   final _ctr = Get.put(MyGiftCtr());
@@ -125,8 +126,11 @@ class MyGiftPage extends StatelessWidget {
                         return Container(
                           width: Get.width,
                           child: InkWell(
-                            onTap: () => Get.toNamed(AppPages.OrderDetail,
-                                arguments: Map()..['id'] = model.id),
+                            onTap: () =>
+                                Get.to(() => MyGiftDetailPage(), arguments: {
+                              'id': model.id,
+                              'type': _ctr.ifScaleBigReceived.value ? 0 : 1,
+                            }),
                             child: item(model),
                           ),
                         );
