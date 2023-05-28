@@ -343,6 +343,7 @@ class BookingDialog extends StatelessWidget {
     dismissLoading();
     if (response.data == null || response.data == '') {
       if (response.statusCode == 200) {
+        showToast(response.statusMessage);
         Get.back();
         Get.offAndToNamed(AppPages.BOOKING_PAGE);
         return;
