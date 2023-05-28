@@ -20,6 +20,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/frame/messages/group/group_profile.dart';
 import 'package:wy/ui/frame/social/post/view/gift_suc_anim.dart';
+import 'package:wy/ui/gift/my_gift_detail_page.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -42,7 +43,7 @@ class ChatController extends BasePageController {
   @override
   void onInit() {
     super.onInit();
-   if(selectedConversation.type == 1) return;
+    if (selectedConversation.type == 1) return;
     getGroupInfo();
     checkGroup();
   }
@@ -163,8 +164,7 @@ class ChatPage extends StatelessWidget {
       controller = Get.put(ChatController(selectedConversation),
           tag: selectedConversation.conversationID);
     }
-    if(selectedConversation.type == 1)
-    getUserId();
+    if (selectedConversation.type == 1) getUserId();
     return TIMUIKitChat(
       appBarConfig: selectedConversation.type == 1
           ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
@@ -263,11 +263,11 @@ class ChatPage extends StatelessWidget {
         //     MaterialPageRoute(
         //       builder: (context) => UserProfile(userID: userID),
         //     ))
-        if(selectedConversation.type == 1) {
+        if (selectedConversation.type == 1) {
           if (selectUk != UserController.find.userProfile.uk.toString()) {
             if (pwId.isEmpty) {
               ProfileApi.uk2id(
-                  selectedConversation.userID?.replaceAll("c2c_", ""))
+                      selectedConversation.userID?.replaceAll("c2c_", ""))
                   .then((value) {
                 pwId = value.toString();
                 NavigatorHelper.toOtherProfile(pwId);
@@ -276,10 +276,10 @@ class ChatPage extends StatelessWidget {
               NavigatorHelper.toOtherProfile(pwId);
             }
           }
-        }else{
+        } else {
           showLoading();
-         var userId= await ProfileApi.uk2id(selectUk);
-         dismissLoading();
+          var userId = await ProfileApi.uk2id(selectUk);
+          dismissLoading();
           NavigatorHelper.toOtherProfile(userId);
         }
       },
@@ -321,18 +321,18 @@ class ChatPage extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             switch (type) {
-              case "play_order":
+              case MessageType.TYPE_PLAY_ORDER:
                 Get.toNamed(AppPages.OrderDetail,
                         arguments: Map()..['id'] = data['orderId'])
                     ?.whenComplete(() => _getPlayOrder());
                 break;
-              case "TopUp_Credit":
+              case MessageType.TYPE_TOPUP_CREDIT:
                 int orderId = json['orderId'];
                 Get.toNamed(AppPages.OrderDetail,
                         arguments: Map()..['id'] = orderId)
                     ?.whenComplete(() => _getPlayOrder());
                 break;
-              case "PostMessage":
+              case MessageType.TYPE_POST_MESSAGE:
                 NavigatorHelper.toPostDetail(data["postId"]);
                 // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
                 break;
@@ -345,6 +345,13 @@ class ChatPage extends StatelessWidget {
                 }
                 ImUtils.joniGroup(context, data['groupId'],
                     isNeedReplace: true);
+                break;
+
+              case MessageType.TYPE_GIFT_ORDER:
+                Get.to(() => MyGiftDetailPage(), arguments: {
+                  'id': data['id'],
+                  'type': 2,
+                });
                 break;
               default:
             }
