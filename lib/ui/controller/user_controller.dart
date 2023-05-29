@@ -535,7 +535,7 @@ class UserController extends GetxController {
                                         ),
                                         Spacer(),
                                         Text(
-                                          'num x${map["message"]["num"]}',
+                                          'x${map["message"]["num"]}',
                                           style: TextStyle(
                                             color: Color(0xff666666),
                                             fontWeight: FontWeight.bold,
