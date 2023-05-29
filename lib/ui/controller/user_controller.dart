@@ -319,8 +319,9 @@ class UserController extends GetxController {
           .then((value) async {
         if (value.code != 0) {
           showToast(value.desc);
+        }else{
+          imLoginDone.value = true;
         }
-        imLoginDone.value = true;
         //执行登录 IM 成功后调用。初始化push
         initOfflinePush();
         // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
