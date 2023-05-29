@@ -458,9 +458,11 @@ class UserController extends GetxController {
           if (inSeconds < 15 * 60 && userProfile.uk == map["message"]["uk"]) {
             SmartDialog.show(
                 displayTime: Duration(seconds: 2),
+                alignment: Alignment.topCenter,
                 builder: (builder) => Container(
                       height: 110.h,
                       width: Get.width - 30.w,
+                      margin: EdgeInsets.only(top: MediaQuery.of(Get.context!).padding.top),
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
