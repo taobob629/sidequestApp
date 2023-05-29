@@ -230,7 +230,7 @@ class LoginPageController extends BasePageController {
           showLoadings: true,
           done: (LoginModel loginModel) {
             if (loginModel.validate == 0) {
-            //  userController.imLogin();
+               userController.imLogin();
               //如果是从登录页面跳转的，跳转到选择游戏页面先
               var fromRegister=Get.arguments?['fromRegister'];
               flog('fromRegister $fromRegister');

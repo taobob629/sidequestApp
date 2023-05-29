@@ -6,17 +6,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:wy/firebase_options.dart';
+import 'package:wy/utils/index.dart';
 class AppController extends GetxController {
   @override
   void onInit() {
     super.onInit();
     initEasyLoadding();
+    initIm();
   }
 
   initEasyLoadding() {
     // 全局配置SmartDialog的参数
     SmartDialog.config.toast = SmartConfigToast(alignment: Alignment.center);
     SmartDialog.config.loading = SmartConfigLoading(clickMaskDismiss: true);
+  }
+  initIm() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => StorageManager.setPushToken(value));
+
   }
 }
