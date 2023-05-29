@@ -113,41 +113,21 @@ class SectionWidget extends StatelessWidget {
         removeTop: true,
         child: ListView.builder(
           shrinkWrap: true,
-          itemBuilder: (context, index) => index == 0
-              ? Showcase(
-                  key: languageKey,
-                  description: '请选择你的服务语言，筛选陪玩(APP语言可在个人设置中完成)',
-                  child: InkWell(
-                    onTap: () {
-                      controller.onSectionChange(0, index);
-                      dropDownController.hide();
-                    },
-                    child: Container(
-                      height: sectionHeight,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(left: 10).r,
-                      child: Text(
-                        '${controller.gameSections?.language[index].name}',
-                        style:
-                            TextStyle(color: Colors.white54, fontSize: 13.sp),
-                      ),
-                    ),
-                  ))
-              : InkWell(
-                  onTap: () {
-                    controller.onSectionChange(0, index);
-                    dropDownController.hide();
-                  },
-                  child: Container(
-                    height: sectionHeight,
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 10).r,
-                    child: Text(
-                      '${controller.gameSections?.language[index].name}',
-                      style: TextStyle(color: Colors.white54, fontSize: 13.sp),
-                    ),
-                  ),
-                ),
+          itemBuilder: (context, index) => InkWell(
+            onTap: () {
+              controller.onSectionChange(0, index);
+              dropDownController.hide();
+            },
+            child: Container(
+              height: sectionHeight,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 10).r,
+              child: Text(
+                '${controller.gameSections?.language[index].name}',
+                style: TextStyle(color: Colors.white54, fontSize: 13.sp),
+              ),
+            ),
+          ),
           itemCount: controller.gameSections?.language?.length ?? 0,
         ));
   }

@@ -28,8 +28,8 @@ List<KeyMap> gameInitFilter = [
   KeyMap('Level'.tr, null)
 ];
 
-final GlobalKey addGameKey = GlobalKey();
-final GlobalKey languageKey = GlobalKey();
+// final GlobalKey addGameKey = GlobalKey();
+// final GlobalKey languageKey = GlobalKey();
 
 class SideKickController extends RefreshListController<GameUserModel> {
   RxList<KeyMap?> filters = RxList(gameInitFilter);

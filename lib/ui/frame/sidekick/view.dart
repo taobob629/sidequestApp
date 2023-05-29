@@ -35,13 +35,13 @@ class SideKickPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool? zc = StorageManager.getBoolByKey('caseView');
-    if (zc == null || zc == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(context).startShowCase([addGameKey, languageKey]),
-      );
-    }
+    // bool? zc = StorageManager.getBoolByKey('caseView');
+    // if (zc == null || zc == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(context).startShowCase([addGameKey, languageKey]),
+    //   );
+    // }
 
     controller.refreshController = RefreshController(initialRefresh: false);
     return Stack(
@@ -77,17 +77,24 @@ class SideKickPage extends StatelessWidget {
                   ),
                 ),
                 actions: [
-                  Showcase(
-                    key: addGameKey,
-                    description: '点击添加你常玩的游戏',
-                    child: IconButton(
-                        onPressed: () => controller.toGameListPage(),
-                        icon: Image.asset(
-                          ImageUtils.ic_add,
-                          width: 24.w,
-                          height: 24.w,
-                        )),
-                  ),
+                  // Showcase(
+                  //   key: addGameKey,
+                  //   description: '点击添加你常玩的游戏',
+                  //   child: IconButton(
+                  //       onPressed: () => controller.toGameListPage(),
+                  //       icon: Image.asset(
+                  //         ImageUtils.ic_add,
+                  //         width: 24.w,
+                  //         height: 24.w,
+                  //       )),
+                  // ),
+                  IconButton(
+                      onPressed: () => controller.toGameListPage(),
+                      icon: Image.asset(
+                        ImageUtils.ic_add,
+                        width: 24.w,
+                        height: 24.w,
+                      )),
                   IconButton(
                     onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
                     icon: ImageUtil.assetImage(
@@ -114,7 +121,7 @@ class SideKickPage extends StatelessWidget {
           ),
         ),
         Obx(
-              () => Positioned(
+          () => Positioned(
             bottom: controller.bottom.value,
             right: controller.right.value,
             child: GestureDetector(
