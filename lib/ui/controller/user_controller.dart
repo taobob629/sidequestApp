@@ -311,7 +311,7 @@ class UserController extends GetxController {
     flog('imLogin --${imLoginDone.value}');
     if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
-      if(userSig.token.isEmpty)return;
+      if (userSig.token.isEmpty) return;
       // if(userSig == ""){
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
@@ -321,7 +321,7 @@ class UserController extends GetxController {
           .then((value) async {
         if (value.code != 0) {
           showToast(value.desc);
-        }else{
+        } else {
           imLoginDone.value = true;
         }
         //执行登录 IM 成功后调用。初始化push
@@ -451,109 +451,109 @@ class UserController extends GetxController {
         // 有礼物
         try {
           int inSeconds = DateTime.now()
-              .difference(
-              DateTime.fromMillisecondsSinceEpoch(map["message"]["createTime"] * 1000))
+              .difference(DateTime.fromMillisecondsSinceEpoch(
+                  map["message"]["createTime"] * 1000))
               .inSeconds;
 
           if (inSeconds < 15 * 60 && userProfile.uk == map["message"]["uk"]) {
             SmartDialog.show(
                 displayTime: Duration(seconds: 2),
                 builder: (builder) => Container(
-                  height: 110.h,
-                  width: Get.width - 30.w,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        ImageUtils.matchTopBg,
-                      ),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  padding: EdgeInsets.only(left: 20.w, right: 6.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 30.h,
-                        margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'You received a gift'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
+                      height: 110.h,
+                      width: Get.width - 30.w,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            ImageUtils.matchTopBg,
                           ),
+                          fit: BoxFit.fill,
                         ),
                       ),
-                      Row(
+                      padding: EdgeInsets.only(left: 20.w, right: 6.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 50.w,
-                            height: 50.w,
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                '${map['message']['icon']}',
+                            height: 30.h,
+                            margin: EdgeInsets.only(left: 14.w, bottom: 10.h),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'You received a gift'.tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
                               ),
                             ),
                           ),
-                          6.horizontalSpace,
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  map["message"]["game"],
-                                  style: TextStyle(
-                                    color: Color(0xff333333),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
+                          Row(
+                            children: [
+                              Container(
+                                width: 50.w,
+                                height: 50.w,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    '${map['message']['icon']}',
                                   ),
                                 ),
-                                6.verticalSpace,
-                                Row(
+                              ),
+                              6.horizontalSpace,
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.asset(
-                                      "assets/images/ic_balance_money.webp",
-                                      width: 15.w,
-                                      height: 15.w,
-                                    ),
-                                    3.horizontalSpace,
                                     Text(
-                                      '${map["message"]["price"]}',
+                                      map["message"]["game"],
                                       style: TextStyle(
-                                        color: Color(0xff666666),
+                                        color: Color(0xff333333),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 11.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      'num x${map["message"]["num"]}',
-                                      style: TextStyle(
-                                        color: Color(0xff666666),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 11.sp,
+                                        fontSize: 14.sp,
                                         fontFamily: FONT_MEDIUM,
                                       ),
                                     ),
-                                    6.horizontalSpace,
+                                    6.verticalSpace,
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/ic_balance_money.webp",
+                                          width: 15.w,
+                                          height: 15.w,
+                                        ),
+                                        3.horizontalSpace,
+                                        Text(
+                                          '${map["message"]["price"]}',
+                                          style: TextStyle(
+                                            color: Color(0xff666666),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 11.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          'num x${map["message"]["num"]}',
+                                          style: TextStyle(
+                                            color: Color(0xff666666),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 11.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                          ),
+                                        ),
+                                        6.horizontalSpace,
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ));
+                    ));
           }
         } catch (e) {
           if (userProfile.uk == map["message"]["uk"]) {
@@ -574,7 +574,7 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
-      await _coreInstance.logout();
+    await _coreInstance.logout();
     imLoginDone.value = false;
     unreadMsgCount.value = 0;
     done?.call();
