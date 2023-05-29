@@ -89,6 +89,7 @@ class UserController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
+    flog('UserController onReady==');
     await login();
     // setCustomSticker();
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
@@ -310,6 +311,7 @@ class UserController extends GetxController {
     flog('imLogin --${imLoginDone.value}');
     if (imLoginDone.value == false) {
       ImSigModel userSig = await ImApi.login();
+      if(userSig.token.isEmpty)return;
       // if(userSig == ""){
       //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
       // }
@@ -559,7 +561,7 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
-    //  await _coreInstance.logout();
+      await _coreInstance.logout();
     imLoginDone.value = false;
     unreadMsgCount.value = 0;
     done?.call();
