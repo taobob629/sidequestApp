@@ -6,6 +6,7 @@ import 'package:wy/api/booking_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/model/booking_model.dart';
 import 'package:wy/res/index.dart';
+import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/empty_view.dart';
@@ -52,6 +53,8 @@ class BookingPage extends GetView<BookingPageController> {
                                   context: context,
                                   removeTop: true,
                                   child: ListView.separated(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
                                       controller: controller.scrollController,
                                       itemBuilder: (context, index) {
                                         BookingModel model = controller.list[index];
@@ -61,9 +64,7 @@ class BookingPage extends GetView<BookingPageController> {
                                         );
                                       },
                                       separatorBuilder: (context, index) {
-                                        return Container(
-                                          height: 15,
-                                        );
+                                        return listDivider15;
                                       },
                                       itemCount: controller.list.length))))
                 ],
