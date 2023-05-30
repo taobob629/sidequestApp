@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/address_model.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
+import 'package:wy/model/task_model.dart';
 import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_page.dart';
@@ -17,6 +19,7 @@ import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
 import 'package:wy/ui/profile/edit/edit_profile_page.dart';
+import 'package:wy/ui/profile/task/detail/task_detail_page.dart';
 import 'package:wy/ui/search/search_page.dart';
 import 'package:wy/ui/shop/product/product_page.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -113,7 +116,7 @@ class NavigatorHelper {
     }).whenComplete(() => whenComplete?.call());
   }
 
-  static void gotoConfigTarget(String content) {
+  static Future<void> gotoConfigTarget(String content) async {
     Map<String, dynamic> map = jsonDecode(content);
     if (map["type"] == "h5") {
       String? url = map["target"];
@@ -134,6 +137,18 @@ class NavigatorHelper {
           Get.to(() => EventPage(id: id, type: 1));
         } else if (page == "match") {
           Get.to(() => EventPage(id: id, type: 2));
+        }else if (page == "task") {
+          var response = await http.get(
+            '/app/client/task/list?id=$id'
+          );
+          if (response.data != null) {
+            List<TaskModel> list = response.data
+                .map<TaskModel>((item) => TaskModel.fromJson(item))
+                .toList();
+            if (list.isNotEmpty) {
+              Get.to(() => TaskDetailPage(), arguments: list.first);
+            }
+          }
         }
       }
       if (page == "balance") {
