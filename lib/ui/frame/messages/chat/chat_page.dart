@@ -183,42 +183,43 @@ class ChatPage extends StatelessWidget {
           if (selectedConversation.type == 1)
             if (!(selectedConversation.userID ?? "")
                 .contains(UserController.find.userProfile.uk))
-              MorePanelItem(
-                  id: "customMessage",
-                  title: "Gift".tr,
-                  onTap: (c) async {
-                    var heartNum = await Get.bottomSheet(
-                        GiveGiftsDialog(
-                          receiverId: pwId,
-                          postId: "",
-                          avatar: selectedConversation.faceUrl ?? "",
-                          source: 1,
-                        ),
-                        ignoreSafeArea: true);
-                    if (heartNum != null) {
-                      Future.delayed(Duration(milliseconds: 300)).then(
-                        (v) {
-                          SmartDialog.show(
-                            builder: (builder) => GiftSucAnim(heartNum),
-                            displayTime: Duration(seconds: 2),
-                          );
-                        },
-                      );
-                    }
-                  },
-                  icon: Container(
-                    height: 64,
-                    width: 64,
-                    margin: const EdgeInsets.only(bottom: 4),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Image.asset(
-                      "assets/images/post/icon_gift.png",
+              if (UserController.find.online.value)
+                MorePanelItem(
+                    id: "customMessage",
+                    title: "Gift".tr,
+                    onTap: (c) async {
+                      var heartNum = await Get.bottomSheet(
+                          GiveGiftsDialog(
+                            receiverId: pwId,
+                            postId: "",
+                            avatar: selectedConversation.faceUrl ?? "",
+                            source: 1,
+                          ),
+                          ignoreSafeArea: true);
+                      if (heartNum != null) {
+                        Future.delayed(Duration(milliseconds: 300)).then(
+                          (v) {
+                            SmartDialog.show(
+                              builder: (builder) => GiftSucAnim(heartNum),
+                              displayTime: Duration(seconds: 2),
+                            );
+                          },
+                        );
+                      }
+                    },
+                    icon: Container(
                       height: 64,
                       width: 64,
-                    ),
-                  )),
+                      margin: const EdgeInsets.only(bottom: 4),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Image.asset(
+                        "assets/images/post/icon_gift.png",
+                        height: 64,
+                        width: 64,
+                      ),
+                    ))
         ],
         actionBuilder: (item) {
           return Container(

@@ -156,7 +156,7 @@ class PostCommentsPage extends StatelessWidget {
                         ),
                       ),
                       Visibility(
-                        visible: !t.isSelf,
+                        visible: !t.isSelf && UserController.find.online.value,
                         child: GestureDetector(
                           onTapDown: (details) async {
                             var heartNum = await Get.bottomSheet(

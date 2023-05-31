@@ -47,12 +47,15 @@ class SettingsPage extends StatelessWidget {
                   have: true,
                 )),
           ),
-          SettingItem(
-            title: "Payment Pin".tr,
-            onTap: () => Get.to(() => ChangePasswordPage(
-                  type: 2,
-                  check: true,
-                )),
+          Visibility(
+            visible: userController.online.value,
+            child: SettingItem(
+              title: "Payment Pin".tr,
+              onTap: () => Get.to(() => ChangePasswordPage(
+                    type: 2,
+                    check: true,
+                  )),
+            ),
           ),
           SettingItem(
             title: "Language".tr,

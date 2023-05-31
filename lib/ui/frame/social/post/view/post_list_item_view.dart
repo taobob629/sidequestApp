@@ -21,6 +21,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 import 'package:badges/badges.dart' as badges;
+import '../../../../controller/user_controller.dart';
 import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
 
@@ -278,43 +279,46 @@ class PostListItemView extends GetView<PostListController> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (details) async {
-                        if (!isSelf) {
-                          var heartNum = await Get.bottomSheet(
-                              GiveGiftsDialog(
-                                receiverId: model.uid.toString(),
-                                postId: model.id.toString(),
-                                avatar: model.head,
-                              ),
-                              ignoreSafeArea: true);
-                          if (heartNum != null) {
-                            Future.delayed(Duration(milliseconds: 300)).then(
-                              (v) {
-                                SmartDialog.show(
-                                  builder: (builder) => GiftSucAnim(heartNum),
-                                  displayTime: Duration(seconds: 2),
-                                );
-                              },
-                            );
+                  Visibility(
+                    visible: UserController.find.online.value,
+                    child: Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTapDown: (details) async {
+                          if (!isSelf) {
+                            var heartNum = await Get.bottomSheet(
+                                GiveGiftsDialog(
+                                  receiverId: model.uid.toString(),
+                                  postId: model.id.toString(),
+                                  avatar: model.head,
+                                ),
+                                ignoreSafeArea: true);
+                            if (heartNum != null) {
+                              Future.delayed(Duration(milliseconds: 300)).then(
+                                    (v) {
+                                  SmartDialog.show(
+                                    builder: (builder) => GiftSucAnim(heartNum),
+                                    displayTime: Duration(seconds: 2),
+                                  );
+                                },
+                              );
+                            }
                           }
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: Image.asset(
-                                "assets/images/profile/icon_liwu.webp",
-                                width: 16,
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: Image.asset(
+                                  "assets/images/profile/icon_liwu.webp",
+                                  width: 16,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
