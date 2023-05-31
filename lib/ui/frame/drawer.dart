@@ -29,21 +29,25 @@ List<Map> supports = [
   //   ..['action'] = () => SmartDialog.showToast('FAQ'),
   Map()
     ..['title'] = 'Help Centre'.tr
-    ..['action'] = () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),
+    ..['action'] =
+        () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),
   Map()
     ..['title'] = 'Give us feedback'.tr
     ..['action'] = () => Get.dialog(ConfirmDialog(
         title: 'feedback'.tr,
         info:
-            'Please contact us:\nGeneral Enquiries: support@sidequestmeta.com\nEvents and Bookings: event@sidequestmeta.com\nFranchisees: invest@sidequestmeta.com\nShop: shop@sidequestmeta.com'.tr)),
+            'Please contact us:\nGeneral Enquiries: support@sidequestmeta.com\nEvents and Bookings: event@sidequestmeta.com\nFranchisees: invest@sidequestmeta.com\nShop: shop@sidequestmeta.com'
+                .tr)),
 ];
 List<Map> legals = [
   Map()
     ..['title'] = 'Terms of use'.tr
-    ..['action'] = () => Get.to(WebPage(title: 'Terms of use'.tr, url: TermsAndConditionLink)),
+    ..['action'] = () =>
+        Get.to(WebPage(title: 'Terms of use'.tr, url: TermsAndConditionLink)),
   Map()
     ..['title'] = 'Privacy Policy'.tr
-    ..['action'] = () => Get.to(WebPage(title: 'Privacy Policy'.tr, url: PrivacyPolicyLink)),
+    ..['action'] = () =>
+        Get.to(WebPage(title: 'Privacy Policy'.tr, url: PrivacyPolicyLink)),
 ];
 
 class HomeDrawer extends StatelessWidget {
@@ -75,7 +79,9 @@ class HomeDrawer extends StatelessWidget {
                   ),
                 ),
                 header(),
-                Obx(() => Visibility(visible: UserController.find.online.value, child: achievements())),
+                Obx(() => Visibility(
+                    visible: UserController.find.online.value,
+                    child: achievements())),
                 remainingTimes(),
                 contentPadding(EnergyView(
                   width: drawerWidth - 15 * 2.r,
@@ -83,7 +89,17 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                _listItem('My Subscription'.tr, onTapMore: () => Get.toNamed(AppPages.VIP_PAGE, arguments: 0)?.whenComplete(() => UserController.instance().updateInfo())),
+                Visibility(
+                  visible: UserController.find.online.value,
+                  child: _listItem(
+                    'My Subscription'.tr,
+                    onTapMore: () =>
+                        Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
+                            ?.whenComplete(
+                      () => UserController.instance().updateInfo(),
+                    ),
+                  ),
+                ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -127,8 +143,18 @@ class HomeDrawer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 30, top: 10).r,
       child: Text.rich(TextSpan(children: [
-        TextSpan(text: 'Remaining game time: '.tr, style: TextStyle(fontSize: 12.sp, color: Color(0xFFC5C5C5), fontFamily: FONT_MEDIUM)),
-        TextSpan(text: '${user?.avamins}mins', style: TextStyle(fontSize: 12.sp, color: AppColor.textYellow, fontFamily: FONT_MEDIUM))
+        TextSpan(
+            text: 'Remaining game time: '.tr,
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: Color(0xFFC5C5C5),
+                fontFamily: FONT_MEDIUM)),
+        TextSpan(
+            text: '${user?.avamins}mins',
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColor.textYellow,
+                fontFamily: FONT_MEDIUM))
       ])),
     );
   }
@@ -144,11 +170,20 @@ class HomeDrawer extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(bottom: 15).h,
                 padding: EdgeInsets.all(3).r,
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/profile_avatar_border.webp'))),
-                child: ImageUtil.networkImage(width: iconSize, height: iconSize, fit: BoxFit.cover, url: '${user?.avatar}', border: iconSize / 2),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/profile_avatar_border.webp'))),
+                child: ImageUtil.networkImage(
+                    width: iconSize,
+                    height: iconSize,
+                    fit: BoxFit.cover,
+                    url: '${user?.avatar}',
+                    border: iconSize / 2),
               ),
               Obx(() => Visibility(
-                    visible: UserController.find.userProfile.vipLevel >= 5 && UserController.find.userProfile.isAuth == 1,
+                    visible: UserController.find.userProfile.vipLevel >= 5 &&
+                        UserController.find.userProfile.isAuth == 1,
                     child: Positioned(
                         left: 0,
                         right: 0,
@@ -171,7 +206,10 @@ class HomeDrawer extends StatelessWidget {
               5.verticalSpace,
               Text(
                 '${user?.uk}',
-                style: TextStyle(fontSize: 12.sp, fontFamily: FONT_LIGHT, color: AppColor.textC5C5),
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    fontFamily: FONT_LIGHT,
+                    color: AppColor.textC5C5),
               )
             ],
           ),
@@ -205,7 +243,8 @@ class HomeDrawer extends StatelessWidget {
   Widget sectionText(String text) {
     return contentPadding(Text(
       text,
-      style: TextStyle(color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.bold),
+      style: TextStyle(
+          color: Colors.white, fontSize: 18.sp, fontWeight: FontWeight.bold),
     ));
   }
 
@@ -227,7 +266,8 @@ class HomeDrawer extends StatelessWidget {
       // ),
       title: Text(
         '$label',
-        style: TextStyle(color: Colors.white, fontSize: 15.sp, fontFamily: FONT_LIGHT),
+        style: TextStyle(
+            color: Colors.white, fontSize: 15.sp, fontFamily: FONT_LIGHT),
       ),
       trailing: ClickIcon(
         icon: Icons.arrow_forward_ios,
@@ -242,8 +282,12 @@ class HomeDrawer extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 10).r,
       padding: EdgeInsets.all(15).r,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(11), gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(11),
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
       child: Row(
         children: [
           achievementItem(user?.coin, 'ic_balance_money'),
@@ -256,7 +300,8 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Widget achievementItem(var text, var icon) {
-    var textStyle = TextStyle(color: Color(0xFFC5C5C5), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
+    var textStyle = TextStyle(
+        color: Color(0xFFC5C5C5), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
     double width = 18;
     double height = 18;
     switch (icon) {
@@ -282,16 +327,23 @@ class HomeDrawer extends StatelessWidget {
       onTap: () {
         switch (icon) {
           case 'ic_balance_money':
-            if (StorageManager.getOnline()) Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+            if (StorageManager.getOnline())
+              Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
             break;
           case 'ic_coupons_new':
-            NavigatorHelper.gotoCouponTabPage(whenComplete: () => UserController.instance().updateInfo());
+            NavigatorHelper.gotoCouponTabPage(
+                whenComplete: () => UserController.instance().updateInfo());
             break;
           case 'diamonds_red':
-            StorageManager.getOnline() ? Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 1) : null;
+            StorageManager.getOnline()
+                ? Get.toNamed(AppPages.WALLET_PAGE,
+                    arguments: Map()..['page'] = 1)
+                : null;
             break;
           case 'ic_corns_new':
-            if (StorageManager.getOnline()) Get.to(() => BalancePage())?.whenComplete(() => UserController.instance().updateInfo());
+            if (StorageManager.getOnline())
+              Get.to(() => BalancePage())
+                  ?.whenComplete(() => UserController.instance().updateInfo());
             break;
         }
       },
