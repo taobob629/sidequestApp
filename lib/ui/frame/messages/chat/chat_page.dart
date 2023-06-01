@@ -140,8 +140,13 @@ class ChatController extends BasePageController {
           info:
               "Block user ${selectedConversation.showName} to stop receiving messages from them"
                   .tr,
-          onConfirm: () {
-
+          onConfirm: () async {
+            flog('selectedConversation.userID ${selectedConversation.userID}');
+            final res = await TIMUIKitCore.getSDKInstance().getFriendshipManager().addToBlackList(userIDList: [selectedConversation?.userID??'']);
+            if(res.code==0){
+           //   showToast(res.desc);
+              Get.back();
+            }
           }),
       barrierColor: Colors.black26,
     );
