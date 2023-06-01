@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_conversation_view_model.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitConversation/tim_uikit_conversation.dart';
 import 'package:wy/config/app_color.dart';
@@ -16,8 +19,11 @@ const int type_group = 1;
 
 class ConversationListPage extends StatelessWidget {
   int type;
-  final  Function(int count)? unreadCountChange;
-  ConversationListPage({Key? key, this.type = type_single_chat,this.unreadCountChange}) : super(key: key);
+  final Function(int count)? unreadCountChange;
+
+  ConversationListPage(
+      {Key? key, this.type = type_single_chat, this.unreadCountChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +31,13 @@ class ConversationListPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: TIMUIKitConversation(
           isShowDraft: false,
-          unreadCountChange: (int count){
+          unreadCountChange: (int count) {
             unreadCountChange?.call(count);
           },
           conversationCollector: (conversationItem) {
             /// 专用自定义消息渠道，不显示
-            return ChatTool.converFilter(conversationItem?.userID, conversationItem?.groupID, type);
+            return ChatTool.converFilter(
+                conversationItem?.userID, conversationItem?.groupID, type);
           },
           lastMessageBuilder: (lastMsg, groupAtInfoList) {
             if (lastMsg?.customElem?.data != null) {
@@ -38,7 +45,7 @@ class ConversationListPage extends StatelessWidget {
               try {
                 data = jsonDecode(lastMsg!.customElem!.data!);
               } catch (e) {
-                return   Text(
+                return Text(
                   "Unknown",
                   style: TextStyle(color: AppColor.colorB9C9, fontSize: 12),
                 );
@@ -63,7 +70,17 @@ class ConversationListPage extends StatelessWidget {
             //     ));
             Get.to(() => ChatPage(
                   selectedConversation: selectedConv,
-                ));
+                ))?.then((res) async {
+              if (res) {
+                await TIMUIKitCore.getSDKInstance()
+                    .getConversationManager()
+                    .deleteConversation(
+                        conversationID: selectedConv.conversationID);
+                TUIConversationViewModel model =
+                    serviceLocator<TUIConversationViewModel>();
+                model.refresh();
+              }
+            });
           }),
     );
   }

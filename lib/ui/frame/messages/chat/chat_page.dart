@@ -146,6 +146,7 @@ class ChatController extends BasePageController {
             if(res.code==0){
            //   showToast(res.desc);
               Get.back();
+              Get.back(result: true);
             }
           }),
       barrierColor: Colors.black26,
