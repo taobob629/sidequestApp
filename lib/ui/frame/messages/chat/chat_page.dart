@@ -28,6 +28,7 @@ import 'package:wy/widget/icon_text.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../model/play_order_detail_model.dart';
+import '../../../common/dialog_confirm.dart';
 import '../../social/post/view/gift_animation.dart';
 import '../../social/post/view/give_gifts_dialog.dart';
 
@@ -43,7 +44,11 @@ class ChatController extends BasePageController {
   @override
   void onInit() {
     super.onInit();
-    if (selectedConversation.type == 1) return;
+    if (selectedConversation.type == 1) {
+      popPrivateMenus.clear();
+      popPrivateMenus.add('Block');
+      return;
+    }
     getGroupInfo();
     checkGroup();
   }
@@ -71,6 +76,7 @@ class ChatController extends BasePageController {
   List<String> menuAdmin = ['QR', 'Share to Posts', 'Group Info']; //管理员
   List<String> menuUser = ['QR', 'Group Info']; //普通用户
   RxList<String> popMenus = RxList([]);
+  List<String> popPrivateMenus = [];
   RxBool groupExists = false.obs;
 
   checkGroup() async {
@@ -126,6 +132,20 @@ class ChatController extends BasePageController {
         clickMaskDismiss: true,
         onMask: () {});
   }
+
+  void addBlock() {
+    Get.dialog(
+      ConfirmDialog(
+          title: "Confirm".tr,
+          info:
+              "Block user ${selectedConversation.showName} to stop receiving messages from them"
+                  .tr,
+          onConfirm: () {
+
+          }),
+      barrierColor: Colors.black26,
+    );
+  }
 }
 
 class ChatPage extends StatelessWidget {
@@ -167,7 +187,40 @@ class ChatPage extends StatelessWidget {
     if (selectedConversation.type == 1) getUserId();
     return TIMUIKitChat(
       appBarConfig: selectedConversation.type == 1
-          ? AppBar(backgroundColor: Colors.transparent, elevation: 0)
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              actions: [
+                PopupMenuButton(
+                    color: AppColor.itemBg,
+                    icon: Icon(
+                      Icons.more_vert_outlined,
+                      color: Colors.white,
+                    ),
+                    onSelected: (item) {
+                      if (item == 'Block'.tr) {
+                        flog('Block');
+                        controller.addBlock();
+                        return;
+                      }
+                    },
+                    itemBuilder: (context) => <PopupMenuEntry<String>>[
+                          ...controller.popPrivateMenus
+                              .mapIndexed((index, e) => PopupMenuItem<String>(
+                                    value: e,
+                                    child: IconTextWidget(
+                                      icon: '',
+                                      iconWidget: Icon(
+                                        Icons.delete,
+                                        size: 22,
+                                        color: Colors.white,
+                                      ),
+                                      text: '$e'.tr,
+                                    ),
+                                  ))
+                        ]),
+              ],
+            )
           : AppBar(
               title: Obx(() => Text(
                   '${selectedConversation.showName} (${'${controller?.count.value}'})')),
