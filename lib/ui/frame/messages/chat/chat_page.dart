@@ -216,9 +216,9 @@ class ChatPage extends StatelessWidget {
                                     child: IconTextWidget(
                                       icon: '',
                                       iconWidget: Icon(
-                                        Icons.delete,
+                                        Icons.block,
                                         size: 22,
-                                        color: Colors.white,
+                                        color: Colors.red,
                                       ),
                                       text: '$e'.tr,
                                     ),
