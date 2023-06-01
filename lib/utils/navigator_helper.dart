@@ -30,7 +30,9 @@ import '../ui/profile/address/list/address_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();
-  static void gotoPayPage(PayOrderModel payOrderModel, {bool offPage = false, Function? whenComplete}) {
+
+  static void gotoPayPage(PayOrderModel payOrderModel,
+      {bool offPage = false, Function? whenComplete}) {
     if (offPage) {
       Get.off(() => PayPage(payOrderModel: payOrderModel))?.then((value) {
         if (value != null && value == true) {
@@ -53,7 +55,8 @@ class NavigatorHelper {
     showLoading();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
-          Get.toNamed(AppPages.OtherProfile, arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
+          Get.toNamed(AppPages.OtherProfile,
+              arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
         })
         .whenComplete(() => dismissLoading())
         .catchError((err) {
@@ -96,7 +99,12 @@ class NavigatorHelper {
     return model;
   }
 
-  static void gotoCouponPage({int couponType = 0, PayOrderModel? payOrderModel, Map<String, dynamic>? preOrder, Function(CouponModel)? onSelect, Function? whenComplete}) {
+  static void gotoCouponPage(
+      {int couponType = 0,
+      PayOrderModel? payOrderModel,
+      Map<String, dynamic>? preOrder,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
     Get.to(() => CouponPage(
           couponType: couponType,
           payOrderModel: payOrderModel,
@@ -108,7 +116,11 @@ class NavigatorHelper {
     }).whenComplete(() => whenComplete?.call());
   }
 
-  static void gotoCouponTabPage({int couponType = 0, PayOrderModel? payOrderModel, Function(CouponModel)? onSelect, Function? whenComplete}) {
+  static void gotoCouponTabPage(
+      {int couponType = 0,
+      PayOrderModel? payOrderModel,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
     Get.toNamed(AppPages.COUPON_TAB_PAGE)?.then((model) {
       if (model != null) {
         onSelect?.call(model);
@@ -137,10 +149,8 @@ class NavigatorHelper {
           Get.to(() => EventPage(id: id, type: 1));
         } else if (page == "match") {
           Get.to(() => EventPage(id: id, type: 2));
-        }else if (page == "task") {
-          var response = await http.get(
-            '/app/client/task/list?id=$id'
-          );
+        } else if (page == "task") {
+          var response = await http.get('/app/client/task/list?id=$id');
           if (response.data != null) {
             List<TaskModel> list = response.data
                 .map<TaskModel>((item) => TaskModel.fromJson(item))
@@ -157,7 +167,9 @@ class NavigatorHelper {
               amount: amount,
             ));
       } else if (page == "booking") {
-        Get.to(() => BookingPage());
+        Get.toNamed(AppPages.BOOKING_PAGE);
+      } else if (page == "coin") {
+        Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
       }
     }
   }
