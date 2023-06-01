@@ -16,8 +16,8 @@ const int type_group = 1;
 
 class ConversationListPage extends StatelessWidget {
   int type;
-
-  ConversationListPage({Key? key, this.type = type_single_chat}) : super(key: key);
+  final  Function(int count)? unreadCountChange;
+  ConversationListPage({Key? key, this.type = type_single_chat,this.unreadCountChange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,9 @@ class ConversationListPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: TIMUIKitConversation(
           isShowDraft: false,
+          unreadCountChange: (int count){
+            unreadCountChange?.call(count);
+          },
           conversationCollector: (conversationItem) {
             /// 专用自定义消息渠道，不显示
             return ChatTool.converFilter(conversationItem?.userID, conversationItem?.groupID, type);

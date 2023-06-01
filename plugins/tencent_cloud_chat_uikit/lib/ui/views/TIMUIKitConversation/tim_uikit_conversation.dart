@@ -42,6 +42,7 @@ class TIMUIKitConversation extends StatefulWidget {
   /// the widget shows when no conversation exists
   final Widget Function()? emptyBuilder;
 
+  final  Function(int count)? unreadCountChange;
   /// the filter for conversation
   final bool Function(V2TimConversation? conversation)? conversationCollector;
 
@@ -71,6 +72,7 @@ class TIMUIKitConversation extends StatefulWidget {
       this.conversationCollector,
       this.emptyBuilder,
       this.lastMessageBuilder,
+        this.unreadCountChange,
       this.isShowOnlineStatus = true})
       : super(key: key);
 
@@ -241,6 +243,7 @@ class _TIMUIKitConversationState extends TIMUIKitState<TIMUIKitConversation> {
   }
 
   List<V2TimConversation?> getFilteredConversation() {
+    int unreadCount=0;
     List<V2TimConversation?> filteredConversationList = model.conversationList
         .where((element) => (element?.groupID != null || element?.userID != null))
         .toList();
@@ -248,6 +251,12 @@ class _TIMUIKitConversationState extends TIMUIKitState<TIMUIKitConversation> {
       filteredConversationList =
           filteredConversationList.where(widget.conversationCollector!).toList();
     }
+    //统计未读消息总数
+    filteredConversationList.forEach((conversation) {
+      unreadCount+=conversation?.unreadCount??0;
+    });
+//    print('unreadCount $unreadCount ${  widget.unreadCountChange}');
+    widget.unreadCountChange?.call(unreadCount);
     return filteredConversationList;
   }
 
