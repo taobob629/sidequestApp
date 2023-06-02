@@ -52,7 +52,7 @@ class MoreFunWidget extends StatelessWidget {
                   behavior: HitTestBehavior.translucent,
                   onTap: () => Get.dialog(ConfirmDialog(
                     title: 'Confirm'.tr,
-                    info: 'Block user $nickName',
+                    info: 'After blocking the user, you will no longer see any posts from them.'.tr,
                     onConfirm: () async {
                       showLoading();
                       final result = await http.get(
