@@ -12,9 +12,12 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
+import 'package:wy/ui/frame/profile/my_profile/badges_widget.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
+import 'package:wy/ui/frame/social/post/more_fun_widget.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
@@ -22,6 +25,7 @@ import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../../controller/user_controller.dart';
+import '../../../../playwith/balance/my_earnings_page.dart';
 import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
 
@@ -295,7 +299,7 @@ class PostListItemView extends GetView<PostListController> {
                                 ignoreSafeArea: true);
                             if (heartNum != null) {
                               Future.delayed(Duration(milliseconds: 300)).then(
-                                    (v) {
+                                (v) {
                                   SmartDialog.show(
                                     builder: (builder) => GiftSucAnim(heartNum),
                                     displayTime: Duration(seconds: 2),
@@ -323,6 +327,30 @@ class PostListItemView extends GetView<PostListController> {
                       ),
                     ),
                   ),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTapDown: (detail) async {
+                        final value = await Get.dialog(
+                          MoreFunWidget(),
+                          arguments: {
+                            'offset': detail.globalPosition,
+                            'nickName': model.nickname,
+                            'id': model.id,
+                            'pwId': model.uid,
+                          },
+                        );
+                        if (value != null) {
+                          PostListController.find.onRefresh();
+                        }
+                      },
+                      child: Icon(
+                        Icons.clear,
+                        color: Color(0xff808388),
+                        size: 16.sp,
+                      ),
+                    ),
+                  )
                 ],
               ),
             )

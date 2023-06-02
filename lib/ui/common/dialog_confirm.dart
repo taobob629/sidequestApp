@@ -29,11 +29,11 @@ class ConfirmDialog extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.width,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
               title,
               style: TextStyle(fontSize: 16, color: Colors.white),
+              textAlign: TextAlign.center,
             ),
             Expanded(
               child: SingleChildScrollView(

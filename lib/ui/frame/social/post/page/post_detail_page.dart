@@ -13,6 +13,7 @@ import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../../widget/cs_photo_viewer.dart';
+import '../more_fun_widget.dart';
 import 'post_comments_page.dart';
 import 'post_favorators_page.dart';
 
@@ -100,7 +101,9 @@ class PostDetailPage extends StatelessWidget {
                                   ),
                                   t.postItem.value.type == TYPE_INVITE
                                       ? buildGroupInviteWidget(
-                                          context, t.postItem.value.content,t.postItem.value.imageList.first)
+                                          context,
+                                          t.postItem.value.content,
+                                          t.postItem.value.imageList.first)
                                       : Text(
                                           t.postItem.value.content,
                                           style: TextStyle(
@@ -183,72 +186,102 @@ class PostDetailPage extends StatelessWidget {
                   collapseMode: CollapseMode.pin,
                   background: Container(
                     alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      width: 120.w,
-                      child: TabBar(
-                        controller: t.tabController,
-                        isScrollable: false,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Colors.white38,
-                        indicatorColor: Color(0xFFFFCB0D),
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicatorWeight: 3,
-                        indicatorPadding:
-                            EdgeInsets.only(bottom: 0, left: 10, right: 10),
-                        labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                        labelStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "din"),
-                        unselectedLabelStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "din"),
-                        tabs: [
-                          Obx(
-                            () => Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      "assets/images/profile/icon_pinlun.webp",
-                                      width: 16,
-                                    ),
-                                  ),
-                                  Text(
-                                    t.postItem.value.commentNum.toString(),
-                                    style: TextStyle(
-                                      color: Color(0xff808388),
-                                      fontSize: 11.sp,
-                                    ),
-                                  )
-                                ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 120.w,
+                          child: TabBar(
+                            controller: t.tabController,
+                            isScrollable: false,
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.white38,
+                            indicatorColor: Color(0xFFFFCB0D),
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicatorWeight: 3,
+                            indicatorPadding:
+                                EdgeInsets.only(bottom: 0, left: 10, right: 10),
+                            labelPadding:
+                                const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                            labelStyle: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "din"),
+                            unselectedLabelStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "din"),
+                            tabs: [
+                              Obx(
+                                () => Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Image.asset(
+                                          "assets/images/profile/icon_pinlun.webp",
+                                          width: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        t.postItem.value.commentNum.toString(),
+                                        style: TextStyle(
+                                          color: Color(0xff808388),
+                                          fontSize: 11.sp,
+                                        ),
+                                      )
+                                    ]),
+                              ),
+                              Obx(() => Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Image.asset(
+                                          "assets/images/profile/icon_dianzan.webp",
+                                          width: 16,
+                                          color: t.postItem.value.isPraise.value
+                                              ? Colors.pink
+                                              : null,
+                                        ),
+                                      ),
+                                      Text(
+                                        t.postItem.value.praiseNum.toString(),
+                                        style: TextStyle(
+                                          color: Color(0xff808388),
+                                          fontSize: 11.sp,
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ],
                           ),
-                          Obx(() => Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      "assets/images/profile/icon_dianzan.webp",
-                                      width: 16,
-                                      color: t.postItem.value.isPraise.value
-                                          ? Colors.pink
-                                          : null,
-                                    ),
-                                  ),
-                                  Text(
-                                    t.postItem.value.praiseNum.toString(),
-                                    style: TextStyle(
-                                      color: Color(0xff808388),
-                                      fontSize: 11.sp,
-                                    ),
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            right: 15.w,
+                          ),
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTapDown: (detail) => Get.dialog(
+                              MoreFunWidget(),
+                              arguments: {
+                                'offset': detail.globalPosition,
+                                'nickName': t.postItem.value.nickname,
+                                'id': t.postItem.value.id,
+                                'pwId': t.postItem.value.uid,
+                              },
+                            ).then((value) => Get.back(result: true)),
+                            child: Icon(
+                              Icons.clear,
+                              color: Color(0xff808388),
+                              size: 16.sp,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
