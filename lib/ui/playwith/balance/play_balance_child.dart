@@ -598,6 +598,7 @@ class WalletBalancePageController extends GetxListController {
     ChargeRuleModel chargeRule = await BalanceApi.chargeRule();
     coin = chargeRule.coin;
     diamonds = chargeRule.votes;
+    reload();
   }
 
   void getBankList() async {
