@@ -86,20 +86,10 @@ class EventPage extends StatelessWidget {
       floatingActionButton: Obx(() => controller.eventDetailModel.value.id == 0
           ? Container()
           : Container(
+              width: Get.width-30,
               //  height: 150,
               constraints: BoxConstraints(maxHeight: 150.h),
-              child: Stack(children: [
-                Positioned(bottom: 10, left: 10, right: 10, child: Obx(() => _buildBtn(context))),
-                // Positioned(
-                //     right: 26,
-                //     bottom: 90,
-                //     child: Obx(()=>Visibility(
-                //         visible: controller.eventDetailModel.value.kopStartTime!=0,
-                //         child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
-                //             controller.eventDetailModel.value.kopStartTime * 1000)
-                //             .difference(DateTime.now())
-                //             .inSeconds))))
-              ]))),
+              child:  Obx(() => _buildBtn(context)))),
       //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

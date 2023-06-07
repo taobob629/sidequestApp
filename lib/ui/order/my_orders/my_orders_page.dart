@@ -162,7 +162,9 @@ class MyOrdersPage extends StatelessWidget {
                           width: Get.width,
                           child: InkWell(
                             onTap: () => Get.toNamed(AppPages.OrderDetail,
-                                arguments: Map()..['id'] = model.id),
+                                arguments: Map()..['id'] = model.id)?.then((value) {
+                               if(value) _ctr.onRefresh();
+                            }),
                             child: item(model),
                           ),
                         );
