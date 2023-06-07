@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/wy_http.dart';
@@ -26,10 +27,14 @@ import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../../config/app_pages.dart';
+import '../../../utils/global_key_constants.dart';
 import '../../../utils/toast_utils.dart';
 import '../skill/list/controller.dart';
 
 class AddGamePageController extends GetxController {
+
+  BuildContext? myContext;
+
   RxList<PriceRangeModel> priceRanges = RxList([]);
   RxList<FieldsItem> fieldItems = RxList([]);
   RxList<PriceRangeModel> mPriceRanges = RxList([]); //我选择的技能列表

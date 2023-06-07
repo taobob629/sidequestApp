@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/api/user_api.dart';
@@ -12,6 +13,8 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../../../utils/global_key_constants.dart';
+import '../../../../utils/storage_manager.dart';
 import '../../../../utils/toast_utils.dart';
 
 /*
@@ -22,6 +25,8 @@ import '../../../../utils/toast_utils.dart';
     Copyright © sidequest_hub_app. All rights reserved.
  **/
 class SkillListPageController extends GetxController {
+  BuildContext? myContext;
+
   static const int INIT = 0;
   static const int FINISH = 1;
   RxInt _pageState = RxInt(INIT);
@@ -44,6 +49,15 @@ class SkillListPageController extends GetxController {
   void onInit() {
     super.onInit();
     initData();
+
+    bool? sideKickAddServiceKey = StorageManager.getBoolByKey('sideKickAddServiceKey');
+    if (sideKickAddServiceKey == null || sideKickAddServiceKey == false) {
+      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(myContext!).startShowCase([
+          GlobalKeyConstants.sideKickAddServiceKey,
+        ]),
+      );
+    }
   }
 
   initData() async {
@@ -95,10 +109,13 @@ class SkillListPageController extends GetxController {
     });
   }
 
-  Future<void> changeServiceStatus(SkillItemModel? item, bool checkState) async {
+  Future<void> changeServiceStatus(
+      SkillItemModel? item, bool checkState) async {
     showLoading();
     var response = await GamesApi.changeServiceStatus(
-        id: item?.id, skillAuthid: item?.skillAuthid, status: checkState ? 1 : 0);
+        id: item?.id,
+        skillAuthid: item?.skillAuthid,
+        status: checkState ? 1 : 0);
     dismissLoading();
     if (response.statusCode == 200) {
       item?.enabled = checkState ? 1 : 0;

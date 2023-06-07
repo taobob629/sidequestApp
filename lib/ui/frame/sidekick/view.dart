@@ -17,16 +17,10 @@ import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/ui/frame/sidekick/widget/horizontal_list.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/navigator_helper.dart';
-import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/show_error_widget.dart';
 
-import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
-import '../../../res/styles.dart';
-import '../../../utils/storage_manager.dart';
+import '../../../utils/global_key_constants.dart';
 import '../../../widget/refresh_list.dart';
-import '../../common/dialog_match_top.dart';
-import '../../match/filter/view.dart';
 import 'widget/list_item.dart';
 import 'widget/section.dart';
 
@@ -35,14 +29,6 @@ class SideKickPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // bool? zc = StorageManager.getBoolByKey('caseView');
-    // if (zc == null || zc == false) {
-    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-    //         (_) =>
-    //         ShowCaseWidget.of(context).startShowCase([addGameKey, languageKey]),
-    //   );
-    // }
-
     controller.refreshController = RefreshController(initialRefresh: false);
     return Stack(
       children: [
@@ -77,24 +63,17 @@ class SideKickPage extends StatelessWidget {
                   ),
                 ),
                 actions: [
-                  // Showcase(
-                  //   key: addGameKey,
-                  //   description: '点击添加你常玩的游戏',
-                  //   child: IconButton(
-                  //       onPressed: () => controller.toGameListPage(),
-                  //       icon: Image.asset(
-                  //         ImageUtils.ic_add,
-                  //         width: 24.w,
-                  //         height: 24.w,
-                  //       )),
-                  // ),
-                  IconButton(
-                      onPressed: () => controller.toGameListPage(),
-                      icon: Image.asset(
-                        ImageUtils.ic_add,
-                        width: 24.w,
-                        height: 24.w,
-                      )),
+                  Showcase(
+                    key: GlobalKeyConstants.addGameKey,
+                    description: '点击添加你常玩的游戏',
+                    child: IconButton(
+                        onPressed: () => controller.toGameListPage(),
+                        icon: Image.asset(
+                          ImageUtils.ic_add,
+                          width: 24.w,
+                          height: 24.w,
+                        )),
+                  ),
                   IconButton(
                     onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
                     icon: ImageUtil.assetImage(
@@ -124,12 +103,14 @@ class SideKickPage extends StatelessWidget {
           () => Positioned(
             bottom: controller.bottom.value,
             right: controller.right.value,
-            child: GestureDetector(
-              onPanUpdate: (DragUpdateDetails details) {
-                controller.bottom.value -= details.delta.dy;
-                controller.right.value -= details.delta.dx;
-              },
+            child: Showcase(
+              key: GlobalKeyConstants.matchKey,
+              description: 'Automatically find corresponding playmates'.tr,
               child: GestureDetector(
+                onPanUpdate: (DragUpdateDetails details) {
+                  controller.bottom.value -= details.delta.dy;
+                  controller.right.value -= details.delta.dx;
+                },
                 behavior: HitTestBehavior.translucent,
                 onTap: () => Get.toNamed(AppPages.side_kick_match_page),
                 child: Image.asset(
@@ -149,10 +130,20 @@ class SideKickPage extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (context, index) {
         var model = controller.mDatas[index];
-        return GameListItemWidget(model, () {
-          NavigatorHelper.toOtherProfile(model.id,
-              gid: controller.gameList[controller.currentSelectIndex].id);
-        });
+        return index == 0
+            ? Showcase(
+                key: GlobalKeyConstants.sideKickItemKey,
+                description:
+                    'Choose the companion you want to place an order with'.tr,
+                child: GameListItemWidget(model, () {
+                  NavigatorHelper.toOtherProfile(model.id,
+                      gid: controller
+                          .gameList[controller.currentSelectIndex].id);
+                }))
+            : GameListItemWidget(model, () {
+                NavigatorHelper.toOtherProfile(model.id,
+                    gid: controller.gameList[controller.currentSelectIndex].id);
+              });
       },
       itemCount: controller.mDatas.length,
     );

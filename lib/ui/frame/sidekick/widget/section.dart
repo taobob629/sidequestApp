@@ -12,6 +12,8 @@ import 'package:wy/ui/frame/sidekick/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/drop_down/gzx_dropdown_menu.dart';
 
+import '../../../../utils/global_key_constants.dart';
+
 class SectionWidget extends StatelessWidget {
   GlobalKey _stackKey = GlobalKey();
   final Widget listBody;
@@ -44,39 +46,42 @@ class SectionWidget extends StatelessWidget {
   var dropDownController = GZXDropdownMenuController();
 
   Widget buildDropdownHeader() {
-    return MediaQuery.removePadding(
-        context: Get.context!,
-        removeTop: true,
-        child: Container(
-          child: Obx(() => GZXDropDownHeader(
-                iconColor: Colors.white,
-                dropDownStyle:
-                    TextStyle(color: AppColor.textYellow, fontSize: 12.sp),
-                iconDropDownColor: Colors.white,
-                style: TextStyle(color: Colors.white, fontSize: 12.sp),
-                dividerColor: Colors.transparent,
-                itemDecoration: BoxDecoration(
-                    color: Color(0xff32353D),
-                    borderRadius: BorderRadius.circular(5.w)),
-                color: Color(0xFF1B1A1E),
-                //  height: 30.h,
-                borderColor: Colors.transparent,
-                items: controller.filters
-                    .map((item) => GZXDropDownHeaderItem(item?.name ?? '',
-                        iconData: Icons.keyboard_arrow_down_rounded,
-                        iconDropDownData: Icons.keyboard_arrow_up))
-                    .toList(),
-                dividerHeight: 1,
-                //  style: TextStyle(color: Colors.white),
-                controller: dropDownController,
-                stackKey: _stackKey,
-                onItemTap: (item) {
-                  //   controller.show(1);
-                },
+    return Showcase(
+        key: GlobalKeyConstants.languageKey,
+        description: 'Filter the conditions for accompanying games'.tr,
+        child: MediaQuery.removePadding(
+            context: Get.context!,
+            removeTop: true,
+            child: Container(
+              child: Obx(() => GZXDropDownHeader(
+                    iconColor: Colors.white,
+                    dropDownStyle:
+                        TextStyle(color: AppColor.textYellow, fontSize: 12.sp),
+                    iconDropDownColor: Colors.white,
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                    dividerColor: Colors.transparent,
+                    itemDecoration: BoxDecoration(
+                        color: Color(0xff32353D),
+                        borderRadius: BorderRadius.circular(5.w)),
+                    color: Color(0xFF1B1A1E),
+                    //  height: 30.h,
+                    borderColor: Colors.transparent,
+                    items: controller.filters
+                        .map((item) => GZXDropDownHeaderItem(item?.name ?? '',
+                            iconData: Icons.keyboard_arrow_down_rounded,
+                            iconDropDownData: Icons.keyboard_arrow_up))
+                        .toList(),
+                    dividerHeight: 1,
+                    //  style: TextStyle(color: Colors.white),
+                    controller: dropDownController,
+                    stackKey: _stackKey,
+                    onItemTap: (item) {
+                      //   controller.show(1);
+                    },
 
-                ///特殊模块,选中数据只亮起,不需要更改头部title,下标为1
-              )),
-        ));
+                    ///特殊模块,选中数据只亮起,不需要更改头部title,下标为1
+                  )),
+            )));
   }
 
   var sectionHeight = 40.h;

@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/im/im_util.dart';
 
 import '../../../../../api/common.dart';
+import '../../../../../utils/global_key_constants.dart';
+import '../../../../../utils/storage_manager.dart';
 import '../../../../../utils/toast_utils.dart';
 
 const int TYPE_INVITE = 1;
@@ -18,6 +21,9 @@ const int TYPE_DEFAULT = 0;
 
 class ReleasePostController extends GetxController {
   TextEditingController textController = TextEditingController();
+
+  BuildContext? myContext;
+
   final ImagePicker _picker = ImagePicker();
 
   final photoList = <String>[].obs;
@@ -42,8 +48,20 @@ class ReleasePostController extends GetxController {
       gid = arg['gid'];
       if (gid != null) {
         var group_name = arg['group_name'];
-        textController.text = 'Welcome to our new group" $group_name"! Join us and let\'s have fun together!';
+        textController.text =
+            'Welcome to our new group" $group_name"! Join us and let\'s have fun together!';
       }
+    }
+
+    bool? postContentKey = StorageManager.getBoolByKey('postContentKey');
+    if (postContentKey == null || postContentKey == false) {
+      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(myContext!).startShowCase([
+          GlobalKeyConstants.postContentKey,
+          GlobalKeyConstants.postSendKey,
+          GlobalKeyConstants.postBackKey,
+        ]),
+      );
     }
   }
 

@@ -18,7 +18,7 @@ class MyGiftDetailCtr extends GetxController {
 
   void _requestData() async {
     showLoading();
-    String url = '/peiwan/app/gift/orderDetail?id=${params['id']}&&type=${params['type']}';
+    String url = '/peiwan/app/gift/orderDetail?id=${params['id']}&type=${params['type']}';
     var response = await http.get(url);
     model = MyGiftDetailModel.fromJson(response.data);
     dismissLoading();

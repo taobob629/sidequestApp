@@ -13,6 +13,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/common/page/empty_view.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
@@ -23,6 +24,7 @@ import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/balance/widget/tips_dialog.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
+import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
@@ -41,23 +43,34 @@ class SkillListPage extends GetView<SkillListPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldWidget(
-        appBar: tabWidget
-            ? null
-            : AppBar(
-                title: Text('SideKick'.tr),
-                elevation: 0,
+    return ShowCaseWidget(
+      autoPlay: true,
+      autoPlayDelay: Duration(seconds: 5),
+      onFinish: () => StorageManager.setBoolValue('sideKickAddServiceKey', true),
+      builder: Builder(builder: (builder){
+        controller.myContext = builder;
+        return ScaffoldWidget(
+            appBar: tabWidget
+                ? null
+                : AppBar(
+              title: Text('SideKick'.tr),
+              elevation: 0,
+            ),
+            btnBar: Showcase(
+              overlayOpacity: 0,
+              key: GlobalKeyConstants.sideKickAddServiceKey,
+              description: 'Click to apply for companionship'.tr,
+              child: FloatingButton(
+                onTap: () async {
+                  controller.addGame();
+                },
+                label: 'Add Service'.tr,
               ),
-        btnBar: FloatingButton(
-          onTap: () async {
-            controller.addGame();
-          },
-          label: 'Add Service'.tr,
-        ),
-        body: Container(
-          padding: EdgeInsets.all(20),
-          child: NestedScrollView(
-              headerSliverBuilder: (context, _) => [
+            ),
+            body: Container(
+              padding: EdgeInsets.all(20),
+              child: NestedScrollView(
+                  headerSliverBuilder: (context, _) => [
                     SliverToBoxAdapter(
                       child: ProfileHeaderWidget(),
                     ),
@@ -65,24 +78,26 @@ class SkillListPage extends GetView<SkillListPageController> {
                       child: ServiceHeader(),
                     )
                   ],
-              body: Obx(
-                () => controller.pageState == SkillListPageController.INIT
-                    ? buildLoad()
-                    : controller.list.isEmpty
+                  body: Obx(
+                        () => controller.pageState == SkillListPageController.INIT
+                        ? buildLoad()
+                        : controller.list.isEmpty
                         ? EmptyView()
                         : MediaQuery.removePadding(
-                            removeTop: true,
-                            context: context,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => item(index),
-                              separatorBuilder: (context, index) => Container(
-                                height: 10.h,
-                              ),
-                              itemCount: controller.list.length,
-                            )),
-              )),
-        ));
+                        removeTop: true,
+                        context: context,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => item(index),
+                          separatorBuilder: (context, index) => Container(
+                            height: 10.h,
+                          ),
+                          itemCount: controller.list.length,
+                        )),
+                  )),
+            ));
+      }),
+    );
   }
 
   Divider divider = Divider(color: Color(0xFF54555d), height: 1.h);

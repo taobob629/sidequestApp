@@ -8,6 +8,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -34,6 +35,8 @@ import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../utils/global_key_constants.dart';
+import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import 'controller.dart';
 import 'widget/fields_widget.dart';
@@ -73,48 +76,72 @@ class _AddGamePageState extends State<AddGamePage> {
   @override
   Widget build(BuildContext context) {
     controller.privacyCheckController = PrivacyCheckController();
-    return ScaffoldWidget(
-      appBar: AppBar(
-        title: Obx(() => PageTitle(
+
+    bool? sideKickNextKey = StorageManager.getBoolByKey('sideKickNextKey');
+    if (sideKickNextKey == null || sideKickNextKey == false) {
+      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+            (_) =>
+            ShowCaseWidget.of(controller.myContext!).startShowCase([
+              GlobalKeyConstants.sideKickNextKey,
+            ]),
+      );
+    }
+
+    return ShowCaseWidget(
+      autoPlay: true,
+      autoPlayDelay: Duration(seconds: 5),
+      onFinish: () => StorageManager.setBoolValue('sideKickNextKey', true),
+      builder: Builder(builder: (builder) {
+        controller.myContext = builder;
+        return ScaffoldWidget(
+          appBar: AppBar(
+            title: Obx(() => PageTitle(
               title: controller.isEdit
                   ? '${controller.game?.name ?? ''}'
                   : 'Add Service'.tr,
             )),
-        centerTitle: true,
-        elevation: 0,
-        actions: controller.isEdit
-            ? [
-                IconButton(
-                    onPressed: () => controller.toBioPage(), icon: Text('Bio'))
-              ]
-            : [],
-      ),
-      body: Obx(() => SingleChildScrollView(
-        child: Column(
-          children: [
-            controller.isEdit && controller.serviceModel == null
-                ? buildLoad()
-                : gameMaterialsView(context),
-          ],
-        ),
-      )),
-      btnBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PrivacyCheck(
-            controller: controller.privacyCheckController,
-            type: TYPE_ADD_BANK,
+            centerTitle: true,
+            elevation: 0,
+            actions: controller.isEdit
+                ? [
+              IconButton(
+                  onPressed: () => controller.toBioPage(), icon: Text('Bio'))
+            ]
+                : [],
           ),
-          FloatingButton(
-            label: '${controller.isEdit ? 'Confirm'.tr : 'Next'.tr}',
-            onTap: () => controller.privacyCheckController.check()
-                ? controller.isEdit
-                    ? controller.updateService()
-                    : update()
-                : null,
-          )
-        ],
-      ),
+          body: Obx(() => SingleChildScrollView(
+            child: Column(
+              children: [
+                controller.isEdit && controller.serviceModel == null
+                    ? buildLoad()
+                    : gameMaterialsView(context),
+              ],
+            ),
+          )),
+          btnBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PrivacyCheck(
+                controller: controller.privacyCheckController,
+                type: TYPE_ADD_BANK,
+              ),
+              Showcase(
+                overlayOpacity: 0,
+                key: GlobalKeyConstants.sideKickNextKey,
+                description: 'Please fill in and click next'.tr,
+                child: FloatingButton(
+                  label: '${controller.isEdit ? 'Confirm'.tr : 'Next'.tr}',
+                  onTap: () => controller.privacyCheckController.check()
+                      ? controller.isEdit
+                      ? controller.updateService()
+                      : update()
+                      : null,
+                ),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 

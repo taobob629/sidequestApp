@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/beans/jump_match_suc_bean.dart';
@@ -13,11 +14,15 @@ import '../../../model/login_model.dart';
 import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../../model/send_match_model.dart';
+import '../../../utils/global_key_constants.dart';
+import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_selector.dart';
 import '../../controller/user_controller.dart';
 
 class SideKickMatchController extends GetxController {
+  BuildContext? myContext;
+
   late MatchInitModel _matchInitModel;
 
   var category = ''.obs;
@@ -45,6 +50,18 @@ class SideKickMatchController extends GetxController {
     showLoading();
     final result = await MatchApi.selfOrder();
     dismissLoading();
+
+    bool? filterMatchGameKey = StorageManager.getBoolByKey('filterMatchGameKey');
+    if (filterMatchGameKey == null || filterMatchGameKey == false) {
+      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+            (_) =>
+            ShowCaseWidget.of(myContext!).startShowCase([
+              GlobalKeyConstants.filterMatchGameKey,
+              GlobalKeyConstants.filterMatchSendKey,
+              GlobalKeyConstants.filterMatchBackKey,
+            ]),
+      );
+    }
 
     if (result['orderId'] > 0) {
       // 已经有订单了，只是匹配中的时候出去了，再次回来

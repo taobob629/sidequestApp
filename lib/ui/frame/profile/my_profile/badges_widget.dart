@@ -8,10 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
-import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart' as CusModel;
+import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart'
+    as CusModel;
+import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
@@ -33,87 +36,95 @@ class BadgesWidget extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     itemSize = (Get.width - 30 * 2 - 5 * 2) / 6;
     cardItemSize = 120.h;
-    return Container(
-      margin: EdgeInsets.only(top: 10.h),
-      padding: EdgeInsets.only(top: 5.h),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 20.w),
-            child: Row(
-              children: [
-                Text(
-                  '${badge.name}'.tr,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold),
-                ),
-                GestureDetector(
-                  onTapDown: (details) {
-                    print(details.globalPosition);
-                    Get.dialog(TipsDialog(
-                      offset: details.globalPosition,
-                      tips: badge.tips,
-                    ));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 6),
-                    width: 12.w,
-                    height: 12.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Color(0xffb2b9c9),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Image.asset(
-                      ImageUtils.icon_help,
-                      width: 10.w,
-                      height: 10.w,
-                    ),
+    return Showcase(
+      key: badge.name.toLowerCase() == 'badge'
+          ? GlobalKeyConstants.profileBadgeKey
+          : GlobalKeyConstants.profileFriendshipKey,
+      description: badge.name.toLowerCase() == 'badge'
+          ? 'The higher your companion level, the more badges you get.'.tr
+          : 'The affinity level will increase with the gifts you receive.'.tr,
+      child: Container(
+        margin: EdgeInsets.only(top: 10.h),
+        padding: EdgeInsets.only(top: 5.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 20.w),
+              child: Row(
+                children: [
+                  Text(
+                    '${badge.name}'.tr,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold),
                   ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 4.w),
-            margin: EdgeInsets.all(15.w),
-            decoration: BoxDecoration(
-              color: Color(0xff262731),
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: 110.h, maxHeight: 110.h),
-              child: Swiper(
-                outer: false,
-                loop: false,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: badge
-                          .getPageData(index)
-                          .map((e) => badgeItem(e))
-                          .toList(),
+                  GestureDetector(
+                    onTapDown: (details) {
+                      print(details.globalPosition);
+                      Get.dialog(TipsDialog(
+                        offset: details.globalPosition,
+                        tips: badge.tips,
+                      ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 6),
+                      width: 12.w,
+                      height: 12.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Color(0xffb2b9c9),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Image.asset(
+                        ImageUtils.icon_help,
+                        width: 10.w,
+                        height: 10.w,
+                      ),
                     ),
-                  );
-                },
-                itemCount: badge.getPageSize(),
-                pagination: SwiperPagination(
-                    builder: RectSwiperPaginationBuilder(
-                        color: AppColor.greyAF,
-                        activeColor: AppColor.yellow,
-                        size: Size(10, 10),
-                        activeSize: Size(18, 10))),
+                  )
+                ],
               ),
             ),
-          )
-        ],
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 4.w),
+              margin: EdgeInsets.all(15.w),
+              decoration: BoxDecoration(
+                color: Color(0xff262731),
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: 110.h, maxHeight: 110.h),
+                child: Swiper(
+                  outer: false,
+                  loop: false,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: badge
+                            .getPageData(index)
+                            .map((e) => badgeItem(e))
+                            .toList(),
+                      ),
+                    );
+                  },
+                  itemCount: badge.getPageSize(),
+                  pagination: SwiperPagination(
+                      builder: RectSwiperPaginationBuilder(
+                          color: AppColor.greyAF,
+                          activeColor: AppColor.yellow,
+                          size: Size(10, 10),
+                          activeSize: Size(18, 10))),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

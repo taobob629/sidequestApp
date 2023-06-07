@@ -21,15 +21,16 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:dio/src/response.dart' as dio;
 
+import '../../../utils/global_key_constants.dart';
+import '../../../utils/storage_manager.dart';
+import '../main_page.dart';
+
 List<KeyMap> gameInitFilter = [
   KeyMap('Language'.tr, null),
   KeyMap('Gender'.tr, null),
   KeyMap('Rank'.tr, null),
   KeyMap('Level'.tr, null)
 ];
-
-// final GlobalKey addGameKey = GlobalKey();
-// final GlobalKey languageKey = GlobalKey();
 
 class SideKickController extends RefreshListController<GameUserModel> {
   RxList<KeyMap?> filters = RxList(gameInitFilter);
@@ -58,7 +59,7 @@ class SideKickController extends RefreshListController<GameUserModel> {
   getGameSection() async {
     try {
       gameSections =
-      await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
+          await GamesApi.getGamesSection(gameList[currentSelectIndex].id);
     } catch (e) {
       flog('gameSection catchErr e $e');
     }
@@ -80,6 +81,19 @@ class SideKickController extends RefreshListController<GameUserModel> {
     super.onInit();
     init();
     _currentSelectIndex.listen((value) {});
+
+    bool? sidekickPage = StorageManager.getBoolByKey('sidekickPage');
+    if (sidekickPage == null || sidekickPage == false) {
+      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(MainPageController.find.myContext!)
+            .startShowCase([
+          GlobalKeyConstants.addGameKey,
+          GlobalKeyConstants.languageKey,
+          GlobalKeyConstants.sideKickItemKey,
+          GlobalKeyConstants.matchKey,
+        ]),
+      );
+    }
   }
 
   @override

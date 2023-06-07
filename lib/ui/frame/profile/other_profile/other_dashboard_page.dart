@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
@@ -11,6 +12,7 @@ import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/service/voice_player.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/badge_detail_widget.dart';
+import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 
@@ -277,38 +279,78 @@ class OtherDashboardPage extends StatelessWidget {
                                                           needEdit: false,
                                                         ),
                                                       ),
-                                                      EditPlayBtn(
-                                                        isEdit: t.isSelf,
-                                                        onTap: () {
-                                                          if (game.serviceItem
-                                                                  .length ==
-                                                              1) {
-                                                            t.editService(
-                                                                game,
-                                                                game.serviceItem
-                                                                    .first,
-                                                                (game.serviceItem.length >=
-                                                                            1 &&
-                                                                        t
-                                                                            .getItemDiscount(game
-                                                                                .serviceItem[
-                                                                                    0]
-                                                                                .discount)
-                                                                            .isNotEmpty &&
-                                                                        jsonDecode(game.serviceItem[0].discount)['enable'] ==
-                                                                            1)
-                                                                    ? t.getItemDiscount(game
-                                                                        .serviceItem[
-                                                                            0]
-                                                                        .discount)
-                                                                    : '');
-                                                          } else {
-                                                            game.ifShow.value =
-                                                                !game.ifShow
-                                                                    .value;
-                                                          }
-                                                        },
-                                                      ).marginOnly(bottom: 13)
+                                                      t.player.value.games
+                                                                  .indexOf(
+                                                                      game) ==
+                                                              0
+                                                          ? Column(
+                                                            children: [
+                                                              Showcase(
+                                                                  key:
+                                                                      GlobalKeyConstants
+                                                                          .playKey,
+                                                                  description:
+                                                                      'Place an order and play the game together'
+                                                                          .tr,
+                                                                  targetBorderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              13),
+                                                                  targetPadding: EdgeInsets.only(bottom: 0),
+                                                                  child:
+                                                                      EditPlayBtn(
+                                                                    isEdit:
+                                                                        t.isSelf,
+                                                                    onTap: () {
+                                                                      if (game.serviceItem
+                                                                              .length ==
+                                                                          1) {
+                                                                        t.editService(
+                                                                            game,
+                                                                            game.serviceItem
+                                                                                .first,
+                                                                            (game.serviceItem.length >= 1 &&
+                                                                                    t.getItemDiscount(game.serviceItem[0].discount).isNotEmpty &&
+                                                                                    jsonDecode(game.serviceItem[0].discount)['enable'] == 1)
+                                                                                ? t.getItemDiscount(game.serviceItem[0].discount)
+                                                                                : '');
+                                                                      } else {
+                                                                        game.ifShow
+                                                                                .value =
+                                                                            !game
+                                                                                .ifShow
+                                                                                .value;
+                                                                      }
+                                                                    },
+                                                                  )),
+                                                              13.verticalSpace,
+                                                            ],
+                                                          )
+                                                          : EditPlayBtn(
+                                                              isEdit: t.isSelf,
+                                                              onTap: () {
+                                                                if (game.serviceItem
+                                                                        .length ==
+                                                                    1) {
+                                                                  t.editService(
+                                                                      game,
+                                                                      game.serviceItem
+                                                                          .first,
+                                                                      (game.serviceItem.length >= 1 &&
+                                                                              t.getItemDiscount(game.serviceItem[0].discount).isNotEmpty &&
+                                                                              jsonDecode(game.serviceItem[0].discount)['enable'] == 1)
+                                                                          ? t.getItemDiscount(game.serviceItem[0].discount)
+                                                                          : '');
+                                                                } else {
+                                                                  game.ifShow
+                                                                          .value =
+                                                                      !game
+                                                                          .ifShow
+                                                                          .value;
+                                                                }
+                                                              },
+                                                            ).marginOnly(
+                                                              bottom: 13.h)
                                                     ],
                                                   ),
                                                 )
@@ -356,7 +398,8 @@ class OtherDashboardPage extends StatelessWidget {
                                                           color: Colors.white,
                                                           fontFamily:
                                                               FONT_MEDIUM,
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         )),
                                                     Spacer(),
                                                     Row(

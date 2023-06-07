@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/res/dimens.dart';
+import 'package:wy/utils/global_key_constants.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
+import '../../../utils/storage_manager.dart';
 import '../../common/colorful_button.dart';
 import '../view/tag/simple_tags.dart';
 import 'controller.dart';
@@ -17,234 +20,306 @@ class SideKickMatchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColor.background,
-        appBar: AppBar(
+    return ShowCaseWidget(
+      autoPlay: true,
+      autoPlayDelay: Duration(seconds: 5),
+      onFinish: () => StorageManager.setBoolValue('filterMatchGameKey', true),
+      builder: Builder(builder: (builder) {
+        _ctr.myContext = builder;
+        return Scaffold(
           backgroundColor: AppColor.background,
-          elevation: 0,
-          title: Text(
-            'Sidekick Match'.tr,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: FONT_MEDIUM,
-              color: Colors.white,
+          appBar: AppBar(
+            backgroundColor: AppColor.background,
+            elevation: 0,
+            title: Text(
+              'Sidekick Match'.tr,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: FONT_MEDIUM,
+                color: Colors.white,
+              ),
+            ),
+            leading: Showcase(
+              key: GlobalKeyConstants.filterMatchBackKey,
+              description: 'Choose later'.tr,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_ios),
+              ),
             ),
           ),
-        ),
-        resizeToAvoidBottomInset: true,
-        body: KeyboardVisibilityBuilder(
-            builder: (c, bool isKeyboardVisible) => SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: contentPadding(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Category'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        GestureDetector(
-                          onTap: () => _ctr.selectItem('Category'),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                            height: 45.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            decoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)).w,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Obx(
-                                    () => Text(
-                                      _ctr.category.value,
-                                      style: TextStyle(
-                                          color: Color(0xffB2B9C9),
-                                          fontSize: 14.sp),
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_sharp,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                ),
-                              ],
-                            ),
+          resizeToAvoidBottomInset: true,
+          body: KeyboardVisibilityBuilder(
+              builder: (c, bool isKeyboardVisible) => SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: contentPadding(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Category'.tr,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
                           ),
-                        ),
-                        Text(
-                          'Game'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        GestureDetector(
-                          onTap: () => _ctr.selectItem('Game'),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                            height: 45.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            decoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)).w,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Obx(
-                                    () => Text(
-                                      _ctr.game.value,
-                                      style: TextStyle(
-                                        color: Color(0xffB2B9C9),
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_sharp,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'Price Range'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                                height: 45.h,
-                                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                  color: Color(0xff313033),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)).w,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      ImageUtils.coinRed,
-                                      width: 15.w,
-                                      height: 15.w,
-                                    ),
-                                    8.horizontalSpace,
-                                    Expanded(
-                                      child: TextField(
-                                        controller: _ctr.minPriceCtr,
-                                        style: TextStyle(
-                                          color: Color(0xffB2B9C9),
-                                          fontSize: 14.sp,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'min price'.tr,
-
-                                          /// 让文字垂直居中
-                                          isCollapsed: true,
-                                          hintStyle: TextStyle(
-                                              color: Color(0xffb2b9c9),
-                                              fontSize: 14.sp),
-                                        ),
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                decimal: true),
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                          GestureDetector(
+                            onTap: () => _ctr.selectItem('Category'),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
+                              height: 45.h,
+                              padding: EdgeInsets.symmetric(horizontal: 15.w),
+                              decoration: BoxDecoration(
+                                color: Color(0xff313033),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)).w,
                               ),
-                            ),
-                            Container(
-                              width: 11.w,
-                              height: 3.h,
-                              margin: EdgeInsets.only(
-                                  top: 6.h,
-                                  bottom: 20.h,
-                                  left: 7.w,
-                                  right: 7.w),
-                              color: Color(0xffb2b9c9),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                                height: 45.h,
-                                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                  color: Color(0xff313033),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)).w,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      ImageUtils.coinRed,
-                                      width: 15.w,
-                                      height: 15.w,
-                                    ),
-                                    8.horizontalSpace,
-                                    Expanded(
-                                      child: TextField(
-                                        controller: _ctr.maxPriceCtr,
-                                        style: TextStyle(
-                                          color: Color(0xffB2B9C9),
-                                          fontSize: 14.sp,
-                                        ),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'max price'.tr,
-
-                                          /// 让文字垂直居中
-                                          isCollapsed: true,
-                                          hintStyle: TextStyle(
-                                              color: Color(0xffb2b9c9),
-                                              fontSize: 14.sp),
-                                        ),
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                          decimal: true,
-                                        ),
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
                                 children: [
-                                  Text(
-                                    'Service Type'.tr,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
+                                  Expanded(
+                                    child: Obx(
+                                      () => Text(
+                                        _ctr.category.value,
+                                        style: TextStyle(
+                                            color: Color(0xffB2B9C9),
+                                            fontSize: 14.sp),
+                                      ),
+                                    ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () => _ctr.selectItem('Unit'),
-                                    child: Container(
+                                  Icon(
+                                    Icons.arrow_drop_down_sharp,
+                                    color: Colors.white,
+                                    size: 20.sp,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'Game'.tr,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
+                          GestureDetector(
+                            onTap: () => _ctr.selectItem('Game'),
+                            child: Showcase(
+                              key: GlobalKeyConstants.filterMatchGameKey,
+                              description: 'Choose your filter information'.tr,
+                              targetPadding:
+                                  EdgeInsets.only(top: -6, bottom: -20).h,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
+                                height: 45.h,
+                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                decoration: BoxDecoration(
+                                  color: Color(0xff313033),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)).w,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Obx(
+                                        () => Text(
+                                          _ctr.game.value,
+                                          style: TextStyle(
+                                            color: Color(0xffB2B9C9),
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down_sharp,
+                                      color: Colors.white,
+                                      size: 20.sp,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'Price Range'.tr,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(top: 6.h, bottom: 20.h),
+                                  height: 45.h,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.w),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff313033),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)).w,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        ImageUtils.coinRed,
+                                        width: 15.w,
+                                        height: 15.w,
+                                      ),
+                                      8.horizontalSpace,
+                                      Expanded(
+                                        child: TextField(
+                                          controller: _ctr.minPriceCtr,
+                                          style: TextStyle(
+                                            color: Color(0xffB2B9C9),
+                                            fontSize: 14.sp,
+                                          ),
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'min price'.tr,
+
+                                            /// 让文字垂直居中
+                                            isCollapsed: true,
+                                            hintStyle: TextStyle(
+                                                color: Color(0xffb2b9c9),
+                                                fontSize: 14.sp),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(
+                                                  decimal: true),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 11.w,
+                                height: 3.h,
+                                margin: EdgeInsets.only(
+                                    top: 6.h,
+                                    bottom: 20.h,
+                                    left: 7.w,
+                                    right: 7.w),
+                                color: Color(0xffb2b9c9),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(top: 6.h, bottom: 20.h),
+                                  height: 45.h,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.w),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff313033),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)).w,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        ImageUtils.coinRed,
+                                        width: 15.w,
+                                        height: 15.w,
+                                      ),
+                                      8.horizontalSpace,
+                                      Expanded(
+                                        child: TextField(
+                                          controller: _ctr.maxPriceCtr,
+                                          style: TextStyle(
+                                            color: Color(0xffB2B9C9),
+                                            fontSize: 14.sp,
+                                          ),
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'max price'.tr,
+
+                                            /// 让文字垂直居中
+                                            isCollapsed: true,
+                                            hintStyle: TextStyle(
+                                                color: Color(0xffb2b9c9),
+                                                fontSize: 14.sp),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(
+                                            decimal: true,
+                                          ),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Service Type'.tr,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16.sp),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => _ctr.selectItem('Unit'),
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            top: 6.h, bottom: 20.h),
+                                        height: 45.h,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15.w),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xff313033),
+                                          borderRadius: BorderRadius.all(
+                                                  Radius.circular(8))
+                                              .w,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Obx(
+                                                () => Text(
+                                                  _ctr.unit.value,
+                                                  style: TextStyle(
+                                                      color: Color(0xffB2B9C9),
+                                                      fontSize: 14.sp),
+                                                ),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_drop_down_sharp,
+                                              color: Colors.white,
+                                              size: 20.sp,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              25.horizontalSpace,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Quantity'.tr,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16.sp),
+                                    ),
+                                    Container(
                                       margin: EdgeInsets.only(
                                           top: 6.h, bottom: 20.h),
                                       height: 45.h,
@@ -256,149 +331,110 @@ class SideKickMatchPage extends StatelessWidget {
                                             BorderRadius.all(Radius.circular(8))
                                                 .w,
                                       ),
+                                      alignment: Alignment.center,
                                       child: Row(
                                         children: [
+                                          GestureDetector(
+                                              onTap: _ctr.minQty,
+                                              child: Icon(
+                                                Icons.remove,
+                                                color: Colors.white,
+                                              )),
                                           Expanded(
-                                            child: Obx(
-                                              () => Text(
-                                                _ctr.unit.value,
-                                                style: TextStyle(
-                                                    color: Color(0xffB2B9C9),
-                                                    fontSize: 14.sp),
+                                            child: TextField(
+                                              controller: _ctr.quantityCtr,
+                                              textAlign: TextAlign.center,
+                                              readOnly: true,
+                                              style: TextStyle(
+                                                color: Color(0xffB2B9C9),
+                                                fontSize: 14.sp,
                                               ),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                // 让文字垂直居中
+                                                isCollapsed: true,
+                                              ),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
                                             ),
                                           ),
-                                          Icon(
-                                            Icons.arrow_drop_down_sharp,
-                                            color: Colors.white,
-                                            size: 20.sp,
-                                          ),
+                                          GestureDetector(
+                                              onTap: _ctr.addQty,
+                                              child: Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                              )),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            25.horizontalSpace,
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            ],
+                          ),
+                          Text(
+                            'Language'.tr,
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
+                          GestureDetector(
+                            onTap: () => _ctr.selectItem('Language'),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
+                              height: 45.h,
+                              padding: EdgeInsets.symmetric(horizontal: 15.w),
+                              decoration: BoxDecoration(
+                                color: Color(0xff313033),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)).w,
+                              ),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    'Quantity'.tr,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16.sp),
+                                  Expanded(
+                                    child: _ctr.selectLanguage(),
                                   ),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(top: 6.h, bottom: 20.h),
-                                    height: 45.h,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15.w),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xff313033),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8))
-                                              .w,
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: _ctr.minQty,
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: Colors.white,
-                                            )),
-                                        Expanded(
-                                          child: TextField(
-                                            controller: _ctr.quantityCtr,
-                                            textAlign: TextAlign.center,
-                                            readOnly: true,
-                                            style: TextStyle(
-                                              color: Color(0xffB2B9C9),
-                                              fontSize: 14.sp,
-                                            ),
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              // 让文字垂直居中
-                                              isCollapsed: true,
-                                            ),
-                                            keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly
-                                            ],
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                            onTap: _ctr.addQty,
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Colors.white,
-                                            )),
-                                      ],
-                                    ),
+                                  Icon(
+                                    Icons.arrow_drop_down_sharp,
+                                    color: Colors.white,
+                                    size: 20.sp,
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                        Text(
-                          'Language'.tr,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        ),
-                        GestureDetector(
-                          onTap: () => _ctr.selectItem('Language'),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 6.h, bottom: 20.h),
-                            height: 45.h,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            decoration: BoxDecoration(
-                              color: Color(0xff313033),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)).w,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: _ctr.selectLanguage(),
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_sharp,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                ),
-                              ],
-                            ),
                           ),
-                        ),
-                        _sideKickTypesWidget(),
-                        20.verticalSpace,
-                        _additionalRequestWidget(),
-                        20.verticalSpace,
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: ColorfulButton(
-                            child: Text(
-                              "Send".tr,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "DIN",
-                                  fontSize: 18.sp),
-                            ),
-                            height: 40.h,
-                            borderRadius: 20.r,
-                            onTap: _ctr.matching,
-                          ),
-                        ),
-                      ],
+                          _sideKickTypesWidget(),
+                          20.verticalSpace,
+                          _additionalRequestWidget(),
+                        ],
+                      ),
                     ),
-                  ),
-                )));
+                  )),
+          bottomNavigationBar: Showcase(
+            key: GlobalKeyConstants.filterMatchSendKey,
+            description:
+                'Send the demand immediately, and you will receive a message that you can accept orders to play with'
+                    .tr,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(15.w, 0, 15.w, 20.h),
+              child: ColorfulButton(
+                child: Text(
+                  "Send".tr,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
+                ),
+                height: 40.h,
+                borderRadius: 20.r,
+                onTap: _ctr.matching,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   Widget _sideKickTypesWidget() => Column(

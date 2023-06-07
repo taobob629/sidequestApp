@@ -31,6 +31,7 @@ import 'package:wy/ui/login/qr_login_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/scan/scan_page.dart';
+import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../utils/toast_utils.dart';
@@ -47,6 +48,7 @@ class MainPage extends GetView<MainPageController> {
   @override
   Widget build(BuildContext context) {
     var padding = MediaQuery.of(context).padding;
+
     return WillPopScope(
       onWillPop: () async {
         if (controller.currentIndex.value != 0) {
@@ -74,130 +76,153 @@ class MainPage extends GetView<MainPageController> {
               drawer: HomeDrawer(),
               appBar: controller.currentIndex.value == 0
                   ? AppBar(
-                elevation: 0,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Get.toNamed(AppPages.BOOKING_PAGE),
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(bottom: 10, right: 4),
-                        child: Image.asset(
-                          "assets/images/ic_store.png",
-                          width: 27,
-                          height: 27,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        userController.checkLogin(() async {
-                          bool access = await PermissionHelper
-                              .requestCameraPermission(context);
-                          if (access) {
-                            controller.scan();
-                          }
-                        });
-                      },
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(bottom: 10, right: 5),
-                        child: Icon(
-                          IconFonts.scan,
-                          size: 22,
-                          color: Colors.white,
-                        ),
+                      elevation: 0,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.toNamed(AppPages.BOOKING_PAGE),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 10, right: 4),
+                              child: Image.asset(
+                                "assets/images/ic_store.png",
+                                width: 27,
+                                height: 27,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              userController.checkLogin(() async {
+                                bool access = await PermissionHelper
+                                    .requestCameraPermission(context);
+                                if (access) {
+                                  controller.scan();
+                                }
+                              });
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 10, right: 5),
+                              child: Icon(
+                                IconFonts.scan,
+                                size: 22,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     )
-                  ],
-                ),
-              )
                   : null,
               body: ShowCaseWidget(
                 autoPlay: true,
                 autoPlayDelay: Duration(seconds: 5),
-                onComplete: (index, key) => StorageManager.setBoolValue('caseView', true),
-                builder: Builder(
-                    builder: (builder) => Stack(
-                      children: [
-                        Positioned(
+                onComplete: (index, key) {
+                  if (key == GlobalKeyConstants.matchKey) {
+                    ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+                      (_) => ShowCaseWidget.of(controller.myContext!)
+                          .startShowCase([
+                        GlobalKeyConstants.homeKey,
+                        GlobalKeyConstants.socialKey,
+                        GlobalKeyConstants.messageKey,
+                        GlobalKeyConstants.profileKey,
+                      ]),
+                    );
+                  }
+                },
+                onFinish: () =>
+                    StorageManager.setBoolValue('sidekickPage', true),
+                builder: Builder(builder: (builder) {
+                  controller.myContext = builder;
+                  return Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: padding.bottom + 50,
+                        //  child: buildTabView(),
+                        child: PageView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: controller.controller,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            switch (index) {
+                              case 0:
+                                return IndexPage();
+                              case 1:
+                                //return PlayWithPage();
+                                return SocialPage();
+                                return EventsPage();
+                              case 2:
+                                return KeepAliveWrapper(
+                                  child: SideKickPage(),
+                                );
+                              case 3:
+                                return KeepAliveWrapper(child: MessagesPage());
+
+                              case 4:
+                                return MyProfilePage();
+                              default:
+                                return IndexPage();
+                            }
+                          },
+                        ),
+                      ),
+                      Positioned(
                           left: 0,
                           right: 0,
-                          top: 0,
-                          bottom: padding.bottom + 50,
-                          //  child: buildTabView(),
-                          child: PageView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            controller: controller.controller,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              switch (index) {
-                                case 0:
-                                  return IndexPage();
-                                case 1:
-                                //return PlayWithPage();
-                                  return SocialPage();
-                                  return EventsPage();
-                                case 2:
-                                  return KeepAliveWrapper(
-                                    child: SideKickPage(),
-                                  );
-                                case 3:
-                                  return KeepAliveWrapper(
-                                      child: MessagesPage());
-
-                                case 4:
-                                  return MyProfilePage();
-                                default:
-                                  return IndexPage();
-                              }
-                            },
-                          ),
-                        ),
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            height: padding.bottom + 50,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                              ),
-                            )),
-                        Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: padding.bottom,
-                            height: 80,
-                            child: Obx(() {
-                              return Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  TabButton(
-                                      index: 0,
-                                      currentIndex:
-                                      controller.currentIndex.value,
-                                      iconName: "tab_home",
-                                      title: "Home".tr,
-                                      colors: [
-                                        Color(0xffb991ff),
-                                        Color(0xff1817FF)
-                                      ],
-                                      onTap: () {
-                                        controller.controller.jumpToPage(0);
-                                        controller.updateCurrentIndex(0);
-                                      }),
-                                  TabButton(
+                          bottom: 0,
+                          height: padding.bottom + 50,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                            ),
+                          )),
+                      Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: padding.bottom,
+                          height: 80,
+                          child: Obx(() {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Showcase(
+                                    key: GlobalKeyConstants.homeKey,
+                                    description:
+                                        'Here\'s the big SideKick event/news'
+                                            .tr,
+                                    child: TabButton(
+                                        index: 0,
+                                        currentIndex:
+                                            controller.currentIndex.value,
+                                        iconName: "tab_home",
+                                        title: "Home".tr,
+                                        colors: [
+                                          Color(0xffb991ff),
+                                          Color(0xff1817FF)
+                                        ],
+                                        onTap: () {
+                                          controller.controller.jumpToPage(0);
+                                          controller.updateCurrentIndex(0);
+                                        })),
+                                Showcase(
+                                  key: GlobalKeyConstants.socialKey,
+                                  description:
+                                      'Publish personal news in the community'
+                                          .tr,
+                                  child: TabButton(
                                       index: 1,
                                       currentIndex:
-                                      controller.currentIndex.value,
+                                          controller.currentIndex.value,
                                       iconName: "tab_social",
                                       title: "Social".tr,
                                       colors: [
@@ -208,42 +233,43 @@ class MainPage extends GetView<MainPageController> {
                                         controller.controller.jumpToPage(1);
                                         controller.updateCurrentIndex(1);
                                       }),
-                                  TabButton(
-                                      index: 2,
-                                      currentIndex:
-                                      controller.currentIndex.value,
-                                      iconName: "tab_sidekick",
-                                      title: "SideKick".tr,
-                                      //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                                      colors: [
-                                        Color(0xfffa7f85),
-                                        Color(0xffb6262c)
-                                      ],
-                                      onTap: () {
-                                        controller.controller.jumpToPage(2);
-                                        controller.updateCurrentIndex(2);
-                                      }),
-                                  Badge(
+                                ),
+                                TabButton(
+                                    index: 2,
+                                    currentIndex: controller.currentIndex.value,
+                                    iconName: "tab_sidekick",
+                                    title: "SideKick".tr,
+                                    //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
+                                    colors: [
+                                      Color(0xfffa7f85),
+                                      Color(0xffb6262c)
+                                    ],
+                                    onTap: () {
+                                      controller.controller.jumpToPage(2);
+                                      controller.updateCurrentIndex(2);
+                                    }),
+                                Showcase(
+                                  key: GlobalKeyConstants.messageKey,
+                                  description: 'Your friend message bar'.tr,
+                                  child: Badge(
                                     shape: BadgeShape.circle,
                                     badgeColor: Colors.red,
                                     position: BadgePosition(top: 3, end: 5),
                                     animationType: BadgeAnimationType.fade,
                                     animationDuration:
-                                    const Duration(microseconds: 500),
-                                    showBadge: userController
-                                        .unreadMsgCount.value >
-                                        0,
+                                        const Duration(microseconds: 500),
+                                    showBadge:
+                                        userController.unreadMsgCount.value > 0,
                                     badgeContent: Text(
                                       "${userController.unreadMsgCount.value}",
                                       style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white),
+                                          fontSize: 12, color: Colors.white),
                                     ),
                                     ignorePointer: true,
                                     child: TabButton(
                                         index: 3,
                                         currentIndex:
-                                        controller.currentIndex.value,
+                                            controller.currentIndex.value,
                                         iconName: "tab_message",
                                         title: "Message".tr,
                                         colors: [
@@ -251,15 +277,18 @@ class MainPage extends GetView<MainPageController> {
                                           Color(0xff6c6301)
                                         ],
                                         onTap: () {
-                                          controller.controller
-                                              .jumpToPage(3);
+                                          controller.controller.jumpToPage(3);
                                           controller.updateCurrentIndex(3);
                                         }),
                                   ),
-                                  TabButton(
+                                ),
+                                Showcase(
+                                  key: GlobalKeyConstants.profileKey,
+                                  description: 'Your personal homepage'.tr,
+                                  child: TabButton(
                                       index: 4,
                                       currentIndex:
-                                      controller.currentIndex.value,
+                                          controller.currentIndex.value,
                                       iconName: "tab_profile",
                                       title: "Profile".tr,
                                       colors: [
@@ -271,11 +300,13 @@ class MainPage extends GetView<MainPageController> {
                                         controller.controller.jumpToPage(4);
                                         controller.updateCurrentIndex(4);
                                       }),
-                                ],
-                              );
-                            }))
-                      ],
-                    )),
+                                ),
+                              ],
+                            );
+                          }))
+                    ],
+                  );
+                }),
               )))),
     );
   }
@@ -301,6 +332,8 @@ class MainPageController extends FullLifeCycleController
 
   late Timer _timer;
 
+  BuildContext? myContext;
+
   @override
   void onInit() async {
     super.onInit();
@@ -311,7 +344,7 @@ class MainPageController extends FullLifeCycleController
     //   if (curpage == 2.0) userController.checkLogin(() => null);
     // });
     var initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_push');
+        AndroidInitializationSettings('@mipmap/ic_push');
     var initializationSettingsIOS = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
@@ -339,7 +372,7 @@ class MainPageController extends FullLifeCycleController
     });
 
     RemoteMessage? initialMessage =
-    await FirebaseMessaging.instance.getInitialMessage();
+        await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       print('Restart app get remote message');
       Get.to(() => NotificationPage());
@@ -450,20 +483,20 @@ class MainPageController extends FullLifeCycleController
       }
 
       AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
-          channelDescription: 'system notification'.tr,
-          importance: Importance.max,
-          priority: Priority.high,
-          largeIcon: largeIcon,
-          styleInformation: bigPictureStyleInformation,
-          ticker: 'ticker'.tr);
+          AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
+              channelDescription: 'system notification'.tr,
+              importance: Importance.max,
+              priority: Priority.high,
+              largeIcon: largeIcon,
+              styleInformation: bigPictureStyleInformation,
+              ticker: 'ticker'.tr);
       IOSNotificationDetails iosPlatformChannelSpecifics =
-      IOSNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          badgeNumber: 1,
-          threadIdentifier: 'system');
+          IOSNotificationDetails(
+              presentAlert: true,
+              presentBadge: true,
+              presentSound: true,
+              badgeNumber: 1,
+              threadIdentifier: 'system');
       NotificationDetails platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
           iOS: iosPlatformChannelSpecifics);
@@ -497,8 +530,8 @@ class MainPageController extends FullLifeCycleController
 
       if (data.indexOf("qlogin") >= 0) {
         Get.to(() => QrLoginPage(
-          code: data,
-        ));
+              code: data,
+            ));
 
         return;
       }

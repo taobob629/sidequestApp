@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
@@ -20,6 +21,7 @@ import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart'
 import 'package:wy/ui/frame/social/post/more_fun_widget.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/ui/im/im_util.dart';
+import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
@@ -30,13 +32,18 @@ import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
 
 class PostListItemView extends GetView<PostListController> {
-  PostListItemView(
-      {Key? key,
-      required this.model,
-      this.onTap,
-      this.onDelete,
-      this.isSelf = false})
-      : super(key: key);
+  PostListItemView({
+    Key? key,
+    required this.model,
+    this.onTap,
+    this.onDelete,
+    this.isSelf = false,
+    this.ifShowCaseView = false,
+    this.index = 0,
+  }) : super(key: key);
+
+  bool ifShowCaseView;
+  int index;
   final PostItemModel model;
   bool isSelf = false;
   Function()? onTap;
@@ -192,36 +199,71 @@ class PostListItemView extends GetView<PostListController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Image.asset(
-                              "assets/images/profile/icon_pinlun.webp",
-                              width: 16,
-                            ),
-                          ),
-                          badges.Badge(
-                            showBadge: model.newComment.value > 0,
-                            badgeContent: Text(
-                              '${model.newComment.value}',
-                              style: TextStyle(fontSize: 10.sp),
-                            ),
-                            position: BadgePosition.topEnd(),
-                            child: Text(
-                              model.commentNum.toString(),
-                              style: TextStyle(
-                                color: Color(0xff808388),
-                                fontSize: 11.sp,
+                    child: index == 0
+                        ? Showcase(
+                            key: GlobalKeyConstants.socialCommentKey,
+                            description: 'Comment on this post'.tr,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      "assets/images/profile/icon_pinlun.webp",
+                                      width: 16,
+                                    ),
+                                  ),
+                                  badges.Badge(
+                                    showBadge: model.newComment.value > 0,
+                                    badgeContent: Text(
+                                      '${model.newComment.value}',
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
+                                    position: BadgePosition.topEnd(),
+                                    child: Text(
+                                      model.commentNum.toString(),
+                                      style: TextStyle(
+                                        color: Color(0xff808388),
+                                        fontSize: 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                          )
+                        : Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: Image.asset(
+                                    "assets/images/profile/icon_pinlun.webp",
+                                    width: 16,
+                                  ),
+                                ),
+                                badges.Badge(
+                                  showBadge: model.newComment.value > 0,
+                                  badgeContent: Text(
+                                    '${model.newComment.value}',
+                                    style: TextStyle(fontSize: 10.sp),
+                                  ),
+                                  position: BadgePosition.topEnd(),
+                                  child: Text(
+                                    model.commentNum.toString(),
+                                    style: TextStyle(
+                                      color: Color(0xff808388),
+                                      fontSize: 11.sp,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                   ),
                   Expanded(
                     child: GestureDetector(
@@ -245,42 +287,85 @@ class PostListItemView extends GetView<PostListController> {
                               .whenComplete(() => controller.onRefresh());
                         }
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Obx(() => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5),
-                                  child: Image.asset(
-                                    "assets/images/profile/icon_dianzan.webp",
-                                    width: 16,
-                                    color: model.isPraise.value
-                                        ? Colors.pink
-                                        : null,
-                                  ),
-                                ),
-                                badges.Badge(
-                                  showBadge: model.newPraise.value > 0,
-                                  badgeContent: Text(
-                                    '${model.newPraise.value}',
-                                    style: TextStyle(fontSize: 10.sp),
-                                  ),
-                                  position: BadgePosition.topEnd(),
-                                  child: Container(
-                                    //   padding: EdgeInsets.all(5).r,
-                                    child: Text(
-                                      model.praiseNum.toString(),
-                                      style: TextStyle(
-                                        color: Color(0xff808388),
-                                        fontSize: 11.sp,
+                      child: index == 0
+                          ? Showcase(
+                              key: GlobalKeyConstants.socialLikeKey,
+                              description: 'Like this post'.tr,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Obx(() => Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 5),
+                                          child: Image.asset(
+                                            "assets/images/profile/icon_dianzan.webp",
+                                            width: 16,
+                                            color: model.isPraise.value
+                                                ? Colors.pink
+                                                : null,
+                                          ),
+                                        ),
+                                        badges.Badge(
+                                          showBadge: model.newPraise.value > 0,
+                                          badgeContent: Text(
+                                            '${model.newPraise.value}',
+                                            style: TextStyle(fontSize: 10.sp),
+                                          ),
+                                          position: BadgePosition.topEnd(),
+                                          child: Container(
+                                            //   padding: EdgeInsets.all(5).r,
+                                            child: Text(
+                                              model.praiseNum.toString(),
+                                              style: TextStyle(
+                                                color: Color(0xff808388),
+                                                fontSize: 11.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              ))
+                          : Container(
+                              alignment: Alignment.center,
+                              child: Obx(() => Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Image.asset(
+                                          "assets/images/profile/icon_dianzan.webp",
+                                          width: 16,
+                                          color: model.isPraise.value
+                                              ? Colors.pink
+                                              : null,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )),
-                      ),
+                                      badges.Badge(
+                                        showBadge: model.newPraise.value > 0,
+                                        badgeContent: Text(
+                                          '${model.newPraise.value}',
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        position: BadgePosition.topEnd(),
+                                        child: Container(
+                                          //   padding: EdgeInsets.all(5).r,
+                                          child: Text(
+                                            model.praiseNum.toString(),
+                                            style: TextStyle(
+                                              color: Color(0xff808388),
+                                              fontSize: 11.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
                     ),
                   ),
                   Visibility(
@@ -309,21 +394,42 @@ class PostListItemView extends GetView<PostListController> {
                             }
                           }
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Image.asset(
-                                  "assets/images/profile/icon_liwu.webp",
-                                  width: 16,
+                        child: index == 0
+                            ? Showcase(
+                                key: GlobalKeyConstants.socialRewardKey,
+                                description: 'Reward this post'.tr,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Image.asset(
+                                          "assets/images/profile/icon_liwu.webp",
+                                          width: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 5),
+                                      child: Image.asset(
+                                        "assets/images/profile/icon_liwu.webp",
+                                        width: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                   ),

@@ -71,7 +71,7 @@ class GiftListModel {
     orderNo: json["orderNo"],
     postId: json["postId"] ?? 0,
     createTime: json["createTime"] ?? 0,
-    image: json["image"],
+    image: json["image"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
