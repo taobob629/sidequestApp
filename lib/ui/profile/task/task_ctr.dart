@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../common/getx_refresh_controller.dart';
@@ -13,10 +14,12 @@ class TaskCtr extends GetxRefreshController<TaskModel>
 
   @override
   Future<List<TaskModel>> loadData({int pageNum = 1}) async {
+    showLoading();
     List<TaskModel> list = [];
     var response = await http.get(
       '/app/client/task/list',
     );
+    dismissLoading();
 
     if (response.data == null) {
       return list;

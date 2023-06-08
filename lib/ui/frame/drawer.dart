@@ -23,6 +23,8 @@ import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
 import 'package:wy/widget/home/index.dart';
 
+import '../profile/task/task_page.dart';
+
 List<Map> supports = [
   // Map()
   //   ..['title'] = 'FAQ'
@@ -99,6 +101,11 @@ class HomeDrawer extends StatelessWidget {
                       () => UserController.instance().updateInfo(),
                     ),
                   ),
+                ),
+                8.verticalSpace,
+                _listItem(
+                  'Quest'.tr,
+                  onTapMore: () => Get.to(() => TaskPage()),
                 ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
