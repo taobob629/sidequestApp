@@ -14,7 +14,7 @@ showToast(var msg, {Duration? duration}) {
 }
 
 showSuccess(var msg, {Duration? duration}) {
-  SmartDialog.showNotify(
+  return SmartDialog.showNotify(
     msg: msg,
     notifyType: NotifyType.success,
     displayTime: duration,
