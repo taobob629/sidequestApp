@@ -18,7 +18,7 @@ class TaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: 'Task'.tr,
+      title: 'Quest'.tr,
       body: Obx(
         () => SmartRefresher(
           controller: t.refreshController,
