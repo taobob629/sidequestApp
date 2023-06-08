@@ -757,7 +757,7 @@ class MyProfilePage extends StatelessWidget {
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     "assets/images/profile/icon_task.webp",
-                                    "Task".tr,
+                                    "Quest".tr,
                                     onTap: () => Get.to(() => TaskPage())?.then(
                                         (value) => userController.updateInfo()),
                                     badgeNum:
