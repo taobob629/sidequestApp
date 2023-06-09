@@ -36,6 +36,7 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
                     url: userController.userProfile.avatar,
                     width: 48,
                     height: 48,
+                    fit: BoxFit.cover,
                     border: 24),
                 16.horizontalSpace,
                 Column(
@@ -87,7 +88,7 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
         children: [
           Text(
             label.tr,
-            style: TextStyle(color: Color(0xFF5E5D64), fontSize: 12.sp),
+            style: TextStyle(color: Color(0xFF5E5D64), fontSize: 12.sp,fontFamily: FONT_MEDIUM),
           ),
           Text(
             '$content',
