@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,20 +13,19 @@ class PlayMatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
+    return Obx(() => SmartRefresher(
         controller: t.refreshController,
         onLoading: () => t.loadMore(),
         onRefresh: () => t.onRefresh(),
         enablePullUp: true,
         child: ListView.separated(
-          itemCount: 20,
-          // itemCount: t.list.length,
-          itemBuilder: (context, index) {
-            // final model = t.list[index];
-            return index == 0 ? _headerWidget() : _contentWidget(index);
-          },
+          itemCount: t.list.isEmpty || t.list.length > 0 && t.list.length < 4
+              ? 1
+              : t.list.length - 2,
+          itemBuilder: (context, index) =>
+              index == 0 ? _headerWidget() : _contentWidget(index),
           separatorBuilder: (c, i) => 8.verticalSpace,
-        ));
+        )));
   }
 
   Widget _headerWidget() => Container(
@@ -40,22 +40,52 @@ class PlayMatePage extends StatelessWidget {
               child: Column(
                 children: [
                   40.verticalSpace,
-                  Image.asset(
-                    ImageUtils.playmate_no2,
-                    width: 98.w,
-                    height: 102.h,
+                  Stack(
+                    children: [
+                      Positioned(
+                        top: 16.w,
+                        left: 16.w,
+                        child: ExtendedImage.network(
+                          t.list.length > 1 ? '${t.list[1].avatar}' : '',
+                          border:
+                              Border.all(color: Color(0xffE9C677), width: 1.w),
+                          shape: BoxShape.circle,
+                          width: 66.w,
+                          height: 66.w,
+                          fit: BoxFit.cover,
+                          loadStateChanged: (ExtendedImageState state) {
+                            switch (state.extendedImageLoadState) {
+                              case LoadState.failed:
+                                return Container();
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Image.asset(
+                        ImageUtils.playmate_no2,
+                        width: 98.w,
+                        height: 102.w,
+                      ),
+                    ],
                   ),
                   30.verticalSpace,
-                  Text(
-                    'Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
+                  Container(
+                    width: 80.w,
+                    alignment: Alignment.center,
+                    child: Text(
+                      t.list.length > 1 ? '${t.list[1].nickName}' : '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    '10K',
+                    t.list.length > 1 ? '${t.list[1].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -68,23 +98,53 @@ class PlayMatePage extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Image.asset(
-                    ImageUtils.playmate_no1,
-                    width: 116.w,
-                    height: 128.h,
+                  Stack(
+                    children: [
+                      Positioned(
+                        top: 16.w,
+                        left: 16.w,
+                        child: ExtendedImage.network(
+                          t.list.length > 0 ? '${t.list[0].avatar}' : '',
+                          border:
+                              Border.all(color: Color(0xffE9C677), width: 1.w),
+                          shape: BoxShape.circle,
+                          width: 85.w,
+                          height: 85.w,
+                          fit: BoxFit.cover,
+                          loadStateChanged: (ExtendedImageState state) {
+                            switch (state.extendedImageLoadState) {
+                              case LoadState.failed:
+                                return Container();
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Image.asset(
+                        ImageUtils.playmate_no1,
+                        width: 116.w,
+                        height: 128.w,
+                      ),
+                    ],
                   ),
                   34.verticalSpace,
-                  Text(
-                    'Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
+                  Container(
+                    width: 130.w,
+                    alignment: Alignment.center,
+                    child: Text(
+                      t.list.length > 0 ? '${t.list[0].nickName}' : '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   6.verticalSpace,
                   Text(
-                    '10K',
+                    t.list.length > 0 ? '${t.list[0].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -98,22 +158,52 @@ class PlayMatePage extends StatelessWidget {
               child: Column(
                 children: [
                   40.verticalSpace,
-                  Image.asset(
-                    ImageUtils.playmate_no3,
-                    width: 98.w,
-                    height: 102.h,
+                  Stack(
+                    children: [
+                      Positioned(
+                        top: 16.w,
+                        left: 16.w,
+                        child: ExtendedImage.network(
+                          t.list.length > 2 ? '${t.list[2].avatar}' : '',
+                          border:
+                              Border.all(color: Color(0xffE9C677), width: 1.w),
+                          shape: BoxShape.circle,
+                          width: 66.w,
+                          height: 66.w,
+                          fit: BoxFit.cover,
+                          loadStateChanged: (ExtendedImageState state) {
+                            switch (state.extendedImageLoadState) {
+                              case LoadState.failed:
+                                return Container();
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Image.asset(
+                        ImageUtils.playmate_no3,
+                        width: 98.w,
+                        height: 102.w,
+                      ),
+                    ],
                   ),
                   30.verticalSpace,
-                  Text(
-                    'Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
+                  Container(
+                    width: 80.w,
+                    alignment: Alignment.center,
+                    child: Text(
+                      t.list.length > 2 ? '${t.list[2].nickName}' : '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    '10K',
+                    t.list.length > 2 ? '${t.list[2].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -127,61 +217,62 @@ class PlayMatePage extends StatelessWidget {
         ),
       );
 
-  Widget _contentWidget(int index) => Container(
-        height: 64.h,
-        margin: EdgeInsets.only(left: 15.w, right: 15.w),
-        padding: EdgeInsets.only(left: 15.w, right: 15.w),
-        decoration: BoxDecoration(
-          color: Color(0xff262731),
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(
-            color: Color(0xffA55FEA),
-            width: 1.w,
+  Widget _contentWidget(int index) => Visibility(
+        visible: t.list.length > 3,
+        child: Container(
+          height: 64.h,
+          margin: EdgeInsets.only(left: 15.w, right: 15.w),
+          padding: EdgeInsets.only(left: 15.w, right: 15.w),
+          decoration: BoxDecoration(
+            color: Color(0xff262731),
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(
+              color: Color(0xffA55FEA),
+              width: 1.w,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Text(
-              '${index + 3}',
-              style: TextStyle(
-                color: Color(0xffc3c3c3),
-                fontSize: 21.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            15.horizontalSpace,
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: ImageUtil.networkImage(
-                url:
-                    'https://img2.baidu.com/it/u=2425084553,971201481&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
-                width: 40.w,
-                height: 40.w,
-                fit: BoxFit.cover
-              ),
-            ),
-            15.horizontalSpace,
-            Expanded(
-              child: Text(
-                'item ${index + 3}',
+          child: Row(
+            children: [
+              Text(
+                '${index + 3}',
                 style: TextStyle(
                   color: Color(0xffc3c3c3),
-                  fontSize: 14.sp,
+                  fontSize: 21.sp,
                   fontFamily: FONT_MEDIUM,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            Text(
-              '6.2K',
-              style: TextStyle(
-                color: Color(0xffF8E287),
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
+              15.horizontalSpace,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.r),
+                child: ImageUtil.networkImage(
+                    url: t.list[index + 2].avatar,
+                    width: 40.w,
+                    height: 40.w,
+                    fit: BoxFit.cover),
               ),
-            ),
-          ],
+              15.horizontalSpace,
+              Expanded(
+                child: Text(
+                  t.list[index + 2].nickName,
+                  style: TextStyle(
+                    color: Color(0xffc3c3c3),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                '${t.list[index + 2].num}K',
+                style: TextStyle(
+                  color: Color(0xffF8E287),
+                  fontSize: 16.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

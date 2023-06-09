@@ -5,10 +5,8 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
-import 'package:wy/utils/image_util.dart';
 
 import '../../../../controller/user_controller.dart';
-import 'consumption_ctr.dart';
 import 'friendship_ctr.dart';
 
 class FriendShipPage extends StatelessWidget {
@@ -22,12 +20,11 @@ class FriendShipPage extends StatelessWidget {
         onRefresh: () => t.onRefresh(),
         enablePullUp: true,
         child: ListView.separated(
-          itemCount: 20,
-          // itemCount: t.list.length,
-          itemBuilder: (context, index) {
-            // final model = t.list[index];
-            return index == 0 ? _headerWidget() : _contentWidget(index);
-          },
+          itemCount: t.list.isEmpty || t.list.length > 0 && t.list.length < 4
+              ? 1
+              : t.list.length - 2,
+          itemBuilder: (context, index) =>
+              index == 0 ? _headerWidget() : _contentWidget(index),
           separatorBuilder: (c, i) => 8.verticalSpace,
         ));
   }
@@ -54,22 +51,36 @@ class FriendShipPage extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 1 ? '${t.list[1].avatar}' : '',
                               border: Border.all(
                                   color: Color(0xffEB7AF5), width: 1.w),
                               shape: BoxShape.circle,
                               width: 34.w,
                               height: 34.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 1 ? '${t.list[1].avatarTwo}' : '',
                               border: Border.all(
                                   color: Color(0xffEB7AF5), width: 1.w),
                               shape: BoxShape.circle,
                               width: 34.w,
                               height: 34.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -85,7 +96,9 @@ class FriendShipPage extends StatelessWidget {
                   Container(
                     width: 80.w,
                     child: Text(
-                      'Name & Name',
+                      t.list.length > 1
+                          ? '${t.list[1].nickName} & ${t.list[1].nickNameTwo}'
+                          : '',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,
@@ -96,7 +109,7 @@ class FriendShipPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '10K',
+                    t.list.length > 1 ? '${t.list[1].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -120,22 +133,36 @@ class FriendShipPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 0 ? '${t.list[0].avatar}' : '',
                               border: Border.all(
                                   color: Color(0xffE9C677), width: 1.w),
                               shape: BoxShape.circle,
                               width: 50.w,
                               height: 50.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 0 ? '${t.list[0].avatarTwo}' : '',
                               border: Border.all(
                                   color: Color(0xffE9C677), width: 1.w),
                               shape: BoxShape.circle,
                               width: 50.w,
                               height: 50.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -152,7 +179,9 @@ class FriendShipPage extends StatelessWidget {
                     width: 120.w,
                     alignment: Alignment.center,
                     child: Text(
-                      'Name & Name',
+                      t.list.length > 0
+                          ? '${t.list[0].nickName} & ${t.list[0].nickNameTwo}'
+                          : '',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,
@@ -164,7 +193,7 @@ class FriendShipPage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Text(
-                    '10K',
+                    t.list.length > 0 ? '${t.list[0].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 18.sp,
@@ -188,22 +217,36 @@ class FriendShipPage extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 2 ? '${t.list[2].avatar}' : '',
                               border: Border.all(
                                   color: Color(0xff8288F6), width: 1.w),
                               shape: BoxShape.circle,
                               width: 34.w,
                               height: 34.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                             ExtendedImage.network(
-                              UserController.find.userProfile.avatar,
+                              t.list.length > 2 ? '${t.list[2].avatarTwo}' : '',
                               border: Border.all(
                                   color: Color(0xff8288F6), width: 1.w),
                               shape: BoxShape.circle,
                               width: 34.w,
                               height: 34.w,
                               fit: BoxFit.cover,
+                              loadStateChanged: (ExtendedImageState state) {
+                                switch (state.extendedImageLoadState) {
+                                  case LoadState.failed:
+                                    return Container();
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -219,7 +262,9 @@ class FriendShipPage extends StatelessWidget {
                   Container(
                     width: 80.w,
                     child: Text(
-                      'Name & Name',
+                      t.list.length > 2
+                          ? '${t.list[2].nickName} & ${t.list[2].nickNameTwo}'
+                          : '',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.sp,
@@ -230,7 +275,7 @@ class FriendShipPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '10K',
+                    t.list.length > 2 ? '${t.list[2].num}K' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -244,82 +289,85 @@ class FriendShipPage extends StatelessWidget {
         ),
       );
 
-  Widget _contentWidget(int index) => Container(
-        height: 64.h,
-        margin: EdgeInsets.only(left: 15.w, right: 15.w),
-        padding: EdgeInsets.only(left: 15.w, right: 15.w),
-        decoration: BoxDecoration(
-          color: Color(0xff262731),
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(
-            color: Color(0xffA55FEA),
-            width: 1.w,
+  Widget _contentWidget(int index) => Visibility(
+        visible: t.list.length > 3,
+        child: Container(
+          height: 64.h,
+          margin: EdgeInsets.only(left: 15.w, right: 15.w),
+          padding: EdgeInsets.only(left: 15.w, right: 15.w),
+          decoration: BoxDecoration(
+            color: Color(0xff262731),
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(
+              color: Color(0xffA55FEA),
+              width: 1.w,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Text(
-              '${index + 3}',
-              style: TextStyle(
-                color: Color(0xffc3c3c3),
-                fontSize: 21.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            15.horizontalSpace,
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ExtendedImage.network(
-                      'https://img2.baidu.com/it/u=2425084553,971201481&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
-                      border: Border.all(color: Colors.white, width: 1),
-                      shape: BoxShape.circle,
-                      width: 40.w,
-                      height: 40.w,
-                      fit: BoxFit.cover,
-                    ),
-                    ExtendedImage.network(
-                      UserController.find.userProfile.avatar,
-                      border: Border.all(color: Colors.white, width: 1),
-                      shape: BoxShape.circle,
-                      width: 40.w,
-                      height: 40.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  ImageUtils.icon_loveship,
-                  width: 21.w,
-                  height: 21.h,
-                )
-              ],
-            ),
-            15.horizontalSpace,
-            Expanded(
-              child: Text(
-                'item ${index + 3}',
+          child: Row(
+            children: [
+              Text(
+                '${index + 3}',
                 style: TextStyle(
                   color: Color(0xffc3c3c3),
-                  fontSize: 14.sp,
+                  fontSize: 21.sp,
                   fontFamily: FONT_MEDIUM,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            Text(
-              '6.2K',
-              style: TextStyle(
-                color: Color(0xffF8E287),
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
+              15.horizontalSpace,
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ExtendedImage.network(
+                        t.list[index + 2].avatar,
+                        border: Border.all(color: Colors.white, width: 1),
+                        shape: BoxShape.circle,
+                        width: 40.w,
+                        height: 40.w,
+                        fit: BoxFit.cover,
+                      ),
+                      ExtendedImage.network(
+                        t.list[index + 2].avatarTwo,
+                        border: Border.all(color: Colors.white, width: 1),
+                        shape: BoxShape.circle,
+                        width: 40.w,
+                        height: 40.w,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                  Image.asset(
+                    ImageUtils.icon_loveship,
+                    width: 21.w,
+                    height: 21.h,
+                  )
+                ],
               ),
-            ),
-          ],
+              15.horizontalSpace,
+              Expanded(
+                child: Text(
+                  '${t.list[index + 2].nickName} & ${t.list[index + 2].nickNameTwo}',
+                  style: TextStyle(
+                    color: Color(0xffc3c3c3),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                '${t.list[index + 2].num}K',
+                style: TextStyle(
+                  color: Color(0xffF8E287),
+                  fontSize: 16.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

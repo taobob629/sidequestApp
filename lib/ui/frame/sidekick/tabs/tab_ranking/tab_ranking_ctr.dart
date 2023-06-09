@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/consumption_ctr.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/friendship_ctr.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/playmate_ctr.dart';
 
-import '../../../../../common/base_tab_controller.dart';
 import '../../../../../config/icon_font.dart';
 
 class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
-  var selectCatIndex = 0.obs;
+  static TabRankingCtr get find => Get.find();
 
   late TabController tabController;
   late TabController tabController2;
 
   late List<Widget> tabs;
   late List<Widget> tabs2;
+
+  /// 排行类型 1月 2周 3日
+  int selectTypeIndex = 1;
 
   @override
   void onInit() {
@@ -80,6 +85,35 @@ class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
       )
     ];
     tabController = TabController(length: tabs.length, vsync: this);
+    tabController.addListener(() {
+      if (tabController.index == tabController.animation?.value) {
+        onRefresh(tabController.index);
+      }
+    });
+
     tabController2 = TabController(length: tabs2.length, vsync: this);
+    tabController2.addListener(() {
+      if (tabController2.index == tabController2.animation?.value) {
+        selectTypeIndex = tabController2.index + 1;
+
+        onRefresh(tabController.index);
+      }
+    });
+  }
+
+  void onRefresh(int index) {
+    switch (index) {
+      case 0:
+        PlaymateCtr.find.onRefresh();
+        break;
+
+      case 1:
+        FriendShipCtr.find.onRefresh();
+        break;
+
+      case 2:
+        ConsumptionCtr.find.onRefresh();
+        break;
+    }
   }
 }
