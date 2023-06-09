@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/playmate_page.dart';
-import 'package:wy/ui/frame/sidekick/widget/segment/custom_sliding_segmented_control.dart';
+import 'package:wy/ui/frame/sidekick/widget/container_tab_indicator.dart';
 
 import '../../../../../config/app_color.dart';
-import '../../../../../widget/tab_widget.dart';
-import '../../../../common/home_indicator.dart';
 import 'consumption_page.dart';
 import 'friendship_page.dart';
 import 'tab_ranking_ctr.dart';
@@ -20,59 +17,51 @@ class TabRankingPage extends StatelessWidget {
     return Column(
       children: [
         15.verticalSpace,
-        CustomSlidingSegmentedControl(
-          initialValue: 0,
-          fixedWidth: (Get.width - 30.w) / 3,
-          children: {
-            0: Text(
-              'Playmate',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: FONT_MEDIUM,
-                fontSize: 12.sp,
-              ),
-            ),
-            1: Text(
-              'Friendship',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: FONT_MEDIUM,
-                fontSize: 12.sp,
-              ),
-            ),
-            2: Text(
-              'Consumption',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: FONT_MEDIUM,
-                fontSize: 12.sp,
-              ),
-            ),
-          },
+        Container(
+          height: 34.h,
+          margin: EdgeInsets.symmetric(horizontal: 15.w),
           decoration: BoxDecoration(
             color: Color(0x33ffffff),
             borderRadius: BorderRadius.circular(30.r),
           ),
-          thumbDecoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+          child: TabBar(
+            controller: _ctr.tabController,
+            tabs: _ctr.tabs,
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
+            indicator: ContainerTabIndicator(
+              radius: BorderRadius.all(Radius.circular(18.r)),
               colors: [Color(0xFFC554FF), Color(0xFFFF8E2C)],
             ),
-            borderRadius: BorderRadius.circular(30.r),
           ),
-          onValueChanged: (int? value) => _ctr.tabbarController?.index = value ?? 0,
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 15.h),
+          width: 250.w,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              tabBarTheme: Theme.of(context).tabBarTheme.copyWith(
+                    labelColor: AppColor.yellow, // 设置想要的选中标签文本颜色
+                    unselectedLabelColor: Colors.white,
+                  ),
+            ),
+            child: TabBar(
+              controller: _ctr.tabController2,
+              tabs: _ctr.tabs2,
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
+              indicator: ContainerTabIndicator(
+                  height: 4.h,
+                  width: 12.w,
+                  radius: BorderRadius.circular(2.r),
+                  colors: [AppColor.yellow, AppColor.yellow],
+                  padding: EdgeInsets.only(top: 10.h)),
+            ),
+          ),
         ),
         12.verticalSpace,
         Expanded(
-          child: TabWidget(
-            tabstyle: TAB_STYLE_3,
-            indicator:
-                HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
-            tabController: _ctr.tabbarController,
-            tabList: _ctr.tabs,
-            pagePhysics: NeverScrollableScrollPhysics(),
-            tabPage: [
+          child: TabBarView(
+            controller: _ctr.tabController,
+            children: [
               PlayMatePage(),
               FriendShipPage(),
               ConsumptionPage(),
