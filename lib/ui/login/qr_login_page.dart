@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
@@ -7,18 +8,17 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/utils/image_util.dart';
 
 import '../../utils/toast_utils.dart';
 import 'widget/qr_login_form_view.dart';
 
 class QrLoginPage extends StatelessWidget {
-
-
   late final QrLoginPageController controller;
 
   final userController = Get.find<UserController>();
 
-  QrLoginPage({required String code}){
+  QrLoginPage({required String code}) {
     controller = Get.put(QrLoginPageController(code: code));
   }
 
@@ -27,20 +27,48 @@ class QrLoginPage extends StatelessWidget {
     return BaseScaffold(
       title: "Authorization".tr,
       body: ListView(
-       // mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Icon(
-              IconFonts.pc,
-              size: 110,
-              color: Colors.white38,
+            child: Container(
+              width: 120.w,
+              height: 120.w,
+              child: Stack(
+                children: [
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      child: Icon(
+                        IconFonts.pc,
+                        size: 120.w,
+                        color: Colors.white38,
+                      )),
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 30.w,
+                      bottom: 60.w,
+                      child: CircleAvatar(
+                        child: ClipOval(
+                          child: ImageUtil.assetImage(
+                            'default_logo',
+                            fit: BoxFit.cover,
+                            width: 30.w,
+                            height: 30.w,
+                          ),
+                        ),
+                      ))
+                ],
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 10,bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             child: Text(
-              "You are signing in to a PC client with account below, do you want to continue?".tr,
+              "You are signing in to a PC client with account below, do you want to continue?"
+                  .tr,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
@@ -110,24 +138,29 @@ class QrLoginPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLevelIcon(){
-    if(userController.userProfile.vipLevel == 0){
+  Widget _buildLevelIcon() {
+    if (userController.userProfile.vipLevel == 0) {
       return Container();
-    }else{
-      return Image.asset("assets/images/ic_level${userController.userProfile.vipLevel}.webp",width: 30,height: 30,);
+    } else {
+      return Image.asset(
+        "assets/images/ic_level${userController.userProfile.vipLevel}.webp",
+        width: 30,
+        height: 30,
+      );
     }
   }
 }
 
-class QrLoginPageController extends GetxController{
-
+class QrLoginPageController extends GetxController {
   String code;
 
   QrLoginPageController({required this.code});
-  void login() async{
+
+  void login() async {
     showLoading();
     await AuthApi.qrCodeLogin(code);
     dismissLoading();
-    showSuccess("Success".tr, duration: Duration(seconds: 3)).then((value) => Get.back());
+    showSuccess("Success".tr, duration: Duration(seconds: 3))
+        .then((value) => Get.back());
   }
 }
