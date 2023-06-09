@@ -5,10 +5,13 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/qr_login_info.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../utils/toast_utils.dart';
 import 'widget/qr_login_form_view.dart';
@@ -18,8 +21,9 @@ class QrLoginPage extends StatelessWidget {
 
   final userController = Get.find<UserController>();
 
-  QrLoginPage({required String code}) {
-    controller = Get.put(QrLoginPageController(code: code));
+  QrLoginPage({required String code, required QrLoginInfoModel loginInfo}) {
+    controller =
+        Get.put(QrLoginPageController(code: code, loginInfoModel: loginInfo));
   }
 
   @override
@@ -131,9 +135,19 @@ class QrLoginPage extends StatelessWidget {
           // )
         ],
       ),
-      floatingActionButton: FloatingButton(
-        label: "CONFIRM".tr,
-        onTap: () => controller.login(),
+      floatingActionButton: Row(
+        children: [
+          Expanded(
+              child: FloatingButton(
+            label: "Login".tr,
+            onTap: () => controller.login(),
+          )),
+          Expanded(
+              child: FloatingButton(
+            label: "Top up".tr,
+            onTap: () => controller.topUp(),
+          )),
+        ],
       ),
     );
   }
@@ -153,8 +167,18 @@ class QrLoginPage extends StatelessWidget {
 
 class QrLoginPageController extends GetxController {
   String code;
+  Rxn<QrLoginInfoModel> _qrLoginInfoModel=Rxn();
 
-  QrLoginPageController({required this.code});
+
+  QrLoginInfoModel? get qrLoginInfoModel => _qrLoginInfoModel.value;
+
+  set qrLoginInfoModel(QrLoginInfoModel? value) {
+    _qrLoginInfoModel.value = value;
+  }
+
+  QrLoginPageController({required this.code , QrLoginInfoModel? loginInfoModel}){
+    this.qrLoginInfoModel=loginInfoModel;
+  }
 
   void login() async {
     showLoading();
@@ -162,5 +186,12 @@ class QrLoginPageController extends GetxController {
     dismissLoading();
     showSuccess("Success".tr, duration: Duration(seconds: 3))
         .then((value) => Get.back());
+  }
+  void topUp() async {
+    Get.to(() => BalancePage())?.then((value)  async {
+      flog('value--$value');
+      var res = await AuthApi.scanInfo(code);
+      this.qrLoginInfoModel=res;
+    });
   }
 }

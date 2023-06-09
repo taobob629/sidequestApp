@@ -10,6 +10,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:wy/api/auth_api.dart';
 
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -520,17 +521,20 @@ class MainPageController extends FullLifeCycleController
   }
 
   void scan() {
-    Get.to(() => ScanPage())?.then((value) {
+    Get.to(() => ScanPage())?.then((value) async {
       flog('value $value');
       if (value == null) {
         return;
       }
       String data = value.toString();
       //String deData = decryptData(data);
-
       if (data.indexOf("qlogin") >= 0) {
+        //
+        var qrLoginInfo = await AuthApi.scanInfo(data);
+        flog('qrLoginInfo ${qrLoginInfo.toJson()}');
         Get.to(() => QrLoginPage(
               code: data,
+              loginInfo: qrLoginInfo,
             ));
 
         return;
