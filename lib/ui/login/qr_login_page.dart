@@ -9,6 +9,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../utils/toast_utils.dart';
+import 'widget/qr_login_form_view.dart';
 
 class QrLoginPage extends StatelessWidget {
 
@@ -25,8 +26,8 @@ class QrLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "Authorization".tr,
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
+      body: ListView(
+       // mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -37,68 +38,69 @@ class QrLoginPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 50),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10,bottom: 10),
             child: Text(
               "You are signing in to a PC client with account below, do you want to continue?".tr,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 60),
-            padding: const EdgeInsets.only(top: 30,bottom: 50),
-            decoration: BoxDecoration(
-              color: Colors.white12,
-              borderRadius: BorderRadius.circular(12)
-            ),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: CachedNetworkImage(
-                      imageUrl: userController.userProfile.avatar,
-                      fit: BoxFit.cover,
-                      imageBuilder: (context,provider){
-                        return Container(
-                          width: 76,
-                          height: 76,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            image:DecorationImage(
-                              image: provider,
-                              fit: BoxFit.cover,
-                            )
-                          ),
-                        );
-                      },
-                    )
-                  )
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${userController.userProfile.nickName}",
-                      style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
-                    ),
-                    _buildLevelIcon()
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "${userController.userProfile.email}",
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          )
+          QrLoginFromWidget()
+          // Container(
+          //   margin: const EdgeInsets.symmetric(horizontal: 60),
+          //   padding: const EdgeInsets.only(top: 30,bottom: 50),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white12,
+          //     borderRadius: BorderRadius.circular(12)
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       CircleAvatar(
+          //         backgroundColor: Colors.white,
+          //         radius: 40,
+          //         child: Padding(
+          //           padding: const EdgeInsets.all(2.0),
+          //           child: CachedNetworkImage(
+          //             imageUrl: userController.userProfile.avatar,
+          //             fit: BoxFit.cover,
+          //             imageBuilder: (context,provider){
+          //               return Container(
+          //                 width: 76,
+          //                 height: 76,
+          //                 clipBehavior: Clip.antiAlias,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(40),
+          //                   image:DecorationImage(
+          //                     image: provider,
+          //                     fit: BoxFit.cover,
+          //                   )
+          //                 ),
+          //               );
+          //             },
+          //           )
+          //         )
+          //       ),
+          //       SizedBox(height: 10,),
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Text(
+          //             "${userController.userProfile.nickName}",
+          //             style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
+          //           ),
+          //           _buildLevelIcon()
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         height: 30,
+          //       ),
+          //       Text(
+          //         "${userController.userProfile.email}",
+          //         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          //       )
+          //     ],
+          //   ),
+          // )
         ],
       ),
       floatingActionButton: FloatingButton(
