@@ -156,7 +156,10 @@ class NavigatorHelper {
                 .map<TaskModel>((item) => TaskModel.fromJson(item))
                 .toList();
             if (list.isNotEmpty) {
-              Get.to(() => TaskDetailPage(), arguments: list.first);
+              Get.to(() => TaskDetailPage(), arguments: {
+                'model': list.first,
+                'skipFlag': true,
+              });
             }
           }
         }

@@ -9,12 +9,15 @@ import '../../../../utils/time_utils.dart';
 class TaskDetailCtr extends GetxController {
   TaskDetailModel? model;
   late TaskModel taskModel;
+  late bool skipFlag;
 
   @override
   void onInit() {
     super.onInit();
 
-    taskModel = Get.arguments as TaskModel;
+    Map map = Get.arguments as Map;
+    taskModel = map['model'];
+    skipFlag = map['skipFlag'];
 
     _requestData(true);
   }

@@ -31,8 +31,10 @@ class TaskPage extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 if (t.list[index].enabled == 0) {
-                  Get.to(() => TaskDetailPage(), arguments: t.list[index])
-                      ?.then((value) => t.onRefresh());
+                  Get.to(() => TaskDetailPage(), arguments: {
+                    'model': t.list[index],
+                    'skipFlag': false,
+                  })?.then((value) => t.onRefresh());
                 }
               },
               child: Container(
