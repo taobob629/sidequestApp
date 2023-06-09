@@ -5,7 +5,7 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/model/game_service_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/frame/sidekick/controller.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/controller.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../utils/toast_utils.dart';
@@ -57,6 +57,6 @@ class MoreGamesPageController extends GetxController
     if (response.statusCode == 200) {
       gameInfo.changeFocus();
     }
-    Get.find<SideKickController>().initMyGames();
+    Get.find<TabSideKickController>().initMyGames();
   }
 }

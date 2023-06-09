@@ -43,6 +43,15 @@ class ImageUtils {
   static const String ic_add = 'assets/images/ic_add.png';
   static const String friendship_img = 'assets/images/post/friendship_img.webp';
   static const String gift_bg = 'assets/images/post/gift_bg.webp';
+  static const String icon_loveship = 'assets/images/icon_loveship.webp';
+  static const String friendship_bg = 'assets/images/friendship_bg.webp';
+  static const String friendship_no1 = 'assets/images/friendship_no1.webp';
+  static const String friendship_no2 = 'assets/images/friendship_no2.webp';
+  static const String friendship_no3 = 'assets/images/friendship_no3.webp';
+  static const String playmate_bg = 'assets/images/playmate_bg.webp';
+  static const String playmate_no1 = 'assets/images/playmate_no1.webp';
+  static const String playmate_no2 = 'assets/images/playmate_no2.webp';
+  static const String playmate_no3 = 'assets/images/playmate_no3.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';

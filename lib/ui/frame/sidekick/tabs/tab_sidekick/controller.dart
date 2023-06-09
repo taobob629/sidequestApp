@@ -21,9 +21,9 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:dio/src/response.dart' as dio;
 
-import '../../../utils/global_key_constants.dart';
-import '../../../utils/storage_manager.dart';
-import '../main_page.dart';
+import '../../../../../utils/global_key_constants.dart';
+import '../../../../../utils/storage_manager.dart';
+import '../../../main_page.dart';
 
 List<KeyMap> gameInitFilter = [
   KeyMap('Language'.tr, null),
@@ -32,7 +32,7 @@ List<KeyMap> gameInitFilter = [
   KeyMap('Level'.tr, null)
 ];
 
-class SideKickController extends RefreshListController<GameUserModel> {
+class TabSideKickController extends RefreshListController<GameUserModel> {
   RxList<KeyMap?> filters = RxList(gameInitFilter);
 
   RxInt _currentSelectIndex = RxInt(0);

@@ -6,146 +6,76 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/common/base_controller.dart';
-import 'package:wy/config/app_pages.dart';
-import 'package:wy/ui/frame/sidekick/controller.dart';
-import 'package:wy/ui/frame/sidekick/widget/horizontal_list.dart';
-import 'package:wy/utils/image_util.dart';
-import 'package:wy/utils/navigator_helper.dart';
+import 'package:wy/ui/frame/sidekick/sidekick_ctr.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/tab_ranking_page.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/tab_sidekick_page.dart';
 
+import '../../../config/app_color.dart';
+import '../../../config/app_pages.dart';
 import '../../../image_utils.dart';
 import '../../../utils/global_key_constants.dart';
-import '../../../widget/refresh_list.dart';
-import 'widget/list_item.dart';
-import 'widget/section.dart';
+import '../../../utils/image_util.dart';
+import '../../../widget/tab_widget.dart';
+import '../../common/home_indicator.dart';
 
 class SideKickPage extends StatelessWidget {
-  var controller = Get.put(SideKickController(), permanent: true);
+  final controller = Get.put(SideKickCtr());
 
   @override
   Widget build(BuildContext context) {
-    controller.refreshController = RefreshController(initialRefresh: false);
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/bg_sidekick.webp'),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter)),
-          child: NestedScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            headerSliverBuilder: (context, index) => [
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                leadingWidth: 150.w,
-                leading: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 30.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Sidekick',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 21.sp,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  Showcase(
-                    key: GlobalKeyConstants.addGameKey,
-                    description: '点击添加你常玩的游戏',
-                    child: IconButton(
-                        onPressed: () => controller.toGameListPage(),
-                        icon: Image.asset(
-                          ImageUtils.ic_add,
-                          width: 24.w,
-                          height: 24.w,
-                        )),
-                  ),
-                  IconButton(
-                    onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
-                    icon: ImageUtil.assetImage(
-                      'ic_search',
-                      width: 23.w,
-                      height: 23.w,
-                    ),
-                  ),
+    return MediaQuery.removePadding(
+        removeTop: true,
+        context: context,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+          ),
+          body: Stack(
+            children: [
+              TabWidget(
+                tabstyle: TAB_STYLE_2,
+                indicator:
+                    HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
+                alignment: Alignment.centerLeft,
+                tabController: controller.tabbarController,
+                tabList: controller.tabs,
+                pagePhysics: NeverScrollableScrollPhysics(),
+                tabPage: [
+                  TabSideKickPage(),
+                  TabRankingPage(),
                 ],
               ),
-              HorizontalGameListWidget(),
-            ],
-            body: SectionWidget(
-              listBody: Obx(() => biuldSmartRefresh(
-                  controller.refreshController,
-                  controller.pageState == PageState.sucess
-                      ? body(context)
-                      : controller.buildEmpty(),
-                  onRefresh: () {
-                    controller.onRefresh();
-                  },
-                  onLoad: () => controller.onLoadMore())),
-            ),
-          ),
-        ),
-        Obx(
-          () => Positioned(
-            bottom: controller.bottom.value,
-            right: controller.right.value,
-            child: Showcase(
-              key: GlobalKeyConstants.matchKey,
-              description: 'Automatically find corresponding playmates'.tr,
-              child: GestureDetector(
-                onPanUpdate: (DragUpdateDetails details) {
-                  controller.bottom.value -= details.delta.dy;
-                  controller.right.value -= details.delta.dx;
-                },
-                behavior: HitTestBehavior.translucent,
-                onTap: () => Get.toNamed(AppPages.side_kick_match_page),
-                child: Image.asset(
-                  ImageUtils.iconPicMatch,
-                  width: 120.w,
-                  height: 80.h,
+              Positioned(
+                right: 0,
+                child: Row(
+                  children: [
+                    Showcase(
+                      key: GlobalKeyConstants.addGameKey,
+                      description: '点击添加你常玩的游戏',
+                      child: IconButton(
+                          onPressed: () => Get.toNamed(AppPages.MoreGames),
+                          icon: Image.asset(
+                            ImageUtils.ic_add,
+                            width: 24.w,
+                            height: 24.w,
+                          )),
+                    ),
+                    IconButton(
+                      onPressed: () => Get.toNamed(AppPages.SEARCH_USER_PAGE),
+                      icon: ImageUtil.assetImage(
+                        'ic_search',
+                        width: 23.w,
+                        height: 23.w,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
+              )
+            ],
           ),
-        ),
-      ],
-    );
-  }
-
-  body(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        var model = controller.mDatas[index];
-        return index == 0
-            ? Showcase(
-                key: GlobalKeyConstants.sideKickItemKey,
-                description:
-                    'Choose the companion you want to place an order with'.tr,
-                child: GameListItemWidget(model, () {
-                  NavigatorHelper.toOtherProfile(model.id,
-                      gid: controller
-                          .gameList[controller.currentSelectIndex].id);
-                }))
-            : GameListItemWidget(model, () {
-                NavigatorHelper.toOtherProfile(model.id,
-                    gid: controller.gameList[controller.currentSelectIndex].id);
-              });
-      },
-      itemCount: controller.mDatas.length,
-    );
+        ));
   }
 }

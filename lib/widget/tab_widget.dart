@@ -12,6 +12,7 @@ import 'my_bouncing_scroll_physics.dart';
 const int TAB_STYLE_DEFAULT = 0;
 const int TAB_STYLE_1 = 1;
 const int TAB_STYLE_2 = 2;
+const int TAB_STYLE_3 = 3;
 
 class TabWidget extends StatefulWidget {
   final List? tabList;
@@ -68,7 +69,8 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
   ///初始化函数
   Future initData() async {
     tabIndex = widget.tabList![0];
-    tabCon = TabController(vsync: this, length: widget.tabList!.length, initialIndex: widget.page!)
+    tabCon = TabController(
+        vsync: this, length: widget.tabList!.length, initialIndex: widget.page!)
       ..addListener(() {
         tabIndex = widget.tabList![tabCon?.index ?? 0];
       });
@@ -87,7 +89,8 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
         Padding(
           padding: const EdgeInsets.only(top: 40),
           child: TabBarView(
-            physics: widget.pagePhysics ?? const PagePhysics(parent: MyBouncingScrollPhysics()),
+            physics: widget.pagePhysics ??
+                const PagePhysics(parent: MyBouncingScrollPhysics()),
             controller: widget.tabController ?? tabCon,
             children: widget.tabPage!,
           ),
@@ -97,19 +100,26 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
           width: double.infinity,
           alignment: widget.alignment,
           child: Theme(
-            data: ThemeData(splashColor: Colors.transparent, highlightColor: Colors.white24),
+            data: ThemeData(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.white24),
             child: TabBar(
               controller: widget.tabController ?? tabCon,
               isScrollable: widget.isScrollable,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.white38,
+              labelColor: widget.tabstyle == TAB_STYLE_3
+                  ? AppColor.yellow
+                  : Colors.white,
+              unselectedLabelColor: widget.tabstyle == TAB_STYLE_3
+                  ? Colors.white
+                  : Colors.white38,
               indicatorColor: Colors.white38,
               indicatorWeight: 0,
               indicatorSize: widget.indicatorSize,
               indicator: widget.indicator,
               // indicatorWeight: 4,
               // indicatorPadding: EdgeInsets.only(bottom: 5),
-              labelPadding: widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 3),
+              labelPadding:
+                  widget.padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 3),
               labelStyle: selectTabStyle(widget.tabstyle),
               unselectedLabelStyle: unSelectTabStyle(widget.tabstyle),
               tabs: buildTabs(),
@@ -119,10 +129,6 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
       ],
     );
   }
-
-
-
-
 
   List<Widget> buildTabs() {
     switch (widget.tabstyle) {
@@ -138,7 +144,10 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
                             Color(0xFFBE39CC),
                             Color(0xFFE68887),
                           ])
-                        : LinearGradient(colors: [AppColor.tabBackGround, AppColor.tabBackGround])),
+                        : LinearGradient(colors: [
+                            AppColor.tabBackGround,
+                            AppColor.tabBackGround
+                          ])),
                 child: Tab(
                   text: '$m',
                 ),
@@ -154,25 +163,38 @@ class _TabWidgetState extends State<TabWidget> with TickerProviderStateMixin {
     }
   }
 }
+
 TextStyle unSelectTabStyle(int tabstyle) {
   switch (tabstyle) {
+    case TAB_STYLE_3:
+      return TextStyle(fontSize: 16.sp, fontFamily: FONT_MEDIUM);
     case TAB_STYLE_2:
-      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+      return const TextStyle(fontSize: 14, fontFamily: FONT_MEDIUM);
     case TAB_STYLE_1:
-      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+      return const TextStyle(fontSize: 14, fontFamily: FONT_MEDIUM);
     case TAB_STYLE_DEFAULT:
     default:
-      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+      return const TextStyle(fontSize: 14, fontFamily: FONT_MEDIUM);
   }
 }
+
 TextStyle selectTabStyle(var tabstyle) {
   switch (tabstyle) {
+    case TAB_STYLE_3:
+      return TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+          fontFamily: FONT_MEDIUM,
+          color: AppColor.yellow);
     case TAB_STYLE_2:
-      return TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold,fontFamily: FONT_MEDIUM);
+      return TextStyle(
+          fontSize: 21.sp,
+          fontWeight: FontWeight.bold,
+          fontFamily: FONT_MEDIUM);
     case TAB_STYLE_1:
-      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+      return const TextStyle(fontSize: 14, fontFamily: FONT_MEDIUM);
     case TAB_STYLE_DEFAULT:
     default:
-      return const TextStyle(fontSize: 14,fontFamily: FONT_MEDIUM);
+      return const TextStyle(fontSize: 14, fontFamily: FONT_MEDIUM);
   }
 }

@@ -134,7 +134,7 @@ class _GiftSucAnimState extends State<GiftSucAnim>
                         ],
                       ),
                       Image.asset(
-                        "assets/images/icon_loveship.webp",
+                        ImageUtils.icon_loveship,
                         width: 21.w,
                         height: 21.h,
                       )

@@ -16,7 +16,7 @@ import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
 
 import '../../utils/storage_manager.dart';
-import '../frame/sidekick/controller.dart';
+import '../frame/sidekick/tabs/tab_sidekick/controller.dart';
 import 'controller.dart';
 
 class MoreGamesPage extends GetView<MoreGamesPageController> {

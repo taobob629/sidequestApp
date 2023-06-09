@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/ui/frame/sidekick/controller.dart';
+import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/drop_down/gzx_dropdown_menu.dart';
 
@@ -17,7 +17,7 @@ import '../../../../utils/global_key_constants.dart';
 class SectionWidget extends StatelessWidget {
   GlobalKey _stackKey = GlobalKey();
   final Widget listBody;
-  SideKickController controller = Get.find<SideKickController>();
+  TabSideKickController controller = Get.find<TabSideKickController>();
 
   SectionWidget({required this.listBody});
 
