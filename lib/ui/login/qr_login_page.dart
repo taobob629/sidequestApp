@@ -1,131 +1,197 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/model/qr_login_info.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/profile/balance/balance_page.dart';
+import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/index.dart';
 
 import '../../utils/toast_utils.dart';
+import 'widget/qr_login_form_view.dart';
 
 class QrLoginPage extends StatelessWidget {
-
-
   late final QrLoginPageController controller;
 
   final userController = Get.find<UserController>();
 
-  QrLoginPage({required String code}){
-    controller = Get.put(QrLoginPageController(code: code));
+  QrLoginPage({required String code, required QrLoginInfoModel loginInfo}) {
+    controller =
+        Get.put(QrLoginPageController(code: code, loginInfoModel: loginInfo));
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "Authorization".tr,
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
+      body: ListView(
+        // mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Icon(
-              IconFonts.pc,
-              size: 110,
-              color: Colors.white38,
+            child: Container(
+              width: 120.w,
+              height: 120.w,
+              child: Stack(
+                children: [
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      child: Icon(
+                        IconFonts.pc,
+                        size: 120.w,
+                        color: Colors.white38,
+                      )),
+                  Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 30.w,
+                      bottom: 60.w,
+                      child: CircleAvatar(
+                        child: ClipOval(
+                          child: ImageUtil.assetImage(
+                            'default_logo',
+                            fit: BoxFit.cover,
+                            width: 30.w,
+                            height: 30.w,
+                          ),
+                        ),
+                      ))
+                ],
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 50),
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             child: Text(
-              "You are signing in to a PC client with account below, do you want to continue?".tr,
+              "You are signing in to a PC client with account below, do you want to continue?"
+                  .tr,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey, fontSize: 16),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 60),
-            padding: const EdgeInsets.only(top: 30,bottom: 50),
-            decoration: BoxDecoration(
-              color: Colors.white12,
-              borderRadius: BorderRadius.circular(12)
-            ),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: CachedNetworkImage(
-                      imageUrl: userController.userProfile.avatar,
-                      fit: BoxFit.cover,
-                      imageBuilder: (context,provider){
-                        return Container(
-                          width: 76,
-                          height: 76,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            image:DecorationImage(
-                              image: provider,
-                              fit: BoxFit.cover,
-                            )
-                          ),
-                        );
-                      },
-                    )
-                  )
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${userController.userProfile.nickName}",
-                      style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
-                    ),
-                    _buildLevelIcon()
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "${userController.userProfile.email}",
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          )
+          QrLoginFromWidget()
+          // Container(
+          //   margin: const EdgeInsets.symmetric(horizontal: 60),
+          //   padding: const EdgeInsets.only(top: 30,bottom: 50),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white12,
+          //     borderRadius: BorderRadius.circular(12)
+          //   ),
+          //   child: Column(
+          //     children: [
+          //       CircleAvatar(
+          //         backgroundColor: Colors.white,
+          //         radius: 40,
+          //         child: Padding(
+          //           padding: const EdgeInsets.all(2.0),
+          //           child: CachedNetworkImage(
+          //             imageUrl: userController.userProfile.avatar,
+          //             fit: BoxFit.cover,
+          //             imageBuilder: (context,provider){
+          //               return Container(
+          //                 width: 76,
+          //                 height: 76,
+          //                 clipBehavior: Clip.antiAlias,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius: BorderRadius.circular(40),
+          //                   image:DecorationImage(
+          //                     image: provider,
+          //                     fit: BoxFit.cover,
+          //                   )
+          //                 ),
+          //               );
+          //             },
+          //           )
+          //         )
+          //       ),
+          //       SizedBox(height: 10,),
+          //       Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Text(
+          //             "${userController.userProfile.nickName}",
+          //             style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
+          //           ),
+          //           _buildLevelIcon()
+          //         ],
+          //       ),
+          //       SizedBox(
+          //         height: 30,
+          //       ),
+          //       Text(
+          //         "${userController.userProfile.email}",
+          //         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          //       )
+          //     ],
+          //   ),
+          // )
         ],
       ),
-      floatingActionButton: FloatingButton(
-        label: "CONFIRM".tr,
-        onTap: () => controller.login(),
+      floatingActionButton: Row(
+        children: [
+          Expanded(
+              child: FloatingButton(
+            label: "Login".tr,
+            onTap: () => controller.login(),
+          )),
+          Expanded(
+              child: FloatingButton(
+            label: "Top up".tr,
+            onTap: () => controller.topUp(),
+          )),
+        ],
       ),
     );
   }
 
-  Widget _buildLevelIcon(){
-    if(userController.userProfile.vipLevel == 0){
+  Widget _buildLevelIcon() {
+    if (userController.userProfile.vipLevel == 0) {
       return Container();
-    }else{
-      return Image.asset("assets/images/ic_level${userController.userProfile.vipLevel}.webp",width: 30,height: 30,);
+    } else {
+      return Image.asset(
+        "assets/images/ic_level${userController.userProfile.vipLevel}.webp",
+        width: 30,
+        height: 30,
+      );
     }
   }
 }
 
-class QrLoginPageController extends GetxController{
-
+class QrLoginPageController extends GetxController {
   String code;
+  Rxn<QrLoginInfoModel> _qrLoginInfoModel=Rxn();
 
-  QrLoginPageController({required this.code});
-  void login() async{
+
+  QrLoginInfoModel? get qrLoginInfoModel => _qrLoginInfoModel.value;
+
+  set qrLoginInfoModel(QrLoginInfoModel? value) {
+    _qrLoginInfoModel.value = value;
+  }
+
+  QrLoginPageController({required this.code , QrLoginInfoModel? loginInfoModel}){
+    this.qrLoginInfoModel=loginInfoModel;
+  }
+
+  void login() async {
     showLoading();
     await AuthApi.qrCodeLogin(code);
     dismissLoading();
-    showSuccess("Success".tr, duration: Duration(seconds: 3)).then((value) => Get.back());
+    showSuccess("Success".tr, duration: Duration(seconds: 3))
+        .then((value) => Get.back());
+  }
+  void topUp() async {
+    Get.to(() => BalancePage())?.then((value)  async {
+      flog('value--$value');
+      var res = await AuthApi.scanInfo(code);
+      this.qrLoginInfoModel=res;
+    });
   }
 }

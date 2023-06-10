@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:wy/api/base_http.dart';
 import 'package:wy/model/login_model.dart';
+import 'package:wy/model/qr_login_info.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 
 import '../model/user_model.dart';
+import '../utils/utils.dart';
 import 'wy_http.dart';
 
 class AuthApi {
@@ -159,5 +161,14 @@ class AuthApi {
     };
     log("qrCodeLogin::$code", name: "WY");
     await http.post('/app/index/qrcode/login', data: formData);
+  }
+  static Future<QrLoginInfoModel> scanInfo(String code) async {
+    var formData = {
+      "secret": code,
+    };
+    flog("qrCodeLogin::$code name" );
+
+    var response = await http.post('/app/index/scanInfo', data: formData);
+    return QrLoginInfoModel.fromJson(response.data);
   }
 }
