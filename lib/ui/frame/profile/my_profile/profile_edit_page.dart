@@ -410,7 +410,7 @@ class ProfileEditPage extends StatelessWidget {
           children: [
             10.verticalSpace,
             Text(
-              'E-Player Introduction'.tr,
+              'SideKicker Introduction'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,

@@ -114,7 +114,7 @@ class MyProfilePage extends StatelessWidget {
                                                         key: GlobalKeyConstants
                                                             .profileSetInfoKey,
                                                         description:
-                                                            'Click to complete the information of E-Players.'
+                                                            'Click to complete the information of SideKickers.'
                                                                 .tr,
                                                         targetShapeBorder:
                                                             CircleBorder(),
