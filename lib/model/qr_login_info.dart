@@ -6,11 +6,11 @@ class QrLoginInfoModel {
   // Yes
   final String gamingFree;
   // 0
-  final int estimatedtime;
+  final String estimatedtime;
   // 0.00
   final String balance;
   // 0
-  final int freetime;
+  final String freetime;
   // 1686304017
   final int estimatedDatetime;
   // 5.01
@@ -22,9 +22,9 @@ class QrLoginInfoModel {
 
   QrLoginInfoModel({
     this.gamingFree = "",
-    this.estimatedtime = 0,
+    this.estimatedtime = "OH",
     this.balance = "",
-    this.freetime = 0,
+    this.freetime = "OH",
     this.estimatedDatetime = 0,
     this.price = "",
     this.discount = "",
@@ -33,9 +33,9 @@ class QrLoginInfoModel {
 
   factory QrLoginInfoModel.fromJson(Map<String, dynamic>? json) => QrLoginInfoModel(
     gamingFree: asT<String>(json, 'gamingFree'),
-    estimatedtime: asT<int>(json, 'estimatedtime'),
+    estimatedtime: asT<String>(json, 'estimatedtime'),
     balance: asT<String>(json, 'balance'),
-    freetime: asT<int>(json, 'freetime'),
+    freetime: asT<String>(json, 'freetime'),
     estimatedDatetime: asT<int>(json, 'estimatedDatetime'),
     price: asT<String>(json, 'price'),
     discount: asT<String>(json, 'discount'),
