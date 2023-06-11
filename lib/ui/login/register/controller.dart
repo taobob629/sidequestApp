@@ -163,6 +163,7 @@ class RegisterPageController extends GetxController {
     }
     showLoading();
     uid = await AuthApi.sendEmail(email, guardian, type);
+    dismissLoading();
     if (uid.isNotEmpty) {
       await showSuccess("Verification code sent".tr,);
       codeFocusNode.requestFocus();
@@ -244,6 +245,7 @@ class RegisterPageController extends GetxController {
           pin,
           invite,
           sex.value);
+      dismissLoading();
       await showSuccess(
           "Congratulations and welcome, please sign in with your new account!"
               .tr);
@@ -258,6 +260,7 @@ class RegisterPageController extends GetxController {
           uid,
           pin,
           loginModel!.token);
+      dismissLoading();
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
       UserController userController = Get.find<UserController>();
