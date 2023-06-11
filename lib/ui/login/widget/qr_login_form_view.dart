@@ -74,7 +74,7 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
             rowItem('Price',' £ ${controller.qrLoginInfoModel?.price}/Hour'),
             rowItem('Available for Gaming Free Time', controller.qrLoginInfoModel?.gamingFree),
             rowItem('Discount', controller.qrLoginInfoModel?.discount),
-            rowItem('Remaining Balance', controller.qrLoginInfoModel?.balance),
+            rowItem('Remaining Balance', ' £${controller.qrLoginInfoModel?.balance}'),
             rowItem('Remaining Gaming Free Time', controller.qrLoginInfoModel?.freetime),
             rowItem('Remaining Credit Duration', controller.qrLoginInfoModel?.estimatedtime),
             rowItem('Estimated Exhausted Time',  controller.qrLoginInfoModel?.estimatedDatetime.toDateStr),
