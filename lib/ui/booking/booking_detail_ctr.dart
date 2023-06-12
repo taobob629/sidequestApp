@@ -10,6 +10,7 @@ import '../../model/cybercafe_detail_model.dart';
 import '../../utils/toast_utils.dart';
 
 class BookingDetailCtr extends GetxController {
+  static BookingDetailCtr get find => Get.find();
   CyberCafeDetailModel? model;
 
   @override

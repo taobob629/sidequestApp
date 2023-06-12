@@ -275,6 +275,7 @@ class BookingDialog extends StatelessWidget {
               minDateTime: tomorrow,
               maxDateTime: TimeUtils.getSomeDay(tomorrow, 15),
               minuteDivider: 30,
+              ifSkip: true,
             ),
             barrierColor: Colors.black26)
         .then((value) {
