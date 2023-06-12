@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
 
 class SideKickCtr extends BaseTabContoller {
+
+  static SideKickCtr get find => Get.find();
+
   @override
   initTabs() {
     tabs = ['Sidekick'.tr, 'Ranking'.tr];

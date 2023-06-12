@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 
+import '../../../../../utils/navigator_helper.dart';
 import '../../../../controller/user_controller.dart';
 import 'friendship_ctr.dart';
 
@@ -43,6 +44,11 @@ class FriendShipPage extends StatelessWidget {
                   70.verticalSpace,
                   Stack(
                     children: [
+                      Image.asset(
+                        ImageUtils.friendship_no2,
+                        width: 98.w,
+                        height: 102.h,
+                      ),
                       Positioned(
                         top: 24.h,
                         left: 15.w,
@@ -50,45 +56,55 @@ class FriendShipPage extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            ExtendedImage.network(
-                              t.list.length > 1 ? '${t.list[1].avatar}' : '',
-                              border: Border.all(
-                                  color: Color(0xffEB7AF5), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 34.w,
-                              height: 34.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 1
+                                  ? NavigatorHelper.toOtherProfile(t.list[1].id)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 1 ? '${t.list[1].avatar}' : '',
+                                border: Border.all(
+                                    color: Color(0xffEB7AF5), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 34.w,
+                                height: 34.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                            ExtendedImage.network(
-                              t.list.length > 1 ? '${t.list[1].avatarTwo}' : '',
-                              border: Border.all(
-                                  color: Color(0xffEB7AF5), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 34.w,
-                              height: 34.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 1
+                                  ? NavigatorHelper.toOtherProfile(
+                                      t.list[1].idTwo)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 1
+                                    ? '${t.list[1].avatarTwo}'
+                                    : '',
+                                border: Border.all(
+                                    color: Color(0xffEB7AF5), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 34.w,
+                                height: 34.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.friendship_no2,
-                        width: 98.w,
-                        height: 102.h,
                       ),
                     ],
                   ),
@@ -109,7 +125,7 @@ class FriendShipPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 1 ? '${t.list[1].num}K' : '',
+                    t.list.length > 1 ? '${t.list[1].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -125,6 +141,11 @@ class FriendShipPage extends StatelessWidget {
                   10.verticalSpace,
                   Stack(
                     children: [
+                      Image.asset(
+                        ImageUtils.friendship_no1,
+                        width: 130.w,
+                        height: 128.h,
+                      ),
                       Positioned(
                         top: 26.h,
                         left: 0,
@@ -132,45 +153,55 @@ class FriendShipPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ExtendedImage.network(
-                              t.list.length > 0 ? '${t.list[0].avatar}' : '',
-                              border: Border.all(
-                                  color: Color(0xffE9C677), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 50.w,
-                              height: 50.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 0
+                                  ? NavigatorHelper.toOtherProfile(t.list[0].id)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 0 ? '${t.list[0].avatar}' : '',
+                                border: Border.all(
+                                    color: Color(0xffE9C677), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 50.w,
+                                height: 50.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                            ExtendedImage.network(
-                              t.list.length > 0 ? '${t.list[0].avatarTwo}' : '',
-                              border: Border.all(
-                                  color: Color(0xffE9C677), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 50.w,
-                              height: 50.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 0
+                                  ? NavigatorHelper.toOtherProfile(
+                                      t.list[0].idTwo)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 0
+                                    ? '${t.list[0].avatarTwo}'
+                                    : '',
+                                border: Border.all(
+                                    color: Color(0xffE9C677), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 50.w,
+                                height: 50.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.friendship_no1,
-                        width: 130.w,
-                        height: 128.h,
                       ),
                     ],
                   ),
@@ -193,7 +224,7 @@ class FriendShipPage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Text(
-                    t.list.length > 0 ? '${t.list[0].num}K' : '',
+                    t.list.length > 0 ? '${t.list[0].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 18.sp,
@@ -209,6 +240,11 @@ class FriendShipPage extends StatelessWidget {
                   70.verticalSpace,
                   Stack(
                     children: [
+                      Image.asset(
+                        ImageUtils.friendship_no3,
+                        width: 98.w,
+                        height: 102.h,
+                      ),
                       Positioned(
                         top: 24.h,
                         left: 15.w,
@@ -216,45 +252,55 @@ class FriendShipPage extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            ExtendedImage.network(
-                              t.list.length > 2 ? '${t.list[2].avatar}' : '',
-                              border: Border.all(
-                                  color: Color(0xff8288F6), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 34.w,
-                              height: 34.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 2
+                                  ? NavigatorHelper.toOtherProfile(t.list[2].id)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 2 ? '${t.list[2].avatar}' : '',
+                                border: Border.all(
+                                    color: Color(0xff8288F6), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 34.w,
+                                height: 34.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                            ExtendedImage.network(
-                              t.list.length > 2 ? '${t.list[2].avatarTwo}' : '',
-                              border: Border.all(
-                                  color: Color(0xff8288F6), width: 1.w),
-                              shape: BoxShape.circle,
-                              width: 34.w,
-                              height: 34.w,
-                              fit: BoxFit.cover,
-                              loadStateChanged: (ExtendedImageState state) {
-                                switch (state.extendedImageLoadState) {
-                                  case LoadState.failed:
-                                    return Container();
-                                }
-                                return null;
-                              },
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => t.list.length > 2
+                                  ? NavigatorHelper.toOtherProfile(
+                                      t.list[2].idTwo)
+                                  : null,
+                              child: ExtendedImage.network(
+                                t.list.length > 2
+                                    ? '${t.list[2].avatarTwo}'
+                                    : '',
+                                border: Border.all(
+                                    color: Color(0xff8288F6), width: 1.w),
+                                shape: BoxShape.circle,
+                                width: 34.w,
+                                height: 34.w,
+                                fit: BoxFit.cover,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return Container();
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.friendship_no3,
-                        width: 98.w,
-                        height: 102.h,
                       ),
                     ],
                   ),
@@ -275,7 +321,7 @@ class FriendShipPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 2 ? '${t.list[2].num}K' : '',
+                    t.list.length > 2 ? '${t.list[2].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -317,32 +363,42 @@ class FriendShipPage extends StatelessWidget {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ExtendedImage.network(
-                        t.list[index + 2].avatar,
-                        border: Border.all(color: Colors.white, width: 1),
-                        shape: BoxShape.circle,
-                        width: 40.w,
-                        height: 40.w,
-                        fit: BoxFit.cover,
-                      ),
-                      ExtendedImage.network(
-                        t.list[index + 2].avatarTwo,
-                        border: Border.all(color: Colors.white, width: 1),
-                        shape: BoxShape.circle,
-                        width: 40.w,
-                        height: 40.w,
-                        fit: BoxFit.cover,
-                      ),
-                    ],
-                  ),
                   Image.asset(
                     ImageUtils.icon_loveship,
                     width: 21.w,
                     height: 21.h,
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => NavigatorHelper.toOtherProfile(
+                            t.list[index + 2].id),
+                        child: ExtendedImage.network(
+                          t.list[index + 2].avatar,
+                          border: Border.all(color: Colors.white, width: 1),
+                          shape: BoxShape.circle,
+                          width: 40.w,
+                          height: 40.w,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => NavigatorHelper.toOtherProfile(
+                            t.list[index + 2].idTwo),
+                        child: ExtendedImage.network(
+                          t.list[index + 2].avatarTwo,
+                          border: Border.all(color: Colors.white, width: 1),
+                          shape: BoxShape.circle,
+                          width: 40.w,
+                          height: 40.w,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               15.horizontalSpace,
@@ -359,7 +415,7 @@ class FriendShipPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '${t.list[index + 2].num}K',
+                '${t.list[index + 2].num}',
                 style: TextStyle(
                   color: Color(0xffF8E287),
                   fontSize: 16.sp,

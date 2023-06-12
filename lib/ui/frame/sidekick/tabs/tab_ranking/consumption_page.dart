@@ -7,6 +7,7 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/image_util.dart';
 
+import '../../../../../utils/navigator_helper.dart';
 import 'consumption_ctr.dart';
 
 class ConsumptionPage extends StatelessWidget {
@@ -41,34 +42,40 @@ class ConsumptionPage extends StatelessWidget {
               child: Column(
                 children: [
                   40.verticalSpace,
-                  Stack(
-                    children: [
-                      Positioned(
-                        top: 16.w,
-                        left: 16.w,
-                        child: ExtendedImage.network(
-                          t.list.length > 1 ? '${t.list[1].avatar}' : '',
-                          border:
-                              Border.all(color: Color(0xffE9C677), width: 1.w),
-                          shape: BoxShape.circle,
-                          width: 66.w,
-                          height: 66.w,
-                          fit: BoxFit.cover,
-                          loadStateChanged: (ExtendedImageState state) {
-                            switch (state.extendedImageLoadState) {
-                              case LoadState.failed:
-                                return Container();
-                            }
-                            return null;
-                          },
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => t.list.length > 1
+                        ? NavigatorHelper.toOtherProfile(t.list[1].id)
+                        : null,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 16.w,
+                          left: 16.w,
+                          child: ExtendedImage.network(
+                            t.list.length > 1 ? '${t.list[1].avatar}' : '',
+                            border: Border.all(
+                                color: Color(0xffE9C677), width: 1.w),
+                            shape: BoxShape.circle,
+                            width: 66.w,
+                            height: 66.w,
+                            fit: BoxFit.cover,
+                            loadStateChanged: (ExtendedImageState state) {
+                              switch (state.extendedImageLoadState) {
+                                case LoadState.failed:
+                                  return Container();
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.playmate_no2,
-                        width: 98.w,
-                        height: 102.w,
-                      ),
-                    ],
+                        Image.asset(
+                          ImageUtils.playmate_no2,
+                          width: 98.w,
+                          height: 102.w,
+                        ),
+                      ],
+                    ),
                   ),
                   30.verticalSpace,
                   Container(
@@ -99,34 +106,40 @@ class ConsumptionPage extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      Positioned(
-                        top: 16.w,
-                        left: 16.w,
-                        child: ExtendedImage.network(
-                          t.list.length > 0 ? '${t.list[0].avatar}' : '',
-                          border:
-                              Border.all(color: Color(0xffE9C677), width: 1.w),
-                          shape: BoxShape.circle,
-                          width: 85.w,
-                          height: 85.w,
-                          fit: BoxFit.cover,
-                          loadStateChanged: (ExtendedImageState state) {
-                            switch (state.extendedImageLoadState) {
-                              case LoadState.failed:
-                                return Container();
-                            }
-                            return null;
-                          },
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => t.list.length > 0
+                        ? NavigatorHelper.toOtherProfile(t.list[0].id)
+                        : null,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 16.w,
+                          left: 16.w,
+                          child: ExtendedImage.network(
+                            t.list.length > 0 ? '${t.list[0].avatar}' : '',
+                            border: Border.all(
+                                color: Color(0xffE9C677), width: 1.w),
+                            shape: BoxShape.circle,
+                            width: 85.w,
+                            height: 85.w,
+                            fit: BoxFit.cover,
+                            loadStateChanged: (ExtendedImageState state) {
+                              switch (state.extendedImageLoadState) {
+                                case LoadState.failed:
+                                  return Container();
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.playmate_no1,
-                        width: 116.w,
-                        height: 128.w,
-                      ),
-                    ],
+                        Image.asset(
+                          ImageUtils.playmate_no1,
+                          width: 116.w,
+                          height: 128.w,
+                        ),
+                      ],
+                    ),
                   ),
                   34.verticalSpace,
                   Container(
@@ -159,34 +172,40 @@ class ConsumptionPage extends StatelessWidget {
               child: Column(
                 children: [
                   40.verticalSpace,
-                  Stack(
-                    children: [
-                      Positioned(
-                        top: 16.w,
-                        left: 16.w,
-                        child: ExtendedImage.network(
-                          t.list.length > 2 ? '${t.list[2].avatar}' : '',
-                          border:
-                              Border.all(color: Color(0xffE9C677), width: 1.w),
-                          shape: BoxShape.circle,
-                          width: 66.w,
-                          height: 66.w,
-                          fit: BoxFit.cover,
-                          loadStateChanged: (ExtendedImageState state) {
-                            switch (state.extendedImageLoadState) {
-                              case LoadState.failed:
-                                return Container();
-                            }
-                            return null;
-                          },
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => t.list.length > 2
+                        ? NavigatorHelper.toOtherProfile(t.list[2].id)
+                        : null,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 16.w,
+                          left: 16.w,
+                          child: ExtendedImage.network(
+                            t.list.length > 2 ? '${t.list[2].avatar}' : '',
+                            border: Border.all(
+                                color: Color(0xffE9C677), width: 1.w),
+                            shape: BoxShape.circle,
+                            width: 66.w,
+                            height: 66.w,
+                            fit: BoxFit.cover,
+                            loadStateChanged: (ExtendedImageState state) {
+                              switch (state.extendedImageLoadState) {
+                                case LoadState.failed:
+                                  return Container();
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      Image.asset(
-                        ImageUtils.playmate_no3,
-                        width: 98.w,
-                        height: 102.w,
-                      ),
-                    ],
+                        Image.asset(
+                          ImageUtils.playmate_no3,
+                          width: 98.w,
+                          height: 102.w,
+                        ),
+                      ],
+                    ),
                   ),
                   30.verticalSpace,
                   Container(
@@ -243,13 +262,18 @@ class ConsumptionPage extends StatelessWidget {
                 ),
               ),
               15.horizontalSpace,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.r),
-                child: ImageUtil.networkImage(
-                    url: t.list[index + 2].avatar,
-                    width: 40.w,
-                    height: 40.w,
-                    fit: BoxFit.cover),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () =>
+                    NavigatorHelper.toOtherProfile(t.list[index + 2].id),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.r),
+                  child: ImageUtil.networkImage(
+                      url: t.list[index + 2].avatar,
+                      width: 40.w,
+                      height: 40.w,
+                      fit: BoxFit.cover),
+                ),
               ),
               15.horizontalSpace,
               Expanded(

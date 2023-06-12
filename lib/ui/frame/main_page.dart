@@ -39,6 +39,7 @@ import '../../utils/toast_utils.dart';
 import 'drawer.dart';
 import 'messages/messages_page.dart';
 import 'profile/my_profile/my_profile_page.dart';
+import 'sidekick/sidekick_ctr.dart';
 import 'sidekick/view.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -246,6 +247,7 @@ class MainPage extends GetView<MainPageController> {
                                       Color(0xffb6262c)
                                     ],
                                     onTap: () {
+                                      SideKickCtr.find.tabbarController?.index = 0;
                                       controller.controller.jumpToPage(2);
                                       controller.updateCurrentIndex(2);
                                     }),
