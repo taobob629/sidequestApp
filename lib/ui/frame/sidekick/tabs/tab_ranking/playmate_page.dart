@@ -31,10 +31,13 @@ class PlayMatePage extends StatelessWidget {
   }
 
   Widget _headerWidget() => Container(
-        width: Get.width - 30.w,
+        margin: EdgeInsets.symmetric(horizontal: 10.w),
         height: 232.h,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(ImageUtils.playmate_bg)),
+          image: DecorationImage(
+            image: AssetImage(ImageUtils.playmate_bg),
+            fit: BoxFit.fill,
+          ),
         ),
         child: Row(
           children: [
@@ -93,7 +96,7 @@ class PlayMatePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 1 ? '${t.list[1].num}K' : '',
+                    t.list.length > 1 ? '${t.list[1].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -158,7 +161,7 @@ class PlayMatePage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Text(
-                    t.list.length > 0 ? '${t.list[0].num}K' : '',
+                    t.list.length > 0 ? '${t.list[0].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -223,7 +226,7 @@ class PlayMatePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 2 ? '${t.list[2].num}K' : '',
+                    t.list.length > 2 ? '${t.list[2].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
@@ -289,7 +292,7 @@ class PlayMatePage extends StatelessWidget {
                 ),
               ),
               Text(
-                '${t.list[index + 2].num}K',
+                '${t.list[index + 2].num}',
                 style: TextStyle(
                   color: Color(0xffF8E287),
                   fontSize: 16.sp,

@@ -31,17 +31,20 @@ class ConsumptionPage extends StatelessWidget {
   }
 
   Widget _headerWidget() => Container(
-        width: Get.width - 30.w,
+        margin: EdgeInsets.symmetric(horizontal: 10.w),
         height: 232.h,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(ImageUtils.playmate_bg)),
+          image: DecorationImage(
+            image: AssetImage(ImageUtils.playmate_bg),
+            fit: BoxFit.fill,
+          ),
         ),
         child: Row(
           children: [
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  40.verticalSpace,
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () => t.list.length > 1
@@ -85,7 +88,7 @@ class ConsumptionPage extends StatelessWidget {
                       t.list.length > 1 ? '${t.list[1].nickName}' : '',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontFamily: FONT_MEDIUM,
                       ),
                       maxLines: 1,
@@ -93,18 +96,20 @@ class ConsumptionPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 1 ? '${t.list[1].num}K' : '',
+                    t.list.length > 1 ? '${t.list[1].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  20.verticalSpace,
                 ],
               ),
             ),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
@@ -156,22 +161,22 @@ class ConsumptionPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  6.verticalSpace,
                   Text(
-                    t.list.length > 0 ? '${t.list[0].num}K' : '',
+                    t.list.length > 0 ? '${t.list[0].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
                       fontSize: 14.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  30.verticalSpace,
                 ],
               ),
             ),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  40.verticalSpace,
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () => t.list.length > 2
@@ -215,7 +220,7 @@ class ConsumptionPage extends StatelessWidget {
                       t.list.length > 2 ? '${t.list[2].nickName}' : '',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         fontFamily: FONT_MEDIUM,
                       ),
                       maxLines: 1,
@@ -223,13 +228,14 @@ class ConsumptionPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    t.list.length > 2 ? '${t.list[2].num}K' : '',
+                    t.list.length > 2 ? '${t.list[2].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  20.verticalSpace,
                 ],
               ),
             ),
@@ -289,7 +295,7 @@ class ConsumptionPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '${t.list[index + 2].num}K',
+                '${t.list[index + 2].num}',
                 style: TextStyle(
                   color: Color(0xffF8E287),
                   fontSize: 16.sp,

@@ -31,17 +31,20 @@ class FriendShipPage extends StatelessWidget {
   }
 
   Widget _headerWidget() => Container(
-        width: Get.width - 30.w,
         height: 258.h,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(ImageUtils.friendship_bg)),
+          image: DecorationImage(
+            image: AssetImage(ImageUtils.friendship_bg),
+            fit: BoxFit.fill,
+          ),
         ),
+        margin: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  70.verticalSpace,
                   Stack(
                     children: [
                       Image.asset(
@@ -108,37 +111,35 @@ class FriendShipPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  20.verticalSpace,
-                  Container(
-                    width: 80.w,
-                    child: Text(
-                      t.list.length > 1
-                          ? '${t.list[1].nickName} & ${t.list[1].nickNameTwo}'
-                          : '',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    t.list.length > 1
+                        ? '${t.list[1].nickName} \n&\n ${t.list[1].nickNameTwo}'
+                        : '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     t.list.length > 1 ? '${t.list[1].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  20.verticalSpace,
                 ],
               ),
             ),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  10.verticalSpace,
                   Stack(
                     children: [
                       Image.asset(
@@ -206,38 +207,36 @@ class FriendShipPage extends StatelessWidget {
                     ],
                   ),
                   24.verticalSpace,
-                  Container(
-                    width: 120.w,
-                    alignment: Alignment.center,
-                    child: Text(
-                      t.list.length > 0
-                          ? '${t.list[0].nickName} & ${t.list[0].nickNameTwo}'
-                          : '',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    t.list.length > 0
+                        ? '${t.list[0].nickName} \n&\n ${t.list[0].nickNameTwo}'
+                        : '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   6.verticalSpace,
                   Text(
                     t.list.length > 0 ? '${t.list[0].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
-                      fontSize: 18.sp,
+                      fontSize: 14.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  20.verticalSpace,
                 ],
               ),
             ),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  70.verticalSpace,
                   Stack(
                     children: [
                       Image.asset(
@@ -304,30 +303,28 @@ class FriendShipPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  20.verticalSpace,
-                  Container(
-                    width: 80.w,
-                    child: Text(
-                      t.list.length > 2
-                          ? '${t.list[2].nickName} & ${t.list[2].nickNameTwo}'
-                          : '',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  Text(
+                    t.list.length > 2
+                        ? '${t.list[2].nickName} \n&\n ${t.list[2].nickNameTwo}'
+                        : '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
                     ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     t.list.length > 2 ? '${t.list[2].num}' : '',
                     style: TextStyle(
                       color: Color(0xfff8e287),
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
+                  20.verticalSpace,
                 ],
               ),
             ),
