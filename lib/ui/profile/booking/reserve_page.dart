@@ -482,12 +482,12 @@ class ReservePageController extends GetxController {
         DateTime start = storeModel.getStart();
         if (value.hour > end.hour - 1) {
           showError(
-              "${storeModel.name} ${'closed at this time, please choose another time.'.tr}");
+              "${storeModel.name} ${'is closed at that time.'.tr}");
           this.time.value = tomorrow.add(Duration(hours: (end.hour - start.hour - 1)));
           return;
         } else if (value.hour < start.hour) {
           showError(
-              "${storeModel.name} ${'not open at this time, please choose another time.'.tr}");
+              "${storeModel.name} ${'is closed at that time.'.tr}");
           this.time.value = tomorrow;
           return;
         } else {

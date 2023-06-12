@@ -87,7 +87,7 @@ class DateTimePickerDialog extends StatelessWidget {
               DateTime selectTime = controller.getDate();
               if (ifSkip && (selectTime.hour > 24 || selectTime.hour < 12)) {
                 showError(
-                    "${BookingDetailCtr.find.model?.name} ${'closed at this time, please choose another time.'.tr}");
+                    "${BookingDetailCtr.find.model?.name} ${'is closed at that time.'.tr}");
                 return;
               }
               Get.back(result: selectTime);
