@@ -42,6 +42,8 @@ import 'package:wy/ui/profile/notification/notification_page.dart';
 import 'package:wy/ui/profile/settings/language/bindings.dart';
 import 'package:wy/ui/profile/settings/language/view.dart';
 import 'package:wy/ui/profile/settings/settings_page.dart';
+import 'package:wy/ui/profile/task/grade/bindings.dart';
+import 'package:wy/ui/profile/task/grade/index.dart';
 import 'package:wy/ui/service/add/bio/view.dart';
 import 'package:wy/ui/service/add/service_type/view.dart';
 import 'package:wy/ui/service/bindings.dart';
@@ -103,6 +105,7 @@ class AppPages {
   static const bio_page = '/bio_page';
   static const FollowList = '/folllow_list';
   static const FansList = '/fans_list';
+  static const GradeTask = '/grade_task_page';
 
   static final routes = [
     GetPage(
@@ -240,6 +243,11 @@ class AppPages {
     GetPage(
       name: FansList,
       page: () => FansListPage(),
+    ),
+    GetPage(
+      name: GradeTask,
+      binding: GradeTaskPageBinding(),
+      page: () => GradeTaskPage(),
     ),
   ];
 }
