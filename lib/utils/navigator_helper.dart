@@ -24,6 +24,7 @@ import 'package:wy/ui/search/search_page.dart';
 import 'package:wy/ui/shop/product/product_page.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../api_service/profile_api.dart';
 import '../ui/profile/address/list/address_page.dart';
@@ -150,16 +151,20 @@ class NavigatorHelper {
         } else if (page == "match") {
           Get.to(() => EventPage(id: id, type: 2));
         } else if (page == "task") {
+          showLoading();
           var response = await http.get('/app/client/task/list?id=$id');
+          dismissLoading();
           if (response.data != null) {
             List<TaskModel> list = response.data
                 .map<TaskModel>((item) => TaskModel.fromJson(item))
                 .toList();
             if (list.isNotEmpty) {
               Get.to(() => TaskDetailPage(), arguments: {
-                'model': list.first,
+                'model': [],
                 'skipFlag': true,
               });
+            } else {
+              showErrorWidget('data is empty'.tr);
             }
           }
         }

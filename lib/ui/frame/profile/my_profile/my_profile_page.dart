@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -578,91 +579,107 @@ class MyProfilePage extends StatelessWidget {
         }));
   }
 
-  Widget _memberVipWidget() => Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-        height: 65.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          gradient: LinearGradient(
-            colors: [Color(0xff433B31), Color(0xff262731)],
+  Widget _memberVipWidget() {
+    return SizedBox(
+      height: 65.h,
+      child: Swiper(
+        itemCount: userController.userProfile.ads.length,
+        itemBuilder: (c, i) => Container(
+          margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+          height: 65.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            gradient: LinearGradient(
+              colors: [Color(0xff433B31), Color(0xff262731)],
+            ),
           ),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 16.w,
-                      height: 16.w,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            ImageUtils.diamonds_red,
+                    Row(
+                      children: [
+                        Container(
+                          width: 16.w,
+                          height: 16.w,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                ImageUtils.diamonds_red,
+                              ),
+                            ),
+                          ),
+                          margin: EdgeInsets.only(right: 4.w),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'V'.tr,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 9.sp,
+                            ),
                           ),
                         ),
-                      ),
-                      margin: EdgeInsets.only(right: 4.w),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'V',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: FONT_MEDIUM,
-                          fontSize: 9.sp,
+                        Text(
+                          'Member VIP'.tr,
+                          style: TextStyle(
+                            color: Color(0xffFFA200),
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.sp,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    6.verticalSpace,
                     Text(
-                      'Member VIP',
+                      '${userController.userProfile.ads[i].name}',
                       style: TextStyle(
-                        color: Color(0xffFFA200),
+                        color: Color(0xff808388),
                         fontFamily: FONT_MEDIUM,
                         fontWeight: FontWeight.bold,
                         fontSize: 13.sp,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
-                6.verticalSpace,
-                Text(
-                  'Enjoy exclusive Privileges',
+              ),
+              Container(
+                width: 84.w,
+                height: 32.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  gradient: LinearGradient(
+                    colors: [Color(0xffFDF1D6), Color(0xffF8D585)],
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Upgrade',
                   style: TextStyle(
-                    color: Color(0xff808388),
+                    color: Colors.black,
                     fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.bold,
                     fontSize: 13.sp,
                   ),
                 ),
-              ],
-            ),
-            Container(
-              width: 84.w,
-              height: 32.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                gradient: LinearGradient(
-                  colors: [Color(0xffFDF1D6), Color(0xffF8D585)],
-                ),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'Upgrade',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: FONT_MEDIUM,
-                  fontSize: 13.sp,
-                ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      );
+        scrollDirection: Axis.vertical,
+        autoplay: true,
+        onTap: (index) => NavigatorHelper.gotoConfigTarget(
+            userController.userProfile.ads[index].appurl),
+      ),
+    );
+  }
 
   Widget achievements() => Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,

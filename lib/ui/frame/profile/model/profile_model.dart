@@ -30,6 +30,7 @@ class ProfileModel {
   String email = "";
   int age = 0;
   List<VipModel> vips = [];
+  List<AdModel> ads = [];
   int coupons = 0;
   double ranking = 0.0;
   int postNum = 0;
@@ -75,6 +76,7 @@ class ProfileModel {
       this.email = "",
       this.age = 0,
       this.vips = const [],
+      this.ads = const [],
       this.coupons = 0,
       this.ranking = 0,
       this.postNum = 0,
@@ -127,6 +129,9 @@ class ProfileModel {
     age = json["age"] ?? 0;
     vips = json["vips"] != null
         ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()
+        : [];
+    ads = json["ads"] != null
+        ? json["ads"].map<AdModel>((e) => AdModel.fromJson(e)).toList()
         : [];
     coupons = json["coupons"] ?? 0;
     ranking = json["ranking"] ?? 5.0;
@@ -196,6 +201,66 @@ class TrophieModel {
     medalType = json["medalType"] ?? 0;
     threshold = json["threshold"] ?? 0;
   }
+}
+
+class AdModel {
+  int id;
+  String name;
+  dynamic url;
+  String iamge;
+  String enabled;
+  int sort;
+  String createBy;
+  String createTime;
+  String promoteImage;
+  String promotion;
+  String deadline;
+  String appurl;
+
+  AdModel({
+    required this.id,
+    required this.name,
+    this.url,
+    required this.iamge,
+    required this.enabled,
+    required this.sort,
+    required this.createBy,
+    required this.createTime,
+    required this.promoteImage,
+    required this.promotion,
+    required this.deadline,
+    required this.appurl,
+  });
+
+  factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
+    id: json["id"],
+    name: json["name"],
+    url: json["url"],
+    iamge: json["iamge"],
+    enabled: json["enabled"],
+    sort: json["sort"],
+    createBy: json["createBy"],
+    createTime: json["createTime"],
+    promoteImage: json["promoteImage"],
+    promotion: json["promotion"],
+    deadline: json["deadline"],
+    appurl: json["appurl"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "url": url,
+    "iamge": iamge,
+    "enabled": enabled,
+    "sort": sort,
+    "createBy": createBy,
+    "createTime": createTime,
+    "promoteImage": promoteImage,
+    "promotion": promotion,
+    "deadline": deadline,
+    "appurl": appurl,
+  };
 }
 
 class VipModel {
