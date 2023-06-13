@@ -1,4 +1,3 @@
-
 class ImageUtils {
   static const String picDengDaiHuaMian = 'assets/images/picDengDaiHuaMian.webp';
   static const String iconZhuansghi = 'assets/images/iconZhuansghi.webp';
@@ -52,6 +51,7 @@ class ImageUtils {
   static const String playmate_no1 = 'assets/images/playmate_no1.webp';
   static const String playmate_no2 = 'assets/images/playmate_no2.webp';
   static const String playmate_no3 = 'assets/images/playmate_no3.webp';
+  static const String diamonds_red = 'assets/images/diamonds_red.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';
