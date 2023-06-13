@@ -191,7 +191,7 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
                   CountView(
                       icon: "votes",
                       title: "Diamond".tr,
-                      count: "${controller.diamonds}"),
+                      count: "${userController.userProfile.diamond}"),
                 ],
               )),
         ]),

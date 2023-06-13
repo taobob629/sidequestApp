@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/pay_info_model.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -218,5 +219,11 @@ class PayApi {
       return response.data;
     }
     return false;
+  }
+
+  static Future<Response> applePay(Map<String,dynamic> params) async {
+    var response = await http.post('/app/order/applePay',data: params);
+    flog('response.data ${response.data}');
+   return response;
   }
 }

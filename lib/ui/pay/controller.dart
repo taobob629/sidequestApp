@@ -6,6 +6,7 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,12 +34,15 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../utils/toast_utils.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PayPageController extends GetxController {
-  static const MethodChannel _channel = const MethodChannel('uk.co.wanyoo.wy.method');
+  static const MethodChannel _channel =
+      const MethodChannel('uk.co.wanyoo.wy.method');
 
   late StreamSubscription _streamSubscription;
-  static const EventChannel _eventChannel = const EventChannel('uk.co.wanyoo.wy.event.msg');
+  static const EventChannel _eventChannel =
+      const EventChannel('uk.co.wanyoo.wy.event.msg');
 
   var payType = 1.obs;
 
@@ -58,13 +62,79 @@ class PayPageController extends GetxController {
 
   CreditCardModel cardModel = CreditCardModel();
   String orderId = "";
-
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   var address = AddressModel().obs;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
+
+  initInAppPay() {
+    final Stream<List<PurchaseDetails>> purchaseUpdated =
+        _inAppPurchase.purchaseStream;
+    _subscription =
+        purchaseUpdated.listen((List<PurchaseDetails> purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      print('onDone====');
+      _subscription.cancel();
+    }, onError: (Object error) {
+      // handle error here.
+    });
+  }
+
+  PurchaseDetails? lastPurchaseDetails;
+
+  Future<void> _listenToPurchaseUpdated(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+      flog(
+          '_listenToPurchaseUpdated====status ${purchaseDetails.status} purchaseID ${purchaseDetails.purchaseID} ');
+      if (purchaseDetails.status == PurchaseStatus.canceled) {
+        dismissLoading();
+      }
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        showLoading();
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          dismissLoading();
+          showError(purchaseDetails.error!);
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
+          if (lastPurchaseDetails?.purchaseID == purchaseDetails.purchaseID)
+            return;
+          lastPurchaseDetails = purchaseDetails;
+          dismissLoading();
+          //支付成功，调用接口获取金币
+          inAppPayCharge(purchaseDetails);
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          await _inAppPurchase.completePurchase(purchaseDetails);
+        }
+      }
+    }
+  }
+
+  inAppPayCharge(PurchaseDetails detail) async {
+    showLoading();
+    var res = await PayApi.applePay(Map<String, dynamic>()
+      ..['chargeid'] = payOrderModel.chargeid
+      ..['localVerificationData']=detail.verificationData.localVerificationData
+      ..['serverVerificationData']=detail.verificationData.serverVerificationData
+       ..['source']=detail.verificationData.source
+      ..['productID'] = detail.productID
+      ..['purchaseID'] = detail.purchaseID);
+    if (res.statusCode==200) {
+      dismissLoading();
+      UserController.find.updateInfo();
+      Get.back();
+    } else {
+      showError(res.statusMessage);
+    }
+  }
 
   @override
   void onInit() async {
     super.onInit();
     this.getCoin();
+    initInAppPay();
     List<AddressModel> list = await AddressApi.list();
     if (list.length > 0) {
       try {
@@ -73,7 +143,9 @@ class PayPageController extends GetxController {
         address.value = list.first;
       }
     }
-    _streamSubscription = _eventChannel.receiveBroadcastStream().listen(_onPayResult, onError: (e) {
+    _streamSubscription = _eventChannel
+        .receiveBroadcastStream()
+        .listen(_onPayResult, onError: (e) {
       dismissLoading();
     }, cancelOnError: true);
     await havePassword();
@@ -82,7 +154,6 @@ class PayPageController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-
     print("apple pay:: ${Stripe.instance.isApplePaySupported.value}");
   }
 
@@ -124,6 +195,7 @@ class PayPageController extends GetxController {
   @override
   void onClose() {
     _streamSubscription.cancel();
+    _subscription?.cancel();
     _timer?.cancel();
     _timer == null;
     super.onClose();
@@ -172,14 +244,18 @@ class PayPageController extends GetxController {
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
-        final Map params = <String, dynamic>{'info': payInfoModel.result!.appData};
+        final Map params = <String, dynamic>{
+          'info': payInfoModel.result!.appData
+        };
         //    flog('appdata $params');
         await _channel.invokeMethod('getAlipay', params);
       } else {
         showError("Server response error!".tr);
         return;
       }
-      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr), barrierColor: Colors.black26).whenComplete(() {
+      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
+              barrierColor: Colors.black26)
+          .whenComplete(() {
         _timer?.cancel();
         Get.find<UserController>().updateInfo();
       });
@@ -203,7 +279,9 @@ class PayPageController extends GetxController {
       String env = StorageManager.getEnv();
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
 
-      PaymentSheetApplePay? applePay = payInfoModel.applePay ? PaymentSheetApplePay(merchantCountryCode: 'GB') : null;
+      PaymentSheetApplePay? applePay = payInfoModel.applePay
+          ? PaymentSheetApplePay(merchantCountryCode: 'GB')
+          : null;
       PaymentSheetGooglePay? googlePay = payInfoModel.googlePay
           ? PaymentSheetGooglePay(
               merchantCountryCode: 'GB',
@@ -236,7 +314,8 @@ class PayPageController extends GetxController {
             primaryButton: PaymentSheetPrimaryButtonAppearance(
               shapes: PaymentSheetPrimaryButtonShape(blurRadius: 40.0),
               colors: PaymentSheetPrimaryButtonTheme(
-                dark: PaymentSheetPrimaryButtonThemeColors(background: Color(0xFFFC3C02)),
+                dark: PaymentSheetPrimaryButtonThemeColors(
+                    background: Color(0xFFFC3C02)),
               ),
             ),
           ),
@@ -249,14 +328,18 @@ class PayPageController extends GetxController {
         // Get.dialog(
         //   ConfirmDialog(title: "Payment Result", info: "Payment Successful!"),barrierColor: Colors.black26
         // ).then((value) => Get.back(result: true));
-        Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr), barrierColor: Colors.black26).whenComplete(() {
+        Get.dialog(CheckingDialog(tips: "Checking payment status ...".tr),
+                barrierColor: Colors.black26)
+            .whenComplete(() {
           _timer?.cancel();
           Get.find<UserController>().updateInfo();
         });
         startTimer(payInfoModel);
       } on Exception catch (e) {
         if (e is StripeException) {
-          showInfo(e.error.localizedMessage == null ? "Payment Failed!".tr : e.error.localizedMessage!);
+          showInfo(e.error.localizedMessage == null
+              ? "Payment Failed!".tr
+              : e.error.localizedMessage!);
         }
       }
     } else if (payType.value == 2) {
@@ -280,7 +363,12 @@ class PayPageController extends GetxController {
               barrierColor: Colors.black26,
             );
           } else {
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
+            Get.dialog(
+                    ConfirmDialog(
+                        title: "Payment Result".tr,
+                        info: "Payment Successful!".tr),
+                    barrierColor: Colors.black26)
+                .whenComplete(() {
               if (payOrderModel.type == -3) {
                 Get.back(result: payInfoModel.desc);
               } else {
@@ -298,7 +386,12 @@ class PayPageController extends GetxController {
               var cartController = Get.find<CartController>();
               cartController.clearCart();
             }
-            Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).whenComplete(() {
+            Get.dialog(
+                    ConfirmDialog(
+                        title: "Payment Result".tr,
+                        info: "Payment Successful!".tr),
+                    barrierColor: Colors.black26)
+                .whenComplete(() {
               Get.back();
               Get.find<UserController>().updateInfo();
             });
@@ -330,10 +423,13 @@ class PayPageController extends GetxController {
     // } else {
     DateTime now = DateTime.now();
     DateTime checkTime = StorageManager.getPayPasswordCheckTime();
-    if ((now.millisecondsSinceEpoch - checkTime.millisecondsSinceEpoch) / 1000 < 300) {
+    if ((now.millisecondsSinceEpoch - checkTime.millisecondsSinceEpoch) / 1000 <
+        300) {
       checkDone.call();
     } else {
-      Get.dialog(PasswordDialog(), barrierDismissible: true, barrierColor: Colors.black26).then((value) {
+      Get.dialog(PasswordDialog(),
+              barrierDismissible: true, barrierColor: Colors.black26)
+          .then((value) {
         if (value == true) {
           StorageManager.setPayPasswordCheckTime(now);
           checkDone.call();
@@ -363,7 +459,9 @@ class PayPageController extends GetxController {
           ConfirmDialog(
             cancelable: true,
             title: "Payment Result".tr,
-            info: "The payment result can not be confirmed, do you have finished it?".tr,
+            info:
+                "The payment result can not be confirmed, do you have finished it?"
+                    .tr,
             onConfirm: () => manualCheckPay(orderId),
           ),
           barrierColor: Colors.black26);
@@ -380,7 +478,9 @@ class PayPageController extends GetxController {
           ConfirmDialog(
             cancelable: true,
             title: "Payment Result".tr,
-            info: "The payment result still can not be confirmed, please contact our customer service.".tr,
+            info:
+                "The payment result still can not be confirmed, please contact our customer service."
+                    .tr,
             onConfirm: () => Get.back(),
           ),
           barrierColor: Colors.black26);
@@ -393,7 +493,11 @@ class PayPageController extends GetxController {
       cartController.clearCart();
     }
     Get.back();
-    Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
+    Get.dialog(
+            ConfirmDialog(
+                title: "Payment Result".tr, info: "Payment Successful!".tr),
+            barrierColor: Colors.black26)
+        .then((value) => Get.back(result: true));
   }
 
   //原生返回事件调用
@@ -406,7 +510,11 @@ class PayPageController extends GetxController {
         _timer?.cancel();
         _timer = null;
         Get.back(result: true);
-        Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "The payment has been canceled.".tr), barrierColor: Colors.black26);
+        Get.dialog(
+            ConfirmDialog(
+                title: "Payment Result".tr,
+                info: "The payment has been canceled.".tr),
+            barrierColor: Colors.black26);
       }
     } else if (payType.value == 1) {
       var result = content as Map;
@@ -426,7 +534,8 @@ class PayPageController extends GetxController {
         payRecord.orderId = orderId;
         payRecord.tranId = transactionId;
         await userController.db!.insertPayRecord(payRecord);
-        Future.delayed(Duration(seconds: 2), () => userController.startPayNotify());
+        Future.delayed(
+            Duration(seconds: 2), () => userController.startPayNotify());
       }
       await PayApi.notifyCardPay(orderId, transactionId);
       if (payOrderModel.type == -1) {
@@ -434,7 +543,53 @@ class PayPageController extends GetxController {
         cartController.clearCart();
       }
       dismissLoading();
-      Get.dialog(ConfirmDialog(title: "Payment Result".tr, info: "Payment Successful!".tr), barrierColor: Colors.black26).then((value) => Get.back(result: true));
+      Get.dialog(
+              ConfirmDialog(
+                  title: "Payment Result".tr, info: "Payment Successful!".tr),
+              barrierColor: Colors.black26)
+          .then((value) => Get.back(result: true));
     }
+  }
+
+  var cartController = Get.find<CartController>();
+
+  /**
+   * 苹果内购
+   */
+  inAppPay() {
+    //苹果内购
+    if (cartController.products.isEmpty) {
+      showError('No products，Retry later');
+      cartController.initInAppPay();
+      return;
+    }
+    //根据金额，找到对应的内购商品
+    var price = parsePrice(payOrderModel.goodsPrice);
+    var product = cartController.products.firstWhereOrNull((element) {
+      flog('price $price elemet.id ${element.id}}');
+      return element.id == 'coin_$price';
+    });
+    if (product == null) {
+      showError("No product found");
+      return;
+    }
+    flog('product ${product.price} ');
+    //调用支付'
+    PurchaseParam purchaseParam = PurchaseParam(
+      productDetails: product,
+    );
+    _inAppPurchase.buyConsumable(
+        purchaseParam: purchaseParam, autoConsume: true);
+  }
+
+  parsePrice(var price) {
+    var result = 0.0;
+    try {
+      result = double.parse(price.toString().trim());
+    } catch (e) {
+      flog('e $e');
+      return result;
+    }
+    return result.toInt();
   }
 }
