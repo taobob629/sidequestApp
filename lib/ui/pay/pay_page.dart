@@ -7,6 +7,7 @@ import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/pay/controller.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/utils.dart';
 
@@ -26,9 +27,12 @@ class PayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  flog('payOrderModel ${controller.payOrderModel}');
     return KeyboardScaffold(
       title: "Pay Confirm".tr,
-      body: ListView.separated(
+      body:   Platform.isIOS&&StorageManager.getOnline()==false ?ListView(children: [
+        _buildPayView("Apple Pay".tr, "ios_pay", controller.payType.value, controller.payType.value)
+      ],): ListView.separated(
           itemBuilder: (context, index) {
             int orderType = controller.payOrderModel.type;
             //  flog('orderTYpe $orderType');
@@ -108,7 +112,7 @@ class PayPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
           ),
         ),
-        onTap: () => userController.checkLogin(() => controller.pay()),
+        onTap: () => userController.checkLogin(() => Platform.isIOS&&StorageManager.getOnline()?controller.inAppPay(): controller.pay()),
       ),
     );
   }
