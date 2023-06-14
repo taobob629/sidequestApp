@@ -30,9 +30,10 @@ class EventDetailModel {
   late int participantNum=0;
   int kopEndTime=0;
   int kopStartTime=0;//开始时间 结束时间
+  int showCountdown=0;//0不显示1显示
   bool get canCancel => _canCancel.value;
   showCounter(){
-    return DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
+    return showCountdown==1&&DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
   }
   participantes(){
     if(matchDiff==TYPE_PRIZE&&participants.length==0){
@@ -57,6 +58,7 @@ class EventDetailModel {
     constraint = json['constraint'] ?? '';
     formation = json['Formation'] ?? '';
     matchDiff = json['matchDiff'] ?? 0;
+    showCountdown = json['showCountdown'] ?? 0;
     title = json['title'];
     team = json['team'];
     kopStartTime = json['kopStartTime'];

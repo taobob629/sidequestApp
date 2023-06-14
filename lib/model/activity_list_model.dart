@@ -13,7 +13,10 @@ class ActivityListModel {
   // 12:00 11-03-2023
   final String time;
   final int datetime;
-
+  final int showCountdown;
+  showCounter(){
+    return showCountdown==1&& DateTime.now().millisecondsSinceEpoch< datetime*1000;//已经过期了
+  }
   // Photocard Trading Event
   final String title;
   final List<ParticipantsItem> participants;
@@ -24,7 +27,8 @@ class ActivityListModel {
     this.id = 0,
     this.time = "",
     this.title = "",
-    this.datetime=0,
+    this.datetime = 0,
+    this.showCountdown = 0, //0不显示 1显示倒计时
     required this.participants,
   });
 
@@ -38,9 +42,10 @@ class ActivityListModel {
         image: asT<String>(json, 'image'),
         unique: asT<String>(json, 'unique'),
         id: asT<int>(json, 'id'),
+        showCountdown: asT<int>(json, 'showCountdown'),
         time: asT<String>(json, 'time'),
         title: asT<String>(json, 'title'),
-        datetime:asT<int>(json, 'datetime'),
+        datetime: asT<int>(json, 'datetime'),
         participants:
             asT<List>(json, 'participants').map((e) => ParticipantsItem.fromJson(e)).toList(),
       );
@@ -51,6 +56,7 @@ class ActivityListModel {
         'id': id,
         'datetime': datetime,
         'time': time,
+        'showCountdown': showCountdown,
         'title': title,
         'participants': participants.map((e) => e.toJson()).toList(),
       };

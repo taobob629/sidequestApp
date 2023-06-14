@@ -44,7 +44,7 @@ class EventFlexibleHeader extends GetView<EventPageController> {
             right: 16,
             bottom: 50.h,
             child: Obx(() => Visibility(
-                visible: controller.eventDetailModel.value.matchDiff == TYPE_PRIZE &&
+                visible:
                     controller.eventDetailModel.value.showCounter(),
                 child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
                         controller.eventDetailModel.value.kopStartTime * 1000)
