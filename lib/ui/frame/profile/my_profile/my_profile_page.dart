@@ -443,7 +443,10 @@ class MyProfilePage extends StatelessWidget {
                     ),
                   ),
                   achievements(),
-                  _memberVipWidget(),
+                  Visibility(
+                    visible: userController.userProfile.ads.isNotEmpty,
+                    child: _memberVipWidget(),
+                  ),
                   Showcase(
                       key: GlobalKeyConstants.profileFunKey,
                       description:
@@ -604,27 +607,12 @@ class MyProfilePage extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Container(
+                        Image.asset(
+                          ImageUtils.icon_vip,
                           width: 16.w,
                           height: 16.w,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                ImageUtils.diamonds_red,
-                              ),
-                            ),
-                          ),
-                          margin: EdgeInsets.only(right: 4.w),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'V'.tr,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 9.sp,
-                            ),
-                          ),
                         ),
+                        6.horizontalSpace,
                         Text(
                           'Member VIP'.tr,
                           style: TextStyle(

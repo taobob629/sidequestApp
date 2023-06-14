@@ -16,7 +16,7 @@ class PlayerInfoModel {
   String backGround = "";
   int userLevel = 0;
   int maxIntimacy = 0;
-  int currentIntimacy = 0;
+  var currentIntimacy = 0.obs;
   String intimacyLevel = "";
   List<GamesItem> games = [];
   bool online = false;
@@ -52,7 +52,7 @@ class PlayerInfoModel {
     if (maxIntimacy == 0) {
       maxIntimacy = 1000;
     }
-    currentIntimacy = json['currentIntimacy'] ?? currentIntimacy;
+    currentIntimacy.value = json['currentIntimacy'] ?? currentIntimacy.value;
     intimacyLevel = json['intimacyLevel'] ?? intimacyLevel;
     if (json['games'] != null) {
       games = <GamesItem>[];

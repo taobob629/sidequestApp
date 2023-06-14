@@ -18,6 +18,7 @@ import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../../../../model/skill_model.dart';
 import '../../../../utils/global_key_constants.dart';
@@ -26,6 +27,7 @@ import '../../../../widget/route.dart';
 import '../../../playwith/balance/my_earnings_page.dart';
 import '../../../service/add/add_game_page.dart';
 import '../../social/post/view/gift_suc_anim.dart';
+import '../../social/post/view/give_gifts_dialog.dart';
 import '../my_profile/badges_widget.dart';
 import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
@@ -201,24 +203,54 @@ class OtherProfilePage extends StatelessWidget {
                                     visible: !t.isSelf,
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.translucent,
-                                      onTap: () => SmartDialog.show(
-                                        builder: (builder) => GiftSucAnim(
-                                            '{maxIntimacy: ${t.player.value.maxIntimacy}, currentIntimacy: ${t.player.value.currentIntimacy}, intimacyLevel: ${t.player.value.intimacyLevel}, avatar: ${t.player.value.avatar}'),
-                                        displayTime: Duration(seconds: 2),
-                                      ),
+                                      onTap: () async {
+                                        var heartNum = await Get.bottomSheet(
+                                          GiveGiftsDialog(
+                                            receiverId:
+                                                t.player.value.uid.toString(),
+                                            postId: "",
+                                            avatar: UserController
+                                                .find.userProfile.avatar,
+                                            source: 1,
+                                          ),
+                                          ignoreSafeArea: true,
+                                        );
+                                        if (heartNum != null) {
+                                          Future.delayed(
+                                                  Duration(milliseconds: 300))
+                                              .then(
+                                            (v) async {
+                                              await SmartDialog.show(
+                                                builder: (builder) =>
+                                                    GiftSucAnim(heartNum),
+                                                displayTime:
+                                                    Duration(seconds: 2),
+                                              );
+
+                                              try {
+                                                Map<String, dynamic> json = StringUtil.parseDataString(heartNum);
+                                                t.player.value.currentIntimacy.value = json['currentIntimacy'];
+                                              } catch (e) {
+                                                showErrorWidget(e.toString());
+                                              }
+                                            },
+                                          );
+                                        }
+                                      },
                                       child: Container(
                                         margin: EdgeInsets.only(
                                             left: 14, right: 14, top: 15),
-                                        child: CsIntimacyProgress(
-                                          firstAvatar: t.player.value.avatar,
-                                          secondAvatar: UserController
-                                              .find.userProfile.avatar,
-                                          lv: t.player.value.intimacyLevel,
-                                          currentIntimacy:
-                                              t.player.value.currentIntimacy,
-                                          maxIntimacy:
-                                              t.player.value.maxIntimacy,
-                                        ),
+                                        child: Obx(() => CsIntimacyProgress(
+                                              firstAvatar:
+                                                  t.player.value.avatar,
+                                              secondAvatar: UserController
+                                                  .find.userProfile.avatar,
+                                              lv: t.player.value.intimacyLevel,
+                                              currentIntimacy: t.player.value
+                                                  .currentIntimacy.value,
+                                              maxIntimacy:
+                                                  t.player.value.maxIntimacy,
+                                            )),
                                       ),
                                     ),
                                   ),

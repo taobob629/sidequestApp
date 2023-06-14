@@ -57,4 +57,26 @@ class StringUtil {
     if (input == null || input.isEmpty) return false;
     return new RegExp(CHINESE_REGEX).hasMatch(input);
   }
+
+  static Map<String, dynamic> parseDataString(String dataString) {
+    final Map<String, dynamic> data = {};
+
+    final RegExp regExp = RegExp(r"(\w+): ([^,}]+)");
+    final Iterable<Match> matches = regExp.allMatches(dataString);
+
+    for (Match match in matches) {
+      final String key = match.group(1)!;
+      final String valueString = match.group(2)!;
+
+      if (valueString.startsWith("https://")) {
+        data[key] = valueString;
+      } else if (valueString.toLowerCase().startsWith("lv")) {
+        data[key] = valueString;
+      } else {
+        data[key] = int.parse(valueString);
+      }
+    }
+
+    return data;
+  }
 }

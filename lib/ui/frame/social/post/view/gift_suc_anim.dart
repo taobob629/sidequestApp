@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/toast_utils.dart';
 
+import '../../../../../utils/string_utils.dart';
 import '../../../../../widget/cs_Intimacy_progress_gift.dart';
 import '../../../../controller/user_controller.dart';
 
@@ -43,7 +44,7 @@ class _GiftSucAnimState extends State<GiftSucAnim>
     _controller.forward();
 
     try {
-      Map<String, dynamic> json = parseDataString(widget.result);
+      Map<String, dynamic> json = StringUtil.parseDataString(widget.result);
       maxIntimacy = json['maxIntimacy'];
       currentIntimacy = json['currentIntimacy'];
       intimacyLevel = json['intimacyLevel'];
@@ -51,28 +52,6 @@ class _GiftSucAnimState extends State<GiftSucAnim>
     } catch (e) {
       showToast(e.toString());
     }
-  }
-
-  Map<String, dynamic> parseDataString(String dataString) {
-    final Map<String, dynamic> data = {};
-
-    final RegExp regExp = RegExp(r"(\w+): ([^,}]+)");
-    final Iterable<Match> matches = regExp.allMatches(dataString);
-
-    for (Match match in matches) {
-      final String key = match.group(1)!;
-      final String valueString = match.group(2)!;
-
-      if (valueString.startsWith("https://")) {
-        data[key] = valueString;
-      } else if (valueString.toLowerCase().startsWith("lv")) {
-        data[key] = valueString;
-      } else {
-        data[key] = int.parse(valueString);
-      }
-    }
-
-    return data;
   }
 
   @override
