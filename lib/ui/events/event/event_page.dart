@@ -298,13 +298,11 @@ class EventPageController extends BasePageController {
     if (type == 1) {
       model = await EventsApi.getActivityDetail(id);
       initTabs(model);
-      tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
     } else {
       model = await EventsApi.getMatchDetail(id);
       initTabs(model);
-      tabs.add("Prizes".tr);
-      tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
     }
+    tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
     title.value = model.title;
     eventDetailModel.value = model;
   }
@@ -316,6 +314,9 @@ class EventPageController extends BasePageController {
       tabs.add("Result".tr);
     } else {
       tabs.add("Participants".tr);
+    }
+    if(model.matchDiff==0||model.matchDiff==6){
+      tabs.add("Prizes".tr);
     }
   }
 
