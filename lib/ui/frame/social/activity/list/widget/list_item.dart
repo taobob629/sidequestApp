@@ -13,6 +13,7 @@ import 'package:wy/model/activity_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
+import 'package:wy/ui/events/widget/timer_widget.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/common/string_ext.dart';
 
@@ -47,12 +48,6 @@ class ActivityListItemWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  // child: ImageUtil.networkImage(
-                  //     url: model.image,
-                  //     border: 16.r,
-                  //     //width: Get.width - 30.w,
-                  //     height: 200.h,
-                  //     fit: BoxFit.cover),
                 )),
             Positioned(
                 bottom: 5.h,
@@ -95,7 +90,16 @@ class ActivityListItemWidget extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Get.to(() => EventPage(id: model.id, type: 0)),
                   child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w),
-                ))
+                )),
+            Positioned(
+              right: 16,
+              bottom: 50.h,
+              child: Visibility(
+                  visible: model.showCounter(),
+                  child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(model.datetime * 1000)
+                      .difference(DateTime.now())
+                      .inSeconds)),
+            ),
           ],
         ),
       ),
