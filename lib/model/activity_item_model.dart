@@ -8,13 +8,17 @@ class ActivityItemModel {
   late String time = "";
   late bool inProgress = false;
   late int addtime = 0;
-
+  int showCountdown=0;//0不显示1显示
+  showCounter(){
+    return showCountdown==1&&DateTime.now().millisecondsSinceEpoch< addtime*1000;//已经过期了
+  }
 
   ActivityItemModel();
 
   ActivityItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     addtime = json['addtime']??0;
+    showCountdown = json['showCountdown']??0;
     title = json['title'];
     image = json['image'] == null ? AppConfig.noImage : json['image'];
     time = json['time'];

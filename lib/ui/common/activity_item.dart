@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/common/string_ext.dart';
+import 'package:wy/ui/events/widget/timer_widget.dart';
 
 class ActivityItem extends StatelessWidget {
   final ActivityItemModel model;
@@ -23,16 +25,25 @@ class ActivityItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AspectRatio(
-              aspectRatio: 2 / 1,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  imageUrl: model.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+           Stack(children: [ AspectRatio(
+             aspectRatio: 2 / 1,
+             child: ClipRRect(
+               borderRadius: BorderRadius.circular(8),
+               child: CachedNetworkImage(
+                 imageUrl: model.image,
+                 fit: BoxFit.cover,
+               ),
+             ),
+           ),
+           Positioned(
+               right: 10.w,
+               bottom: 10.h,
+               child: Visibility(
+               visible: model.showCounter(),
+               child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(model.addtime* 1000)
+                   .difference(DateTime.now())
+                   .inSeconds)))
+           ],),
             SizedBox(
               width: 10,
               height: 15,
