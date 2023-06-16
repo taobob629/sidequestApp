@@ -22,6 +22,7 @@ import 'package:wy/widget/show_error_widget.dart';
 
 import '../../../../model/skill_model.dart';
 import '../../../../utils/global_key_constants.dart';
+import '../../../../utils/toast_utils.dart';
 import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/route.dart';
 import '../../../playwith/balance/my_earnings_page.dart';
@@ -228,8 +229,12 @@ class OtherProfilePage extends StatelessWidget {
                                               );
 
                                               try {
-                                                Map<String, dynamic> json = StringUtil.parseDataString(heartNum);
-                                                t.player.value.currentIntimacy.value = json['currentIntimacy'];
+                                                Map<String, dynamic> json =
+                                                    StringUtil.parseDataString(
+                                                        heartNum);
+                                                t.player.value.currentIntimacy
+                                                        .value =
+                                                    json['currentIntimacy'];
                                               } catch (e) {
                                                 showErrorWidget(e.toString());
                                               }
@@ -756,33 +761,83 @@ class OtherProfilePage extends StatelessWidget {
                           child: Row(
                             children: [
                               15.horizontalSpace,
-                              Showcase(
-                                key: GlobalKeyConstants.followKey,
-                                description:
-                                    'Click Follow to receive notifications about playing with you'
-                                        .tr,
-                                targetBorderRadius: BorderRadius.circular(21.r),
-                                targetShapeBorder: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
+                              Obx(() => Visibility(
+                                    visible:
+                                        !t.isSelf && !t.player.value.follow,
+                                    child: Showcase(
+                                      key: GlobalKeyConstants.followKey,
+                                      description:
+                                          'Click Follow to receive notifications about playing with you'
+                                              .tr,
+                                      targetBorderRadius:
+                                          BorderRadius.circular(21.r),
+                                      targetShapeBorder: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                      ),
+                                      child: GestureDetector(
+                                        onTapDown: (details) {
+                                          t.followOrNot(
+                                            context,
+                                            details.globalPosition,
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 110.w,
+                                          height: 42.h,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            border: t.player.value.follow
+                                                ? null
+                                                : Border.all(
+                                                    color: AppColor.yellow),
+                                            gradient: t.player.value.follow
+                                                ? LinearGradient(
+                                                    colors:
+                                                        AppColor.yellowGradient)
+                                                : null,
+                                            borderRadius:
+                                                BorderRadius.circular(21.r),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.w),
+                                                child: Image.asset(
+                                                  "assets/images/profile/follow.webp",
+                                                  width: 16,
+                                                  // color: AppColor.accent,
+                                                  // color: t.player.value.follow ? AppColor.accent : AppColor.yellow,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Follow".tr,
+                                                style: TextStyle(
+                                                    color: AppColor.yellow,
+                                                    fontSize: 14.sp),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                              Expanded(
                                 child: GestureDetector(
-                                  onTapDown: (details) {
-                                    t.followOrNot(
-                                        context, details.globalPosition);
+                                  onTap: () {
+                                    t.jumpChat(t.player.value.uk);
                                   },
                                   child: Container(
-                                    width: 110.w,
                                     height: 42.h,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      border: t.player.value.follow
-                                          ? null
-                                          : Border.all(color: AppColor.yellow),
-                                      gradient: t.player.value.follow
-                                          ? LinearGradient(
-                                              colors: AppColor.yellowGradient)
-                                          : null,
+                                      gradient: LinearGradient(
+                                          colors: AppColor.yellowGradient),
                                       borderRadius: BorderRadius.circular(21.r),
                                     ),
                                     child: Row(
@@ -790,63 +845,21 @@ class OtherProfilePage extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(right: 10.w),
+                                          padding:
+                                              const EdgeInsets.only(right: 5),
                                           child: Image.asset(
-                                            "assets/images/profile/follow.webp",
+                                            "assets/images/profile/icon_pinlun.webp",
                                             width: 16,
-                                            // color: AppColor.accent,
-                                            // color: t.player.value.follow ? AppColor.accent : AppColor.yellow,
+                                            color: Colors.white,
                                           ),
                                         ),
                                         Text(
-                                          "Follow".tr,
+                                          "Messages".tr,
                                           style: TextStyle(
-                                              color: AppColor.yellow,
-                                              fontSize: 14.sp),
+                                              color: Colors.white,
+                                              fontSize: 14),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    t.jumpChat(t.player.value.uk);
-                                  },
-                                  child: Visibility(
-                                    child: Container(
-                                      height: 42.h,
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 15),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            colors: AppColor.yellowGradient),
-                                        borderRadius:
-                                            BorderRadius.circular(21.r),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 5),
-                                            child: Image.asset(
-                                              "assets/images/profile/icon_pinlun.webp",
-                                              width: 16,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Text(
-                                            "Messages".tr,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -957,16 +970,19 @@ class OtherProfileController extends BasePageController {
     if (isSelf) {
       return;
     }
-    UserApi.attention(player.value.uid).then((value) {
+    showLoading();
+    UserApi.attention(player.value.uid).then((value) async {
+      dismissLoading();
+      await showHearts(context, offset, "");
       player.value.follow = !player.value.follow;
       if (player.value.follow) {
         player.value.fans += 1;
-        showHearts(context, offset, "");
       } else {
         player.value.fans -= 1;
       }
       player.refresh();
     }).catchError((e) {
+      dismissLoading();
       print(e);
     });
   }

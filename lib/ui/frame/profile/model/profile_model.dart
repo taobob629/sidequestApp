@@ -204,16 +204,16 @@ class TrophieModel {
 }
 
 class AdModel {
-  String name;
+  String url;
   String? link;
 
   AdModel({
-    required this.name,
+    required this.url,
     required this.link,
   });
 
   factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
-    name: json["name"] ?? '',
+    url: json["url"] ?? '',
     link: json["link"],
   );
 }

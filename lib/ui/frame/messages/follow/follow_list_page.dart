@@ -162,9 +162,11 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
   }
 
   unFollow(touid) {
+    showLoading();
     UserApi.attention(touid).then((value) {
       onRefresh();
       UserController.find.updateInfo();
+      dismissLoading();
     });
   }
 

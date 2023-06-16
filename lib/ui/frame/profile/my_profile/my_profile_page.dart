@@ -584,83 +584,14 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget _memberVipWidget() {
-    return SizedBox(
-      height: 65.h,
+    return Container(
+      margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+      height: 60.h,
       child: Swiper(
         itemCount: userController.userProfile.ads.length,
-        itemBuilder: (c, i) => Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-          height: 65.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.r),
-            gradient: LinearGradient(
-              colors: [Color(0xff433B31), Color(0xff262731)],
-            ),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          ImageUtils.icon_vip,
-                          width: 16.w,
-                          height: 16.w,
-                        ),
-                        6.horizontalSpace,
-                        Text(
-                          'Member VIP'.tr,
-                          style: TextStyle(
-                            color: Color(0xffFFA200),
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    6.verticalSpace,
-                    Text(
-                      '${userController.userProfile.ads[i].name}',
-                      style: TextStyle(
-                        color: Color(0xff808388),
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.sp,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: 84.w,
-                height: 32.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.r),
-                  gradient: LinearGradient(
-                    colors: [Color(0xffFDF1D6), Color(0xffF8D585)],
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Upgrade',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: FONT_MEDIUM,
-                    fontSize: 13.sp,
-                  ),
-                ),
-              )
-            ],
-          ),
+        itemBuilder: (c, i) => ClipRRect(
+          borderRadius: BorderRadius.circular(15.r),
+          child: ImageUtil.networkImage(url: userController.userProfile.ads[i].url, fit: BoxFit.fill),
         ),
         scrollDirection: Axis.vertical,
         autoplay: userController.userProfile.ads.length > 1 ? true : false,
