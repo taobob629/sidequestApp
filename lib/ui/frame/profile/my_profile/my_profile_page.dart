@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -587,11 +588,20 @@ class MyProfilePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
       height: 60.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.r),
+        gradient: LinearGradient(
+          colors: [Color(0xff433B31), Color(0xff262731)],
+        ),
+      ),
       child: Swiper(
         itemCount: userController.userProfile.ads.length,
         itemBuilder: (c, i) => ClipRRect(
           borderRadius: BorderRadius.circular(15.r),
-          child: ImageUtil.networkImage(url: userController.userProfile.ads[i].url, fit: BoxFit.fill),
+          child: ExtendedImage.network(
+            userController.userProfile.ads[i].url,
+            fit: BoxFit.fill,
+          ),
         ),
         scrollDirection: Axis.vertical,
         autoplay: userController.userProfile.ads.length > 1 ? true : false,
