@@ -7,6 +7,9 @@ import '../../../model/task_model.dart';
 
 class TaskCtr extends GetxRefreshController<TaskModel>
     with GetSingleTickerProviderStateMixin {
+
+  var ifScaleBig1 = true.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -16,8 +19,13 @@ class TaskCtr extends GetxRefreshController<TaskModel>
   Future<List<TaskModel>> loadData({int pageNum = 1}) async {
     showLoading();
     List<TaskModel> list = [];
+
+    int type = ifScaleBig1.value ? 0 : 1;
     var response = await http.get(
       '/app/client/task/list',
+      queryParameters: {
+        'type': type
+      }
     );
     dismissLoading();
 
