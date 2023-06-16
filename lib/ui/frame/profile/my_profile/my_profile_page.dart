@@ -663,7 +663,7 @@ class MyProfilePage extends StatelessWidget {
           ),
         ),
         scrollDirection: Axis.vertical,
-        autoplay: true,
+        autoplay: userController.userProfile.ads.length > 1 ? true : false,
         onTap: (index) => userController.userProfile.ads[index].link != null
             ? NavigatorHelper.gotoConfigTarget(
                 userController.userProfile.ads[index].link!)
