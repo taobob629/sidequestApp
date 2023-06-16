@@ -1,3 +1,21 @@
+class TaskOutModel {
+  int sidekickNums;
+  int storeNums;
+  List<TaskModel> tasks;
+
+  TaskOutModel({
+    required this.sidekickNums,
+    required this.storeNums,
+    required this.tasks,
+  });
+
+  factory TaskOutModel.fromJson(Map<String, dynamic> json) => TaskOutModel(
+    sidekickNums: json["sidekick_nums"] ?? 0,
+    storeNums: json["store_nums"] ?? 0,
+    tasks: List<TaskModel>.from(json["tasks"].map((x) => TaskModel.fromJson(x))),
+  );
+}
+
 class TaskModel {
   int id;
   String name;
@@ -14,6 +32,9 @@ class TaskModel {
   int userNum;
   dynamic rewardList;
   int newReward;
+  int parent;
+  int taskType;
+  dynamic target;
 
   TaskModel({
     required this.id,
@@ -31,6 +52,9 @@ class TaskModel {
     required this.userNum,
     this.rewardList,
     required this.newReward,
+    required this.parent,
+    required this.taskType,
+    this.target,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
@@ -48,24 +72,9 @@ class TaskModel {
     memberLevel: json["memberLevel"],
     userNum: json["userNum"],
     rewardList: json["rewardList"],
-    newReward: json["newReward"] ?? 0,
+    newReward: json["newReward"],
+    parent: json["parent"],
+    taskType: json["taskType"],
+    target: json["target"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "description": description,
-    "url": url,
-    "url2": url2,
-    "threshold": threshold,
-    "level": level,
-    "type": type,
-    "couponId": couponId,
-    "couponName": couponName,
-    "enabled": enabled,
-    "memberLevel": memberLevel,
-    "userNum": userNum,
-    "rewardList": rewardList,
-    "newReward": newReward,
-  };
 }

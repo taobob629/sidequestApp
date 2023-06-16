@@ -22,6 +22,7 @@ class TaskPage extends StatelessWidget {
       body: Obx(
         () => Column(
           children: [
+            10.verticalSpace,
             Row(
               children: [
                 20.horizontalSpace,
@@ -35,16 +36,31 @@ class TaskPage extends StatelessWidget {
                     scale: t.ifScaleBig1.value ? 1.1 : 0.8,
                     child: Column(
                       children: [
-                        Text(
-                          'Store'.tr,
-                          style: TextStyle(
-                            color: t.ifScaleBig1.value
-                                ? Colors.white
-                                : Colors.grey,
-                            fontWeight: t.ifScaleBig1.value
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 22.sp,
+                        badges.Badge(
+                          showBadge: t.outModel == null
+                              ? false
+                              : t.outModel!.storeNums > 0,
+                          badgeContent: Text(
+                            '${t.outModel?.storeNums}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          badgeColor: Color(0xffFF4848),
+                          position: badges.BadgePosition(end: -16.w, top: -6.h),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Store'.tr,
+                            style: TextStyle(
+                              color: t.ifScaleBig1.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                              fontWeight: t.ifScaleBig1.value
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              fontSize: 22.sp,
+                            ),
                           ),
                         ),
                         4.verticalSpace,
@@ -72,16 +88,31 @@ class TaskPage extends StatelessWidget {
                     scale: !t.ifScaleBig1.value ? 1.1 : 0.8,
                     child: Column(
                       children: [
-                        Text(
-                          'SideKick'.tr,
-                          style: TextStyle(
-                            color: !t.ifScaleBig1.value
-                                ? Colors.white
-                                : Colors.grey,
-                            fontWeight: !t.ifScaleBig1.value
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 22.sp,
+                        badges.Badge(
+                          showBadge: t.outModel == null
+                              ? false
+                              : t.outModel!.sidekickNums > 0,
+                          badgeContent: Text(
+                            '${t.outModel?.sidekickNums}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          badgeColor: Color(0xffFF4848),
+                          position: badges.BadgePosition(end: -16.w, top: -6.h),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'SideKick'.tr,
+                            style: TextStyle(
+                              color: !t.ifScaleBig1.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                              fontWeight: !t.ifScaleBig1.value
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              fontSize: 22.sp,
+                            ),
                           ),
                         ),
                         4.verticalSpace,
@@ -164,7 +195,8 @@ class TaskPage extends StatelessWidget {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 20.h),
+                            padding:
+                                EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 20.h),
                             child: badges.Badge(
                               showBadge: t.list[index].newReward > 0,
                               badgeContent: Text(
@@ -175,7 +207,8 @@ class TaskPage extends StatelessWidget {
                                 ),
                               ),
                               badgeColor: Color(0xffFF4848),
-                              position: badges.BadgePosition(end: -16.w, top: -6.h),
+                              position:
+                                  badges.BadgePosition(end: -16.w, top: -6.h),
                               alignment: Alignment.topRight,
                               child: Text(
                                 t.list[index].name,
@@ -197,7 +230,8 @@ class TaskPage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(6.r),
+                                        borderRadius:
+                                            BorderRadius.circular(6.r),
                                         child: LinearProgressIndicator(
                                           value: t.list[index].userNum /
                                               t.list[index].threshold,

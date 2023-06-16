@@ -10,6 +10,8 @@ class TaskCtr extends GetxRefreshController<TaskModel>
 
   var ifScaleBig1 = true.obs;
 
+  TaskOutModel? outModel;
+
   @override
   void onInit() {
     super.onInit();
@@ -32,9 +34,8 @@ class TaskCtr extends GetxRefreshController<TaskModel>
     if (response.data == null) {
       return list;
     }
-    list = response.data
-        .map<TaskModel>((item) => TaskModel.fromJson(item))
-        .toList();
+    outModel = TaskOutModel.fromJson(response.data);
+    list = outModel?.tasks ?? [];
 
     return list;
   }
