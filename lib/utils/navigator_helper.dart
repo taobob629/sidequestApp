@@ -178,6 +178,8 @@ class NavigatorHelper {
         Get.toNamed(AppPages.BOOKING_PAGE);
       } else if (page == "coin") {
         Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+      } else if (page == "sidekick_service") {
+        Get.toNamed(AppPages.SkillList);
       }
     }
   }

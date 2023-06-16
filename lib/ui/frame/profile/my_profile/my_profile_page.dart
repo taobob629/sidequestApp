@@ -10,6 +10,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../config/app_pages.dart';
@@ -663,8 +664,10 @@ class MyProfilePage extends StatelessWidget {
         ),
         scrollDirection: Axis.vertical,
         autoplay: true,
-        onTap: (index) => NavigatorHelper.gotoConfigTarget(
-            userController.userProfile.ads[index].appurl),
+        onTap: (index) => userController.userProfile.ads[index].link != null
+            ? NavigatorHelper.gotoConfigTarget(
+                userController.userProfile.ads[index].link!)
+            : showError('link is null'.tr),
       ),
     );
   }

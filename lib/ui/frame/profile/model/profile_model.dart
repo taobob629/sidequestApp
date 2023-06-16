@@ -204,63 +204,18 @@ class TrophieModel {
 }
 
 class AdModel {
-  int id;
   String name;
-  dynamic url;
-  String iamge;
-  String enabled;
-  int sort;
-  String createBy;
-  String createTime;
-  String promoteImage;
-  String promotion;
-  String deadline;
-  String appurl;
+  String? link;
 
   AdModel({
-    required this.id,
     required this.name,
-    this.url,
-    required this.iamge,
-    required this.enabled,
-    required this.sort,
-    required this.createBy,
-    required this.createTime,
-    required this.promoteImage,
-    required this.promotion,
-    required this.deadline,
-    required this.appurl,
+    required this.link,
   });
 
   factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
-    id: json["id"],
-    name: json["name"],
-    url: json["url"],
-    iamge: json["iamge"],
-    enabled: json["enabled"],
-    sort: json["sort"],
-    createBy: json["createBy"],
-    createTime: json["createTime"],
-    promoteImage: json["promoteImage"],
-    promotion: json["promotion"],
-    deadline: json["deadline"],
-    appurl: json["appurl"],
+    name: json["name"] ?? '',
+    link: json["link"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "url": url,
-    "iamge": iamge,
-    "enabled": enabled,
-    "sort": sort,
-    "createBy": createBy,
-    "createTime": createTime,
-    "promoteImage": promoteImage,
-    "promotion": promotion,
-    "deadline": deadline,
-    "appurl": appurl,
-  };
 }
 
 class VipModel {
