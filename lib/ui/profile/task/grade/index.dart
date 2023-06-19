@@ -15,6 +15,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
 import 'package:wy/widget/linear_progressbar_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
+import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
 import 'controller.dart';
 
@@ -116,7 +117,7 @@ class GradeTaskPage extends GetView<GradeTaskController> {
                     27.verticalSpace,
                     Container(
                       margin: EdgeInsets.all(15.r),
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 40.h),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -139,6 +140,54 @@ class GradeTaskPage extends GetView<GradeTaskController> {
                               ),
                             ),
                           ),
+                          Container(
+                              padding: EdgeInsets.symmetric(vertical: 15.h),
+                              child: Row(
+                                children: [
+                                  ImageUtil.assetImage('task/task1', width: 55.w, height: 55.w),
+                                  7.horizontalSpace,
+                                  Container(
+                                    constraints: BoxConstraints(maxWidth: 200.w),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Improve personal information Improve personal information',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: FONT_MEDIUM,
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
+                                        10.verticalSpace,
+                                        Text(
+                                          '+ 3 coins',
+                                          style: TextStyle(
+                                              color: Color(0xffFFD20E),
+                                              fontFamily: FONT_MEDIUM,
+                                              fontSize: 13.sp),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 20.w),
+                                    decoration: ShapeDecoration(
+                                      shape: StadiumBorder(),
+                                      gradient: LinearGradient(colors: [
+                                        Color(0xff766AB4),
+                                        Color(0xff9345AD),
+                                      ], tileMode: TileMode.decal),
+                                    ),
+                                    child: Text(
+                                      'GO'.tr,
+                                      style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                                    ),
+                                  )
+                                ],
+                              )),
                         ],
                       ),
                     )
@@ -151,33 +200,4 @@ class GradeTaskPage extends GetView<GradeTaskController> {
 
   TextStyle testStyle2() =>
       TextStyle(fontSize: 12.sp, fontFamily: FONT_BLACK, color: Color(0xffFFD20E));
-
-  buildScoreItem(var title, var value) {
-    return Expanded(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        PWidget.boxh(16),
-        PWidget.text('$title', [Color.fromRGBO(255, 255, 255, 0.65), 14, true]),
-        PWidget.boxh(8),
-        PWidget.text('$value', [Colors.white, 30, true], {'ff': 'DIN'}),
-        PWidget.boxh(10),
-      ],
-    ));
-  }
-
-  nextLevelButton() {
-    return Visibility(
-        visible: !controller.isTopLevel(),
-        child: Column(
-          children: [
-            Image(
-              image: AssetImage('assets/images/grade/arrow_down.webp'),
-              height: 22,
-            ),
-            PWidget.boxh(22),
-            PWidget.text('Next Level'.tr, [Colors.white, 18, true], {'ff': 'DIN'})
-          ],
-        ));
-  }
 }
