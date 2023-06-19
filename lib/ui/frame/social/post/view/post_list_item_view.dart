@@ -26,6 +26,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:wy/widget/like_button/like_button.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../playwith/balance/my_earnings_page.dart';
 import 'gift_suc_anim.dart';
@@ -266,107 +267,124 @@ class PostListItemView extends GetView<PostListController> {
                           ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (details) {
-                        if (!isSelf) {
-                          PostListController.find
-                              .praisePost(model)
-                              .then((value) {
-                            if (value) {
-                              model.isPraise.value = !model.isPraise.value;
-                              if (model.isPraise.value) {
-                                model.praiseNum += 1;
-                              } else {
-                                model.praiseNum -= 1;
-                              }
-                            }
-                          });
-                        } else {
-                          Get.toNamed(AppPages.PostDetail, arguments: model)!
-                              .whenComplete(() => controller.onRefresh());
-                        }
-                      },
-                      child: index == 0
-                          ? Showcase(
-                              key: GlobalKeyConstants.socialLikeKey,
-                              description: 'Like this post'.tr,
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Obx(() => Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 5),
-                                          child: Image.asset(
-                                            "assets/images/profile/icon_dianzan.webp",
-                                            width: 16,
-                                            color: model.isPraise.value
-                                                ? Colors.pink
-                                                : null,
-                                          ),
-                                        ),
-                                        badges.Badge(
-                                          showBadge: model.newPraise.value > 0,
-                                          badgeContent: Text(
-                                            '${model.newPraise.value}',
-                                            style: TextStyle(fontSize: 10.sp),
-                                          ),
-                                          position: BadgePosition.topEnd(),
-                                          child: Container(
-                                            //   padding: EdgeInsets.all(5).r,
-                                            child: Text(
-                                              model.praiseNum.toString(),
-                                              style: TextStyle(
-                                                color: Color(0xff808388),
-                                                fontSize: 11.sp,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              ))
-                          : Container(
+                    child: index == 0
+                        ? Showcase(
+                            key: GlobalKeyConstants.socialLikeKey,
+                            description: 'Like this post'.tr,
+                            child: Container(
                               alignment: Alignment.center,
-                              child: Obx(() => Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 5),
-                                        child: Image.asset(
-                                          "assets/images/profile/icon_dianzan.webp",
-                                          width: 16,
-                                          color: model.isPraise.value
-                                              ? Colors.pink
-                                              : null,
+                              child: Obx(() => badges.Badge(
+                                    showBadge: model.newPraise.value > 0,
+                                    badgeContent: Text(
+                                      '${model.newPraise.value}',
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
+                                    position: BadgePosition.topEnd(end: 14.w),
+                                    padding: EdgeInsets.all(3.r),
+                                    child: LikeButton(
+                                      likeCount: model.praiseNum,
+                                      size: 16.sp,
+                                      isLiked: model.isPraise.value,
+                                      animationDuration:
+                                          Duration(milliseconds: 2000),
+                                      likeBuilder: (isLiked) => Image.asset(
+                                        "assets/images/profile/icon_dianzan.webp",
+                                        width: 16,
+                                        color: model.isPraise.value
+                                            ? Colors.pink
+                                            : null,
+                                      ),
+                                      countBuilder: (count, isLiked, text) =>
+                                          Text(
+                                        model.praiseNum.toString(),
+                                        style: TextStyle(
+                                          color: Color(0xff808388),
+                                          fontSize: 11.sp,
                                         ),
                                       ),
-                                      badges.Badge(
-                                        showBadge: model.newPraise.value > 0,
-                                        badgeContent: Text(
-                                          '${model.newPraise.value}',
-                                          style: TextStyle(fontSize: 10.sp),
-                                        ),
-                                        position: BadgePosition.topEnd(),
-                                        child: Container(
-                                          //   padding: EdgeInsets.all(5).r,
-                                          child: Text(
-                                            model.praiseNum.toString(),
-                                            style: TextStyle(
-                                              color: Color(0xff808388),
-                                              fontSize: 11.sp,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                      onTap: (bool isLiked) async {
+                                        if (!isSelf) {
+                                          PostListController.find
+                                              .praisePost(model)
+                                              .then((value) {
+                                            if (value) {
+                                              model.isPraise.value =
+                                                  !model.isPraise.value;
+                                              if (model.isPraise.value) {
+                                                model.praiseNum += 1;
+                                              } else {
+                                                model.praiseNum -= 1;
+                                              }
+                                            }
+                                          });
+                                        } else {
+                                          Get.toNamed(AppPages.PostDetail,
+                                                  arguments: model)!
+                                              .whenComplete(
+                                                  () => controller.onRefresh());
+                                        }
+                                        return !isLiked;
+                                      },
+                                    ),
                                   )),
-                            ),
-                    ),
+                            ))
+                        : Container(
+                            alignment: Alignment.center,
+                            child: Obx(() => badges.Badge(
+                                  showBadge: model.newPraise.value > 0,
+                                  badgeContent: Text(
+                                    '${model.newPraise.value}',
+                                    style: TextStyle(fontSize: 10.sp),
+                                  ),
+                                  position: BadgePosition.topEnd(),
+                                  padding: EdgeInsets.all(3.r),
+                                  child: LikeButton(
+                                    likeCount: model.praiseNum,
+                                    size: 16.sp,
+                                    isLiked: model.isPraise.value,
+                                    animationDuration:
+                                        Duration(milliseconds: 2000),
+                                    likeBuilder: (isLiked) => Image.asset(
+                                      "assets/images/profile/icon_dianzan.webp",
+                                      width: 16,
+                                      color: model.isPraise.value
+                                          ? Colors.pink
+                                          : null,
+                                    ),
+                                    countBuilder: (count, isLiked, text) =>
+                                        Text(
+                                      model.praiseNum.toString(),
+                                      style: TextStyle(
+                                        color: Color(0xff808388),
+                                        fontSize: 11.sp,
+                                      ),
+                                    ),
+                                    onTap: (bool isLiked) async {
+                                      if (!isSelf) {
+                                        PostListController.find
+                                            .praisePost(model)
+                                            .then((value) {
+                                          if (value) {
+                                            model.isPraise.value =
+                                                !model.isPraise.value;
+                                            if (model.isPraise.value) {
+                                              model.praiseNum += 1;
+                                            } else {
+                                              model.praiseNum -= 1;
+                                            }
+                                          }
+                                        });
+                                      } else {
+                                        Get.toNamed(AppPages.PostDetail,
+                                                arguments: model)!
+                                            .whenComplete(
+                                                () => controller.onRefresh());
+                                      }
+                                      return !isLiked;
+                                    },
+                                  ),
+                                )),
+                          ),
                   ),
                   Visibility(
                     visible: UserController.find.online.value,
