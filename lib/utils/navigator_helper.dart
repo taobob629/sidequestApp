@@ -155,10 +155,8 @@ class NavigatorHelper {
           var response = await http.get('/app/client/task/list?id=$id');
           dismissLoading();
           if (response.data != null) {
-            List<TaskModel> list = response.data
-                .map<TaskModel>((item) => TaskModel.fromJson(item))
-                .toList();
-            if (list.isNotEmpty) {
+            TaskOutModel outModel = TaskOutModel.fromJson(response.data);
+            if (outModel.tasks.isNotEmpty) {
               Get.to(() => TaskDetailPage(), arguments: {
                 'model': [],
                 'skipFlag': true,
