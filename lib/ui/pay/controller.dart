@@ -241,6 +241,7 @@ class PayPageController extends GetxController {
   }) async {
     checkCount = 0;
     payOrderModel.payType = payType.value;
+  //  flog('payType $payType');
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
@@ -344,7 +345,7 @@ class PayPageController extends GetxController {
       }
     } else if (payType.value == 2) {
       //余额支付
-      checkPayPin(() async {
+    //  checkPayPin(() async {
         flog(payOrderModel.code, 'payOrderModel.code');
         PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
         flog(payOrderModel.type, 'payOrderModel.type');
@@ -397,7 +398,7 @@ class PayPageController extends GetxController {
             });
           }
         }
-      });
+     // });
     }
   }
 
