@@ -158,7 +158,7 @@ class NavigatorHelper {
             TaskOutModel outModel = TaskOutModel.fromJson(response.data);
             if (outModel.tasks.isNotEmpty) {
               Get.to(() => TaskDetailPage(), arguments: {
-                'model': [],
+                'model': outModel.tasks.first,
                 'skipFlag': true,
               });
             } else {
