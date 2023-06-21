@@ -152,7 +152,7 @@ class NavigatorHelper {
           Get.to(() => EventPage(id: id, type: 2));
         } else if (page == "task") {
           showLoading();
-          var response = await http.get('/app/client/task/list?id=$id');
+          var response = await http.get('/app/client/task/newlist?id=$id');
           dismissLoading();
           if (response.data != null) {
             TaskOutModel outModel = TaskOutModel.fromJson(response.data);

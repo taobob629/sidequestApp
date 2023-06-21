@@ -24,7 +24,7 @@ class TaskCtr extends GetxRefreshController<TaskModel>
 
     int type = ifScaleBig1.value ? 0 : 1;
     var response = await http.get(
-      '/app/client/task/list',
+      '/app/client/task/newlist',
       queryParameters: {
         'type': type
       }
