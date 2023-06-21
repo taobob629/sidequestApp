@@ -9,12 +9,18 @@ import 'package:wy/image_utils.dart';
 import '../../api/pay_api.dart';
 import '../../utils/toast_utils.dart';
 import '../login/forget_page.dart';
+import '../profile/settings/set_password_page.dart';
+import 'balance/widget/tips_dialog.dart';
 
 class DialogPayPsd extends StatelessWidget {
   String type;
   double diamonds;
+  var serviceCharge = ''.obs;
+  var rate = ''.obs;
 
-  DialogPayPsd({required this.type, required this.diamonds});
+  DialogPayPsd({required this.type, required this.diamonds}) {
+    checkPin();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,14 +137,14 @@ class DialogPayPsd extends StatelessWidget {
                         fontFamily: FONT_MEDIUM,
                       ),
                     ),
-                    Text(
-                      '£ ${(diamonds / 6 * 0.03).toStringAsFixed(2)}'.tr,
-                      style: TextStyle(
-                        color: Color(0xffc3c3c3),
-                        fontSize: 15.sp,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                    ),
+                    Obx(() => Text(
+                          serviceCharge.value,
+                          style: TextStyle(
+                            color: Color(0xffc3c3c3),
+                            fontSize: 15.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -146,7 +152,6 @@ class DialogPayPsd extends StatelessWidget {
               Visibility(
                 visible: type != 'exchange',
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Rate'.tr,
@@ -156,14 +161,42 @@ class DialogPayPsd extends StatelessWidget {
                         fontFamily: FONT_MEDIUM,
                       ),
                     ),
-                    Text(
-                      '3%'.tr,
-                      style: TextStyle(
-                        color: Color(0xffc3c3c3),
-                        fontSize: 15.sp,
-                        fontFamily: FONT_MEDIUM,
+                    GestureDetector(
+                      onTapDown: (details) {
+                        Offset offset = Offset(details.globalPosition.dx,
+                            details.globalPosition.dy + 50);
+                        SmartDialog.show(
+                            builder: (builder) => TipsDialog(
+                                  offset: offset,
+                                  tips:
+                                      'Handling fee percentage details：\nover 2000 diamonds- free withdraw!\nover 1000 diamonds- 1%\nover 600 diamonds- 2%\nless than 600 diamonds- 3%\nif the handling fee is less than £2, it will be charged as £2. ',
+                                ));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 6),
+                        width: 12.w,
+                        height: 12.w,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Color(0xffb2b9c9),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Image.asset(
+                          ImageUtils.icon_help,
+                          width: 10.w,
+                          height: 10.w,
+                        ),
                       ),
                     ),
+                    Spacer(),
+                    Obx(() => Text(
+                          rate.value,
+                          style: TextStyle(
+                            color: Color(0xffc3c3c3),
+                            fontSize: 15.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -225,6 +258,21 @@ class DialogPayPsd extends StatelessWidget {
       SmartDialog.dismiss(tag: 'DialogPayPsd', result: check);
     } else {
       showToast("Wrong payment pin".tr);
+    }
+  }
+
+  void checkPin() async {
+    showLoading();
+    final result = await PayApi.checkPin(diamonds.toString());
+    dismissLoading();
+    if (result != null && result['data'] == 700) {
+      await Get.to(() => SetPasswordPage());
+      checkPin();
+      return;
+    }
+    if (result != null) {
+      serviceCharge.value = result['serviceCharge'];
+      rate.value = result['rate'];
     }
   }
 }

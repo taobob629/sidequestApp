@@ -8,6 +8,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/utils/storage_manager.dart';
 
+import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
 import '../../login/forget_page.dart';
 
@@ -17,8 +18,13 @@ class ChangePasswordPage extends StatelessWidget {
   final bool have;
   late final ChangePasswordPageController controller;
 
-  ChangePasswordPage({required this.type, this.check = false, this.have = false}) {
-    controller = Get.put(ChangePasswordPageController(type: type, check: check, have: have));
+  ChangePasswordPage(
+      {required this.type, this.check = false, this.have = false}) {
+    controller = Get.put(ChangePasswordPageController(
+      type: type,
+      check: check,
+      have: have,
+    ));
   }
 
   @override
@@ -32,28 +38,78 @@ class ChangePasswordPage extends StatelessWidget {
                 ? InputView(
                     autoHeight: true,
                     controller: controller.oldController,
-                    textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
+                    textInputType: type == 1
+                        ? TextInputType.visiblePassword
+                        : TextInputType.number,
                     inputFormatters: type == 1
                         ? null
                         : [
                             LengthLimitingTextInputFormatter(6),
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                            //设置只允许输入数字
                           ],
                     label: type == 1 ? "Old Password".tr : "Old Pin".tr,
-                    tips: type == 1 ? "Input your old password".tr : "Input your old pin".tr)
-                : Container()),
-            InputView(
-                autoHeight: true,
-                controller: controller.newController,
-                textInputType: type == 1 ? TextInputType.visiblePassword : TextInputType.number,
-                inputFormatters: type == 1
-                    ? null
-                    : [
-                        LengthLimitingTextInputFormatter(6),
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
-                      ],
-                label: type == 1 ? "New Password".tr : "New Pin".tr,
-                tips: type == 1 ? "Input your new password".tr : "Input your new pin".tr),
+                    tips: type == 1
+                        ? "Input your old password".tr
+                        : "Input your old pin".tr)
+                : InputView(
+                    autoHeight: true,
+                    controller: controller.oldController,
+                    textInputType: type == 1
+                        ? TextInputType.visiblePassword
+                        : TextInputType.number,
+                    inputFormatters: type == 1
+                        ? null
+                        : [
+                            LengthLimitingTextInputFormatter(6),
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                            //设置只允许输入数字
+                          ],
+                    label: type == 1 ? "Set Password".tr : "Set Payment Pin".tr,
+                    tips: type == 1
+                        ? "Set your password".tr
+                        : "Set your payment pin".tr)),
+            Obx(
+              () => controller.have.isTrue
+                  ? InputView(
+                      autoHeight: true,
+                      controller: controller.newController,
+                      textInputType: type == 1
+                          ? TextInputType.visiblePassword
+                          : TextInputType.number,
+                      inputFormatters: type == 1
+                          ? null
+                          : [
+                              LengthLimitingTextInputFormatter(6),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]'))
+                              //设置只允许输入数字
+                            ],
+                      label: type == 1 ? "New Password".tr : "New Pin".tr,
+                      tips: type == 1
+                          ? "Input your new password".tr
+                          : "Input your new pin".tr)
+                  : InputView(
+                      autoHeight: true,
+                      controller: controller.newController,
+                      textInputType: type == 1
+                          ? TextInputType.visiblePassword
+                          : TextInputType.number,
+                      inputFormatters: type == 1
+                          ? null
+                          : [
+                              LengthLimitingTextInputFormatter(6),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]'))
+                              //设置只允许输入数字
+                            ],
+                      label: type == 1
+                          ? "Confirm Password".tr
+                          : "Confirm Payment Pin".tr,
+                      tips: type == 1
+                          ? "Confirm your new password".tr
+                          : "Confirm your new payment pin".tr),
+            ),
             Offstage(
               offstage: type == 1,
               child: Padding(
@@ -108,18 +164,25 @@ class ChangePasswordPageController extends GetxController {
   int type;
   bool check;
 
-  ChangePasswordPageController({required this.type, required this.check, required bool have}) {
+  ChangePasswordPageController({
+    required this.type,
+    required this.check,
+    required bool have,
+  }) {
     this.have.value = have;
   }
 
   @override
   void onReady() async {
     super.onReady();
-    if (type == 2 && check) {
-      showLoading();
-      have.value = await UserApi.havePayPassword();
-      dismissLoading();
+    showLoading();
+    var response = await http.get('/peiwan/app/user/hasPwd');
+    if (type == 1) {
+      have.value = response.data['haspwd'];
+    } else {
+      have.value = response.data['haspin'];
     }
+    dismissLoading();
   }
 
   @override
@@ -137,22 +200,50 @@ class ChangePasswordPageController extends GetxController {
       showToast("Password can not less than 6 characters".tr);
       return;
     }
+
     showLoading();
+    if (!have.value) {
+      if (type == 1) {
+        bool ret = await UserApi.updateLoginPassword(oldPwd, newPwd);
+        dismissLoading();
+        if (ret) {
+          showSuccess("Success".tr);
+          StorageManager.setPassword(newPwd);
+          Get.back();
+        }
+      } else {
+        bool ret = await UserApi.updatePayPassword(oldPwd, newPwd);
+        dismissLoading();
+        if (ret) {
+          showSuccess("Success".tr);
+          Get.back();
+        }
+      }
+      return;
+    }
+
     if (type == 1) {
-      bool ret = await UserApi.updateLoginPassword(oldPwd, newPwd);
+      var formData = {
+        "pin": newPwd,
+      };
+      var response = await http.get('/peiwan/app/user/setPwd', queryParameters: formData);
+
       dismissLoading();
-      if (ret) {
-        showSuccess("Success".tr);
-        StorageManager.setPassword(newPwd);
-        Get.back();
-      }
-    } else {
-      bool ret = await UserApi.updatePayPassword(oldPwd, newPwd);
-      dismissLoading();
-      if (ret) {
+      if (response.statusCode == 200) {
         showSuccess("Success".tr);
         Get.back();
       }
+      return;
+    }
+    var formData = {
+      "pin": oldPwd,
+    };
+    var response = await http.get('/peiwan/app/user/setPin', queryParameters: formData);
+
+    dismissLoading();
+    if (response.statusCode == 200) {
+      showSuccess("Success".tr);
+      Get.back();
     }
   }
 }

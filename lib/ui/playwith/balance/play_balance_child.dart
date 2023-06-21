@@ -329,7 +329,7 @@ class WalletBalancePageController extends GetxListController {
 
     englishMoney.value = amount;
 
-    if (chargeRule == null || amount == 0) iconByChargeRatio = 0;
+    if (amount == 0) iconByChargeRatio = 0;
     var chargeRatio;
     try {
       chargeRatio = double.parse(chargeRule.chargeRatio ?? '0');
