@@ -43,11 +43,9 @@ class TaskDetailCtr extends GetxController {
     _requestData(false);
   }
 
-  bool ifShowExpired(int draw, int createTime) {
+  bool ifShowExpired(int draw, int state) {
     if (draw == 0) {
-      if (TimeUtils.daysBetweenDay(DateTime.now(),
-              DateTime.fromMillisecondsSinceEpoch(createTime * 1000)) >
-          3) {
+      if (state>0) {
         return true;
       } else {
         return false;

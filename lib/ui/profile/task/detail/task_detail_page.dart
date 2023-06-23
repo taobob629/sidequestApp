@@ -265,7 +265,7 @@ class TaskDetailPage extends StatelessWidget {
                                                                 .draw ??
                                                             0,
                                                         ctr.model?.rewards[i]
-                                                                .createtime ??
+                                                                .expireState ??
                                                             0),
                                             child: GestureDetector(
                                               behavior:
@@ -321,7 +321,7 @@ class TaskDetailPage extends StatelessWidget {
                                     visible: ctr.model?.rewards[i].draw == 0 &&
                                         ctr.ifShowExpired(
                                             ctr.model?.rewards[i].draw ?? 0,
-                                            ctr.model?.rewards[i].createtime ??
+                                            ctr.model?.rewards[i].expireState ??
                                                 0),
                                     child: Positioned(
                                       right: 0,
