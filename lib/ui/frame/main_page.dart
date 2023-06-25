@@ -126,17 +126,17 @@ class MainPage extends GetView<MainPageController> {
                 autoPlay: true,
                 autoPlayDelay: Duration(seconds: 5),
                 onComplete: (index, key) {
-                  if (key == GlobalKeyConstants.matchKey) {
-                    ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-                      (_) => ShowCaseWidget.of(controller.myContext!)
-                          .startShowCase([
-                        GlobalKeyConstants.homeKey,
-                        GlobalKeyConstants.socialKey,
-                        GlobalKeyConstants.messageKey,
-                        GlobalKeyConstants.profileKey,
-                      ]),
-                    );
-                  }
+                  // if (key == GlobalKeyConstants.matchKey) {
+                  //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+                  //     (_) => ShowCaseWidget.of(controller.myContext!)
+                  //         .startShowCase([
+                  //       GlobalKeyConstants.homeKey,
+                  //       GlobalKeyConstants.socialKey,
+                  //       GlobalKeyConstants.messageKey,
+                  //       GlobalKeyConstants.profileKey,
+                  //     ]),
+                  //   );
+                  // }
                 },
                 onFinish: () =>
                     StorageManager.setBoolValue('sidekickPage', true),

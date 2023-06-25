@@ -25,14 +25,14 @@ class MoreGamesPage extends GetView<MoreGamesPageController> {
   @override
   Widget build(BuildContext context) {
     bool? backKey = StorageManager.getBoolByKey('backKey');
-    if (backKey == null || backKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(myContext!).startShowCase([
-              GlobalKeyConstants.backKey,
-            ]),
-      );
-    }
+    // if (backKey == null || backKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(myContext!).startShowCase([
+    //           GlobalKeyConstants.backKey,
+    //         ]),
+    //   );
+    // }
 
     return ShowCaseWidget(
       autoPlay: true,

@@ -52,16 +52,16 @@ class SideKickMatchController extends GetxController {
     dismissLoading();
 
     bool? filterMatchGameKey = StorageManager.getBoolByKey('filterMatchGameKey');
-    if (filterMatchGameKey == null || filterMatchGameKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(myContext!).startShowCase([
-              GlobalKeyConstants.filterMatchGameKey,
-              GlobalKeyConstants.filterMatchSendKey,
-              GlobalKeyConstants.filterMatchBackKey,
-            ]),
-      );
-    }
+    // if (filterMatchGameKey == null || filterMatchGameKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(myContext!).startShowCase([
+    //           GlobalKeyConstants.filterMatchGameKey,
+    //           GlobalKeyConstants.filterMatchSendKey,
+    //           GlobalKeyConstants.filterMatchBackKey,
+    //         ]),
+    //   );
+    // }
 
     if (result['orderId'] > 0) {
       // 已经有订单了，只是匹配中的时候出去了，再次回来

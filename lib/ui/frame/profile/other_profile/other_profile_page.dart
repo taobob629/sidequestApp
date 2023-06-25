@@ -934,23 +934,23 @@ class OtherProfileController extends BasePageController {
       showTitle.value = scrollController.offset >= limitedHeight;
     });
 
-    bool? followKey = StorageManager.getBoolByKey('followKey');
-    if (followKey == null || followKey == false) {
-      if (!isSelf && !player.value.follow) {
-        ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-          (_) => ShowCaseWidget.of(myContext!).startShowCase([
-            GlobalKeyConstants.followKey,
-            GlobalKeyConstants.playKey,
-          ]),
-        );
-      } else {
-        ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-          (_) => ShowCaseWidget.of(myContext!).startShowCase([
-            GlobalKeyConstants.playKey,
-          ]),
-        );
-      }
-    }
+    // bool? followKey = StorageManager.getBoolByKey('followKey');
+    // if (followKey == null || followKey == false) {
+    //   if (!isSelf && !player.value.follow) {
+    //     ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //       (_) => ShowCaseWidget.of(myContext!).startShowCase([
+    //         GlobalKeyConstants.followKey,
+    //         GlobalKeyConstants.playKey,
+    //       ]),
+    //     );
+    //   } else {
+    //     ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //       (_) => ShowCaseWidget.of(myContext!).startShowCase([
+    //         GlobalKeyConstants.playKey,
+    //       ]),
+    //     );
+    //   }
+    // }
     super.onInit();
   }
 

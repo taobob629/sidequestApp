@@ -54,15 +54,15 @@ class ReleasePostController extends GetxController {
     }
 
     bool? postContentKey = StorageManager.getBoolByKey('postContentKey');
-    if (postContentKey == null || postContentKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-        (_) => ShowCaseWidget.of(myContext!).startShowCase([
-          GlobalKeyConstants.postContentKey,
-          GlobalKeyConstants.postSendKey,
-          GlobalKeyConstants.postBackKey,
-        ]),
-      );
-    }
+    // if (postContentKey == null || postContentKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //     (_) => ShowCaseWidget.of(myContext!).startShowCase([
+    //       GlobalKeyConstants.postContentKey,
+    //       GlobalKeyConstants.postSendKey,
+    //       GlobalKeyConstants.postBackKey,
+    //     ]),
+    //   );
+    // }
   }
 
   @override

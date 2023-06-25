@@ -22,16 +22,16 @@ class PostListPage extends StatelessWidget {
     final t = Get.put(PostListController());
 
     bool? socialCommentKey = StorageManager.getBoolByKey('socialCommentKey');
-    if (socialCommentKey == null || socialCommentKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-              (_) =>
-              ShowCaseWidget.of(t.myContext!).startShowCase([
-                GlobalKeyConstants.socialCommentKey,
-                GlobalKeyConstants.socialLikeKey,
-                GlobalKeyConstants.socialRewardKey,
-                GlobalKeyConstants.socialPublishKey,
-              ]));
-    }
+    // if (socialCommentKey == null || socialCommentKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //           (_) =>
+    //           ShowCaseWidget.of(t.myContext!).startShowCase([
+    //             GlobalKeyConstants.socialCommentKey,
+    //             GlobalKeyConstants.socialLikeKey,
+    //             GlobalKeyConstants.socialRewardKey,
+    //             GlobalKeyConstants.socialPublishKey,
+    //           ]));
+    // }
 
     return ShowCaseWidget(
       autoPlay: true,

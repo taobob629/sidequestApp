@@ -40,14 +40,14 @@ class BioPage extends GetView<AddGamePageController> {
   @override
   Widget build(BuildContext context) {
     bool? sideKickBioInfoKey = StorageManager.getBoolByKey('sideKickBioInfoKey');
-    if (sideKickBioInfoKey == null || sideKickBioInfoKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(controller.myContext!).startShowCase([
-              GlobalKeyConstants.sideKickBioInfoKey,
-            ]),
-      );
-    }
+    // if (sideKickBioInfoKey == null || sideKickBioInfoKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(controller.myContext!).startShowCase([
+    //           GlobalKeyConstants.sideKickBioInfoKey,
+    //         ]),
+    //   );
+    // }
 
     return ShowCaseWidget(
         autoPlay: true,

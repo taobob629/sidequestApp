@@ -446,30 +446,30 @@ class PostListItemView extends GetView<PostListController> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTapDown: (detail) async {
-                        final value = await Get.dialog(
-                          MoreFunWidget(),
-                          arguments: {
-                            'offset': detail.globalPosition,
-                            'nickName': model.nickname,
-                            'id': model.id,
-                            'pwId': model.uid,
-                          },
-                        );
-                        if (value != null) {
-                          PostListController.find.onRefresh();
-                        }
-                      },
-                      child: Icon(
-                        Icons.clear,
-                        color: Color(0xff808388),
-                        size: 16.sp,
-                      ),
-                    ),
-                  )
+                  // Expanded(
+                  //   child: GestureDetector(
+                  //     behavior: HitTestBehavior.translucent,
+                  //     onTapDown: (detail) async {
+                  //       final value = await Get.dialog(
+                  //         MoreFunWidget(),
+                  //         arguments: {
+                  //           'offset': detail.globalPosition,
+                  //           'nickName': model.nickname,
+                  //           'id': model.id,
+                  //           'pwId': model.uid,
+                  //         },
+                  //       );
+                  //       if (value != null) {
+                  //         PostListController.find.onRefresh();
+                  //       }
+                  //     },
+                  //     child: Icon(
+                  //       Icons.clear,
+                  //       color: Color(0xff808388),
+                  //       size: 16.sp,
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             )

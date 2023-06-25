@@ -28,14 +28,14 @@ class AddServiceTypePage extends GetView<AddGamePageController> {
     controller.privacyCheckController = PrivacyCheckController();
 
     bool? sideKickNext2Key = StorageManager.getBoolByKey('sideKickNext2Key');
-    if (sideKickNext2Key == null || sideKickNext2Key == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(controller.myContext!).startShowCase([
-              GlobalKeyConstants.sideKickNext2Key,
-            ]),
-      );
-    }
+    // if (sideKickNext2Key == null || sideKickNext2Key == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(controller.myContext!).startShowCase([
+    //           GlobalKeyConstants.sideKickNext2Key,
+    //         ]),
+    //   );
+    // }
 
     return ShowCaseWidget(
       autoPlay: true,

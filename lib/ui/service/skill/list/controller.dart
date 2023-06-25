@@ -51,13 +51,13 @@ class SkillListPageController extends GetxController {
     initData();
 
     bool? sideKickAddServiceKey = StorageManager.getBoolByKey('sideKickAddServiceKey');
-    if (sideKickAddServiceKey == null || sideKickAddServiceKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-        (_) => ShowCaseWidget.of(myContext!).startShowCase([
-          GlobalKeyConstants.sideKickAddServiceKey,
-        ]),
-      );
-    }
+    // if (sideKickAddServiceKey == null || sideKickAddServiceKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //     (_) => ShowCaseWidget.of(myContext!).startShowCase([
+    //       GlobalKeyConstants.sideKickAddServiceKey,
+    //     ]),
+    //   );
+    // }
   }
 
   initData() async {

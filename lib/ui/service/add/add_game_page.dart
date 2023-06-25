@@ -78,14 +78,14 @@ class _AddGamePageState extends State<AddGamePage> {
     controller.privacyCheckController = PrivacyCheckController();
 
     bool? sideKickNextKey = StorageManager.getBoolByKey('sideKickNextKey');
-    if (sideKickNextKey == null || sideKickNextKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(controller.myContext!).startShowCase([
-              GlobalKeyConstants.sideKickNextKey,
-            ]),
-      );
-    }
+    // if (sideKickNextKey == null || sideKickNextKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(controller.myContext!).startShowCase([
+    //           GlobalKeyConstants.sideKickNextKey,
+    //         ]),
+    //   );
+    // }
 
     return ShowCaseWidget(
       autoPlay: true,

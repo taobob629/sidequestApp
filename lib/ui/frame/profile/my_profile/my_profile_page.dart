@@ -824,23 +824,23 @@ class ProfileController extends GetxController
     });
     // getProfileInfo();
 
-    bool? profileSetKey = StorageManager.getBoolByKey('profileSetKey');
-    if (profileSetKey == null || profileSetKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-          (_) => ShowCaseWidget.of(myContext!).startShowCase([
-                GlobalKeyConstants.profileSetKey,
-                GlobalKeyConstants.profileSetInfoKey,
-                GlobalKeyConstants.profileVoiceKey,
-                GlobalKeyConstants.profileCoinKey,
-                GlobalKeyConstants.profileReceivingKey,
-                GlobalKeyConstants.profileTopUpKey,
-                GlobalKeyConstants.profileCouponsKey,
-                GlobalKeyConstants.profileFunKey,
-                GlobalKeyConstants.profileSideKickKey,
-                GlobalKeyConstants.profileBadgeKey,
-                GlobalKeyConstants.profileFriendshipKey,
-              ]));
-    }
+    // bool? profileSetKey = StorageManager.getBoolByKey('profileSetKey');
+    // if (profileSetKey == null || profileSetKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //       (_) => ShowCaseWidget.of(myContext!).startShowCase([
+    //             GlobalKeyConstants.profileSetKey,
+    //             GlobalKeyConstants.profileSetInfoKey,
+    //             GlobalKeyConstants.profileVoiceKey,
+    //             GlobalKeyConstants.profileCoinKey,
+    //             GlobalKeyConstants.profileReceivingKey,
+    //             GlobalKeyConstants.profileTopUpKey,
+    //             GlobalKeyConstants.profileCouponsKey,
+    //             GlobalKeyConstants.profileFunKey,
+    //             GlobalKeyConstants.profileSideKickKey,
+    //             GlobalKeyConstants.profileBadgeKey,
+    //             GlobalKeyConstants.profileFriendshipKey,
+    //           ]));
+    // }
   }
 
   @override

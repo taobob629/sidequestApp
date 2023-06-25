@@ -82,18 +82,18 @@ class TabSideKickController extends RefreshListController<GameUserModel> {
     init();
     _currentSelectIndex.listen((value) {});
 
-    bool? sidekickPage = StorageManager.getBoolByKey('sidekickPage');
-    if (sidekickPage == null || sidekickPage == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-        (_) => ShowCaseWidget.of(MainPageController.find.myContext!)
-            .startShowCase([
-          GlobalKeyConstants.addGameKey,
-          GlobalKeyConstants.languageKey,
-          GlobalKeyConstants.sideKickItemKey,
-          GlobalKeyConstants.matchKey,
-        ]),
-      );
-    }
+    // bool? sidekickPage = StorageManager.getBoolByKey('sidekickPage');
+    // if (sidekickPage == null || sidekickPage == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //     (_) => ShowCaseWidget.of(MainPageController.find.myContext!)
+    //         .startShowCase([
+    //       GlobalKeyConstants.addGameKey,
+    //       GlobalKeyConstants.languageKey,
+    //       GlobalKeyConstants.sideKickItemKey,
+    //       GlobalKeyConstants.matchKey,
+    //     ]),
+    //   );
+    // }
   }
 
   @override

@@ -36,14 +36,14 @@ class ProfileEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool? profileEditInfoBackKey = StorageManager.getBoolByKey('profileEditInfoBackKey');
-    if (profileEditInfoBackKey == null || profileEditInfoBackKey == false) {
-      ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
-            (_) =>
-            ShowCaseWidget.of(t.myContext!).startShowCase([
-              GlobalKeyConstants.profileEditInfoBackKey,
-            ]),
-      );
-    }
+    // if (profileEditInfoBackKey == null || profileEditInfoBackKey == false) {
+    //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
+    //         (_) =>
+    //         ShowCaseWidget.of(t.myContext!).startShowCase([
+    //           GlobalKeyConstants.profileEditInfoBackKey,
+    //         ]),
+    //   );
+    // }
 
     return ShowCaseWidget(
       autoPlay: true,
