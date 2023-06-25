@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wy/api/base_http.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/model/qr_login_info.dart';
@@ -146,6 +148,30 @@ class AuthApi {
       "pushToken": pushToken
     };
     var response = await http.post('/web/index/login', data: formData);
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInApple(AuthorizationCredentialAppleID credential) async {
+    var formData = {
+      'userIdentifier': credential.userIdentifier,
+      'email': credential.email,
+      'givenName': credential.givenName,
+      'familyName': credential.familyName,
+    };
+    var response = await http.post('/peiwan/app/user/appleLogin', data: formData);
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInGoogle(GoogleSignInAccount? account) async {
+    var formData = {
+      'email': account?.email,
+      'id': account?.id,
+      'displayName': account?.displayName,
+      'photoUrl': account?.photoUrl,
+      'idToken': '',
+      'serverAuthCode': account?.serverAuthCode,
+    };
+      var response = await http.post('/peiwan/app/user/googleLogin', data: formData);
     return LoginModel.fromJson(response.data);
   }
 

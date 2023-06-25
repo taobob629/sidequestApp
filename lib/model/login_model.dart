@@ -1,4 +1,3 @@
-
 import 'package:wy/model/user_model.dart';
 
 import 'selector_item.dart';
@@ -6,6 +5,7 @@ import 'selector_item.dart';
 class LoginModel {
   late UserModel user;
   late String token;
+  late String login;
   late int validate;
   late int secondary;
 
@@ -14,34 +14,34 @@ class LoginModel {
   LoginModel();
 
   LoginModel.fromJson(Map<String, dynamic> json) {
-
-    token = json["token"]==null ? "" : json["token"];
-    validate = json["validate"]==null ? 0 : json["validate"];
-    secondary = json["Secondary"]==null ? 0 : json["Secondary"];
-    if(json["user"] != null){
+    login = json["login"] == null ? "" : json["login"];
+    token = json["token"] == null ? "" : json["token"];
+    validate = json["validate"] == null ? 0 : json["validate"];
+    secondary = json["Secondary"] == null ? 0 : json["Secondary"];
+    if (json["user"] != null) {
       user = UserModel.fromJson(json["user"]);
-    }else{
+    } else {
       user = UserModel();
     }
-    if(json["fields"] != null){
+    if (json["fields"] != null) {
       verifyFieldList = json["fields"]
-        .map<VerifyField>((item) => VerifyField.fromJson(item))
-        .toList();
-    }else{
+          .map<VerifyField>((item) => VerifyField.fromJson(item))
+          .toList();
+    } else {
       verifyFieldList = [];
     }
   }
 }
 
-class VerifyField extends SelectorItem{
+class VerifyField extends SelectorItem {
   late String name;
   late String label;
 
   VerifyField();
 
   VerifyField.fromJson(Map<String, dynamic> json) {
-    name = json["name"]==null ? "" : json["name"];
-    label = json["label"]==null ? "" : json["label"];
+    name = json["name"] == null ? "" : json["name"];
+    label = json["label"] == null ? "" : json["label"];
   }
 
   @override
@@ -57,7 +57,9 @@ class VerifyField extends SelectorItem{
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is VerifyField && runtimeType == other.runtimeType && name == other.name;
+      other is VerifyField &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
 
   @override
   int get hashCode => name.hashCode;

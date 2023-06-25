@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 
 import '../../api/pay_api.dart';
+import '../../api/wy_http.dart';
 import '../../utils/toast_utils.dart';
 import '../login/forget_page.dart';
 import '../profile/settings/set_password_page.dart';
@@ -263,11 +265,24 @@ class DialogPayPsd extends StatelessWidget {
 
   void checkPin() async {
     showLoading();
-    final result = await PayApi.checkPin(diamonds.toString());
+    var response = await http.get(
+      '/peiwan/app/user/checkPin',
+      queryParameters: ({'amount': diamonds.toString()}),
+    );
+    final result = response.data;
     dismissLoading();
-    if (result != null && result['data'] == 700) {
-      await Get.to(() => SetPasswordPage());
-      checkPin();
+
+    if (result != null && result == 700) {
+      SmartDialog.show(
+          builder: (builder) => ConfirmDialog(
+                title: 'Information'.tr,
+                info: response.statusMessage.toString(),
+                onConfirm: () async {
+                  SmartDialog.dismiss();
+                  SmartDialog.dismiss(tag: 'DialogPayPsd');
+                  Get.to(() => SetPasswordPage());
+                }),
+              );
       return;
     }
     if (result != null) {

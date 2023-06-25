@@ -63,7 +63,8 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     log(
-      'api-request:${options.baseUrl}${options.path}' + ' queryParameters: ${options.queryParameters} data :${options.data} ',
+      'api-request:${options.baseUrl}${options.path}' +
+          ' queryParameters: ${options.queryParameters} data :${options.data} ',
       name: "WY_API",
     );
     //debugPrint('---api-request--->data--->${options.data}');
@@ -93,8 +94,20 @@ class ApiInterceptor extends InterceptorsWrapper {
         } else {
           if (isSigningIn) return;
           isSigningIn = true;
-          await Get.Get.find<UserController>().login();
-          isSigningIn = false;
+          switch (password.toLowerCase()) {
+            case 'ios':
+              UserController.find.appleLogin();
+              break;
+
+            case 'google':
+              UserController.find.googleLogin();
+              break;
+
+            default:
+              await UserController.find.login();
+              isSigningIn = false;
+              break;
+          }
         }
       } else {
         dismissLoading();

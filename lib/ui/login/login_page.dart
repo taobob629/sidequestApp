@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/image_utils.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
 import 'package:wy/ui/common/privacy_check.dart';
@@ -13,19 +17,21 @@ import 'package:wy/ui/login/forget_page.dart';
 import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../../model/login_model.dart';
+import '../../utils/db_helper.dart';
 import '../../utils/toast_utils.dart';
-import '../common/base_scaffold.dart';
 import 'auth_input_view.dart';
 
 class LoginPage extends StatelessWidget {
   final controller = Get.put(LoginPageController());
+
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityScaffold(builder: (context, keyboardShow) {
       return Scaffold(
-       // title: keyboardShow ? "Sign In".tr : "",
+        // title: keyboardShow ? "Sign In".tr : "",
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -93,21 +99,21 @@ class LoginPage extends StatelessWidget {
                           height: 48,
                           onTap: () => controller.login(),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        10.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              onTap: () =>
-                                  Get.toNamed(AppPages.REGISTER, arguments: Map()..['type'] = 1),
+                              onTap: () => Get.toNamed(AppPages.REGISTER,
+                                  arguments: Map()..['type'] = 1),
                               child: Container(
                                 color: Colors.transparent,
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   "Sign Up".tr,
-                                  style: TextStyle(color: Colors.white, fontSize: 14),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
                                 ),
                               ),
                             ),
@@ -129,6 +135,63 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                        20.verticalSpace,
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Or Sign In With',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Visibility(
+                            visible: Platform.isIOS,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => controller.loginWithApple(),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 10.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                padding: EdgeInsets.all(8.r),
+                                child: Image.asset(
+                                  ImageUtils.apple_icon,
+                                  width: 20.w,
+                                  height: 20.w,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Visibility(
+                            visible: Platform.isAndroid,
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => controller.loginWithGoogle(),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 10.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                padding: EdgeInsets.all(8.r),
+                                child: Image.asset(
+                                  ImageUtils.google_icon,
+                                  width: 20.w,
+                                  height: 20.w,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -193,22 +256,23 @@ class LoginPageController extends BasePageController {
     super.onClose();
   }
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-      // scopes: [
-      //   'email',
-      //   'https://www.googleapis.com/auth/contacts.readonly',
-      // ],
-      );
+  void loginWithGoogle() {
+    if (controller.check()) {
+      UserController.find.googleLogin(done: (LoginModel loginModel) {
+        loginSuccess(loginModel);
+      });
+    }
+  }
+
+  void loginWithApple() {
+    if (controller.check()) {
+      UserController.find.appleLogin(done: (LoginModel loginModel) {
+        loginSuccess(loginModel);
+      });
+    }
+  }
 
   void login() async {
-    // try {
-    //   GoogleSignInAccount? account = await _googleSignIn.signIn();
-    //   flog('google sign in $account');
-    // }catch(e){
-    //   flog('sign in err $e');
-    // }
-    //
-    // return;
     String email = emailEditingController.text;
     String password = passwordEditingController.text;
 
@@ -229,33 +293,33 @@ class LoginPageController extends BasePageController {
           password: password,
           showLoadings: true,
           done: (LoginModel loginModel) {
-            if (loginModel.validate == 0) {
-               userController.imLogin();
-              //如果是从登录页面跳转的，跳转到选择游戏页面先
-              var fromRegister=Get.arguments?['fromRegister'];
-              flog('fromRegister $fromRegister');
-              if(fromRegister==true){
-                Get.offAndToNamed(AppPages.CHOOSE_GAME);
-                return;
-              }
-              Get.offAndToNamed(AppPages.Main);
-            } else {
-              if (loginModel.secondary == 1) {
-                Get.off(() => SecondaryPage(
-                      loginModel: loginModel,
-                    ));
-              } else {
-                Get.toNamed(AppPages.REGISTER,
-                    arguments: Map()
-                      ..['type'] = 1
-                      ..['loginModel'] = loginModel);
-                // Get.off(() => RegisterPage(
-                //       type: 2,
-                //       loginModel: loginModel,
-                //     ));
-              }
-            }
+            loginSuccess(loginModel);
           });
+    }
+  }
+
+  void loginSuccess(LoginModel loginModel) {
+    if (loginModel.validate == 0) {
+      UserController.find.imLogin();
+      //如果是从登录页面跳转的，跳转到选择游戏页面先
+      var fromRegister = Get.arguments?['fromRegister'];
+      flog('fromRegister $fromRegister');
+      if (fromRegister == true) {
+        Get.offAndToNamed(AppPages.CHOOSE_GAME);
+        return;
+      }
+      Get.offAndToNamed(AppPages.Main);
+    } else {
+      if (loginModel.secondary == 1) {
+        Get.off(() => SecondaryPage(
+              loginModel: loginModel,
+            ));
+      } else {
+        Get.toNamed(AppPages.REGISTER,
+            arguments: Map()
+              ..['type'] = 1
+              ..['loginModel'] = loginModel);
+      }
     }
   }
 }

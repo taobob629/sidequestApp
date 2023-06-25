@@ -53,6 +53,8 @@ class ImageUtils {
   static const String playmate_no3 = 'assets/images/playmate_no3.webp';
   static const String diamonds_red = 'assets/images/diamonds_red.webp';
   static const String icon_vip = 'assets/images/icon_vip.webp';
+  static const String apple_icon = 'assets/images/apple_icon.webp';
+  static const String google_icon = 'assets/images/google_icon.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';

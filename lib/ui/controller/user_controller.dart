@@ -8,6 +8,8 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
@@ -29,6 +31,7 @@ import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../../api_service/profile_api.dart';
 import '../../config/icon_font.dart';
@@ -253,6 +256,106 @@ class UserController extends GetxController {
     done?.call(loginModel);
   }
 
+  Future<void> appleLogin({
+    bool checkLastLoginTime = false,
+    Function(LoginModel)? done,
+  }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+
+    AuthorizationCredentialAppleID credential =
+        await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    flog(
+        "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+
+    showLoading();
+    LoginModel loginModel =
+        await AuthApi.signInApple(credential).catchError((e) {
+      dismissLoading();
+    });
+
+    if (loginModel.validate == 0) {
+      //老用户需要更新资料之后才可以使用
+      lastLoginTime = DateTime.now();
+      _updateUser(loginModel.user);
+      StorageManager.setToken(loginModel.token);
+      StorageManager.setAccount(loginModel.user.email);
+      StorageManager.setPassword(loginModel.login);
+      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+      await updateInfo();
+    }
+    dismissLoading();
+    if (loginModel.user.id != 0) {
+      db = DBHelper(loginModel.user.id);
+    }
+    await imLogin();
+    done?.call(loginModel);
+  }
+
+  Future<void> googleLogin({
+    bool checkLastLoginTime = false,
+    Function(LoginModel)? done,
+  }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+    showLoading();
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    try {
+      GoogleSignInAccount? account = await _googleSignIn.signIn();
+      GoogleSignInAuthentication? authentication = await account?.authentication;
+      authentication?.idToken;
+
+      flog('google sign in $account');
+      LoginModel loginModel =
+          await AuthApi.signInGoogle(account).catchError((e) {
+        dismissLoading();
+      });
+
+      if (loginModel.validate == 0) {
+        //老用户需要更新资料之后才可以使用
+        lastLoginTime = DateTime.now();
+        _updateUser(loginModel.user);
+        StorageManager.setToken(loginModel.token);
+        StorageManager.setAccount(loginModel.user.email);
+        StorageManager.setPassword(loginModel.login);
+        StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+        await updateInfo();
+      }
+      dismissLoading();
+      if (loginModel.user.id != 0) {
+        db = DBHelper(loginModel.user.id);
+      }
+      await imLogin();
+      done?.call(loginModel);
+    } catch (e) {
+      dismissLoading();
+      flog('sign in err $e');
+      showErrorWidget(e.toString());
+    }
+  }
+
   uploadOfflinePushInfoToken() async {
     if (!kIsWeb) {
       ChannelPush.requestPermission();
@@ -462,7 +565,8 @@ class UserController extends GetxController {
                 builder: (builder) => Container(
                       height: 110.h,
                       width: Get.width - 30.w,
-                      margin: EdgeInsets.only(top: MediaQuery.of(Get.context!).padding.top),
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(Get.context!).padding.top),
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
