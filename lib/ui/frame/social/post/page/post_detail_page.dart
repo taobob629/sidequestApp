@@ -36,6 +36,7 @@ class PostDetailPage extends StatelessWidget {
           elevation: 0,
         ),
         body: NestedScrollView(
+          physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverToBoxAdapter(
