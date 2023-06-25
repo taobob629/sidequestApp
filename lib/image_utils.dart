@@ -68,4 +68,5 @@ class ImageUtils {
   static const String eruption_flag_icon = 'assets/images/eruption_flag_icon.jpg';
   static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
   static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
+  static const String ic_invite = 'assets/images/profile/invite.webp';
 }
