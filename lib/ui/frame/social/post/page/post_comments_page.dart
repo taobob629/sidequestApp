@@ -232,6 +232,7 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
       return;
     }
     PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
+      showSuccess('${'Comments'.tr} ${'Success'.tr}!');
       onRefresh();
       replyModel.value = PostCommentModel();
       PostDetailController.find.postItem.value.commentNum += 1;

@@ -521,6 +521,13 @@ class MyProfilePage extends StatelessWidget {
                                     onTap: () => Get.to(() => MyAlbumPage()),
                                   ),
                                 ),
+                                Expanded(
+                                  child: _dashboardLabelItem(
+                                    ImageUtils.ic_invite,
+                                    "Invite".tr,
+                                  //  onTap: () => Get.to(() => MyAlbumPage()),
+                                  ),
+                                ),
                               ],
                             ),
                             20.verticalSpace,
@@ -566,6 +573,7 @@ class MyProfilePage extends StatelessWidget {
                                         userController.userProfile.taskNum,
                                   ),
                                 ),
+                                Spacer(),
                               ],
                             ),
                           ],
