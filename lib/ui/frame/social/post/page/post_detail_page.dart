@@ -35,8 +35,9 @@ class PostDetailPage extends StatelessWidget {
           title: PageTitle(title: "Post Detail".tr),
           elevation: 0,
         ),
-        body: NestedScrollView(
-          physics: NeverScrollableScrollPhysics(),
+        body: Obx(()=>NestedScrollView(
+          controller:t.scrollController ,
+          physics: t.canScroll?ClampingScrollPhysics():NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverToBoxAdapter(
@@ -45,7 +46,7 @@ class PostDetailPage extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom:
-                              BorderSide(color: AppColor.itemBg, width: 1))),
+                          BorderSide(color: AppColor.itemBg, width: 1))),
                   child: Column(
                     children: [
                       Container(
@@ -66,58 +67,58 @@ class PostDetailPage extends StatelessWidget {
                             ),
                             Expanded(
                                 child: Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () =>
-                                              NavigatorHelper.toOtherProfile(
-                                                  t.postItem.value.uid),
-                                          child: Text(
-                                            t.postItem.value.nickname,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 5),
+                                        child: Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  NavigatorHelper.toOtherProfile(
+                                                      t.postItem.value.uid),
+                                              child: Text(
+                                                t.postItem.value.nickname,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              t.postItem.value.createTime.toDateStr,
+                                              style: TextStyle(
+                                                  color: Color(0xff808388),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          t.postItem.value.createTime.toDateStr,
-                                          style: TextStyle(
-                                              color: Color(0xff808388),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  t.postItem.value.type == TYPE_INVITE
-                                      ? buildGroupInviteWidget(
+                                      ),
+                                      t.postItem.value.type == TYPE_INVITE
+                                          ? buildGroupInviteWidget(
                                           context,
                                           t.postItem.value.content,
                                           t.postItem.value.imageList.first)
-                                      : Text(
-                                          t.postItem.value.content,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                          // maxLines: null,
-                                          // overflow: TextOverflow.ellipsis,
-                                        ),
-                                  10.verticalSpace
-                                ],
-                              ),
-                            ))
+                                          : Text(
+                                        t.postItem.value.content,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                        // maxLines: null,
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                      10.verticalSpace
+                                    ],
+                                  ),
+                                ))
                           ],
                         ),
                       ),
@@ -127,53 +128,53 @@ class PostDetailPage extends StatelessWidget {
                           padding: EdgeInsets.only(top: 15),
                           physics: NeverScrollableScrollPhysics(),
                           crossAxisCount:
-                              min(t.postItem.value.imageList.length, 3),
+                          min(t.postItem.value.imageList.length, 3),
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           childAspectRatio:
-                              t.postItem.value.imageList.length == 1
-                                  ? 345 / 195
-                                  : 1,
+                          t.postItem.value.imageList.length == 1
+                              ? 345 / 195
+                              : 1,
                           children: t.postItem.value.imageList
                               .map((imgUrl) =>
-                                  t.postItem.value.type == TYPE_INVITE
-                                      ? Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Color(0xff313033)),
-                                          clipBehavior: Clip.antiAlias,
-                                          child: QrImage(
-                                            foregroundColor: Colors.white,
-                                            data: imgUrl,
-                                          ),
-                                        )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            Get.dialog(
-                                                CsPhotoViewer(
-                                                  photoList: t
-                                                      .postItem.value.imageList,
-                                                  tapIndex: t
-                                                      .postItem.value.imageList
-                                                      .indexOf(imgUrl),
-                                                ),
-                                                useSafeArea: false);
-                                          },
-                                          child: Container(
-                                            // margin: EdgeInsets.only(top: 10, bottom: 10),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: Color(0xff313033)),
-                                            clipBehavior: Clip.antiAlias,
-                                            child: ImageUtil.networkImage(
-                                              url: imgUrl,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ))
+                          t.postItem.value.type == TYPE_INVITE
+                              ? Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(15),
+                                color: Color(0xff313033)),
+                            clipBehavior: Clip.antiAlias,
+                            child: QrImage(
+                              foregroundColor: Colors.white,
+                              data: imgUrl,
+                            ),
+                          )
+                              : GestureDetector(
+                            onTap: () {
+                              Get.dialog(
+                                  CsPhotoViewer(
+                                    photoList: t
+                                        .postItem.value.imageList,
+                                    tapIndex: t
+                                        .postItem.value.imageList
+                                        .indexOf(imgUrl),
+                                  ),
+                                  useSafeArea: false);
+                            },
+                            child: Container(
+                              // margin: EdgeInsets.only(top: 10, bottom: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  color: Color(0xff313033)),
+                              clipBehavior: Clip.antiAlias,
+                              child: ImageUtil.networkImage(
+                                url: imgUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ))
                               .toList(),
                         ),
                     ],
@@ -201,9 +202,9 @@ class PostDetailPage extends StatelessWidget {
                             indicatorSize: TabBarIndicatorSize.label,
                             indicatorWeight: 3,
                             indicatorPadding:
-                                EdgeInsets.only(bottom: 0, left: 10, right: 10),
+                            EdgeInsets.only(bottom: 0, left: 10, right: 10),
                             labelPadding:
-                                const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                            const EdgeInsets.fromLTRB(10, 0, 10, 8),
                             labelStyle: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -214,12 +215,12 @@ class PostDetailPage extends StatelessWidget {
                                 fontFamily: "din"),
                             tabs: [
                               Obx(
-                                () => Row(
+                                    () => Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 5),
+                                        const EdgeInsets.only(right: 5),
                                         child: Image.asset(
                                           "assets/images/profile/icon_pinlun.webp",
                                           width: 16,
@@ -235,28 +236,28 @@ class PostDetailPage extends StatelessWidget {
                                     ]),
                               ),
                               Obx(() => Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 5),
-                                        child: Image.asset(
-                                          "assets/images/profile/icon_dianzan.webp",
-                                          width: 16,
-                                          color: t.postItem.value.isPraise.value
-                                              ? Colors.pink
-                                              : null,
-                                        ),
-                                      ),
-                                      Text(
-                                        t.postItem.value.praiseNum.toString(),
-                                        style: TextStyle(
-                                          color: Color(0xff808388),
-                                          fontSize: 11.sp,
-                                        ),
-                                      )
-                                    ],
-                                  )),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(right: 5),
+                                    child: Image.asset(
+                                      "assets/images/profile/icon_dianzan.webp",
+                                      width: 16,
+                                      color: t.postItem.value.isPraise.value
+                                          ? Colors.pink
+                                          : null,
+                                    ),
+                                  ),
+                                  Text(
+                                    t.postItem.value.praiseNum.toString(),
+                                    style: TextStyle(
+                                      color: Color(0xff808388),
+                                      fontSize: 11.sp,
+                                    ),
+                                  )
+                                ],
+                              )),
                             ],
                           ),
                         ),
@@ -296,7 +297,7 @@ class PostDetailPage extends StatelessWidget {
               PostFavoratorsPage(),
             ],
           ),
-        ),
+        )),
       ),
     );
   }
