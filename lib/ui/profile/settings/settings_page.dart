@@ -25,6 +25,7 @@ import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_confirm.dart';
 import 'setting_item.dart';
@@ -42,19 +43,13 @@ class SettingsPage extends StatelessWidget {
         children: [
           SettingItem(
             title: "Account Password".tr,
-            onTap: () => Get.to(() => ChangePasswordPage(
-                  type: 1,
-                  have: true,
-                )),
+            onTap: () => controller.checkHasPwd(1),
           ),
           Visibility(
             visible: userController.online.value,
             child: SettingItem(
               title: "Payment Pin".tr,
-              onTap: () => Get.to(() => ChangePasswordPage(
-                    type: 2,
-                    check: true,
-                  )),
+              onTap: () => controller.checkHasPwd(2),
             ),
           ),
           SettingItem(
@@ -127,6 +122,23 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     UserController userController = Get.find<UserController>();
     userController.logout(done: () => Get.offAllNamed(AppPages.Login));
+  }
+
+  void checkHasPwd(int type) async {
+    showLoading();
+    var response = await http.get('/peiwan/app/user/hasPwd');
+    dismissLoading();
+    if (type == 1) {
+      Get.to(() => ChangePasswordPage(
+        type: 1,
+        hasPwd: response.data['haspwd'],
+      ));
+    } else {
+      Get.to(() => ChangePasswordPage(
+        type: 2,
+        hasPwd: response.data['haspin'],
+      ));
+    }
   }
 
   void checkVersion() async {

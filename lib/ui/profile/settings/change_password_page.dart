@@ -15,15 +15,18 @@ import '../../login/forget_page.dart';
 class ChangePasswordPage extends StatelessWidget {
   final int type;
   final bool check;
-  final bool have;
+  final bool hasPwd;
   late final ChangePasswordPageController controller;
 
-  ChangePasswordPage(
-      {required this.type, this.check = false, this.have = false}) {
+  ChangePasswordPage({
+    required this.type,
+    this.check = false,
+    this.hasPwd = false,
+  }) {
     controller = Get.put(ChangePasswordPageController(
       type: type,
       check: check,
-      have: have,
+      hasPwd: hasPwd,
     ));
   }
 
@@ -163,26 +166,19 @@ class ChangePasswordPageController extends GetxController {
 
   int type;
   bool check;
+  bool hasPwd = false;
 
   ChangePasswordPageController({
     required this.type,
     required this.check,
-    required bool have,
+    required bool hasPwd,
   }) {
-    this.have.value = have;
+    this.have.value = hasPwd;
   }
 
   @override
   void onReady() async {
     super.onReady();
-    showLoading();
-    var response = await http.get('/peiwan/app/user/hasPwd');
-    if (type == 1) {
-      have.value = response.data['haspwd'];
-    } else {
-      have.value = response.data['haspin'];
-    }
-    dismissLoading();
   }
 
   @override
@@ -226,7 +222,8 @@ class ChangePasswordPageController extends GetxController {
       var formData = {
         "pin": newPwd,
       };
-      var response = await http.get('/peiwan/app/user/setPwd', queryParameters: formData);
+      var response =
+          await http.get('/peiwan/app/user/setPwd', queryParameters: formData);
 
       dismissLoading();
       if (response.statusCode == 200) {
@@ -238,7 +235,8 @@ class ChangePasswordPageController extends GetxController {
     var formData = {
       "pin": oldPwd,
     };
-    var response = await http.get('/peiwan/app/user/setPin', queryParameters: formData);
+    var response =
+        await http.get('/peiwan/app/user/setPin', queryParameters: formData);
 
     dismissLoading();
     if (response.statusCode == 200) {
