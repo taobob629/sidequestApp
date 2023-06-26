@@ -13,7 +13,7 @@ class SideKickCtr extends BaseTabContoller {
 
   @override
   initTabs() {
-    tabs = ['Sidekick'.tr, 'Ranking'.tr];
+    tabs = ['Sidekick'.tr, 'Leaderboard'.tr];
   }
 
   @override
