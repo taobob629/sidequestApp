@@ -79,13 +79,13 @@ class GradePage extends GetView<GradeController> {
                                                               .curLevelImg()),
                                                       height: 23,
                                                     )
-                                                  : userIcon(controller.model.levelNum),
+                                                  : userIcon(controller.model.userLevel),
                                               Spacer(),
                                               controller.isVip()?Image(
                                                 image: AssetImage(
                                                     controller.nextLevelImg()),
                                                 height: 23,
-                                              ):userIcon(controller.model.nextLevelNum),
+                                              ):userIcon(controller.model.userLevel+1),
                                               Spacer()
                                             ],
                                           )),
@@ -158,9 +158,10 @@ class GradePage extends GetView<GradeController> {
    * 普通用户图标
    */
   userIcon(level) {
+    flog('levele $level');
     return Container(
       height: 24,
-      width: 74,
+      width: 72,
       padding: EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(12)),
