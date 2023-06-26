@@ -41,23 +41,31 @@ class GradeController extends GetxController {
   String centerImg() {
     var img;
     int level = model.userLevel;
-    if (isauth != TYPE_VIP) {
+    if (!isVip()) {
       switch (level) {
         case 0:
         case 1:
-          img = 'assets/images/grade/baron.webp';
-          break;
         case 2:
-          img = 'assets/images/grade/viscounet.webp';
-          break;
         case 3:
-          img = 'assets/images/grade/earl.webp';
-          break;
         case 4:
-          img = 'assets/images/grade/marquis.webp';
-          break;
         case 5:
-          img = 'assets/images/grade/duke.webp';
+        case 6:
+        case 7:
+        case 8:
+        img = 'assets/images/grade/VIP$level.webp';
+        break;
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        img = 'assets/images/grade/SVIP${(level-9)+1}.webp';
           break;
       }
     } else {
