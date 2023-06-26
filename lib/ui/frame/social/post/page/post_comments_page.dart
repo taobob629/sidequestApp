@@ -28,6 +28,75 @@ class PostCommentsPage extends StatelessWidget {
 
     return Obx(() {
       return Scaffold(
+        floatingActionButton: Container(
+          margin: EdgeInsets.symmetric(horizontal: 15),
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Obx(() => Expanded(
+                          child: TextFormField(
+                            controller: t.commentController,
+                            focusNode: t.commentNode,
+                            decoration: InputDecoration(
+                                hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:".tr + t.replyModel.value.nickname : "Comment".tr,
+                                hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
+                          ))),
+                      GestureDetector(
+                        onTap: () => t.postComment(),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: !t.isSelf && UserController.find.online.value,
+                child: GestureDetector(
+                  onTapDown: (details) async {
+                    var heartNum = await Get.bottomSheet(
+                        GiveGiftsDialog(
+                          receiverId: t.postItem.uid.toString(),
+                          postId: t.postItem.id.toString(),
+                          avatar: t.postItem.head,
+                        ),
+                        ignoreSafeArea: true);
+                    if (heartNum != null) {
+                      Future.delayed(Duration(milliseconds: 300)).then(
+                            (v) {
+                          SmartDialog.show(
+                            builder: (builder) => GiftSucAnim(heartNum),
+                            displayTime: Duration(seconds: 2),
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    margin: EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/images/post/icon_gift.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
@@ -121,79 +190,79 @@ class PostCommentsPage extends StatelessWidget {
             ),
 
             ///评论输入框
-            Obx(() => Positioned(
-                height: 50,
-                left: 0,
-                right: 0,
-                bottom: t.marginBottom.value,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                          padding: EdgeInsets.only(left: 20),
-                          child: Row(
-                            children: [
-                              Obx(() => Expanded(
-                                      child: TextFormField(
-                                    controller: t.commentController,
-                                    focusNode: t.commentNode,
-                                    decoration: InputDecoration(
-                                        hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:".tr + t.replyModel.value.nickname : "Comment".tr,
-                                        hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
-                                  ))),
-                              GestureDetector(
-                                onTap: () => t.postComment(),
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: !t.isSelf && UserController.find.online.value,
-                        child: GestureDetector(
-                          onTapDown: (details) async {
-                            var heartNum = await Get.bottomSheet(
-                                GiveGiftsDialog(
-                                  receiverId: t.postItem.uid.toString(),
-                                  postId: t.postItem.id.toString(),
-                                  avatar: t.postItem.head,
-                                ),
-                                ignoreSafeArea: true);
-                            if (heartNum != null) {
-                              Future.delayed(Duration(milliseconds: 300)).then(
-                                (v) {
-                                  SmartDialog.show(
-                                    builder: (builder) => GiftSucAnim(heartNum),
-                                    displayTime: Duration(seconds: 2),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            margin: EdgeInsets.only(left: 10),
-                            decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/post/icon_gift.png",
-                              width: 24,
-                              height: 24,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )))
+            // Obx(() => Positioned(
+            //     height: 50,
+            //     left: 0,
+            //     right: 0,
+            //     bottom: t.marginBottom.value,
+            //     child: Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 15),
+            //       child: Row(
+            //         children: [
+            //           Expanded(
+            //             child: Container(
+            //               decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+            //               padding: EdgeInsets.only(left: 20),
+            //               child: Row(
+            //                 children: [
+            //                   Obx(() => Expanded(
+            //                           child: TextFormField(
+            //                         controller: t.commentController,
+            //                         focusNode: t.commentNode,
+            //                         decoration: InputDecoration(
+            //                             hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:".tr + t.replyModel.value.nickname : "Comment".tr,
+            //                             hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
+            //                       ))),
+            //                   GestureDetector(
+            //                     onTap: () => t.postComment(),
+            //                     child: Container(
+            //                       margin: EdgeInsets.symmetric(horizontal: 10),
+            //                       child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
+            //                     ),
+            //                   )
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //           Visibility(
+            //             visible: !t.isSelf && UserController.find.online.value,
+            //             child: GestureDetector(
+            //               onTapDown: (details) async {
+            //                 var heartNum = await Get.bottomSheet(
+            //                     GiveGiftsDialog(
+            //                       receiverId: t.postItem.uid.toString(),
+            //                       postId: t.postItem.id.toString(),
+            //                       avatar: t.postItem.head,
+            //                     ),
+            //                     ignoreSafeArea: true);
+            //                 if (heartNum != null) {
+            //                   Future.delayed(Duration(milliseconds: 300)).then(
+            //                     (v) {
+            //                       SmartDialog.show(
+            //                         builder: (builder) => GiftSucAnim(heartNum),
+            //                         displayTime: Duration(seconds: 2),
+            //                       );
+            //                     },
+            //                   );
+            //                 }
+            //               },
+            //               child: Container(
+            //                 width: 50,
+            //                 height: 50,
+            //                 margin: EdgeInsets.only(left: 10),
+            //                 decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
+            //                 alignment: Alignment.center,
+            //                 child: Image.asset(
+            //                   "assets/images/post/icon_gift.png",
+            //                   width: 24,
+            //                   height: 24,
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //     )))
           ],
         ),
       );

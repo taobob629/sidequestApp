@@ -162,6 +162,7 @@ flutter:
     - assets/images/message/
     - assets/images/post/
     - assets/images/im/
+    - assets/images/task/
     - assets/anim/
     - assets/flags/
 

@@ -182,10 +182,12 @@ class QrLoginPageController extends GetxController {
 
   void login() async {
     showLoading();
-    await AuthApi.qrCodeLogin(code);
+    var res= await AuthApi.qrCodeLogin(code);
     dismissLoading();
-    showSuccess("Success".tr, duration: Duration(seconds: 3))
-        .then((value) => Get.back());
+    if(res.code==0) {
+      showSuccess("Success".tr, duration: Duration(seconds: 3))
+          .then((value) => Get.back());
+    }
   }
   void topUp() async {
     Get.to(() => BalancePage())?.then((value)  async {
