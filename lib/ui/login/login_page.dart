@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                     offstage: keyboardShow,
                     child: Container(
                       height: 56,
-                      margin: const EdgeInsets.only(bottom: 80),
+                      margin: EdgeInsets.only(bottom: 50.h),
                       child: Image.asset(
                         "assets/images/logo.webp",
                         fit: BoxFit.contain,
@@ -295,9 +295,11 @@ class LoginPageController extends BasePageController {
 
   void loginWithApple() {
     if (controller.check()) {
-      UserController.find.appleLogin(done: (LoginModel loginModel) {
-        loginSuccess(loginModel);
-      });
+      UserController.find.appleLogin(
+          needAppleLogin: true,
+          done: (LoginModel loginModel) {
+            loginSuccess(loginModel);
+          });
     }
   }
 

@@ -274,6 +274,7 @@ class UserController extends GetxController {
   }
 
   Future<void> appleLogin({
+    bool needAppleLogin = false,
     bool checkLastLoginTime = false,
     Function(LoginModel)? done,
   }) async {
@@ -298,10 +299,21 @@ class UserController extends GetxController {
       flog(
           "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
     } else {
-      credential = AuthorizationCredentialAppleID(
-        userIdentifier: userIdentifier,
-        authorizationCode: '',
-      );
+      if (needAppleLogin) {
+        credential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+        );
+        flog(
+            "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+      } else {
+        credential = AuthorizationCredentialAppleID(
+          userIdentifier: userIdentifier,
+          authorizationCode: '',
+        );
+      }
     }
 
     showLoading();
