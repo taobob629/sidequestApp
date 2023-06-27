@@ -125,11 +125,11 @@ class GradePage extends GetView<GradeController> {
                         children: controller.isVip()
                             ? [
                                 buildScoreItem('Order Quantity'.tr,
-                                    controller.model.levelNum)
+                                    controller.model.levelNum,showIcon: false)
                               ]
                             : [
                                 buildScoreItem(
-                                    'Recharge'.tr, controller.model.levelNum),
+                                    'Recharge'.tr, controller.model.levelNum,),
                                 buildScoreItem(
                                     'Consumption'.tr, controller.model.levelNum)
                               ],
@@ -145,7 +145,7 @@ class GradePage extends GetView<GradeController> {
                         children: controller.isVip()
                             ? [
                                 buildScoreItem('Order Quantity'.tr,
-                                    controller.model.nextLevelNum)
+                                    controller.model.nextLevelNum,showIcon: false)
                               ]
                             : [
                                 buildScoreItem('Recharge'.tr,
@@ -158,7 +158,7 @@ class GradePage extends GetView<GradeController> {
               )),
       );
 
-  buildScoreItem(var title, var value) {
+  buildScoreItem(var title, var value,{var showIcon=true}) {
     return Expanded(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +169,8 @@ class GradePage extends GetView<GradeController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageUtil.assetImage('coin_red', width: 20),
-            5.horizontalSpace,
+            if(showIcon)ImageUtil.assetImage('coin_red', width: 20),
+            if(showIcon) 5.horizontalSpace,
             PWidget.text('$value', [Colors.white, 30, true], {'ff': 'DIN'}),
           ],
         ),
