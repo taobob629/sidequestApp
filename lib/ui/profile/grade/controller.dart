@@ -98,7 +98,7 @@ class GradeController extends GetxController {
     if (isauth == TYPE_VIP) {
       return model.userLevel >= 5;
     }
-    return model.userLevel >= 18;
+    return model.userLevel >= 19;
   }
 
   bool isVip() {
