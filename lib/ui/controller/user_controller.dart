@@ -93,12 +93,29 @@ class UserController extends GetxController {
   void onReady() async {
     super.onReady();
     flog('UserController onReady==');
-    await login();
+    await switchLogin();
     // setCustomSticker();
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
-      login();
+      switchLogin();
     });
     //startPayNotify();
+  }
+
+  Future<void> switchLogin() async {
+    var password = StorageManager.getPassword();
+    switch (password.toLowerCase()) {
+      case 'ios':
+        await appleLogin();
+        break;
+
+      case 'google':
+        await googleLogin();
+        break;
+
+      default:
+        await login();
+        break;
+    }
   }
 
   static setCustomSticker() async {
@@ -268,22 +285,35 @@ class UserController extends GetxController {
       }
     }
 
-    AuthorizationCredentialAppleID credential =
-        await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
+    AuthorizationCredentialAppleID credential;
+    String? userIdentifier = StorageManager.getString('userIdentifier');
+    if (userIdentifier == null) {
+      credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
 
-    flog(
-        "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+      flog(
+          "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+    } else {
+      credential = AuthorizationCredentialAppleID(
+        userIdentifier: userIdentifier,
+        authorizationCode: '',
+      );
+    }
 
     showLoading();
     LoginModel loginModel =
         await AuthApi.signInApple(credential).catchError((e) {
       dismissLoading();
     });
+
+    StorageManager.setString(
+      'userIdentifier',
+      credential.userIdentifier.toString(),
+    );
 
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
@@ -324,7 +354,8 @@ class UserController extends GetxController {
 
     try {
       GoogleSignInAccount? account = await _googleSignIn.signIn();
-      GoogleSignInAuthentication? authentication = await account?.authentication;
+      GoogleSignInAuthentication? authentication =
+          await account?.authentication;
       authentication?.idToken;
 
       flog('google sign in $account');

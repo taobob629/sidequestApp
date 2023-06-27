@@ -250,6 +250,15 @@ class StorageManager {
     sharedPreferences.setInt(key, value);
   }
 
+  static void setString(String key, String value) {
+    sharedPreferences.setString(key, value);
+  }
+
+  static String? getString(String key) {
+    String? value = sharedPreferences.getString(key);
+    return value;
+  }
+
   static bool? getBoolByKey(String key) {
     bool? value = sharedPreferences.getBool(key);
     return value;
