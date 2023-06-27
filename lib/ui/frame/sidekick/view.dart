@@ -12,9 +12,11 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/ui/frame/sidekick/sidekick_ctr.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/tab_ranking_page.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/tab_sidekick_page.dart';
+import 'package:wy/ui/frame/sidekick/widget/container_tab_indicator.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/app_pages.dart';
+import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
 import '../../../utils/global_key_constants.dart';
 import '../../../utils/image_util.dart';
@@ -35,17 +37,46 @@ class SideKickPage extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              TabWidget(
-                tabstyle: TAB_STYLE_2,
-                indicator:
-                    HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
-                alignment: Alignment.centerLeft,
-                tabController: controller.tabbarController,
-                tabList: controller.tabs,
-                pagePhysics: NeverScrollableScrollPhysics(),
-                tabPage: [
-                  TabSideKickPage(),
-                  TabRankingPage(),
+              Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    height: 44.h,
+                    child: TabBar(
+                      controller: controller.tabbarController,
+                      tabs: controller.tabsList,
+                      isScrollable: true,
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      unselectedLabelStyle: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.white38,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      labelStyle: TextStyle(
+                        fontSize: 20.sp,
+                        color: Colors.white,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      indicator: ContainerTabIndicator(
+                        height: 3.h,
+                        width: 20.w,
+                        radius: BorderRadius.circular(2.r),
+                        colors: [AppColor.yellow, AppColor.yellow],
+                        padding: EdgeInsets.only(top: 15.h),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: controller.tabbarController,
+                      children: [
+                        TabSideKickPage(),
+                        TabRankingPage(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               Positioned(
