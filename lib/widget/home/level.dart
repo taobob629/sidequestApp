@@ -29,19 +29,19 @@ class GameLevelWidget extends StatelessWidget {
     return GestureDetector(
         onTap: () => userId == user.pwId ? Get.toNamed(AppPages.Grade) : null,
         child: isAuth != TYPE_VIP
-            ? userIcon(level,height: height)
+            ? userIcon(level, height: height)
             : ImageUtil.assetImage(
                 (isAuth == TYPE_VIP ? 'play/lv$level' : 'play/titles_$level'),
                 imageType: IMG_WEBP,
                 height: 15.w));
   }
-
 }
-userIcon(int level,{double height=24}) {
+
+userIcon(int level, {double height = 24}) {
   return Container(
     height: height,
     width: height * 3,
-    constraints: BoxConstraints(maxWidth: height*3),
+    constraints: BoxConstraints(maxWidth: height * 3),
     padding: EdgeInsets.symmetric(horizontal: height / 4),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(height / 2)),
@@ -52,11 +52,11 @@ userIcon(int level,{double height=24}) {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ImageUtil.assetImage('grade/VIP${level + 1}',
+        ImageUtil.assetImage('grade/${getUserImg(level)}',
             height: height - 2, width: height - 2),
         Spacer(),
         Text(
-          'VIP$level',
+          getUserText(level),
           style: TextStyle(fontSize: 11.sp, fontFamily: FONT_MEDIUM),
         ),
       ],
@@ -64,6 +64,18 @@ userIcon(int level,{double height=24}) {
   );
 }
 
+getUserImg(int level) {
+  if (level > 9) {
+    return 'SVIP${level - 9 + 1}';
+  }
+  return 'VIP$level';
+}
+getUserText(int level){
+  if (level > 9) {
+    return 'SVIP${level - 9 + 1}';
+  }
+  return 'VIP$level';
+}
 getColors(int level) {
   switch (level) {
     case 0:
