@@ -26,10 +26,9 @@ class GameLevelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isauth = user.isAuth;
     return GestureDetector(
         onTap: () => userId == user.pwId ? Get.toNamed(AppPages.Grade) : null,
-        child: isauth != TYPE_VIP
+        child: isAuth != TYPE_VIP
             ? userIcon(level,height: height)
             : ImageUtil.assetImage(
                 (isAuth == TYPE_VIP ? 'play/lv$level' : 'play/titles_$level'),

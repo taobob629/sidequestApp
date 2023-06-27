@@ -224,6 +224,7 @@ class HomeDrawer extends StatelessWidget {
             padding: EdgeInsets.only(left: 5),
             child: GameLevelWidget(
               level: user.sidekickLevel,
+              isAuth: user.isAuth,
               userId: user.pwId,
             ),
           ),
