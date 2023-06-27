@@ -29,6 +29,8 @@ class GameUserModel {
   // 1
   final int userLevel;
 
+  final int isAuth;
+
   // null
   final dynamic backGround;
 
@@ -96,6 +98,7 @@ class GameUserModel {
     this.id = 0,
     this.age = 0,
     this.uk = "",
+    this.isAuth = 1,
     required this.games,
   });
 
@@ -107,6 +110,7 @@ class GameUserModel {
         sex: asT<int>(json, 'sex'),
         levelName: asT<String>(json, 'levelName'),
         userLevel: asT<int>(json, 'userLevel'),
+        isAuth: asT<int>(json, 'isAuth',defaultValue: 1),
         backGround: asT<dynamic>(json, 'backGround'),
         price: asT<String>(json, 'price'),
         name: asT<String>(json, 'name'),
@@ -115,7 +119,9 @@ class GameUserModel {
         id: asT<int>(json, 'id'),
         age: asT<int>(json, 'age'),
         uk: asT<String>(json, 'uk'),
-        games: asT<List>(json, 'games').map((e) => SimpleGameInfo.fromJson(e)).toList(),
+        games: asT<List>(json, 'games')
+            .map((e) => SimpleGameInfo.fromJson(e))
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -132,6 +138,7 @@ class GameUserModel {
         'online': online,
         'orders': orders,
         'id': id,
+        'isAuth': isAuth,
         'age': age,
       };
 }

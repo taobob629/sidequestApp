@@ -114,6 +114,7 @@ class SearchUserPage extends GetView<SearchUserController> {
                       ),
                       8.horizontalSpace,
                       GameLevelWidget(
+                        isAuth: model.isAuth,
                         level: model.userLevel,
                         userId: model.id,
                       ),
