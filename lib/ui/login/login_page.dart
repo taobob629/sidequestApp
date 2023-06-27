@@ -8,6 +8,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/keyboard_visibility_scaffold.dart';
@@ -85,9 +86,24 @@ class LoginPage extends StatelessWidget {
                                 controller.passwordEditingController,
                             textInputAction: TextInputAction.go,
                             focusNode: controller.passwordFocusNode),
-                        SizedBox(
-                          height: 20,
+                        10.verticalSpace,
+                        GestureDetector(
+                          onTap: () => Get.to(() => ForgetPage(
+                                type: 1,
+                              )),
+                          child: Container(
+                            color: Colors.transparent,
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Forgotten your password?".tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
                         ),
+                        20.verticalSpace,
                         ColorfulButton(
                           child: Text(
                             "SIGN IN".tr,
@@ -97,99 +113,112 @@ class LoginPage extends StatelessWidget {
                                 fontSize: 18),
                           ),
                           height: 48,
+                          borderRadius: 40.r,
                           onTap: () => controller.login(),
                         ),
                         10.verticalSpace,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () => Get.toNamed(AppPages.REGISTER,
-                                  arguments: Map()..['type'] = 1),
-                              child: Container(
-                                color: Colors.transparent,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
+                        Visibility(
+                          visible: Platform.isIOS,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => controller.loginWithApple(),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10.h),
+                              height: 48,
+                              width: 1.sw,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40.r),
+                                border: Border.all(
+                                  color: Color(0xffFFD20E),
+                                  width: 1.w,
+                                ),
+                              ),
+                              padding: EdgeInsets.all(8.r),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    ImageUtils.apple_icon,
+                                    width: 20.w,
+                                    height: 20.w,
+                                  ),
+                                  6.horizontalSpace,
+                                  Text(
+                                    "Apple".tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "DIN",
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: Platform.isAndroid,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => controller.loginWithGoogle(),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 10.h),
+                              height: 48,
+                              width: 1.sw,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40.r),
+                                border: Border.all(
+                                  color: Color(0xffFFD20E),
+                                  width: 1.w,
+                                ),
+                              ),
+                              padding: EdgeInsets.all(8.r),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    ImageUtils.google_icon,
+                                    width: 20.w,
+                                    height: 20.w,
+                                  ),
+                                  6.horizontalSpace,
+                                  Text(
+                                    "Google".tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "DIN",
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        30.verticalSpace,
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppPages.REGISTER,
+                              arguments: Map()..['type'] = 1),
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
                                   "Sign Up".tr,
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 14),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => Get.to(() => ForgetPage(
-                                    type: 1,
-                                  )),
-                              child: Container(
-                                color: Colors.transparent,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Forgotten your password?".tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
+                                    color: Color(0xffFFD20E),
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM,
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        20.verticalSpace,
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Or Sign In With',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Visibility(
-                            visible: Platform.isIOS,
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => controller.loginWithApple(),
-                              child: Container(
-                                margin: EdgeInsets.only(top: 10.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(6.r),
+                                4.horizontalSpace,
+                                Icon(
+                                  Icons.trending_neutral_rounded,
+                                  color: Color(0xffFFD20E),
                                 ),
-                                padding: EdgeInsets.all(8.r),
-                                child: Image.asset(
-                                  ImageUtils.apple_icon,
-                                  width: 20.w,
-                                  height: 20.w,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Visibility(
-                            visible: Platform.isAndroid,
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => controller.loginWithGoogle(),
-                              child: Container(
-                                margin: EdgeInsets.only(top: 10.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(6.r),
-                                ),
-                                padding: EdgeInsets.all(8.r),
-                                child: Image.asset(
-                                  ImageUtils.google_icon,
-                                  width: 20.w,
-                                  height: 20.w,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
                         ),
