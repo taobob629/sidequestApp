@@ -3,15 +3,25 @@ class LevelModel {
   int nextLevelNum;
   double percent;
   int userLevel;
+  String levelName;
+  String nextLevelName;
 
-  LevelModel({this.levelNum=0, this.nextLevelNum=0, this.percent=0, this.userLevel=0});
+  LevelModel(
+      {this.levelNum = 0,
+      this.nextLevelNum = 0,
+      this.percent = 0,
+      this.userLevel = 0,
+      this.levelName = '',
+      this.nextLevelName = ''});
 
   factory LevelModel.fromJson(Map<String, dynamic> json) {
     return LevelModel(
       levelNum: json['levelNum'],
       nextLevelNum: json['nextLevelNum'],
-      percent:double.parse(json['percent'].toString()) ,
+      percent: double.parse(json['percent'].toString()),
       userLevel: json['userLevel'],
+      levelName: json['levelName'],
+      nextLevelName: json['nextLevelName'],
     );
   }
 
@@ -21,6 +31,8 @@ class LevelModel {
     data['nextLevelNum'] = this.nextLevelNum;
     data['percent'] = this.percent;
     data['userLevel'] = this.userLevel;
+    data['levelName'] = this.levelName;
+    data['nextLevelName'] = this.nextLevelName;
     return data;
   }
 }

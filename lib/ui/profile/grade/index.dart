@@ -15,6 +15,7 @@ import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
+import 'package:wy/widget/home/level.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
 
@@ -41,11 +42,12 @@ class GradePage extends GetView<GradeController> {
                             width: Get.width,
                             alignment: Alignment.center,
                             child: Stack(
+                              fit: StackFit.loose,
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
                                     image: new DecorationImage(
-                                      scale:controller.isVip()?1.8: 0.6,
+                                      scale: controller.isVip() ? 1.8 : 0.6,
                                       fit: BoxFit.scaleDown,
                                       image: AssetImage(controller.centerImg()),
                                     ),
@@ -62,11 +64,7 @@ class GradePage extends GetView<GradeController> {
                                     child: controller.isTopLevel()
                                         ? controller.isVip()
                                             ? Container()
-                                            : Image(
-                                                image: AssetImage(
-                                                    controller.curLevelImg()),
-                                                height: 32,
-                                              )
+                                            : UnconstrainedBox(child: userIcon(controller.model.userLevel),)
                                         : Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
@@ -79,13 +77,19 @@ class GradePage extends GetView<GradeController> {
                                                               .curLevelImg()),
                                                       height: 23,
                                                     )
-                                                  : userIcon(controller.model.userLevel),
+                                                  : userIcon(controller
+                                                      .model.userLevel),
                                               Spacer(),
-                                              controller.isVip()?Image(
-                                                image: AssetImage(
-                                                    controller.nextLevelImg()),
-                                                height: 23,
-                                              ):userIcon(controller.model.userLevel+1),
+                                              controller.isVip()
+                                                  ? Image(
+                                                      image: AssetImage(
+                                                          controller
+                                                              .nextLevelImg()),
+                                                      height: 23,
+                                                    )
+                                                  : userIcon(controller
+                                                          .model.userLevel +
+                                                      1),
                                               Spacer()
                                             ],
                                           )),
@@ -121,13 +125,13 @@ class GradePage extends GetView<GradeController> {
                         children: controller.isVip()
                             ? [
                                 buildScoreItem('Order Quantity'.tr,
-                                    controller.model.levelNum)
+                                    controller.model.levelNum,showIcon: false)
                               ]
                             : [
-                                buildScoreItem('Monthly recharge'.tr,
-                                    controller.model.levelNum),
-                                buildScoreItem('Monthly consumption'.tr,
-                                    controller.model.levelNum)
+                                buildScoreItem(
+                                    'Recharge'.tr, controller.model.levelNum,),
+                                buildScoreItem(
+                                    'Consumption'.tr, controller.model.levelNum)
                               ],
                       )),
                   Offstage(
@@ -141,12 +145,12 @@ class GradePage extends GetView<GradeController> {
                         children: controller.isVip()
                             ? [
                                 buildScoreItem('Order Quantity'.tr,
-                                    controller.model.nextLevelNum)
+                                    controller.model.nextLevelNum,showIcon: false)
                               ]
                             : [
-                                buildScoreItem('Monthly recharge'.tr,
+                                buildScoreItem('Recharge'.tr,
                                     controller.model.nextLevelNum),
-                                buildScoreItem('Monthly consumption'.tr,
+                                buildScoreItem('Consumption'.tr,
                                     controller.model.nextLevelNum)
                               ],
                       ))
@@ -154,85 +158,7 @@ class GradePage extends GetView<GradeController> {
               )),
       );
 
-  /**
-   * 普通用户图标
-   */
-  userIcon(level) {
-    flog('levele $level');
-    return Container(
-      height: 24,
-      width: 72,
-      padding: EdgeInsets.symmetric(horizontal: 6),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: getColors(level))),
-      child: Row(
-        children: [
-          ImageUtil.assetImage('grade/VIP${level+1}', height: 22, width: 22),
-          Spacer(),
-          Text(
-            'VIP',
-            style: TextStyle(fontSize: 11.sp, fontFamily: FONT_MEDIUM),
-          ),
-        ],
-      ),
-    );
-  }
-
-  getColors(int level) {
-    switch (level) {
-      case 0:
-      case 1:
-        return [
-          Color(0xffEDFEF6),
-          Color(0xff5B6F75),
-          // Color(0xffEDFEF6),
-        ];
-      case 2:
-        return [
-          Color(0xffF9EDFE),
-          Color(0xff8F8AF4),
-        ];
-      case 3:
-      case 4:
-        return [
-          Color(0xffFEEDFE),
-          Color(0xffCD8AF4),
-        ];
-      case 5:
-        return [
-          Color(0xffD5EEFF),
-          Color(0xff64BEEC),
-        ];
-      case 6:
-      case 7:
-      case 8:
-        return [
-          Color(0xffF8D5FF),
-          Color(0xffA197FB),
-        ];
-      case 9:
-      case 10:
-      case 11:
-      case 12:
-        return [
-          Color(0xffF5CD63),
-          Color(0xffFFCF80),
-          Color(0xffFFA1A1),
-        ];
-      default:
-        return [
-          Color(0xffF5CD63),
-          Color(0xffFFCF80),
-          Color(0xffFF6F6F),
-        ];
-    }
-  }
-
-  buildScoreItem(var title, var value) {
+  buildScoreItem(var title, var value,{var showIcon=true}) {
     return Expanded(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -240,7 +166,14 @@ class GradePage extends GetView<GradeController> {
         PWidget.boxh(16),
         PWidget.text('$title', [Color.fromRGBO(255, 255, 255, 0.65), 14, true]),
         PWidget.boxh(8),
-        PWidget.text('$value', [Colors.white, 30, true], {'ff': 'DIN'}),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if(showIcon)ImageUtil.assetImage('coin_red', width: 20),
+            if(showIcon) 5.horizontalSpace,
+            PWidget.text('$value', [Colors.white, 30, true], {'ff': 'DIN'}),
+          ],
+        ),
         PWidget.boxh(10),
       ],
     ));
