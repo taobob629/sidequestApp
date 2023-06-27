@@ -83,6 +83,7 @@ class GameListItemWidget extends GetView<TabSideKickController> {
                           8.horizontalSpace,
                           GameLevelWidget(
                             level: model.userLevel,
+                            height: 20,
                             userId: model.id,
                           ),
                           8.horizontalSpace,

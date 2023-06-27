@@ -52,8 +52,8 @@ class GradeController extends GetxController {
         case 6:
         case 7:
         case 8:
-        img = 'assets/images/grade/VIP$level.webp';
-        break;
+          img = 'assets/images/grade/VIP$level.webp';
+          break;
         case 9:
         case 10:
         case 11:
@@ -65,7 +65,7 @@ class GradeController extends GetxController {
         case 17:
         case 18:
         case 19:
-        img = 'assets/images/grade/SVIP${(level-9)+1}.webp';
+          img = 'assets/images/grade/SVIP${(level - 9) + 1}.webp';
           break;
       }
     } else {
@@ -80,28 +80,28 @@ class GradeController extends GetxController {
 
   curLevelImg() {
     if (model.userLevel == 0) {
-      if (isauth == TYPE_VIP)
+      if (isVip())
         return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv1.webp';
     }
     return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv${model.userLevel}.webp';
   }
 
-  nextLevelImg(){
+  nextLevelImg() {
     if (model.userLevel == 0) {
-      if (isauth == TYPE_VIP)
+      if (isVip())
         return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv1.webp';
     }
-    return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv${model.userLevel+1}.webp';
+    return 'assets/images/play/${isauth == TYPE_VIP ? '' : ''}lv${model.userLevel + 1}.webp';
   }
 
- bool isTopLevel(){
-    // if(isauth == TYPE_VIP){
-    //   return model.userLevel>=5;
-    // }
-    return model.userLevel>=5;
- }
- bool isVip(){
-    return false;
+  bool isTopLevel() {
+    if (isauth == TYPE_VIP) {
+      return model.userLevel >= 5;
+    }
+    return model.userLevel >= 18;
+  }
+
+  bool isVip() {
     return isauth == TYPE_VIP;
- }
+  }
 }
