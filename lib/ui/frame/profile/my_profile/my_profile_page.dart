@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/app_config.dart';
 import 'package:wy/ui/common/dialog_input.dart';
+import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
@@ -537,7 +539,10 @@ class MyProfilePage extends StatelessWidget {
                                   child: _dashboardLabelItem(
                                     ImageUtils.ic_invite,
                                     "Invite".tr,
-                                  //  onTap: () => Get.to(() => MyAlbumPage()),
+                                    onTap: () => Get.to(() => WebPage(
+                                      title: "Invite".tr,
+                                      url: inviteUrl,
+                                    )),
                                   ),
                                 ),
                               ],

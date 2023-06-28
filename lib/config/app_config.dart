@@ -12,6 +12,7 @@ import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'app_color.dart';
 
 var splashBg = 'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';
+var inviteUrl = 'https://sidequesthub.com/#/share';
 
 class AppConfig {
   static final Http http = Http();
