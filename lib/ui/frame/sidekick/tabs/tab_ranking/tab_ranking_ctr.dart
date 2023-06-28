@@ -28,7 +28,7 @@ class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
         height: 34.h,
         alignment: Alignment.center,
         child: Text(
-          'Playmate',
+          'Sidekicker'.tr,
           style: TextStyle(
             color: Colors.white,
             fontFamily: FONT_MEDIUM,
@@ -40,7 +40,7 @@ class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
         height: 34.h,
         alignment: Alignment.center,
         child: Text(
-          'Friendship',
+          'Friendship'.tr,
           style: TextStyle(
             color: Colors.white,
             fontFamily: FONT_MEDIUM,
@@ -52,7 +52,7 @@ class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
         height: 34.h,
         alignment: Alignment.center,
         child: Text(
-          'Consumption',
+          'Side Buddy'.tr,
           style: TextStyle(
             color: Colors.white,
             fontFamily: FONT_MEDIUM,
