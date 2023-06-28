@@ -180,24 +180,24 @@ class ReservePage extends StatelessWidget {
                   TextSpan(children: [
                     TextSpan(
                         text:
-                            "* Any Events / BootCamp / Birthday booking requirements please contact our customer service directly." +
+                            "* For any bootcamps/party bookings please contact support@sidequestmeta.com. If you wish to organise a gaming event with us then contact event@sidequestmeta.com." +
                                 '\n'.tr,
                         style: introduce_text_style()),
                     TextSpan(
                         text:
-                            "* We require at least 4 people to attend bookings for Battle Rooms or Squad Rooms, and a minimum of 2 people for Duo Rooms." +
+                            "* We require at least 4 people to attend bookings for Squad and Battle Rooms, and 2 people for Duo Rooms. If less people arrive for the booking then the deposit will not be refunded." +
                                 '\n'.tr,
                         style: introduce_text_style()),
                     TextSpan(
                         text:
-                            "* If you arrive more than half an hour after your booking time, your reservation will be invalidated." +
+                            "* If you are late by more than 30 minutes to your booked time then your reservation will be cancelled and deposit won’t be refunded." +
                                 '\n'.tr,
                         style: introduce_text_style()),
-                    TextSpan(
-                        text:
-                            "* Please note that if you don't meet the above criteria, the deposit will not be refundable." +
-                                '\n'.tr,
-                        style: introduce_text_style()),
+                    // TextSpan(
+                    //     text:
+                    //         "* Please note that if you don't meet the above criteria, the deposit will not be refundable." +
+                    //             '\n'.tr,
+                    //     style: introduce_text_style()),
                   ]),
                   strutStyle: StrutStyle(height: 1.1, fontFamily: FONT_LIGHT),
                 )),
