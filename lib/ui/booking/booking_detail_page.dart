@@ -152,7 +152,7 @@ class BookingDetailPage extends StatelessWidget {
                       ),
                       15.verticalSpace,
                       Text(
-                        'Configuration list'.tr,
+                        'Price'.tr,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -239,7 +239,7 @@ class BookingDetailPage extends StatelessWidget {
                                               ),
                                               Spacer(),
                                               Text(
-                                                '£ ${e.price}',
+                                                '£ ${e.price}/hr/person',
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
