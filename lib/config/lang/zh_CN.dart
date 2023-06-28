@@ -916,5 +916,8 @@ const Map<String, String> zh_CN = {
   '解散该群': '解散该群',
   '解散后不会接收到此群聊消息': '解散后不会接收到此群聊消息',
   "Quest":"任务",
-  "Leaderboard":"排行榜"
+  "Leaderboard":"排行榜",
+  "Sidekicker":"陪玩榜",
+  "Side Buddy":"消费榜",
+  "Friendship":"亲密度"
 };
