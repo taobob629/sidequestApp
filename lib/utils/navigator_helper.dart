@@ -156,6 +156,9 @@ class NavigatorHelper {
           case "coin_topup":
             Get.toNamed(AppPages.WALLET_PAGE);
             break;
+          case "create_post":
+            Get.toNamed(AppPages.ReleasePost);
+            break;
           case "task":
             showLoading();
             var response = await http.get('/app/client/task/newlist?id=$id');
