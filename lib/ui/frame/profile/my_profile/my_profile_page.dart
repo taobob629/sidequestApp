@@ -541,7 +541,7 @@ class MyProfilePage extends StatelessWidget {
                                     "Invite".tr,
                                     onTap: () => Get.to(() => WebPage(
                                       title: "Invite".tr,
-                                      url: inviteUrl,
+                                      url: '$inviteUrl?token=${StorageManager.getToken()}',
                                     )),
                                   ),
                                 ),
