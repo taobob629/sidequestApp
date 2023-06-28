@@ -12,6 +12,7 @@ import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
+import 'package:wy/widget/home/level.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../config/app_pages.dart';
@@ -254,16 +255,27 @@ class MyProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 /// nickname
-                                Obx(() => Text(
-                                      userController.userProfile.nickName,
-                                      style: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )),
+                           Row(children: [
+                             Obx(() => Text(
+                             userController.userProfile.nickName,
+                             style: TextStyle(
+                               fontSize: 20.sp,
+                               color: Colors.white,
+                               fontWeight: FontWeight.bold,
+                             ),
+                           )),
+                             6.horizontalSpace,
+                             GameLevelWidget(
+                               height: 20.h,
+                               level: user.sidekickLevel,
+                               isAuth: user.isAuth,
+                               userId: user.pwId,
+                             ),
+                           ],
+                           ),
                                 6.verticalSpace,
 
+                                6.verticalSpace,
                                 /// labels: sex、language、location
                                 Obx(() => Padding(
                                       padding: const EdgeInsets.only(top: 5),
