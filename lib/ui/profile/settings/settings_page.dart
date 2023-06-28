@@ -19,6 +19,7 @@ import 'package:wy/ui/common/dialog_upgrade.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/vip/vip_page.dart';
+import 'package:wy/ui/frame/sidekick/sidekick_ctr.dart';
 import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
@@ -28,6 +29,7 @@ import 'package:wy/utils/utils.dart';
 import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_confirm.dart';
+import '../../frame/main_page.dart';
 import 'setting_item.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -122,6 +124,9 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     UserController userController = Get.find<UserController>();
     userController.logout(done: () => Get.offAllNamed(AppPages.Login));
+    Get.delete<UserController>();
+    Get.delete<SideKickCtr>();
+    Get.delete<MainPageController>();
   }
 
   void checkHasPwd(int type) async {
