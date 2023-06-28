@@ -26,6 +26,7 @@ class TaskModel {
   int enabled;
   int userNum;
   int newReward;
+  String? target;
 
   TaskModel({
     required this.id,
@@ -37,6 +38,7 @@ class TaskModel {
     required this.enabled,
     required this.userNum,
     required this.newReward,
+    this.target,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
@@ -49,5 +51,6 @@ class TaskModel {
     enabled: json["enabled"],
     userNum: json["userNum"],
     newReward: json["newReward"],
+    target: json["target"],
   );
 }

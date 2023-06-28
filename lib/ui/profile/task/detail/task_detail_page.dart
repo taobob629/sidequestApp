@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_color.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/ui/profile/task/detail/task_detail_ctr.dart';
 
 import '../../../../config/icon_font.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../utils/navigator_helper.dart';
 import '../../../../utils/time_utils.dart';
 import '../../../common/base_scaffold.dart';
 import '../task_page.dart';
@@ -42,14 +44,40 @@ class TaskDetailPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15.w, top: 20.h),
-                        child: Text(
-                          'Info'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: FONT_MEDIUM,
-                            fontSize: 16.sp,
-                          ),
+                        padding: EdgeInsets.only(left: 15.w, top: 20.h, right: 15.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Info'.tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: FONT_MEDIUM,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                            Visibility(
+                              visible: ctr.taskModel.target != null,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () => NavigatorHelper.gotoConfigTarget(ctr.taskModel.target!),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 20.w),
+                                  decoration: ShapeDecoration(
+                                    shape: StadiumBorder(),
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xff766AB4),
+                                      Color(0xff9345AD),
+                                    ], tileMode: TileMode.decal),
+                                  ),
+                                  child: Text(
+                                    'GO'.tr,
+                                    style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 13.sp),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(

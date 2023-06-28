@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/api_service/post_api.dart';
@@ -16,18 +15,17 @@ import 'package:wy/ui/frame/profile/other_profile/other_profile_page.dart';
 import 'package:wy/ui/index/news/news_page.dart';
 import 'package:wy/ui/pay/pay_page.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
-import 'package:wy/ui/profile/booking/booking_page.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
 import 'package:wy/ui/profile/edit/edit_profile_page.dart';
 import 'package:wy/ui/profile/task/detail/task_detail_page.dart';
 import 'package:wy/ui/search/search_page.dart';
 import 'package:wy/ui/shop/product/product_page.dart';
 import 'package:wy/utils/toast_utils.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/show_error_widget.dart';
 
 import '../api_service/profile_api.dart';
 import '../ui/profile/address/list/address_page.dart';
+import '../ui/profile/wallet/new_wallet_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();
@@ -142,29 +140,38 @@ class NavigatorHelper {
       String? page = map["target"];
       int? id = map["id"];
       if (id != null) {
-        if (page == "news") {
-          Get.to(() => NewsPage(id: id));
-        } else if (page == "product") {
-          Get.to(() => ProductPage(productId: id));
-        } else if (page == "activity") {
-          Get.to(() => EventPage(id: id, type: 1));
-        } else if (page == "match") {
-          Get.to(() => EventPage(id: id, type: 2));
-        } else if (page == "task") {
-          showLoading();
-          var response = await http.get('/app/client/task/newlist?id=$id');
-          dismissLoading();
-          if (response.data != null) {
-            TaskOutModel outModel = TaskOutModel.fromJson(response.data);
-            if (outModel.tasks.isNotEmpty) {
-              Get.to(() => TaskDetailPage(), arguments: {
-                'model': outModel.tasks.first,
-                'skipFlag': true,
-              });
-            } else {
-              showErrorWidget('data is empty'.tr);
+        switch (page) {
+          case "news":
+            Get.to(() => NewsPage(id: id));
+            break;
+          case "neproductws":
+            Get.to(() => ProductPage(productId: id));
+            break;
+          case "activity":
+            Get.to(() => EventPage(id: id, type: 1));
+            break;
+          case "match":
+            Get.to(() => EventPage(id: id, type: 2));
+            break;
+          case "coin_topup":
+            Get.toNamed(AppPages.WALLET_PAGE);
+            break;
+          case "task":
+            showLoading();
+            var response = await http.get('/app/client/task/newlist?id=$id');
+            dismissLoading();
+            if (response.data != null) {
+              TaskOutModel outModel = TaskOutModel.fromJson(response.data);
+              if (outModel.tasks.isNotEmpty) {
+                Get.to(() => TaskDetailPage(), arguments: {
+                  'model': outModel.tasks.first,
+                  'skipFlag': true,
+                });
+              } else {
+                showErrorWidget('data is empty'.tr);
+              }
             }
-          }
+            break;
         }
       }
       if (page == "balance") {
