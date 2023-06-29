@@ -205,7 +205,7 @@ class BookingDetailPage extends StatelessWidget {
                                     Spacer(),
                                     Text(
                                       dList.length == 1
-                                          ? '￡ ${dList[0].price}'
+                                          ? '￡ ${dList[0].price}/hr/person'
                                           : '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
