@@ -4,6 +4,7 @@ import 'package:wy/ui/frame/profile/model/rating_comment_model.dart';
 import 'package:wy/ui/frame/profile/model/vip_info_model.dart';
 
 import '../api/wy_http.dart';
+import '../model/profile_detail.dart';
 import '../ui/frame/profile/model/game_detail_model.dart';
 import '../ui/frame/profile/model/post_item_model.dart';
 import '../ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
@@ -94,9 +95,9 @@ abstract class ProfileApi {
   }
 
   /// player profile player用户信息
-  static Future profileInit() async {
+  static Future<ProfileDetailBean> profileInit() async {
     var response = await http.get('/peiwan/app/profile/profileInit');
-    return response.data;
+    return  ProfileDetailBean.fromJson(response.data);
   }
 
   /// profile-album  添加图片到相册
