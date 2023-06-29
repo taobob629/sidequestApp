@@ -12,6 +12,7 @@ import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/address_model.dart';
+import 'package:wy/model/profile_detail.dart';
 import 'package:wy/ui/common/cs_drop_down.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
@@ -24,6 +25,7 @@ import 'package:wy/res/index.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/icon_text.dart';
 import 'package:wy/widget/phone_input/intl_phone_number_input.dart';
+import 'package:wy/widget/views.dart';
 
 import '../../../../utils/global_key_constants.dart';
 import '../../../../utils/toast_utils.dart';
@@ -45,7 +47,7 @@ class ProfileEditPage extends StatelessWidget {
     //   );
     // }
 
-    return ShowCaseWidget(
+    return Obx(()=>t.profile==null?buildLoad():ShowCaseWidget(
       autoPlay: true,
       autoPlayDelay: Duration(seconds: 5),
       onFinish: () => StorageManager.setBoolValue('profileEditInfoBackKey', true),
@@ -77,22 +79,22 @@ class ProfileEditPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Obx(() => GestureDetector(
-                                onTap: () {
-                                  t.selectUpdateAvatar(context);
-                                },
-                                child: Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(34),
-                                      border: Border.all(color: Colors.white)),
-                                  child: ImageUtil.networkImage(
-                                      url: UserController
-                                          .find.userProfile.avatar,
-                                      width: 68,
-                                      height: 68,
-                                      fit: BoxFit.cover),
-                                ),
-                              )),
+                            onTap: () {
+                              t.selectUpdateAvatar(context);
+                            },
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(34),
+                                  border: Border.all(color: Colors.white)),
+                              child: ImageUtil.networkImage(
+                                  url: UserController
+                                      .find.userProfile.avatar,
+                                  width: 68,
+                                  height: 68,
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
                           12.verticalSpace,
                           Text(
                             "Click to edit avatar".tr,
@@ -134,45 +136,45 @@ class ProfileEditPage extends StatelessWidget {
                           color: AppColor.itemBg2,
                           borderRadius: BorderRadius.circular(10).r),
                       child: Obx(() => Row(
-                            children: [
-                              Radio<int>(
-                                  value: 0,
-                                  groupValue: t.gender.value,
-                                  onChanged: (value) =>
-                                      t.gender.value = value!),
-                              Text(
-                                "Male".tr,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14.sp),
-                              ),
-                              Radio<int>(
-                                  value: 1,
-                                  groupValue: t.gender.value,
-                                  onChanged: (value) =>
-                                      t.gender.value = value!),
-                              Text(
-                                "Female".tr,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14.sp),
-                              ),
-                              Radio<int>(
-                                  value: 2,
-                                  groupValue: t.gender.value,
-                                  onChanged: (value) =>
-                                      t.gender.value = value!),
-                              Text(
-                                "Non-binary".tr,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14.sp),
-                              ),
-                            ],
-                          )),
+                        children: [
+                          Radio<int>(
+                              value: 0,
+                              groupValue: t.gender.value,
+                              onChanged: (value) =>
+                              t.gender.value = value!),
+                          Text(
+                            "Male".tr,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 14.sp),
+                          ),
+                          Radio<int>(
+                              value: 1,
+                              groupValue: t.gender.value,
+                              onChanged: (value) =>
+                              t.gender.value = value!),
+                          Text(
+                            "Female".tr,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 14.sp),
+                          ),
+                          Radio<int>(
+                              value: 2,
+                              groupValue: t.gender.value,
+                              onChanged: (value) =>
+                              t.gender.value = value!),
+                          Text(
+                            "Non-binary".tr,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 14.sp),
+                          ),
+                        ],
+                      )),
                     ),
                     // InputView(autoHeight: true, controller: t.phoneController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.gender}"),
                     Container(
                       height: 40.h,
                       padding:
-                          EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+                      EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
                       child: Row(
                         children: [
                           Text(
@@ -193,55 +195,55 @@ class ProfileEditPage extends StatelessWidget {
                           color: AppColor.itemBg2,
                           borderRadius: BorderRadius.circular(10).r),
                       child: Obx(() => InternationalPhoneNumberInput(
-                            onInputChanged: (PhoneNumber number) {
-                              var phoneParts =
-                                  number.phoneNumber!.split(number.dialCode!);
-                              t.phone.value =
-                                  "${number.dialCode!} ${phoneParts.last}";
-                              print(t.phone.value);
-                            },
-                            onInputValidated: (bool value) {
-                              // print(value);
-                            },
-                            selectorConfig: SelectorConfig(
-                              selectorType: PhoneInputSelectorType.DROPDOWN,
-                            ),
-                            ignoreBlank: false,
-                            autoValidateMode: AutovalidateMode.disabled,
-                            selectorTextStyle: TextStyle(
-                              color: AppColor.colorB9C9,
-                            ),
-                            textStyle: TextStyle(
-                              color: AppColor.colorB9C9,
-                            ),
-                            inputDecoration: InputDecoration(
-                              hintText: "Phone number".tr,
-                              hintStyle: TextStyle(color: AppColor.colorB9C9),
-                              labelStyle: TextStyle(color: AppColor.colorB9C9),
-                              helperStyle: TextStyle(color: AppColor.colorB9C9),
-                            ),
-                            initialValue: PhoneNumber(
-                                isoCode: PhoneNumber.getISO2CodeByPrefix(
-                                        t.digalCode.value) ??
-                                    ""),
-                            textFieldController: t.phoneController,
-                            formatInput: true,
-                            cursorColor: Colors.white,
-                            hintText: "Phone number".tr,
-                            keyboardType: TextInputType.numberWithOptions(
-                                signed: true, decimal: true),
-                            inputBorder: OutlineInputBorder(),
-                            onSaved: (PhoneNumber number) {
-                              print('On Saved: $number');
-                              // t.phone.value = number.toString();
-                              // print(t.phone.value);
-                            },
-                          )),
+                        onInputChanged: (PhoneNumber number) {
+                          var phoneParts =
+                          number.phoneNumber!.split(number.dialCode!);
+                          t.phone.value =
+                          "${number.dialCode!} ${phoneParts.last}";
+                          print(t.phone.value);
+                        },
+                        onInputValidated: (bool value) {
+                          // print(value);
+                        },
+                        selectorConfig: SelectorConfig(
+                          selectorType: PhoneInputSelectorType.DROPDOWN,
+                        ),
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        selectorTextStyle: TextStyle(
+                          color: AppColor.colorB9C9,
+                        ),
+                        textStyle: TextStyle(
+                          color: AppColor.colorB9C9,
+                        ),
+                        inputDecoration: InputDecoration(
+                          hintText: "Phone number".tr,
+                          hintStyle: TextStyle(color: AppColor.colorB9C9),
+                          labelStyle: TextStyle(color: AppColor.colorB9C9),
+                          helperStyle: TextStyle(color: AppColor.colorB9C9),
+                        ),
+                        initialValue: PhoneNumber(
+                            isoCode: PhoneNumber.getISO2CodeByPrefix(
+                                t.digalCode.value) ??
+                                ""),
+                        textFieldController: t.phoneController,
+                        formatInput: true,
+                        cursorColor: Colors.white,
+                        hintText: "Phone number".tr,
+                        keyboardType: TextInputType.numberWithOptions(
+                            signed: true, decimal: true),
+                        inputBorder: OutlineInputBorder(),
+                        onSaved: (PhoneNumber number) {
+                          print('On Saved: $number');
+                          // t.phone.value = number.toString();
+                          // print(t.phone.value);
+                        },
+                      )),
                     ),
                     Container(
                       height: 40.h,
                       padding:
-                          EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+                      EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
                       child: Row(
                         children: [
                           Text(
@@ -285,9 +287,9 @@ class ProfileEditPage extends StatelessWidget {
                                   optionContext: optionContext,
                                   itemList: t.countries
                                       .map<DropDownModel>((country) =>
-                                          DropDownModel()
-                                            ..title = ((country.emoji ?? "") +
-                                                country.name))
+                                  DropDownModel()
+                                    ..title = ((country.emoji ?? "") +
+                                        country.name))
                                       .toList(),
                                   onTap: (index, value) {
                                     t.curCountry.value = value;
@@ -374,7 +376,7 @@ class ProfileEditPage extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           gradient:
-                              LinearGradient(colors: AppColor.yellowGradient),
+                          LinearGradient(colors: AppColor.yellowGradient),
                           borderRadius: BorderRadius.circular(20.h),
                         ),
                         child: Row(
@@ -399,7 +401,7 @@ class ProfileEditPage extends StatelessWidget {
           },
         );
       }),
-    );
+    ));
   }
 
   Widget _eplayerIntroWidget() => Container(
@@ -608,27 +610,34 @@ class ProfileEditController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     initLocation();
     hasInited = true;
     profileInit();
     super.onInit();
   }
+ Rxn<ProfileDetailBean> _profile=Rxn<ProfileDetailBean>();
+
+  ProfileDetailBean? get profile => _profile.value;
+
+  set profile(ProfileDetailBean? value) {
+    _profile.value = value;
+  }
 
   profileInit() {
     ProfileApi.profileInit().then((res) {
-      nickController.text = res["nick"];
-      signatureController.text = res["signature"];
-      gender.value = int.parse(res["gender"]);
+      profile=res;
+      nickController.text = res.nick;
+      signatureController.text = res.signature;
+      gender.value = int.parse(res.gender);
 
-      phone.value = res["phone"];
+      phone.value = res.phone;
       if (phone.value.isNotEmpty && phone.contains(" ")) {
         digalCode.value = phone.value.split(" ").first;
         phoneController.text = phone.value.split(" ").last;
       } else
         phoneController.text = phone.value;
 
-      var loc = res["country"].toString();
+      var loc = res.country;
       if (loc.isNotEmpty && loc != "null") {
         String country =
             jsonDecode(loc.replaceAll("""\\""", """\\\\"""))["country"];
@@ -638,9 +647,9 @@ class ProfileEditController extends GetxController {
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
       languageList.addIf(
-          res["language"].toString().contains("English"), "English");
+          res.language.contains("English"), "English");
       languageList.addIf(
-          res["language"].toString().contains("Chinese"), "Chinese");
+          res.language.contains("Chinese"), "Chinese");
     });
   }
 
