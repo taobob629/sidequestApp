@@ -123,7 +123,9 @@ class SettingsPageController extends GetxController {
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     dismissLoading();
     UserController userController = Get.find<UserController>();
-    await userController.googleSignIn.signOut();
+    if (Platform.isAndroid) {
+      await userController.googleSignIn.signOut();
+    }
     userController.logout(done: () {
       Get.delete<UserController>();
       Get.delete<SideKickCtr>();
