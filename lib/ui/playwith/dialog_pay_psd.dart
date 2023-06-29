@@ -19,6 +19,7 @@ class DialogPayPsd extends StatelessWidget {
   double diamonds;
   var serviceCharge = ''.obs;
   var rate = ''.obs;
+  var money=''.obs;
 
   DialogPayPsd({required this.type, required this.diamonds}) {
     checkPin();
@@ -94,7 +95,7 @@ class DialogPayPsd extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${(diamonds / 6 * 0.97).toStringAsFixed(2)}',
+                          money.value,
                           style: TextStyle(
                             color: Color(0xffFFD20E),
                             fontSize: 18.sp,
@@ -288,6 +289,7 @@ class DialogPayPsd extends StatelessWidget {
     if (result != null) {
       serviceCharge.value = result['serviceCharge'];
       rate.value = result['rate'];
+      money.value=result['money'];
     }
   }
 }
