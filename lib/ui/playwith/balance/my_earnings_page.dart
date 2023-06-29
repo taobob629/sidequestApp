@@ -483,11 +483,12 @@ class _MyEarningsPageState extends State<MyEarningsPage> {
                     child: Text(
                       "2930118234@qq.com",
                       style: TextStyle(
-                          fontSize: 18,
-                          color: controller.accountType.value == 0
-                              ? Colors.white
-                              : Colors.white30,
-                          fontFamily: "DIN"),
+                        fontSize: 18,
+                        color: controller.accountType.value == 0
+                            ? Colors.white
+                            : Colors.white30,
+                        fontFamily: "DIN",
+                      ),
                     ),
                   )
                 ],

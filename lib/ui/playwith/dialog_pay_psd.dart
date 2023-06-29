@@ -19,7 +19,7 @@ class DialogPayPsd extends StatelessWidget {
   double diamonds;
   var serviceCharge = ''.obs;
   var rate = ''.obs;
-  var money=''.obs;
+  var money = ''.obs;
 
   DialogPayPsd({required this.type, required this.diamonds}) {
     checkPin();
@@ -94,14 +94,14 @@ class DialogPayPsd extends StatelessWidget {
                             fontFamily: FONT_MEDIUM,
                           ),
                         ),
-                        Text(
+                        Obx(() => Text(
                           money.value,
-                          style: TextStyle(
-                            color: Color(0xffFFD20E),
-                            fontSize: 18.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
+                              style: TextStyle(
+                                color: Color(0xffFFD20E),
+                                fontSize: 18.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            )),
                       ],
                     )
                   : Row(
@@ -275,21 +275,21 @@ class DialogPayPsd extends StatelessWidget {
 
     if (result != null && result == 700) {
       SmartDialog.show(
-          builder: (builder) => ConfirmDialog(
-                title: 'Information'.tr,
-                info: response.statusMessage.toString(),
-                onConfirm: () async {
-                  SmartDialog.dismiss();
-                  SmartDialog.dismiss(tag: 'DialogPayPsd');
-                  Get.to(() => SetPasswordPage());
-                }),
-              );
+        builder: (builder) => ConfirmDialog(
+            title: 'Information'.tr,
+            info: response.statusMessage.toString(),
+            onConfirm: () async {
+              SmartDialog.dismiss();
+              SmartDialog.dismiss(tag: 'DialogPayPsd');
+              Get.to(() => SetPasswordPage());
+            }),
+      );
       return;
     }
     if (result != null) {
       serviceCharge.value = result['serviceCharge'];
       rate.value = result['rate'];
-      money.value=result['money'];
+      money.value = result['money'];
     }
   }
 }
