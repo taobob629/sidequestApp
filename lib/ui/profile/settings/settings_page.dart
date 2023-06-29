@@ -124,10 +124,12 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     UserController userController = Get.find<UserController>();
     await userController.googleSignIn.signOut();
-    userController.logout(done: () => Get.offAllNamed(AppPages.Login));
-    Get.delete<UserController>();
-    Get.delete<SideKickCtr>();
-    Get.delete<MainPageController>();
+    userController.logout(done: () {
+      Get.delete<UserController>();
+      Get.delete<SideKickCtr>();
+      Get.delete<MainPageController>();
+      Get.offAllNamed(AppPages.Login);
+    });
   }
 
   void checkHasPwd(int type) async {
