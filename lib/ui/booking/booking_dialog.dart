@@ -10,6 +10,7 @@ import '../../config/app_pages.dart';
 import '../../config/icon_font.dart';
 import '../../model/booking_model.dart';
 import '../../model/cybercafe_detail_model.dart';
+import '../../res/dimens.dart';
 import '../../utils/time_utils.dart';
 import '../common/colorful_button.dart';
 import '../common/dialog_date_time_picker.dart';
@@ -70,16 +71,36 @@ class BookingDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Reservation information'.tr,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Reservation information'.tr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => Get.back(),
+                      child: Text(
+                        'Cancel'.tr,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SelectView(
                   label: "What Time".tr,
@@ -131,7 +152,42 @@ class BookingDialog extends StatelessWidget {
                   borderRadius: 20.r,
                   onTap: booking,
                 ),
-                40.verticalSpace,
+                contentPadding(
+                    child: Text.rich(
+                  TextSpan(children: [
+                    TextSpan(
+                        text:
+                            "* For any bootcamps/party bookings please contact support@sidequestmeta.com. If you wish to organise a gaming event with us then contact event@sidequestmeta.com." +
+                                '\n'.tr,
+                        style: TextStyle(
+                          color: Color(0xFFC5C3C6),
+                          fontSize: 12.sp,
+                          fontFamily: FONT_LIGHT,
+                        )),
+                    TextSpan(
+                        text:
+                            "* We require at least 4 people to attend bookings for Squad and Battle Rooms, and 2 people for Duo Rooms. If less people arrive for the booking then the deposit will not be refunded." +
+                                '\n'.tr,
+                        style: TextStyle(
+                          color: Color(0xFFC5C3C6),
+                          fontSize: 12.sp,
+                          fontFamily: FONT_LIGHT,
+                        )),
+                    TextSpan(
+                        text:
+                            "* If you are late by more than 30 minutes to your booked time then your reservation will be cancelled and deposit won’t be refunded." +
+                                '\n'.tr,
+                        style: TextStyle(
+                          color: Color(0xFFC5C3C6),
+                          fontSize: 12.sp,
+                          fontFamily: FONT_LIGHT,
+                        )),
+                  ]),
+                  strutStyle: StrutStyle(
+                    height: 1.1,
+                    fontFamily: FONT_LIGHT,
+                  ),
+                )),
               ],
             ),
           ),
