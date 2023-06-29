@@ -89,6 +89,13 @@ class UserController extends GetxController {
   var unreadMsgCount = 0.obs;
   final online = false.obs;
 
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
   @override
   void onReady() async {
     super.onReady();
@@ -357,22 +364,17 @@ class UserController extends GetxController {
       }
     }
     showLoading();
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
 
     try {
-      GoogleSignInAccount? account = await _googleSignIn.signIn();
+      GoogleSignInAccount? account = await googleSignIn.signIn();
       GoogleSignInAuthentication? authentication =
           await account?.authentication;
-      authentication?.idToken;
 
       flog('google sign in $account');
-      LoginModel loginModel =
-          await AuthApi.signInGoogle(account).catchError((e) {
+      LoginModel loginModel = await AuthApi.signInGoogle(
+        account,
+        authentication?.idToken,
+      ).catchError((e) {
         dismissLoading();
       });
 

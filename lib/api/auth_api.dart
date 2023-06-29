@@ -163,13 +163,13 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInGoogle(GoogleSignInAccount? account) async {
+  static Future<LoginModel> signInGoogle(GoogleSignInAccount? account, String? idToken) async {
     var formData = {
       'email': account?.email,
       'id': account?.id,
       'displayName': account?.displayName,
       'photoUrl': account?.photoUrl,
-      'idToken': '',
+      'idToken': idToken,
       'serverAuthCode': account?.serverAuthCode,
     };
       var response = await http.post('/peiwan/app/user/googleLogin', data: formData);
