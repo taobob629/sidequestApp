@@ -89,8 +89,9 @@ class SectionWidget extends StatelessWidget {
   buildDropdownMenu(context) {
     int lengthLength = controller.gameSections?.language.length ?? 1;
     int genderLength = controller.gameSections?.genders.length ?? 1;
+    int rankLength = controller.gameSections?.gameLevel.length ?? 1;
     int levelLength = controller.gameSections?.levels.length ?? 1;
-    int gameLength = controller.gameSections?.gameLevel.length ?? 1;
+
     return GZXDropDownMenu(
       decoration: BoxDecoration(
           color: Color(0xff32353D), borderRadius: BorderRadius.circular(5.w)),
@@ -103,11 +104,12 @@ class SectionWidget extends StatelessWidget {
             dropDownWidget: Obx(() => genderSection(context)),
             dropDownHeight: genderLength * sectionHeight),
         GZXDropdownMenuBuilder(
+            dropDownWidget: Obx(() => rankSection(context)),
+            dropDownHeight: rankLength * sectionHeight),
+        GZXDropdownMenuBuilder(
             dropDownWidget: Obx(() => levelSection(context)),
             dropDownHeight: levelLength * sectionHeight),
-        GZXDropdownMenuBuilder(
-            dropDownWidget: Obx(() => gameLevelSection(context)),
-            dropDownHeight: gameLength * sectionHeight),
+
       ],
     );
   }
@@ -187,7 +189,7 @@ class SectionWidget extends StatelessWidget {
         ));
   }
 
-  MediaQuery gameLevelSection(context) {
+  MediaQuery rankSection(context) {
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
