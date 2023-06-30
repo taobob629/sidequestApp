@@ -37,7 +37,7 @@ class ServiceHeader extends GetView<UserController> {
                   ),
                   6.verticalSpace,
                   Text(
-                    'SideKick Services'.tr,
+                    'My Services'.tr,
                     style: TextStyle(
                       fontFamily: FONT_LIGHT,
                       fontSize: 10.sp,
@@ -76,7 +76,7 @@ class ServiceHeader extends GetView<UserController> {
                     ),
                     6.verticalSpace,
                     Text(
-                      'Order Quantity'.tr,
+                      'SideKick Order'.tr,
                       style: TextStyle(
                         fontSize: 10.sp,
                         fontFamily: FONT_LIGHT,
@@ -116,7 +116,7 @@ class ServiceHeader extends GetView<UserController> {
                     ),
                     6.verticalSpace,
                     Text(
-                      'Gift Order Num'.tr,
+                      'Gift Order'.tr,
                       style: TextStyle(
                         fontSize: 10.sp,
                         fontFamily: FONT_LIGHT,

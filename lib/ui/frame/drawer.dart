@@ -157,7 +157,7 @@ class HomeDrawer extends StatelessWidget {
                 color: Color(0xFFC5C5C5),
                 fontFamily: FONT_MEDIUM)),
         TextSpan(
-            text: '${user?.avamins}mins',
+            text: '${user?.avamins}''mins'.tr,
             style: TextStyle(
                 fontSize: 12.sp,
                 color: AppColor.textYellow,

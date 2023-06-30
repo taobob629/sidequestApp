@@ -404,7 +404,7 @@ const Map<String, String> zh_CN = {
   'Top Up': '充值',
   'Other Top Up Amount': '自定义金额',
   'Top Up Account': '充值账户',
-  'mins': '分',
+  'mins': '分钟',
   //分钟缩写
   'Credits Balance': '账户余额',
   'Free Gaming Time': '免费时长',
@@ -491,7 +491,7 @@ const Map<String, String> zh_CN = {
   'LEVEL': '等级',
   'Top level': '最高等级',
   'Current level': '当前等级',
-  'Order Quantity': '订单数量',
+  'SideKick Order': '陪玩订单',
   'Monthly recharge': '月充值',
   'Monthly consumption': '月消费',
   'Next Level': '下一等级',
@@ -921,4 +921,6 @@ const Map<String, String> zh_CN = {
   "Friendship":"亲密度",
   "Invite":"邀请",
   "Platform fee":"平台手续费率",
+  "Gift Order":"礼物订单",
+  "SideKicker Introduction":"自我介绍"
 };
