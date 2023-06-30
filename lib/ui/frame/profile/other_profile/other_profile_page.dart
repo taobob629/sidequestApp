@@ -16,6 +16,7 @@ import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 import 'package:wy/ui/frame/social/post/view/gift_animation.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/widget/home/index.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:wy/widget/show_error_widget.dart';
@@ -435,6 +436,8 @@ class OtherProfilePage extends StatelessWidget {
                                                             //     ),
                                                             //   ),
                                                             // )
+                                                            5.horizontalSpace,
+                                                            GameLevelWidget(isAuth: t.player.value.isAuth?1:0,level: t.player.value.userLevel,height: 20.h,userId: t.player.value.uid,)
                                                           ],
                                                         ),
                                                       )),
