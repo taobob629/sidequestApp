@@ -157,7 +157,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: Platform.isAndroid,
+                          // visible: Platform.isAndroid,
+                          visible: false,
                           child: GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => controller.loginWithGoogle(),
