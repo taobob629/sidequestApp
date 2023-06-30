@@ -15,10 +15,10 @@ class SideKickCtr extends BaseTabContoller {
 
   List<Widget> tabsList = [
     Text(
-      'Sidekick',
+      'Sidekick'.tr,
     ),
     Text(
-      'Leaderboard',
+      'Leaderboard'.tr,
     ),
   ];
 

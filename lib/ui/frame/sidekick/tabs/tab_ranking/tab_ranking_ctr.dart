@@ -63,21 +63,21 @@ class TabRankingCtr extends GetxController with GetTickerProviderStateMixin {
     ];
     tabs2 = [
       Text(
-        'Month',
+        'Month'.tr,
         style: TextStyle(
           fontFamily: FONT_MEDIUM,
           fontSize: 14.sp,
         ),
       ),
       Text(
-        'Week',
+        'Week'.tr,
         style: TextStyle(
           fontFamily: FONT_MEDIUM,
           fontSize: 14.sp,
         ),
       ),
       Text(
-        'Day',
+        'Day'.tr,
         style: TextStyle(
           fontFamily: FONT_MEDIUM,
           fontSize: 14.sp,

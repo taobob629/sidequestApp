@@ -922,5 +922,8 @@ const Map<String, String> zh_CN = {
   "Invite":"邀请",
   "Platform fee":"平台手续费率",
   "Gift Order":"礼物订单",
-  "SideKicker Introduction":"自我介绍"
+  "SideKicker Introduction":"自我介绍",
+  "Month":"月榜",
+  "Week":"周榜",
+  "Day":"日榜",
 };
