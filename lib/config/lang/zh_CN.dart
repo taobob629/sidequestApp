@@ -920,6 +920,5 @@ const Map<String, String> zh_CN = {
   "Side Buddy":"消费榜",
   "Friendship":"亲密度",
   "Invite":"邀请",
-  "Current Rate":"Current Rate",
-  "Next Rate":"Next Rate"
+  "Platform fee":"平台手续费率",
 };

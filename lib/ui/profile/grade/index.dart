@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/icon_font.dart';
-import 'package:wy/image_utils.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/utils/index.dart';
@@ -124,7 +122,7 @@ class GradePage extends GetView<GradeController> {
                         [Colors.white, 18, true],
                         {'ff': 'DIN'}),
                     tips:
-                        '${'Current Rate'.tr}:${controller.model.currentRate}',
+                        '${'Platform fee'.tr}:${controller.model.currentRate}',
                   ),
                   Offstage(
                       offstage: controller.isTopLevel() && controller.isVip(),
@@ -204,7 +202,7 @@ class GradePage extends GetView<GradeController> {
             TipsWidegt(
               custumTitle: PWidget.text(
                   'Next Level'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
-              tips: '${'Next Rate'.tr}:${controller.model.nextRate}',
+              tips: '${'Platform fee'.tr}:${controller.model.nextRate}',
             ),
           ],
         ));
