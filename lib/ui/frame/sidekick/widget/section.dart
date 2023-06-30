@@ -172,7 +172,7 @@ class SectionWidget extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) => InkWell(
             onTap: () {
-              controller.onSectionChange(2, index);
+              controller.onSectionChange(3, index);
               dropDownController.hide();
             },
             child: Container(
@@ -197,7 +197,7 @@ class SectionWidget extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) => InkWell(
             onTap: () {
-              controller.onSectionChange(3, index);
+              controller.onSectionChange(2, index);
               dropDownController.hide();
             },
             child: Container(
