@@ -4,7 +4,9 @@ class LevelModel {
   double percent;
   int userLevel;
   String levelName;
+  String currentRate;
   String nextLevelName;
+  String nextRate;
 
   LevelModel(
       {this.levelNum = 0,
@@ -12,6 +14,8 @@ class LevelModel {
       this.percent = 0,
       this.userLevel = 0,
       this.levelName = '',
+      this.currentRate = '',
+      this.nextRate = '',
       this.nextLevelName = ''});
 
   factory LevelModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +25,8 @@ class LevelModel {
       percent: double.parse(json['percent'].toString()),
       userLevel: json['userLevel'],
       levelName: json['levelName'],
+      nextRate: json['nextRate'],
+      currentRate: json['currentRate'],
       nextLevelName: json['nextLevelName'],
     );
   }

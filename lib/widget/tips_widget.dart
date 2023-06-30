@@ -13,17 +13,19 @@ import '../ui/frame/profile/my_profile/badges_widget.dart';
 
 class TipsWidegt extends StatelessWidget {
   String title;
+  Widget? custumTitle;
   String tips;
   double? padding;
-  TipsWidegt({this.title = '', this.tips = '',this.padding});
+  TipsWidegt({this.title = '', this.tips = '',this.padding,this.custumTitle});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: padding??20.w),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          custumTitle??   Text(
             '$title',
             style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
           ),

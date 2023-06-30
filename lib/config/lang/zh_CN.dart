@@ -919,5 +919,7 @@ const Map<String, String> zh_CN = {
   "Sidekicker":"陪玩榜",
   "Side Buddy":"消费榜",
   "Friendship":"亲密度",
-  "Invite":"邀请"
+  "Invite":"邀请",
+  "Current Rate":"Current Rate",
+  "Next Rate":"Next Rate"
 };
