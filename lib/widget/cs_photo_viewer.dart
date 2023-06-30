@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:wy/widget/views.dart';
 
 class CsPhotoViewer extends StatelessWidget {
   CsPhotoViewer({Key? key, this.photoList = const [], this.tapIndex = 0}) : super(key: key);
@@ -28,13 +29,7 @@ class CsPhotoViewer extends StatelessWidget {
           );
         },
         itemCount: photoList.length,
-        loadingBuilder: (context, event) => Center(
-          child: Container(
-            width: 20.0,
-            height: 20.0,
-            child: CupertinoActivityIndicator(),
-          ),
-        ),
+        loadingBuilder: (context, event) => buildLoad(),
         // backgroundDecoration: widget.backgroundDecoration,
         pageController: _pageController,
         // onPageChanged: onPageChanged,
