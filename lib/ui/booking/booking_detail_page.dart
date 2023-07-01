@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/image_util.dart';
+import 'package:wy/utils/toast_utils.dart';
 
 import '../../config/app_color.dart';
 import '../../config/icon_font.dart';
@@ -163,24 +164,24 @@ class BookingDetailPage extends StatelessWidget {
                         ),
                       ),
                       15.verticalSpace,
-                      ListView.builder(
+                      ListView.separated(
                         itemCount: _ctr.model?.areaVoList.length ?? 0,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (c, i) {
-                          List<DescriptionBean> dList = _ctr
-                              .dealPrice(_ctr.model?.areaVoList[i].description);
+                          AreaVoList? vo = _ctr.model?.areaVoList[i];
+                          List<DescriptionBean> dList =
+                              _ctr.dealPrice(vo?.description);
 
                           return Container(
                             decoration: BoxDecoration(
-                              color: i % 2 == 0
-                                  ? Color(0xff262731)
-                                  : Colors.transparent,
+                              color: Color(0xff262731),
                               borderRadius: BorderRadius.circular(5.r),
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 15.w),
                             alignment: Alignment.center,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 15.verticalSpace,
                                 Row(
@@ -188,19 +189,37 @@ class BookingDetailPage extends StatelessWidget {
                                     Image.asset(
                                       _ctr.getIconRes(
                                           _ctr.model?.areaVoList[i].areaName),
-                                      width: 16.w,
-                                      height: 16.h,
+                                      width: 20.w,
+                                      height: 20.h,
                                     ),
                                     13.horizontalSpace,
-                                    Text(
-                                      _ctr.model?.areaVoList[i].areaName ?? '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        color: Colors.white,
-                                      ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _ctr.model?.areaVoList[i].areaName ??
+                                              '',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        6.verticalSpace,
+                                        Text(
+                                          'Seating: ${vo?.computers}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            color: Color(0xff808388),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Spacer(),
                                     Text(
@@ -257,18 +276,25 @@ class BookingDetailPage extends StatelessWidget {
                             ),
                           );
                         },
+                        separatorBuilder: (c, i) => 12.verticalSpace,
                       ),
                     ],
                   ),
                 ),
               ),
               bottomNavigationBar: Container(
-                margin: EdgeInsets.only(bottom: 30.h, left: 15.w, right: 15.w,),
+                margin: EdgeInsets.only(
+                  bottom: 30.h,
+                  left: 15.w,
+                  right: 15.w,
+                ),
                 child: ColorfulButton(
                   child: Text(
                     "Book Now".tr,
                     style: TextStyle(
-                        color: Colors.white, fontFamily: "DIN", fontSize: 18.sp),
+                        color: Colors.white,
+                        fontFamily: "DIN",
+                        fontSize: 18.sp),
                   ),
                   height: 40.h,
                   borderRadius: 20.r,
