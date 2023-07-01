@@ -210,7 +210,7 @@ class BookingDetailPage extends StatelessWidget {
                                         ),
                                         6.verticalSpace,
                                         Text(
-                                          'Seating: ${vo?.computers}',
+                                          '${vo?.computers} seats',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
