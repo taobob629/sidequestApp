@@ -178,7 +178,7 @@ class BookingDetailPage extends StatelessWidget {
                               color: Color(0xff262731),
                               borderRadius: BorderRadius.circular(5.r),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
                             alignment: Alignment.center,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +229,7 @@ class BookingDetailPage extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: 12.sp,
+                                        fontSize: 16.sp,
                                         fontFamily: FONT_MEDIUM,
                                         color: Color(0xffFFD20E),
                                       ),
