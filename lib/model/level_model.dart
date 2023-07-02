@@ -25,8 +25,8 @@ class LevelModel {
       percent: double.parse(json['percent'].toString()),
       userLevel: json['userLevel'],
       levelName: json['levelName'],
-      nextRate: json['nextRate'],
-      currentRate: json['currentRate'],
+      nextRate: json['nextRate']??'',
+      currentRate: json['currentRate']??'',
       nextLevelName: json['nextLevelName'],
     );
   }
