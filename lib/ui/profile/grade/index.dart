@@ -122,7 +122,7 @@ class GradePage extends GetView<GradeController> {
                         [Colors.white, 18, true],
                         {'ff': 'DIN'}),
                     tips:
-                        '${'Platform fee'.tr}:${controller.model.currentRate}',
+                    controller.isVip()?'${'Platform fee'.tr}:${controller.model.currentRate}':'',
                   ),
                   Offstage(
                       offstage: controller.isTopLevel() && controller.isVip(),
@@ -202,7 +202,7 @@ class GradePage extends GetView<GradeController> {
             TipsWidegt(
               custumTitle: PWidget.text(
                   'Next Level'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
-              tips: '${'Platform fee'.tr}:${controller.model.nextRate}',
+              tips: controller.isVip()?'${'Platform fee'.tr}:${controller.model.nextRate}':'',
             ),
           ],
         ));
