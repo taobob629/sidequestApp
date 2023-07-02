@@ -124,7 +124,11 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     UserController userController = Get.find<UserController>();
     if (Platform.isAndroid) {
-      await userController.googleSignIn.signOut();
+      try{
+        await userController.googleSignIn.signOut();
+      }catch(Exception ){
+
+      }
     }
     userController.logout(done: () {
       try {
