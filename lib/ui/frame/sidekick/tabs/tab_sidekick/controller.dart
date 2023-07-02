@@ -65,6 +65,11 @@ class TabSideKickController extends RefreshListController<GameUserModel> {
     }
   }
 
+  initFilters() {
+    filters.clear();
+    filters.addAll(gameInitFilter);
+  }
+
   getGamePlayers() {
     mDatas.clear();
     initData();
@@ -73,6 +78,7 @@ class TabSideKickController extends RefreshListController<GameUserModel> {
   Future<void> choseSelect(index) async {
     currentSelectIndex = index;
     await getGameSection();
+    initFilters();
     onRefresh();
   }
 
