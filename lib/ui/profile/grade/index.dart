@@ -135,10 +135,10 @@ class GradePage extends GetView<GradeController> {
                                     showIcon: false)
                               ]
                             : [
-                                buildScoreItem(
-                                  'Recharge'.tr,
-                                  controller.model.levelNum,
-                                ),
+                                // buildScoreItem(
+                                //   'Recharge'.tr,
+                                //   controller.model.levelNum,
+                                // ),
                                 buildScoreItem(
                                     'Consumption'.tr, controller.model.levelNum)
                               ],
@@ -158,8 +158,8 @@ class GradePage extends GetView<GradeController> {
                                     showIcon: false)
                               ]
                             : [
-                                buildScoreItem('Recharge'.tr,
-                                    controller.model.nextLevelNum),
+                                // buildScoreItem('Recharge'.tr,
+                                //     controller.model.nextLevelNum),
                                 buildScoreItem('Consumption'.tr,
                                     controller.model.nextLevelNum)
                               ],
