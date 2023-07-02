@@ -375,51 +375,51 @@ class OtherProfilePage extends StatelessWidget {
                                                               ),
                                                             ),
                                                             7.horizontalSpace,
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          8),
-                                                              height: 19.h,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(10
-                                                                              .r),
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .centerLeft,
-                                                                          end: Alignment
-                                                                              .centerRight,
-                                                                          colors: [
-                                                                            Color(0xFF9A6FE9),
-                                                                            Color(0xFF8050E5),
-                                                                          ])),
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            5),
-                                                                    child: Image
-                                                                        .asset(
-                                                                      "assets/images/profile/icon_level_${(t.player.value.userLevel ~/ 5) * 5}.webp",
-                                                                      width:
-                                                                          12.w,
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    "${t.player.value.userLevel}",
-                                                                    style: TextStyle(
-                                                                        fontSize: 11
-                                                                            .sp,
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
+                                                            // Container(
+                                                            //   padding: EdgeInsets
+                                                            //       .symmetric(
+                                                            //           horizontal:
+                                                            //               8),
+                                                            //   height: 19.h,
+                                                            //   decoration:
+                                                            //       BoxDecoration(
+                                                            //           borderRadius:
+                                                            //               BorderRadius.circular(10
+                                                            //                   .r),
+                                                            //           gradient: LinearGradient(
+                                                            //               begin: Alignment
+                                                            //                   .centerLeft,
+                                                            //               end: Alignment
+                                                            //                   .centerRight,
+                                                            //               colors: [
+                                                            //                 Color(0xFF9A6FE9),
+                                                            //                 Color(0xFF8050E5),
+                                                            //               ])),
+                                                            //   child: Row(
+                                                            //     children: [
+                                                            //       Padding(
+                                                            //         padding: const EdgeInsets
+                                                            //                 .only(
+                                                            //             right:
+                                                            //                 5),
+                                                            //         child: Image
+                                                            //             .asset(
+                                                            //           "assets/images/profile/icon_level_${(t.player.value.userLevel ~/ 5) * 5}.webp",
+                                                            //           width:
+                                                            //               12.w,
+                                                            //         ),
+                                                            //       ),
+                                                            //       Text(
+                                                            //         "${t.player.value.userLevel}",
+                                                            //         style: TextStyle(
+                                                            //             fontSize: 11
+                                                            //                 .sp,
+                                                            //             color: Colors
+                                                            //                 .white),
+                                                            //       ),
+                                                            //     ],
+                                                            //   ),
+                                                            // ),
                                                             // Visibility(
                                                             //   visible: !t.isSelf,
                                                             //   child: GestureDetector(
