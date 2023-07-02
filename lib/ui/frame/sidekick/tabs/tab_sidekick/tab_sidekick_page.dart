@@ -44,9 +44,7 @@ class TabSideKickPage extends StatelessWidget {
                   controller.pageState == PageState.sucess
                       ? body(context)
                       : controller.buildEmpty(),
-                  onRefresh: () {
-                    controller.onRefresh();
-                  },
+                  onRefresh: () => controller.onRefresh(),
                   onLoad: () => controller.onLoadMore())),
             ),
           ),

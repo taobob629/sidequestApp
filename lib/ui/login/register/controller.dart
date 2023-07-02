@@ -13,6 +13,7 @@ import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../../utils/toast_utils.dart';
+import '../secondary_page.dart';
 
 /**
     author:mac
@@ -141,19 +142,25 @@ class RegisterPageController extends GetxController {
     }
 
     if (DatetimeUtils.getAge(birthday.value) < 13) {
-      showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-                  .tr,);
+      showInfo(
+        "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+            .tr,
+      );
       return;
     }
 
     String guardian = guardianEditingController.text.trim();
     if (DatetimeUtils.getAge(birthday.value) < 16) {
       if (guardian.isEmpty) {
-        showInfo("Please input your guardian email".tr,);
+        showInfo(
+          "Please input your guardian email".tr,
+        );
         return;
       }
       if (!guardian.contains("@")) {
-        showInfo("Please input a valid guardian email".tr,);
+        showInfo(
+          "Please input a valid guardian email".tr,
+        );
         return;
       }
       if (guardian == email) {
@@ -165,7 +172,9 @@ class RegisterPageController extends GetxController {
     uid = await AuthApi.sendEmail(email, guardian, type);
     dismissLoading();
     if (uid.isNotEmpty) {
-      await showSuccess("Verification code sent".tr,);
+      await showSuccess(
+        "Verification code sent".tr,
+      );
       codeFocusNode.requestFocus();
       step.value = 2;
     }
@@ -174,8 +183,9 @@ class RegisterPageController extends GetxController {
   void setBirthday(DateTime? date) {
     if (date != null) {
       if (DatetimeUtils.getAge(date) < 13) {
-        showInfo("Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-                    .tr);
+        showInfo(
+            "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+                .tr);
         return;
       }
       this.birthday.value = date;
@@ -196,12 +206,16 @@ class RegisterPageController extends GetxController {
     pin = pinEditingController.text.trim();
 
     if (code.isEmpty) {
-      showInfo("Please input your verification code".tr,);
+      showInfo(
+        "Please input your verification code".tr,
+      );
       return;
     }
 
     if (password.length < 6) {
-      showInfo( "Password no less than 6 characters".tr,);
+      showInfo(
+        "Password no less than 6 characters".tr,
+      );
       return;
     }
 
@@ -216,17 +230,23 @@ class RegisterPageController extends GetxController {
     // }
 
     if (nick.isEmpty) {
-      showInfo("Please input your nick name".tr,);
+      showInfo(
+        "Please input your nick name".tr,
+      );
       return;
     }
 
     if (phone.isEmpty) {
-      showInfo("Please input your phone number".tr,);
+      showInfo(
+        "Please input your phone number".tr,
+      );
       return;
     }
 
     if (pin.length < 6) {
-      showInfo("Only 6 numbers accepted as your payment pin".tr,);
+      showInfo(
+        "Only 6 numbers accepted as your payment pin".tr,
+      );
       return;
     }
 
@@ -271,5 +291,38 @@ class RegisterPageController extends GetxController {
     Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login),
         arguments: Map()..['fromRegister'] = true);
     // Get.back();
+  }
+
+  void loginWithApple() {
+    UserController.find.appleLogin(
+        needAppleLogin: true,
+        done: (LoginModel loginModel) {
+          loginSuccess(loginModel);
+        });
+  }
+
+  void loginSuccess(LoginModel loginModel) {
+    if (loginModel.validate == 0) {
+      UserController.find.imLogin();
+      //如果是从登录页面跳转的，跳转到选择游戏页面先
+      var fromRegister = Get.arguments?['fromRegister'];
+      flog('fromRegister $fromRegister');
+      if (fromRegister == true) {
+        Get.offAndToNamed(AppPages.CHOOSE_GAME);
+        return;
+      }
+      Get.offAndToNamed(AppPages.Main);
+    } else {
+      if (loginModel.secondary == 1) {
+        Get.off(() => SecondaryPage(
+              loginModel: loginModel,
+            ));
+      } else {
+        Get.toNamed(AppPages.REGISTER,
+            arguments: Map()
+              ..['type'] = 1
+              ..['loginModel'] = loginModel);
+      }
+    }
   }
 }

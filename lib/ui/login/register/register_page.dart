@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -13,6 +15,7 @@ import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/widget/gradient_button.dart';
 
+import '../../../image_utils.dart';
 import '../../../widget/phone_input/src/utils/phone_number.dart';
 import '../../../widget/phone_input/src/utils/selector_config.dart';
 import '../../../widget/phone_input/src/widgets/input_widget.dart';
@@ -49,13 +52,25 @@ class RegisterPage extends GetView<RegisterPageController> {
                       Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(20).w),
-                          child: ImageUtil.assetImage('default_logo', height: 40.w),
+                          child: ImageUtil.assetImage('default_logo',
+                              height: 40.w),
                         ),
                       ),
                       26.verticalSpace,
                       Text.rich(TextSpan(children: [
-                        TextSpan(text: '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n', style: TextStyle(color: Colors.white, fontSize: 22.sp, fontFamily: FONT_MEDIUM)),
-                        TextSpan(text: 'We would like to know who this account would be for.', style: TextStyle(color: AppColor.whiteGray, fontFamily: FONT_LIGHT))
+                        TextSpan(
+                            text:
+                                '${controller.type == 1 ? "Sign Up".tr : "Update Profile".tr}\n',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.sp,
+                                fontFamily: FONT_MEDIUM)),
+                        TextSpan(
+                            text:
+                                'We would like to know who this account would be for.',
+                            style: TextStyle(
+                                color: AppColor.whiteGray,
+                                fontFamily: FONT_LIGHT))
                       ])),
                       // Text(
                       //   "Profile Information",
@@ -65,7 +80,9 @@ class RegisterPage extends GetView<RegisterPageController> {
                       Obx(() {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: controller.step.value == 1 ? createStep1() : createStep2(),
+                          children: controller.step.value == 1
+                              ? createStep1()
+                              : createStep2(),
                         );
                       }),
                     ],
@@ -92,7 +109,10 @@ class RegisterPage extends GetView<RegisterPageController> {
                 Expanded(
                     child: GradientButton(
                         height: 40,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w, border: Border.all(color: Colors.grey, width: 1)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16)).w,
+                            border: Border.all(color: Colors.grey, width: 1)),
                         tapCallback: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -101,14 +121,19 @@ class RegisterPage extends GetView<RegisterPageController> {
                               Icons.apps,
                               color: AppColor.whiteGray,
                             ),
-                            Text('Iphone', style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                            Text('Iphone',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.sp))
                           ],
                         ))),
                 16.horizontalSpace,
                 Expanded(
                     child: GradientButton(
                         height: 40,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)).w, border: Border.all(color: Colors.grey, width: 1)),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16)).w,
+                            border: Border.all(color: Colors.grey, width: 1)),
                         tapCallback: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +142,9 @@ class RegisterPage extends GetView<RegisterPageController> {
                               Icons.apps,
                               color: AppColor.whiteGray,
                             ),
-                            Text('Google', style: TextStyle(color: Colors.white, fontSize: 16.sp))
+                            Text('Google',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.sp))
                           ],
                         ))),
               ],
@@ -150,7 +177,8 @@ class RegisterPage extends GetView<RegisterPageController> {
           }),
         )));
     list.add(Obx(() => Offstage(
-          offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 || DatetimeUtils.getAge(controller.birthday.value) == 0,
+          offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 ||
+              DatetimeUtils.getAge(controller.birthday.value) == 0,
           child: Column(
             children: [
               SizedBox(
@@ -169,7 +197,8 @@ class RegisterPage extends GetView<RegisterPageController> {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Text(
-                  "Players under the age of 16 must provide an emergency contact in order to use our services and sign up.".tr,
+                  "Players under the age of 16 must provide an emergency contact in order to use our services and sign up."
+                      .tr,
                   style: TextStyle(fontSize: 12, color: AppColor.whiteGray),
                 ),
               ),
@@ -185,13 +214,56 @@ class RegisterPage extends GetView<RegisterPageController> {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             "SEND VERIFICATION CODE".tr,
-            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: "DIN",
+              fontSize: 18,
+            ),
           ),
         ),
         height: 50,
         onTap: () => controller.gotoStep2(),
       ),
     );
+    list.add(Visibility(
+      visible: Platform.isIOS,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => controller.loginWithApple(),
+        child: Container(
+          margin: EdgeInsets.only(top: 20.h),
+          height: 48,
+          width: 1.sw,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+              color: Color(0xffFFD20E),
+              width: 1.w,
+            ),
+          ),
+          padding: EdgeInsets.all(8.r),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                ImageUtils.apple_icon,
+                width: 20.w,
+                height: 20.w,
+              ),
+              6.horizontalSpace,
+              Text(
+                "Apple".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "DIN",
+                  fontSize: 18,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    ));
     return list;
   }
 
@@ -266,7 +338,8 @@ class RegisterPage extends GetView<RegisterPageController> {
     ));
     list.add(Container(
       height: 50,
-      decoration: BoxDecoration(color: AppColor.itemBg2, borderRadius: BorderRadius.circular(16).r),
+      decoration: BoxDecoration(
+          color: AppColor.itemBg2, borderRadius: BorderRadius.circular(16).r),
       // color: Colors.yellow,
       child: InternationalPhoneNumberInput(
         onInputChanged: (PhoneNumber number) {
@@ -294,7 +367,8 @@ class RegisterPage extends GetView<RegisterPageController> {
         formatInput: false,
         cursorColor: Colors.white,
         hintText: "Phone number",
-        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+        keyboardType:
+            TextInputType.numberWithOptions(signed: true, decimal: true),
         inputBorder: OutlineInputBorder(),
         onSaved: (PhoneNumber number) {
           print('On Saved: $number');
@@ -311,7 +385,10 @@ class RegisterPage extends GetView<RegisterPageController> {
     list.add(SizedBox(
       height: 20,
     ));
-    list.add(AuthInputView(tips: "Login Password".tr, editingController: controller.passwordEditingController, keyboardType: TextInputType.visiblePassword));
+    list.add(AuthInputView(
+        tips: "Login Password".tr,
+        editingController: controller.passwordEditingController,
+        keyboardType: TextInputType.visiblePassword));
     list.add(SizedBox(
       height: 20,
     ));
@@ -329,7 +406,11 @@ class RegisterPage extends GetView<RegisterPageController> {
       list.add(SizedBox(
         height: 20,
       ));
-      list.add(AuthInputView(isRequired: false, tips: "Invite Code (Optional)".tr, editingController: controller.inviteEditingController, keyboardType: TextInputType.text));
+      list.add(AuthInputView(
+          isRequired: false,
+          tips: "Invite Code (Optional)".tr,
+          editingController: controller.inviteEditingController,
+          keyboardType: TextInputType.text));
     }
     list.add(SizedBox(
       height: 40,
@@ -340,7 +421,8 @@ class RegisterPage extends GetView<RegisterPageController> {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             controller.type == 1 ? "SIGN UP".tr : "UPDATE".tr,
-            style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 18),
+            style: TextStyle(
+                color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 18),
           ),
         ),
         height: 48,

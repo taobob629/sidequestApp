@@ -64,25 +64,27 @@ abstract class RefreshListController<T> extends BasePageController
     if (paged()) {
       params['pageNum'] = "$page";
       params['pageSize'] = '$pageSize';
-      url='$url&pageNum=$page&pageSize=$pageSize';
+      url = '$url&pageNum=$page&pageSize=$pageSize';
     }
     if (method == NWMethod.GET) {
       params = Map();
     }
     http
         .request(url,
-            options: Options(method: NWMethodValues[method]), data: params, queryParameters: params)
+            options: Options(method: NWMethodValues[method]),
+            data: params,
+            queryParameters: params)
         .then((res) {
-        refreshController?.refreshCompleted();
-        refreshController?.loadComplete();
+      refreshController.refreshCompleted();
+      refreshController.loadComplete();
       if (_isRefresh) {
         mDatas.clear();
       }
-      List<T> newList=[];
+      List<T> newList = [];
       if (res.data == null) return [];
       //  return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
       if (res.data != null) {
-        newList=dealData(res);
+        newList = dealData(res);
         mDatas.addAll(newList);
       }
       loadFinish(res);
@@ -92,13 +94,13 @@ abstract class RefreshListController<T> extends BasePageController
       }
       pageState = PageState.sucess;
       if (paged()) {
-        var hasMore = newList.length >=pageSize;
+        var hasMore = newList.length >= pageSize;
         if (!hasMore) {
-          refreshController?.loadNoData();
+          refreshController.loadNoData();
         }
       }
     }).catchError((e) {
-      pageState=PageState.empty;
+      pageState = PageState.empty;
       buildEmpty();
     });
   }
@@ -107,8 +109,8 @@ abstract class RefreshListController<T> extends BasePageController
   void onRefresh() {
     _isRefresh = true;
     page = DEFAULT_PAGE;
-    if(page==0) {
-      refreshController?.requestRefresh();
+    if (page == 0) {
+      refreshController.requestRefresh();
     }
     request();
   }
@@ -121,9 +123,10 @@ abstract class RefreshListController<T> extends BasePageController
   }
 
   List<T> dealData(dio.Response response);
+
   @override
   void onClose() {
     super.onClose();
-    refreshController?.dispose();
+    refreshController.dispose();
   }
 }
