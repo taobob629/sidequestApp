@@ -169,10 +169,10 @@ class TabSideKickController extends RefreshListController<GameUserModel> {
         filters[section] = gameSections?.genders[index];
         break;
       case 2:
-        filters[section] = gameSections?.levels[index];
+        filters[section] = gameSections?.gameLevel[index];
         break;
       case 3:
-        filters[section] = gameSections?.gameLevel[index];
+        filters[section] = gameSections?.levels[index];
         break;
     }
     onRefresh();
