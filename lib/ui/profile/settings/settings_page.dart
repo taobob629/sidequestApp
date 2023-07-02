@@ -127,10 +127,20 @@ class SettingsPageController extends GetxController {
       await userController.googleSignIn.signOut();
     }
     userController.logout(done: () {
-      Get.delete<UserController>();
-      Get.delete<SideKickCtr>();
-      Get.delete<MainPageController>();
-      Get.offAllNamed(AppPages.Login);
+      try {
+        if (Get.isRegistered<UserController>()) {
+          Get.delete<UserController>();
+        }
+        if (Get.isRegistered<SideKickCtr>()) {
+          Get.delete<SideKickCtr>();
+        }
+        if (Get.isRegistered<MainPageController>()) {
+          Get.delete<MainPageController>();
+        }
+        throw Exception();
+      } finally {
+        Get.offAllNamed(AppPages.Login);
+      }
     });
   }
 
