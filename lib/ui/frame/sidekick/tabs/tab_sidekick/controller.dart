@@ -139,8 +139,8 @@ class TabSideKickController extends RefreshListController<GameUserModel> {
     var filterParams = {
       "language": "${filters[0]?.value}",
       "gender": "${filters[1]?.value}",
-      "level": "${filters[2]?.value}",
-      "gamelevel": "${filters[3]?.value}",
+      "level": "${filters[3]?.value}",
+      "gamelevel": "${filters[2]?.value}",
     };
     var gid = gameList[currentSelectIndex].id;
     var searchParams = jsonEncode(filterParams);
