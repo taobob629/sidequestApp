@@ -124,11 +124,9 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     UserController userController = Get.find<UserController>();
     if (Platform.isAndroid) {
-      try{
+      try {
         await userController.googleSignIn.signOut();
-      }catch(Exception ){
-
-      }
+      } catch (e) {}
     }
     userController.logout(done: () {
       try {
@@ -154,14 +152,14 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     if (type == 1) {
       Get.to(() => ChangePasswordPage(
-        type: 1,
-        hasPwd: response.data['haspwd'],
-      ));
+            type: 1,
+            hasPwd: response.data['haspwd'],
+          ));
     } else {
       Get.to(() => ChangePasswordPage(
-        type: 2,
-        hasPwd: response.data['haspin'],
-      ));
+            type: 2,
+            hasPwd: response.data['haspin'],
+          ));
     }
   }
 
