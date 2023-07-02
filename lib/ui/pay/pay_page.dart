@@ -112,7 +112,7 @@ class PayPage extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
           ),
         ),
-        onTap: () => userController.checkLogin(() => Platform.isIOS&&StorageManager.getOnline()?controller.inAppPay(): controller.pay()),
+        onTap: () => userController.checkLogin(() => Platform.isIOS&&!StorageManager.getOnline()?controller.inAppPay(): controller.pay()),
       ),
     );
   }
