@@ -232,285 +232,290 @@ class PriceSlider extends GetView<AddGamePageController> {
           ),
         ),
         Obx(() => Column(
-          children: [
-            15.verticalSpace,
-            Row(
+              children: [
+                15.verticalSpace,
+                Row(
+                  children: [
+                    Text(
+                      'Promotion Setting'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                    ),
+                    Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        value: model.promotionSwitch.value == true,
+                        onChanged: (value) => model.promotionSwitch.value =
+                            !model.promotionSwitch.value,
+                      ),
+                    ),
+                  ],
+                ),
+                if (model.promotionSwitch.value) _discountWidget(),
+              ],
+            ))
+      ],
+    ));
+  }
+
+  Widget _discountWidget() => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Get.dialog(
+                SelectorDialog(
+                  items: PromotionConfig().promotionList,
+                  title: "Choose a promotion".tr,
+                ),
+                barrierColor: Colors.black26,
+              ).then((value) {
+                if (value != null) {
+                  model.currentPromotion.value = value;
+                }
+              });
+            },
+            child: Container(
+              height: 46.h,
+              decoration: innerDecoration(),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      model.currentPromotion.value.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Colors.white,
+                    size: 18.sp,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (model.currentPromotion.value.id == 0)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Promotion Setting'.tr,
+                  'Discount'.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.sp,
                     fontFamily: FONT_MEDIUM,
                   ),
                 ),
-                Transform.scale(
-                  scale: 0.8,
-                  child: CupertinoSwitch(
-                    value: model.promotionSwitch.value == true,
-                    onChanged: (value) =>
-                    model.promotionSwitch.value = !model.promotionSwitch.value,
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                      SelectorDialog(
+                        items: PromotionConfig().discountList,
+                        title: "Discount".tr,
+                      ),
+                      barrierColor: Colors.black26,
+                    ).then((value) {
+                      if (value != null) {
+                        model.currentDiscount.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            model.currentDiscount.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-            if (model.promotionSwitch.value) _discountWidget(),
-          ],
-        ))
-      ],
-    ));
-  }
-
-  Widget _discountWidget() => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Get.dialog(
-              SelectorDialog(
-                  items: PromotionConfig().promotionList,
-                  title: "Choose a promotion".tr),
-              barrierColor: Colors.black26)
-              .then((value) {
-            if (value != null) {
-              model.currentPromotion.value = value;
-            }
-          });
-        },
-        child: Container(
-          height: 46.h,
-          decoration: innerDecoration(),
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          margin: EdgeInsets.symmetric(vertical: 15.h),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  model.currentPromotion.value.name,
+          if (model.currentPromotion.value.id == 1)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '1st Order Discount'.tr,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
                   ),
                 ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.white,
-                size: 18.sp,
-              ),
-            ],
-          ),
-        ),
-      ),
-      if (model.currentPromotion.value.id == 0)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Discount'.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                Get.dialog(
-                    SelectorDialog(
-                        items: PromotionConfig().discountList,
-                        title: "Discount".tr),
-                    barrierColor: Colors.black26)
-                    .then((value) {
-                  if (value != null) {
-                    model.currentDiscount.value = value;
-                  }
-                });
-              },
-              child: Container(
-                height: 46.h,
-                decoration: innerDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                margin: EdgeInsets.only(top: 6.h),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        model.currentDiscount.value.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                      size: 18.sp,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      if (model.currentPromotion.value.id == 1)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '1st Order Discount'.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                Get.dialog(
-                    SelectorDialog(
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                      SelectorDialog(
                         items: PromotionConfig().orderFreeList,
-                        title: "1st Order Discount".tr),
-                    barrierColor: Colors.black26)
-                    .then((value) {
-                  if (value != null) {
-                    model.currentOrderFree.value = value;
-                  }
-                });
-              },
-              child: Container(
-                height: 46.h,
-                decoration: innerDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                margin: EdgeInsets.only(top: 6.h),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        model.currentOrderFree.value.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
+                        title: "1st Order Discount".tr,
                       ),
+                      barrierColor: Colors.black26,
+                    ).then((value) {
+                      if (value != null) {
+                        model.currentOrderFree.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            model.currentOrderFree.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                      size: 18.sp,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      if (model.currentPromotion.value.id == 2)
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Buy X',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                Get.dialog(
-                    SelectorDialog(
+          if (model.currentPromotion.value.id == 2)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Buy X',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                      SelectorDialog(
                         items: PromotionConfig().xAndYList,
-                        title: "Buy X".tr),
-                    barrierColor: Colors.black26)
-                    .then((value) {
-                  if (value != null) {
-                    model.currentBuyX.value = value;
-                  }
-                });
-              },
-              child: Container(
-                height: 46.h,
-                decoration: innerDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                margin: EdgeInsets.only(top: 6.h, bottom: 15.h),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        model.currentBuyX.value.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
+                        title: "Buy X".tr,
                       ),
+                      barrierColor: Colors.black26,
+                    ).then((value) {
+                      if (value != null) {
+                        model.currentBuyX.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h, bottom: 15.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            model.currentBuyX.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                      size: 18.sp,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Text(
-              'Free Y'.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                Get.dialog(
-                    SelectorDialog(
+                Text(
+                  'Free Y'.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Get.dialog(
+                      SelectorDialog(
                         items: PromotionConfig().xAndYList,
-                        title: "Free Y".tr),
-                    barrierColor: Colors.black26)
-                    .then((value) {
-                  if (value != null) {
-                    model.currentGetY.value = value;
-                  }
-                });
-              },
-              child: Container(
-                height: 46.h,
-                decoration: innerDecoration(),
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                margin: EdgeInsets.only(top: 6.h),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        model.currentGetY.value.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                        ),
+                        title: "Free Y".tr,
                       ),
+                      barrierColor: Colors.black26,
+                    ).then((value) {
+                      if (value != null) {
+                        model.currentGetY.value = value;
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 46.h,
+                    decoration: innerDecoration(),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    margin: EdgeInsets.only(top: 6.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            model.currentGetY.value.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 18.sp,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                      size: 18.sp,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-    ],
-  );
+        ],
+      );
 
   dropDownButton(int index, var init) {
     var seclet = controller.priceRanges

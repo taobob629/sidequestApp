@@ -138,10 +138,10 @@ class AddGamePageController extends GetxController {
     });
 //    mPriceRanges.addAll(serviceModel?.serviceTypes ?? []);
     flog(' serviceModel?.serviceTypes ${serviceModel?.serviceTypes}');
-    serviceModel?.serviceTypes?.forEach((e) {
+    serviceModel?.serviceTypes.forEach((e) {
       e.curPrice = e.price;
       e.initData();
-      mPriceRanges?.add(e);
+      mPriceRanges.add(e);
     });
     if (serviceModel?.pwSkillAuth?.thumb != null) {
       var result = '${serviceModel?.pwSkillAuth?.thumb}'.split(',');
@@ -166,6 +166,7 @@ class AddGamePageController extends GetxController {
       return;
     }
     mPriceRanges[index] = model;
+    mPriceRanges[index].initData();
   }
 
   removePriceRange(int index) {
@@ -439,8 +440,8 @@ class AddGamePageController extends GetxController {
   }
 
   onRefresh() {
-    mPriceRanges?.clear();
-    gamePhotos?.clear();
+    mPriceRanges.clear();
+    gamePhotos.clear();
     getSkillInfo();
   }
 }
