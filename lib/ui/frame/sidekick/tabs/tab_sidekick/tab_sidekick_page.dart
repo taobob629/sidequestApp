@@ -49,29 +49,29 @@ class TabSideKickPage extends StatelessWidget {
             ),
           ),
         ),
-        Obx(
-          () => Positioned(
-            bottom: controller.bottom.value,
-            right: controller.right.value,
-            child: Showcase(
-              key: GlobalKeyConstants.matchKey,
-              description: 'Automatically find corresponding playmates'.tr,
-              child: GestureDetector(
-                onPanUpdate: (DragUpdateDetails details) {
-                  controller.bottom.value -= details.delta.dy;
-                  controller.right.value -= details.delta.dx;
-                },
-                behavior: HitTestBehavior.translucent,
-                onTap: () => Get.toNamed(AppPages.side_kick_match_page),
-                child: Image.asset(
-                  ImageUtils.iconPicMatch,
-                  width: 120.w,
-                  height: 80.h,
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Obx(
+        //   () => Positioned(
+        //     bottom: controller.bottom.value,
+        //     right: controller.right.value,
+        //     child: Showcase(
+        //       key: GlobalKeyConstants.matchKey,
+        //       description: 'Automatically find corresponding playmates'.tr,
+        //       child: GestureDetector(
+        //         onPanUpdate: (DragUpdateDetails details) {
+        //           controller.bottom.value -= details.delta.dy;
+        //           controller.right.value -= details.delta.dx;
+        //         },
+        //         behavior: HitTestBehavior.translucent,
+        //         onTap: () => Get.toNamed(AppPages.side_kick_match_page),
+        //         child: Image.asset(
+        //           ImageUtils.iconPicMatch,
+        //           width: 120.w,
+        //           height: 80.h,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
