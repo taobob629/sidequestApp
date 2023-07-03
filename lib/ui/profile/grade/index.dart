@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/app_color.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/utils/index.dart';
@@ -116,6 +118,8 @@ class GradePage extends GetView<GradeController> {
                     ],
                   ),
                   PWidget.boxh(40),
+                if(!controller.isVip())  Text('${controller.model.tips}',style: TextStyle(fontFamily: FONT_MEDIUM,fontSize: 11.sp,color: AppColor.textC3),),
+                  if(!controller.isVip()) PWidget.boxh(20),
                   TipsWidegt(
                     custumTitle: PWidget.text(
                         '${controller.isTopLevel() ? 'Top level'.tr : 'Current level'.tr}',
