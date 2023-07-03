@@ -34,7 +34,7 @@ class CartController extends GetxController {
   }
 
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
-  RxList<ProductDetails> _products=RxList<ProductDetails>([]);
+  RxList<ProductDetails> _products = RxList<ProductDetails>([]);
 
   List<ProductDetails> get products => _products.value;
 
@@ -56,11 +56,15 @@ class CartController extends GetxController {
       'coin_30',
       'coin_50',
       'coin_100',
-      'coin_200'
+      'coin_200',
+      'VIP_4.99',
+      'VIP_24.99',
+      'VIP_44.99',
+      'VIP_79.99',
     ].toSet());
-     products = productDetailResponse.productDetails;
+    products = productDetailResponse.productDetails;
     // products.forEach((e) {
-    //   flog("products"+e.price+' id:${e.id}');
+    //   flog("products" + e.price + ' id:${e.id} title ${e.title}');
     // });
     // products.clear();
     // products.addAll(products);

@@ -7,6 +7,7 @@ class LevelModel {
   String currentRate;
   String nextLevelName;
   String nextRate;
+  String tips;
 
   LevelModel(
       {this.levelNum = 0,
@@ -16,6 +17,7 @@ class LevelModel {
       this.levelName = '',
       this.currentRate = '',
       this.nextRate = '',
+        this.tips='',
       this.nextLevelName = ''});
 
   factory LevelModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class LevelModel {
       nextRate: json['nextRate']??'',
       currentRate: json['currentRate']??'',
       nextLevelName: json['nextLevelName'],
+      tips: json['tips']??'',
     );
   }
 
@@ -39,6 +42,7 @@ class LevelModel {
     data['userLevel'] = this.userLevel;
     data['levelName'] = this.levelName;
     data['nextLevelName'] = this.nextLevelName;
+    data['tips'] = this.tips;
     return data;
   }
 }
