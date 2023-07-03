@@ -567,7 +567,9 @@ class PayPageController extends GetxController {
     //根据金额，找到对应的内购商品
     var price = parsePrice(payOrderModel.goodsPrice);
     var product = cartController.products.firstWhereOrNull((element) {
-      flog('price $price elemet.id ${element.id}}');
+      if(payOrderModel.type>=5){
+        return element.id=='VIP_${payOrderModel.goodsPrice}';
+      }
       return element.id == 'coin_$price';
     });
     if (product == null) {
