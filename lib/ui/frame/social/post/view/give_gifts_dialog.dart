@@ -1,12 +1,10 @@
-import 'package:card_swiper/card_swiper.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/utils/index.dart';

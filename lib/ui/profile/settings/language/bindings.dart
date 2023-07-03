@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:wy/utils/utils.dart';
 
 import 'controller.dart';
 

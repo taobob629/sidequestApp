@@ -4,11 +4,9 @@
     描述:
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
-import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';

@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -8,7 +9,6 @@ import 'package:wy/ui/index/tab_cybercafe_page.dart';
 import 'package:wy/ui/index/tab_games_page.dart';
 import 'package:wy/ui/index/tab_headlines_page.dart';
 import 'package:wy/ui/index/tab_news_page.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:wy/widget/tab_widget.dart';
 
 class IndexPage extends StatelessWidget {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/base_controller.dart';
@@ -30,12 +31,10 @@ import '../../../playwith/balance/my_earnings_page.dart';
 import '../../../service/add/add_game_page.dart';
 import '../../social/post/view/gift_suc_anim.dart';
 import '../../social/post/view/give_gifts_dialog.dart';
-import '../my_profile/badges_widget.dart';
 import '../play_order/play_order_page.dart';
 import 'other_album_page.dart';
 import 'other_dashboard_page.dart';
 import 'other_posts_page.dart';
-import 'package:just_audio/just_audio.dart';
 
 class PlayState {
   static const int idle = 0;

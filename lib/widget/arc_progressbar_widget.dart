@@ -9,7 +9,6 @@ import 'dart:math' as Math;
 import 'dart:ui' as UI;
 
 import 'package:flutter/material.dart';
-import 'package:wy/utils/utils.dart';
 
 class ArcProgressBar extends StatelessWidget {
   final double width;

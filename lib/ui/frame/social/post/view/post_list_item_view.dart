@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -16,13 +17,12 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
-import 'package:wy/ui/frame/social/post/more_fun_widget.dart';
 import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:wy/widget/like_button/like_button.dart';
+
 import '../../../../controller/user_controller.dart';
 import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';

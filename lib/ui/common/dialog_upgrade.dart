@@ -1,19 +1,9 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:ota_update/ota_update.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:store_redirect/store_redirect.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:wy/config/app_config.dart';
 import 'package:wy/model/version_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
-import 'package:wy/utils/utils.dart';
-
-import 'dialog_confirm.dart';
 
 class UpgradeDialog extends StatelessWidget {
 

@@ -6,7 +6,6 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -15,12 +14,10 @@ import 'package:wy/common/list/index.dart';
 import 'package:wy/common/page/basePage.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/service_list_model.dart';
-import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/refresh_list.dart';
 
-import '../../../event_bus/event_bus.dart';
 import 'controller.dart';
 
 class OrderListListPage extends BasePage {

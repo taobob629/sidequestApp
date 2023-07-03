@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/config/app_color.dart';
@@ -18,7 +18,6 @@ import 'package:wy/view/custom_warn_widget.dart';
 import 'config/app_config.dart';
 import 'config/icon_font.dart';
 import 'config/lang/translations.dart';
-import 'image_utils.dart';
 
 class App extends StatelessWidget {
   final cartController = Get.put(CartController(), permanent: true);

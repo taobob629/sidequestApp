@@ -1,4 +1,3 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -9,7 +8,6 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/utils/image_util.dart';
 
-import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
 
 class PostFavoratorsPage extends StatelessWidget {

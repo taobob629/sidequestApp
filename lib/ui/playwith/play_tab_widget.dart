@@ -4,7 +4,6 @@ import 'package:wy/ui/playwith/scroll_monitor_widget.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/custom_scroll_physics.dart';
 import 'package:wy/widget/my_bouncing_scroll_physics.dart';
-import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
 
 class PlayTabWidget extends StatefulWidget {

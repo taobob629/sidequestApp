@@ -1,4 +1,4 @@
-import '../ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
+
 
 class PayType {
   static const BUY_GOODS = -1; //购买商品

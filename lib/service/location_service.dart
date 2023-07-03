@@ -8,7 +8,6 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
-import 'package:wy/utils/utils.dart';
 
 class LocationService {
 // 工厂方法构造函数 - 通过UserModel()获取对象1

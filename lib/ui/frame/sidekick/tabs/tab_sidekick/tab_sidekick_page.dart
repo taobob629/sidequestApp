@@ -9,8 +9,6 @@ import 'package:wy/ui/frame/sidekick/widget/list_item.dart';
 import 'package:wy/ui/frame/sidekick/widget/section.dart';
 
 import '../../../../../common/base_controller.dart';
-import '../../../../../config/app_pages.dart';
-import '../../../../../image_utils.dart';
 import '../../../../../utils/global_key_constants.dart';
 import '../../../../../utils/navigator_helper.dart';
 import '../../../../../widget/refresh_list.dart';

@@ -5,7 +5,6 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';

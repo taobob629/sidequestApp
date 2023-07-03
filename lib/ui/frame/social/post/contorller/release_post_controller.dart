@@ -1,18 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:path/path.dart' as path;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:showcaseview/showcaseview.dart';
+import 'package:path/path.dart' as path;
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
-import 'package:wy/ui/im/im_util.dart';
 
 import '../../../../../api/common.dart';
-import '../../../../../utils/global_key_constants.dart';
 import '../../../../../utils/storage_manager.dart';
 import '../../../../../utils/toast_utils.dart';
 

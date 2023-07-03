@@ -25,7 +25,6 @@ import 'package:wy/widget/show_error_widget.dart';
 
 import '../api_service/profile_api.dart';
 import '../ui/profile/address/list/address_page.dart';
-import '../ui/profile/wallet/new_wallet_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();

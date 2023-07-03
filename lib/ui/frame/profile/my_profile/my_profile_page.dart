@@ -1,11 +1,10 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/common/web_page.dart';

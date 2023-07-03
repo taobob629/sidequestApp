@@ -2,12 +2,12 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/app.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/home/index.dart';
+
 import 'controller.dart';
 
 class SearchUserPage extends GetView<SearchUserController> {

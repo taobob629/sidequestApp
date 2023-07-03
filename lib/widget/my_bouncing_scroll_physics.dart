@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 class MyBouncingScrollPhysics extends ScrollPhysics {
   /// Creates scroll physics that bounce back from the edge.

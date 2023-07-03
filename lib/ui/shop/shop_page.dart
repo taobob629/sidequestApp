@@ -5,6 +5,7 @@ import 'package:wy/api/index_api.dart';
 import 'package:wy/api/shop_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/model/banner_model.dart' as custom;
 import 'package:wy/model/shop_tab_model.dart';
 import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
@@ -12,7 +13,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/shop/cart/cart_page.dart';
 import 'package:wy/ui/shop/tab_cate_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
-import 'package:wy/model/banner_model.dart' as custom;
 
 class ShopPage extends StatelessWidget {
   final controller = Get.put(ShopPageController());

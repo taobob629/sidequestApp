@@ -1,26 +1,21 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:date_format/date_format.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:wy/api/user_api.dart';
-import 'package:wy/ui/common/dialog_date_time_picker.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/profile/edit/birthday_editor.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
 import 'package:wy/ui/profile/edit/info_item.dart';
 import 'package:wy/utils/permission_helper.dart';
 
 import '../../../api/auth_api.dart';
 import '../../../config/app_config.dart';
-import '../../../utils/datetime_utils.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/action_button.dart';
 import '../../common/dialog_confirm.dart';

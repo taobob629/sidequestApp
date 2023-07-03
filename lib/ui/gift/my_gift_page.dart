@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wy/common/string_ext.dart';
 
-import '../../../config/app_color.dart';
-import '../../../config/app_pages.dart';
 import '../../../config/icon_font.dart';
 import '../../../model/service_list_model.dart';
 import '../../../res/styles.dart';

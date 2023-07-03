@@ -13,7 +13,7 @@ import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/service/skill/list/controller.dart';
 import 'package:wy/ui/service/skill/list/view.dart';
 import 'package:wy/widget/tab_widget.dart';
-import 'package:get/get.dart';
+
 import 'controller.dart';
 
 

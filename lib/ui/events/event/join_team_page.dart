@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/config/app_color.dart';
@@ -18,7 +17,6 @@ import 'package:wy/ui/events/event/dialog_passcode.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/event/team_page.dart';
 import 'package:wy/utils/toast_utils.dart';
-import 'package:wy/utils/utils.dart';
 
 import '../../common/dialog_confirm.dart';
 

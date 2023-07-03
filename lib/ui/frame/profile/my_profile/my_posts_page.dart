@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/ui/common/home_indicator.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_praised_post_page.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_released_post_page.dart';
 import 'package:wy/ui/frame/profile/my_profile/post/my_replied_post_page.dart';
-import 'package:wy/widget/tab_widget.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';

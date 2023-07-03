@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart' as Get;
 import 'package:wy/service/location_service.dart';
 import 'package:wy/ui/controller/user_controller.dart';

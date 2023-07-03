@@ -5,8 +5,8 @@ import 'package:wy/model/address_model.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/profile/address/list/address_item.dart';
 import 'package:wy/ui/profile/address/edit/edit_address_page.dart';
+import 'package:wy/ui/profile/address/list/address_item.dart';
 
 import 'controller.dart';
 

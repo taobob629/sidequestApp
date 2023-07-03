@@ -4,11 +4,8 @@
     描述:
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
-
-import '../../../config/icon_font.dart';
 
 class SideKickCtr extends BaseTabContoller {
   static SideKickCtr get find => Get.find();

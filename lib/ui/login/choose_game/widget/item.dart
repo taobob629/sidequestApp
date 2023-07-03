@@ -5,10 +5,10 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/ui/login/choose_game/controller.dart';
 import 'package:wy/utils/image_util.dart';
-import 'package:get/get.dart';
 
 class GameWidget extends GetView<ChooseGamePageController> {
   late SimpleGameModel item;

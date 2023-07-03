@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tencent_cloud_chat_uikit/business_logic/view_models/tui_chat_global_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
@@ -15,7 +16,6 @@ import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/frame/messages/group/group_profile.dart';
@@ -25,14 +25,10 @@ import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/icon_text.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../model/play_order_detail_model.dart';
 import '../../../common/dialog_confirm.dart';
-import '../../social/post/view/gift_animation.dart';
 import '../../social/post/view/give_gifts_dialog.dart';
-
-import 'package:get/get.dart';
 
 class ChatController extends BasePageController {
   V2TimConversation selectedConversation;

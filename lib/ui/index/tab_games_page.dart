@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
+import 'package:wy/model/banner_model.dart' as custom;
 import 'package:wy/model/game_model.dart';
 import 'package:wy/ui/common/banner_view.dart';
 import 'package:wy/ui/index/popular_game_view.dart';
 import 'package:wy/ui/index/support_game_view.dart';
-import 'package:wy/model/banner_model.dart' as custom;
 
 class TabGamesPage extends StatelessWidget {
 

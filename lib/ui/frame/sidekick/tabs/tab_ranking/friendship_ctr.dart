@@ -2,11 +2,9 @@
 import 'package:get/get.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_ranking/tab_ranking_ctr.dart';
 
-import '../../../../../api/user_api.dart';
 import '../../../../../api/wy_http.dart';
 import '../../../../../common/getx_refresh_controller.dart';
 import '../../../../../model/playmate_model.dart';
-import '../../../../../model/vistor_model.dart';
 import '../../../../../utils/toast_utils.dart';
 
 class FriendShipCtr extends GetxRefreshController<TopModel> {

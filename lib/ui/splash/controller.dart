@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/model/login_model.dart';
 import 'package:wy/utils/storage_manager.dart';
 
 /**

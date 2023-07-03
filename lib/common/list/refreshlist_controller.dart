@@ -4,16 +4,15 @@
     描述:
  */
 import 'package:dio/dio.dart';
+import 'package:dio/src/response.dart' as dio;
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/network_method.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/common/list/refresh_interface.dart';
-import 'package:wy/utils/index.dart';
+
 import 'http_interface.dart';
-import 'package:wy/api/wy_http.dart';
-import 'package:dio/src/response.dart' as dio;
 
 const int DEFAULT_PAGE = 1;
 const int DEFAULT_PAGE_SIZE = 10;

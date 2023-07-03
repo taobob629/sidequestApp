@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
 import '../utils/toast_utils.dart';
-import '../view/views.dart';
 
 ///Verification code component
 class CodeWidget extends StatefulWidget {

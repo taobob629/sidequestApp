@@ -11,7 +11,6 @@ import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/price_range_model.dart';
-import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/utils/index.dart';

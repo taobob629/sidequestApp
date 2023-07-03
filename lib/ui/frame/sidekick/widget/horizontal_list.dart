@@ -11,7 +11,6 @@ import 'package:wy/model/game_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/controller.dart';
 import 'package:wy/utils/image_util.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/views.dart';
 
 class HorizontalGameListWidget extends StatelessWidget {

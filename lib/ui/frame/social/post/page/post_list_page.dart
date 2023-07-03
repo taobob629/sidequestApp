@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/view/post_list_item_view.dart';
 

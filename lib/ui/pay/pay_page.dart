@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
@@ -8,11 +7,8 @@ import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/pay/controller.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/platform_utils.dart';
-import 'package:wy/utils/utils.dart';
 
 import '../../model/address_model.dart';
-import '../../utils/navigator_helper.dart';
 
 class PayPage extends StatelessWidget {
   late final PayPageController controller;

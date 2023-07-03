@@ -10,7 +10,6 @@ import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/social/activity/controller.dart';
 import 'package:wy/ui/frame/social/activity/list/view.dart';
-import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 
 class ActivityTabPage extends StatefulWidget {

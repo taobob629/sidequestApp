@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
@@ -56,6 +55,7 @@ import 'package:wy/ui/service/skill/skill_item/view.dart';
 import 'package:wy/ui/service/view.dart';
 import 'package:wy/ui/splash/bindings.dart';
 import 'package:wy/ui/splash/view.dart';
+
 import '../ui/frame/social/post/page/release_post_page.dart';
 import '../ui/match/filter/bindings.dart';
 import '../ui/match/filter/view.dart';

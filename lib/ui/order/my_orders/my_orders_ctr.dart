@@ -1,14 +1,10 @@
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 
-import '../../../api/user_api.dart';
 import '../../../common/getx_refresh_controller.dart';
 import '../../../model/beans/order_status_bean.dart';
 import '../../../model/service_list_model.dart';
-import '../../../model/vistor_model.dart';
 import '../../../utils/toast_utils.dart';
 
 class MyOrdersCtr extends GetxRefreshController<ServiceListModel> {

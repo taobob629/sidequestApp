@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/controller.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/drop_down/gzx_dropdown_menu.dart';
 
 import '../../../../utils/global_key_constants.dart';

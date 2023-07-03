@@ -1,5 +1,4 @@
 import 'package:date_format/date_format.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,9 +8,7 @@ import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
-import 'package:wy/res/index.dart';
 import 'package:wy/ui/im/im_util.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
 class MessageType {

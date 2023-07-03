@@ -1,5 +1,5 @@
-import 'package:wy/model/safe_convert.dart';
 import 'package:wy/common/string_ext.dart';
+import 'package:wy/model/safe_convert.dart';
 
 class OrderDetailModel {
   // 1

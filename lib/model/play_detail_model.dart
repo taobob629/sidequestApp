@@ -1,8 +1,6 @@
 
 
-import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/model/user_info_model.dart';
-import 'package:wy/utils/utils.dart';
 
 class PlayDetailModel {
   late int userId = 0;

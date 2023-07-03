@@ -1,13 +1,12 @@
 // ignore_for_file: unused_field, avoid_print, unused_import
 
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +22,9 @@ import 'package:tencent_cloud_chat_uikit/ui/utils/platform.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKitTextField/intl_camer_picker.dart';
 import 'package:tencent_im_base/tencent_im_base.dart';
 import 'package:tencent_wechat_camera_picker/tencent_wechat_camera_picker.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:video_thumbnail/video_thumbnail.dart' as video_thumbnail;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:universal_html/html.dart' as html;
 
 class MorePanelConfig {
   final bool showGalleryPickAction;

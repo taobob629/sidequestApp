@@ -1,8 +1,9 @@
 import 'dart:math';
-import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
+import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart' as pr;
 
 import '../model/data_model.dart';

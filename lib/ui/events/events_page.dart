@@ -6,10 +6,9 @@ import 'package:wy/ui/common/activity_item.dart';
 import 'package:wy/ui/events/tab_activity_page.dart';
 import 'package:wy/ui/events/tab_match_page.dart';
 import 'package:wy/utils/utils.dart';
-import 'package:wy/view/views.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
-import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tab_widget.dart';
+
 import '../../model/activity_item_model.dart';
 import '../../model/data_model.dart';
 import '../../widget/mylistview.dart';

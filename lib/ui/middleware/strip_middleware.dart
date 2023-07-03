@@ -7,7 +7,6 @@
 */
 import 'package:get/get.dart';
 import 'package:wy/config/app_config.dart';
-import 'package:wy/utils/utils.dart';
 
 class StripMiddleWare extends GetMiddleware {
   var action;

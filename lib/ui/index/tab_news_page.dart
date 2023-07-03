@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/model/banner_model.dart' as custom;
 import 'package:wy/model/news_item_model.dart';
 import 'package:wy/ui/common/banner_view.dart';
 import 'package:wy/ui/common/news_item.dart';
-import 'package:wy/model/banner_model.dart' as custom;
 
 class TabNewsPage extends StatelessWidget {
   final controller = Get.put(TabNewsPageController());

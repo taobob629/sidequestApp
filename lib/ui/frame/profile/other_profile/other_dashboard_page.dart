@@ -5,12 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:tencent_cloud_chat_uikit/business_logic/model/profile_model.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/event_bus/event_bus.dart';
-import 'package:wy/service/voice_player.dart';
-import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/badge_detail_widget.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
@@ -18,7 +15,6 @@ import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
 import '../../game/game_home_page.dart';
-import 'mdoel/player_info_mdoel.dart';
 import 'other_profile_page.dart';
 
 class OtherDashboardPage extends StatelessWidget {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math show sin, pi;
+
+import 'package:flutter/material.dart';
 
 class CustomLoadingWidget extends StatefulWidget {
   const CustomLoadingWidget({

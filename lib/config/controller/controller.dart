@@ -3,11 +3,11 @@
     创建日期:2023/3/30
     描述:
  */
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wy/config/lang/translations.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/utils/index.dart';

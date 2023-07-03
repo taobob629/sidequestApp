@@ -6,7 +6,6 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
@@ -14,7 +13,6 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
 import 'package:wy/widget/home/level.dart';
 import 'package:wy/widget/paixs_widget.dart';

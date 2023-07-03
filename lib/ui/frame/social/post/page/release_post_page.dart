@@ -4,11 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/config/app_color.dart';
-
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
-import 'package:wy/ui/im/im_util.dart';
 import 'package:wy/utils/global_key_constants.dart';
 
 import '../../../../../utils/image_util.dart';

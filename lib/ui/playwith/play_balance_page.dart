@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/playwith/balance/my_earnings_page.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/playwith/play_tab_widget.dart';
-import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 class PlayBalancePage extends StatefulWidget {

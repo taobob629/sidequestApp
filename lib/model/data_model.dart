@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'dart:convert';
+
 import '../utils/utils.dart';
 
 class DataModel<T> {

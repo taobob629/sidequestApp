@@ -1,7 +1,6 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:wy/api/wy_http.dart';
 import 'package:dio/src/response.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/banner_model.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/game_service_model.dart';
@@ -11,8 +10,6 @@ import 'package:wy/model/news_item_model.dart';
 import 'package:wy/model/promotion_item_model.dart';
 import 'package:wy/model/version_model.dart';
 import 'package:wy/utils/platform_utils.dart';
-
-import 'wy_http.dart';
 
 class IndexApi {
   static Future<List<BannerModel>> getBanners(int tab) async {

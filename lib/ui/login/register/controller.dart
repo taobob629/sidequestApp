@@ -1,13 +1,11 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/login/login_page.dart';
 import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';

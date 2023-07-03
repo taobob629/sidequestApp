@@ -6,16 +6,12 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/common/page/empty_view.dart';
-import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/skill_item_model.dart';
@@ -25,7 +21,6 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/playwith/balance/widget/tips_dialog.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/profile/header_widget.dart';

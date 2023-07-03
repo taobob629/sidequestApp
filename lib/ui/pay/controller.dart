@@ -6,13 +6,12 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:wy/api/address_api.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
@@ -29,12 +28,10 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/dialog_password.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
 import '../../utils/toast_utils.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PayPageController extends GetxController {
   static const MethodChannel _channel =

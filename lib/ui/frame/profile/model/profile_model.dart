@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:wy/model/safe_convert.dart';
-import 'package:wy/utils/index.dart';
 
 class ProfileModel {
   int memberId = 0;

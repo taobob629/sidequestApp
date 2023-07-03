@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
 import 'package:wy/utils/toast_utils.dart';
-import 'package:wy/utils/utils.dart';
 
 /**
     author:mac

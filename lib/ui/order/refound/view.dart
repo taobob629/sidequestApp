@@ -9,11 +9,8 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/floating_button.dart';
-import 'package:wy/ui/order/detail/widgets/widgets.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/views.dart';
 

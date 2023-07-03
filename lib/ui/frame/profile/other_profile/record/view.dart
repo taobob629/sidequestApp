@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/widget/record_header_widget.dart';
 import 'package:wy/utils/index.dart';
+
 import '../../../../../config/icon_font.dart';
 import 'controller.dart';
 import 'widget/count_down_widget.dart';

@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/address_api.dart';
 import 'package:wy/model/address_model.dart';
@@ -13,7 +14,6 @@ import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import 'cart_item.dart';
-import 'dart:convert';
 
 class CartPage extends StatelessWidget {
 

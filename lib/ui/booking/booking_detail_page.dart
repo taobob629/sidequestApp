@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/image_util.dart';
-import 'package:wy/utils/toast_utils.dart';
 
 import '../../config/app_color.dart';
 import '../../config/icon_font.dart';

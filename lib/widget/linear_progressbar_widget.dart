@@ -5,11 +5,7 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
-import 'dart:math' as Math;
-import 'dart:ui' as UI;
-
 import 'package:flutter/material.dart';
-import 'package:wy/utils/utils.dart';
 
 class LinearProgressBar extends StatelessWidget {
   final double width;

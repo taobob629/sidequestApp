@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/utils/index.dart';
 
-import '../../utils/navigator_helper.dart';
-
 class EnergyView extends StatelessWidget {
   final double percent;
   final int remaining;

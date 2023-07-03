@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/utils/index.dart';
 
 import '../ui/common/home_indicator.dart';
 import 'custom_scroll_physics.dart';

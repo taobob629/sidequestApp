@@ -6,12 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:get/get.dart';
+import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/auth_api.dart';
-
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
 import 'package:wy/config/app_color.dart';

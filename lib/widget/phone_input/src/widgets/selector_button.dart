@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+
 import '../models/country_model.dart';
-import '../utils/selector_config.dart';
 import '../test/test_helper.dart';
+import '../utils/selector_config.dart';
 import 'countries_search_list_widget.dart';
 import 'input_widget.dart';
 import 'item.dart';

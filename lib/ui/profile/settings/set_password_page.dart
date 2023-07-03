@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:wy/api/user_api.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
-import 'package:wy/utils/storage_manager.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
-import '../../login/forget_page.dart';
 
 class SetPasswordPage extends StatelessWidget {
   late final SetPasswordPageController controller;

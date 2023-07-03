@@ -3,13 +3,13 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:html/dom.dart' as dom;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:wy/common/string_ext.dart';
 
 import '../../../widget/paixs_widget.dart';
 

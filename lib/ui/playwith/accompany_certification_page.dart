@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -11,7 +10,6 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
 import 'package:wy/model/data_model.dart';
 import 'package:wy/model/login_model.dart';
-import 'package:wy/model/selector_item.dart';
 import 'package:wy/ui/common/dialog_selector.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
@@ -21,9 +19,7 @@ import 'package:wy/view/views.dart';
 import 'package:wy/widget/code_widget.dart';
 import 'package:wy/widget/mylistview.dart';
 import 'package:wy/widget/paixs_widget.dart';
-import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
-import 'package:wy/widget/views.dart';
 
 import '../../utils/toast_utils.dart';
 

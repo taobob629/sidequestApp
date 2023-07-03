@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/utils/platform_utils.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class PermissionHelper {
   static bool isDenied(PermissionStatus status) {

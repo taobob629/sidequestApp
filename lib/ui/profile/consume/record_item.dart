@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/utils/image_util.dart';
-import 'package:wy/common/string_ext.dart';
 
 import '../../../model/balance_record_model.dart';
 

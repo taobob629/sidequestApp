@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ import 'package:wy/image_utils.dart';
 import 'package:wy/ui/profile/task/detail/task_detail_page.dart';
 import 'package:wy/ui/profile/task/task_ctr.dart';
 import 'package:wy/utils/index.dart';
-import 'package:badges/badges.dart' as badges;
 
 import '../../../config/app_color.dart';
 import '../../common/base_scaffold.dart';

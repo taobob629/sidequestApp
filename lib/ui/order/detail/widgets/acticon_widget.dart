@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/colorful_button.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/im/dialog_comment.dart';
 import 'package:wy/ui/order/controller.dart';

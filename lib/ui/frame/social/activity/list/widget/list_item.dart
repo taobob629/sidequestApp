@@ -3,19 +3,16 @@
     创建日期:2023/2/24
     描述:
  */
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/activity_list_model.dart';
-import 'package:wy/res/dimens.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/widget/timer_widget.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/common/string_ext.dart';
 
 class ActivityListItemWidget extends StatelessWidget {
   late ActivityListModel model;

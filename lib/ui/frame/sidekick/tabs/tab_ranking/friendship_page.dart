@@ -7,7 +7,6 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 
 import '../../../../../utils/navigator_helper.dart';
-import '../../../../controller/user_controller.dart';
 import 'friendship_ctr.dart';
 
 class FriendShipPage extends StatelessWidget {

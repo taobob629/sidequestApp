@@ -6,24 +6,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/order_api.dart';
 import 'package:wy/common/base_controller.dart';
-import 'package:wy/common/string_ext.dart';
-import 'package:wy/event_bus/event_bus.dart';
 import 'package:wy/model/order_detail.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/chat/chat_page.dart';
 import 'package:wy/ui/im/dialog_reject.dart';
 import 'package:wy/ui/order/controller.dart';
-import 'package:wy/ui/order/list/controller.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/dialog/dialog_comment.dart';
-import 'package:dio/src/response.dart';
 
 import '../../../utils/toast_utils.dart';
 

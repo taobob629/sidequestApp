@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/wy_dialog.dart';
-import 'package:get/get.dart';
-import 'package:wy/widget/my_bouncing_scroll_physics.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;

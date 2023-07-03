@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/shop_api.dart';
@@ -12,7 +12,6 @@ import 'package:wy/ui/common/quantity_selector.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/shop/product/comb_item.dart';
 import 'package:wy/ui/shop/product/recommend_item.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import 'add_button.dart';

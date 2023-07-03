@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/profile/bankcard/controller.dart';
 import 'package:wy/utils/text_utils.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/city_picker/csc_picker.dart';
 import 'package:wy/widget/city_picker/model/select_status_model.dart';
 import 'package:wy/widget/light_text.dart';

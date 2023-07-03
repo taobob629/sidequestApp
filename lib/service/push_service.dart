@@ -5,10 +5,7 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
-import 'dart:convert';
-
 import 'package:tim_ui_kit_push_plugin/tim_ui_kit_push_plugin.dart';
-import 'package:wy/utils/utils.dart';
 
 class ChannelPush {
   static final TimUiKitPushPlugin cPush = TimUiKitPushPlugin(

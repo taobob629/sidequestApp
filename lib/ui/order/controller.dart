@@ -5,7 +5,6 @@
  */
 import 'package:get/get.dart';
 import 'package:wy/common/base_tab_controller.dart';
-import 'package:wy/model/activity_tab.dart';
 
 import '../../event_bus/beans/order_bean.dart';
 

@@ -1,24 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/api/address_api.dart';
-import 'package:wy/common/getx_list_controller.dart';
-import 'package:wy/config/app_color.dart';
-import 'package:wy/config/app_config.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/address_model.dart';
-import 'package:wy/model/shire.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/keyboard_scaffold.dart';
-import 'package:wy/utils/index.dart';
-import 'package:wy/utils/string_utils.dart';
 
 import 'controller.dart';
 

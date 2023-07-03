@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/view/views.dart';
 import 'package:wy/widget/expansion_tile.dart';
-import 'package:wy/widget/paixs_widget.dart';
 
 import '../model/vip_info_model.dart';
 

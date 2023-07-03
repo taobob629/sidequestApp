@@ -1,11 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/events/event/event_page.dart';
-import 'package:wy/ui/events/widget/timer_widget.dart';
-import 'package:wy/utils/index.dart';
 
 class FlexibleHeader extends GetView<EventPageController> {
 

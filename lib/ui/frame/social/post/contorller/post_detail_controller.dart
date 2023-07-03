@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/api_service/post_api.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 
 import '../page/post_comments_page.dart';

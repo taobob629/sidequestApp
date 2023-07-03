@@ -7,7 +7,6 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wy/res/dimens.dart';
 
 class GradientButton extends StatelessWidget {

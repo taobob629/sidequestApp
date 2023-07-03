@@ -1,13 +1,13 @@
-import 'package:wy/api/game_api.dart';
-import 'package:wy/common/page/empty_view.dart';
-import 'package:wy/config/app_pages.dart';
-import 'package:wy/model/banner_model.dart' as custom;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wy/api/game_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/common/page/empty_view.dart';
+import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/activity_item_model.dart';
+import 'package:wy/model/banner_model.dart' as custom;
 import 'package:wy/model/game_model.dart';
 import 'package:wy/model/headline_model.dart';
 import 'package:wy/model/match_item_model.dart';

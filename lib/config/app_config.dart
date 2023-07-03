@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/core/core_services.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:wy/app.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/app.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 
-import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'app_color.dart';
 
 var splashBg = 'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';

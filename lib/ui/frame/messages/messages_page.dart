@@ -1,16 +1,15 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:collection/collection.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/image_utils.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
+
 import '../../../common/keep_alive_wrapper.dart';
 import 'chat/conversation_list_page.dart';
 import 'controller.dart';
-import 'package:badges/badges.dart' as badges;
 
 class MessagesPage extends StatelessWidget {
   final controller = Get.put(MessagesPageController());

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/ui/events/event/event_page.dart';
 import 'package:wy/ui/events/widget/timer_widget.dart';
-import 'package:wy/utils/index.dart';
 
 class EventFlexibleHeader extends GetView<EventPageController> {
   final String image;

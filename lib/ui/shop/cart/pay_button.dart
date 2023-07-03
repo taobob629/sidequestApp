@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/cart_controller.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/navigator_helper.dart';
-import 'dart:convert';
 
 import '../../profile/orders/orders_page.dart';
 import 'cart_page.dart';

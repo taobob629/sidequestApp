@@ -5,7 +5,6 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/im/play_order.dart';
 import 'package:wy/ui/pay/controller.dart';
-import 'package:wy/utils/navigator_helper.dart';
 
 import '../../model/pay_order_model.dart';
 import '../frame/profile/play_order/play_order_page.dart';

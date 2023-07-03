@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
+
 import '../models/country_list.dart';
 import 'phone_number/phone_number_util.dart';
 

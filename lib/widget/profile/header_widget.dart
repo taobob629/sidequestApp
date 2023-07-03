@@ -3,13 +3,13 @@
     创建日期:2023/5/20
     描述:
  */
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:wy/ui/frame/profile/my_profile/visitor_page.dart';
 import 'package:wy/ui/frame/profile/play_order/rating_comment_page.dart';
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:tencent_cloud_chat_uikit/ui/utils/screen_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
+
 import 'controller.dart';
 
 class CreateGroupIntroduction extends StatefulWidget {

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/beans/jump_match_suc_bean.dart';
@@ -14,7 +12,6 @@ import '../../../model/login_model.dart';
 import '../../../model/match/matching_model.dart';
 import '../../../model/match_init_model.dart';
 import '../../../model/send_match_model.dart';
-import '../../../utils/global_key_constants.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_selector.dart';

@@ -5,16 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
-import 'package:wy/ui/order/detail/widgets/acticon_widget.dart';
+
 import '../../../../ui/login/register/controller.dart';
 import '../models/country_list.dart';
 import '../models/country_model.dart';
 import '../providers/country_provider.dart';
+import '../test/test_helper.dart';
 import '../utils/formatter/as_you_type_formatter.dart';
 import '../utils/phone_number.dart';
 import '../utils/phone_number/phone_number_util.dart';
 import '../utils/selector_config.dart';
-import '../test/test_helper.dart';
 import '../utils/util.dart';
 import '../utils/widget_view.dart';
 import '../widgets/selector_button.dart';

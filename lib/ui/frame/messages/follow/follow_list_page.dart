@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,9 +13,7 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/attention_model.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import '../../../../widget/home/sex_age_widget.dart';

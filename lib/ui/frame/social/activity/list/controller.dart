@@ -3,12 +3,10 @@
     创建日期:2023/2/17
     描述:
  */
-import 'dart:convert';
-
+import 'package:dio/src/response.dart' as dio;
 import 'package:wy/api/network_method.dart';
 import 'package:wy/common/list/index.dart';
 import 'package:wy/model/activity_list_model.dart';
-import 'package:dio/src/response.dart' as dio;
 
 class ActivityListController extends RefreshListController<ActivityListModel> {
  late var type;

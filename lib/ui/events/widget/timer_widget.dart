@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/ext.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/utils/index.dart';
 
 class TimerWidget extends StatelessWidget {
   int restSeconds;

@@ -5,7 +5,6 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wy/utils/index.dart';
 
 class StarWidget extends StatelessWidget {
   var star;

@@ -6,17 +6,14 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/model/user_info_model.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
 import 'package:wy/widget/linear_progressbar_widget.dart';
-import 'package:wy/widget/paixs_widget.dart';
-import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
+
 import 'controller.dart';
 
 class GradeTaskPage extends GetView<GradeTaskController> {

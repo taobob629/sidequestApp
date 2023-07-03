@@ -2,7 +2,6 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
-import 'package:wy/ui/profile/coupon/tab/tab_view.dart';
 
 class CouponApi {
   static Future<List<CouponModel>> list({int couponType = 0, int tab = CouponPage.TYPE_STORE}) async {

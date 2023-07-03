@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 
 ///页面滑动物理
 class PagePhysics extends PageScrollPhysics {

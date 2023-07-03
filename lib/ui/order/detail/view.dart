@@ -5,7 +5,6 @@
  */
 import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
@@ -17,16 +16,10 @@ import 'package:wy/model/order_detail.dart';
 import 'package:wy/model/service_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
-import 'package:wy/ui/common/colorful_button.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/ui/im/dialog_comment.dart';
 import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/detail/widgets/widgets.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
-import 'package:wy/widget/stadium_button.dart';
 import 'package:wy/widget/views.dart';
 
 import 'controller.dart';

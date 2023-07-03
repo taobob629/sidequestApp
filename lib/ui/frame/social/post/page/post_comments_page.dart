@@ -1,4 +1,3 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
@@ -10,13 +9,11 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/view/give_gifts_dialog.dart';
-import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../../../../utils/toast_utils.dart';
 import '../contorller/post_detail_controller.dart';
 import '../model/post_comment_model.dart';
-import '../view/gift_animation.dart';
 import '../view/gift_suc_anim.dart';
 
 class PostCommentsPage extends StatelessWidget {

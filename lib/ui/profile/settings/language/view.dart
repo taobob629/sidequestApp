@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/config/lang/translations.dart';
 import 'package:wy/ui/profile/settings/language/controller.dart';

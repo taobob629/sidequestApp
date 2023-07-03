@@ -20,8 +20,6 @@ import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
 import '../../../utils/global_key_constants.dart';
 import '../../../utils/image_util.dart';
-import '../../../widget/tab_widget.dart';
-import '../../common/home_indicator.dart';
 
 class SideKickPage extends StatelessWidget {
   final controller = Get.put(SideKickCtr());

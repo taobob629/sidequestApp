@@ -15,7 +15,6 @@ import 'package:wy/ui/common/input_view.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
-import 'package:wy/ui/order/refound/view.dart';
 import 'package:wy/ui/service/add/add_game_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';

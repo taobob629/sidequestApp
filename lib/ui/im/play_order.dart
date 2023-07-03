@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/paixs_fun.dart';
@@ -13,6 +12,7 @@ import 'package:wy/view/views.dart';
 import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
+
 import '../../model/pay_order_model.dart';
 import '../../model/play_detail_model.dart';
 import '../../utils/toast_utils.dart';

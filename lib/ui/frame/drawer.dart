@@ -6,7 +6,6 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
@@ -19,7 +18,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/energy_view.dart';
 import 'package:wy/utils/index.dart';
-import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/button.dart';
 import 'package:wy/widget/home/index.dart';
 

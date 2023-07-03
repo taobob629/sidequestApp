@@ -1,4 +1,3 @@
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/getx_refresh_controller.dart';

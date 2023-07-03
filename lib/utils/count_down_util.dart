@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-
 import 'toast_utils.dart';
 
 class CountDownUtil {

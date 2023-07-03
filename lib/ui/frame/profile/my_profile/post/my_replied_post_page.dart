@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 
 import '../../../../../api_service/profile_api.dart';

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../config/icon_font.dart';
-import '../image_utils.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   String msg;

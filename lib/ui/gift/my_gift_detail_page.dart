@@ -1,21 +1,13 @@
-import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:timelines/timelines.dart';
-import 'package:wy/common/base_controller.dart';
 import 'package:wy/common/string_ext.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
-import 'package:wy/model/order_detail.dart';
-import 'package:wy/model/service_list_model.dart';
 import 'package:wy/res/dimens.dart';
 import 'package:wy/res/styles.dart';
-import 'package:wy/ui/order/controller.dart';
 import 'package:wy/ui/order/detail/widgets/widgets.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/scaffold_widget.dart';
-import 'package:wy/widget/views.dart';
 
 import 'my_gift_detail_ctr.dart';
 

@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/config/icon_font.dart';
@@ -18,10 +15,8 @@ import 'package:wy/ui/login/forget_page.dart';
 import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/show_error_widget.dart';
 
 import '../../model/login_model.dart';
-import '../../utils/db_helper.dart';
 import '../../utils/toast_utils.dart';
 import 'auth_input_view.dart';
 

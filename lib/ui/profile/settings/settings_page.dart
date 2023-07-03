@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/index_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/api/vip_api.dart';
-import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/config/lang/translations.dart';
 import 'package:wy/model/version_model.dart';
-import 'package:wy/ui/common/action_button.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/common/dialog_upgrade.dart';
@@ -24,7 +18,6 @@ import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/utils/utils.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';

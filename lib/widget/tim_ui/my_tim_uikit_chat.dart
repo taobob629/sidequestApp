@@ -20,7 +20,6 @@ import 'package:tencent_cloud_chat_uikit/ui/utils/optimize_utils.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKItMessageList/TIMUIKitTongue/tim_uikit_chat_history_message_list_tongue.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/TIMUIKItMessageList/tim_uikit_chat_history_message_list_config.dart';
 import 'package:tencent_cloud_chat_uikit/ui/views/TIMUIKitChat/tim_uikit_multi_select_panel.dart';
-
 import 'package:wy/widget/tim_ui/my_tim_uikit_history_message_list_container.dart' as my_tim_uikit_history_message_list_container;
 import 'package:wy/widget/tim_ui/my_tim_uikit_more_panel.dart' as my_tim_uikit_more_panel;
 import 'package:wy/widget/tim_ui/my_tim_uikit_text_field.dart' as my;

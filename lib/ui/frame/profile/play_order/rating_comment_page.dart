@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/ui/frame/profile/model/rating_comment_model.dart';
-import 'package:wy/ui/order/detail/widgets/widgets.dart';
 
 import '../../../controller/user_controller.dart';
 

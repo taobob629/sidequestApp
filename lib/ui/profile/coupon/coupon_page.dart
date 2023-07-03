@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/coupon_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -9,8 +8,6 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/profile/coupon/dialog_add_coupon.dart';
-import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
 import 'coupon_item.dart';

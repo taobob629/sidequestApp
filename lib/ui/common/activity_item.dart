@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/ui/events/event/event_page.dart';
-import 'package:wy/common/string_ext.dart';
 import 'package:wy/ui/events/widget/timer_widget.dart';
 
 class ActivityItem extends StatelessWidget {

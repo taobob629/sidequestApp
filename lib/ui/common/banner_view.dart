@@ -2,9 +2,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wy/model/banner_model.dart' as custom;
 import 'package:wy/utils/navigator_helper.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class BannerView extends StatelessWidget {
 

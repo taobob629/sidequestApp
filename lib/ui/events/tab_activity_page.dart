@@ -5,7 +5,6 @@ import 'package:wy/api/events_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/ui/common/activity_item.dart';
-import 'package:wy/ui/common/empty_view.dart';
 
 class TabActivityPage extends StatelessWidget {
   final controller = Get.put(TabActivityPageController());

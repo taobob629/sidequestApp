@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
+
 import 'badges_widget.dart';
 import 'my_profile_page.dart';
-import 'package:wy/ui/profile/events/my_events_page.dart';
-import 'package:wy/ui/profile/wallet/new_wallet_page.dart';
-import 'package:wy/utils/image_util.dart';
 
 class MyDashboardPage extends StatelessWidget {
   MyDashboardPage({Key? key}) : super(key: key);

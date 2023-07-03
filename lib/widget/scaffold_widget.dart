@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wy/utils/utils.dart';
-import '../widget/views.dart';
 
 class ScaffoldWidget extends StatefulWidget {
   final Widget? appBar;

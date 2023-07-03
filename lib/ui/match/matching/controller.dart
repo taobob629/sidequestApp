@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/match_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/event_bus/beans/match_event.dart';
 import 'package:wy/event_bus/event_bus.dart';
-import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/model/beans/jump_match_suc_bean.dart';
+import 'package:wy/utils/storage_manager.dart';
 
 import '../../../model/match/match_operation_model.dart';
 import '../../../model/send_match_model.dart';

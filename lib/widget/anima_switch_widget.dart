@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wy/widget/refresher_widget.dart';
 import 'package:wy/widget/shimmer_widget.dart';
 import 'package:wy/widget/views.dart';
+
 import '../model/data_model.dart';
-import '../utils/utils.dart';
 import 'animated_switcher_widget.dart';
 
 class AnimatedSwitchBuilder<T> extends StatefulWidget {

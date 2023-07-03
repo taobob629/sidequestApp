@@ -1,10 +1,7 @@
 import 'package:wy/api/wy_http.dart';
-import 'package:wy/ui/frame/profile/other_profile/mdoel/player_info_mdoel.dart';
 
 import '../model/match/match_operation_model.dart';
 import '../model/match/match_play_model.dart';
-import '../model/match_init_model.dart';
-import '../model/send_match_model.dart';
 
 class MatchApi {
   static Future<dynamic> selfOrder() async {

@@ -3,17 +3,13 @@
     创建日期:2023/5/7
     描述:
  */
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:wy/api/im_api.dart';
-import 'package:wy/common/base_controller.dart';
 import 'package:get/get.dart';
-import 'package:wy/ui/controller/user_controller.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:wy/common/base_controller.dart';
 import 'package:wy/ui/frame/messages/chat/chat_page.dart';
 import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/ui/im/im_util.dart';
-import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 enum GroupTypeForUIKit { single, work, chat, meeting, public }

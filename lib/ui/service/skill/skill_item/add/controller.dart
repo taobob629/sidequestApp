@@ -1,16 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/user_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/model/price_range_model.dart';
-import 'package:wy/model/skill_config_model.dart';
 import 'package:wy/model/skill_model.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/utils/utils.dart';
 
 import '../../../../../model/booking_model.dart';
 import '../../../../../utils/toast_utils.dart';

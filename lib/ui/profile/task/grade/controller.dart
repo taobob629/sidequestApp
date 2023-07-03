@@ -10,7 +10,6 @@ import 'package:wy/api/user_api.dart';
 import 'package:wy/model/level_model.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/utils/utils.dart';
 
 class GradeTaskController extends GetxController {
   RxBool _isLoadding = RxBool(true);

@@ -6,7 +6,6 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/privacy_check.dart';
-import 'package:wy/ui/common/wy_dialog.dart';
 import 'package:wy/ui/playwith/balance/play_balance_child.dart';
 import 'package:wy/ui/profile/balance/input_formatter.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -17,8 +16,6 @@ import 'package:wy/widget/views.dart';
 
 import '../../../config/icon_font.dart';
 import '../../../image_utils.dart';
-import '../../../model/beans/coin_category_bean.dart';
-import '../../../model/booking_model.dart';
 
 class MyEarningsPage extends StatefulWidget {
   @override

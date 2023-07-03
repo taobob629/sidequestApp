@@ -5,13 +5,10 @@
  */
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:dio/src/response.dart' as dio;
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/api/game_api.dart';
 import 'package:wy/api/network_method.dart';
-import 'package:wy/common/getx_list_controller.dart';
 import 'package:wy/common/list/index.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/game_model.dart';
@@ -19,11 +16,6 @@ import 'package:wy/model/game_section.dart';
 import 'package:wy/model/game_user_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
-import 'package:dio/src/response.dart' as dio;
-
-import '../../../../../utils/global_key_constants.dart';
-import '../../../../../utils/storage_manager.dart';
-import '../../../main_page.dart';
 
 List<KeyMap> gameInitFilter = [
   KeyMap('Language'.tr, null),

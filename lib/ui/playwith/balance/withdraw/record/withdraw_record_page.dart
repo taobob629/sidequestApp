@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wy/model/withdraw_record_model.dart';
 import 'package:wy/ui/common/empty_view.dart';
 import 'package:wy/ui/playwith/balance/withdraw/record/controller.dart';
-import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 
 import '../../widget/tips_dialog.dart';

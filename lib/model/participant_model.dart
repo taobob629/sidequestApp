@@ -1,5 +1,5 @@
 
-import 'package:wy/config/app_config.dart';
+
 
 class ParticipantModel {
   late String avatar = "";

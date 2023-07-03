@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
 import 'package:wy/utils/navigator_helper.dart';
 
@@ -11,7 +12,6 @@ import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
 import '../../../../widget/home/sex_age_widget.dart';
-import 'package:wy/common/string_ext.dart';
 
 class VisitorPage extends StatelessWidget {
   final t = Get.put(VisitorListController());

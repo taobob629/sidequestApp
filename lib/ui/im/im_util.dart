@@ -2,11 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/business_logic/separate_models/tui_group_profile_model.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart';
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
@@ -16,11 +13,10 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/play_item_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
-import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
-import 'package:provider/provider.dart';
+
 import '../frame/messages/chat/chat_page.dart';
 
 /**

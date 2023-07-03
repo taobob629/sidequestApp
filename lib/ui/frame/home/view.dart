@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/drawer.dart';
 import 'package:wy/ui/frame/home/widget/banner.dart';
-import 'package:wy/ui/frame/home/widget/home_horizontal_widget.dart';
 
 import 'controller.dart';
 
