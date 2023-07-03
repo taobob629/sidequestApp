@@ -14,11 +14,14 @@ import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/user_info_model.dart';
 import 'package:wy/ui/profile/grade/controller.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/arc_progressbar_widget.dart';
 import 'package:wy/widget/home/level.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
+
+import '../../playwith/balance/widget/tips_dialog.dart';
 
 class GradePage extends GetView<GradeController> {
   @override
@@ -54,9 +57,17 @@ class GradePage extends GetView<GradeController> {
                                     ),
                                   ),
                                   width: 212,
-                                  child: ArcProgressBar(
+                                  child: GestureDetector(
+                                    onTapDown: (details) {
+                                      print(details.globalPosition);
+                                      Get.dialog(TipsDialog(
+                                        offset: details.globalPosition,
+                                        tips: '${controller.model.percent}%',
+                                      ));
+                                    },
+                                    child: ArcProgressBar(
                                     progress: controller.model.percent,
-                                  ),
+                                  ),),
                                 ),
                                 Positioned(
                                     bottom: 0,
