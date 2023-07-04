@@ -15,43 +15,55 @@ class TipsWidegt extends StatelessWidget {
   Widget? custumTitle;
   String tips;
   double? padding;
-  TipsWidegt({this.title = '', this.tips = '',this.padding,this.custumTitle});
+  bool center;
+
+  TipsWidegt(
+      {this.title = '',
+      this.tips = '',
+      this.padding,
+      this.custumTitle,
+      this.center = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: padding??20.w),
+      padding: EdgeInsets.only(left: padding ?? 20.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: center ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
-          custumTitle??   Text(
-            '$title',
-            style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.bold),
-          ),
-          if(tips.isNotEmpty)GestureDetector(
-            onTapDown: (details) {
-              print(details.globalPosition);
-              Get.dialog(TipsDialog(
-                offset: details.globalPosition,
-                tips: tips,
-              ));
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: 6),
-              width: 12.w,
-              height: 12.w,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Color(0xffb2b9c9),
-                borderRadius: BorderRadius.circular(12.r),
+          custumTitle ??
+              Text(
+                '$title',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold),
               ),
-              child: Image.asset(
-                ImageUtils.icon_help,
-                width: 10.w,
-                height: 10.w,
+          if (tips.isNotEmpty)
+            GestureDetector(
+              onTapDown: (details) {
+                print(details.globalPosition);
+                Get.dialog(TipsDialog(
+                  offset: details.globalPosition,
+                  tips: tips,
+                ));
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 6),
+                width: 12.w,
+                height: 12.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Color(0xffb2b9c9),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Image.asset(
+                  ImageUtils.icon_help,
+                  width: 10.w,
+                  height: 10.w,
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

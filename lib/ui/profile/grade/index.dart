@@ -130,6 +130,7 @@ class GradePage extends GetView<GradeController> {
                 if(!controller.isVip())  Text('${controller.model.tips}',style: TextStyle(fontFamily: FONT_MEDIUM,fontSize: 11.sp,color: AppColor.textC3),),
                   if(!controller.isVip()) PWidget.boxh(20),
                   TipsWidegt(
+                    center: true,
                     custumTitle: PWidget.text(
                         '${controller.isTopLevel() ? 'Top level'.tr : 'Current level'.tr}',
                         [Colors.white, 18, true],
