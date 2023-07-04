@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/widget/record_header_widget.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/permission_util.dart';
 
 import '../../../../../config/icon_font.dart';
 import 'controller.dart';
@@ -72,8 +73,9 @@ class RecordViewPage extends GetView<RecordController> {
                           child: ImageUtil.assetImage('profile/record', width: 85.w, height: 85.w),
                           onLongPressStart: (LongPressStartDetails details) {
                             flog('onLongPressStart $details');
-                            //
-                            controller.startRecord();
+                            //检查权限
+                            PermissionUtil.microphone(() => controller.startRecord()
+                            );
                           },
                           onLongPress: () {
                             flog('onLongPress ');
