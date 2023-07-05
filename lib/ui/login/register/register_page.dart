@@ -264,6 +264,45 @@ class RegisterPage extends GetView<RegisterPageController> {
         ),
       ),
     ));
+    list.add(Visibility(
+      visible: Platform.isAndroid,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => controller.loginWithGoogle(),
+        child: Container(
+          margin: EdgeInsets.only(top: 10.h),
+          height: 48,
+          width: 1.sw,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40.r),
+            border: Border.all(
+              color: Color(0xffFFD20E),
+              width: 1.w,
+            ),
+          ),
+          padding: EdgeInsets.all(8.r),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                ImageUtils.google_icon,
+                width: 20.w,
+                height: 20.w,
+              ),
+              6.horizontalSpace,
+              Text(
+                "Google".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "DIN",
+                  fontSize: 18,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    ));
     return list;
   }
 

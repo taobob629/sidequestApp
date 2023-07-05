@@ -299,6 +299,12 @@ class RegisterPageController extends GetxController {
         });
   }
 
+  void loginWithGoogle() {
+    UserController.find.googleLogin(done: (LoginModel loginModel) {
+      loginSuccess(loginModel);
+    });
+  }
+
   void loginSuccess(LoginModel loginModel) {
     if (loginModel.validate == 0) {
       UserController.find.imLogin();
