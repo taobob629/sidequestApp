@@ -6,6 +6,7 @@ import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
+import 'package:wy/config/controller/controller.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/ui/common/colorful_button.dart';
@@ -166,30 +167,30 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Visibility(
-                              visible: Platform.isAndroid,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => controller.loginWithGoogle(),
-                                child: Container(
-                                  width: 46.w,
-                                  height: 46.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(46.r),
-                                    border: Border.all(
-                                      color: Color(0xff707070),
-                                      width: 1.w,
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.all(8.r),
-                                  child:
-                                  Image.asset(
-                                    ImageUtils.google_icon,
-                                    scale: 4,
-                                  ),
-                                ),
-                              ),
-                            ),
+                           Obx(()=> Visibility(
+                             visible: Platform.isAndroid&&AppController.find.showGoogleSingIn,
+                             child: GestureDetector(
+                               behavior: HitTestBehavior.translucent,
+                               onTap: () => controller.loginWithGoogle(),
+                               child: Container(
+                                 width: 46.w,
+                                 height: 46.w,
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(46.r),
+                                   border: Border.all(
+                                     color: Color(0xff707070),
+                                     width: 1.w,
+                                   ),
+                                 ),
+                                 padding: EdgeInsets.all(8.r),
+                                 child:
+                                 Image.asset(
+                                   ImageUtils.google_icon,
+                                   scale: 4,
+                                 ),
+                               ),
+                             ),
+                           )),
                             15.horizontalSpace,
                             Visibility(
                               visible: false,

@@ -8,16 +8,22 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:wy/api/index_api.dart';
 import 'package:wy/config/lang/translations.dart';
 import 'package:wy/firebase_options.dart';
 import 'package:wy/utils/index.dart';
+
 class AppController extends GetxController {
+
+  static AppController get find => Get.find();
+
   @override
   void onInit() {
     super.onInit();
-    Get.updateLocale(Get.locale??ENGLISH);
+    Get.updateLocale(Get.locale ?? ENGLISH);
     initEasyLoadding();
     initIm();
+    initConfig();
   }
 
   initEasyLoadding() {
@@ -25,13 +31,25 @@ class AppController extends GetxController {
     SmartDialog.config.toast = SmartConfigToast(alignment: Alignment.center);
     SmartDialog.config.loading = SmartConfigLoading(clickMaskDismiss: true);
   }
+
   initIm() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => StorageManager.setPushToken(value));
+    FirebaseMessaging.instance.getToken().then((value) => StorageManager.setPushToken(value));
+  }
 
+  RxBool _showGoogleSingIn = RxBool(false);
+
+  bool get showGoogleSingIn => _showGoogleSingIn.value;
+
+  set showGoogleSingIn(bool value) {
+    _showGoogleSingIn.value = value;
+  }
+
+  initConfig() {
+    IndexApi.checkVersion().then((res) {
+      showGoogleSingIn = res.googleLogin;
+    });
   }
 }
