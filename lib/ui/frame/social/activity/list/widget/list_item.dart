@@ -24,7 +24,7 @@ class ActivityListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => EventPage(id: model.id, type: 0)),
+      onTap: () => Get.to(() => EventPage(id: model.id, type: model.matchDiff)),
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 10.h).w,
         height: 270.h,
@@ -39,7 +39,8 @@ class ActivityListItemWidget extends StatelessWidget {
                   width: Get.width - 30.w,
                   decoration: new BoxDecoration(
                     color: Colors.grey,
-                    borderRadius: new BorderRadius.all(new Radius.circular(16.0)),
+                    borderRadius:
+                        new BorderRadius.all(new Radius.circular(16.0)),
                     image: new DecorationImage(
                       image: NetworkImage(model.image),
                       fit: BoxFit.cover,
@@ -59,12 +60,18 @@ class ActivityListItemWidget extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: '${model.title}\n',
-                          style: TextStyle(fontSize: 14.sp, fontFamily: FONT_MEDIUM),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
                         ),
                         TextSpan(
                             text: '${model.datetime.toDateStr}',
                             style: TextStyle(
-                                color: Colors.white54, fontSize: 12.sp, fontFamily: FONT_MEDIUM)),
+                              color: Colors.white54,
+                              fontSize: 12.sp,
+                              fontFamily: FONT_MEDIUM,
+                            )),
                       ],
                     ),
                     textAlign: TextAlign.start,
@@ -75,7 +82,8 @@ class ActivityListItemWidget extends StatelessWidget {
                 top: 200.h - imageSize / 2,
                 left: 15.w,
                 child: Container(
-                  constraints: BoxConstraints(maxWidth: Get.width, maxHeight: imageSize + 10),
+                  constraints: BoxConstraints(
+                      maxWidth: Get.width, maxHeight: imageSize + 10),
                   child: Stack(
                     fit: StackFit.expand,
                     children: buildPartener(model),
@@ -85,17 +93,29 @@ class ActivityListItemWidget extends StatelessWidget {
                 right: 20.w,
                 bottom: 12.h,
                 child: InkWell(
-                  onTap: () => Get.to(() => EventPage(id: model.id, type: 0)),
-                  child: ImageUtil.assetImage('arrow_more', width: 42.w, height: 42.w),
+                  onTap: () => Get.to(
+                    () => EventPage(
+                      id: model.id,
+                      type: model.matchDiff,
+                    ),
+                  ),
+                  child: ImageUtil.assetImage(
+                    'arrow_more',
+                    width: 42.w,
+                    height: 42.w,
+                  ),
                 )),
             Positioned(
               right: 16,
               bottom: 50.h,
               child: Visibility(
-                  visible: model.showCounter(),
-                  child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(model.datetime * 1000)
+                visible: model.showCounter(),
+                child: TimerWidget(
+                  DateTime.fromMillisecondsSinceEpoch(model.datetime * 1000)
                       .difference(DateTime.now())
-                      .inSeconds)),
+                      .inSeconds,
+                ),
+              ),
             ),
           ],
         ),

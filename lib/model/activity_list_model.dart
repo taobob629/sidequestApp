@@ -14,9 +14,13 @@ class ActivityListModel {
   final String time;
   final int datetime;
   final int showCountdown;
-  showCounter(){
-    return showCountdown==1&& DateTime.now().millisecondsSinceEpoch< datetime*1000;//已经过期了
+  final int matchDiff;
+
+  showCounter() {
+    return showCountdown == 1 &&
+        DateTime.now().millisecondsSinceEpoch < datetime * 1000; //已经过期了
   }
+
   // Photocard Trading Event
   final String title;
   final List<ParticipantsItem> participants;
@@ -29,6 +33,7 @@ class ActivityListModel {
     this.title = "",
     this.datetime = 0,
     this.showCountdown = 0, //0不显示 1显示倒计时
+    this.matchDiff = 0,
     required this.participants,
   });
 
@@ -38,16 +43,19 @@ class ActivityListModel {
     return participants.sublist(0, 3);
   }
 
-  factory ActivityListModel.fromJson(Map<String, dynamic>? json) => ActivityListModel(
+  factory ActivityListModel.fromJson(Map<String, dynamic>? json) =>
+      ActivityListModel(
         image: asT<String>(json, 'image'),
         unique: asT<String>(json, 'unique'),
         id: asT<int>(json, 'id'),
         showCountdown: asT<int>(json, 'showCountdown'),
+        matchDiff: asT<int>(json, 'matchDiff'),
         time: asT<String>(json, 'time'),
         title: asT<String>(json, 'title'),
         datetime: asT<int>(json, 'datetime'),
-        participants:
-            asT<List>(json, 'participants').map((e) => ParticipantsItem.fromJson(e)).toList(),
+        participants: asT<List>(json, 'participants')
+            .map((e) => ParticipantsItem.fromJson(e))
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,6 +65,7 @@ class ActivityListModel {
         'datetime': datetime,
         'time': time,
         'showCountdown': showCountdown,
+        'matchDiff': matchDiff,
         'title': title,
         'participants': participants.map((e) => e.toJson()).toList(),
       };
@@ -70,7 +79,8 @@ class ParticipantsItem {
     this.photo = "",
   });
 
-  factory ParticipantsItem.fromJson(Map<String, dynamic>? json) => ParticipantsItem(
+  factory ParticipantsItem.fromJson(Map<String, dynamic>? json) =>
+      ParticipantsItem(
         photo: asT<String>(json, 'photo'),
       );
 

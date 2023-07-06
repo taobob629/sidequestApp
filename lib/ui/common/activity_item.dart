@@ -16,8 +16,7 @@ class ActivityItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => EventPage(id: model.id, type: type == 0 ? 0 : 1)),
-      // onTap: () => jumpPage(EventPage(id: model.id, type: 1)),
+      onTap: () => Get.to(() => EventPage(id: model.id, type: model.matchDiff)),
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15),

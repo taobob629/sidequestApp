@@ -48,10 +48,13 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>need to use your camera to take a photo or scan QR code</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This allows you to upload a photo to your profile album from your gallery.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -62,8 +65,11 @@
 	<string>Allow SideQuest to obtain microphone permission for sending voice messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>need to use your photo library to upload avatar</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -85,12 +91,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
 </dict>
 </plist>

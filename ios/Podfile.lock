@@ -117,6 +117,8 @@ PODS:
     - Flutter
   - flutter_ringtone_player (0.0.1):
     - Flutter
+  - flutter_web_auth (0.5.0):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -293,6 +295,7 @@ DEPENDENCIES:
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_plugin_record_plus (from `.symlinks/plugins/flutter_plugin_record_plus/ios`)
   - flutter_ringtone_player (from `.symlinks/plugins/flutter_ringtone_player/ios`)
+  - flutter_web_auth (from `.symlinks/plugins/flutter_web_auth/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_editor_common (from `.symlinks/plugins/image_editor_common/ios`)
@@ -394,6 +397,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_plugin_record_plus/ios"
   flutter_ringtone_player:
     :path: ".symlinks/plugins/flutter_ringtone_player/ios"
+  flutter_web_auth:
+    :path: ".symlinks/plugins/flutter_web_auth/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in_ios:
@@ -485,6 +490,7 @@ SPEC CHECKSUMS:
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_plugin_record_plus: 79b8e13ee7ed9a94f6c067018653599528cee1fc
   flutter_ringtone_player: 15eba85187230b87b2512f0e1b92225618bc03e7
+  flutter_web_auth: c25208760459cec375a3c39f6a8759165ca0fa4d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
