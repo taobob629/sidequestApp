@@ -25,7 +25,7 @@ class GradePage extends GetView<GradeController> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Medal'.tr, style: TextStyle(fontSize: 18)),
+          title: Text('Level Tier'.tr, style: TextStyle(fontSize: 18)),
           centerTitle: true,
           elevation: 0,
         ),
