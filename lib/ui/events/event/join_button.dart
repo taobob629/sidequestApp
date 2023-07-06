@@ -55,7 +55,7 @@ class JoinButton extends GetView<EventPageController> {
               child: Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Obx(() => Text(
-                  eventDetailModel.canCancel ? 'VIEW MY TEAM'.tr : "JOIN TEAM".tr,
+                  eventDetailModel.canCancel ? 'VIEW'.tr : "JOIN TEAM".tr,
                   style: TextStyle(color: Color(0xFFF73B0C), fontFamily: "DIN", fontSize: 20),
                 )),
           )),
