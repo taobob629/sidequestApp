@@ -214,6 +214,7 @@ class GradePage extends GetView<GradeController> {
             ),
             PWidget.boxh(22),
             TipsWidegt(
+              center: true,
               custumTitle: PWidget.text(
                   'Next Level'.tr, [Colors.white, 18, true], {'ff': 'DIN'}),
               tips: controller.isVip()?'${'Platform fee'.tr}:${controller.model.nextRate}':'',
