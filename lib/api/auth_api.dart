@@ -150,18 +150,21 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInApple(AuthorizationCredentialAppleID credential) async {
+  static Future<LoginModel> signInApple(
+      AuthorizationCredentialAppleID credential) async {
     var formData = {
       'userIdentifier': credential.userIdentifier,
       'email': credential.email,
       'givenName': credential.givenName,
       'familyName': credential.familyName,
     };
-    var response = await http.post('/peiwan/app/user/appleLogin', data: formData);
+    var response =
+        await http.post('/peiwan/app/user/appleLogin', data: formData);
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInGoogle(GoogleSignInAccount? account, String? idToken) async {
+  static Future<LoginModel> signInGoogle(
+      GoogleSignInAccount? account, String? idToken) async {
     var formData = {
       'email': account?.email,
       'id': account?.id,
@@ -170,7 +173,8 @@ class AuthApi {
       'idToken': idToken,
       'serverAuthCode': account?.serverAuthCode,
     };
-      var response = await http.post('/peiwan/app/user/googleLogin', data: formData);
+    var response =
+        await http.post('/peiwan/app/user/googleLogin', data: formData);
     return LoginModel.fromJson(response.data);
   }
 
@@ -184,14 +188,15 @@ class AuthApi {
     var formData = {
       "secret": code,
     };
-   var res= await http.post('/app/index/qrcode/login', data: formData);
-    return  QrLoginModel.fromJson(res.data);
+    var res = await http.post('/app/index/qrcode/login', data: formData);
+    return QrLoginModel.fromJson(res.data);
   }
+
   static Future<QrLoginInfoModel> scanInfo(String code) async {
     var formData = {
       "secret": code,
     };
-    flog("qrCodeLogin::$code name" );
+    flog("qrCodeLogin::$code name");
 
     var response = await http.post('/app/index/scanInfo', data: formData);
     return QrLoginInfoModel.fromJson(response.data);

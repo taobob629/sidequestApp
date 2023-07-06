@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
@@ -16,6 +17,7 @@ import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
+import '../../api/wy_http.dart';
 import '../../model/login_model.dart';
 import '../../utils/toast_utils.dart';
 import 'auth_input_view.dart';
@@ -111,85 +113,6 @@ class LoginPage extends StatelessWidget {
                           borderRadius: 40.r,
                           onTap: () => controller.login(),
                         ),
-                        10.verticalSpace,
-                        Visibility(
-                          visible: Platform.isIOS,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => controller.loginWithApple(),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 10.h),
-                              height: 48,
-                              width: 1.sw,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.r),
-                                border: Border.all(
-                                  color: Color(0xffFFD20E),
-                                  width: 1.w,
-                                ),
-                              ),
-                              padding: EdgeInsets.all(8.r),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageUtils.apple_icon,
-                                    width: 20.w,
-                                    height: 20.w,
-                                  ),
-                                  6.horizontalSpace,
-                                  Text(
-                                    "Apple".tr,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "DIN",
-                                      fontSize: 18,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: Platform.isAndroid,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => controller.loginWithGoogle(),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 10.h),
-                              height: 48,
-                              width: 1.sw,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.r),
-                                border: Border.all(
-                                  color: Color(0xffFFD20E),
-                                  width: 1.w,
-                                ),
-                              ),
-                              padding: EdgeInsets.all(8.r),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageUtils.google_icon,
-                                    width: 20.w,
-                                    height: 20.w,
-                                  ),
-                                  6.horizontalSpace,
-                                  Text(
-                                    "Google".tr,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "DIN",
-                                      fontSize: 18,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                         30.verticalSpace,
                         GestureDetector(
                           onTap: () => Get.toNamed(AppPages.REGISTER,
@@ -216,6 +139,83 @@ class LoginPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                        ),
+                        100.verticalSpace,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Visibility(
+                              visible: Platform.isIOS,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () => controller.loginWithApple(),
+                                child: Container(
+                                  width: 46.w,
+                                  height: 46.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(46.r),
+                                    border: Border.all(
+                                      color: Color(0xff707070),
+                                      width: 1.w,
+                                    ),
+                                  ),
+                                  child: Image.asset(
+                                    ImageUtils.apple_icon,
+                                    scale: 4,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: Platform.isAndroid,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () => controller.loginWithGoogle(),
+                                child: Container(
+                                  width: 46.w,
+                                  height: 46.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(46.r),
+                                    border: Border.all(
+                                      color: Color(0xff707070),
+                                      width: 1.w,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(8.r),
+                                  child:
+                                  Image.asset(
+                                    ImageUtils.google_icon,
+                                    scale: 4,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            15.horizontalSpace,
+                            Visibility(
+                              visible: false,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () => controller.loginWithDiscord(),
+                                child: Container(
+                                  width: 46.w,
+                                  height: 46.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(46.r),
+                                    border: Border.all(
+                                      color: Color(0xff707070),
+                                      width: 1.w,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(8.r),
+                                  child:
+                                  Image.asset(
+                                    ImageUtils.discord_icon,
+                                    scale: 4,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -286,6 +286,21 @@ class LoginPageController extends BasePageController {
         loginSuccess(loginModel);
       });
     }
+  }
+
+  void loginWithDiscord() async {
+    String clientId = '1043016152168792094';
+    String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
+    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri': redirectUri,
+      'scope': 'identify',
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(), callbackUrlScheme: 'sidequest');
+    final code = Uri.parse(result).queryParameters['code'];
   }
 
   void loginWithApple() {

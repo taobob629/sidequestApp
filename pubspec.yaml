@@ -86,6 +86,7 @@ dependencies:
   showcaseview: ^2.0.3
   sign_in_with_apple: ^4.3.0
   firebase_auth: 3.11.2
+  flutter_web_auth: ^0.5.0
   # tim_ui_kit: 0.1.8
   # tencent_cloud_chat_uikit: ^1.7.0
   tencent_cloud_chat_uikit:

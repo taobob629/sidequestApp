@@ -1,5 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wy/api/auth_api.dart';
@@ -303,6 +304,21 @@ class RegisterPageController extends GetxController {
     UserController.find.googleLogin(done: (LoginModel loginModel) {
       loginSuccess(loginModel);
     });
+  }
+
+  void loginWithDiscord() async {
+    String clientId = '1043016152168792094';
+    String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
+    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri': redirectUri,
+      'scope': 'identify',
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(), callbackUrlScheme: 'sidequest');
+    final code = Uri.parse(result).queryParameters['code'];
   }
 
   void loginSuccess(LoginModel loginModel) {
