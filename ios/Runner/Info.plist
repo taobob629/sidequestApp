@@ -59,6 +59,8 @@
 	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your consent to access your location to assist you in searching on social media</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your consent to access your location to assist you in searching on social media</string>
 	<key>NSMicrophoneUsageDescription</key>
