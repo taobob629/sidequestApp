@@ -39,17 +39,13 @@ class AppController extends GetxController {
     FirebaseMessaging.instance.getToken().then((value) => StorageManager.setPushToken(value));
   }
 
-  RxBool _showGoogleSingIn = RxBool(false);
-
-  bool get showGoogleSingIn => _showGoogleSingIn.value;
-
-  set showGoogleSingIn(bool value) {
-    _showGoogleSingIn.value = value;
-  }
+  bool showGoogleSingIn = false;
+  String showGoogleSignInId = 'showGoogleSignInId';
 
   initConfig() {
     IndexApi.checkVersion().then((res) {
       showGoogleSingIn = res.googleLogin;
+      update([showGoogleSignInId]);
     });
   }
 }
