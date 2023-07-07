@@ -6,6 +6,7 @@ class VersionModel {
   late String intro;
   late String version;
   late bool status;
+  late bool googleLogin;
 
   VersionModel();
 
@@ -16,5 +17,6 @@ class VersionModel {
     intro = json['intro'];
     version = json['new'];
     status = json['status'] == null ? false : json['status'];
+    googleLogin = json['googleLogin'] == null ? false : json['googleLogin'];
   }
 }
