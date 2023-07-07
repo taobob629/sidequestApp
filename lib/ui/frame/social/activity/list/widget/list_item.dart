@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/image_utils.dart';
 import 'package:wy/model/activity_list_model.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/events/event/event_page.dart';
@@ -114,6 +115,28 @@ class ActivityListItemWidget extends StatelessWidget {
                   DateTime.fromMillisecondsSinceEpoch(model.datetime * 1000)
                       .difference(DateTime.now())
                       .inSeconds,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 10.w,
+              top: 8.h,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(ImageUtils.activity_label_bg),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.fromLTRB(6.w, 2.h, 20.w, 2.h),
+                child: Text(
+                  model.label,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
                 ),
               ),
             ),

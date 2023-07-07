@@ -19,11 +19,11 @@ class ActivityTabController extends BaseTabContoller<ActivityTabModel> {
 
   @override
   Future initTabs() async {
-    List<ActivityTabModel> tabs = await ActivityApi.activityTabs();
-    var defaultTab = tabs.firstWhereOrNull((tab) => tab.defaut == 1);
-    //默认展示
-    // if (tabs.isNotEmpty) curTab = tabs[0];
-    curTab = defaultTab ?? tabs[0];
+    // List<ActivityTabModel> tabs = await ActivityApi.activityTabs();
+    // var defaultTab = tabs.firstWhereOrNull((tab) => tab.defaut == 1);
+    // //默认展示
+    // // if (tabs.isNotEmpty) curTab = tabs[0];
+    // curTab = defaultTab ?? tabs[0];
     return tabs;
   }
 }

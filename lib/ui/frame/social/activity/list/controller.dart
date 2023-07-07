@@ -9,9 +9,8 @@ import 'package:wy/common/list/index.dart';
 import 'package:wy/model/activity_list_model.dart';
 
 class ActivityListController extends RefreshListController<ActivityListModel> {
- late var type;
 
- ActivityListController(this.type);
+ ActivityListController();
 
   @override
   buildMethodType() {
@@ -23,11 +22,14 @@ class ActivityListController extends RefreshListController<ActivityListModel> {
   }
 
   @override
-  Map<String, dynamic> buildParams() => {};
+  Map<String, dynamic> buildParams() => {
+   'pageNum': page,
+   'pageSize': pageSize,
+  };
 
   @override
   String buildUrl() {
-    return '/peiwan/app/new/event/list?tab=$type';
+    return '/peiwan/app/new/event/eventlist';
   }
 
   @override

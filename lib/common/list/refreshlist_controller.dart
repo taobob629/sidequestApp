@@ -63,7 +63,11 @@ abstract class RefreshListController<T> extends BasePageController
     if (paged()) {
       params['pageNum'] = "$page";
       params['pageSize'] = '$pageSize';
-      url = '$url&pageNum=$page&pageSize=$pageSize';
+      if (url.contains("?")) {
+        url = '$url&pageNum=$page&pageSize=$pageSize';
+      } else {
+        url = '$url?pageNum=$page&pageSize=$pageSize';
+      }
     }
     if (method == NWMethod.GET) {
       params = Map();

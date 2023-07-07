@@ -56,6 +56,7 @@ class ImageUtils {
   static const String apple_icon = 'assets/images/apple_icon.webp';
   static const String google_icon = 'assets/images/google_icon.webp';
   static const String discord_icon = 'assets/images/discord_icon.webp';
+  static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
 
   static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
   static const String icon_edit_earnings = 'assets/images/icon_edit_earnings.webp';

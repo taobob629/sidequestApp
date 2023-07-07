@@ -6,6 +6,7 @@ class ActivityListModel {
 
   // 0302@2179
   final String unique;
+  final String label;
 
   // 731
   final int id;
@@ -28,6 +29,7 @@ class ActivityListModel {
   ActivityListModel({
     this.image = "",
     this.unique = "",
+    this.label = "",
     this.id = 0,
     this.time = "",
     this.title = "",
@@ -47,6 +49,7 @@ class ActivityListModel {
       ActivityListModel(
         image: asT<String>(json, 'image'),
         unique: asT<String>(json, 'unique'),
+        label: asT<String>(json, 'label'),
         id: asT<int>(json, 'id'),
         showCountdown: asT<int>(json, 'showCountdown'),
         matchDiff: asT<int>(json, 'matchDiff'),
@@ -61,6 +64,7 @@ class ActivityListModel {
   Map<String, dynamic> toJson() => {
         'image': image,
         'unique': unique,
+        'label': label,
         'id': id,
         'datetime': datetime,
         'time': time,

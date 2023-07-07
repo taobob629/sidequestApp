@@ -8,6 +8,7 @@ import 'package:wy/widget/anima_switch_widget.dart';
 import '../../../widget/tab_widget.dart';
 import '../../common/empty_view.dart';
 import '../../events/events_page.dart';
+import '../../frame/social/activity/list/view.dart';
 
 class MyEventsPage extends StatefulWidget {
   @override
@@ -15,13 +16,6 @@ class MyEventsPage extends StatefulWidget {
 }
 
 class _MyEventsPageState extends State<MyEventsPage> {
-  final controller = Get.put(MyEventsPageController());
-
-  @override
-  void initState() {
-    this.initData();
-    super.initState();
-  }
 
   ///初始化函数
   Future initData() async {
@@ -32,22 +26,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "My Activities".tr,
-      body: AnimatedSwitchBuilder<dynamic>(
-        value: eventTabDm,
-        errorOnTap: () => eventTab(() => setState(() {})),
-        noDataView: EmptyView(),
-        listBuilder: (list, p, h) {
-          var tabList = list.map<String>((m) => m['name']).toList();
-          var page = list.indexWhere((w) => w['defaut'] == 1);
-          return TabWidget(
-            tabList: tabList,
-            page: page == -1 ? 0 : page,
-            tabPage: List.generate(list.length, (i) {
-              return EventsChild(list[i], isMe: true);
-            }),
-          );
-        },
-      ),
+      body: KeepAliveWrapper(child: ActivityListPage()),
       // body: Stack(
       //   children: [
       //     Positioned(
@@ -69,23 +48,6 @@ class _MyEventsPageState extends State<MyEventsPage> {
       //     )
       //   ],
       // )
-    );
-  }
-
-  Widget _buildTabs() {
-    return TabBar(
-      controller: controller.tabController,
-      isScrollable: false,
-      labelColor: Colors.white,
-      unselectedLabelColor: Colors.white38,
-      indicatorColor: Colors.white38,
-      indicatorSize: TabBarIndicatorSize.tab,
-      indicatorWeight: 2,
-      indicatorPadding: EdgeInsets.only(bottom: 5),
-      labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 3),
-      labelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-      unselectedLabelStyle: const TextStyle(fontSize: 20, fontFamily: "din"),
-      tabs: createTabs(),
     );
   }
 

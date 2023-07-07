@@ -24,7 +24,7 @@ class _ActivityTabPageState extends State<ActivityTabPage>
   @override
   void initState() {
     super.initState();
-    init();
+    // init();
   }
 
   init() async {
@@ -42,57 +42,40 @@ class _ActivityTabPageState extends State<ActivityTabPage>
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.tabs.isNotEmpty
-        ? Scaffold(
-            appBar: AppBar(
-                toolbarHeight: 10.h,
-                automaticallyImplyLeading: false,
-                bottom: TabBar(
-                  controller: controller.tabbarController,
-                  labelColor: Colors.white,
-                  isScrollable: true,
-                  indicator: BoxDecoration(),
-                  labelStyle: selectTabStyle(),
-                  unselectedLabelStyle: unSelectTabStyle(),
-                  tabs: buildTabs(),
-                )),
-            body: TabBarView(
-              controller: controller.tabbarController,
-              children: tabPages(),
-            ),
-          )
-        : buildLoad());
+    return Scaffold(
+      body: KeepAliveWrapper(child: ActivityListPage()),
+    );
   }
 
-  List<Widget> tabPages() {
-    return controller.tabs
-        .map((tab) => KeepAliveWrapper(child: ActivityListPage('${tab.type}')))
-        .toList();
-  }
+  // List<Widget> tabPages() {
+  //   return controller.tabs
+  //       .map((tab) => KeepAliveWrapper(child: ActivityListPage('${tab.type}')))
+  //       .toList();
+  // }
 
-  buildTabs() {
-    return controller.tabs.map((m) {
-      return Obx(() => Container(
-            height: 30.h,
-            padding: EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(23).r,
-                gradient: controller.curTab == m
-                    ? LinearGradient(colors: [
-                        Color(0xFF612AD7),
-                        Color(0xFFBE39CC),
-                        Color(0xFFE68887),
-                      ])
-                    : LinearGradient(colors: [
-                        AppColor.tabBackGround,
-                        AppColor.tabBackGround
-                      ])),
-            child: Tab(
-              text: '$m',
-            ),
-          ));
-    }).toList();
-  }
+  // buildTabs() {
+  //   return controller.tabs.map((m) {
+  //     return Obx(() => Container(
+  //           height: 30.h,
+  //           padding: EdgeInsets.only(left: 10, right: 10),
+  //           decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(23).r,
+  //               gradient: controller.curTab == m
+  //                   ? LinearGradient(colors: [
+  //                       Color(0xFF612AD7),
+  //                       Color(0xFFBE39CC),
+  //                       Color(0xFFE68887),
+  //                     ])
+  //                   : LinearGradient(colors: [
+  //                       AppColor.tabBackGround,
+  //                       AppColor.tabBackGround
+  //                     ])),
+  //           child: Tab(
+  //             text: '$m',
+  //           ),
+  //         ));
+  //   }).toList();
+  // }
 
   selectTabStyle() {}
 

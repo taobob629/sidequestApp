@@ -18,10 +18,9 @@ import 'controller.dart';
 import 'widget/list_item.dart';
 
 class ActivityListPage extends BasePage {
-  var type;
   ActivityListController? controller;
 
-  ActivityListPage(this.type);
+  ActivityListPage();
 
   body(BuildContext context) {
     return ListView.builder(
@@ -36,7 +35,7 @@ class ActivityListPage extends BasePage {
   @override
   Widget buildBody(BuildContext context) {
     return biuldSmartRefresh(
-        pageController().refreshController!!,
+        pageController().refreshController,
         pageController().pageState == PageState.sucess
             ? body(context)
             : pageController().buildEmpty(),
@@ -49,7 +48,8 @@ class ActivityListPage extends BasePage {
   @override
   RefreshListController pageController() {
     if (controller != null) return controller!;
-    controller = Get.put(ActivityListController(type), tag: 'ActivityList_$type');
+    controller =
+        Get.put(ActivityListController(), tag: 'ActivityList');
     controller!.refreshController = RefreshController(initialRefresh: false);
     return controller!;
   }
