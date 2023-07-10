@@ -155,8 +155,10 @@ class AuthApi {
     var formData = {
       'userIdentifier': userIdentifier,
     };
-    var response =
-        await http.post('/peiwan/app/user/appleLogin1', data: formData);
+    var response = await http.post(
+      '/peiwan/app/user/appleLogin1',
+      data: formData,
+    );
     return LoginModel.fromJson(response.data);
   }
 
@@ -179,6 +181,63 @@ class AuthApi {
       'userIdentifier': credential?.userIdentifier,
       'givenName': credential?.givenName,
       'familyName': credential?.familyName,
+      "email": email,
+      "nickname": nick,
+      "phone": phone,
+      "birth": birth,
+      "password": password,
+      "payCode": pin,
+      "uid": uid,
+      "location": location,
+      "invite": invite,
+      "sex": sex,
+    };
+    var response = await http.post(
+      '/peiwan/app/user/appleLogin2',
+      data: formData,
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInGoogleCheckUserIsExist(
+      GoogleSignInAccount? account, String? idToken) async {
+    var formData = {
+      'email': account?.email,
+      'id': account?.id,
+      'displayName': account?.displayName,
+      'photoUrl': account?.photoUrl,
+      'idToken': idToken,
+      'serverAuthCode': account?.serverAuthCode,
+    };
+    var response = await http.post(
+      '/peiwan/app/user/googleLogin1',
+      data: formData,
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInGoogle(
+    GoogleSignInAccount? account,
+    String? idToken,
+    String nick,
+    String phone,
+    String email,
+    String birth,
+    String password,
+    String uid,
+    String pin,
+    String invite,
+    int sex,
+  ) async {
+    String version = await PlatformUtils.getAppVersion();
+    String location = "$version@${Platform.operatingSystem}";
+
+    var formData = {
+      'id': account?.id,
+      'displayName': account?.displayName,
+      'photoUrl': account?.photoUrl,
+      'idToken': idToken,
+      'serverAuthCode': account?.serverAuthCode,
 
       "email": email,
       "nickname": nick,
@@ -191,23 +250,10 @@ class AuthApi {
       "invite": invite,
       "sex": sex,
     };
-    var response =
-        await http.post('/peiwan/app/user/appleLogin2', data: formData);
-    return LoginModel.fromJson(response.data);
-  }
-
-  static Future<LoginModel> signInGoogle(
-      GoogleSignInAccount? account, String? idToken) async {
-    var formData = {
-      'email': account?.email,
-      'id': account?.id,
-      'displayName': account?.displayName,
-      'photoUrl': account?.photoUrl,
-      'idToken': idToken,
-      'serverAuthCode': account?.serverAuthCode,
-    };
-    var response =
-        await http.post('/peiwan/app/user/googleLogin', data: formData);
+    var response = await http.post(
+      '/peiwan/app/user/googleLogin2',
+      data: formData,
+    );
     return LoginModel.fromJson(response.data);
   }
 

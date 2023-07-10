@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wy/api/auth_api.dart';
@@ -54,6 +55,9 @@ class OtherRegisterCtr extends GetxController {
 
   AuthorizationCredentialAppleID? credential;
 
+  GoogleSignInAccount? googleSignInAccount;
+  String? idToken;
+
   OtherRegisterCtr();
 
   @override
@@ -63,10 +67,17 @@ class OtherRegisterCtr extends GetxController {
     if (params is AuthorizationCredentialAppleID) {
       // apple sign
       credential = params;
+      emailEditingController = TextEditingController(
+          text: credential != null ? credential!.email : '');
+    } else if (params is Map) {
+      // google sign
+      googleSignInAccount = params['account'] as GoogleSignInAccount;
+      idToken = params['idToken'];
+      emailEditingController = TextEditingController(
+          text: googleSignInAccount != null ? googleSignInAccount!.email : '');
+    } else {
+      emailEditingController = TextEditingController();
     }
-
-    emailEditingController = TextEditingController(
-        text: credential != null ? credential!.email : '');
     passwordEditingController = TextEditingController();
     nickEditingController = TextEditingController();
     phoneEditingController = TextEditingController();
@@ -200,18 +211,35 @@ class OtherRegisterCtr extends GetxController {
     }
 
     showLoading();
-    LoginModel loginModel = await AuthApi.signInApple(
-      credential,
-      nick,
-      phone,
-      email,
-      formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-      password,
-      uid,
-      pin,
-      invite,
-      int.parse(selectSex.value.name),
-    );
+    LoginModel loginModel;
+    if (credential != null) {
+      loginModel = await AuthApi.signInApple(
+        credential,
+        nick,
+        phone,
+        email,
+        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        password,
+        uid,
+        pin,
+        invite,
+        int.parse(selectSex.value.name),
+      );
+    } else {
+      loginModel = await AuthApi.signInGoogle(
+        googleSignInAccount,
+        idToken,
+        nick,
+        phone,
+        email,
+        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        password,
+        uid,
+        pin,
+        invite,
+        int.parse(selectSex.value.name),
+      );
+    }
     dismissLoading();
     await showSuccess(
         "Congratulations and welcome, please sign in with your new account!"

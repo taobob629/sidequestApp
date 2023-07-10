@@ -371,12 +371,21 @@ class UserController extends GetxController {
           await account?.authentication;
 
       flog('google sign in $account');
-      LoginModel loginModel = await AuthApi.signInGoogle(
+      LoginModel loginModel = await AuthApi.signInGoogleCheckUserIsExist(
         account,
         authentication?.idToken,
       ).catchError((e) {
         dismissLoading();
       });
+
+      if (loginModel.gotoLogin2) {
+        dismissLoading();
+        Get.to(() => OtherRegisterPage(), arguments: {
+          'account': account,
+          'idToken': authentication?.idToken,
+        });
+        return;
+      }
 
       if (loginModel.validate == 0) {
         //老用户需要更新资料之后才可以使用

@@ -141,7 +141,14 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        100.verticalSpace,
+                        Visibility(
+                          visible: Platform.isIOS,
+                          child: 100.verticalSpace,
+                        ),
+                        Visibility(
+                          visible: Platform.isAndroid,
+                          child: 20.verticalSpace,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -170,8 +177,7 @@ class LoginPage extends StatelessWidget {
                             GetBuilder<AppController>(
                                 id: AppController.find.showGoogleSignInId,
                                 builder: (builder) => Visibility(
-                                      visible: Platform.isAndroid &&
-                                          AppController.find.showGoogleSingIn,
+                                      visible: Platform.isAndroid,
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () =>
