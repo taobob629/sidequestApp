@@ -18,6 +18,8 @@ import 'package:wy/ui/profile/settings/about_page.dart';
 import 'package:wy/ui/profile/settings/change_password_page.dart';
 import 'package:wy/utils/platform_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
+import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/dialog/dialog_comment.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
@@ -178,12 +180,37 @@ Deleting your account will remove your profile and all of your content from Side
           confirmBtn: "CONFIRM".tr,
           onConfirm: () async {
             Get.back();
-            showLoading();
-            await UserApi.deleteAccount();
-            await logout();
+            confimPwd();
+            // Get.back();
+            // showLoading();
+            //
+            // await UserApi.deleteAccount();
+            // await logout();
           },
         ),
         barrierColor: Colors.black26);
+  }
+
+  void confimPwd() {
+    Get.dialog(DialogComment(
+      maxLines: 1,
+      minLines: 1,
+      autoClose: false,
+      obscureText: true,
+      title: "Delete Account".tr,
+      hint: 'Please input your password'.tr,
+      onConfirm: (text) async {
+        showLoading();
+        var res = await UserApi.confirmPwd(text);
+        dismissLoading();
+        if (res.data == null) {
+          Get.back();
+          showLoading();
+          await UserApi.deleteAccount();
+          await logout();
+        }
+      },
+    ));
   }
 
   String getVipName(int level) {
