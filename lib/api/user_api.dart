@@ -178,4 +178,13 @@ class UserApi {
         response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
     return list;
   }
+
+  /**
+   * 确认用户密码是否正确
+   */
+  static Future<Response> confirmPwd(var pwd) async {
+    var response = await http.get('/peiwan/app/users/deleteCheck',
+        queryParameters: ({'password': pwd}));
+    return response;
+  }
 }

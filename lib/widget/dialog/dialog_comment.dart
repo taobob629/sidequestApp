@@ -10,8 +10,12 @@ class DialogComment extends StatelessWidget {
   Function(String)? onConfirm;
   String? hint;
   String? title;
+  int minLines;
+  int maxLines;
+  bool autoClose;//confirm会自动关掉
+  bool obscureText;
 
-  DialogComment({this.onConfirm, this.hint = '', this.title});
+  DialogComment({this.onConfirm, this.hint = '', this.title,this.minLines=5,this.maxLines=10,this.autoClose=true,this.obscureText=false});
 
   TextEditingController controller = TextEditingController();
 
@@ -31,9 +35,10 @@ class DialogComment extends StatelessWidget {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(16).r, color: Colors.white10),
                 child: TextField(
-                  minLines: 5,
-                  maxLines: 10,
+                  minLines: minLines,
+                  maxLines: maxLines,
                   controller: controller,
+                  obscureText: obscureText,
                   cursorColor: Colors.white70,
                   textAlign: TextAlign.start,
                   style: const TextStyle(color: Colors.white, fontSize: 16),
@@ -63,7 +68,7 @@ class DialogComment extends StatelessWidget {
                   return;
                 }
                 onConfirm?.call(text);
-                Get.back();
+               if(autoClose) Get.back();
               })
         ],
       ),
