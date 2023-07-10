@@ -177,7 +177,8 @@ class LoginPage extends StatelessWidget {
                             GetBuilder<AppController>(
                                 id: AppController.find.showGoogleSignInId,
                                 builder: (builder) => Visibility(
-                                      visible: Platform.isAndroid,
+                                  visible: Platform.isAndroid &&
+                                      AppController.find.showGoogleSingIn,
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () =>
