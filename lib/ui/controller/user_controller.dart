@@ -28,6 +28,7 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/frame/messages/chat/chat_tool.dart';
 import 'package:wy/ui/login/login_page.dart';
+import 'package:wy/ui/login/other_register/other_register_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
@@ -263,12 +264,8 @@ class UserController extends GetxController {
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
-      _updateUser(loginModel.user);
-      StorageManager.setToken(loginModel.token);
-      StorageManager.setAccount(email);
-      StorageManager.setPassword(password);
-      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
-      await updateInfo();
+
+      setLocalInfo(loginModel);
     }
     if (showLoadings == true) {
       dismissLoading();
@@ -325,7 +322,8 @@ class UserController extends GetxController {
 
     showLoading();
     LoginModel loginModel =
-        await AuthApi.signInApple(credential).catchError((e) {
+        await AuthApi.signInAppleCheckUserIsExist(credential.userIdentifier)
+            .catchError((e) {
       dismissLoading();
     });
 
@@ -334,15 +332,17 @@ class UserController extends GetxController {
       credential.userIdentifier.toString(),
     );
 
+    if (loginModel.gotoLogin2) {
+      dismissLoading();
+      Get.to(() => OtherRegisterPage(), arguments: credential);
+      return;
+    }
+
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
       _updateUser(loginModel.user);
-      StorageManager.setToken(loginModel.token);
-      StorageManager.setAccount(loginModel.user.email);
-      StorageManager.setPassword(loginModel.login);
-      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
-      await updateInfo();
+      setLocalInfo(loginModel);
     }
     dismissLoading();
     if (loginModel.user.id != 0) {
@@ -381,12 +381,7 @@ class UserController extends GetxController {
       if (loginModel.validate == 0) {
         //老用户需要更新资料之后才可以使用
         lastLoginTime = DateTime.now();
-        _updateUser(loginModel.user);
-        StorageManager.setToken(loginModel.token);
-        StorageManager.setAccount(loginModel.user.email);
-        StorageManager.setPassword(loginModel.login);
-        StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
-        await updateInfo();
+        setLocalInfo(loginModel);
       }
       dismissLoading();
       if (loginModel.user.id != 0) {
@@ -399,6 +394,15 @@ class UserController extends GetxController {
       flog('sign in err $e');
       showErrorWidget(e.toString());
     }
+  }
+
+  void setLocalInfo(LoginModel loginModel) async {
+    _updateUser(loginModel.user);
+    StorageManager.setToken(loginModel.token);
+    StorageManager.setAccount(loginModel.user.email);
+    StorageManager.setPassword(loginModel.login);
+    StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+    await updateInfo();
   }
 
   uploadOfflinePushInfoToken() async {

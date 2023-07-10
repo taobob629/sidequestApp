@@ -150,16 +150,49 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInApple(
-      AuthorizationCredentialAppleID credential) async {
+  static Future<LoginModel> signInAppleCheckUserIsExist(
+      String? userIdentifier) async {
     var formData = {
-      'userIdentifier': credential.userIdentifier,
-      'email': credential.email,
-      'givenName': credential.givenName,
-      'familyName': credential.familyName,
+      'userIdentifier': userIdentifier,
     };
     var response =
-        await http.post('/peiwan/app/user/appleLogin', data: formData);
+        await http.post('/peiwan/app/user/appleLogin1', data: formData);
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInApple(
+    AuthorizationCredentialAppleID? credential,
+    String nick,
+    String phone,
+    String email,
+    String birth,
+    String password,
+    String uid,
+    String pin,
+    String invite,
+    int sex,
+  ) async {
+    String version = await PlatformUtils.getAppVersion();
+    String location = "$version@${Platform.operatingSystem}";
+
+    var formData = {
+      'userIdentifier': credential?.userIdentifier,
+      'givenName': credential?.givenName,
+      'familyName': credential?.familyName,
+
+      "email": email,
+      "nickname": nick,
+      "phone": phone,
+      "birth": birth,
+      "password": password,
+      "payCode": pin,
+      "uid": uid,
+      "location": location,
+      "invite": invite,
+      "sex": sex,
+    };
+    var response =
+        await http.post('/peiwan/app/user/appleLogin2', data: formData);
     return LoginModel.fromJson(response.data);
   }
 
