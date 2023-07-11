@@ -259,6 +259,7 @@ class UserController extends GetxController {
         await AuthApi.signIn(email, password).catchError((e) {
       dismissLoading();
     });
+    if(loginModel.token.isEmpty)return;
 
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
