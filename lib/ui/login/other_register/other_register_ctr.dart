@@ -250,7 +250,7 @@ class OtherRegisterCtr extends GetxController {
 
   void loginSuccess(LoginModel loginModel) {
     if (loginModel.validate == 0) {
-      UserController.find.setLocalInfo(loginModel);
+      UserController.find.setLocalInfo(loginModel, null, null);
       UserController.find.imLogin();
       Get.offAndToNamed(AppPages.Main);
     } else {

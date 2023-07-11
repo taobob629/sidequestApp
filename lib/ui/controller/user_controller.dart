@@ -259,22 +259,8 @@ class UserController extends GetxController {
         await AuthApi.signIn(email, password).catchError((e) {
       dismissLoading();
     });
-    if(loginModel.token.isEmpty)return;
 
-    if (loginModel.validate == 0) {
-      //老用户需要更新资料之后才可以使用
-      lastLoginTime = DateTime.now();
-
-      setLocalInfo(loginModel, password);
-    }
-    if (showLoadings == true) {
-      dismissLoading();
-    }
-    if (loginModel.user.id != 0) {
-      db = DBHelper(loginModel.user.id);
-    }
-    await imLogin();
-    done?.call(loginModel);
+    setLocalInfo(loginModel, password, done);
   }
 
   Future<void> appleLogin({
@@ -331,18 +317,7 @@ class UserController extends GetxController {
       credential.userIdentifier.toString(),
     );
 
-    if (loginModel.validate == 0) {
-      //老用户需要更新资料之后才可以使用
-      lastLoginTime = DateTime.now();
-
-      setLocalInfo(loginModel, null);
-    }
-    dismissLoading();
-    if (loginModel.user.id != 0) {
-      db = DBHelper(loginModel.user.id);
-    }
-    await imLogin();
-    done?.call(loginModel);
+    setLocalInfo(loginModel, null, done);
   }
 
   Future<void> googleLogin({
@@ -371,18 +346,7 @@ class UserController extends GetxController {
         dismissLoading();
       });
 
-      if (loginModel.validate == 0) {
-        //老用户需要更新资料之后才可以使用
-        lastLoginTime = DateTime.now();
-
-        setLocalInfo(loginModel, null);
-      }
-      dismissLoading();
-      if (loginModel.user.id != 0) {
-        db = DBHelper(loginModel.user.id);
-      }
-      await imLogin();
-      done?.call(loginModel);
+      setLocalInfo(loginModel, null, done);
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
@@ -390,13 +354,26 @@ class UserController extends GetxController {
     }
   }
 
-  void setLocalInfo(LoginModel loginModel, String? password) async {
-    _updateUser(loginModel.user);
-    StorageManager.setToken(loginModel.token);
-    StorageManager.setAccount(loginModel.user.email);
-    StorageManager.setPassword(password ?? loginModel.login);
-    StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
-    await updateInfo();
+  void setLocalInfo(LoginModel loginModel, String? password, Function(LoginModel)? done,) async {
+    if (loginModel.token.isEmpty) return;
+
+    if (loginModel.validate == 0) {
+      //老用户需要更新资料之后才可以使用
+      lastLoginTime = DateTime.now();
+
+      _updateUser(loginModel.user);
+      StorageManager.setToken(loginModel.token);
+      StorageManager.setAccount(loginModel.user.email);
+      StorageManager.setPassword(password ?? loginModel.login);
+      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+      await updateInfo();
+    }
+    dismissLoading();
+    if (loginModel.user.id != 0) {
+      db = DBHelper(loginModel.user.id);
+    }
+    await imLogin();
+    done?.call(loginModel);
   }
 
   uploadOfflinePushInfoToken() async {
