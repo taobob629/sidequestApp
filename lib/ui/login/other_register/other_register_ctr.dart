@@ -213,39 +213,39 @@ class OtherRegisterCtr extends GetxController {
     showLoading();
     LoginModel loginModel;
     if (credential != null) {
-      loginModel = await AuthApi.signInApple(
-        credential,
-        nick,
-        phone,
-        email,
-        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-        password,
-        uid,
-        pin,
-        invite,
-        int.parse(selectSex.value.name),
-      );
+      // loginModel = await AuthApi.signInApple(
+      //   credential,
+      //   nick,
+      //   phone,
+      //   email,
+      //   formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+      //   password,
+      //   uid,
+      //   pin,
+      //   invite,
+      //   int.parse(selectSex.value.name),
+      // );
     } else {
-      loginModel = await AuthApi.signInGoogle(
-        googleSignInAccount,
-        idToken,
-        nick,
-        phone,
-        email,
-        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-        password,
-        uid,
-        pin,
-        invite,
-        int.parse(selectSex.value.name),
-      );
+      // loginModel = await AuthApi.signInGoogle(
+      //   googleSignInAccount,
+      //   idToken,
+      //   nick,
+      //   phone,
+      //   email,
+      //   formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+      //   password,
+      //   uid,
+      //   pin,
+      //   invite,
+      //   int.parse(selectSex.value.name),
+      // );
     }
     dismissLoading();
     await showSuccess(
         "Congratulations and welcome, please sign in with your new account!"
             .tr);
 
-    loginSuccess(loginModel);
+    // loginSuccess(loginModel);
   }
 
   void loginSuccess(LoginModel loginModel) {

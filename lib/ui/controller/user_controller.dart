@@ -28,7 +28,6 @@ import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/ui/common/dialog_show_info.dart';
 import 'package:wy/ui/frame/messages/chat/chat_tool.dart';
 import 'package:wy/ui/login/login_page.dart';
-import 'package:wy/ui/login/other_register/other_register_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
@@ -322,8 +321,7 @@ class UserController extends GetxController {
 
     showLoading();
     LoginModel loginModel =
-        await AuthApi.signInAppleCheckUserIsExist(credential.userIdentifier)
-            .catchError((e) {
+        await AuthApi.signInApple(credential).catchError((e) {
       dismissLoading();
     });
 
@@ -332,16 +330,10 @@ class UserController extends GetxController {
       credential.userIdentifier.toString(),
     );
 
-    if (loginModel.gotoLogin2) {
-      dismissLoading();
-      Get.to(() => OtherRegisterPage(), arguments: credential);
-      return;
-    }
-
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
-      _updateUser(loginModel.user);
+
       setLocalInfo(loginModel);
     }
     dismissLoading();
@@ -371,25 +363,17 @@ class UserController extends GetxController {
           await account?.authentication;
 
       flog('google sign in $account');
-      LoginModel loginModel = await AuthApi.signInGoogleCheckUserIsExist(
+      LoginModel loginModel = await AuthApi.signInGoogle(
         account,
         authentication?.idToken,
       ).catchError((e) {
         dismissLoading();
       });
 
-      if (loginModel.gotoLogin2) {
-        dismissLoading();
-        Get.to(() => OtherRegisterPage(), arguments: {
-          'account': account,
-          'idToken': authentication?.idToken,
-        });
-        return;
-      }
-
       if (loginModel.validate == 0) {
         //老用户需要更新资料之后才可以使用
         lastLoginTime = DateTime.now();
+
         setLocalInfo(loginModel);
       }
       dismissLoading();

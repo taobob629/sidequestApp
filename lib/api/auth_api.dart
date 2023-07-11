@@ -13,7 +13,10 @@ import 'wy_http.dart';
 
 class AuthApi {
   static Future<String> sendEmail(
-      String email, String guardian, int type) async {
+    String email,
+    String guardian,
+    int type,
+  ) async {
     var response = await http.get('/web/index/sendEmail',
         queryParameters: ({
           'email': email,
@@ -30,18 +33,19 @@ class AuthApi {
   }
 
   static Future<void> signUp(
-      // String firstName,
-      // String lastName,
-      String nick,
-      String phone,
-      String email,
-      String birth,
-      String password,
-      String code,
-      String uid,
-      String pin,
-      String invite,
-      int sex) async {
+    // String firstName,
+    // String lastName,
+    String nick,
+    String phone,
+    String email,
+    String birth,
+    String password,
+    String code,
+    String uid,
+    String pin,
+    String invite,
+    int sex,
+  ) async {
     String version = await PlatformUtils.getAppVersion();
     String location = "$version@${Platform.operatingSystem}";
     var formData = {
@@ -63,35 +67,41 @@ class AuthApi {
   }
 
   static Future<UserModel> validateInfo(
-      String name, String value, String token) async {
+    String name,
+    String value,
+    String token,
+  ) async {
     var formData = {
       "name": name,
       "value": value,
     };
     Options options = Options(headers: {'X-Wanyoo-Token': token});
-    var response = await http.post('/web/index/secondary',
-        queryParameters: ({
-          'name': name,
-          'value': value,
-        }),
-        data: formData,
-        options: options);
+    var response = await http.post(
+      '/web/index/secondary',
+      queryParameters: ({
+        'name': name,
+        'value': value,
+      }),
+      data: formData,
+      options: options,
+    );
 
     return UserModel.fromJson(response.data);
   }
 
   static Future<void> updateProfile(
-      String password,
-      // String firstName,
-      // String lastName,
-      String nick,
-      String phone,
-      String email,
-      String birth,
-      String code,
-      String uid,
-      String pin,
-      String token) async {
+    String password,
+    // String firstName,
+    // String lastName,
+    String nick,
+    String phone,
+    String email,
+    String birth,
+    String code,
+    String uid,
+    String pin,
+    String token,
+  ) async {
     String version = await PlatformUtils.getAppVersion();
     String location = "$version@${Platform.operatingSystem}";
     var formData = {
@@ -112,7 +122,11 @@ class AuthApi {
   }
 
   static Future<void> reset(
-      String email, String password, String code, String uid) async {
+    String email,
+    String password,
+    String code,
+    String uid,
+  ) async {
     var formData = {
       "email": email,
       "password": password,
@@ -129,7 +143,11 @@ class AuthApi {
   }
 
   static Future<void> resetPin(
-      String email, String password, String code, String uid) async {
+    String email,
+    String password,
+    String code,
+    String uid,
+  ) async {
     var formData = {
       "email": email,
       "newPayCode": password,
@@ -139,7 +157,10 @@ class AuthApi {
     await http.post('/app/user/resetPayPassword', data: formData);
   }
 
-  static Future<LoginModel> signIn(String email, String password) async {
+  static Future<LoginModel> signIn(
+    String email,
+    String password,
+  ) async {
     String pushToken = StorageManager.getPushToken();
     var formData = {
       "username": email,
@@ -150,57 +171,26 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInAppleCheckUserIsExist(
-      String? userIdentifier) async {
-    var formData = {
-      'userIdentifier': userIdentifier,
-    };
-    var response = await http.post(
-      '/peiwan/app/user/appleLogin1',
-      data: formData,
-    );
-    return LoginModel.fromJson(response.data);
-  }
-
   static Future<LoginModel> signInApple(
-    AuthorizationCredentialAppleID? credential,
-    String nick,
-    String phone,
-    String email,
-    String birth,
-    String password,
-    String uid,
-    String pin,
-    String invite,
-    int sex,
+    AuthorizationCredentialAppleID credential,
   ) async {
-    String version = await PlatformUtils.getAppVersion();
-    String location = "$version@${Platform.operatingSystem}";
-
     var formData = {
-      'userIdentifier': credential?.userIdentifier,
-      'givenName': credential?.givenName,
-      'familyName': credential?.familyName,
-      "email": email,
-      "nickname": nick,
-      "phone": phone,
-      "birth": birth,
-      "password": password,
-      "payCode": pin,
-      "uid": uid,
-      "location": location,
-      "invite": invite,
-      "sex": sex,
+      'userIdentifier': credential.userIdentifier,
+      'email': credential.email,
+      'givenName': credential.givenName,
+      'familyName': credential.familyName,
     };
     var response = await http.post(
-      '/peiwan/app/user/appleLogin2',
+      '/peiwan/app/user/appleLogin',
       data: formData,
     );
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInGoogleCheckUserIsExist(
-      GoogleSignInAccount? account, String? idToken) async {
+  static Future<LoginModel> signInGoogle(
+    GoogleSignInAccount? account,
+    String? idToken,
+  ) async {
     var formData = {
       'email': account?.email,
       'id': account?.id,
@@ -210,48 +200,7 @@ class AuthApi {
       'serverAuthCode': account?.serverAuthCode,
     };
     var response = await http.post(
-      '/peiwan/app/user/googleLogin1',
-      data: formData,
-    );
-    return LoginModel.fromJson(response.data);
-  }
-
-  static Future<LoginModel> signInGoogle(
-    GoogleSignInAccount? account,
-    String? idToken,
-    String nick,
-    String phone,
-    String email,
-    String birth,
-    String password,
-    String uid,
-    String pin,
-    String invite,
-    int sex,
-  ) async {
-    String version = await PlatformUtils.getAppVersion();
-    String location = "$version@${Platform.operatingSystem}";
-
-    var formData = {
-      'id': account?.id,
-      'displayName': account?.displayName,
-      'photoUrl': account?.photoUrl,
-      'idToken': idToken,
-      'serverAuthCode': account?.serverAuthCode,
-
-      "email": email,
-      "nickname": nick,
-      "phone": phone,
-      "birth": birth,
-      "password": password,
-      "payCode": pin,
-      "uid": uid,
-      "location": location,
-      "invite": invite,
-      "sex": sex,
-    };
-    var response = await http.post(
-      '/peiwan/app/user/googleLogin2',
+      '/peiwan/app/user/googleLogin',
       data: formData,
     );
     return LoginModel.fromJson(response.data);
