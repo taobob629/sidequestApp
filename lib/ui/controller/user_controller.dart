@@ -264,7 +264,7 @@ class UserController extends GetxController {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
 
-      setLocalInfo(loginModel);
+      setLocalInfo(loginModel, password);
     }
     if (showLoadings == true) {
       dismissLoading();
@@ -334,7 +334,7 @@ class UserController extends GetxController {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
 
-      setLocalInfo(loginModel);
+      setLocalInfo(loginModel, null);
     }
     dismissLoading();
     if (loginModel.user.id != 0) {
@@ -374,7 +374,7 @@ class UserController extends GetxController {
         //老用户需要更新资料之后才可以使用
         lastLoginTime = DateTime.now();
 
-        setLocalInfo(loginModel);
+        setLocalInfo(loginModel, null);
       }
       dismissLoading();
       if (loginModel.user.id != 0) {
@@ -389,11 +389,11 @@ class UserController extends GetxController {
     }
   }
 
-  void setLocalInfo(LoginModel loginModel) async {
+  void setLocalInfo(LoginModel loginModel, String? password) async {
     _updateUser(loginModel.user);
     StorageManager.setToken(loginModel.token);
     StorageManager.setAccount(loginModel.user.email);
-    StorageManager.setPassword(loginModel.login);
+    StorageManager.setPassword(password ?? loginModel.login);
     StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
     await updateInfo();
   }
