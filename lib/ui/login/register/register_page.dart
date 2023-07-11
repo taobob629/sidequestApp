@@ -6,6 +6,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+import 'package:wy/config/controller/controller.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/common/dialog_date_time_picker.dart';
@@ -265,7 +266,7 @@ class RegisterPage extends GetView<RegisterPageController> {
       ),
     ));
     list.add(Visibility(
-      visible: Platform.isAndroid,
+      visible: Platform.isAndroid&&AppController.find.showGoogleSingIn,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => controller.loginWithGoogle(),
