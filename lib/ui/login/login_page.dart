@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_pages.dart';
-import 'package:wy/config/controller/controller.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/ui/common/colorful_button.dart';
@@ -18,7 +16,7 @@ import 'package:wy/ui/login/secondary_page.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
 
-import '../../api/wy_http.dart';
+import '../../config/controller/controller.dart';
 import '../../model/login_model.dart';
 import '../../utils/toast_utils.dart';
 import 'auth_input_view.dart';
@@ -177,8 +175,8 @@ class LoginPage extends StatelessWidget {
                             GetBuilder<AppController>(
                                 id: AppController.find.showGoogleSignInId,
                                 builder: (builder) => Visibility(
-                                  visible: Platform.isAndroid &&
-                                      AppController.find.showGoogleSingIn,
+                                      visible: Platform.isAndroid &&
+                                          AppController.find.showGoogleSingIn,
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () =>
@@ -299,19 +297,12 @@ class LoginPageController extends BasePageController {
     }
   }
 
-  void loginWithDiscord() async {
-    String clientId = '1043016152168792094';
-    String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
-    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
-      'response_type': 'code',
-      'client_id': clientId,
-      'redirect_uri': redirectUri,
-      'scope': 'identify',
-    });
-
-    final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: 'sidequest');
-    final code = Uri.parse(result).queryParameters['code'];
+  void loginWithDiscord() {
+    if (controller.check()) {
+      UserController.find.discordLogin(done: (LoginModel loginModel) {
+        loginSuccess(loginModel);
+      });
+    }
   }
 
   void loginWithApple() {

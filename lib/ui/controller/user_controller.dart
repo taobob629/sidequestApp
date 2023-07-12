@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
@@ -347,6 +348,60 @@ class UserController extends GetxController {
       });
 
       setLocalInfo(loginModel, null, done);
+    } catch (e) {
+      dismissLoading();
+      flog('sign in err $e');
+      showErrorWidget(e.toString());
+    }
+  }
+
+  Future<void> discordLogin({
+    bool checkLastLoginTime = false,
+    Function(LoginModel)? done,
+  }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+    showLoading();
+
+    try {
+      // String clientId = '1043016152168792094';
+      // String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
+      // final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      //   'response_type': 'code',
+      //   'client_id': clientId,
+      //   'redirect_uri': redirectUri,
+      //   'scope': 'identify',
+      // });
+      //
+      // final result = await FlutterWebAuth.authenticate(
+      //     url: url.toString(), callbackUrlScheme: 'sidequest');
+      // final code = Uri.parse(result).queryParameters['code'];
+
+      // LinkUtils.launchURL(Get.context!, 'http://43.136.135.198:82/#/h5/index');
+      launchUrlString('http://43.136.135.198:82/#/h5/index');
+
+      // String redirectUri = 'http://43.136.135.198:82/#/h5/index';
+      //
+      // final result = await FlutterWebAuth.authenticate(
+      //     url: redirectUri, callbackUrlScheme: 'sidequest');
+      // String? id = Uri.parse(result).queryParameters['id'];
+      // String? type = Uri.parse(result).queryParameters['type'];
+      // print('');
+      //
+      // flog('google sign in $account');
+      // LoginModel loginModel = await AuthApi.signInGoogle(
+      //   account,
+      //   authentication?.idToken,
+      // ).catchError((e) {
+      //   dismissLoading();
+      // });
+      //
+      // setLocalInfo(loginModel, null, done);
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
