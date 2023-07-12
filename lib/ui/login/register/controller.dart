@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
@@ -21,6 +23,8 @@ import '../secondary_page.dart';
  */
 
 class RegisterPageController extends GetxController {
+  static RegisterPageController get find => Get.find();
+
   var step = 1.obs;
 
   late TextEditingController emailEditingController;
@@ -48,9 +52,12 @@ class RegisterPageController extends GetxController {
   // String lastName = "";
   String nick = "";
   String phone = "";
-  String uid = "";
+  var uid = "".obs;
   String invite = "";
   var sex = 0.obs;
+
+  Timer? _timer;
+  var codeCountDown = 60.obs;
 
   late int type;
   late final LoginModel? loginModel;
@@ -117,6 +124,8 @@ class RegisterPageController extends GetxController {
 
     emailFocusNode.dispose();
     codeFocusNode.dispose();
+    _timer?.cancel();
+    _timer = null;
     super.onClose();
   }
 
@@ -170,15 +179,29 @@ class RegisterPageController extends GetxController {
   }
 
   void sendEmail() async {
+    flog('${_timer?.isActive}');
+    if (_timer?.isActive == true) return;
+
     if (!verifyEmail(false)) return;
 
     showLoading();
-    uid = await AuthApi.sendEmail(email, guardianEditingController.text.trim(), type);
+    uid.value = await AuthApi.sendEmail(
+        email, guardianEditingController.text.trim(), type);
     dismissLoading();
     if (uid.isNotEmpty) {
-      await showSuccess(
+      codeCountDown.value--;
+      showSuccess(
         "Verification code sent".tr,
       );
+
+      _timer = Timer.periodic(const Duration(seconds: 1), (v) {
+        if (codeCountDown.value > 0) {
+          codeCountDown.value--;
+        } else {
+          _timer?.cancel();
+          codeCountDown.value = 60;
+        }
+      });
     }
   }
 
@@ -202,7 +225,7 @@ class RegisterPageController extends GetxController {
     }
 
     showLoading();
-    bool ifSuccess = await AuthApi.verifyCode(code, uid);
+    bool ifSuccess = await AuthApi.verifyCode(code, uid.value);
     dismissLoading();
     if (ifSuccess) {
       codeFocusNode.requestFocus();
@@ -283,7 +306,7 @@ class RegisterPageController extends GetxController {
           formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
           password,
           code,
-          uid,
+          uid.value,
           pin,
           invite,
           sex.value);
@@ -299,7 +322,7 @@ class RegisterPageController extends GetxController {
           email,
           formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
           code,
-          uid,
+          uid.value,
           pin,
           loginModel!.token);
       dismissLoading();

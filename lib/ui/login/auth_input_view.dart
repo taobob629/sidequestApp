@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
+
+import 'register/controller.dart';
 
 class AuthInputView extends StatelessWidget {
   final String tips;
@@ -66,22 +69,37 @@ class AuthInputView extends StatelessWidget {
           ),
           Visibility(
             visible: rightBtn,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: onRightCallback,
-              child: Container(
-                height: 48,
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(left: 6.w, right: 10.w),
-                child: Text(
-                  'Send',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
+            child: Obx(() => GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: onRightCallback,
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.w),
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: RegisterPageController.find.codeCountDown.value == 60
+                            ? [Color(0xFFD49C21), Color(0xFFE96524)]
+                            : [Colors.grey, Colors.grey],
+                      ),
+                    ),
+                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                    margin: EdgeInsets.only(right: 6.w),
+                    child: Text(
+                      RegisterPageController.find.uid.value == ''
+                          ? 'Send'
+                          : RegisterPageController.find.codeCountDown.value != 60
+                              ? '${RegisterPageController.find.codeCountDown.value.toString().padLeft(2, '0')}s'
+                              : 'Resend',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                )),
           ),
         ],
       ),

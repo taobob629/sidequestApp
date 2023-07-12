@@ -166,27 +166,27 @@ class RegisterPage extends GetView<RegisterPageController> {
     list.add(SizedBox(
       height: 20,
     ));
-    list.add(Obx(() => BirthdaySelector(
-          value: controller.birthday.value,
-          onTap: () => Get.dialog<DateTime?>(
-                  DateTimePickerDialog(
-                    maxDateTime: DateTime.now(),
-                    initDateTime: controller.birthday.value,
-                  ),
-                  barrierColor: Colors.black26)
-              .then((value) {
-            controller.setBirthday(value);
-          }),
-        )));
-    list.add(SizedBox(
-      height: 20,
-    ));
     list.add(AuthInputView(
       tips: "Verification code from your email".tr,
       editingController: controller.codeEditingController,
       focusNode: controller.codeFocusNode,
       keyboardType: TextInputType.number,
     ));
+    list.add(SizedBox(
+      height: 20,
+    ));
+    list.add(Obx(() => BirthdaySelector(
+      value: controller.birthday.value,
+      onTap: () => Get.dialog<DateTime?>(
+          DateTimePickerDialog(
+            maxDateTime: DateTime.now(),
+            initDateTime: controller.birthday.value,
+          ),
+          barrierColor: Colors.black26)
+          .then((value) {
+        controller.setBirthday(value);
+      }),
+    )));
     list.add(Obx(() => Offstage(
           offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 ||
               DatetimeUtils.getAge(controller.birthday.value) == 0,
