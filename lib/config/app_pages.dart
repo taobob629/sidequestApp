@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:wy/ui/consum/detail/bindings.dart';
+import 'package:wy/ui/consum/detail/view.dart';
+import 'package:wy/ui/consum/list/bindings.dart';
+import 'package:wy/ui/consum/list/view.dart';
 import 'package:wy/ui/frame/main_page.dart';
 import 'package:wy/ui/frame/messages/fans/fans_list_page.dart';
 import 'package:wy/ui/frame/messages/follow/follow_list_page.dart';
@@ -106,6 +110,8 @@ class AppPages {
   static const FollowList = '/folllow_list';
   static const FansList = '/fans_list';
   static const GradeTask = '/grade_task_page';
+  static const StoreConsumList = '/store_consum_list';
+  static const StoreConsumDetail = '/store_consum_detail_page';
 
   static final routes = [
     GetPage(
@@ -162,13 +168,22 @@ class AppPages {
       page: () => MoreGamesPage(),
       binding: MoreGamesTabBinding(),
     ),
-    GetPage(name: SkillItem, page: () => SkillItemPage(), binding: SkillItemBinding()),
-    GetPage(name: SkillList, page: () => SkillListPage(), binding: SkillListBinding()),
+    GetPage(
+        name: SkillItem,
+        page: () => SkillItemPage(),
+        binding: SkillItemBinding()),
+    GetPage(
+        name: SkillList,
+        page: () => SkillListPage(),
+        binding: SkillListBinding()),
     GetPage(
         name: WALLET_PAGE,
         page: () => PlayBalancePage(),
         middlewares: [StripMiddleWare(action: AppConfig.ACTION_PW)]),
-    GetPage(name: COUPON_TAB_PAGE, page: () => CouponTabPage(), binding: CouponTabBinding()),
+    GetPage(
+        name: COUPON_TAB_PAGE,
+        page: () => CouponTabPage(),
+        binding: CouponTabBinding()),
     GetPage(
       name: SEARCH_USER_PAGE,
       binding: SearchUserBinding(),
@@ -200,8 +215,12 @@ class AppPages {
 
     GetPage(name: OtherProfile, page: () => OtherProfilePage()),
     GetPage(name: SideKick, page: () => SideKickPage()),
-    GetPage(name: OrderDetail, page: () => OrderDetailPage(), binding: OrderDetailPageBinding()),
-    GetPage(name: Record, page: () => RecordViewPage(), binding: RecordBinding()),
+    GetPage(
+        name: OrderDetail,
+        page: () => OrderDetailPage(),
+        binding: OrderDetailPageBinding()),
+    GetPage(
+        name: Record, page: () => RecordViewPage(), binding: RecordBinding()),
     GetPage(
       name: Refound,
       page: () => OrderRefoundPage(),
@@ -248,6 +267,16 @@ class AppPages {
       name: GradeTask,
       binding: GradeTaskPageBinding(),
       page: () => GradeTaskPage(),
+    ),
+    GetPage(
+      name: StoreConsumList,
+      binding: StoreConsumListPageBinding(),
+      page: () => StoreConsumListPage(),
+    ),
+    GetPage(
+      name: StoreConsumDetail,
+      binding: StoreConsumDetailPageBinding(),
+      page: () => StoreConsumDetailPage(),
     ),
   ];
 }

@@ -14,6 +14,11 @@ class LoginModel {
 
   LoginModel();
 
+  @override
+  String toString() {
+    return 'LoginModel{user: $user, token: $token, login: $login, gotoLogin2: $gotoLogin2, validate: $validate, secondary: $secondary, verifyFieldList: $verifyFieldList}';
+  }
+
   LoginModel.fromJson(Map<String, dynamic> json) {
     login = json["login"] == null ? "" : json["login"];
     gotoLogin2 = json["gotoLogin2"] == null ? false : json["gotoLogin2"];
