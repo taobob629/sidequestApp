@@ -107,7 +107,7 @@ class HomeDrawer extends StatelessWidget {
                 ),
                 8.verticalSpace,
                 _listItem(
-                  'History'.tr,
+                  'Consumption record'.tr,
                   onTapMore: () => Get.toNamed(AppPages.StoreConsumList),
                 ),
                 sectionText('Support'.tr),

@@ -926,4 +926,5 @@ const Map<String, String> zh_CN = {
   "Month":"月榜",
   "Week":"周榜",
   "Day":"日榜",
+  "Consumption record":"游戏记录"
 };
