@@ -26,6 +26,21 @@ class AuthApi {
     return response.data["uid"];
   }
 
+  static Future<bool> verifyCode(
+    String code,
+    String uid,
+  ) async {
+    var response = await http.get('/web/sidekick/validCode',
+        queryParameters: ({
+          'code': code,
+          'uid': uid,
+        }));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   static Future<String> resendEmail(String email) async {
     var response = await http.get('/web/index/sendValidCode',
         queryParameters: ({'email': email}));

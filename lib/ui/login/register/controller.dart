@@ -126,54 +126,85 @@ class RegisterPageController extends GetxController {
     }
   }
 
-  void gotoStep2() async {
-    String email = emailEditingController.text.trim();
+  bool verifyEmail(bool verifyBirthday) {
+    email = emailEditingController.text.trim();
     if (email.isEmpty) {
       emailFocusNode.requestFocus();
       showInfo("Please input a email as your account".tr);
-      return;
+      return false;
     }
 
     if (!email.contains("@")) {
       emailFocusNode.requestFocus();
       showInfo("Please input a valid email".tr);
-      return;
+      return false;
     }
 
-    if (DatetimeUtils.getAge(birthday.value) < 13) {
+    if (verifyBirthday && DatetimeUtils.getAge(birthday.value) < 13) {
       showInfo(
         "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
             .tr,
       );
-      return;
+      return false;
     }
-
     String guardian = guardianEditingController.text.trim();
-    if (DatetimeUtils.getAge(birthday.value) < 16) {
+    if (verifyBirthday && DatetimeUtils.getAge(birthday.value) < 16) {
       if (guardian.isEmpty) {
         showInfo(
           "Please input your guardian email".tr,
         );
-        return;
+        return false;
       }
       if (!guardian.contains("@")) {
         showInfo(
           "Please input a valid guardian email".tr,
         );
-        return;
+        return false;
       }
       if (guardian == email) {
         showInfo("Guardian email cannot be the same as your account".tr);
-        return;
+        return false;
       }
     }
+    return true;
+  }
+
+  void sendEmail() async {
+    if (!verifyEmail(false)) return;
+
     showLoading();
-    uid = await AuthApi.sendEmail(email, guardian, type);
+    uid = await AuthApi.sendEmail(email, guardianEditingController.text.trim(), type);
     dismissLoading();
     if (uid.isNotEmpty) {
       await showSuccess(
         "Verification code sent".tr,
       );
+    }
+  }
+
+  void gotoStep2() async {
+    if (!verifyEmail(true)) return;
+
+    if (uid.isEmpty) {
+      showInfo(
+        "Please send your verification code".tr,
+      );
+      return;
+    }
+
+    code = codeEditingController.text.trim();
+
+    if (code.isEmpty) {
+      showInfo(
+        "Please input your verification code".tr,
+      );
+      return;
+    }
+
+    showLoading();
+    bool ifSuccess = await AuthApi.verifyCode(code, uid);
+    dismissLoading();
+    if (ifSuccess) {
       codeFocusNode.requestFocus();
       step.value = 2;
     }
@@ -195,7 +226,6 @@ class RegisterPageController extends GetxController {
     // Get.offAll(LoginPage());
 
     email = emailEditingController.text.trim();
-    code = codeEditingController.text.trim();
     password = passwordEditingController.text.trim();
     //firstName = firstEditingController.text.trim();
     // lastName = lastEditingController.text.trim();
@@ -203,13 +233,6 @@ class RegisterPageController extends GetxController {
     // phone = phoneEditingController.text.trim();
     invite = inviteEditingController.text.trim();
     pin = pinEditingController.text.trim();
-
-    if (code.isEmpty) {
-      showInfo(
-        "Please input your verification code".tr,
-      );
-      return;
-    }
 
     if (password.length < 6) {
       showInfo(

@@ -160,7 +160,8 @@ class RegisterPage extends GetView<RegisterPageController> {
       focusNode: controller.emailFocusNode,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.go,
-      onSubmitted: (value) => controller.gotoStep2(),
+      rightBtn: true,
+      onRightCallback: () => controller.sendEmail(),
     ));
     list.add(SizedBox(
       height: 20,
@@ -177,6 +178,15 @@ class RegisterPage extends GetView<RegisterPageController> {
             controller.setBirthday(value);
           }),
         )));
+    list.add(SizedBox(
+      height: 20,
+    ));
+    list.add(AuthInputView(
+      tips: "Verification code from your email".tr,
+      editingController: controller.codeEditingController,
+      focusNode: controller.codeFocusNode,
+      keyboardType: TextInputType.number,
+    ));
     list.add(Obx(() => Offstage(
           offstage: DatetimeUtils.getAge(controller.birthday.value) >= 16 ||
               DatetimeUtils.getAge(controller.birthday.value) == 0,
@@ -190,7 +200,6 @@ class RegisterPage extends GetView<RegisterPageController> {
                 editingController: controller.guardianEditingController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.go,
-                onSubmitted: (value) => controller.gotoStep2(),
               ),
               SizedBox(
                 height: 10,
@@ -214,7 +223,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         child: Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            "SEND VERIFICATION CODE".tr,
+            "NEXT".tr,
             style: TextStyle(
               color: Colors.white,
               fontFamily: "DIN",
@@ -333,15 +342,6 @@ class RegisterPage extends GetView<RegisterPageController> {
 
   List<Widget> createStep2() {
     List<Widget> list = [];
-    list.add(AuthInputView(
-      tips: "Verification code from your email".tr,
-      editingController: controller.codeEditingController,
-      focusNode: controller.codeFocusNode,
-      keyboardType: TextInputType.number,
-    ));
-    list.add(SizedBox(
-      height: 20,
-    ));
     // list.add(Row(
     //   children: [
     //     Expanded(
