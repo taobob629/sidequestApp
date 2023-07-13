@@ -41,6 +41,7 @@ import '../../event_bus/beans/match_event.dart';
 import '../../image_utils.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
+import '../../utils/login_flag.dart';
 import '../../utils/toast_utils.dart';
 import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
@@ -111,17 +112,17 @@ class UserController extends GetxController {
   Future<void> switchLogin() async {
     var password = StorageManager.getPassword();
     switch (password.toLowerCase()) {
-      case 'ios':
+      case LoginFlag.ios:
         await appleLogin();
         isSigningIn = false;
         break;
 
-      case 'google':
+      case LoginFlag.google:
         await googleLogin();
         isSigningIn = false;
         break;
 
-      case 'discord':
+      case LoginFlag.discord:
         await discordLogin();
         isSigningIn = false;
         break;
@@ -325,7 +326,7 @@ class UserController extends GetxController {
       credential.userIdentifier.toString(),
     );
 
-    setLocalInfo(loginModel, null, done);
+    setLocalInfo(loginModel, LoginFlag.ios, done);
   }
 
   Future<void> googleLogin({
@@ -354,7 +355,7 @@ class UserController extends GetxController {
         dismissLoading();
       });
 
-      setLocalInfo(loginModel, null, done);
+      setLocalInfo(loginModel, LoginFlag.google, done);
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
@@ -389,7 +390,7 @@ class UserController extends GetxController {
           dismissLoading();
         });
 
-        setLocalInfo(loginModel, 'discord', done);
+        setLocalInfo(loginModel, LoginFlag.discord, done);
         return;
       }
 
@@ -425,12 +426,12 @@ class UserController extends GetxController {
       dismissLoading();
     });
 
-    setLocalInfo(loginModel, 'discord', done);
+    setLocalInfo(loginModel, LoginFlag.discord, done);
   }
 
   void setLocalInfo(
     LoginModel loginModel,
-    String? password,
+    String password,
     Function(LoginModel)? done,
   ) async {
     if (loginModel.token.isEmpty) return;
@@ -442,7 +443,7 @@ class UserController extends GetxController {
       _updateUser(loginModel.user);
       StorageManager.setToken(loginModel.token);
       StorageManager.setAccount(loginModel.user.email);
-      StorageManager.setPassword(password ?? loginModel.login);
+      StorageManager.setPassword(password);
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }

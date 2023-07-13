@@ -15,7 +15,7 @@ import 'package:wy/utils/index.dart';
 
 import 'http_interface.dart';
 
-const int DEFAULT_PAGE = 0;
+const int DEFAULT_PAGE = 1;
 const int DEFAULT_PAGE_SIZE = 10;
 
 abstract class RefreshListController<T> extends BasePageController
