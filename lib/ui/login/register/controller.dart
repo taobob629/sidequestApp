@@ -12,6 +12,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/datetime_utils.dart';
 import 'package:wy/utils/storage_manager.dart';
 import 'package:wy/utils/utils.dart';
+import 'package:wy/widget/show_error_widget.dart';
 
 import '../../../utils/toast_utils.dart';
 import '../secondary_page.dart';
@@ -230,6 +231,8 @@ class RegisterPageController extends GetxController {
     if (ifSuccess) {
       codeFocusNode.requestFocus();
       step.value = 2;
+    } else {
+      showErrorWidget('verification code incorrect'.tr);
     }
   }
 

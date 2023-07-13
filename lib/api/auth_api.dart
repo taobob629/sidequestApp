@@ -30,15 +30,12 @@ class AuthApi {
     String code,
     String uid,
   ) async {
-    var response = await http.get('/web/sidekick/validCode',
+    var response = await http.get('/web/index/appRegvalidCode',
         queryParameters: ({
           'code': code,
           'uid': uid,
         }));
-    if (response.statusCode == 200) {
-      return true;
-    }
-    return false;
+    return response.data['validated'] == true;
   }
 
   static Future<String> resendEmail(String email) async {
@@ -222,10 +219,10 @@ class AuthApi {
   }
 
   static Future<LoginModel> signInDiscord(
-    String? token,
+    String? discordAppId,
   ) async {
     var formData = {
-      'token': token,
+      'discordAppId': discordAppId,
     };
     var response = await http.get(
       '/web/extra/discordAppInfo',

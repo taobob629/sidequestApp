@@ -418,10 +418,10 @@ class UserController extends GetxController {
       dismissLoading();
       return '';
     });
-    final token = Uri.parse(result).queryParameters['token'];
+    final discordAppId = Uri.parse(result).queryParameters['discordAppId'];
 
     LoginModel loginModel = await AuthApi.signInDiscord(
-      token,
+      discordAppId,
     ).catchError((e) {
       dismissLoading();
     });
