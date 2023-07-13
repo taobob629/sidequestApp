@@ -235,107 +235,82 @@ class RegisterPage extends GetView<RegisterPageController> {
         onTap: () => controller.gotoStep2(),
       ),
     );
-    list.add(Visibility(
-      visible: Platform.isIOS,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => controller.loginWithApple(),
-        child: Container(
-          margin: EdgeInsets.only(top: 20.h),
-          height: 48,
-          width: 1.sw,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: Color(0xffFFD20E),
-              width: 1.w,
-            ),
-          ),
-          padding: EdgeInsets.all(8.r),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
+    list.add(SizedBox(
+      height: 100,
+    ));
+    list.add(Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Visibility(
+          visible: Platform.isIOS,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => controller.loginWithApple(),
+            child: Container(
+              width: 46.w,
+              height: 46.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(46.r),
+                border: Border.all(
+                  color: Color(0xff707070),
+                  width: 1.w,
+                ),
+              ),
+              child: Image.asset(
                 ImageUtils.apple_icon,
-                width: 20.w,
-                height: 20.w,
+                scale: 4,
               ),
-              6.horizontalSpace,
-              Text(
-                "Apple".tr,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "DIN",
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    ));
-    list.add(Visibility(
-      visible: Platform.isAndroid&&AppController.find.showGoogleSingIn,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => controller.loginWithGoogle(),
-        child: Container(
-          margin: EdgeInsets.only(top: 10.h),
-          height: 48,
-          width: 1.sw,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.r),
-            border: Border.all(
-              color: Color(0xffFFD20E),
-              width: 1.w,
             ),
           ),
-          padding: EdgeInsets.all(8.r),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
+        ),
+        Visibility(
+          visible: Platform.isAndroid &&
+              AppController.find.showGoogleSingIn,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () =>
+                controller.loginWithGoogle(),
+            child: Container(
+              width: 46.w,
+              height: 46.w,
+              decoration: BoxDecoration(
+                borderRadius:
+                BorderRadius.circular(46.r),
+                border: Border.all(
+                  color: Color(0xff707070),
+                  width: 1.w,
+                ),
+              ),
+              padding: EdgeInsets.all(8.r),
+              child: Image.asset(
                 ImageUtils.google_icon,
-                width: 20.w,
-                height: 20.w,
+                scale: 4,
               ),
-              6.horizontalSpace,
-              Text(
-                "Google".tr,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "DIN",
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    ));
-    list.add(Visibility(
-      visible: false,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => controller.loginWithDiscord(),
-        child: Container(
-          width: 46.w,
-          height: 46.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(46.r),
-            border: Border.all(
-              color: Color(0xff707070),
-              width: 1.w,
             ),
           ),
-          padding: EdgeInsets.all(8.r),
-          child:
-          Image.asset(
-            ImageUtils.discord_icon,
-            scale: 4,
+        ),
+        15.horizontalSpace,
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => controller.loginWithDiscord(),
+          child: Container(
+            width: 46.w,
+            height: 46.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(46.r),
+              border: Border.all(
+                color: Color(0xff707070),
+                width: 1.w,
+              ),
+            ),
+            padding: EdgeInsets.all(8.r),
+            child: Image.asset(
+              ImageUtils.discord_icon,
+              scale: 4,
+            ),
           ),
         ),
-      ),
+      ],
     ));
     return list;
   }

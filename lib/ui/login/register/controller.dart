@@ -352,19 +352,12 @@ class RegisterPageController extends GetxController {
     });
   }
 
-  void loginWithDiscord() async {
-    String clientId = '1043016152168792094';
-    String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
-    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
-      'response_type': 'code',
-      'client_id': clientId,
-      'redirect_uri': redirectUri,
-      'scope': 'identify',
-    });
-
-    final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: 'sidequest');
-    final code = Uri.parse(result).queryParameters['code'];
+  void loginWithDiscord() {
+    UserController.find.discordLogin(
+        needAppleLogin: true,
+        done: (LoginModel loginModel) {
+          loginSuccess(loginModel);
+        });
   }
 
   void loginSuccess(LoginModel loginModel) {

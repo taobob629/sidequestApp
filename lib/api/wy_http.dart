@@ -93,20 +93,7 @@ class ApiInterceptor extends InterceptorsWrapper {
         } else {
           if (isSigningIn) return;
           isSigningIn = true;
-          switch (password.toLowerCase()) {
-            case 'ios':
-              UserController.find.appleLogin();
-              break;
-
-            case 'google':
-              UserController.find.googleLogin();
-              break;
-
-            default:
-              await UserController.find.login();
-              isSigningIn = false;
-              break;
-          }
+          UserController.find.switchLogin();
         }
       } else {
         dismissLoading();

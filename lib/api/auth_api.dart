@@ -221,6 +221,32 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
+  static Future<LoginModel> signInDiscord(
+    String? token,
+  ) async {
+    var formData = {
+      'token': token,
+    };
+    var response = await http.get(
+      '/web/extra/discordAppInfo',
+      queryParameters: formData,
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> signInDiscord2(
+    String? uk,
+  ) async {
+    var formData = {
+      'uk': uk,
+    };
+    var response = await http.post(
+      '/peiwan/app/user/discordLogin',
+      data: formData,
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
   static Future<void> signOut() async {
     await http.post(
       '/web/index/logout',

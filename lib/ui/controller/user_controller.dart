@@ -7,11 +7,11 @@ import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wy/api/auth_api.dart';
 import 'package:wy/api/im_api.dart';
 import 'package:wy/api/pay_api.dart';
@@ -34,6 +34,7 @@ import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
 import 'package:wy/widget/show_error_widget.dart';
 
+import '../../api/wy_http.dart';
 import '../../api_service/profile_api.dart';
 import '../../config/icon_font.dart';
 import '../../event_bus/beans/match_event.dart';
@@ -102,11 +103,9 @@ class UserController extends GetxController {
     super.onReady();
     flog('UserController onReady==');
     await switchLogin();
-    // setCustomSticker();
     _timer = Timer.periodic(Duration(minutes: 10), (timer) {
       switchLogin();
     });
-    //startPayNotify();
   }
 
   Future<void> switchLogin() async {
@@ -114,14 +113,22 @@ class UserController extends GetxController {
     switch (password.toLowerCase()) {
       case 'ios':
         await appleLogin();
+        isSigningIn = false;
         break;
 
       case 'google':
         await googleLogin();
+        isSigningIn = false;
+        break;
+
+      case 'discord':
+        await discordLogin();
+        isSigningIn = false;
         break;
 
       default:
         await login();
+        isSigningIn = false;
         break;
     }
   }
@@ -356,6 +363,7 @@ class UserController extends GetxController {
   }
 
   Future<void> discordLogin({
+    bool needAppleLogin = false,
     bool checkLastLoginTime = false,
     Function(LoginModel)? done,
   }) async {
@@ -369,39 +377,23 @@ class UserController extends GetxController {
     showLoading();
 
     try {
-      // String clientId = '1043016152168792094';
-      // String redirectUri = 'http://43.131.51.210:8081/web/extra/sideKickToken';
-      // final url = Uri.https('discord.com', '/api/oauth2/authorize', {
-      //   'response_type': 'code',
-      //   'client_id': clientId,
-      //   'redirect_uri': redirectUri,
-      //   'scope': 'identify',
-      // });
-      //
-      // final result = await FlutterWebAuth.authenticate(
-      //     url: url.toString(), callbackUrlScheme: 'sidequest');
-      // final code = Uri.parse(result).queryParameters['code'];
+      UserModel userModel = StorageManager.getUser();
+      if (userModel.memberCode.isNotEmpty) {
+        if (needAppleLogin) {
+          _discordLogin(done);
+          return;
+        }
+        LoginModel loginModel = await AuthApi.signInDiscord2(
+          userModel.memberCode,
+        ).catchError((e) {
+          dismissLoading();
+        });
 
-      // LinkUtils.launchURL(Get.context!, 'http://43.136.135.198:82/#/h5/index');
-      launchUrlString('http://43.136.135.198:82/#/h5/index');
+        setLocalInfo(loginModel, 'discord', done);
+        return;
+      }
 
-      // String redirectUri = 'http://43.136.135.198:82/#/h5/index';
-      //
-      // final result = await FlutterWebAuth.authenticate(
-      //     url: redirectUri, callbackUrlScheme: 'sidequest');
-      // String? id = Uri.parse(result).queryParameters['id'];
-      // String? type = Uri.parse(result).queryParameters['type'];
-      // print('');
-      //
-      // flog('google sign in $account');
-      // LoginModel loginModel = await AuthApi.signInGoogle(
-      //   account,
-      //   authentication?.idToken,
-      // ).catchError((e) {
-      //   dismissLoading();
-      // });
-      //
-      // setLocalInfo(loginModel, null, done);
+      _discordLogin(done);
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
@@ -409,7 +401,38 @@ class UserController extends GetxController {
     }
   }
 
-  void setLocalInfo(LoginModel loginModel, String? password, Function(LoginModel)? done,) async {
+  void _discordLogin(Function(LoginModel)? done) async {
+    String clientId = '1043016152168792094';
+    String redirectUri = 'https://sidequesthub.com/proxy/web/extra/appToken';
+    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri': redirectUri,
+      'scope': 'identify email',
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+            url: url.toString(), callbackUrlScheme: 'sidequest')
+        .onError((error, stackTrace) {
+      dismissLoading();
+      return '';
+    });
+    final token = Uri.parse(result).queryParameters['token'];
+
+    LoginModel loginModel = await AuthApi.signInDiscord(
+      token,
+    ).catchError((e) {
+      dismissLoading();
+    });
+
+    setLocalInfo(loginModel, 'discord', done);
+  }
+
+  void setLocalInfo(
+    LoginModel loginModel,
+    String? password,
+    Function(LoginModel)? done,
+  ) async {
     if (loginModel.token.isEmpty) return;
 
     if (loginModel.validate == 0) {
