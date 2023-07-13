@@ -44,6 +44,7 @@ class AppController extends GetxController {
 
   initConfig() {
     IndexApi.checkVersion().then((res) {
+      flog('googleLogin ${res.googleLogin}');
       showGoogleSingIn = res.googleLogin;
       update([showGoogleSignInId]);
     });

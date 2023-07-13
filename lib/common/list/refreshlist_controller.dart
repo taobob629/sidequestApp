@@ -11,10 +11,11 @@ import 'package:wy/api/network_method.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/common/list/refresh_interface.dart';
+import 'package:wy/utils/index.dart';
 
 import 'http_interface.dart';
 
-const int DEFAULT_PAGE = 1;
+const int DEFAULT_PAGE = 0;
 const int DEFAULT_PAGE_SIZE = 10;
 
 abstract class RefreshListController<T> extends BasePageController
@@ -57,9 +58,11 @@ abstract class RefreshListController<T> extends BasePageController
   void loadFinish(result) {}
 
   void request() {
+
     var url = buildUrl();
     var method = buildMethodType();
     var params = buildParams();
+    flog('request $params');
     if (paged()) {
       params['pageNum'] = "$page";
       params['pageSize'] = '$pageSize';
@@ -68,9 +71,6 @@ abstract class RefreshListController<T> extends BasePageController
       } else {
         url = '$url?pageNum=$page&pageSize=$pageSize';
       }
-    }
-    if (method == NWMethod.GET) {
-      params = Map();
     }
     http
         .request(url,
@@ -103,6 +103,7 @@ abstract class RefreshListController<T> extends BasePageController
         }
       }
     }).catchError((e) {
+      flog('catcgErr $e');
       pageState = PageState.empty;
       buildEmpty();
     });
