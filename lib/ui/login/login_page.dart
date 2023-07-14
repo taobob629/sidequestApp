@@ -139,14 +139,18 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: Platform.isIOS,
-                          child: 100.verticalSpace,
+                        20.verticalSpace,
+                        Center(
+                          child: Text(
+                            'Or Sign in with',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.sp,
+                              fontFamily: FONT_MEDIUM,
+                            ),
+                          ),
                         ),
-                        Visibility(
-                          visible: Platform.isAndroid,
-                          child: 20.verticalSpace,
-                        ),
+                        10.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -341,6 +345,7 @@ class LoginPageController extends BasePageController {
   }
 
   void loginSuccess(LoginModel loginModel) {
+    dismissLoading();
     if (loginModel.validate == 0) {
       UserController.find.imLogin();
       //如果是从登录页面跳转的，跳转到选择游戏页面先

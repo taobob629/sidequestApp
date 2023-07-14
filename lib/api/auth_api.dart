@@ -78,6 +78,39 @@ class AuthApi {
     await http.post('/web/index/register', data: formData);
   }
 
+  static Future<LoginModel> signUp2(
+    String nick,
+    String phone,
+    String email,
+    String birth,
+    String password,
+    String code,
+    String uid,
+    String pin,
+    String invite,
+    int sex,
+  ) async {
+    String version = await PlatformUtils.getAppVersion();
+    String location = "$version@${Platform.operatingSystem}";
+    var formData = {
+      // "firstName": firstName,
+      // "lastName": lastName,
+      "nickname": nick,
+      "phone": phone,
+      "email": email,
+      "birth": birth,
+      "password": password,
+      "payCode": pin,
+      "verifyCode": code,
+      "uid": uid,
+      "location": location,
+      "invite": invite,
+      "sex": sex,
+    };
+    final response = await http.post('/web/index/appRegister', data: formData);
+    return LoginModel.fromJson(response.data);
+  }
+
   static Future<UserModel> validateInfo(
     String name,
     String value,

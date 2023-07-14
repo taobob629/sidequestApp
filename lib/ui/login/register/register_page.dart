@@ -236,7 +236,20 @@ class RegisterPage extends GetView<RegisterPageController> {
       ),
     );
     list.add(SizedBox(
-      height: 100,
+      height: 80,
+    ));
+    list.add(Center(
+      child: Text(
+        'Or Sign in with',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12.sp,
+          fontFamily: FONT_MEDIUM,
+        ),
+      ),
+    ));
+    list.add(SizedBox(
+      height: 10,
     ));
     list.add(Row(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -300,7 +300,7 @@ class RegisterPageController extends GetxController {
 
     showLoading();
     if (type == 1) {
-      await AuthApi.signUp(
+      LoginModel loginModel = await AuthApi.signUp2(
           // firstName,
           // lastName,
           nick,
@@ -313,10 +313,14 @@ class RegisterPageController extends GetxController {
           pin,
           invite,
           sex.value);
-      dismissLoading();
-      await showSuccess(
+      showSuccess(
           "Congratulations and welcome, please sign in with your new account!"
               .tr);
+      UserController.find.setLocalInfo(
+        loginModel,
+        password,
+        (loginModel) => loginSuccess(loginModel),
+      );
     } else {
       await AuthApi.updateProfile(
           password,
@@ -335,10 +339,9 @@ class RegisterPageController extends GetxController {
       await userController.login();
       await showSuccess(
           "Congratulations and welcome, your profile has been updated!".tr);
+      Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login),
+          arguments: Map()..['fromRegister'] = true);
     }
-    Get.offNamedUntil(AppPages.Login, ModalRoute.withName(AppPages.Login),
-        arguments: Map()..['fromRegister'] = true);
-    // Get.back();
   }
 
   void loginWithApple() {
@@ -364,6 +367,7 @@ class RegisterPageController extends GetxController {
   }
 
   void loginSuccess(LoginModel loginModel) {
+    dismissLoading();
     if (loginModel.validate == 0) {
       UserController.find.imLogin();
       //如果是从登录页面跳转的，跳转到选择游戏页面先

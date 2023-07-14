@@ -113,22 +113,22 @@ class UserController extends GetxController {
     var password = StorageManager.getPassword();
     switch (password.toLowerCase()) {
       case LoginFlag.ios:
-        await appleLogin();
+        await appleLogin(showLoadings: false);
         isSigningIn = false;
         break;
 
       case LoginFlag.google:
-        await googleLogin();
+        await googleLogin(showLoadings: false);
         isSigningIn = false;
         break;
 
       case LoginFlag.discord:
-        await discordLogin();
+        await discordLogin(showLoadings: false);
         isSigningIn = false;
         break;
 
       default:
-        await login();
+        await login(showLoadings: false);
         isSigningIn = false;
         break;
     }
@@ -274,6 +274,7 @@ class UserController extends GetxController {
 
   Future<void> appleLogin({
     bool needAppleLogin = false,
+    bool showLoadings = true,
     bool checkLastLoginTime = false,
     Function(LoginModel)? done,
   }) async {
@@ -315,7 +316,7 @@ class UserController extends GetxController {
       }
     }
 
-    showLoading();
+    if (showLoadings) showLoading();
     LoginModel loginModel =
         await AuthApi.signInApple(credential).catchError((e) {
       dismissLoading();
@@ -331,6 +332,7 @@ class UserController extends GetxController {
 
   Future<void> googleLogin({
     bool checkLastLoginTime = false,
+    bool showLoadings = true,
     Function(LoginModel)? done,
   }) async {
     if (checkLastLoginTime) {
@@ -340,7 +342,7 @@ class UserController extends GetxController {
         return;
       }
     }
-    showLoading();
+    if (showLoadings) showLoading();
 
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
@@ -366,6 +368,7 @@ class UserController extends GetxController {
   Future<void> discordLogin({
     bool needAppleLogin = false,
     bool checkLastLoginTime = false,
+    bool showLoadings = true,
     Function(LoginModel)? done,
   }) async {
     if (checkLastLoginTime) {
@@ -375,7 +378,7 @@ class UserController extends GetxController {
         return;
       }
     }
-    showLoading();
+    if (showLoadings) showLoading();
 
     try {
       UserModel userModel = StorageManager.getUser();
@@ -447,7 +450,6 @@ class UserController extends GetxController {
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }
-    dismissLoading();
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
