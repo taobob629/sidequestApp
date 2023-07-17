@@ -8,8 +8,9 @@ import 'package:wy/api/network_method.dart';
 import 'package:wy/common/list/index.dart';
 import 'package:wy/model/activity_list_model.dart';
 
-class ActivityListController extends RefreshListController<ActivityListModel> {
-  ActivityListController();
+class ActivityCtr extends RefreshListController<ActivityListModel> {
+
+  ActivityCtr();
 
   @override
   buildMethodType() {
@@ -23,13 +24,14 @@ class ActivityListController extends RefreshListController<ActivityListModel> {
 
   @override
   Map<String, dynamic> buildParams() => {
-        'pageNum': page,
-        'pageSize': pageSize,
-      };
+          'pageNum': page,
+          'pageSize': pageSize,
+          'matchDiff': 1,
+        };
 
   @override
   String buildUrl() {
-    return '/peiwan/app/new/event/eventlist';
+    return '/app/events/26/userActivities';
   }
 
   @override

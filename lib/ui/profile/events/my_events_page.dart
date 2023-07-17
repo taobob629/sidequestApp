@@ -9,6 +9,7 @@ import '../../../widget/tab_widget.dart';
 import '../../common/empty_view.dart';
 import '../../events/events_page.dart';
 import '../../frame/social/activity/list/view.dart';
+import 'activity/activity_view.dart';
 
 class MyEventsPage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "My Activities".tr,
-      body: KeepAliveWrapper(child: ActivityListPage()),
+      body: ActivityView(),
       // body: Stack(
       //   children: [
       //     Positioned(
