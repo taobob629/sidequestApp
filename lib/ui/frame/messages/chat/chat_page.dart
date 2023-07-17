@@ -12,6 +12,7 @@ import 'package:tencent_cloud_chat_uikit/data_services/group/group_services.dart
 import 'package:tencent_cloud_chat_uikit/data_services/services_locatar.dart';
 import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 import 'package:wy/api/im_api.dart';
+import 'package:wy/api/wy_http.dart';
 import 'package:wy/api_service/profile_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/config/app_color.dart';
@@ -138,15 +139,35 @@ class ChatController extends BasePageController {
                   .tr,
           onConfirm: () async {
             flog('selectedConversation.userID ${selectedConversation.userID}');
-            final res = await TIMUIKitCore.getSDKInstance().getFriendshipManager().addToBlackList(userIDList: [selectedConversation?.userID??'']);
-            if(res.code==0){
-           //   showToast(res.desc);
+            final res = await TIMUIKitCore.getSDKInstance()
+                .getFriendshipManager()
+                .addToBlackList(
+                    userIDList: [selectedConversation?.userID ?? '']);
+            if (res.code == 0) {
+              //   showToast(res.desc);
               Get.back();
               Get.back(result: true);
             }
           }),
       barrierColor: Colors.black26,
     );
+  }
+
+  void topUpRefund(int orderId) async {
+    showLoading();
+    final response =
+        await http.get('/peiwan/app/users/orderRefund?id=$orderId');
+    dismissLoading();
+    if (response.data != null) {
+      ResponseData respData = ResponseData.fromJson(response.data);
+      if (respData.code == 200) {
+        showToast(respData.msg);
+      }
+    } else {
+      if (response.statusCode == 200) {
+        showToast(response.statusMessage);
+      }
+    }
   }
 }
 
@@ -382,16 +403,16 @@ class ChatPage extends StatelessWidget {
                         arguments: Map()..['id'] = data['orderId'])
                     ?.whenComplete(() => _getPlayOrder());
                 break;
-              case MessageType.TYPE_TOPUP_CREDIT:
-                int orderId = json['orderId'];
-                Get.toNamed(AppPages.OrderDetail,
-                        arguments: Map()..['id'] = orderId)
-                    ?.whenComplete(() => _getPlayOrder());
+
+              case MessageType.TYPE_TOPUP_REFUND:
+                controller.topUpRefund(data['orderId']);
                 break;
+
               case MessageType.TYPE_POST_MESSAGE:
                 NavigatorHelper.toPostDetail(data["postId"]);
                 // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
                 break;
+
               case MessageType.TYPE_INVITE:
                 flog('$data');
                 var gid = data['groupId'];
@@ -409,7 +430,9 @@ class ChatPage extends StatelessWidget {
                   'type': 2,
                 });
                 break;
+
               default:
+                break;
             }
           },
           child: CustomMessageView(

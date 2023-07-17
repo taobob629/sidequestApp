@@ -15,6 +15,7 @@ class MessageType {
   static const TYPE_INVITE = 'invite';
   static const TYPE_CREATE_GROUP = 'create_group';
   static const TYPE_TOPUP_CREDIT = "TopUp_Credit";
+  static const TYPE_TOPUP_REFUND = "TopUp_refund";
   static const TYPE_PLAY_ORDER = "play_order";
   static const TYPE_POST_MESSAGE = "PostMessage";
   static const TYPE_GIFT_ORDER = "gift_order";
@@ -38,6 +39,8 @@ class CustomMessageView extends StatelessWidget {
     switch (type) {
       case MessageType.TYPE_TOPUP_CREDIT:
         return _topUpCreditWidget();
+      case MessageType.TYPE_TOPUP_REFUND:
+        return _topUpRefundWidget();
       case MessageType.TYPE_PLAY_ORDER:
         return _orderWidget();
       case MessageType.TYPE_POST_MESSAGE:
@@ -184,6 +187,75 @@ class CustomMessageView extends StatelessWidget {
       ),
     );
   }
+
+  Widget _topUpRefundWidget() => Container(
+    width: width,
+    padding: EdgeInsets.all(10.r),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(15.r),
+        bottomRight: Radius.circular(15.r),
+        bottomLeft: Radius.circular(15.r),
+      ),
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF0099FF),
+          Color(0xFFB011FF),
+        ],
+      ),
+    ),
+    child: Stack(
+      children: [
+        Positioned(
+          right: 0.w,
+          bottom: 0.h,
+          child: Image.asset(
+            ImageUtils.iconZhuansghi,
+            width: 38.w,
+            height: 38.w,
+            color: Color(0x69ffffff),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  ImageUtils.icon_chenggong,
+                  width: 16.w,
+                  height: 16.w,
+                ),
+                6.horizontalSpace,
+                Expanded(
+                  child: Text(
+                    data['title'] ?? "Top up refund",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              width: 230.w,
+              height: 1.h,
+              color: Color(0xff54A5FF),
+              margin: EdgeInsets.symmetric(vertical: 10.h),
+            ),
+            HtmlWidget(
+              data['content'],
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 
   Widget _topUpCreditWidget() => Container(
         width: width,
