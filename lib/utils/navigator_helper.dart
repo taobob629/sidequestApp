@@ -84,7 +84,7 @@ class NavigatorHelper {
     var userController = Get.find<UserController>();
     Get.to(() => EditProfilePage())?.then((ret) {
       if (ret != null && ret == true) {
-        userController.login();
+        userController.switchLogin();
       }
     });
   }
