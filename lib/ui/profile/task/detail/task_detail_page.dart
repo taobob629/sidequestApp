@@ -154,6 +154,7 @@ class TaskDetailPage extends StatelessWidget {
                               margin: EdgeInsets.fromLTRB(0, 20.h, 0, 20.h),
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Name: '.tr,
@@ -163,11 +164,13 @@ class TaskDetailPage extends StatelessWidget {
                                     fontFamily: FONT_MEDIUM,
                                   ),
                                 ),
-                                Text(
-                                  ctr.taskModel.name,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.sp,
+                                Expanded(
+                                  child: Text(
+                                    ctr.taskModel.name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                    ),
                                   ),
                                 ),
                               ],
