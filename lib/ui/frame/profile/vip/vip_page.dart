@@ -90,7 +90,7 @@ class VipPage extends StatelessWidget {
                                         left: 15,
                                         top: 20,
                                         child: Text(
-                                          "Pre Month",
+                                          "Per Month".tr,
                                           style: TextStyle(
                                               color: Color(0xFF40280E),
                                               fontSize: 16),
