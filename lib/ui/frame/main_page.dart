@@ -245,7 +245,8 @@ class MainPage extends GetView<MainPageController> {
                                       Color(0xffb6262c)
                                     ],
                                     onTap: () {
-                                      SideKickCtr.find.tabbarController?.index = 0;
+                                      SideKickCtr.find.tabbarController?.index =
+                                          0;
                                       controller.controller.jumpToPage(2);
                                       controller.updateCurrentIndex(2);
                                     }),
@@ -408,7 +409,7 @@ class MainPageController extends FullLifeCycleController
 
   @override
   void onResumed() {
-    userController.login(checkLastLoginTime: true);
+    userController.switchLogin(checkLastLoginTime: true);
   }
 
   @override

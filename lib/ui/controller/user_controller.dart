@@ -109,7 +109,7 @@ class UserController extends GetxController {
     });
   }
 
-  Future<void> switchLogin() async {
+  Future<void> switchLogin({bool checkLastLoginTime = false}) async {
     var password = StorageManager.getPassword();
     switch (password.toLowerCase()) {
       case LoginFlag.ios:
@@ -128,7 +128,7 @@ class UserController extends GetxController {
         break;
 
       default:
-        await login(showLoadings: false);
+        await login(showLoadings: false, checkLastLoginTime: checkLastLoginTime);
         isSigningIn = false;
         break;
     }
