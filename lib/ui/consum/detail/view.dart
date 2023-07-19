@@ -30,10 +30,7 @@ class StoreConsumDetailPage extends GetView<StoreConsumDetailPageController> {
         var model = controller?.mDatas[index];
         return Container(
           width: Get.width,
-          child: InkWell(
-            child: item(model!),
-            onTap: () => controller.toDetail(model!),
-          ),
+          child: item(model!),
         );
       },
       itemCount: controller?.mDatas.length ?? 0,
