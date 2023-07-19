@@ -68,10 +68,10 @@ class VipBenefitItem extends StatelessWidget {
               flog(anima.status);
               return Row(
                 children: [
-                  Text(
-                    anima.isCompleted ? ' Up'.tr : 'More'.tr,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
+                  // Text(
+                  //   anima.isCompleted ? ' Up'.tr : 'More'.tr,
+                  //   style: TextStyle(fontSize: 14, color: Colors.white),
+                  // ),
                   Container(
                     width: 16,
                     height: 16,
