@@ -30,7 +30,6 @@ import '../../../utils/toast_utils.dart';
 import '../skill/list/controller.dart';
 
 class AddGamePageController extends GetxController {
-
   BuildContext? myContext;
 
   RxList<PriceRangeModel> priceRanges = RxList([]);
@@ -46,6 +45,8 @@ class AddGamePageController extends GetxController {
   SkillItem? get game => _game.value;
   TextEditingController teServiceIntro = TextEditingController();
   RxString _background = RxString('');
+
+  GameConfig? gameConfig;
 
   String get background => _background.value;
 
@@ -104,9 +105,12 @@ class AddGamePageController extends GetxController {
 
   var gameIndex;
   var gameLvIndex;
-  LevelItem? gameLv;
+  var gameLv = LevelItem(levelid: -1).obs;
   var isWswitch = 0;
   RxList gamePhotos = RxList();
+
+  // 0:entritainment 1:technology
+  var isTech = 0.obs;
 
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
@@ -121,14 +125,16 @@ class AddGamePageController extends GetxController {
         platform?.skill?.indexWhere((item) => item.id == serviceModel?.gameId);
     game = platform?.skill[gameIndex];
     gameLvIndex = game?.level?.indexWhere((w) => w.id == serviceModel?.levelId);
-    if (gameLvIndex != -1) gameLv = game?.level[gameLvIndex];
+    if (gameLvIndex != -1) {
+      gameLv.value = game?.level[gameLvIndex] ?? LevelItem(levelid: -1);
+    }
     await getPriceRange(gameId: serviceModel?.skillid);
     isWswitch = serviceModel?.pwSkillAuth?.wswitch ?? 0;
 
     // fieldItems.addAll(serviceModel?.fieldItems ?? []);
     serviceModel?.fieldItems?.forEach((field) {
       var item =
-      fieldItems?.firstWhereOrNull((item) => item.name == field.name);
+          fieldItems?.firstWhereOrNull((item) => item.name == field.name);
       if (item != null) {
         flog('value ${field.value}');
         item.mSelects.addAll(field.value);
@@ -148,21 +154,21 @@ class AddGamePageController extends GetxController {
   }
 
   getPriceRange({var gameId}) async {
-    var result = await GamesApi.getPriceRange(gameId ?? game?.id,
-        levelId: gameLv?.levelid);
+    gameConfig = await GamesApi.getPriceRange(gameId ?? game?.id,
+        levelId: gameLv.value.levelid);
     priceRanges.clear();
     mPriceRanges.clear();
-    priceRanges.addAll(result?.priceRange ?? []);
+    priceRanges.addAll(gameConfig?.priceRange ?? []);
     fieldItems.clear();
-    fieldItems.addAll(result?.fields ?? []);
+    fieldItems.addAll(gameConfig?.fields ?? []);
   }
 
   onPriceUnitChange(int index, PriceRangeModel model) {
     if (mPriceRanges[index] == model) return;
-    if (mPriceRanges.contains(model)) {
-      showToast('Service type already exist');
-      return;
-    }
+    // if (mPriceRanges.contains(model)) {
+    //   showToast('Service type already exist');
+    //   return;
+    // }
     mPriceRanges[index] = model;
     mPriceRanges[index].initData();
   }
@@ -184,19 +190,25 @@ class AddGamePageController extends GetxController {
       mPriceRanges.add(priceRanges.first);
       return;
     }
-    if (mPriceRanges.length >= priceRanges.length) {
+    if (isTech.value == 0 && mPriceRanges.length == 1) {
+      showToast('Entertainment can only choose at most one'.tr);
+      return;
+    }
+
+    if (mPriceRanges.length >= 5) {
       showToast(
-          '${'At most '.tr}${priceRanges.length}${' types can be added!'.tr} ');
+          '${'At most '.tr}${'5 types can be added!'.tr} ');
       return;
     }
 
     //查看还有什么类型的没有被添加
     var item = priceRanges
         .firstWhereOrNull((element) => !mPriceRanges.contains(element));
-    if (item != null) {
-      item.initData();
-      mPriceRanges.add(item);
+    if (item == null) {
+      item = priceRanges.last;
     }
+    item.initData();
+    mPriceRanges.add(item);
   }
 
   confirm() {
@@ -248,14 +260,16 @@ class AddGamePageController extends GetxController {
         // Discount
         discount = {
           'type': 1,
-          'discount': int.parse(element.currentDiscount.value.name.split('%')[0]),
+          'discount':
+              int.parse(element.currentDiscount.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 1) {
         // 1st OrderFree
         discount = {
           'type': 3,
-          'discount': int.parse(element.currentOrderFree.value.name.split('%')[0]),
+          'discount':
+              int.parse(element.currentOrderFree.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 2) {
@@ -281,7 +295,7 @@ class AddGamePageController extends GetxController {
       if (isEdit) "id": id,
       "skillid": game?.id,
       "thumb": gamePhotos.join(','),
-      "levelid": gameLv == null ? '' : gameLv?.id,
+      "levelid": gameLv.value.id,
       "wswitch": isWswitch,
       "coinid": 0,
       // "coin": priceRangeCon.text,
@@ -290,6 +304,7 @@ class AddGamePageController extends GetxController {
       'des': desc,
       'backGround': background,
       'voice': voiceUrl,
+      'isTech': isTech.value,
       // "des": beGoodAtCon.text,
     };
     http.post('/peiwan/app/service/addService', data: data).then((v) {
@@ -307,8 +322,7 @@ class AddGamePageController extends GetxController {
         //   Get.back(result: true);
         // }
       } else {
-        Get.until(
-            (route) => Get.currentRoute.contains(AppPages.SkillList));
+        Get.until((route) => Get.currentRoute.contains(AppPages.SkillList));
         SkillListPageController skillListPageController =
             Get.find<SkillListPageController>();
         skillListPageController.onRefresh();
@@ -393,13 +407,13 @@ class AddGamePageController extends GetxController {
       return;
     }
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(
-        image: _image,
-        ifFixedSize: true,
-      ))!
+                image: _image,
+                ifFixedSize: true,
+              ))!
           .then((value) async {
         showLoading();
         var url = await Common.uploadFile(value!, (p0, p1) => flog("$p0,$p1"));

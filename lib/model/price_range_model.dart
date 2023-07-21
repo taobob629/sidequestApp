@@ -4,15 +4,18 @@ import 'package:wy/model/safe_convert.dart';
 import 'booking_model.dart';
 
 class GameConfig {
+  final int techLevel;
   final List<FieldsItem> fields;
   final List<PriceRangeModel> priceRange;
 
   GameConfig({
+    required this.techLevel,
     required this.fields,
     required this.priceRange,
   });
 
   factory GameConfig.fromJson(Map<String, dynamic>? json) => GameConfig(
+        techLevel: asT<int>(json, 'techLevel', defaultValue: 0),
         fields: asT<List>(json, 'fields')
             .map((e) => FieldsItem.fromJson(e))
             .toList(),
@@ -102,15 +105,14 @@ class LocalPriceRangeBean {
   });
 
   Map<String, dynamic> toJson() => {
-    'price': price,
-    'unit': unit,
-    'name': name,
-    'discount': discount,
-  };
+        'price': price,
+        'unit': unit,
+        'name': name,
+        'discount': discount,
+      };
 }
 
 class PromotionConfig {
-
   List<BookingSelectModel> promotionList = [];
   List<BookingSelectModel> discountList = [];
   List<BookingSelectModel> orderFreeList = [];

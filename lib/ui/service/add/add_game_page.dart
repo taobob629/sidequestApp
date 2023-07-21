@@ -25,6 +25,7 @@ import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../model/service_info_model.dart';
 import '../../../utils/global_key_constants.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
@@ -86,28 +87,29 @@ class _AddGamePageState extends State<AddGamePage> {
         return ScaffoldWidget(
           appBar: AppBar(
             title: Obx(() => PageTitle(
-              title: controller.isEdit
-                  ? '${controller.game?.name ?? ''}'
-                  : 'Add Service'.tr,
-            )),
+                  title: controller.isEdit
+                      ? '${controller.game?.name ?? ''}'
+                      : 'Add Service'.tr,
+                )),
             centerTitle: true,
             elevation: 0,
             actions: controller.isEdit
                 ? [
-              IconButton(
-                  onPressed: () => controller.toBioPage(), icon: Text('Bio'))
-            ]
+                    IconButton(
+                        onPressed: () => controller.toBioPage(),
+                        icon: Text('Bio'))
+                  ]
                 : [],
           ),
           body: Obx(() => SingleChildScrollView(
-            child: Column(
-              children: [
-                controller.isEdit && controller.serviceModel == null
-                    ? buildLoad()
-                    : gameMaterialsView(context),
-              ],
-            ),
-          )),
+                child: Column(
+                  children: [
+                    controller.isEdit && controller.serviceModel == null
+                        ? buildLoad()
+                        : gameMaterialsView(context),
+                  ],
+                ),
+              )),
           btnBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -123,8 +125,8 @@ class _AddGamePageState extends State<AddGamePage> {
                   label: '${controller.isEdit ? 'Confirm'.tr : 'Next'.tr}',
                   onTap: () => controller.privacyCheckController.check()
                       ? controller.isEdit
-                      ? controller.updateService()
-                      : update()
+                          ? controller.updateService()
+                          : update()
                       : null,
                 ),
               )
@@ -155,7 +157,8 @@ class _AddGamePageState extends State<AddGamePage> {
       return showToast('Please select service'.tr);
     var levels = list[controller.gameIndex].level;
     if (levels.isNotEmpty) {
-      if (controller.gameLv == null) return showToast('Please select rank'.tr);
+      if (controller.gameLv.value.name.isEmpty)
+        return showToast('Please select rank'.tr);
     }
     var fields = controller.buildFiledsParams();
     if (levels.isNotEmpty) {
@@ -235,52 +238,53 @@ class _AddGamePageState extends State<AddGamePage> {
               children: [
                 if (!controller.isEdit)
                   Visibility(
-                      child: itemBg(
-                    PWidget.row([
-                      PWidget.text('Category'.tr, [textColor]),
-                      PWidget.boxw(8),
-                      PWidget.text(
-                          controller.platform == null
-                              ? 'Please select'.tr
-                              : controller.platform?.name,
-                          [textColor, 12.sp],
-                          {'ali': 1, 'exp': true}),
-                      rightJtView(14.sp, textColor),
-                    ]),
-                    fun: () async {
-                      if (controller.isEdit) return;
-                      flog('${controller.services.isEmpty}');
-                      if (controller.services.isEmpty)
-                        return showToast(
-                            'Please check the network settings'.tr);
-                      var res = await Get.dialog(
-                        Obx(() => SelectorDialog(
-                              items: List.generate(controller.services.length,
-                                  (i) {
-                                return VerifyField.fromJson({
-                                  'name': '$i',
-                                  'label': controller.services[i].name
-                                });
-                              }),
-                              title: "Select Category".tr,
-                              showInfo: true,
-                            )),
-                        barrierColor: Colors.black26,
-                      );
-                      if (res != null) {
-                        setState(() {
-                          controller.platformIndex = int.parse(res.name);
-                          controller.platform =
-                              controller.services[controller.platformIndex];
-                          controller.priceRanges.clear();
-                          controller.gameIndex = null;
-                          controller.game = null;
-                          controller.gameLvIndex = null;
-                          controller.gameLv = null;
-                        });
-                      }
-                    },
-                  )),
+                    child: itemBg(
+                      PWidget.row([
+                        PWidget.text('Category'.tr, [textColor]),
+                        PWidget.boxw(8),
+                        PWidget.text(
+                            controller.platform == null
+                                ? 'Please select'.tr
+                                : controller.platform?.name,
+                            [textColor, 12.sp],
+                            {'ali': 1, 'exp': true}),
+                        rightJtView(14.sp, textColor),
+                      ]),
+                      fun: () async {
+                        if (controller.isEdit) return;
+                        flog('${controller.services.isEmpty}');
+                        if (controller.services.isEmpty)
+                          return showToast(
+                              'Please check the network settings'.tr);
+                        var res = await Get.dialog(
+                          Obx(() => SelectorDialog(
+                                items: List.generate(controller.services.length,
+                                    (i) {
+                                  return VerifyField.fromJson({
+                                    'name': '$i',
+                                    'label': controller.services[i].name
+                                  });
+                                }),
+                                title: "Select Category".tr,
+                                showInfo: true,
+                              )),
+                          barrierColor: Colors.black26,
+                        );
+                        if (res != null) {
+                          setState(() {
+                            controller.platformIndex = int.parse(res.name);
+                            controller.platform =
+                                controller.services[controller.platformIndex];
+                            controller.priceRanges.clear();
+                            controller.gameIndex = null;
+                            controller.game = null;
+                            controller.gameLvIndex = null;
+                            controller.gameLv.value = LevelItem(levelid: -1);
+                          });
+                        }
+                      },
+                    ),
+                  ),
                 if (!controller.isEdit) 10.verticalSpace,
                 // if (controller.isEdit!)
                 if (!controller.isEdit)
@@ -319,7 +323,7 @@ class _AddGamePageState extends State<AddGamePage> {
                           controller.gameIndex = int.parse(res.name);
                           controller.game = list[controller.gameIndex];
                           controller.gameLvIndex = null;
-                          controller.gameLv = null;
+                          controller.gameLv.value = LevelItem(levelid: -1);
                         });
                         // this.config();
                         controller.getPriceRange();
@@ -347,9 +351,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       PWidget.text('Rank'.tr, [textColor]),
                       PWidget.boxw(8),
                       PWidget.text(
-                          controller.gameLv == null
+                          controller.gameLv.value.name.isEmpty
                               ? 'Please select'.tr
-                              : controller.gameLv?.name,
+                              : controller.gameLv.value.name,
                           [textColor, 12.sp],
                           {'ali': 1, 'exp': true}),
                       rightJtView(16, textColor),
@@ -376,74 +380,68 @@ class _AddGamePageState extends State<AddGamePage> {
                       if (res != null) {
                         setState(() {
                           controller.gameLvIndex = int.parse(res.name);
-                          controller.gameLv = levels[controller.gameLvIndex];
+                          controller.gameLv.value =
+                              levels[controller.gameLvIndex];
                           if (!controller.isEdit) controller.getPriceRange();
                         });
                       }
                     },
                   );
                 }),
+
+                Visibility(
+                  visible: controller.gameLv.value.levelid >=
+                      (controller.gameConfig?.techLevel ?? 0),
+                  child: 16.verticalSpace,
+                ),
+                Obx(() => Visibility(
+                      visible: controller.gameLv.value.levelid >=
+                          (controller.gameConfig?.techLevel ?? 0),
+                      child: itemBg(
+                        PWidget.row([
+                          PWidget.text(
+                            'Entertainment'.tr,
+                            [textColor],
+                          ),
+                          PWidget.boxw(8),
+                          PWidget.text(
+                              controller.isTech.value == 0
+                                  ? 'Entertainment'.tr
+                                  : 'Technology'.tr,
+                              [textColor, 12.sp],
+                              {'ali': 1, 'exp': true}),
+                          rightJtView(16, textColor),
+                        ]),
+                        fun: () async {
+                          if (controller.platformIndex == null)
+                            return showToast('Please select category first'.tr);
+                          var list = controller
+                              .services[controller.platformIndex].skill;
+                          if (controller.gameIndex == null)
+                            return showToast('Please select service first'.tr);
+                          var res = await Get.dialog(
+                            SelectorDialog(
+                              items: [
+                                VerifyField.fromJson(
+                                    {'name': '0', 'label': 'Entertainment'.tr}),
+                                VerifyField.fromJson(
+                                    {'name': '1', 'label': 'Technology'.tr}),
+                              ],
+                              title: "Select".tr,
+                              showInfo: true,
+                            ),
+                            barrierColor: Colors.black26,
+                          );
+                          if (res != null) {
+                            controller.isTech.value = int.parse(res.name);
+                          }
+                        },
+                      ),
+                    )),
+
                 if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
                 if (controller.priceRanges.isNotEmpty) fieldsRange(context),
                 if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
-                //if (controller.priceRanges.isNotEmpty) PriceSliderWidget(),
-                // if (controller.priceRanges.isNotEmpty && controller.isEdit) 16.verticalSpace,
-                // if (controller.priceRanges.isNotEmpty && controller.isEdit)
-                //   itemBg(PWidget.row([
-                //     PWidget.text('Enable'.tr, [textColor]),
-                //     PWidget.spacer(),
-                //     Builder(builder: (context) {
-                //       return CupertinoSwitch(
-                //         value: controller.isWswitch == 1,
-                //         onChanged: (v) async {
-                //           setState(
-                //               () => controller.isWswitch = (controller.isWswitch == 1 ? 0 : 1));
-                //         },
-                //       );
-                //     }),
-                //   ])),
-                // Obx(() => Visibility(visible: controller.showVoice(), child: 16.verticalSpace)),
-                // Obx(() => Visibility(
-                //     visible: controller.isShowVoice,
-                //     child: Obx(() => controller.voiceUrl.isEmpty
-                //         ? InkWell(
-                //             onTap: () => controller.toRecordPage(context),
-                //             child: itemBg(Container(
-                //               alignment: Alignment.centerLeft,
-                //               child: Obx(() => Text(
-                //                     '${controller.voiceUrl.isEmpty ? '+ Add Voice' : '${controller.voiceUrl}'}'
-                //                         .tr,
-                //                     maxLines: 1,
-                //                     style: TextStyle(
-                //                         color: textColor,
-                //                         fontSize: 13.sp,
-                //                         overflow: TextOverflow.ellipsis),
-                //                   )),
-                //             )),
-                //           )
-                //         : Container(
-                //             constraints: BoxConstraints(minHeight: 45.h),
-                //             padding: EdgeInsets.only(left: 15, right: 15).w,
-                //             decoration: innerDecoration(),
-                //             child: Row(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               crossAxisAlignment: CrossAxisAlignment.center,
-                //               children: [
-                //                 Text(
-                //                   'Voice',
-                //                   style: text_style(),
-                //                 ),
-                //                 Spacer(),
-                //                 VoiceWidget(
-                //                   maginBottom: 0,
-                //                   pwId: UserController.find.userProfile.pwId,
-                //                   voice: controller.voiceUrl,
-                //                   play: () => AudioManager.instance.play(controller.voiceUrl),
-                //                   toRecordPage: () => UserController.find.toRecordPage(context),
-                //                 )
-                //               ],
-                //             ),
-                //           )))),
                 16.verticalSpace,
                 iDPhotoView()
               ],
