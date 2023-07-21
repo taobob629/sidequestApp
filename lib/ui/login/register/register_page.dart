@@ -216,7 +216,7 @@ class RegisterPage extends GetView<RegisterPageController> {
           ),
         )));
     list.add(SizedBox(
-      height: 100,
+      height: 20,
     ));
     list.add(
       ColorfulButton(
