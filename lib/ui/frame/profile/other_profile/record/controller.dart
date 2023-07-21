@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:wy/api/common.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/service/voice_player.dart';
+import 'package:wy/utils/permission_util.dart';
 import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/im/voice_record.dart';
@@ -56,6 +57,9 @@ class RecordController extends BasePageController {
 
   @override
   void onInit() {
+    PermissionUtil.microphone((){
+
+    });
     var params = Get.arguments as Map;
     recordFileUrl = params['voice'];
     type = params['type'] ?? 0;

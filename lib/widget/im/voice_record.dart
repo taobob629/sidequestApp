@@ -7,8 +7,6 @@ import 'package:record/record.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/permission_util.dart';
 
-import 'chat_voice_record_view.dart';
-
 typedef RecordFc = Function(int sec, String path);
 
 class VoiceRecord {
@@ -43,9 +41,6 @@ class VoiceRecord {
       start += 1;
       timerTask = timer;
       //  IHLog.d('start= $start');
-      if (maxSeconds - start == 10) {
-        Get.find<CountDownController>().startCountDown();
-      }
       if (start > maxSeconds) {
         timer.cancel();
         stop();
