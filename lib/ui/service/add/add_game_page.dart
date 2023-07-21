@@ -389,11 +389,11 @@ class _AddGamePageState extends State<AddGamePage> {
                   );
                 }),
 
-                Visibility(
+                Obx(() => Visibility(
                   visible: controller.gameLv.value.levelid >=
                       (controller.gameConfig?.techLevel ?? 0),
                   child: 16.verticalSpace,
-                ),
+                )),
                 Obx(() => Visibility(
                       visible: controller.gameLv.value.levelid >=
                           (controller.gameConfig?.techLevel ?? 0),
