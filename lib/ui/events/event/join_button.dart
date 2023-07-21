@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wy/config/icon_font.dart';
 import 'package:wy/model/event_detail_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/utils.dart';
@@ -32,13 +33,13 @@ class JoinButton extends GetView<EventPageController> {
               left: 0,
               top: 0,
               bottom: 0,
-              width: width / 2 + 10,
+              width: (width -30)/ 2 ,
               child: _buildLeftButton()),
           Positioned(
               right: 0,
               top: 0,
               bottom: 0,
-              width: width / 2 + 10,
+              width: (width -30)/ 2 ,
               child: _buildRightButton())
         ],
       ),
@@ -56,7 +57,7 @@ class JoinButton extends GetView<EventPageController> {
             padding: const EdgeInsets.only(top: 5),
             child: Obx(() => Text(
                   eventDetailModel.canCancel ? 'VIEW'.tr : "JOIN TEAM".tr,
-                  style: TextStyle(color: Color(0xFFF73B0C), fontFamily: "DIN", fontSize: 20),
+                  style: TextStyle(color: Color(0xFFF73B0C), fontFamily: FONT_LIGHT, fontSize: 18),
                 )),
           )),
         ),
@@ -84,7 +85,7 @@ class JoinButton extends GetView<EventPageController> {
 
   Widget _buildRightButton() {
     return ClipPath(
-        clipper: _TrapezoidPath(),
+      //  clipper: _TrapezoidPath(),
         child: Stack(
           children: [
             Container(
@@ -112,7 +113,7 @@ class JoinButton extends GetView<EventPageController> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Obx(() => Text(
                       eventDetailModel.canCancel ? 'CANCEL'.tr : "MAKE TEAM".tr,
-                          style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                          style: TextStyle(color: Colors.white, fontFamily: FONT_LIGHT, fontSize: 18),
                         )),
                   )
                 ],
