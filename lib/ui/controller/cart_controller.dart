@@ -30,7 +30,7 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initInAppPay();
+    if (Platform.isIOS) initInAppPay();
   }
 
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
