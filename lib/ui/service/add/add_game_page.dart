@@ -407,7 +407,7 @@ class _AddGamePageState extends State<AddGamePage> {
                           PWidget.text(
                               controller.isTech.value == 0
                                   ? 'SideKicker'.tr
-                                  : 'SideKick pro'.tr,
+                                  : 'SideKick Pro'.tr,
                               [textColor, 12.sp],
                               {'ali': 1, 'exp': true}),
                           rightJtView(16, textColor),
