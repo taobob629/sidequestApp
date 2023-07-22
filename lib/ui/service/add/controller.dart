@@ -191,7 +191,7 @@ class AddGamePageController extends GetxController {
       return;
     }
     if (isTech.value == 0 && mPriceRanges.length == 1) {
-      showToast('Entertainment can only choose at most one'.tr);
+      showToast('SideKicker can only choose at most one'.tr);
       return;
     }
 

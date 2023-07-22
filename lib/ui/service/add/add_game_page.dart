@@ -25,6 +25,9 @@ import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../model/beans/game_role_bean.dart';
+import '../../../model/booking_model.dart';
+import '../../../model/selector_item.dart';
 import '../../../model/service_info_model.dart';
 import '../../../utils/global_key_constants.dart';
 import '../../../utils/storage_manager.dart';
@@ -419,21 +422,30 @@ class _AddGamePageState extends State<AddGamePage> {
                               .services[controller.platformIndex].skill;
                           if (controller.gameIndex == null)
                             return showToast('Please select service first'.tr);
+
+                          List<SelectorItem> items = [];
+                          GameRoleBean bean = GameRoleBean();
+                          bean.id = 0;
+                          bean.name = 'SideKicker'.tr;
+                          bean.desc = 'SideKicker:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'.tr;
+                          items.add(bean);
+
+                          bean = GameRoleBean();
+                          bean.id = 1;
+                          bean.name = 'SideKicker Pro'.tr;
+                          bean.desc = 'SideKicker Pro:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'.tr;
+                          items.add(bean);
+
                           var res = await Get.dialog(
                             SelectorDialog(
-                              items: [
-                                VerifyField.fromJson(
-                                    {'name': '0', 'label': 'SideKicker'.tr}),
-                                VerifyField.fromJson(
-                                    {'name': '1', 'label': 'SideKick Pro'.tr}),
-                              ],
-                              title: "Select".tr,
+                              items: items,
+                              title: "Select Role".tr,
                               showInfo: true,
                             ),
                             barrierColor: Colors.black26,
                           );
                           if (res != null) {
-                            controller.isTech.value = int.parse(res.name);
+                            controller.isTech.value = res.id;
                           }
                         },
                       ),
