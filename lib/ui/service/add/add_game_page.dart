@@ -400,14 +400,14 @@ class _AddGamePageState extends State<AddGamePage> {
                       child: itemBg(
                         PWidget.row([
                           PWidget.text(
-                            'Entertainment'.tr,
+                            'Role'.tr,
                             [textColor],
                           ),
                           PWidget.boxw(8),
                           PWidget.text(
                               controller.isTech.value == 0
-                                  ? 'Entertainment'.tr
-                                  : 'Technology'.tr,
+                                  ? 'SideKicker'.tr
+                                  : 'SideKick pro'.tr,
                               [textColor, 12.sp],
                               {'ali': 1, 'exp': true}),
                           rightJtView(16, textColor),
@@ -423,9 +423,9 @@ class _AddGamePageState extends State<AddGamePage> {
                             SelectorDialog(
                               items: [
                                 VerifyField.fromJson(
-                                    {'name': '0', 'label': 'Entertainment'.tr}),
+                                    {'name': '0', 'label': 'SideKicker'.tr}),
                                 VerifyField.fromJson(
-                                    {'name': '1', 'label': 'Technology'.tr}),
+                                    {'name': '1', 'label': 'SideKick Pro'.tr}),
                               ],
                               title: "Select".tr,
                               showInfo: true,
