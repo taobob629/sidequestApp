@@ -393,13 +393,15 @@ class _AddGamePageState extends State<AddGamePage> {
                 }),
 
                 Obx(() => Visibility(
-                  visible: controller.gameLv.value.levelid >=
-                      (controller.gameConfig?.techLevel ?? 0),
-                  child: 16.verticalSpace,
-                )),
+                      visible: (controller.gameLv.value.levelid >=
+                              (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0,
+                      child: 16.verticalSpace,
+                    )),
                 Obx(() => Visibility(
-                      visible: controller.gameLv.value.levelid >=
-                          (controller.gameConfig?.techLevel ?? 0),
+                      visible: (controller.gameLv.value.levelid >=
+                              (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0,
                       child: itemBg(
                         PWidget.row([
                           PWidget.text(
@@ -427,13 +429,17 @@ class _AddGamePageState extends State<AddGamePage> {
                           GameRoleBean bean = GameRoleBean();
                           bean.id = 0;
                           bean.name = 'SideKicker'.tr;
-                          bean.desc = 'SideKicker:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'.tr;
+                          bean.desc =
+                              'SideKicker:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'
+                                  .tr;
                           items.add(bean);
 
                           bean = GameRoleBean();
                           bean.id = 1;
                           bean.name = 'SideKicker Pro'.tr;
-                          bean.desc = 'SideKicker Pro:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'.tr;
+                          bean.desc =
+                              'SideKicker Pro:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'
+                                  .tr;
                           items.add(bean);
 
                           var res = await Get.dialog(

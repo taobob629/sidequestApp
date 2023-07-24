@@ -190,14 +190,16 @@ class AddGamePageController extends GetxController {
       mPriceRanges.add(priceRanges.first);
       return;
     }
-    if (isTech.value == 0 && mPriceRanges.length == 1) {
+    if (((gameLv.value.levelid >= (gameConfig?.techLevel ?? 0)) &&
+            (gameConfig?.techLevel ?? 0) > 0) &&
+        isTech.value == 0 &&
+        mPriceRanges.length == 1) {
       showToast('SideKicker can only choose at most one'.tr);
       return;
     }
 
     if (mPriceRanges.length >= 5) {
-      showToast(
-          '${'At most '.tr}${'5 types can be added!'.tr} ');
+      showToast('${'At most '.tr}${'5 types can be added!'.tr} ');
       return;
     }
 
