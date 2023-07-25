@@ -1,19 +1,14 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:wy/api/auth_api.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/model/login_model.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/datetime_utils.dart';
-import 'package:wy/utils/storage_manager.dart';
-import 'package:wy/utils/utils.dart';
 
+import '../../../api/auth_api.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_selector.dart';
 import '../secondary_page.dart';
@@ -23,40 +18,26 @@ import '../secondary_page.dart';
     创建日期:2023/2/2
     描述:
  */
-
 class OtherRegisterCtr extends GetxController {
-  late TextEditingController emailEditingController;
-  late TextEditingController passwordEditingController;
-  late TextEditingController nickEditingController;
-  late TextEditingController phoneEditingController;
-  late TextEditingController inviteEditingController;
-  late TextEditingController pinEditingController;
-
-  late FocusNode emailFocusNode;
-  late FocusNode codeFocusNode;
+  TextEditingController emailEditingController = TextEditingController();
 
   late Rx<DateTime> birthday = DateTime.now().obs;
-
-  String email = "";
-  String password = "";
-  String pin = "";
-
-//  String firstName = "";
-  // String lastName = "";
-  String nick = "";
-  String phone = "";
-  String uid = "";
-  String invite = "";
 
   var selectSex = VerifyField.fromJson({
     'name': '',
     'label': '',
   }).obs;
 
+  String? otherEmail;
+
   AuthorizationCredentialAppleID? credential;
 
   GoogleSignInAccount? googleSignInAccount;
   String? idToken;
+
+  String? discordAppId;
+  String? nickName;
+  String? discriminator;
 
   OtherRegisterCtr();
 
@@ -67,45 +48,21 @@ class OtherRegisterCtr extends GetxController {
     if (params is AuthorizationCredentialAppleID) {
       // apple sign
       credential = params;
-      emailEditingController = TextEditingController(
-          text: credential != null ? credential!.email : '');
-    } else if (params is Map) {
-      // google sign
-      googleSignInAccount = params['account'] as GoogleSignInAccount;
-      idToken = params['idToken'];
-      emailEditingController = TextEditingController(
-          text: googleSignInAccount != null ? googleSignInAccount!.email : '');
+      otherEmail = credential?.email;
     } else {
-      emailEditingController = TextEditingController();
+      // google sign
+      googleSignInAccount = params['account'] as GoogleSignInAccount?;
+      idToken = params['idToken'] as String?;
+      otherEmail = googleSignInAccount?.email;
+
+      if (googleSignInAccount == null) {
+        // discord sign
+        discordAppId = params['discordAppId'] as String?;
+        otherEmail = params['email'] as String?;
+        nickName = params['nickName'] as String?;
+        discriminator = params['discriminator'] as String?;
+      }
     }
-    passwordEditingController = TextEditingController();
-    nickEditingController = TextEditingController();
-    phoneEditingController = TextEditingController();
-    inviteEditingController = TextEditingController();
-    pinEditingController = TextEditingController();
-
-    emailFocusNode = FocusNode();
-    codeFocusNode = FocusNode();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    emailFocusNode.requestFocus();
-  }
-
-  @override
-  void onClose() {
-    emailEditingController.dispose();
-    passwordEditingController.dispose();
-    nickEditingController.dispose();
-    phoneEditingController.dispose();
-    inviteEditingController.dispose();
-    pinEditingController.dispose();
-
-    emailFocusNode.dispose();
-    codeFocusNode.dispose();
-    super.onClose();
   }
 
   void setBirthday(DateTime? date) {
@@ -144,48 +101,18 @@ class OtherRegisterCtr extends GetxController {
   }
 
   void signUp() async {
-    // Get.offAll(LoginPage());
+    String email = emailEditingController.text.toString();
 
-    email = emailEditingController.text.trim();
-    password = passwordEditingController.text.trim();
-    //firstName = firstEditingController.text.trim();
-    // lastName = lastEditingController.text.trim();
-    nick = nickEditingController.text.trim();
-    // phone = phoneEditingController.text.trim();
-    invite = inviteEditingController.text.trim();
-    pin = pinEditingController.text.trim();
+    if (otherEmail == null) {
+      if (email.isEmpty) {
+        showInfo("Please input a email as your account".tr);
+        return;
+      }
 
-    if (email.isEmpty) {
-      emailFocusNode.requestFocus();
-      showInfo("Please input a email as your account".tr);
-      return;
-    }
-
-    if (!email.contains("@")) {
-      emailFocusNode.requestFocus();
-      showInfo("Please input a valid email".tr);
-      return;
-    }
-
-    if (nick.isEmpty) {
-      showInfo(
-        "Please input your nick name".tr,
-      );
-      return;
-    }
-
-    if (phone.isEmpty) {
-      showInfo(
-        "Please input your phone number".tr,
-      );
-      return;
-    }
-
-    if (password.length < 6) {
-      showInfo(
-        "Password no less than 6 characters".tr,
-      );
-      return;
+      if (!email.contains("@")) {
+        showInfo("Please input a valid email".tr);
+        return;
+      }
     }
 
     if (DatetimeUtils.getAge(birthday.value) < 13) {
@@ -203,54 +130,42 @@ class OtherRegisterCtr extends GetxController {
       return;
     }
 
-    if (pin.length < 6) {
-      showInfo(
-        "Only 6 numbers accepted as your payment pin".tr,
-      );
-      return;
-    }
-
     showLoading();
     LoginModel loginModel;
     if (credential != null) {
-      // loginModel = await AuthApi.signInApple(
-      //   credential,
-      //   nick,
-      //   phone,
-      //   email,
-      //   formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-      //   password,
-      //   uid,
-      //   pin,
-      //   invite,
-      //   int.parse(selectSex.value.name),
-      // );
+      loginModel = await AuthApi.signInApple(
+          credential!, '/peiwan/app/user/appleLogin2',
+          email: email,
+          birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+          sex: selectSex.value.name);
     } else {
-      // loginModel = await AuthApi.signInGoogle(
-      //   googleSignInAccount,
-      //   idToken,
-      //   nick,
-      //   phone,
-      //   email,
-      //   formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-      //   password,
-      //   uid,
-      //   pin,
-      //   invite,
-      //   int.parse(selectSex.value.name),
-      // );
+      if (googleSignInAccount != null) {
+        loginModel = await AuthApi.signInGoogle(
+            '/peiwan/app/user/googleLogin2', googleSignInAccount!, idToken,
+            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+            sex: selectSex.value.name);
+      } else {
+        loginModel = await AuthApi.signInDiscord(
+            '/peiwan/app/user/discordLogin2',
+            discordAppId,
+            otherEmail?.isEmpty == true ? email : otherEmail,
+            nickName,
+            discriminator,
+            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+            sex: selectSex.value.name);
+      }
     }
     dismissLoading();
     await showSuccess(
         "Congratulations and welcome, please sign in with your new account!"
             .tr);
 
-    // loginSuccess(loginModel);
+    loginSuccess(loginModel);
   }
 
   void loginSuccess(LoginModel loginModel) {
     if (loginModel.validate == 0) {
-      UserController.find.setLocalInfo(loginModel, '', null);
+      UserController.find.setLocalInfo(loginModel, null);
       UserController.find.imLogin();
       Get.offAndToNamed(AppPages.Main);
     } else {

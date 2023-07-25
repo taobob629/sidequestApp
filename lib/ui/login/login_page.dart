@@ -301,7 +301,7 @@ class LoginPageController extends BasePageController {
   void loginWithDiscord() {
     if (controller.check()) {
       UserController.find.discordLogin(
-          needAppleLogin: true,
+          needLogin: true,
           done: (LoginModel loginModel) {
             loginSuccess(loginModel);
           });
@@ -311,7 +311,7 @@ class LoginPageController extends BasePageController {
   void loginWithApple() {
     if (controller.check()) {
       UserController.find.appleLogin(
-          needAppleLogin: true,
+          needLogin: true,
           done: (LoginModel loginModel) {
             loginSuccess(loginModel);
           });

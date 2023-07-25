@@ -46,6 +46,7 @@ import '../../utils/toast_utils.dart';
 import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
+import '../login/other_register/other_register_page.dart';
 
 class UserController extends GetxController {
   bool hasDidVoiceCheck = false; //只检查一次
@@ -110,8 +111,8 @@ class UserController extends GetxController {
   }
 
   Future<void> switchLogin({bool checkLastLoginTime = false}) async {
-    var password = StorageManager.getPassword();
-    switch (password.toLowerCase()) {
+    var loginFlag = StorageManager.getString('loginFlag');
+    switch (loginFlag?.toLowerCase()) {
       case LoginFlag.ios:
         await appleLogin(showLoadings: false);
         isSigningIn = false;
@@ -128,7 +129,10 @@ class UserController extends GetxController {
         break;
 
       default:
-        await login(showLoadings: false, checkLastLoginTime: checkLastLoginTime);
+        await login(
+          showLoadings: false,
+          checkLastLoginTime: checkLastLoginTime,
+        );
         isSigningIn = false;
         break;
     }
@@ -269,11 +273,11 @@ class UserController extends GetxController {
       dismissLoading();
     });
 
-    setLocalInfo(loginModel, password, done);
+    setLocalInfo(loginModel, done, password: password);
   }
 
   Future<void> appleLogin({
-    bool needAppleLogin = false,
+    bool needLogin = false,
     bool showLoadings = true,
     bool checkLastLoginTime = false,
     Function(LoginModel)? done,
@@ -299,7 +303,7 @@ class UserController extends GetxController {
       flog(
           "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
     } else {
-      if (needAppleLogin) {
+      if (needLogin) {
         credential = await SignInWithApple.getAppleIDCredential(
           scopes: [
             AppleIDAuthorizationScopes.email,
@@ -317,8 +321,10 @@ class UserController extends GetxController {
     }
 
     if (showLoadings) showLoading();
-    LoginModel loginModel =
-        await AuthApi.signInApple(credential).catchError((e) {
+    LoginModel loginModel = await AuthApi.signInApple(
+      credential,
+      '/peiwan/app/user/appleLogin1',
+    ).catchError((e) {
       dismissLoading();
     });
 
@@ -327,7 +333,12 @@ class UserController extends GetxController {
       credential.userIdentifier.toString(),
     );
 
-    setLocalInfo(loginModel, LoginFlag.ios, done);
+    setLocalInfo(
+      loginModel,
+      done,
+      loginFlag: LoginFlag.ios,
+      credential: credential,
+    );
   }
 
   Future<void> googleLogin({
@@ -351,13 +362,20 @@ class UserController extends GetxController {
 
       flog('google sign in $account');
       LoginModel loginModel = await AuthApi.signInGoogle(
+        '/peiwan/app/user/googleLogin1',
         account,
         authentication?.idToken,
       ).catchError((e) {
         dismissLoading();
       });
 
-      setLocalInfo(loginModel, LoginFlag.google, done);
+      setLocalInfo(
+        loginModel,
+        done,
+        loginFlag: LoginFlag.google,
+        account: account,
+        idToken: authentication?.idToken,
+      );
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
@@ -366,7 +384,7 @@ class UserController extends GetxController {
   }
 
   Future<void> discordLogin({
-    bool needAppleLogin = false,
+    bool needLogin = false,
     bool checkLastLoginTime = false,
     bool showLoadings = true,
     Function(LoginModel)? done,
@@ -381,23 +399,54 @@ class UserController extends GetxController {
     if (showLoadings) showLoading();
 
     try {
-      UserModel userModel = StorageManager.getUser();
-      if (userModel.memberCode.isNotEmpty) {
-        if (needAppleLogin) {
-          _discordLogin(done);
-          return;
+      String? saveDiscordAppId = StorageManager.getString('discordAppId');
+      String? saveEmail = StorageManager.getString('email');
+      String? nickName;
+      String? discriminator;
+      if (saveDiscordAppId == null) {
+        final result = await _discordLogin();
+        saveDiscordAppId = Uri.parse(result).queryParameters['discordAppId'];
+        saveEmail = Uri.parse(result).queryParameters['email'];
+        nickName = Uri.parse(result).queryParameters['nickName'];
+        discriminator = Uri.parse(result).queryParameters['discriminator'];
+      } else {
+        if (needLogin) {
+          final result = await _discordLogin();
+          saveDiscordAppId = Uri.parse(result).queryParameters['discordAppId'];
+          saveEmail = Uri.parse(result).queryParameters['email'];
+          nickName = Uri.parse(result).queryParameters['nickName'];
+          discriminator = Uri.parse(result).queryParameters['discriminator'];
         }
-        LoginModel loginModel = await AuthApi.signInDiscord2(
-          userModel.memberCode,
-        ).catchError((e) {
-          dismissLoading();
-        });
-
-        setLocalInfo(loginModel, LoginFlag.discord, done);
-        return;
       }
 
-      _discordLogin(done);
+      LoginModel loginModel = await AuthApi.signInDiscord(
+        '/peiwan/app/user/discordLogin1',
+        saveDiscordAppId,
+        saveEmail,
+        nickName,
+        discriminator,
+      ).catchError((e) {
+        dismissLoading();
+      });
+
+      StorageManager.setString(
+        'discordAppId',
+        saveDiscordAppId!,
+      );
+      StorageManager.setString(
+        'email',
+        saveEmail!,
+      );
+
+      setLocalInfo(
+        loginModel,
+        done,
+        loginFlag: LoginFlag.discord,
+        discordAppId: saveDiscordAppId,
+        email: saveEmail,
+        nickName: nickName,
+        discriminator: discriminator,
+      );
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
@@ -405,7 +454,7 @@ class UserController extends GetxController {
     }
   }
 
-  void _discordLogin(Function(LoginModel)? done) async {
+  Future<String> _discordLogin() async {
     String clientId = '1043016152168792094';
     String redirectUri = 'https://sidequesthub.com/proxy/web/extra/appToken';
     final url = Uri.https('discord.com', '/api/oauth2/authorize', {
@@ -421,23 +470,47 @@ class UserController extends GetxController {
       dismissLoading();
       return '';
     });
-    final discordAppId = Uri.parse(result).queryParameters['discordAppId'];
 
-    LoginModel loginModel = await AuthApi.signInDiscord(
-      discordAppId,
-    ).catchError((e) {
-      dismissLoading();
-    });
-
-    setLocalInfo(loginModel, LoginFlag.discord, done);
+    return result;
   }
 
   void setLocalInfo(
     LoginModel loginModel,
-    String password,
-    Function(LoginModel)? done,
-  ) async {
-    if (loginModel.token.isEmpty) return;
+    Function(LoginModel)? done, {
+    String? password,
+    String? loginFlag,
+    AuthorizationCredentialAppleID? credential,
+    GoogleSignInAccount? account,
+    String? idToken,
+    String? discordAppId,
+    String? email,
+    String? nickName,
+    String? discriminator,
+  }) async {
+    if (loginModel.gotoLogin2) {
+      dismissLoading();
+      if (loginFlag == LoginFlag.ios) {
+        Get.to(() => OtherRegisterPage(), arguments: credential);
+      } else if (loginFlag == LoginFlag.google) {
+        Get.to(() => OtherRegisterPage(), arguments: {
+          'account': account,
+          'idToken': idToken,
+        });
+      } else if (loginFlag == LoginFlag.discord) {
+        Get.to(() => OtherRegisterPage(), arguments: {
+          'discordAppId': discordAppId,
+          'email': email,
+          'nickName': nickName,
+          'discriminator': discriminator,
+        });
+      }
+      return;
+    }
+
+    if (loginModel.token.isEmpty) {
+      dismissLoading();
+      return;
+    }
 
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
@@ -446,7 +519,12 @@ class UserController extends GetxController {
       _updateUser(loginModel.user);
       StorageManager.setToken(loginModel.token);
       StorageManager.setAccount(loginModel.user.email);
-      StorageManager.setPassword(password);
+      if (password != null) {
+        StorageManager.setPassword(password);
+      }
+      if (loginFlag != null) {
+        StorageManager.setString('loginFlag', loginFlag);
+      }
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }

@@ -318,8 +318,8 @@ class RegisterPageController extends GetxController {
               .tr);
       UserController.find.setLocalInfo(
         loginModel,
-        password,
         (loginModel) => loginSuccess(loginModel),
+        password: password,
       );
     } else {
       await AuthApi.updateProfile(
@@ -346,7 +346,7 @@ class RegisterPageController extends GetxController {
 
   void loginWithApple() {
     UserController.find.appleLogin(
-        needAppleLogin: true,
+        needLogin: true,
         done: (LoginModel loginModel) {
           loginSuccess(loginModel);
         });
@@ -360,7 +360,7 @@ class RegisterPageController extends GetxController {
 
   void loginWithDiscord() {
     UserController.find.discordLogin(
-        needAppleLogin: true,
+        needLogin: true,
         done: (LoginModel loginModel) {
           loginSuccess(loginModel);
         });

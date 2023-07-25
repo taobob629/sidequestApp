@@ -218,24 +218,33 @@ class AuthApi {
 
   static Future<LoginModel> signInApple(
     AuthorizationCredentialAppleID credential,
-  ) async {
+    String url, {
+    String? email,
+    String? birth,
+    String? sex,
+  }) async {
     var formData = {
       'userIdentifier': credential.userIdentifier,
-      'email': credential.email,
+      'email': credential.email ?? email,
       'givenName': credential.givenName,
       'familyName': credential.familyName,
+      'birth': birth,
+      'sex': sex,
     };
     var response = await http.post(
-      '/peiwan/app/user/appleLogin',
+      url,
       data: formData,
     );
     return LoginModel.fromJson(response.data);
   }
 
   static Future<LoginModel> signInGoogle(
+    String url,
     GoogleSignInAccount? account,
-    String? idToken,
-  ) async {
+    String? idToken, {
+    String? birth,
+    String? sex,
+  }) async {
     var formData = {
       'email': account?.email,
       'id': account?.id,
@@ -245,33 +254,31 @@ class AuthApi {
       'serverAuthCode': account?.serverAuthCode,
     };
     var response = await http.post(
-      '/peiwan/app/user/googleLogin',
+      url,
       data: formData,
     );
     return LoginModel.fromJson(response.data);
   }
 
   static Future<LoginModel> signInDiscord(
+    String url,
     String? discordAppId,
-  ) async {
+    String? email,
+    String? nickName,
+    String? discriminator, {
+    String? birth,
+    String? sex,
+  }) async {
     var formData = {
       'discordAppId': discordAppId,
-    };
-    var response = await http.get(
-      '/web/extra/discordAppInfo',
-      queryParameters: formData,
-    );
-    return LoginModel.fromJson(response.data);
-  }
-
-  static Future<LoginModel> signInDiscord2(
-    String? uk,
-  ) async {
-    var formData = {
-      'uk': uk,
+      'email': email,
+      'nickName': nickName,
+      'discriminator': discriminator,
+      'birth': birth,
+      'sex': sex,
     };
     var response = await http.post(
-      '/peiwan/app/user/discordLogin',
+      url,
       data: formData,
     );
     return LoginModel.fromJson(response.data);
