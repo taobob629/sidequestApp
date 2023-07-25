@@ -55,29 +55,28 @@ class ActivityListItemWidget extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.only(left: 15.r, right: 15.r),
                   alignment: Alignment.centerLeft,
-                  //    color: Colors.grey.withOpacity(0.1),
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '${model.title}\n',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                        TextSpan(
-                            text: '${model.datetime.toDateStr}',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM,
-                            )),
-                      ],
-                    ),
-                    textAlign: TextAlign.start,
-                    strutStyle: StrutStyle(height: 1.7),
-                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text('${model.title}\n',
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      style: TextStyle(
+                      fontSize: 14.sp,
+                      overflow: TextOverflow.ellipsis,
+                      fontFamily: FONT_MEDIUM,
+                    ),),
+                    5.verticalSpace,
+                    Text('${model.datetime.toDateStr}',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                      color: Colors.white54,
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    )),
+                  ],),
                 )),
             Positioned(
                 top: 200.h - imageSize / 2,

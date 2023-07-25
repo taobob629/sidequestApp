@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/model/event_detail_model.dart';
@@ -79,8 +80,9 @@ class EventsApi {
       data: formData
     );
   }
-  static Future<void> cancelActivity(var eventId) async {
+  static Future<Response> cancelActivity(var eventId) async {
     var response = await http.get('/app/events/cancellEvent/$eventId');
+    return response;
   }
 
   static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve}) async {
@@ -111,7 +113,7 @@ class EventsApi {
     return response.data;
   }
 
-  static Future<void> joinTeam(int eventId,String code,String role, String discordTag) async {
+  static Future<Response> joinTeam(int eventId,String code,String role, String discordTag) async {
     var formData = {
       "matchId" : eventId,
       "code" : code,
@@ -121,6 +123,7 @@ class EventsApi {
     var response = await http.post('/app/events/joinTeam',
       data: formData
     );
+    return response;
   }
 
   static Future<MatchTeamModel> myTeam(int id) async {

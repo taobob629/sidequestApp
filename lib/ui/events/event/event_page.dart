@@ -408,8 +408,9 @@ class EventPageController extends BasePageController {
 
   cancelActivity() async {
     showLoading();
-    await EventsApi.cancelActivity(eventDetailModel.value.id);
-    onRefresh();
+  var resp=  await EventsApi.cancelActivity(eventDetailModel.value.id);
+   showSuccess(resp.statusMessage);
+   onRefresh();
     // Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
     //     barrierColor: Colors.black26);
     dismissLoading();
