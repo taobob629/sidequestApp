@@ -80,8 +80,9 @@ class EventsApi {
       data: formData
     );
   }
-  static Future<void> cancelActivity(var eventId) async {
+  static Future<Response> cancelActivity(var eventId) async {
     var response = await http.get('/app/events/cancellEvent/$eventId');
+    return response;
   }
 
   static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve}) async {
