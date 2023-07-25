@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/activity_item_model.dart';
 import 'package:wy/model/event_detail_model.dart';
@@ -111,7 +112,7 @@ class EventsApi {
     return response.data;
   }
 
-  static Future<void> joinTeam(int eventId,String code,String role, String discordTag) async {
+  static Future<Response> joinTeam(int eventId,String code,String role, String discordTag) async {
     var formData = {
       "matchId" : eventId,
       "code" : code,
@@ -121,6 +122,7 @@ class EventsApi {
     var response = await http.post('/app/events/joinTeam',
       data: formData
     );
+    return response;
   }
 
   static Future<MatchTeamModel> myTeam(int id) async {
