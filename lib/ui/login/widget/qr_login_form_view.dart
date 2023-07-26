@@ -30,74 +30,108 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             )),
-        child: Obx(()=>controller.qrLoginInfoModel==null?buildLoad():Column(
-          children: [
-            Row(
-              children: [
-                ImageUtil.networkImage(
-                    url: userController.userProfile.avatar,
-                    width: 48,
-                    height: 48,
-                    fit: BoxFit.cover,
-                    border: 24),
-                16.horizontalSpace,
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userController.userProfile.nickName,
-                      style: TextStyle(
-                          color: AppColor.primary, fontFamily: FONT_MEDIUM),
-                    ),
-                    5.verticalSpace,
-                    Text(
-                      userController.userProfile.email,
-                      style: TextStyle(
-                          color: AppColor.primary,
-                          fontSize: 12.sp,
-                          fontFamily: FONT_LIGHT),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                ImageUtil.assetImage('logo_mirror', width: 26.w),
-              ],
-            ),
-            16.verticalSpace,
-            Divider(
-              height: 1.h,
-              color: Colors.white,
-            ),
-            10.verticalSpace,
-            rowItem('Device', controller.qrLoginInfoModel?.device),
-            rowItem('Price',' £ ${controller.qrLoginInfoModel?.price}/Hour'),
-            rowItem('Available for Gaming Free Time', controller.qrLoginInfoModel?.gamingFree),
-            rowItem('Discount', controller.qrLoginInfoModel?.discount),
-            rowItem('Remaining Balance', ' £${controller.qrLoginInfoModel?.balance}'),
-            rowItem('Remaining Gaming Free Time', controller.qrLoginInfoModel?.freetime),
-            rowItem('Remaining Credit Duration', controller.qrLoginInfoModel?.estimatedtime),
-            rowItem('Estimated Exhausted Time',  controller.qrLoginInfoModel?.estimatedDatetime.toDateStr),
-          ],
-        )),
+        child: Obx(() => controller.qrLoginInfoModel == null
+            ? buildLoad()
+            : Column(
+                children: [
+                  Row(
+                    children: [
+                      ImageUtil.networkImage(
+                          url: userController.userProfile.avatar,
+                          width: 48,
+                          height: 48,
+                          fit: BoxFit.cover,
+                          border: 24),
+                      16.horizontalSpace,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userController.userProfile.nickName,
+                            style: TextStyle(
+                                color: AppColor.primary,
+                                fontFamily: FONT_MEDIUM),
+                          ),
+                          5.verticalSpace,
+                          Text(
+                            userController.userProfile.email,
+                            style: TextStyle(
+                                color: AppColor.primary,
+                                fontSize: 12.sp,
+                                fontFamily: FONT_LIGHT),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      ImageUtil.assetImage('logo_mirror', width: 26.w),
+                    ],
+                  ),
+                  16.verticalSpace,
+                  Divider(
+                    height: 1.h,
+                    color: Colors.white,
+                  ),
+                  10.verticalSpace,
+                  rowItem('Device', controller.qrLoginInfoModel?.device),
+                  rowItem(
+                    'Price',
+                    '(${controller.qrLoginInfoModel?.price}/Hour)',
+                    deleteLine: true,
+                  ),
+                  rowItem('Available for Gaming Free Time',
+                      controller.qrLoginInfoModel?.gamingFree),
+                  rowItem('Discount', controller.qrLoginInfoModel?.discount),
+                  rowItem('Remaining Balance',
+                      ' £${controller.qrLoginInfoModel?.balance}'),
+                  rowItem('Remaining Gaming Free Time',
+                      controller.qrLoginInfoModel?.freetime),
+                  rowItem('Remaining Credit Duration',
+                      controller.qrLoginInfoModel?.estimatedtime),
+                  rowItem('Estimated Exhausted Time',
+                      controller.qrLoginInfoModel?.estimatedDatetime.toDateStr),
+                ],
+              )),
       );
 
-  rowItem(String label, var content) {
+  rowItem(String label, var content, {bool deleteLine = false}) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.r),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label.tr,
-            style: TextStyle(color: Color(0xFF5E5D64), fontSize: 12.sp,fontFamily: FONT_MEDIUM),
+            style: TextStyle(
+              color: Color(0xFF5E5D64),
+              fontSize: 12.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
+          ),
+          Spacer(),
+          Visibility(
+            visible:
+                deleteLine && controller.qrLoginInfoModel?.discountPrice != '',
+            child: Text(
+              ' £ ${controller.qrLoginInfoModel?.discountPrice}/Hour',
+              style: TextStyle(
+                color: AppColor.primary,
+                fontSize: 12.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ),
           ),
           Text(
             '$content',
             style: TextStyle(
-                color: AppColor.primary,
-                fontSize: 12.sp,
-                fontFamily: FONT_MEDIUM),
+              decoration: deleteLine
+                  ? controller.qrLoginInfoModel?.discountPrice != ''
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none
+                  : TextDecoration.none,
+              color: AppColor.primary,
+              fontSize: 12.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
           ),
         ],
       ),

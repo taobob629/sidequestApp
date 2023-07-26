@@ -15,6 +15,7 @@ class QrLoginInfoModel {
   final int estimatedDatetime;
   // 5.01
   final String price;
+  String? discountPrice;
   // 0.0% OFF
   final String discount;
   // CV-PS1-B
@@ -27,6 +28,7 @@ class QrLoginInfoModel {
     this.freetime = "OH",
     this.estimatedDatetime = 0,
     this.price = "",
+    this.discountPrice,
     this.discount = "",
     this.device = "",
   });
@@ -38,6 +40,7 @@ class QrLoginInfoModel {
     freetime: asT<String>(json, 'freetime'),
     estimatedDatetime: asT<int>(json, 'estimatedDatetime'),
     price: asT<String>(json, 'price'),
+    discountPrice: asT<String>(json, 'discountPrice'),
     discount: asT<String>(json, 'discount'),
     device: asT<String>(json, 'device'),
   );
@@ -49,6 +52,7 @@ class QrLoginInfoModel {
     'freetime': freetime,
     'estimatedDatetime': estimatedDatetime,
     'price': price,
+    'discountPrice': discountPrice,
     'discount': discount,
     'device': device,
   };
