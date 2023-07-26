@@ -146,7 +146,7 @@ class ConsumptionPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  34.verticalSpace,
+                  40.verticalSpace,
                   Container(
                     width: 130.w,
                     alignment: Alignment.center,
@@ -161,15 +161,18 @@ class ConsumptionPage extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    t.list.length > 0 ? '${t.list[0].num}' : '',
-                    style: TextStyle(
-                      color: Color(0xfff8e287),
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
+                  Expanded(
+                    child: Text(
+                      t.list.length > 0 ? '${t.list[0].num}' : '',
+                      style: TextStyle(
+                        color: Color(0xfff8e287),
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  30.verticalSpace,
                 ],
               ),
             ),
