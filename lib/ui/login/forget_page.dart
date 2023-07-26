@@ -186,6 +186,7 @@ class ForgetPageController extends GetxController {
     } else {
       uid = await AuthApi.resendPinEmail(email);
     }
+    dismissLoading();
     await showSuccess("Verification code sent".tr, duration: Duration(seconds: 2));
     codeFocusNode.requestFocus();
     step.value = 2;
