@@ -76,7 +76,9 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
                   rowItem('Device', controller.qrLoginInfoModel?.device),
                   rowItem(
                     'Price',
-                    '(${controller.qrLoginInfoModel?.price}/Hour)',
+                    controller.qrLoginInfoModel?.discountPrice != ''
+                        ? '(${controller.qrLoginInfoModel?.price}/Hour)'
+                        : '${controller.qrLoginInfoModel?.price}/Hour',
                     deleteLine: true,
                   ),
                   rowItem('Available for Gaming Free Time',
