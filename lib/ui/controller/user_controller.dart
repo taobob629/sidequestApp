@@ -266,7 +266,7 @@ class UserController extends GetxController {
       return;
     }
     if (showLoadings == true) {
-      showLoading();
+      showLoading(clickMaskDismiss: false);
     }
     LoginModel loginModel =
         await AuthApi.signIn(email, password).catchError((e) {
@@ -320,7 +320,7 @@ class UserController extends GetxController {
       }
     }
 
-    if (showLoadings) showLoading();
+    if (showLoadings) showLoading(clickMaskDismiss: false);
     LoginModel loginModel = await AuthApi.signInApple(
       credential,
       '/peiwan/app/user/appleLogin1',
@@ -353,7 +353,7 @@ class UserController extends GetxController {
         return;
       }
     }
-    if (showLoadings) showLoading();
+    if (showLoadings) showLoading(clickMaskDismiss: false);
 
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
@@ -396,7 +396,7 @@ class UserController extends GetxController {
         return;
       }
     }
-    if (showLoadings) showLoading();
+    if (showLoadings) showLoading(clickMaskDismiss: false);
 
     try {
       String? saveDiscordAppId = StorageManager.getString('discordAppId');

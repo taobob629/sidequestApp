@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-showLoading() {
-  SmartDialog.showLoading(maskColor: Colors.transparent);
+showLoading({bool clickMaskDismiss = true}) {
+  SmartDialog.showLoading(
+    maskColor: Colors.transparent,
+    clickMaskDismiss: clickMaskDismiss,
+  );
 }
 
 dismissLoading() {
