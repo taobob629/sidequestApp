@@ -210,7 +210,7 @@ class UserController extends GetxController {
       userProfile = await ProfileApi.getProfileInfo();
       //判断是否有语音
       if (hasDidVoiceCheck) return;
-      voiceCheck();
+    //  voiceCheck();
     }
   }
 
