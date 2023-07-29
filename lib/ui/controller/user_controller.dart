@@ -210,7 +210,7 @@ class UserController extends GetxController {
       userProfile = await ProfileApi.getProfileInfo();
       //判断是否有语音
       if (hasDidVoiceCheck) return;
-    //  voiceCheck();
+      //  voiceCheck();
     }
   }
 
@@ -273,7 +273,12 @@ class UserController extends GetxController {
       dismissLoading();
     });
 
-    setLocalInfo(loginModel, done, password: password);
+    setLocalInfo(
+      loginModel,
+      done,
+      loginFlag: LoginFlag.password,
+      password: password,
+    );
   }
 
   Future<void> appleLogin({
@@ -512,6 +517,10 @@ class UserController extends GetxController {
       return;
     }
 
+    if (loginFlag != null) {
+      StorageManager.setString('loginFlag', loginFlag);
+    }
+
     if (loginModel.validate == 0) {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
@@ -521,9 +530,6 @@ class UserController extends GetxController {
       StorageManager.setAccount(loginModel.user.email);
       if (password != null) {
         StorageManager.setPassword(password);
-      }
-      if (loginFlag != null) {
-        StorageManager.setString('loginFlag', loginFlag);
       }
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
