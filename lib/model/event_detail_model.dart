@@ -33,6 +33,7 @@ class EventDetailModel {
   int showCountdown=0;//0不显示1显示
   bool get canCancel => _canCancel.value;
   RxString discount=RxString('0');
+  var memberCouponId='';
   showCounter(){
     return showCountdown==1&&DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
   }

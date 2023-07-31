@@ -9,6 +9,7 @@ import 'package:wy/image_utils.dart';
 import 'package:wy/res/index.dart';
 import 'package:wy/ui/common/colorful_button.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
@@ -23,6 +24,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
   var balance = '0'.obs;
   var subTotal = '0'.obs;
   var total = '0'.obs;
+  var discount = '0'.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -96,16 +98,17 @@ class CheckFeeWidget extends GetView<EventPageController> {
                         //计算优惠金额
                         var result = await CouponApi.caculateFee(
                             model.id, controller.eventDetailModel.value.id);
-                        total.value='${result?.total}';
-                        subTotal.value='${result?.total}';
-                        balance.value='${result?.balance}';
-                        controller.eventDetailModel.value.discount.value='${result?.discount}';
+                        if(result?.total==0)return;
+                        total.value = '${result?.total}';
+                        subTotal.value = '${result?.total}';
+                        balance.value = '${result?.balance}';
+                        discount.value = '${result?.discount}';
+                        controller.eventDetailModel.value.memberCouponId='${model.id}';
                         dismissLoading();
                       }),
-                  trailing: Obx(() =>
-                      controller.eventDetailModel.value.discount.value=='0'
-                          ? arrowMore()
-                          : Text('£ ${controller.eventDetailModel.value.discount}')),
+                  trailing: Obx(() => discount.value == '0'
+                      ? arrowMore()
+                      : Text('£ $discount')),
                   leading: Text(
                     'Vouchers',
                     style: TextStyle(fontFamily: FONT_MEDIUM),
@@ -138,6 +141,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
                 width: 222.w,
                 height: 42.h,
                 borderRadius: 21.h,
+                onTap: ()=>pay(),
               )
             ],
           ),
@@ -145,5 +149,17 @@ class CheckFeeWidget extends GetView<EventPageController> {
         ],
       ),
     );
+  }
+  void pay(){
+    UserController userController = Get.find<UserController>();
+    double userBalance = double.parse(userController.userProfile.balance);
+    if (userBalance >= controller.eventDetailModel.value.fee) {
+      checkDone.call();
+      Get.back();
+    } else {
+      Get.to(() => BalancePage(
+        amount: controller.eventDetailModel.value.fee.toDouble(),
+      ));
+    }
   }
 }

@@ -69,12 +69,13 @@ class EventsApi {
     return list;
   }
 
-  static Future<void> joinActivity(int eventId,int userId,int location,{String cupsleeve = ''}) async {
+  static Future<void> joinActivity(int eventId,int userId,int location,{String cupsleeve = '',var memberCouponId}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
       "location" : location,
       "cupsleeve" : cupsleeve,
+      'memberCouponId':memberCouponId
     };
     var response = await http.post('/app/events/joinActivity',
       data: formData
@@ -85,12 +86,13 @@ class EventsApi {
     return response;
   }
 
-  static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve}) async {
+  static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve,var memberCouponId}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
       "location" : location,
-      "cupsleeve" : cupsleeve
+      "cupsleeve" : cupsleeve,
+      'memberCouponId':memberCouponId
     };
     var response = await http.post('/app/events/joinMatch',
       data: formData

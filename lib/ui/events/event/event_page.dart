@@ -372,6 +372,7 @@ class EventPageController extends BasePageController {
             showLoading();
             await EventsApi.joinActivity(
                 eventDetailModel.value.id, userController.user.value.id, store.id,
+                memberCouponId: eventDetailModel.value.memberCouponId,
                 cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
@@ -394,7 +395,8 @@ class EventPageController extends BasePageController {
           checkFee(() async {
             showLoading();
             await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id);
+                eventDetailModel.value.id, userController.user.value.id, store.id,  memberCouponId: eventDetailModel.value.memberCouponId,);
+
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
@@ -446,6 +448,7 @@ class EventPageController extends BasePageController {
           showLoading();
           await EventsApi.joinMatch(
               eventDetailModel.value.id, userController.user.value.id, store.id,
+              memberCouponId: eventDetailModel.value.memberCouponId,
               cupsleeve: timeResult == null
                   ? null
                   : TimeUtils.getYYYYMMDDHHMM(
@@ -492,4 +495,5 @@ class EventPageController extends BasePageController {
       checkDone.call();
     }
   }
+
 }

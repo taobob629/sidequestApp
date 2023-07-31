@@ -113,6 +113,7 @@ dependencies:
   equatable: ^2.0.5
   collection: ^1.16.0
   qr_flutter: ^4.0.0
+  csslib: 0.17.0
   # device preview for test
   # device_preview: ^1.1.0
 
