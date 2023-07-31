@@ -99,6 +99,7 @@ class NavigatorHelper {
 
   static void gotoCouponPage(
       {int couponType = 0,
+        int tab=0,
       PayOrderModel? payOrderModel,
       Map<String, dynamic>? preOrder,
       Function(CouponModel)? onSelect,
@@ -107,6 +108,7 @@ class NavigatorHelper {
           couponType: couponType,
           payOrderModel: payOrderModel,
           preOrder: preOrder,
+      tab: tab,
         ))?.then((model) {
       if (model != null) {
         onSelect?.call(model);

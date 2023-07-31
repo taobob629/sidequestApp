@@ -1,3 +1,5 @@
+
+import 'package:wy/model/safe_convert.dart';
 class CouponModel {
   static const int AVILABLE = 1;
   late int id = 0;
@@ -42,4 +44,37 @@ class CouponModel {
     available = json['available'] == null ? "" : json['available'];
     usedCount = json['usedCount'] == null ? 0 : json['usedCount'];
   }
+}
+
+
+class ActivityDiscountModel {
+  // 5.0
+  final double total;
+  // 0.00
+  final String balance;
+  // 5.0
+  final String subtotal;
+  // 0
+  final String discount;
+
+  ActivityDiscountModel({
+    this.total = 0.0,
+    this.balance = "",
+    this.subtotal = "",
+    this.discount = "",
+  });
+
+  factory ActivityDiscountModel.fromJson(Map<String, dynamic>? json) => ActivityDiscountModel(
+    total: asT<double>(json, 'total'),
+    balance: asT<String>(json, 'balance'),
+    subtotal: asT<String>(json, 'subtotal'),
+    discount: asT<String>(json, 'discount'),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'total': total,
+    'balance': balance,
+    'subtotal': subtotal,
+    'discount': discount,
+  };
 }

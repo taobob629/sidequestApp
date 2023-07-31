@@ -18,6 +18,7 @@ import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/events/event/event_selecto_widget.dart';
 import 'package:wy/ui/events/event/team_page.dart';
+import 'package:wy/ui/events/widget/confirm_fee_dialog.dart';
 import 'package:wy/ui/profile/balance/balance_page.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/time_utils.dart';
@@ -371,6 +372,7 @@ class EventPageController extends BasePageController {
             showLoading();
             await EventsApi.joinActivity(
                 eventDetailModel.value.id, userController.user.value.id, store.id,
+                memberCouponId: eventDetailModel.value.memberCouponId,
                 cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
@@ -393,7 +395,8 @@ class EventPageController extends BasePageController {
           checkFee(() async {
             showLoading();
             await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id);
+                eventDetailModel.value.id, userController.user.value.id, store.id,  memberCouponId: eventDetailModel.value.memberCouponId,);
+
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
@@ -445,6 +448,7 @@ class EventPageController extends BasePageController {
           showLoading();
           await EventsApi.joinMatch(
               eventDetailModel.value.id, userController.user.value.id, store.id,
+              memberCouponId: eventDetailModel.value.memberCouponId,
               cupsleeve: timeResult == null
                   ? null
                   : TimeUtils.getYYYYMMDDHHMM(
@@ -468,9 +472,11 @@ class EventPageController extends BasePageController {
 
   void checkFee(Function checkDone) {
     if (eventDetailModel.value.fee > 0) {
-      String tips =
+     Get.bottomSheet(CheckFeeWidget(checkDone));
+/*      String tips =
           "${'We will charge a deposit of £'.tr}${eventDetailModel.value.fee} ${'from your balance for this sign up, Please make sure that you have enough balance.'.tr}";
-      Get.dialog(ConfirmDialog(title: "Deposit Required".tr, info: tips),
+      Get.bottomSheet(
+          ConfirmDialog(title: "Deposit Required".tr, info: tips),
               barrierColor: Colors.black26)
           .then((value) {
         if (value == true) {
@@ -484,9 +490,10 @@ class EventPageController extends BasePageController {
                 ));
           }
         }
-      });
+      });*/
     } else {
       checkDone.call();
     }
   }
+
 }

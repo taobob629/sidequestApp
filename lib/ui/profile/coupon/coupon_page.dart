@@ -16,6 +16,7 @@ import 'dialog_coupon.dart';
 class CouponPage extends StatelessWidget {
   static const int TYPE_STORE = 0;
   static const int TYPE_SIDE_KICK = 1;
+  static const int TYPE_ACTIVITY = 2;
   late final CouponPageController controller;
   bool showAppbar = false;
 
@@ -130,7 +131,7 @@ class CouponPageController extends GetxListController<CouponModel> {
   }
 
   void selectCoupon(CouponModel model) {
-    if (payOrderModel != null || preOrder != null) {
+    if (payOrderModel != null || preOrder != null||couponType==4) {
       Get.back(result: model);
     } else {
       Get.dialog(

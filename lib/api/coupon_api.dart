@@ -2,6 +2,7 @@ import 'package:wy/api/wy_http.dart';
 import 'package:wy/model/coupon_model.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/profile/coupon/coupon_page.dart';
+import 'package:wy/utils/index.dart';
 
 class CouponApi {
   static Future<List<CouponModel>> list({int couponType = 0, int tab = CouponPage.TYPE_STORE}) async {
@@ -48,5 +49,12 @@ class CouponApi {
     var response = await http.get('/app/coupon/pw/add', queryParameters: ({"code": code}));
 
     return response.statusMessage;
+  }
+
+  //计算优惠金额
+  static Future<ActivityDiscountModel?> caculateFee(var couponId,var matchId) async {
+    var response = await http.get('/app/coupon/selectCoupon', queryParameters: ({"couponId": couponId,'matchId':matchId}));
+    flog( 'response $response');
+    return  ActivityDiscountModel.fromJson(response.data);
   }
 }
