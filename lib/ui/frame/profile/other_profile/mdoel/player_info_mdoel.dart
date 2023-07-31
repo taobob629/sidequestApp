@@ -139,6 +139,7 @@ class ServiceItem {
   String unit = "";
   bool enabled = false;
   int skillAuthid = 0;
+  int isTech = 0;
   String createTime = "";
   String discount = "";
   bool isDefault = false;
@@ -157,6 +158,7 @@ class ServiceItem {
     unit = json['unit'] ?? unit;
     enabled = json['enabled'] == 1;
     skillAuthid = json['skillAuthid'] ?? skillAuthid;
+    isTech = json['isTech'] ?? isTech;
     createTime = json['createTime'] ?? createTime;
     discount = json['discount'] ?? discount;
     avatar = json['avatar'] ?? avatar;
@@ -176,6 +178,7 @@ class ServiceItem {
     data['unit'] = this.unit;
     data['enabled'] = this.enabled;
     data['skillAuthid'] = this.skillAuthid;
+    data['isTech'] = this.isTech;
     data['createTime'] = this.createTime;
     data['discount'] = this.discount;
     data['isDefault'] = this.isDefault;

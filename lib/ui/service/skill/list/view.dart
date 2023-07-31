@@ -28,6 +28,7 @@ import 'package:wy/widget/route.dart';
 import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../../image_utils.dart';
 import 'controller.dart';
 import 'widget/service_header.dart';
 
@@ -41,16 +42,17 @@ class SkillListPage extends GetView<SkillListPageController> {
     return ShowCaseWidget(
       autoPlay: true,
       autoPlayDelay: Duration(seconds: 5),
-      onFinish: () => StorageManager.setBoolValue('sideKickAddServiceKey', true),
-      builder: Builder(builder: (builder){
+      onFinish: () =>
+          StorageManager.setBoolValue('sideKickAddServiceKey', true),
+      builder: Builder(builder: (builder) {
         controller.myContext = builder;
         return ScaffoldWidget(
             appBar: tabWidget
                 ? null
                 : AppBar(
-              title: Text('SideKick'.tr),
-              elevation: 0,
-            ),
+                    title: Text('SideKick'.tr),
+                    elevation: 0,
+                  ),
             btnBar: Showcase(
               overlayOpacity: 0,
               key: GlobalKeyConstants.sideKickAddServiceKey,
@@ -66,29 +68,30 @@ class SkillListPage extends GetView<SkillListPageController> {
               padding: EdgeInsets.all(20),
               child: NestedScrollView(
                   headerSliverBuilder: (context, _) => [
-                    SliverToBoxAdapter(
-                      child: ProfileHeaderWidget(),
-                    ),
-                    SliverToBoxAdapter(
-                      child: ServiceHeader(),
-                    )
-                  ],
+                        SliverToBoxAdapter(
+                          child: ProfileHeaderWidget(),
+                        ),
+                        SliverToBoxAdapter(
+                          child: ServiceHeader(),
+                        )
+                      ],
                   body: Obx(
-                        () => controller.pageState == SkillListPageController.INIT
+                    () => controller.pageState == SkillListPageController.INIT
                         ? buildLoad()
                         : controller.list.isEmpty
-                        ? EmptyView()
-                        : MediaQuery.removePadding(
-                        removeTop: true,
-                        context: context,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => item(index),
-                          separatorBuilder: (context, index) => Container(
-                            height: 10.h,
-                          ),
-                          itemCount: controller.list.length,
-                        )),
+                            ? EmptyView()
+                            : MediaQuery.removePadding(
+                                removeTop: true,
+                                context: context,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) => item(index),
+                                  separatorBuilder: (context, index) =>
+                                      Container(
+                                    height: 10.h,
+                                  ),
+                                  itemCount: controller.list.length,
+                                )),
                   )),
             ));
       }),
@@ -108,32 +111,51 @@ class SkillListPage extends GetView<SkillListPageController> {
         children: [
           Row(
             children: [
-              ImageUtil.networkImage(
-                  url: data.skillThumb ?? '',
-                  fit: BoxFit.cover,
-                  border: 8.5,
-                  width: 50,
-                  height: 50),
-              10.horizontalSpace,
-              Expanded(
-                  child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Stack(
                 children: [
-                  Text(
-                    '${data.skillName}',
-                    style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 14.sp),
+                  ImageUtil.networkImage(
+                    url: data.skillThumb ?? '',
+                    fit: BoxFit.cover,
+                    border: 8.5,
+                    width: 50,
+                    height: 50,
                   ),
-                  Text(
-                    '${data.levelName}',
-                    style: TextStyle(
-                        fontFamily: FONT_MEDIUM,
-                        fontSize: 10.sp,
-                        color: AppColor.textC3),
+                  Positioned(
+                    bottom: 4,
+                    left: 0,
+                    right: 0,
+                    child: Visibility(
+                      visible: data.isTech == 1,
+                      child: Image.asset(ImageUtils.is_tech_pro_icon),
+                    ),
                   ),
                 ],
-              )),
+              ),
+              10.horizontalSpace,
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '${data.skillName}',
+                      style: TextStyle(
+                        fontFamily: FONT_MEDIUM,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    Text(
+                      '${data.levelName}',
+                      style: TextStyle(
+                        fontFamily: FONT_MEDIUM,
+                        fontSize: 10.sp,
+                        color: AppColor.textC3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               editStatus(data),
               addStatus(data)
             ],

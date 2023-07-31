@@ -22,6 +22,7 @@ import 'package:wy/widget/anima_switch_widget.dart';
 import 'package:wy/widget/paixs_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../../image_utils.dart';
 import '../../../im/pay_button.dart';
 
 // import '../../../im/pay_button.dart';
@@ -227,10 +228,25 @@ class MulitablePlayOrderPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10)),
                       child: serviceItem.avatar.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: serviceItem.avatar,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(),
+                          ? Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: serviceItem.avatar,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Visibility(
+                                    visible: serviceItem.isTech == 1,
+                                    child: Image.asset(
+                                      ImageUtils.is_tech_pro_icon,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           : Container(),
                     ),

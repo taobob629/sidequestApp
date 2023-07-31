@@ -203,7 +203,7 @@ class PriceRangeModel {
   final int id;
 
   // Hour
-  final String unit;
+  String unit;
   String name;
 
   var promotionSwitch = true.obs;

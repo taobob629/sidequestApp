@@ -35,6 +35,7 @@ class AddGamePageController extends GetxController {
   RxList<PriceRangeModel> priceRanges = RxList([]);
   RxList<FieldsItem> fieldItems = RxList([]);
   RxList<PriceRangeModel> mPriceRanges = RxList([]); //我选择的技能列表
+  List<PriceRangeModel> mPriceRangesRemark = [];
   RxList<ServiceInfoModel> services = RxList([]);
   Rxn<ServiceInfoModel?> _platform = Rxn();
   Rxn<ServiceDetailModel?> _serviceModel = Rxn();
@@ -158,6 +159,7 @@ class AddGamePageController extends GetxController {
         levelId: gameLv.value.levelid);
     priceRanges.clear();
     mPriceRanges.clear();
+    mPriceRangesRemark.clear();
     priceRanges.addAll(gameConfig?.priceRange ?? []);
     fieldItems.clear();
     fieldItems.addAll(gameConfig?.fields ?? []);
@@ -169,12 +171,20 @@ class AddGamePageController extends GetxController {
     //   showToast('Service type already exist');
     //   return;
     // }
+    mPriceRangesRemark = List.from(mPriceRanges);
+
     mPriceRanges[index] = model;
     mPriceRanges[index].initData();
+
+    PriceRangeModel cacheModel = PriceRangeModel.fromJson(model.toJson());
+    cacheModel.unit = model.unit;
+    cacheModel.initData();
+    mPriceRangesRemark[index] = cacheModel;
   }
 
   removePriceRange(int index) {
     mPriceRanges.removeAt(index);
+    mPriceRangesRemark.removeAt(index);
   }
 
   toAddServiceTypePage() {
@@ -204,11 +214,7 @@ class AddGamePageController extends GetxController {
     }
 
     //查看还有什么类型的没有被添加
-    var item = priceRanges
-        .firstWhereOrNull((element) => !mPriceRanges.contains(element));
-    if (item == null) {
-      item = priceRanges.last;
-    }
+    var item = priceRanges.first;
     item.initData();
     mPriceRanges.add(item);
   }
@@ -256,7 +262,7 @@ class AddGamePageController extends GetxController {
 
     List<LocalPriceRangeBean> priceRangeList = [];
     LocalPriceRangeBean rangeModel;
-    mPriceRanges.forEach((element) {
+    mPriceRangesRemark.forEach((element) {
       Map discount = {};
       if (element.currentPromotion.value.id == 0) {
         // Discount
@@ -455,6 +461,7 @@ class AddGamePageController extends GetxController {
 
   onRefresh() {
     mPriceRanges.clear();
+    mPriceRangesRemark.clear();
     gamePhotos.clear();
     getSkillInfo();
   }
