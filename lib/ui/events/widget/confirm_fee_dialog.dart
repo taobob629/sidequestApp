@@ -88,6 +88,10 @@ class CheckFeeWidget extends GetView<EventPageController> {
                     style: TextStyle(fontFamily: FONT_MEDIUM),
                   ),
                 ),
+                Divider(
+                  color: Colors.white.withAlpha(100),
+                  height: 1,
+                ),
                 ListTile(
                   onTap: () => NavigatorHelper.gotoCouponPage(
                       couponType: 4,
