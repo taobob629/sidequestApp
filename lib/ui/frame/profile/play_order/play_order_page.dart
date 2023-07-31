@@ -234,6 +234,8 @@ class MulitablePlayOrderPage extends StatelessWidget {
                                   imageUrl: serviceItem.avatar,
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => Container(),
+                                  width: 80,
+                                  height: 80,
                                 ),
                                 Positioned(
                                   bottom: 0,
