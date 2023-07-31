@@ -18,7 +18,7 @@ class CouponModel {
   late int usedCount = 0;
   late int available = 0; //
 
-  String get discount => unit == 'OFF' ? '$_discount%' : '$_discount';
+  String get discount => unit == 'OFF' ? '$_discount%' :type==4?'£$_discount    ':'$_discount';
 
   @override
   String toString() {

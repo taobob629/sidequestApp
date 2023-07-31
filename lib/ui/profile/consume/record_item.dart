@@ -461,7 +461,7 @@ class RecordItem extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Balance:£${double.parse(model.nowBalance) / 100}',
+                  'Balance:£${(double.parse(model.nowBalance) / 100).toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Color(0xffB2B9C9),
                     fontSize: 12.sp,
