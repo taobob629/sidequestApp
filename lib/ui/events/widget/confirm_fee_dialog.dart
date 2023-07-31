@@ -118,7 +118,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
             ),
           ),
           ListTile(
-            trailing: Text('£ $total'),
+            trailing: Obx(()=>Text('£ $total')),
             leading: Text(
               'Total',
               style:
