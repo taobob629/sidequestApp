@@ -14,6 +14,8 @@ import 'package:wy/ui/frame/sidekick/tabs/tab_sidekick/controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/widget/home/index.dart';
 
+import '../../../../image_utils.dart';
+
 class GameListItemWidget extends GetView<TabSideKickController> {
   GameUserModel model;
   Function() onTap;
@@ -101,6 +103,14 @@ class GameListItemWidget extends GetView<TabSideKickController> {
                           12.horizontalSpace,
                           StarWidget(
                             star: model.star,
+                          ),
+                          12.horizontalSpace,
+                          Visibility(
+                            visible: model.isTech == 1,
+                            child: Image.asset(
+                              ImageUtils.is_tech_pro_icon2,
+                              scale: 1.9,
+                            ),
                           ),
                         ],
                       ),

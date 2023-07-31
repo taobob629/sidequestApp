@@ -19,6 +19,9 @@ class PostItemModel {
   int id = 0;
   int type = 0;
   int addTime = 0;
+  int isAuth = 0;
+  int userLevel = 0;
+  int titlesLevel = 0;
 
   showContent() {
     if (type == TYPE_DEFAULT) return content;
@@ -50,5 +53,8 @@ class PostItemModel {
     id = json["id"] ?? 0;
     type = json["type"] ?? 0;
     addTime = json["addtime"] ?? 0;
+    isAuth = json["isauth"] ?? 0;
+    userLevel = json["userLevel"] ?? 1;
+    titlesLevel = json["titlesLevel"] ?? 1;
   }
 }

@@ -32,6 +32,7 @@ class MyReleasedPostPage extends StatelessWidget {
                   return PostListItemView(
                     model: t.list[index],
                     isSelf: true,
+                    index: index,
                     onTap: () {
                       Get.toNamed(AppPages.PostDetail, arguments: t.list[index])?.then((value) =>t.onRefresh() );
                     },

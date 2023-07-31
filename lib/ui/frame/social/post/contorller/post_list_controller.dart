@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api_service/post_api.dart';
 import 'package:wy/common/getx_refresh_controller.dart';
+import 'package:wy/common/string_ext.dart';
 import 'package:wy/utils/toast_utils.dart';
 
+import '../../../../../utils/time_utils.dart';
 import '../../../profile/model/post_item_model.dart';
 
 class PostListController extends GetxRefreshController<PostItemModel> {
@@ -38,6 +40,17 @@ class PostListController extends GetxRefreshController<PostItemModel> {
     } catch (e) {
       return false;
     }
+  }
+
+  String dealDateTime(int addTime) {
+    int cHour = TimeUtils.daysBetweenHour(
+        DateTime.fromMillisecondsSinceEpoch(addTime * 1000, isUtc: false),
+        DateTime.now());
+    return cHour > 24
+        ? addTime.toDateStr
+        : cHour == 0
+            ? 'now'
+            : '${cHour}h';
   }
 
   @override

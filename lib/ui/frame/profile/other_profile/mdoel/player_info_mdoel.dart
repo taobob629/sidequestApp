@@ -104,6 +104,7 @@ class GamesItem {
   String gameVoice = "";
   int orders = 0;
   int id = 0;
+  int isTech = 0;
 
   var ifShow = false.obs;
 
@@ -123,6 +124,7 @@ class GamesItem {
     gameVoice = json['gameVoice'] ?? gameVoice;
     orders = json['orders'] ?? orders;
     id = json['id'] ?? id;
+    isTech = json['isTech'] ?? isTech;
   }
 }
 

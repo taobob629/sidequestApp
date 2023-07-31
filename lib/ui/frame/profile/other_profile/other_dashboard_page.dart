@@ -14,6 +14,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../event_bus/beans/badge_event.dart';
+import '../../../../image_utils.dart';
 import '../../game/game_home_page.dart';
 import 'other_profile_page.dart';
 
@@ -146,16 +147,32 @@ class OtherDashboardPage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Container(
-                                            margin: EdgeInsets.only(right: 12),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: ImageUtil.networkImage(
+                                          margin: EdgeInsets.only(right: 12),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              ImageUtil.networkImage(
                                                 url: game.thumb,
                                                 width: 96.w,
                                                 height: 90.h,
-                                                fit: BoxFit.cover)),
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Positioned(
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Visibility(
+                                                  visible: game.isTech == 1,
+                                                  child: Image.asset(ImageUtils.is_tech_pro_icon),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         Expanded(
                                           child: SizedBox(
                                             height: 90.h,
@@ -280,48 +297,42 @@ class OtherDashboardPage extends StatelessWidget {
                                                                       game) ==
                                                               0
                                                           ? Column(
-                                                            children: [
-                                                              Showcase(
-                                                                  key:
-                                                                      GlobalKeyConstants
-                                                                          .playKey,
-                                                                  description:
-                                                                      'Place an order and play the game together'
-                                                                          .tr,
-                                                                  targetBorderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              13),
-                                                                  targetPadding: EdgeInsets.only(bottom: 0),
-                                                                  child:
-                                                                      EditPlayBtn(
-                                                                    isEdit:
-                                                                        t.isSelf,
-                                                                    onTap: () {
-                                                                      if (game.serviceItem
-                                                                              .length ==
-                                                                          1) {
-                                                                        t.editService(
-                                                                            game,
-                                                                            game.serviceItem
-                                                                                .first,
-                                                                            (game.serviceItem.length >= 1 &&
-                                                                                    t.getItemDiscount(game.serviceItem[0].discount).isNotEmpty &&
-                                                                                    jsonDecode(game.serviceItem[0].discount)['enable'] == 1)
-                                                                                ? t.getItemDiscount(game.serviceItem[0].discount)
-                                                                                : '');
-                                                                      } else {
-                                                                        game.ifShow
-                                                                                .value =
-                                                                            !game
-                                                                                .ifShow
-                                                                                .value;
-                                                                      }
-                                                                    },
-                                                                  )),
-                                                              13.verticalSpace,
-                                                            ],
-                                                          )
+                                                              children: [
+                                                                Showcase(
+                                                                    key: GlobalKeyConstants
+                                                                        .playKey,
+                                                                    description:
+                                                                        'Place an order and play the game together'
+                                                                            .tr,
+                                                                    targetBorderRadius:
+                                                                        BorderRadius.circular(
+                                                                            13),
+                                                                    targetPadding:
+                                                                        EdgeInsets.only(
+                                                                            bottom:
+                                                                                0),
+                                                                    child:
+                                                                        EditPlayBtn(
+                                                                      isEdit: t
+                                                                          .isSelf,
+                                                                      onTap:
+                                                                          () {
+                                                                        if (game.serviceItem.length ==
+                                                                            1) {
+                                                                          t.editService(
+                                                                              game,
+                                                                              game.serviceItem.first,
+                                                                              (game.serviceItem.length >= 1 && t.getItemDiscount(game.serviceItem[0].discount).isNotEmpty && jsonDecode(game.serviceItem[0].discount)['enable'] == 1) ? t.getItemDiscount(game.serviceItem[0].discount) : '');
+                                                                        } else {
+                                                                          game.ifShow.value = !game
+                                                                              .ifShow
+                                                                              .value;
+                                                                        }
+                                                                      },
+                                                                    )),
+                                                                13.verticalSpace,
+                                                              ],
+                                                            )
                                                           : EditPlayBtn(
                                                               isEdit: t.isSelf,
                                                               onTap: () {

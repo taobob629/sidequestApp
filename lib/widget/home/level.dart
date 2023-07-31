@@ -19,8 +19,12 @@ class GameLevelWidget extends StatelessWidget {
   var isAuth;
   double height;
 
-  GameLevelWidget(
-      {this.level = 1, this.userId, this.isAuth = TYPE_VIP, this.height = 24});
+  GameLevelWidget({
+    this.level = 1,
+    this.userId,
+    this.isAuth = TYPE_VIP,
+    this.height = 24,
+  });
 
   var user = Get.find<UserController>().userProfile;
 
@@ -52,12 +56,18 @@ userIcon(int level, {double height = 24}) {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ImageUtil.assetImage('grade/${getUserImg(level)}',
-            height: height - 2, width: height - 2),
+        ImageUtil.assetImage(
+          'grade/${getUserImg(level)}',
+          height: height - 2,
+          width: height - 2,
+        ),
         Spacer(),
         Text(
           getUserText(level),
-          style: TextStyle(fontSize: 11.sp, fontFamily: FONT_MEDIUM),
+          style: TextStyle(
+            fontSize: 11.sp,
+            fontFamily: FONT_MEDIUM,
+          ),
         ),
       ],
     ),
@@ -70,12 +80,14 @@ getUserImg(int level) {
   }
   return 'VIP$level';
 }
-getUserText(int level){
+
+getUserText(int level) {
   if (level > 9) {
     return 'SVIP${level - 9 + 1}';
   }
   return 'VIP$level';
 }
+
 getColors(int level) {
   switch (level) {
     case 0:

@@ -256,27 +256,29 @@ class MyProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 /// nickname
-                           Row(children: [
-                             Obx(() => Text(
-                             userController.userProfile.nickName,
-                             style: TextStyle(
-                               fontSize: 20.sp,
-                               color: Colors.white,
-                               fontWeight: FontWeight.bold,
-                             ),
-                           )),
-                             6.horizontalSpace,
-                             GameLevelWidget(
-                               height: 20.h,
-                               level: user.sidekickLevel,
-                               isAuth: user.isAuth,
-                               userId: user.pwId,
-                             ),
-                           ],
-                           ),
+                                Row(
+                                  children: [
+                                    Obx(() => Text(
+                                          userController.userProfile.nickName,
+                                          style: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    6.horizontalSpace,
+                                    GameLevelWidget(
+                                      height: 20.h,
+                                      level: user.sidekickLevel,
+                                      isAuth: user.isAuth,
+                                      userId: user.pwId,
+                                    ),
+                                  ],
+                                ),
                                 6.verticalSpace,
 
                                 6.verticalSpace,
+
                                 /// labels: sex、language、location
                                 Obx(() => Padding(
                                       padding: const EdgeInsets.only(top: 5),
@@ -539,9 +541,10 @@ class MyProfilePage extends StatelessWidget {
                                     ImageUtils.ic_invite,
                                     "Invite".tr,
                                     onTap: () => Get.to(() => WebPage(
-                                      title: "Invite".tr,
-                                      url: '$inviteUrl?token=${StorageManager.getToken()}',
-                                    )),
+                                          title: "Invite".tr,
+                                          url:
+                                              '$inviteUrl?token=${StorageManager.getToken()}',
+                                        )),
                                   ),
                                 ),
                               ],

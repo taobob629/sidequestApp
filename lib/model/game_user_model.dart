@@ -22,6 +22,7 @@ class GameUserModel {
 
   // 1
   final int sex;
+  final int isTech;
 
   // 宗师
   final String levelName;
@@ -88,6 +89,7 @@ class GameUserModel {
     this.thumb = "",
     this.signature = "",
     this.sex = 0,
+    this.isTech = 0,
     this.levelName = "",
     this.userLevel = 0,
     this.backGround,
@@ -108,9 +110,10 @@ class GameUserModel {
         thumb: asT<String>(json, 'thumb'),
         signature: asT<String>(json, 'signature'),
         sex: asT<int>(json, 'sex'),
+        isTech: asT<int>(json, 'is_tech'),
         levelName: asT<String>(json, 'levelName'),
         userLevel: asT<int>(json, 'userLevel'),
-        isAuth: asT<int>(json, 'isAuth',defaultValue: 1),
+        isAuth: asT<int>(json, 'isAuth', defaultValue: 1),
         backGround: asT<dynamic>(json, 'backGround'),
         price: asT<String>(json, 'price'),
         name: asT<String>(json, 'name'),
@@ -130,6 +133,7 @@ class GameUserModel {
         'thumb': thumb,
         'signature': signature,
         'sex': sex,
+        'isTech': isTech,
         'levelName': levelName,
         'userLevel': userLevel,
         'backGround': backGround,

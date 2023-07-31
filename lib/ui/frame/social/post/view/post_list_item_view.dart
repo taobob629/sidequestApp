@@ -10,19 +10,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/common/string_ext.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/frame/profile/model/post_item_model.dart';
 import 'package:wy/ui/frame/social/post/contorller/post_list_controller.dart';
 import 'package:wy/ui/frame/social/post/contorller/release_post_controller.dart';
 import 'package:wy/ui/im/im_util.dart';
-import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
+import 'package:wy/utils/time_utils.dart';
 import 'package:wy/widget/cs_photo_viewer.dart';
 import 'package:wy/widget/like_button/like_button.dart';
 
+import '../../../../../widget/home/level.dart';
 import '../../../../controller/user_controller.dart';
 import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
@@ -34,16 +33,18 @@ class PostListItemView extends GetView<PostListController> {
     this.onTap,
     this.onDelete,
     this.isSelf = false,
-    this.ifShowCaseView = false,
+    // this.ifShowCaseView = false,
     this.index = 0,
   }) : super(key: key);
 
-  bool ifShowCaseView;
+  // bool ifShowCaseView;
   int index;
   final PostItemModel model;
   bool isSelf = false;
   Function()? onTap;
   Function()? onDelete;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,94 +58,96 @@ class PostListItemView extends GetView<PostListController> {
             border:
                 Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // if (!isSelf) {
-                      NavigatorHelper.toOtherProfile(model.uid);
-                      // }
-                    },
-                    child: ClipOval(
-                      child: ImageUtil.networkImage(
-                        url: model.head,
-                        fit: BoxFit.cover,
-                        width: 50,
-                        height: 50,
-                      ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    // if (!isSelf) {
+                    NavigatorHelper.toOtherProfile(model.uid);
+                    // }
+                  },
+                  child: ClipOval(
+                    child: ImageUtil.networkImage(
+                      url: model.head,
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
                     ),
                   ),
-                  Expanded(
-                      child: Padding(
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
                     padding: const EdgeInsets.only(left: 15),
+                    alignment: Alignment.centerLeft,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  model.nickname,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                        Row(
+                          children: [
+                            Text(
+                              model.nickname,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: 120.w,
-                                child: Text(
-                                  model.addTime.toDateStr,
-                                  style: TextStyle(
-                                      color: Color(0xff808388),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            6.horizontalSpace,
+                            GameLevelWidget(
+                              height: 16.h,
+                              level: model.isAuth == 0
+                                  ? model.titlesLevel
+                                  : model.userLevel,
+                              isAuth: model.isAuth,
+                              userId: UserController.find.userProfile.pwId,
+                            ),
+                          ],
                         ),
-                        model.type == TYPE_DEFAULT
-                            ? Text(
-                                model.content,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
-                                // maxLines: null,
-                                // overflow: TextOverflow.ellipsis,
-                              )
-                            : buildGroupInviteWidget(
-                                context, model.content, model.imageList.first),
-                        15.horizontalSpace
+                        3.verticalSpace,
+                        Text(
+                          controller.dealDateTime(model.addTime),
+                          style: TextStyle(
+                              color: Color(0xff808388),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal),
+                        ),
                       ],
                     ),
-                  )),
-                  if (isSelf && onDelete != null)
-                    GestureDetector(
-                      onTap: () => onDelete?.call(),
-                      child: Container(
-                        child: Icon(
-                          Icons.more_horiz,
-                          size: 20,
-                          color: Colors.white,
-                        ),
+                  ),
+                ),
+                if (isSelf && onDelete != null)
+                  GestureDetector(
+                    onTap: () => onDelete?.call(),
+                    child: Container(
+                      child: Icon(
+                        Icons.more_horiz,
+                        size: 20,
+                        color: Colors.white,
                       ),
-                    )
-                ],
-              ),
+                    ),
+                  )
+              ],
             ),
+            12.verticalSpace,
+            model.type == TYPE_DEFAULT
+                ? Text(
+                    model.content,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : buildGroupInviteWidget(
+                    context, model.content, model.imageList.first),
             if (model.imageList.isNotEmpty)
               GridView.count(
                 shrinkWrap: true,
@@ -195,191 +198,92 @@ class PostListItemView extends GetView<PostListController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: index == 0
-                        ? Showcase(
-                            key: GlobalKeyConstants.socialCommentKey,
-                            description: 'Comment on this post'.tr,
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      "assets/images/profile/icon_pinlun.webp",
-                                      width: 16,
-                                    ),
-                                  ),
-                                  badges.Badge(
-                                    showBadge: model.newComment.value > 0,
-                                    badgeContent: Text(
-                                      '${model.newComment.value}',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                    position: BadgePosition.topEnd(),
-                                    child: Text(
-                                      model.commentNum.toString(),
-                                      style: TextStyle(
-                                        color: Color(0xff808388),
-                                        fontSize: 11.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: Image.asset(
+                              "assets/images/profile/icon_pinlun.webp",
+                              width: 16,
+                            ),
+                          ),
+                          badges.Badge(
+                            showBadge: model.newComment.value > 0,
+                            badgeContent: Text(
+                              '${model.newComment.value}',
+                              style: TextStyle(fontSize: 10.sp),
+                            ),
+                            position: BadgePosition.topEnd(),
+                            child: Text(
+                              model.commentNum.toString(),
+                              style: TextStyle(
+                                color: Color(0xff808388),
+                                fontSize: 11.sp,
                               ),
                             ),
-                          )
-                        : Container(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5),
-                                  child: Image.asset(
-                                    "assets/images/profile/icon_pinlun.webp",
-                                    width: 16,
-                                  ),
-                                ),
-                                badges.Badge(
-                                  showBadge: model.newComment.value > 0,
-                                  badgeContent: Text(
-                                    '${model.newComment.value}',
-                                    style: TextStyle(fontSize: 10.sp),
-                                  ),
-                                  position: BadgePosition.topEnd(),
-                                  child: Text(
-                                    model.commentNum.toString(),
-                                    style: TextStyle(
-                                      color: Color(0xff808388),
-                                      fontSize: 11.sp,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
+                        ],
+                      ),
+                    ),
                   ),
                   Expanded(
-                    child: index == 0
-                        ? Showcase(
-                            key: GlobalKeyConstants.socialLikeKey,
-                            description: 'Like this post'.tr,
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Obx(() => badges.Badge(
-                                    showBadge: model.newPraise.value > 0,
-                                    badgeContent: Text(
-                                      '${model.newPraise.value}',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                    position: BadgePosition.topEnd(end: 14.w),
-                                    padding: EdgeInsets.all(3.r),
-                                    child: LikeButton(
-                                      likeCount: model.praiseNum,
-                                      size: 16.sp,
-                                      isLiked: model.isPraise.value,
-                                      animationDuration:
-                                          Duration(milliseconds: 2000),
-                                      likeBuilder: (isLiked) => Image.asset(
-                                        "assets/images/profile/icon_dianzan.webp",
-                                        width: 16,
-                                        color: model.isPraise.value
-                                            ? Colors.pink
-                                            : null,
-                                      ),
-                                      countBuilder: (count, isLiked, text) =>
-                                          Text(
-                                        model.praiseNum.toString(),
-                                        style: TextStyle(
-                                          color: Color(0xff808388),
-                                          fontSize: 11.sp,
-                                        ),
-                                      ),
-                                      onTap: (bool isLiked) async {
-                                        if (!isSelf) {
-                                          PostListController.find
-                                              .praisePost(model)
-                                              .then((value) {
-                                            if (value) {
-                                              model.isPraise.value =
-                                                  !model.isPraise.value;
-                                              if (model.isPraise.value) {
-                                                model.praiseNum += 1;
-                                              } else {
-                                                model.praiseNum -= 1;
-                                              }
-                                            }
-                                          });
-                                        } else {
-                                          Get.toNamed(AppPages.PostDetail,
-                                                  arguments: model)!
-                                              .whenComplete(
-                                                  () => controller.onRefresh());
-                                        }
-                                        return !isLiked;
-                                      },
-                                    ),
-                                  )),
-                            ))
-                        : Container(
-                            alignment: Alignment.center,
-                            child: Obx(() => badges.Badge(
-                                  showBadge: model.newPraise.value > 0,
-                                  badgeContent: Text(
-                                    '${model.newPraise.value}',
-                                    style: TextStyle(fontSize: 10.sp),
-                                  ),
-                                  position: BadgePosition.topEnd(),
-                                  padding: EdgeInsets.all(3.r),
-                                  child: LikeButton(
-                                    likeCount: model.praiseNum,
-                                    size: 16.sp,
-                                    isLiked: model.isPraise.value,
-                                    animationDuration:
-                                        Duration(milliseconds: 2000),
-                                    likeBuilder: (isLiked) => Image.asset(
-                                      "assets/images/profile/icon_dianzan.webp",
-                                      width: 16,
-                                      color: model.isPraise.value
-                                          ? Colors.pink
-                                          : null,
-                                    ),
-                                    countBuilder: (count, isLiked, text) =>
-                                        Text(
-                                      model.praiseNum.toString(),
-                                      style: TextStyle(
-                                        color: Color(0xff808388),
-                                        fontSize: 11.sp,
-                                      ),
-                                    ),
-                                    onTap: (bool isLiked) async {
-                                      if (!isSelf) {
-                                        PostListController.find
-                                            .praisePost(model)
-                                            .then((value) {
-                                          if (value) {
-                                            model.isPraise.value =
-                                                !model.isPraise.value;
-                                            if (model.isPraise.value) {
-                                              model.praiseNum += 1;
-                                            } else {
-                                              model.praiseNum -= 1;
-                                            }
-                                          }
-                                        });
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Obx(() => badges.Badge(
+                            showBadge: model.newPraise.value > 0,
+                            badgeContent: Text(
+                              '${model.newPraise.value}',
+                              style: TextStyle(fontSize: 10.sp),
+                            ),
+                            position: BadgePosition.topEnd(),
+                            padding: EdgeInsets.all(3.r),
+                            child: LikeButton(
+                              likeCount: model.praiseNum,
+                              size: 16.sp,
+                              isLiked: model.isPraise.value,
+                              animationDuration: Duration(milliseconds: 2000),
+                              likeBuilder: (isLiked) => Image.asset(
+                                "assets/images/profile/icon_dianzan.webp",
+                                width: 16,
+                                color:
+                                    model.isPraise.value ? Colors.pink : null,
+                              ),
+                              countBuilder: (count, isLiked, text) => Text(
+                                model.praiseNum.toString(),
+                                style: TextStyle(
+                                  color: Color(0xff808388),
+                                  fontSize: 11.sp,
+                                ),
+                              ),
+                              onTap: (bool isLiked) async {
+                                if (!isSelf) {
+                                  PostListController.find
+                                      .praisePost(model)
+                                      .then((value) {
+                                    if (value) {
+                                      model.isPraise.value =
+                                          !model.isPraise.value;
+                                      if (model.isPraise.value) {
+                                        model.praiseNum += 1;
                                       } else {
-                                        Get.toNamed(AppPages.PostDetail,
-                                                arguments: model)!
-                                            .whenComplete(
-                                                () => controller.onRefresh());
+                                        model.praiseNum -= 1;
                                       }
-                                      return !isLiked;
-                                    },
-                                  ),
-                                )),
-                          ),
+                                    }
+                                  });
+                                } else {
+                                  Get.toNamed(AppPages.PostDetail,
+                                          arguments: model)!
+                                      .whenComplete(
+                                          () => controller.onRefresh());
+                                }
+                                return !isLiked;
+                              },
+                            ),
+                          )),
+                    ),
                   ),
                   Visibility(
                     visible: UserController.find.online.value,
@@ -407,42 +311,21 @@ class PostListItemView extends GetView<PostListController> {
                             }
                           }
                         },
-                        child: index == 0
-                            ? Showcase(
-                                key: GlobalKeyConstants.socialRewardKey,
-                                description: 'Reward this post'.tr,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 5),
-                                        child: Image.asset(
-                                          "assets/images/profile/icon_liwu.webp",
-                                          width: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 5),
-                                      child: Image.asset(
-                                        "assets/images/profile/icon_liwu.webp",
-                                        width: 16,
-                                      ),
-                                    ),
-                                  ],
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: Image.asset(
+                                  "assets/images/profile/icon_liwu.webp",
+                                  width: 16,
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),

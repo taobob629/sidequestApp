@@ -647,9 +647,21 @@ class GameHomePage extends StatelessWidget {
                               ),
                             ),
                             10.verticalSpace,
-                            SexAndAgeWidget(
-                              age: _ctr.age,
-                              sex: _ctr.sex,
+                            Row(
+                              children: [
+                                SexAndAgeWidget(
+                                  age: _ctr.age,
+                                  sex: _ctr.sex,
+                                ),
+                                10.horizontalSpace,
+                                Visibility(
+                                  visible: _ctr.model?.isTeach == 1,
+                                  child: Image.asset(
+                                    ImageUtils.is_tech_pro_icon2,
+                                    scale: 1.7,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

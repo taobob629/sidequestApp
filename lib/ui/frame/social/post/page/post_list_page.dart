@@ -56,7 +56,7 @@ class PostListPage extends StatelessWidget {
                             model: t.list[index],
                             isSelf: UserController.find.userProfile.pwId ==
                                 t.list[index].uid,
-                            ifShowCaseView: true,
+                            // ifShowCaseView: true,
                             index: index,
                             onTap: () {
                               Get.toNamed(AppPages.PostDetail,

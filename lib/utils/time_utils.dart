@@ -45,6 +45,13 @@ class TimeUtils {
   }
 
   /**
+   * 计算两个日期相差多少小时
+   */
+  static int daysBetweenHour(DateTime startTime, DateTime endTime) {
+    return endTime.difference(startTime).inHours;
+  }
+
+  /**
    * 计算两个日期相差多少分钟
    */
   static int daysBetweenMin(DateTime a, DateTime b) {

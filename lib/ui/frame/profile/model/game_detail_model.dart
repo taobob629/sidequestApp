@@ -13,6 +13,7 @@ class GameDetailModel {
     required this.stars,
     required this.platform,
     required this.status,
+    required this.isTeach,
     required this.position,
   });
 
@@ -28,6 +29,7 @@ class GameDetailModel {
   double stars;
   String platform;
   int status;
+  int isTeach;
 
   factory GameDetailModel.fromJson(Map<String, dynamic> json) => GameDetailModel(
     voice: json["voice"],
@@ -42,6 +44,7 @@ class GameDetailModel {
     stars: json["stars"]?.toDouble(),
     platform: json["platform"],
     status: json["status"],
+    isTeach: json["isTeach"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +60,6 @@ class GameDetailModel {
     "position": position,
     "platform": platform,
     "status": status,
+    "isTeach": isTeach,
   };
 }
