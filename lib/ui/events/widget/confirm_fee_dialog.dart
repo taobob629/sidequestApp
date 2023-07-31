@@ -20,8 +20,15 @@ class CheckFeeWidget extends GetView<EventPageController> {
 
   CheckFeeWidget(this.checkDone);
 
+  var balance = '0'.obs;
+  var subTotal = '0'.obs;
+  var total = '0'.obs;
+
   @override
   Widget build(BuildContext context) {
+    balance.value = UserController.find.userProfile.balance;
+    subTotal.value = '${controller.eventDetailModel.value.fee}';
+    total.value = '${controller.eventDetailModel.value.fee}';
     String tips =
         "${'We will charge a deposit of £'.tr}${controller.eventDetailModel.value.fee} ${'from your \nbalance for this sign up, Please make sure that \nyou have enough balance.'.tr}";
     return Container(
@@ -73,21 +80,32 @@ class CheckFeeWidget extends GetView<EventPageController> {
             child: Column(
               children: [
                 ListTile(
-                  trailing: Text('£ ${controller.eventDetailModel.value.fee}'),
+                  trailing: Obx(() => Text('£ $subTotal')),
                   leading: Text(
                     'Subtotal',
                     style: TextStyle(fontFamily: FONT_MEDIUM),
                   ),
                 ),
                 ListTile(
-                  onTap: ()=>NavigatorHelper.gotoCouponPage(couponType: 4,tab: CouponPage.TYPE_ACTIVITY,onSelect: (model) async {
-                    flog('$model');
-                    showLoading();
-                    //计算优惠金额
-                    var result=await  CouponApi.caculateFee(model.id, controller.eventDetailModel.value.id);
-                    dismissLoading();
-                  }),
-                  trailing: Obx(()=>controller.eventDetailModel.value.discount.isEmpty?arrowMore(): Text('£ ${controller.eventDetailModel.value.fee}')),
+                  onTap: () => NavigatorHelper.gotoCouponPage(
+                      couponType: 4,
+                      tab: CouponPage.TYPE_ACTIVITY,
+                      onSelect: (model) async {
+                        flog('$model');
+                        showLoading();
+                        //计算优惠金额
+                        var result = await CouponApi.caculateFee(
+                            model.id, controller.eventDetailModel.value.id);
+                        total.value='${result?.total}';
+                        subTotal.value='${result?.total}';
+                        balance.value='${result?.balance}';
+                        controller.eventDetailModel.value.discount.value='${result?.discount}';
+                        dismissLoading();
+                      }),
+                  trailing: Obx(() =>
+                      controller.eventDetailModel.value.discount.value=='0'
+                          ? arrowMore()
+                          : Text('£ ${controller.eventDetailModel.value.discount}')),
                   leading: Text(
                     'Vouchers',
                     style: TextStyle(fontFamily: FONT_MEDIUM),
@@ -97,7 +115,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
             ),
           ),
           ListTile(
-            trailing: Text('£ ${controller.eventDetailModel.value.fee}'),
+            trailing: Text('£ $total'),
             leading: Text(
               'Total',
               style:

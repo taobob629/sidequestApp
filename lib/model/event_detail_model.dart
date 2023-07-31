@@ -32,7 +32,7 @@ class EventDetailModel {
   int kopStartTime=0;//开始时间 结束时间
   int showCountdown=0;//0不显示1显示
   bool get canCancel => _canCancel.value;
-  RxString discount=RxString('');
+  RxString discount=RxString('0');
   showCounter(){
     return showCountdown==1&&DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
   }
