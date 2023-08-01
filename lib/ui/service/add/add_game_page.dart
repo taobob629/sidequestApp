@@ -430,16 +430,14 @@ class _AddGamePageState extends State<AddGamePage> {
                           bean.id = 0;
                           bean.name = 'SideKicker'.tr;
                           bean.desc =
-                              'SideKicker:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'
-                                  .tr;
+                              'Simple and quick signup, no review required.'.tr;
                           items.add(bean);
 
                           bean = GameRoleBean();
                           bean.id = 1;
                           bean.name = 'SideKicker Pro'.tr;
                           bean.desc =
-                              'SideKicker Pro:professional game players, platform manual review(2-3 days), lower service fee, higher revenue'
-                                  .tr;
+                              'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'.tr;
                           items.add(bean);
 
                           var res = await Get.dialog(

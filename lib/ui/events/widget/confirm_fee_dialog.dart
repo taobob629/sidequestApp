@@ -32,7 +32,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
     subTotal.value = '${controller.eventDetailModel.value.fee}';
     total.value = '${controller.eventDetailModel.value.fee}';
     String tips =
-        "${'We will charge a deposit of £'.tr}${controller.eventDetailModel.value.fee} ${'from your \nbalance for this sign up, Please make sure that \nyou have enough balance.'.tr}";
+        "${'We will charge a entry fee of £'.tr}${controller.eventDetailModel.value.fee} ${'from your \nbalance for this sign up, Please make sure that \nyou have enough balance.'.tr}";
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Deposit required'.tr,
+                  'Entry Fee'.tr,
                   style: TextStyle(fontSize: 18.sp, fontFamily: FONT_BLACK),
                 ),
                 TextButton(
@@ -88,6 +88,10 @@ class CheckFeeWidget extends GetView<EventPageController> {
                     style: TextStyle(fontFamily: FONT_MEDIUM),
                   ),
                 ),
+                Divider(
+                  color: Colors.white.withAlpha(100),
+                  height: 1,
+                ),
                 ListTile(
                   onTap: () => NavigatorHelper.gotoCouponPage(
                       couponType: 4,
@@ -100,7 +104,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
                             model.id, controller.eventDetailModel.value.id);
                         if(result?.total==0)return;
                         total.value = '${result?.total}';
-                        subTotal.value = '${result?.total}';
+                        subTotal.value = '${result?.subtotal}';
                         balance.value = '${result?.balance}';
                         discount.value = '${result?.discount}';
                         controller.eventDetailModel.value.memberCouponId='${model.id}';
@@ -118,7 +122,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
             ),
           ),
           ListTile(
-            trailing: Text('£ $total'),
+            trailing: Obx(()=>Text('£ $total')),
             leading: Text(
               'Total',
               style:
@@ -137,7 +141,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
                 ],
               ),
               ColorfulButton(
-                child: Text('Pay'.tr),
+                child: Text('Confirm'.tr),
                 width: 222.w,
                 height: 42.h,
                 borderRadius: 21.h,

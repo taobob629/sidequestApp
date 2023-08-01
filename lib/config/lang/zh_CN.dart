@@ -926,5 +926,8 @@ const Map<String, String> zh_CN = {
   "Month":"月榜",
   "Week":"周榜",
   "Day":"日榜",
-  "Consumption record":"游戏记录"
+  "Consumption record":"游戏记录",
+  "Simple and quick signup, no review required.":"",
+  "Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.":"更低手续费，更高的价格，更高的点单率。审批时间2-3天。",
+  "Entry Fee":"报名费"
 };
