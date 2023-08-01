@@ -41,7 +41,7 @@ class PriceSliderWidget extends GetView<AddGamePageController> {
   Widget build(BuildContext context) {
     return MediaQuery.removePadding(
         removeTop: true,
-        context: context!,
+        context: context,
         child: Obx(() => ListView.separated(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -108,13 +108,14 @@ class PriceSlider extends GetView<AddGamePageController> {
 
   final Function(double)? fun;
 
-  PriceSlider(
-      {this.max,
-      this.min,
-      this.fun,
-      this.value = 0,
-      required this.model,
-      this.index = 0}) {
+  PriceSlider({
+    this.max,
+    this.min,
+    this.fun,
+    this.value = 0,
+    required this.model,
+    this.index = 0,
+  }) {
     this.price = value;
   }
 
@@ -213,7 +214,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                                 duration: Duration(milliseconds: 250)),
                             onDragging: (i, v1, v2) {
                               price = v1;
-                              model?.curPrice = price;
+                              model.curPrice = price;
                             },
                             //    onDragCompleted: (i, v1, v2) => price = v1,
                           )))),
@@ -225,7 +226,7 @@ class PriceSlider extends GetView<AddGamePageController> {
                 decoration: innerDecoration(),
                 alignment: Alignment.center,
                 padding: itemPadding(),
-                child: dropDownButton(index, model?.unit),
+                child: dropDownButton(index, model.unit),
               )
             ],
           ),
