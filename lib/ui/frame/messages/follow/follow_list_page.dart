@@ -16,6 +16,7 @@ import 'package:wy/ui/frame/messages/chat/custom_message_view.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 
+import '../../../../widget/home/level.dart';
 import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
 import '../../../controller/user_controller.dart';
@@ -48,7 +49,7 @@ class FollowListPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final model = t.list[index];
                   return Container(
-                    height: 48,
+                    height: 60,
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
@@ -61,42 +62,57 @@ class FollowListPage extends StatelessWidget {
                                   },
                                 ))),
                         GestureDetector(
-                            onTap: () => NavigatorHelper.toOtherProfile(model.id),
+                            onTap: () =>
+                                NavigatorHelper.toOtherProfile(model.id),
                             child: ImageUtil.networkImage(
-                                url: model.avatar, width: 48, height: 48, fit: BoxFit.cover)),
+                                url: model.avatar,
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover)),
                         Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      model.name,
-                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  model.name,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Row(
+                                  children: [
+                                    SexAndAgeWidget(
+                                      age: model.age,
+                                      sex: model.sex,
                                     ),
-                                  ),
-                                  6.horizontalSpace,
-                                  SexAndAgeWidget(
-                                    age: model.age,
-                                    sex: model.sex,
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                model.signature,
-                                style: TextStyle(fontSize: 12, color: AppColor.whiteGray),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                                    6.horizontalSpace,
+                                    GameLevelWidget(
+                                      height: 16.h,
+                                      level: model.isAuth == 0
+                                          ? model.titlesLevel
+                                          : model.userLevel,
+                                      isAuth: model.isAuth,
+                                      userId:
+                                          UserController.find.userProfile.pwId,
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  model.signature,
+                                  style: TextStyle(
+                                      fontSize: 12, color: AppColor.whiteGray),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
-                        )),
+                        ),
                         // if (model.isFans)
                         GestureDetector(
                           onTap: () {
@@ -107,9 +123,11 @@ class FollowListPage extends StatelessWidget {
                             width: 76,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: AppColor.itemBg, borderRadius: BorderRadius.circular(14)),
+                                color: AppColor.itemBg,
+                                borderRadius: BorderRadius.circular(14)),
                             child: Text("UnFollow".tr,
-                                style: TextStyle(color: AppColor.whiteGray, fontSize: 13)),
+                                style: TextStyle(
+                                    color: AppColor.whiteGray, fontSize: 13)),
                           ),
                         )
                         // else
@@ -203,7 +221,9 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
       ..['group_name'] = groupName; //群名字
     flog('params $params');
     V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
-        await TencentImSDKPlugin.v2TIMManager.getMessageManager().createCustomMessage(
+        await TencentImSDKPlugin.v2TIMManager
+            .getMessageManager()
+            .createCustomMessage(
               data: json.encode(params),
               desc: '',
               extension: '自定义extension',
@@ -212,7 +232,8 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
     if (createCustomMessageRes.code == 0) {
       //发送消息
       String? id = createCustomMessageRes.data?.id;
-      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin.v2TIMManager
+      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin
+          .v2TIMManager
           .getMessageManager()
           .sendMessage(id: id!, receiver: "UK20021778", groupID: "");
       if (sendMessageRes.code == 0) {

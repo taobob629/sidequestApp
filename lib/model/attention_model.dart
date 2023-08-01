@@ -17,6 +17,9 @@ class AttentionModel {
     avatar = json['avatar'] ?? "";
     signature = json['signature'] ?? "";
     isfans = json['isfans'] ?? 0;
+    isAuth = json['isauth'] ?? 0;
+    userLevel = json['userLevel'] ?? 0;
+    titlesLevel = json['titlesLevel'] ?? 0;
     status.value = json['status'] ?? 0;
     id = json['id'] ?? 0;
     uk = json['uk'] ?? 0;
@@ -30,6 +33,9 @@ class AttentionModel {
   String signature = "";
   String uk = "";
   int isfans = 0;
+  int isAuth = 0;
+  int titlesLevel = 0;
+  int userLevel = 0;
   int id = 0;
   RxBool _isSelet=RxBool(false);
 
@@ -48,6 +54,9 @@ class AttentionModel {
     map['name'] = name;
     map['avatar'] = avatar;
     map['isfans'] = isfans;
+    map['isAuth'] = isAuth;
+    map['titlesLevel'] = titlesLevel;
+    map['userLevel'] = userLevel;
     map['id'] = id;
     map['uk'] = uk;
     return map;

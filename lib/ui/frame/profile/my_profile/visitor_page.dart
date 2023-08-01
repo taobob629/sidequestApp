@@ -11,7 +11,9 @@ import '../../../../common/getx_refresh_controller.dart';
 import '../../../../config/app_color.dart';
 import '../../../../model/vistor_model.dart';
 import '../../../../utils/image_util.dart';
+import '../../../../widget/home/level.dart';
 import '../../../../widget/home/sex_age_widget.dart';
+import '../../../controller/user_controller.dart';
 
 class VisitorPage extends StatelessWidget {
   final t = Get.put(VisitorListController());
@@ -37,7 +39,8 @@ class VisitorPage extends StatelessWidget {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () => NavigatorHelper.toOtherProfile(model.id),
+                            onTap: () =>
+                                NavigatorHelper.toOtherProfile(model.id),
                             child: ImageUtil.networkImage(
                                 url: model.avatar,
                                 width: 50.h,
@@ -68,12 +71,23 @@ class VisitorPage extends StatelessWidget {
                                       age: model.age,
                                       sex: model.sex,
                                     ),
+                                    6.horizontalSpace,
+                                    GameLevelWidget(
+                                      height: 16.h,
+                                      level: model.isAuth == 0
+                                          ? model.titlesLevel
+                                          : model.userLevel,
+                                      isAuth: model.isAuth,
+                                      userId:
+                                          UserController.find.userProfile.pwId,
+                                    ),
                                   ],
                                 ),
                                 Text(
                                   model.signature,
                                   style: TextStyle(
-                                      fontSize: 12.sp, color: AppColor.whiteGray),
+                                      fontSize: 12.sp,
+                                      color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -81,7 +95,8 @@ class VisitorPage extends StatelessWidget {
                                 Text(
                                   model.vistTime.toDateStr,
                                   style: TextStyle(
-                                      fontSize: 10.sp, color: AppColor.whiteGray),
+                                      fontSize: 10.sp,
+                                      color: AppColor.whiteGray),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -110,7 +125,9 @@ class VisitorPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(14),
                                     ),
                               child: Text(
-                                model.status == 0 ? "+ Follow".tr : "UnFollow".tr,
+                                model.status == 0
+                                    ? "+ Follow".tr
+                                    : "UnFollow".tr,
                                 style: TextStyle(
                                   color: model.status == 0
                                       ? Color(0xffFFCB0E)

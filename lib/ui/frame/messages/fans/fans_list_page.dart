@@ -13,6 +13,7 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
 
+import '../../../../widget/home/level.dart';
 import '../../../../widget/home/sex_age_widget.dart';
 import '../../../common/base_scaffold.dart';
 
@@ -42,7 +43,7 @@ class FansListPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final model = t.list[index];
                   return Container(
-                    height: 48,
+                    height: 60,
                     margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
                     child: Row(
                       children: [
@@ -59,8 +60,8 @@ class FansListPage extends StatelessWidget {
                                 NavigatorHelper.toOtherProfile(model.id),
                             child: ImageUtil.networkImage(
                                 url: model.avatar,
-                                width: 48,
-                                height: 48,
+                                width: 60,
+                                height: 60,
                                 fit: BoxFit.cover)),
                         Expanded(
                             child: Padding(
@@ -69,20 +70,29 @@ class FansListPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                model.name,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               Row(
                                 children: [
-                                  Text(
-                                    model.name,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  6.horizontalSpace,
                                   SexAndAgeWidget(
                                     age: model.age,
                                     sex: model.sex,
+                                  ),
+                                  6.horizontalSpace,
+                                  GameLevelWidget(
+                                    height: 16.h,
+                                    level: model.isAuth == 0
+                                        ? model.titlesLevel
+                                        : model.userLevel,
+                                    isAuth: model.isAuth,
+                                    userId:
+                                    UserController.find.userProfile.pwId,
                                   ),
                                 ],
                               ),

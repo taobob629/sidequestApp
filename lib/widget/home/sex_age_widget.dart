@@ -41,6 +41,7 @@ class SexAndAgeWidget extends StatelessWidget {
           gradient: LinearGradient(colors: colors),
           borderRadius: BorderRadius.all(Radius.circular(5).r)),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
