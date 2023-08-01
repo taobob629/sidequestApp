@@ -204,7 +204,7 @@ class AddGamePageController extends GetxController {
             (gameConfig?.techLevel ?? 0) > 0) &&
         isTech.value == 0 &&
         mPriceRanges.length == 1) {
-      showToast('SideKicker can only choose at most one'.tr);
+      showToast('SideKicker can only add one service type'.tr);
       return;
     }
 
