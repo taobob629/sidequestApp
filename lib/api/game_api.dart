@@ -13,13 +13,14 @@ class GamesApi {
       '/peiwan/app/login/listGame',
     );
     if (response.data == null) return [];
-    return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
+    return response.data
+        .map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item))
+        .toList();
   }
 
   static Future<GameConfig?> getPriceRange(var gameId,
       {var levelId, var addServiceItem = false}) async {
-    Response response =
-    await http.get(
+    Response response = await http.get(
         '${addServiceItem ? '/peiwan/app/service/getItemRange' : '/peiwan/app/service/priceRange'}',
         queryParameters: {'gameId': '$gameId', 'levelid': levelId});
     if (response.data == null) return null;
@@ -28,9 +29,12 @@ class GamesApi {
   }
 
   static Future<List<ServiceInfoModel>> getGameServicesInfo(var isEdit) async {
-    Response response = await http.get('/peiwan/app/service/skillInit?edit=${isEdit ? 1 : 0}');
+    Response response =
+        await http.get('/peiwan/app/service/skillInit?edit=${isEdit ? 1 : 0}');
     if (response.data == null) return [];
-    return response.data.map<ServiceInfoModel>((item) => ServiceInfoModel.fromJson(item)).toList();
+    return response.data
+        .map<ServiceInfoModel>((item) => ServiceInfoModel.fromJson(item))
+        .toList();
   }
 
   static Future<List<SimpleGameModel>> getTopPlayers() async {
@@ -38,7 +42,9 @@ class GamesApi {
       '/peiwan/app/new/home/topPlayers',
     );
     if (response.data == null) return [];
-    return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
+    return response.data
+        .map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item))
+        .toList();
   }
 
   static Future<List<SimpleGameModel>> getMyGamesList() async {
@@ -48,29 +54,35 @@ class GamesApi {
           ..['pageSize'] = 10
           ..['searchParams'] = '');
     if (response.data == null) return [];
-    return response.data.map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item)).toList();
+    return response.data
+        .map<SimpleGameModel>((item) => SimpleGameModel.fromJson(item))
+        .toList();
   }
 
-  static Future<List<GameUserModel>> getGamesPlayerList(Map<String, dynamic> params,
-      {var pageNum, var pageSize, var searchParams, var gid}) async {
+  static Future<List<GameUserModel>> getGamesPlayerList(
+      Map<String, dynamic> params,
+      {var pageNum,
+      var pageSize,
+      var searchParams,
+      var gid}) async {
     Response response = await http.get(
       '/peiwan/app/new/superlist?pageNum=$pageNum&pageSize=10&gid=$gid&searchParams=$searchParams',
     );
     if (response.data == null) return [];
-    return response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+    return response.data
+        .map<GameUserModel>((item) => GameUserModel.fromJson(item))
+        .toList();
   }
 
   static Future<Response> addRegisterFavorite(List gameIds) async {
     Response response = await http.post('/peiwan/app/login/addRegisterFavorite',
-        data: Map()
-          ..['gameIdList'] = gameIds);
+        data: Map()..['gameIdList'] = gameIds);
     return response;
   }
 
   static Future<GameSectionModel> getGamesSection(var gameId) async {
-    Response response =
-    await http.get('/peiwan/app/new/filter', queryParameters: Map()
-      ..['gameId'] = gameId);
+    Response response = await http.get('/peiwan/app/new/filter',
+        queryParameters: Map()..['gameId'] = gameId);
     return GameSectionModel.fromJson(response.data);
   }
 
@@ -93,13 +105,13 @@ class GamesApi {
   /**
    *  id 子项id skullAuthid 服务id status 0关闭 1开启
    */
-  static Future<Response> changeServiceStatus({var id, var skillAuthid, var status}) async {
-    Response response = await http.post(
-        '/peiwan/app/service/changeStatus', queryParameters: Map<String, dynamic>()
-      ..['id']=id
-      ..['skillAuthid']=skillAuthid
-      ..['status']=status
-    );
-   return response;
+  static Future<Response> changeServiceStatus(
+      {var id, var skillAuthid, var status}) async {
+    Response response = await http.post('/peiwan/app/service/changeStatus',
+        queryParameters: Map<String, dynamic>()
+          ..['id'] = id
+          ..['skillAuthid'] = skillAuthid
+          ..['status'] = status);
+    return response;
   }
 }

@@ -214,9 +214,15 @@ class AddGamePageController extends GetxController {
     }
 
     //查看还有什么类型的没有被添加
-    var item = priceRanges.first;
-    item.initData();
-    mPriceRanges.add(item);
+    var item = priceRanges
+        .firstWhereOrNull((element) => !mPriceRanges.contains(element));
+    if (item == null) {
+      item = priceRanges.last;
+    }
+
+    PriceRangeModel model = PriceRangeModel.fromJson(item.toJson());
+    model.initData();
+    mPriceRanges.add(model);
   }
 
   confirm() {
@@ -262,6 +268,9 @@ class AddGamePageController extends GetxController {
 
     List<LocalPriceRangeBean> priceRangeList = [];
     LocalPriceRangeBean rangeModel;
+    if (mPriceRangesRemark.isEmpty) {
+      mPriceRangesRemark = List.from(mPriceRanges);
+    }
     mPriceRangesRemark.forEach((element) {
       Map discount = {};
       if (element.currentPromotion.value.id == 0) {
