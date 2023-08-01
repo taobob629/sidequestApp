@@ -13,9 +13,10 @@ import '../../../../../utils/storage_manager.dart';
 class PostListPage extends StatelessWidget {
   PostListPage({Key? key}) : super(key: key);
 
+  final t = Get.put(PostListController());
+
   @override
   Widget build(BuildContext context) {
-    final t = Get.put(PostListController());
 
     bool? socialCommentKey = StorageManager.getBoolByKey('socialCommentKey');
     // if (socialCommentKey == null || socialCommentKey == false) {
