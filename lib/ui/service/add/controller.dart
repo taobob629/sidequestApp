@@ -214,12 +214,7 @@ class AddGamePageController extends GetxController {
     }
 
     //查看还有什么类型的没有被添加
-    var item = priceRanges
-        .firstWhereOrNull((element) => !mPriceRanges.contains(element));
-    if (item == null) {
-      item = priceRanges.last;
-    }
-
+    var item = priceRanges.first;
     PriceRangeModel model = PriceRangeModel.fromJson(item.toJson());
     model.initData();
     mPriceRanges.add(model);
