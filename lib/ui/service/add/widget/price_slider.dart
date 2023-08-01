@@ -248,8 +248,11 @@ class PriceSlider extends GetView<AddGamePageController> {
                       scale: 0.8,
                       child: CupertinoSwitch(
                         value: model.promotionSwitch.value == true,
-                        onChanged: (value) => model.promotionSwitch.value =
-                            !model.promotionSwitch.value,
+                        onChanged: (value) {
+                          model.promotionSwitch.value =
+                              !model.promotionSwitch.value;
+                          print('');
+                        },
                       ),
                     ),
                   ],
