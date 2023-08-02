@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ import '../../image_utils.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
 import '../../utils/login_flag.dart';
+import '../../utils/navigator_helper.dart';
 import '../../utils/toast_utils.dart';
 import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
@@ -568,6 +570,14 @@ class UserController extends GetxController {
           Get.to(() => ChatPage(selectedConversation: conv.data!));
         }
       });
+    } else {
+      // 通知栏的消息
+      NavigatorHelper.gotoConfigTarget(json.encode(extMsp["goto"]));
+      AuthApi.appNotifyCallback(
+        userProfile.memberId,
+        ext,
+        Platform.isAndroid ? 'Android' : 'IOS',
+      );
     }
   }
 

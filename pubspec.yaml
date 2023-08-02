@@ -35,7 +35,6 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   cookie_jar: 3.0.1
   pull_to_refresh: ^2.0.0
- # device_info_plus: ^4.0.0
   package_info_plus: ^1.4.2
   platform: ^3.1.0
   preload_page_view: 0.1.6

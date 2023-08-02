@@ -307,4 +307,18 @@ class AuthApi {
     var response = await http.post('/app/index/scanInfo', data: formData);
     return QrLoginInfoModel.fromJson(response.data);
   }
+
+  static Future<void> appNotifyCallback(
+    int memberId,
+    String extInfo,
+    String platform,
+  ) async {
+    var formData = {
+      "memberId": memberId,
+      "extInfo": extInfo,
+      "platform": platform,
+    };
+
+    await http.post('/web/extra/appNotifyCallback', data: formData);
+  }
 }
