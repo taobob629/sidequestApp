@@ -147,6 +147,14 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     if (discount.isEmpty) {
       return '';
     }
+    for (int i = 0; i < model!.serviceItem.length; i++) {
+      if (model!.serviceItem[i].discount != '' &&
+          jsonDecode(model!.serviceItem[i].discount)['enable'] == 1) {
+        discount = model!.serviceItem[i].discount;
+        break;
+      }
+    }
+
     if (discount.contains('type')) {
       dynamic result = jsonDecode(discount);
       int enable = result['enable'];

@@ -192,14 +192,26 @@ class OtherDashboardPage extends StatelessWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          game.name,
-                                                          style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                FONT_MEDIUM,
-                                                          ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              game.name,
+                                                              style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                color: Colors.white,
+                                                                fontFamily:
+                                                                    FONT_MEDIUM,
+                                                              ),
+                                                            ),
+                                                            4.horizontalSpace,
+                                                            Visibility(
+                                                              visible: game.isTech == 1,
+                                                              child: Image.asset(
+                                                                ImageUtils.is_tech_pro_icon2,
+                                                                scale: 1.9,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                         Visibility(
                                                           visible: game
