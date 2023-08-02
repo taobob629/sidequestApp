@@ -192,15 +192,33 @@ class OtherDashboardPage extends StatelessWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
+                                                        Text(
+                                                          game.name,
+                                                          style: TextStyle(
+                                                            fontSize: 14.sp,
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                            FONT_MEDIUM,
+                                                          ),
+                                                        ),
                                                         Row(
                                                           children: [
-                                                            Text(
-                                                              game.name,
-                                                              style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                color: Colors.white,
-                                                                fontFamily:
-                                                                    FONT_MEDIUM,
+                                                            Visibility(
+                                                              visible: game
+                                                                  .serviceItem
+                                                                  .isNotEmpty,
+                                                              child: Container(
+                                                                child: Text(
+                                                                  game.level
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                    fontSize: 10.sp,
+                                                                    color: AppColor
+                                                                        .textC3,
+                                                                    fontFamily:
+                                                                        FONT_MEDIUM,
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                             4.horizontalSpace,
@@ -208,28 +226,10 @@ class OtherDashboardPage extends StatelessWidget {
                                                               visible: game.isTech == 1,
                                                               child: Image.asset(
                                                                 ImageUtils.is_tech_pro_icon2,
-                                                                scale: 1.9,
+                                                                scale: 2.0,
                                                               ),
                                                             ),
                                                           ],
-                                                        ),
-                                                        Visibility(
-                                                          visible: game
-                                                              .serviceItem
-                                                              .isNotEmpty,
-                                                          child: Container(
-                                                            child: Text(
-                                                              game.level
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                fontSize: 10.sp,
-                                                                color: AppColor
-                                                                    .textC3,
-                                                                fontFamily:
-                                                                    FONT_MEDIUM,
-                                                              ),
-                                                            ),
-                                                          ),
                                                         ),
                                                         10.verticalSpace,
                                                         if (game.serviceItem
