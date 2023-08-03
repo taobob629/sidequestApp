@@ -25,13 +25,14 @@ import 'package:wy/widget/scaffold_widget.dart';
 import 'package:wy/widget/tips_widget.dart';
 import 'package:wy/widget/views.dart';
 
+import '../../../image_utils.dart';
 import '../../../model/beans/game_role_bean.dart';
-import '../../../model/booking_model.dart';
 import '../../../model/selector_item.dart';
 import '../../../model/service_info_model.dart';
 import '../../../utils/global_key_constants.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
+import '../../playwith/balance/my_earnings_page.dart';
 import 'controller.dart';
 import 'widget/fields_widget.dart';
 
@@ -408,6 +409,30 @@ class _AddGamePageState extends State<AddGamePage> {
                             'Role'.tr,
                             [textColor],
                           ),
+                          GestureDetector(
+                            onTapDown: (details) {
+                              print(details.globalPosition);
+                              Get.dialog(TableTipsDialog(
+                                offset: details.globalPosition,
+                                tips: 'tips',
+                              ));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 8.w),
+                              width: 12.w,
+                              height: 12.w,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Color(0xffb2b9c9),
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Image.asset(
+                                ImageUtils.icon_help,
+                                width: 10.w,
+                                height: 10.w,
+                              ),
+                            ),
+                          ),
                           PWidget.boxw(8),
                           PWidget.text(
                               controller.isTech.value == 0
@@ -437,7 +462,8 @@ class _AddGamePageState extends State<AddGamePage> {
                           bean.id = 1;
                           bean.name = 'SideKicker Pro'.tr;
                           bean.desc =
-                              'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'.tr;
+                              'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'
+                                  .tr;
                           items.add(bean);
 
                           var res = await Get.dialog(
@@ -541,6 +567,520 @@ class _AddGamePageState extends State<AddGamePage> {
                   ),
                 ));
           },
+        ),
+      ],
+    );
+  }
+}
+
+class TableTipsDialog extends StatelessWidget {
+  TableTipsDialog({Key? key, required this.offset, required this.tips})
+      : super(key: key);
+  final Offset offset;
+  final String tips;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: [
+        Positioned(
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15,
+          left: offset.dx - 10,
+          child: ClipPath(
+            clipper: Triangle(dir: -1),
+            child: Container(
+              width: 20.0,
+              height: 10.0,
+              color: Color(0xff282640),
+              child: null,
+            ),
+          ),
+        ),
+        Positioned(
+          top: offset.dy - MediaQuery.of(Get.context!).padding.top + 15 + 10,
+          width: Get.width - offset.dx / 2,
+          child: Container(
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+              color: Color(0xff282640),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFF616161),
+                  width: 1.w,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Level',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            'Platform Fee\n(SideKicker)',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            'Platform Fee\n(SideKicker Pro)',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Orders',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 1.h,
+                    color: Color(0xFF616161),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Lv1',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '20%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '20%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            '10',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 1.h,
+                    color: Color(0xFF616161),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Lv2',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '19%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '19%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            '50',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 1.h,
+                    color: Color(0xFF616161),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Lv3',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '18%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '18%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            '50',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 1.h,
+                    color: Color(0xFF616161),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Lv4',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '17%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '17%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            '50',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 1.h,
+                    color: Color(0xFF616161),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            'Lv5',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '16%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Center(
+                          child: Text(
+                            '16%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30.h,
+                        width: 1.w,
+                        color: Color(0xFF616161),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Text(
+                            '50',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );
