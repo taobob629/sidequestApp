@@ -835,7 +835,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '100',
+                            '>=100',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -912,7 +912,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '300',
+                            '>=300',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -989,7 +989,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '600',
+                            '>=600',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -1066,7 +1066,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '1000',
+                            '>=1000',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
