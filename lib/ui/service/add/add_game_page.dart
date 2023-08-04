@@ -739,7 +739,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '20%',
+                            '18%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -758,7 +758,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '10',
+                            '',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -816,7 +816,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '19%',
+                            '16%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -835,7 +835,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '50',
+                            '100',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -893,7 +893,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '18%',
+                            '14%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -912,7 +912,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '50',
+                            '300',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -970,7 +970,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '17%',
+                            '12%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -989,7 +989,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '50',
+                            '600',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -1028,7 +1028,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '16%',
+                            '15%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -1047,7 +1047,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 2,
                         child: Center(
                           child: Text(
-                            '16%',
+                            '10%',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
@@ -1066,7 +1066,7 @@ class TableTipsDialog extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            '50',
+                            '1000',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: FONT_MEDIUM,
