@@ -373,8 +373,10 @@ class _AddGamePageState extends State<AddGamePage> {
                       var res = await Get.dialog(
                         SelectorDialog(
                           items: List.generate(levels.length, (i) {
-                            return VerifyField.fromJson(
-                                {'name': '$i', 'label': levels[i].name});
+                            return VerifyField.fromJson({
+                              'name': '$i',
+                              'label': '${levels[i].name}9999${levels[i].pro}',
+                            });
                           }),
                           title: "Select Rank".tr,
                           showInfo: true,

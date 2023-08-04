@@ -446,6 +446,11 @@ class AddGamePageController extends GetxController {
   }
 
   toBioPage() {
+    if (mPriceRanges.isEmpty) {
+      showToast('Please select at least one Service Type.'.tr);
+      return;
+    }
+
     var nameEmpty = mPriceRanges.firstWhereOrNull((element) {
       return element.name.isEmpty;
     });

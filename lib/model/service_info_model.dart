@@ -59,16 +59,19 @@ class LevelItem {
   // 36
   final int id;
   final int levelid;
+  final bool pro;
 
   LevelItem({
     this.name = "",
     this.id = 0,
     this.levelid = 0,
+    this.pro = false,
   });
 
   factory LevelItem.fromJson(Map<String, dynamic>? json) => LevelItem(
     name: asT<String>(json, 'name'),
     levelid: asT<int>(json, 'levelid'),
+    pro: asT<bool>(json, 'pro'),
     id: asT<int>(json, 'id'),
   );
 
@@ -76,6 +79,7 @@ class LevelItem {
     'name': name,
     'id': id,
     'levelid': levelid,
+    'pro': pro,
   };
 
   @override
