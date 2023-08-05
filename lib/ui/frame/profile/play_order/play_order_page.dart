@@ -266,10 +266,18 @@ class MulitablePlayOrderPage extends StatelessWidget {
                               child: Text(
                                 serviceItem.skillName,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontFamily: "DIN"),
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: "DIN",
+                                ),
                               ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: serviceItem.isTech == 1,
+                            child: Image.asset(
+                              ImageUtils.is_tech_pro_icon2,
+                              scale: 1.7,
                             ),
                           ),
                           Expanded(
@@ -278,9 +286,10 @@ class MulitablePlayOrderPage extends StatelessWidget {
                               child: Text(
                                 serviceItem.name,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: "DIN"),
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: "DIN",
+                                ),
                               ),
                             ),
                           ),

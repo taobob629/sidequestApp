@@ -145,6 +145,13 @@ class SkillListPage extends GetView<SkillListPageController> {
                         fontSize: 14.sp,
                       ),
                     ),
+                    Visibility(
+                      visible: data.isTech == 1,
+                      child: Image.asset(
+                        ImageUtils.is_tech_pro_icon2,
+                        scale: 1.8,
+                      ),
+                    ),
                     Text(
                       '${data.levelName}',
                       style: TextStyle(
