@@ -220,6 +220,7 @@ class ChangePasswordPageController extends GetxController {
     if (type == 1) {
       var formData = {
         "pin": newPwd,
+        "oldPassword":oldPwd,
       };
       var response =
           await http.get('/peiwan/app/user/setPwd', queryParameters: formData);
@@ -232,7 +233,8 @@ class ChangePasswordPageController extends GetxController {
       return;
     }
     var formData = {
-      "pin": oldPwd,
+      "pin": newPwd,
+      "oldPin":oldPwd,
     };
     var response =
         await http.get('/peiwan/app/user/setPin', queryParameters: formData);
