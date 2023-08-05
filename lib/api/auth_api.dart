@@ -166,7 +166,7 @@ class AuthApi {
     await http.post('/web/index/updateUser', data: formData, options: options);
   }
 
-  static Future<void> reset(
+  static Future<bool> reset(
     String email,
     String password,
     String code,
@@ -178,7 +178,16 @@ class AuthApi {
       "verifyCode": code,
       "uid": uid,
     };
-    await http.post('/web/index/reset', data: formData);
+    final result = await http.post('/web/index/reset', data: formData);
+    try {
+      if (result.data == null) {
+        return result.statusCode == 200;
+      }
+      int code = result.data['code'];
+      return code == 200;
+    } catch(e) {
+      return false;
+    }
   }
 
   static Future<String> resendPinEmail(String email) async {
@@ -187,7 +196,7 @@ class AuthApi {
     return response.data["uid"];
   }
 
-  static Future<void> resetPin(
+  static Future<bool> resetPin(
     String email,
     String password,
     String code,
@@ -199,7 +208,16 @@ class AuthApi {
       "verifyCode": code,
       "uid": uid,
     };
-    await http.post('/app/user/resetPayPassword', data: formData);
+    final result = await http.post('/app/user/resetPayPassword', data: formData);
+    try {
+      if (result.data == null) {
+        return result.statusCode == 200;
+      }
+      int code = result.data['code'];
+      return code == 200;
+    } catch(e) {
+      return false;
+    }
   }
 
   static Future<LoginModel> signIn(
