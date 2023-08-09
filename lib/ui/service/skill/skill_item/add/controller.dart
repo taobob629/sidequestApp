@@ -24,7 +24,7 @@ class SkillItemAddPageController extends BasePageController {
   var gameId;
   var levelId;
   SkillModel? model;
-  Rxn<PriceRangeModel?> _priceRange=Rxn();
+  Rxn<PriceRangeModel?> _priceRange = Rxn();
 
   PriceRangeModel? get priceRange => _priceRange.value;
 
@@ -33,7 +33,7 @@ class SkillItemAddPageController extends BasePageController {
   }
 
   RxDouble _price = RxDouble(0);
-  String unit="";
+  String unit = "";
 
   double get price => _price.value;
 
@@ -70,7 +70,8 @@ class SkillItemAddPageController extends BasePageController {
   }
 
   initData() async {
-    var result = await GamesApi.getPriceRange(gameId, levelId: levelId, addServiceItem: true);
+    var result = await GamesApi.getPriceRange(gameId,
+        levelId: levelId, addServiceItem: true);
     priceRanges.clear();
     priceRanges.addAll(result?.priceRange ?? []);
     if (priceRanges.isEmpty) {
@@ -78,9 +79,9 @@ class SkillItemAddPageController extends BasePageController {
       Get.back();
       return;
     }
-    priceRange=priceRanges.first;
-    price = priceRange?.gameCoinMin??0;
-    unit=priceRange?.unit??"";
+    priceRange = priceRanges.first;
+    price = priceRange?.gameCoinMin ?? 0;
+    unit = priceRange?.unit ?? "";
 
     BookingSelectModel model = BookingSelectModel();
     model.id = 0;
@@ -177,7 +178,7 @@ class SkillItemAddPageController extends BasePageController {
       ..['name'] = teContent.text
       ..['skillid'] = model?.skillid
       ..['unit'] = unit
-      ..['skillAuthid']=model?.id
+      ..['skillAuthid'] = model?.id
       ..['id'] = null
       ..['skillName'] = model?.skillName
       ..['price'] = price
@@ -189,10 +190,13 @@ class SkillItemAddPageController extends BasePageController {
       Get.back(result: true);
     }
   }
- onTypeChange(PriceRangeModel? item){
-    priceRange=item;
-    price=priceRange?.gameCoinMin??0;
- }
+
+  onTypeChange(PriceRangeModel? item) {
+    priceRange = item;
+    price = priceRange?.gameCoinMin ?? 0;
+    unit = item?.unit ?? '';
+  }
+
   @override
   void onClose() {
     teContent.dispose();
