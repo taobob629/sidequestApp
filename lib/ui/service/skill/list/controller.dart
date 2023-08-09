@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/game_api.dart';
@@ -114,5 +116,29 @@ class SkillListPageController extends GetxController {
     if (response.statusCode == 200) {
       item?.enabled = checkState ? 1 : 0;
     }
+  }
+
+  String getItemDiscount(String discount) {
+    if (discount.isEmpty) {
+      return '';
+    }
+
+    if (discount.contains('type')) {
+      dynamic result = jsonDecode(discount);
+      int type = result['type'];
+      int enable = result['enable'];
+      if (enable == 1) {
+        if (type == 1) {
+          return 'Discount ${result['discount']}% OFF';
+        } else if (type == 2) {
+          return 'Buy ${result['buy']} Get ${result['get']}';
+        } else if (type == 3) {
+          return '1st Order Free ${result['discount']}% OFF';
+        }
+      } else {
+        return '';
+      }
+    }
+    return '';
   }
 }

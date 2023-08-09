@@ -282,77 +282,112 @@ class SkillListPage extends GetView<SkillListPageController> {
     double icon_size = 13;
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5).r,
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
         children: [
-          // PWidget.text('', [], {
-          //   'exp': true
-          // }, [
-          //   PWidget.textIs('${item?.name}', [Colors.white]),
-          //   // if (item.enabled == 0) PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
-          // ]),
-          Transform.scale(
-            scale: 0.6,
-            child: Obx(() => CupertinoSwitch(
-                activeColor: Colors.green,
-                value: item?.enabled == 1,
-                onChanged: (value) {
-                  controller.changeServiceStatus(item, value);
-                })),
-          ),
-          Container(
-            constraints: BoxConstraints(maxWidth: 150.w),
-            child: Text(
-              '${item?.name}',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontFamily: FONT_LIGHT,
-                  overflow: TextOverflow.ellipsis),
-            ),
-          ),
-          10.horizontalSpace,
-          Spacer(),
           Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (item != null)
-                Row(
-                  children: [
-                    Image(
-                      image: AssetImage('assets/images/ic_balance_money.webp'),
-                      width: 15,
-                      height: 15,
-                    ),
-                    3.horizontalSpace,
-                    Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: '${item?.price?.floor()}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontFamily: FONT_MEDIUM)),
-                      TextSpan(
-                          text: '/${item?.unit}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 8.sp,
-                              fontFamily: FONT_MEDIUM)),
-                    ])),
-                  ],
+              // PWidget.text('', [], {
+              //   'exp': true
+              // }, [
+              //   PWidget.textIs('${item?.name}', [Colors.white]),
+              //   // if (item.enabled == 0) PWidget.textIs('\t\t' + 'Disabled'.tr, [Colors.red]),
+              // ]),
+              Transform.scale(
+                scale: 0.6,
+                child: Obx(() => CupertinoSwitch(
+                    activeColor: Colors.green,
+                    value: item?.enabled == 1,
+                    onChanged: (value) {
+                      controller.changeServiceStatus(item, value);
+                    })),
+              ),
+              Container(
+                constraints: BoxConstraints(maxWidth: 150.w),
+                child: Text(
+                  '${item?.name}',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: FONT_LIGHT,
+                      overflow: TextOverflow.ellipsis),
                 ),
-              PWidget.boxw(5),
-              if (item != null)
-                GestureDetector(
-                    onTap: () =>
-                        controller.addSkillItem(data, skillItemModel: item),
-                    child: Container(
-                      height: 13.w,
-                      width: 13.w,
-                      child: ImageUtil.assetImage('ic_edit2',
-                          width: 13.w, height: 13.w, color: Color(0xFF6F6F75)),
-                    )),
+              ),
+              10.horizontalSpace,
+              Spacer(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (item != null)
+                    Row(
+                      children: [
+                        Image(
+                          image:
+                              AssetImage('assets/images/ic_balance_money.webp'),
+                          width: 15,
+                          height: 15,
+                        ),
+                        3.horizontalSpace,
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: '${item?.price?.floor()}',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontFamily: FONT_MEDIUM)),
+                          TextSpan(
+                              text: '/${item?.unit}',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8.sp,
+                                  fontFamily: FONT_MEDIUM)),
+                        ])),
+                      ],
+                    ),
+                  PWidget.boxw(5),
+                  if (item != null)
+                    GestureDetector(
+                        onTap: () =>
+                            controller.addSkillItem(data, skillItemModel: item),
+                        child: Container(
+                          height: 13.w,
+                          width: 13.w,
+                          child: ImageUtil.assetImage('ic_edit2',
+                              width: 13.w,
+                              height: 13.w,
+                              color: Color(0xFF6F6F75)),
+                        )),
+                ],
+              ),
             ],
+          ),
+          Visibility(
+            visible: controller.getItemDiscount(item?.discount ?? '') != '',
+            child: Positioned(
+              left: 0,
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xffDA7A19),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.r),
+                    topRight: Radius.circular(15.r),
+                    bottomRight: Radius.circular(15.r),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4.w,
+                ),
+                child: Text(
+                  controller.getItemDiscount(item?.discount ?? ''),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 7.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

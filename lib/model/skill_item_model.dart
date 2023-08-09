@@ -15,6 +15,7 @@ class SkillItemModel {
     this.name,
     this.uid,
     this.skillName,
+    this.discount,
     this.skillAuthid,
     this.price,
     this.unit,
@@ -27,6 +28,7 @@ class SkillItemModel {
     json['name'] = name;
     json['uid'] = uid;
     json['skillName'] = skillName;
+    json['discount'] = discount;
     json['skillAuthid'] = skillAuthid;
     json['price'] = price;
     json['unit'] = unit;
@@ -40,6 +42,7 @@ class SkillItemModel {
     name = json['name'];
     uid = json['uid'];
     skillName = json['skillName'];
+    discount = json['discount'];
     skillAuthid = json['skillAuthid'];
     price = double.parse(json['price']);
     unit = json['unit'];
@@ -55,6 +58,7 @@ class SkillItemModel {
   double? price;
   dynamic unit;
   RxInt _enabled=RxInt(0);
+  String? discount;
 
   int get enabled => _enabled.value;
 
