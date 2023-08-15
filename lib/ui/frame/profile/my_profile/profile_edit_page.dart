@@ -34,7 +34,8 @@ class ProfileEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool? profileEditInfoBackKey = StorageManager.getBoolByKey('profileEditInfoBackKey');
+    bool? profileEditInfoBackKey =
+        StorageManager.getBoolByKey('profileEditInfoBackKey');
     // if (profileEditInfoBackKey == null || profileEditInfoBackKey == false) {
     //   ambiguate(WidgetsBinding.instance)?.addPostFrameCallback(
     //         (_) =>
@@ -44,361 +45,394 @@ class ProfileEditPage extends StatelessWidget {
     //   );
     // }
 
-    return Obx(()=>t.profile==null?buildLoad():ShowCaseWidget(
-      autoPlay: true,
-      autoPlayDelay: Duration(seconds: 5),
-      onFinish: () => StorageManager.setBoolValue('profileEditInfoBackKey', true),
-      builder: Builder(builder: (builder) {
-        t.myContext = builder;
-        return KeyboardVisibilityBuilder(
-          builder: (context, bool isKeyboardVisible) {
-            return KeyboardDismissOnTap(
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text('Personal'.tr),
-                  centerTitle: true,
-                  elevation: 0,
-                  leading: Showcase(
-                    key: GlobalKeyConstants.profileEditInfoBackKey,
-                    description: 'Please complete your personal information and click the back button.'.tr,
-                    child: GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Icon(Icons.arrow_back_ios),
-                    ),
-                  ),
-                ),
-                body: ListView(
-                  children: [
-                    /// 编辑头像
-                    Container(
-                      height: 130.h,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+    return Obx(() => t.profile == null
+        ? buildLoad()
+        : ShowCaseWidget(
+            autoPlay: true,
+            autoPlayDelay: Duration(seconds: 5),
+            onFinish: () =>
+                StorageManager.setBoolValue('profileEditInfoBackKey', true),
+            builder: Builder(builder: (builder) {
+              t.myContext = builder;
+              return KeyboardVisibilityBuilder(
+                builder: (context, bool isKeyboardVisible) {
+                  return KeyboardDismissOnTap(
+                    child: Scaffold(
+                      appBar: AppBar(
+                        title: Text('Personal'.tr),
+                        centerTitle: true,
+                        elevation: 0,
+                        leading: Showcase(
+                          key: GlobalKeyConstants.profileEditInfoBackKey,
+                          description:
+                              'Please complete your personal information and click the back button.'
+                                  .tr,
+                          child: GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Icon(Icons.arrow_back_ios),
+                          ),
+                        ),
+                      ),
+                      body: ListView(
                         children: [
-                          Obx(() => GestureDetector(
+                          /// 编辑头像
+                          Container(
+                            height: 130.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Obx(() => GestureDetector(
+                                          onTap: () {
+                                            t.selectUpdateAvatar(context);
+                                          },
+                                          child: Container(
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(34),
+                                                border: Border.all(
+                                                    color: Colors.white)),
+                                            child: ImageUtil.networkImage(
+                                                url: UserController
+                                                    .find.userProfile.avatar,
+                                                width: 68,
+                                                height: 68,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        )),
+                                    Obx(() => Visibility(
+                                          visible: UserController
+                                                  .find.userProfile.vipLevel >=
+                                              5,
+                                          child: Positioned(
+                                              left: 0,
+                                              right: 0,
+                                              bottom: 0,
+                                              child: Image.asset(
+                                                "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                height: 28,
+                                              )),
+                                        )),
+                                  ],
+                                ),
+                                12.verticalSpace,
+                                Text(
+                                  "Click to edit avatar".tr,
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: AppColor.colorB9C9),
+                                )
+                              ],
+                            ),
+                          ),
+
+                          /// nickname，gender，country，language
+                          InputView(
+                              autoHeight: true,
+                              controller: t.nickController,
+                              label: "NickName".tr,
+                              maxLength: 20,
+                              tips:
+                                  "${UserController.find.userProfile.nickName}"),
+                          _eplayerIntroWidget(),
+                          Container(
+                            height: 40.h,
+                            padding:
+                                EdgeInsets.only(top: 16, left: 16, right: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Gender".tr,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: FONT_MEDIUM),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 16.w),
+                            decoration: BoxDecoration(
+                                color: AppColor.itemBg2,
+                                borderRadius: BorderRadius.circular(10).r),
+                            child: Obx(() => Row(
+                                  children: [
+                                    Radio<int>(
+                                        value: 0,
+                                        groupValue: t.gender.value,
+                                        onChanged: (value) =>
+                                            t.gender.value = value!),
+                                    Text(
+                                      "Male".tr,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14.sp),
+                                    ),
+                                    Radio<int>(
+                                        value: 1,
+                                        groupValue: t.gender.value,
+                                        onChanged: (value) =>
+                                            t.gender.value = value!),
+                                    Text(
+                                      "Female".tr,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14.sp),
+                                    ),
+                                    Radio<int>(
+                                        value: 2,
+                                        groupValue: t.gender.value,
+                                        onChanged: (value) =>
+                                            t.gender.value = value!),
+                                    Text(
+                                      "Non-binary".tr,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14.sp),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          // InputView(autoHeight: true, controller: t.phoneController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.gender}"),
+                          Container(
+                            height: 40.h,
+                            padding: EdgeInsets.only(
+                                top: 16.h, left: 16.w, right: 16.w),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Phone".tr,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: FONT_MEDIUM),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 16.w),
+                            decoration: BoxDecoration(
+                                color: AppColor.itemBg2,
+                                borderRadius: BorderRadius.circular(10).r),
+                            child: Obx(() => InternationalPhoneNumberInput(
+                                  onInputChanged: (PhoneNumber number) {
+                                    var phoneParts = number.phoneNumber!
+                                        .split(number.dialCode!);
+                                    t.phone.value =
+                                        "${number.dialCode!} ${phoneParts.last}";
+                                    print(t.phone.value);
+                                  },
+                                  onInputValidated: (bool value) {
+                                    // print(value);
+                                  },
+                                  selectorConfig: SelectorConfig(
+                                    selectorType:
+                                        PhoneInputSelectorType.DROPDOWN,
+                                  ),
+                                  ignoreBlank: false,
+                                  autoValidateMode: AutovalidateMode.disabled,
+                                  selectorTextStyle: TextStyle(
+                                    color: AppColor.colorB9C9,
+                                  ),
+                                  textStyle: TextStyle(
+                                    color: AppColor.colorB9C9,
+                                  ),
+                                  inputDecoration: InputDecoration(
+                                    hintText: "Phone number".tr,
+                                    hintStyle:
+                                        TextStyle(color: AppColor.colorB9C9),
+                                    labelStyle:
+                                        TextStyle(color: AppColor.colorB9C9),
+                                    helperStyle:
+                                        TextStyle(color: AppColor.colorB9C9),
+                                  ),
+                                  initialValue: PhoneNumber(
+                                      isoCode: PhoneNumber.getISO2CodeByPrefix(
+                                              t.digalCode.value) ??
+                                          ""),
+                                  textFieldController: t.phoneController,
+                                  formatInput: true,
+                                  cursorColor: Colors.white,
+                                  hintText: "Phone number".tr,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      signed: true, decimal: true),
+                                  inputBorder: OutlineInputBorder(),
+                                  onSaved: (PhoneNumber number) {
+                                    print('On Saved: $number');
+                                    // t.phone.value = number.toString();
+                                    // print(t.phone.value);
+                                  },
+                                )),
+                          ),
+                          Container(
+                            height: 40.h,
+                            padding: EdgeInsets.only(
+                                top: 16.h, left: 16.w, right: 16.w),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Country".tr,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: FONT_MEDIUM),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                          Builder(builder: (optionContext) {
+                            return GestureDetector(
+                              child: Obx(() => Container(
+                                  height: 50,
+                                  padding: EdgeInsets.only(left: 15, right: 10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.itemBg2,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        t.curCountry.value,
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: AppColor.colorB9C9),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: AppColor.colorB9C9,
+                                      ),
+                                    ],
+                                  ))),
+                              onTap: () {
+                                Get.dialog(
+                                    CsDropDownDialog(
+                                        optionContext: optionContext,
+                                        itemList: t.countries
+                                            .map<DropDownModel>((country) =>
+                                                DropDownModel()
+                                                  ..title =
+                                                      ((country.emoji ?? "") +
+                                                          country.name))
+                                            .toList(),
+                                        onTap: (index, value) {
+                                          t.curCountry.value = value;
+                                        }),
+                                    barrierColor: Colors.transparent,
+                                    useSafeArea: false);
+                              },
+                            );
+                          }).marginSymmetric(horizontal: 15),
+                          Container(
+                            height: 40.h,
+                            padding:
+                                EdgeInsets.only(top: 16, left: 16, right: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Language".tr,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: FONT_MEDIUM),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                          Builder(builder: (optionContext) {
+                            return GestureDetector(
+                              child: Obx(() => Container(
+                                  height: 50,
+                                  padding: EdgeInsets.only(left: 15, right: 10),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.itemBg2,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        t.languageList.join("/"),
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: AppColor.colorB9C9),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: AppColor.colorB9C9,
+                                      ),
+                                    ],
+                                  ))),
+                              onTap: () {
+                                Get.dialog(
+                                    CsDropDownMulitSelectDialog(
+                                      optionContext: optionContext,
+                                      itemList: [
+                                        DropDownModel()..title = "English",
+                                        DropDownModel()..title = "Chinese"
+                                      ],
+                                      initSelectList: t.languageList,
+                                      onSelect: (value) {
+                                        t.languageList.clear();
+                                        t.languageList.addAll(value);
+                                        // t.languageList.refresh();
+                                      },
+                                    ),
+                                    barrierColor: Colors.transparent,
+                                    useSafeArea: false);
+                              },
+                            );
+                          }).marginSymmetric(horizontal: 15),
+                          // Obx(() => AddressItemView(
+                          //       address: t.addressModel.value,
+                          //       onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
+                          //       onTap: () {},
+                          //     )),
+                          33.verticalSpace,
+                          GestureDetector(
                             onTap: () {
-                              t.selectUpdateAvatar(context);
+                              t.updateProfile();
                             },
                             child: Container(
-                              clipBehavior: Clip.antiAlias,
+                              width: 240,
+                              height: 40.h,
+                              margin: EdgeInsets.symmetric(horizontal: 21),
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(34),
-                                  border: Border.all(color: Colors.white)),
-                              child: ImageUtil.networkImage(
-                                  url: UserController
-                                      .find.userProfile.avatar,
-                                  width: 68,
-                                  height: 68,
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
-                          12.verticalSpace,
-                          Text(
-                            "Click to edit avatar".tr,
-                            style: TextStyle(
-                                fontSize: 14.sp, color: AppColor.colorB9C9),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    /// nickname，gender，country，language
-                    InputView(
-                        autoHeight: true,
-                        controller: t.nickController,
-                        label: "NickName".tr,
-                        maxLength: 20,
-                        tips: "${UserController.find.userProfile.nickName}"),
-                    _eplayerIntroWidget(),
-                    Container(
-                      height: 40.h,
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Gender".tr,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      margin: EdgeInsets.symmetric(horizontal: 16.w),
-                      decoration: BoxDecoration(
-                          color: AppColor.itemBg2,
-                          borderRadius: BorderRadius.circular(10).r),
-                      child: Obx(() => Row(
-                        children: [
-                          Radio<int>(
-                              value: 0,
-                              groupValue: t.gender.value,
-                              onChanged: (value) =>
-                              t.gender.value = value!),
-                          Text(
-                            "Male".tr,
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 14.sp),
-                          ),
-                          Radio<int>(
-                              value: 1,
-                              groupValue: t.gender.value,
-                              onChanged: (value) =>
-                              t.gender.value = value!),
-                          Text(
-                            "Female".tr,
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 14.sp),
-                          ),
-                          Radio<int>(
-                              value: 2,
-                              groupValue: t.gender.value,
-                              onChanged: (value) =>
-                              t.gender.value = value!),
-                          Text(
-                            "Non-binary".tr,
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 14.sp),
-                          ),
-                        ],
-                      )),
-                    ),
-                    // InputView(autoHeight: true, controller: t.phoneController, label: "Gender".tr, maxLength: 20, tips: "${UserController.find.userProfile.gender}"),
-                    Container(
-                      height: 40.h,
-                      padding:
-                      EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Phone".tr,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 50,
-                      margin: EdgeInsets.symmetric(horizontal: 16.w),
-                      decoration: BoxDecoration(
-                          color: AppColor.itemBg2,
-                          borderRadius: BorderRadius.circular(10).r),
-                      child: Obx(() => InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                          var phoneParts =
-                          number.phoneNumber!.split(number.dialCode!);
-                          t.phone.value =
-                          "${number.dialCode!} ${phoneParts.last}";
-                          print(t.phone.value);
-                        },
-                        onInputValidated: (bool value) {
-                          // print(value);
-                        },
-                        selectorConfig: SelectorConfig(
-                          selectorType: PhoneInputSelectorType.DROPDOWN,
-                        ),
-                        ignoreBlank: false,
-                        autoValidateMode: AutovalidateMode.disabled,
-                        selectorTextStyle: TextStyle(
-                          color: AppColor.colorB9C9,
-                        ),
-                        textStyle: TextStyle(
-                          color: AppColor.colorB9C9,
-                        ),
-                        inputDecoration: InputDecoration(
-                          hintText: "Phone number".tr,
-                          hintStyle: TextStyle(color: AppColor.colorB9C9),
-                          labelStyle: TextStyle(color: AppColor.colorB9C9),
-                          helperStyle: TextStyle(color: AppColor.colorB9C9),
-                        ),
-                        initialValue: PhoneNumber(
-                            isoCode: PhoneNumber.getISO2CodeByPrefix(
-                                t.digalCode.value) ??
-                                ""),
-                        textFieldController: t.phoneController,
-                        formatInput: true,
-                        cursorColor: Colors.white,
-                        hintText: "Phone number".tr,
-                        keyboardType: TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
-                        inputBorder: OutlineInputBorder(),
-                        onSaved: (PhoneNumber number) {
-                          print('On Saved: $number');
-                          // t.phone.value = number.toString();
-                          // print(t.phone.value);
-                        },
-                      )),
-                    ),
-                    Container(
-                      height: 40.h,
-                      padding:
-                      EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Country".tr,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Builder(builder: (optionContext) {
-                      return GestureDetector(
-                        child: Obx(() => Container(
-                            height: 50,
-                            padding: EdgeInsets.only(left: 15, right: 10),
-                            decoration: BoxDecoration(
-                              color: AppColor.itemBg2,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  t.curCountry.value,
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: AppColor.colorB9C9),
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: AppColor.colorB9C9,
-                                ),
-                              ],
-                            ))),
-                        onTap: () {
-                          Get.dialog(
-                              CsDropDownDialog(
-                                  optionContext: optionContext,
-                                  itemList: t.countries
-                                      .map<DropDownModel>((country) =>
-                                  DropDownModel()
-                                    ..title = ((country.emoji ?? "") +
-                                        country.name))
-                                      .toList(),
-                                  onTap: (index, value) {
-                                    t.curCountry.value = value;
-                                  }),
-                              barrierColor: Colors.transparent,
-                              useSafeArea: false);
-                        },
-                      );
-                    }).marginSymmetric(horizontal: 15),
-                    Container(
-                      height: 40.h,
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Language".tr,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: FONT_MEDIUM),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Builder(builder: (optionContext) {
-                      return GestureDetector(
-                        child: Obx(() => Container(
-                            height: 50,
-                            padding: EdgeInsets.only(left: 15, right: 10),
-                            decoration: BoxDecoration(
-                              color: AppColor.itemBg2,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  t.languageList.join("/"),
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: AppColor.colorB9C9),
-                                ),
-                                Spacer(),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: AppColor.colorB9C9,
-                                ),
-                              ],
-                            ))),
-                        onTap: () {
-                          Get.dialog(
-                              CsDropDownMulitSelectDialog(
-                                optionContext: optionContext,
-                                itemList: [
-                                  DropDownModel()..title = "English",
-                                  DropDownModel()..title = "Chinese"
-                                ],
-                                initSelectList: t.languageList,
-                                onSelect: (value) {
-                                  t.languageList.clear();
-                                  t.languageList.addAll(value);
-                                  // t.languageList.refresh();
-                                },
+                                gradient: LinearGradient(
+                                    colors: AppColor.yellowGradient),
+                                borderRadius: BorderRadius.circular(20.h),
                               ),
-                              barrierColor: Colors.transparent,
-                              useSafeArea: false);
-                        },
-                      );
-                    }).marginSymmetric(horizontal: 15),
-                    // Obx(() => AddressItemView(
-                    //       address: t.addressModel.value,
-                    //       onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
-                    //       onTap: () {},
-                    //     )),
-                    33.verticalSpace,
-                    GestureDetector(
-                      onTap: () {
-                        t.updateProfile();
-                      },
-                      child: Container(
-                        width: 240,
-                        height: 40.h,
-                        margin: EdgeInsets.symmetric(horizontal: 21),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          gradient:
-                          LinearGradient(colors: AppColor.yellowGradient),
-                          borderRadius: BorderRadius.circular(20.h),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Save".tr,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Save".tr,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                          100.verticalSpace
+                        ],
                       ),
                     ),
-                    100.verticalSpace
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      }),
-    ));
+                  );
+                },
+              );
+            }),
+          ));
   }
 
   Widget _eplayerIntroWidget() => Container(
@@ -612,7 +646,8 @@ class ProfileEditController extends GetxController {
     profileInit();
     super.onInit();
   }
- Rxn<ProfileDetailBean> _profile=Rxn<ProfileDetailBean>();
+
+  Rxn<ProfileDetailBean> _profile = Rxn<ProfileDetailBean>();
 
   ProfileDetailBean? get profile => _profile.value;
 
@@ -622,7 +657,7 @@ class ProfileEditController extends GetxController {
 
   profileInit() {
     ProfileApi.profileInit().then((res) {
-      profile=res;
+      profile = res;
       nickController.text = res.nick;
       signatureController.text = res.signature;
       gender.value = int.parse(res.gender);
@@ -643,10 +678,8 @@ class ProfileEditController extends GetxController {
         print(tempCountry);
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
-      languageList.addIf(
-          res.language.contains("English"), "English");
-      languageList.addIf(
-          res.language.contains("Chinese"), "Chinese");
+      languageList.addIf(res.language.contains("English"), "English");
+      languageList.addIf(res.language.contains("Chinese"), "Chinese");
     });
   }
 

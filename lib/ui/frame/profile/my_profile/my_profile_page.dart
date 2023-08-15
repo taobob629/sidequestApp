@@ -147,13 +147,9 @@ class MyProfilePage extends StatelessWidget {
                                                   ),
                                                   Obx(() => Visibility(
                                                         visible: userController
-                                                                    .userProfile
-                                                                    .vipLevel >=
-                                                                5 &&
-                                                            userController
-                                                                    .userProfile
-                                                                    .isAuth ==
-                                                                1,
+                                                                .userProfile
+                                                                .vipLevel >=
+                                                            5,
                                                         child: Positioned(
                                                             bottom: -10,
                                                             child: Image.asset(
