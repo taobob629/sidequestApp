@@ -88,22 +88,42 @@ class VipPage extends StatelessWidget {
                                         )),
                                     Positioned(
                                         left: 15,
-                                        top: 20,
+                                        top: 44,
                                         child: Text(
                                           "Per Month".tr,
                                           style: TextStyle(
-                                              color: Color(0xFF40280E),
-                                              fontSize: 16),
+                                            color: Color(0xFF40280E),
+                                            fontSize: 16.sp,
+                                          ),
                                         )),
                                     Positioned(
                                         left: 15,
-                                        top: 40,
+                                        top: 20,
                                         child: Text(
                                           vipModel.name.toCapitalize,
                                           style: TextStyle(
+                                            color: Color(0xFF40280E),
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    Positioned(
+                                        left: 15,
+                                        top: 60,
+                                        child: Visibility(
+                                          visible:
+                                              controller.vipIndex.value > 0,
+                                          child: Text(
+                                            controller.vipIndex.value == 1
+                                                ? 'Value up to £60'.tr
+                                                : controller.vipIndex.value == 2
+                                                    ? 'Value up to £150'.tr
+                                                    : 'Value up to £260'.tr,
+                                            style: TextStyle(
                                               color: Color(0xFF40280E),
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold),
+                                              fontSize: 16.sp,
+                                            ),
+                                          ),
                                         )),
                                     Positioned(
                                         bottom: 14,
@@ -491,7 +511,9 @@ class VipPageController extends GetxController {
   void showConfirm(PayOrderModel model) {
     var userController = Get.find<UserController>();
     if (userController.user.value.getAge() < 16) {
-      showInfo("Subscription members must be at least 16 years old.".tr,);
+      showInfo(
+        "Subscription members must be at least 16 years old.".tr,
+      );
       return;
     }
     Get.dialog(VipInfoDialog(), barrierColor: Colors.black26).then((value) {

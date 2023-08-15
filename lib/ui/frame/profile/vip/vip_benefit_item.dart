@@ -87,7 +87,8 @@ class VipBenefitItem extends StatelessWidget {
             },
             onExpansionChanged: (v) => this.onTap.call(this.index),
             children: [
-              Padding(
+              Container(
+                width: 1.sw,
                 padding: const EdgeInsets.only(left: 39, right: 10, top: 8),
                 child: Text(
                   "$content",
