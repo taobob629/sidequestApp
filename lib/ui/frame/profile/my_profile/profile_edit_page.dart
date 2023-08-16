@@ -81,41 +81,48 @@ class ProfileEditPage extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Stack(
-                                  children: [
-                                    Obx(() => GestureDetector(
-                                          onTap: () {
-                                            t.selectUpdateAvatar(context);
-                                          },
-                                          child: Container(
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(34),
-                                                border: Border.all(
-                                                    color: Colors.white)),
-                                            child: ImageUtil.networkImage(
-                                                url: UserController
-                                                    .find.userProfile.avatar,
-                                                width: 68,
-                                                height: 68,
-                                                fit: BoxFit.cover),
-                                          ),
-                                        )),
-                                    Obx(() => Visibility(
-                                          visible: UserController
-                                                  .find.userProfile.vipLevel >=
-                                              5,
-                                          child: Positioned(
-                                              left: 0,
-                                              right: 0,
-                                              bottom: 0,
-                                              child: Image.asset(
-                                                "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
-                                                height: 28,
-                                              )),
-                                        )),
-                                  ],
+                                Container(
+                                  height: UserController
+                                              .find.userProfile.vipLevel >=
+                                          5
+                                      ? 86.w
+                                      : 68.w,
+                                  child: Stack(
+                                    children: [
+                                      Obx(() => GestureDetector(
+                                            onTap: () {
+                                              t.selectUpdateAvatar(context);
+                                            },
+                                            child: Container(
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(34),
+                                                  border: Border.all(
+                                                      color: Colors.white)),
+                                              child: ImageUtil.networkImage(
+                                                  url: UserController
+                                                      .find.userProfile.avatar,
+                                                  width: 68.w,
+                                                  height: 68.w,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          )),
+                                      Obx(() => Positioned(
+                                          left: 0,
+                                          right: 0,
+                                          bottom: 0,
+                                          child: Visibility(
+                                            visible: UserController.find
+                                                    .userProfile.vipLevel >=
+                                                5,
+                                            child: Image.asset(
+                                              "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                              height: 28.w,
+                                            ),
+                                          ))),
+                                    ],
+                                  ),
                                 ),
                                 12.verticalSpace,
                                 Text(
