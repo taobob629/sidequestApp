@@ -183,6 +183,9 @@ flutter:
     - family: wy
       fonts:
         - asset: assets/fonts/wy.ttf
+    - family: Blak_W90_Ultra
+      fonts:
+        - asset: assets/fonts/Blak_W90_Ultra.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

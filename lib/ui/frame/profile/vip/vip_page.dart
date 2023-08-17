@@ -69,62 +69,153 @@ class VipPage extends StatelessWidget {
                           child: Column(
                             children: [
                               contentPadding(
-                                  child: Image.asset(
-                                'assets/images/grade/vip_level_${index}.png',
-                              )),
+                                child: Image.asset(
+                                  'assets/images/grade/vip_level_${index}.png',
+                                ),
+                              ),
                               Container(
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
                                     Positioned(
-                                        child: Image.asset(
-                                            "assets/images/profile/vip_bg_${vipModel.level}.webp")),
+                                      child: Image.asset(
+                                        "assets/images/profile/vip_bg_${vipModel.level}.webp",
+                                      ),
+                                    ),
                                     Positioned(
-                                        top: -10,
-                                        right: 10,
-                                        child: Image.asset(
-                                          "assets/images/profile/huizhang_${vipModel.level}.webp",
-                                          height: 93.h,
-                                        )),
+                                      top: -10,
+                                      right: 0,
+                                      child: Image.asset(
+                                        "assets/images/profile/huizhang_${vipModel.level}.webp",
+                                        height: 93.h,
+                                      ),
+                                    ),
                                     Positioned(
-                                        left: 15,
-                                        top: 44,
-                                        child: Text(
-                                          "Per Month".tr,
-                                          style: TextStyle(
-                                            color: Color(0xFF40280E),
-                                            fontSize: 16.sp,
+                                      left: 15,
+                                      right: 120.w,
+                                      top: controller.vipIndex.value == 1
+                                          ? 14.h
+                                          : 40.h,
+                                      child: Text(
+                                        vipModel.name.toCapitalize
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: Color(0xFFEDA82D),
+                                          fontSize: controller.vipIndex.value ==
+                                                  0
+                                              ? 30.sp
+                                              : controller.vipIndex.value == 1
+                                                  ? 70.sp
+                                                  : controller.vipIndex.value ==
+                                                          2
+                                                      ? 34.sp
+                                                      : 50.sp,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Blak_W90_Ultra',
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 4.w,
+                                      bottom: 4.h,
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Visibility(
+                                                visible:
+                                                    controller.vipIndex.value ==
+                                                        0,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20.w,
+                                                      bottom: 16.h),
+                                                  child: Text(
+                                                    "Per Month".tr,
+                                                    style: TextStyle(
+                                                      color: Color(0xFF40280E),
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible:
+                                                    controller.vipIndex.value >
+                                                        0,
+                                                child: Text(
+                                                  "Per Month".tr,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF40280E),
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              Visibility(
+                                                visible:
+                                                    controller.vipIndex.value >
+                                                        0,
+                                                child: Text(
+                                                  controller.vipIndex.value == 1
+                                                      ? 'Value up to'.tr
+                                                      : controller.vipIndex
+                                                                  .value ==
+                                                              2
+                                                          ? 'Value up to'.tr
+                                                          : 'Value up to'.tr,
+                                                  style: TextStyle(
+                                                    color: Color(0xFF40280E),
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        )),
-                                    Positioned(
-                                        left: 15,
-                                        top: 20,
-                                        child: Text(
-                                          vipModel.name.toCapitalize,
-                                          style: TextStyle(
-                                            color: Color(0xFF40280E),
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                    Positioned(
-                                        left: 15,
-                                        top: 60,
-                                        child: Visibility(
-                                          visible:
-                                              controller.vipIndex.value > 0,
-                                          child: Text(
-                                            controller.vipIndex.value == 1
-                                                ? 'Value up to £60'.tr
-                                                : controller.vipIndex.value == 2
-                                                    ? 'Value up to £150'.tr
-                                                    : 'Value up to £260'.tr,
-                                            style: TextStyle(
-                                              color: Color(0xFF40280E),
-                                              fontSize: 16.sp,
+                                          Visibility(
+                                            visible:
+                                                controller.vipIndex.value > 0,
+                                            child: Text(
+                                              controller.vipIndex.value == 1
+                                                  ? '£60'.tr
+                                                  : controller.vipIndex.value ==
+                                                          2
+                                                      ? '£150'.tr
+                                                      : '£260'.tr,
+                                              style: TextStyle(
+                                                color: Color(0xFFEDA82D),
+                                                fontSize: 40.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                        )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    // Positioned(
+                                    //   left: 170.w,
+                                    //   bottom: 10.h,
+                                    //   child: Visibility(
+                                    //     // visible: controller.vipIndex.value > 0,
+                                    //     child: Text(
+                                    //       controller.vipIndex.value == 1
+                                    //           ? '£60'.tr
+                                    //           : controller.vipIndex.value == 2
+                                    //               ? '£150'.tr
+                                    //               : '£260'.tr,
+                                    //       style: TextStyle(
+                                    //         color: Color(0xFF40280E),
+                                    //         fontSize: 16.sp,
+                                    //         fontWeight: FontWeight.bold,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Positioned(
                                         bottom: 14,
                                         left: 15,
