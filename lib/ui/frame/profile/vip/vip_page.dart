@@ -93,23 +93,13 @@ class VipPage extends StatelessWidget {
                                     Positioned(
                                       left: 15,
                                       right: 120.w,
-                                      top: controller.vipIndex.value == 1
-                                          ? 14.h
-                                          : 40.h,
+                                      top: 40.h,
                                       child: Text(
                                         vipModel.name.toCapitalize
                                             .toUpperCase(),
                                         style: TextStyle(
                                           color: Color(0xFFEDA82D),
-                                          fontSize: controller.vipIndex.value ==
-                                                  0
-                                              ? 30.sp
-                                              : controller.vipIndex.value == 1
-                                                  ? 70.sp
-                                                  : controller.vipIndex.value ==
-                                                          2
-                                                      ? 34.sp
-                                                      : 50.sp,
+                                          fontSize: 30.sp,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Blak_W90_Ultra',
                                         ),
