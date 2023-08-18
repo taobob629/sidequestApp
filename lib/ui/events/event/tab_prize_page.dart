@@ -19,10 +19,18 @@ class TabPrizePage extends StatelessWidget {
       margin: const EdgeInsets.only(left: 15, right: 15, bottom: 100),
       padding: const EdgeInsets.only(top: 15, bottom: 20, left: 15, right: 15),
       decoration: itemDecoration(),
-      child: Obx(() => ListView.separated(
+      child: Obx(() => ListView.builder(
             padding: EdgeInsets.zero,
             itemBuilder: (c, i) => Container(
-              margin: EdgeInsets.symmetric(vertical: 10.h),
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1.w,
+                    color: Color(0xFF424242),
+                  ),
+                ),
+              ),
               child: Row(
                 children: [
                   ImageUtil.networkImage(
@@ -42,6 +50,20 @@ class TabPrizePage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Visibility(
+                        visible: controller.eventDetailModel.value.eventPrize[i]
+                            .nickname.isNotEmpty,
+                        child: Text(
+                          controller
+                              .eventDetailModel.value.eventPrize[i].nickname,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: 'DIN',
+                          ),
+                        ),
+                      ),
+                      4.verticalSpace,
                       Row(
                         children: [
                           Visibility(
@@ -55,7 +77,10 @@ class TabPrizePage extends StatelessWidget {
                               scale: 5.6,
                             ),
                           ),
-                          10.horizontalSpace,
+                          Visibility(
+                            visible: i < 3,
+                            child: 6.horizontalSpace,
+                          ),
                           Text(
                             controller
                                 .eventDetailModel.value.eventPrize[i].name,
@@ -72,7 +97,7 @@ class TabPrizePage extends StatelessWidget {
                         controller.eventDetailModel.value.eventPrize[i].value,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15.sp,
+                          fontSize: 14.sp,
                           fontFamily: 'DIN',
                         ),
                       ),
@@ -80,10 +105,6 @@ class TabPrizePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            separatorBuilder: (c, i) => Container(
-              color: Colors.grey,
-              height: 1.h,
             ),
             itemCount: controller.eventDetailModel.value.eventPrize.length,
           )),

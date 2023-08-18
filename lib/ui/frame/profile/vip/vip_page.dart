@@ -116,25 +116,6 @@ class VipPage extends StatelessWidget {
                                             children: [
                                               Visibility(
                                                 visible:
-                                                    controller.vipIndex.value ==
-                                                        0,
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20.w,
-                                                      bottom: 16.h),
-                                                  child: Text(
-                                                    "Per Month".tr,
-                                                    style: TextStyle(
-                                                      color: Color(0xFF40280E),
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible:
                                                     controller.vipIndex.value >
                                                         0,
                                                 child: Text(
@@ -207,6 +188,35 @@ class VipPage extends StatelessWidget {
                                     //   ),
                                     // ),
                                     Positioned(
+                                      top: 83.h,
+                                      right: 10,
+                                      child: Visibility(
+                                        visible: userController
+                                                        .userProfile.vipLevel -
+                                                    controller
+                                                        .vipInfoList[controller
+                                                            .vipIndex.value]
+                                                        .level ==
+                                                0 &&
+                                            !userController
+                                                .userProfile.vipCanceled,
+                                        child: Container(
+                                          child: Text(
+                                            "Next Renewal:".tr +
+                                                controller
+                                                    .vipInfoList[controller
+                                                        .vipIndex.value]
+                                                    .renewDateStr,
+                                            style: TextStyle(
+                                                color: Color(0xFF40280E),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Positioned(
                                         bottom: 14,
                                         left: 15,
                                         right: 15,
@@ -219,9 +229,6 @@ class VipPage extends StatelessWidget {
                                                   .vipInfoList[
                                                       controller.vipIndex.value]
                                                   .level;
-                                          var showNextRenewal = (diff == 0) &&
-                                              !userController
-                                                  .userProfile.vipCanceled;
                                           var btnTitle = "";
                                           if (diff > 0) {
                                             // btnTitle = "Subscribed".tr;
@@ -290,26 +297,6 @@ class VipPage extends StatelessWidget {
                                                     )),
                                               ),
                                               Spacer(),
-                                              Visibility(
-                                                visible: showNextRenewal,
-                                                child: Container(
-                                                  child: Text(
-                                                    "Next Renewal: ".tr +
-                                                        controller
-                                                            .vipInfoList[
-                                                                controller
-                                                                    .vipIndex
-                                                                    .value]
-                                                            .renewDateStr,
-                                                    style: TextStyle(
-                                                        color:
-                                                            Color(0xFF40280E),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              )
                                             ],
                                           );
                                         })),
