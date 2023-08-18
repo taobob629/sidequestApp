@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:wy/config/app_config.dart';
 import 'package:wy/model/participant_model.dart';
 import 'package:wy/model/selector_item.dart';
-const int TYPE_PRIZE=6;//抽奖
+
+const int TYPE_PRIZE = 6; //抽奖
+
 class EventDetailModel {
   late int id = 0;
   late String image = "";
@@ -10,13 +14,13 @@ class EventDetailModel {
   late String formation = "";
   late int matchDiff = 0;
   late String checkinTime = "";
-  late int checkin=0;
-  late int start=0;
+  late int checkin = 0;
+  late int start = 0;
   late String title = "";
   late bool? team;
   late int totalMembers = 0;
   late String gameName = "";
-  late String prizes = "";
+  late List<EventPrizes> eventPrize = [];
   late String startTime = "";
   late bool canJoin = false;
   RxBool _canCancel = RxBool(false);
@@ -27,22 +31,26 @@ class EventDetailModel {
   late List<LocationModel> location = [];
   late String listImage = "";
   late double fee = 0.0;
-  late int participantNum=0;
-  int kopEndTime=0;
-  int kopStartTime=0;//开始时间 结束时间
-  int showCountdown=0;//0不显示1显示
+  late int participantNum = 0;
+  int kopEndTime = 0;
+  int kopStartTime = 0; //开始时间 结束时间
+  int showCountdown = 0; //0不显示1显示
   bool get canCancel => _canCancel.value;
-  RxString discount=RxString('0');
-  var memberCouponId='';
-  showCounter(){
-    return showCountdown==1&&DateTime.now().millisecondsSinceEpoch< kopStartTime*1000;//已经过期了
+  RxString discount = RxString('0');
+  var memberCouponId = '';
+
+  showCounter() {
+    return showCountdown == 1 &&
+        DateTime.now().millisecondsSinceEpoch < kopStartTime * 1000; //已经过期了
   }
-  participantes(){
-    if(matchDiff==TYPE_PRIZE&&participants.length==0){
+
+  participantes() {
+    if (matchDiff == TYPE_PRIZE && participants.length == 0) {
       return '';
     }
     return '${participants.length}/${totalMembers}';
   }
+
   set canCancel(bool value) {
     _canCancel.value = value;
   }
@@ -53,8 +61,8 @@ class EventDetailModel {
 
   EventDetailModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    start = json['start']??0;
-    checkin = json['checkin']??0;
+    start = json['start'] ?? 0;
+    checkin = json['checkin'] ?? 0;
 
     checkinTime = json['checkinTime'] ?? '';
     constraint = json['constraint'] ?? '';
@@ -70,7 +78,13 @@ class EventDetailModel {
 
     fee = json['fee'] == null ? 0.0 : json['fee'];
     gameName = json['gameName'] == null ? "No data" : json['gameName'];
-    prizes = json['prizes'] == null ? "No data" : json['prizes'];
+    eventPrize = json['eventPrize'] == null
+        ? []
+        : json['eventPrize'].toString().contains('name')
+            ? jsonDecode(json['eventPrize'])
+                .map<EventPrizes>((item) => EventPrizes.fromJson(item))
+                .toList()
+            : [];
     startTime = json['startTime'] == null ? "No data" : json['startTime'];
     canJoin = json['canJoin'] ?? false;
     canCancel = json['canCancel'] ?? false;
@@ -94,6 +108,27 @@ class EventDetailModel {
   }
 }
 
+class EventPrizes {
+  String name;
+  String value;
+  String avatar;
+  String nickname;
+
+  EventPrizes({
+    required this.name,
+    required this.value,
+    required this.avatar,
+    required this.nickname,
+  });
+
+  factory EventPrizes.fromJson(Map<String, dynamic> json) => EventPrizes(
+        name: json['name'] ?? '',
+        value: json['value'] ?? '',
+        avatar: json['avatar'] ?? '',
+        nickname: json['nickname'] ?? '',
+      );
+}
+
 class LocationModel extends SelectorItem {
   late int id = 0;
   late int join = 0;
@@ -102,7 +137,6 @@ class LocationModel extends SelectorItem {
   late bool full = false;
 
   LocationModel(this.id);
-
 
   LocationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

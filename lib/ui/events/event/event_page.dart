@@ -192,10 +192,10 @@ class EventPage extends StatelessWidget {
     pages.add(KeepAliveWrapper(child: TabOverviewPage()));
     pages.add(KeepAliveWrapper(child: TabRulesPage()));
     pages.add(KeepAliveWrapper(child: TabParticipantsPage()));
-    if (controller.type == 1) {
-    } else {
+    // if (controller.type == 1) {
+    // } else {
       pages.add(KeepAliveWrapper(child: TabPrizePage()));
-    }
+    // }
 
     return pages;
   }
@@ -311,9 +311,9 @@ class EventPageController extends BasePageController {
     } else {
       tabs.add("Participants".tr);
     }
-    if(model.matchDiff==0||model.matchDiff==6){
+    // if(model.matchDiff==0||model.matchDiff==6){
       tabs.add("Prizes".tr);
-    }
+    // }
   }
 
   chooseTime() async {

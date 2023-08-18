@@ -1,4 +1,5 @@
 class ImageUtils {
+  static const String default_logo = 'assets/images/default_logo.webp';
   static const String picDengDaiHuaMian = 'assets/images/picDengDaiHuaMian.webp';
   static const String iconZhuansghi = 'assets/images/iconZhuansghi.webp';
   static const String iconSex0 = 'assets/images/profile/icon_sex_0.png';
@@ -75,4 +76,8 @@ class ImageUtils {
   static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
   static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
   static const String ic_invite = 'assets/images/profile/share.webp';
+
+  static const String icon_first = 'assets/images/task/icon_first.webp';
+  static const String icon_second = 'assets/images/task/icon_second.webp';
+  static const String icon_third = 'assets/images/task/icon_third.webp';
 }
