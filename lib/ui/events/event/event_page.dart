@@ -64,28 +64,32 @@ class EventPage extends StatelessWidget {
                         ),
                         backgroundColor: AppColor.background,
                         expandedHeight: controller.headerHeight.value,
-                        flexibleSpace: controller.eventDetailModel.value.image.isEmpty
+                        flexibleSpace: controller
+                                .eventDetailModel.value.image.isEmpty
                             ? null
                             : EventFlexibleHeader(
                                 image: controller.eventDetailModel.value.image,
                               ));
                   }),
                   SliverPersistentHeader(
-                      pinned: true, delegate: _StickyTabBarDelegate(child: _buildTabBar())),
+                      pinned: true,
+                      delegate: _StickyTabBarDelegate(child: _buildTabBar())),
                 ];
               },
               body: Container(
                 padding: const EdgeInsets.only(top: 1),
-                child: TabBarView(controller: controller.tabController, children: createPages()),
+                child: TabBarView(
+                    controller: controller.tabController,
+                    children: createPages()),
               ),
             )),
       floatingActionButton: Obx(() => controller.eventDetailModel.value.id == 0
           ? Container()
           : Container(
-              width: Get.width-30,
+              width: Get.width - 30,
               //  height: 150,
               constraints: BoxConstraints(maxHeight: 150.h),
-              child:  Obx(() => _buildBtn(context)))),
+              child: Obx(() => _buildBtn(context)))),
       //   floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -103,8 +107,11 @@ class EventPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Obx(() => Text(
-                  controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                  controller.eventDetailModel.value.canCancel
+                      ? 'CANCEL'.tr
+                      : "JOIN".tr,
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 18),
                 )),
           ),
           height: 48,
@@ -122,8 +129,11 @@ class EventPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Obx(() => Text(
-                    controller.eventDetailModel.value.canCancel ? 'CANCEL'.tr : "JOIN".tr,
-                    style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                    controller.eventDetailModel.value.canCancel
+                        ? 'CANCEL'.tr
+                        : "JOIN".tr,
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "DIN", fontSize: 18),
                   )),
             ),
             height: 48,
@@ -160,13 +170,16 @@ class EventPage extends StatelessWidget {
                     unselectedLabelColor: Colors.white38,
                     indicatorColor: AppColor.yellow,
                     indicatorSize: TabBarIndicatorSize.label,
-                    indicator:
-                        HomeIndicator(borderSide: BorderSide(width: 4.0.w, color: AppColor.yellow)),
+                    indicator: HomeIndicator(
+                        borderSide:
+                            BorderSide(width: 4.0.w, color: AppColor.yellow)),
                     indicatorWeight: 4,
                     indicatorPadding: EdgeInsets.only(bottom: 2),
                     labelPadding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
-                    labelStyle: TextStyle(fontSize: 16, fontFamily: FONT_MEDIUM),
-                    unselectedLabelStyle: TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
+                    labelStyle:
+                        TextStyle(fontSize: 16, fontFamily: FONT_MEDIUM),
+                    unselectedLabelStyle:
+                        TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
                     tabs: createTabs(),
                   )
                 ]),
@@ -192,10 +205,9 @@ class EventPage extends StatelessWidget {
     pages.add(KeepAliveWrapper(child: TabOverviewPage()));
     pages.add(KeepAliveWrapper(child: TabRulesPage()));
     pages.add(KeepAliveWrapper(child: TabParticipantsPage()));
-    // if (controller.type == 1) {
-    // } else {
-      pages.add(KeepAliveWrapper(child: TabPrizePage()));
-    // }
+    pages.add(Visibility(
+        visible: controller.eventDetailModel.value.eventPrize.isNotEmpty,
+        child: KeepAliveWrapper(child: TabPrizePage())));
 
     return pages;
   }
@@ -207,7 +219,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   _StickyTabBarDelegate({required this.child});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return this.child;
   }
 
@@ -265,7 +278,6 @@ class EventPageController extends BasePageController {
       }
     });
     initData();
-
   }
 
   @override
@@ -298,7 +310,8 @@ class EventPageController extends BasePageController {
       model = await EventsApi.getMatchDetail(id);
       initTabs(model);
     }
-    tabController = TabController(length: tabs.length, initialIndex: 0, vsync: this);
+    tabController =
+        TabController(length: tabs.length, initialIndex: 0, vsync: this);
     title.value = model.title;
     eventDetailModel.value = model;
   }
@@ -311,9 +324,9 @@ class EventPageController extends BasePageController {
     } else {
       tabs.add("Participants".tr);
     }
-    // if(model.matchDiff==0||model.matchDiff==6){
+    if (model.eventPrize.isNotEmpty) {
       tabs.add("Prizes".tr);
-    // }
+    }
   }
 
   chooseTime() async {
@@ -370,22 +383,24 @@ class EventPageController extends BasePageController {
           var dateTime = timeSplit.join(':');
           checkFee(() async {
             showLoading();
-            await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id,
+            await EventsApi.joinActivity(eventDetailModel.value.id,
+                userController.user.value.id, store.id,
                 memberCouponId: eventDetailModel.value.memberCouponId,
                 cupsleeve: dateTime);
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                    title: "Congratulations".tr,
+                    info: "You have successfully signed up!".tr),
                 barrierColor: Colors.black26);
           });
         }
       } else {
         SelectorItem? item;
         if (eventDetailModel.value.location.length > 1) {
-          item = await SelectorDialog.show(context, eventDetailModel.value.location,
+          item = await SelectorDialog.show(
+              context, eventDetailModel.value.location,
               title: "Select Location".tr);
         } else {
           item = eventDetailModel.value.location[0];
@@ -395,13 +410,18 @@ class EventPageController extends BasePageController {
           checkFee(() async {
             showLoading();
             await EventsApi.joinActivity(
-                eventDetailModel.value.id, userController.user.value.id, store.id,  memberCouponId: eventDetailModel.value.memberCouponId,);
+              eventDetailModel.value.id,
+              userController.user.value.id,
+              store.id,
+              memberCouponId: eventDetailModel.value.memberCouponId,
+            );
 
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                    title: "Congratulations".tr,
+                    info: "You have successfully signed up!".tr),
                 barrierColor: Colors.black26);
           });
         }
@@ -411,9 +431,9 @@ class EventPageController extends BasePageController {
 
   cancelActivity() async {
     showLoading();
-  var resp=  await EventsApi.cancelActivity(eventDetailModel.value.id);
-   showSuccess(resp.statusMessage);
-   onRefresh();
+    var resp = await EventsApi.cancelActivity(eventDetailModel.value.id);
+    showSuccess(resp.statusMessage);
+    onRefresh();
     // Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
     //     barrierColor: Colors.black26);
     dismissLoading();
@@ -432,10 +452,11 @@ class EventPageController extends BasePageController {
     userController.checkLogin(() async {
       SelectorItem? item;
       if (eventDetailModel.value.location.length > 1) {
-        if(eventDetailModel.value.matchDiff==TYPE_PRIZE) {
+        if (eventDetailModel.value.matchDiff == TYPE_PRIZE) {
           item = LocationModel(5); //抽奖默认5
-        }else {
-          item = await SelectorDialog.show(context, eventDetailModel.value.location,
+        } else {
+          item = await SelectorDialog.show(
+              context, eventDetailModel.value.location,
               title: "Select Location".tr);
         }
       } else {
@@ -452,12 +473,15 @@ class EventPageController extends BasePageController {
               cupsleeve: timeResult == null
                   ? null
                   : TimeUtils.getYYYYMMDDHHMM(
-                      DateTime.fromMillisecondsSinceEpoch(timeResult * 1000), '-', ':'));
+                      DateTime.fromMillisecondsSinceEpoch(timeResult * 1000),
+                      '-',
+                      ':'));
           eventDetailModel.value.canCancel = true;
           dismissLoading();
           Get.dialog(
               ConfirmDialog(
-                  title: "Congratulations".tr, info: "You have successfully signed up!".tr),
+                  title: "Congratulations".tr,
+                  info: "You have successfully signed up!".tr),
               barrierColor: Colors.black26);
         });
       }
@@ -472,7 +496,7 @@ class EventPageController extends BasePageController {
 
   void checkFee(Function checkDone) {
     if (eventDetailModel.value.fee > 0) {
-     Get.bottomSheet(CheckFeeWidget(checkDone));
+      Get.bottomSheet(CheckFeeWidget(checkDone));
 /*      String tips =
           "${'We will charge a deposit of £'.tr}${eventDetailModel.value.fee} ${'from your balance for this sign up, Please make sure that you have enough balance.'.tr}";
       Get.bottomSheet(
@@ -495,5 +519,4 @@ class EventPageController extends BasePageController {
       checkDone.call();
     }
   }
-
 }

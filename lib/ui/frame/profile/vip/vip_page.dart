@@ -84,7 +84,7 @@ class VipPage extends StatelessWidget {
                                     ),
                                     Positioned(
                                       top: -10,
-                                      right: 0,
+                                      right: 10,
                                       child: Image.asset(
                                         "assets/images/profile/huizhang_${vipModel.level}.webp",
                                         height: 93.h,
