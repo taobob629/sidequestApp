@@ -45,25 +45,9 @@ class SideKickPage extends StatelessWidget {
                       tabs: controller.tabsList,
                       isScrollable: true,
                       overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      indicatorSize: TabBarIndicatorSize.label,
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.white38,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      labelStyle: TextStyle(
-                        fontSize: 20.sp,
-                        color: Colors.white,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      indicator: ContainerTabIndicator(
-                        height: 3.h,
-                        width: 20.w,
-                        radius: BorderRadius.circular(2.r),
-                        colors: [AppColor.yellow, AppColor.yellow],
-                        padding: EdgeInsets.only(top: 15.h),
-                      ),
+                      MaterialStateProperty.all(Colors.transparent),
+                      indicator: BoxDecoration(),
+                      onTap: (index) => controller.currentIndex.value = index,
                     ),
                   ),
                   Expanded(
