@@ -114,4 +114,12 @@ class GamesApi {
           ..['status'] = status);
     return response;
   }
+
+  /**
+   *  id 子项id skullAuthid 服务id status 0关闭 1开启
+   */
+  static Future<Response> deleteService(int? id) async {
+    Response response = await http.get('/peiwan/app/service/deletService?id=$id',);
+    return response;
+  }
 }

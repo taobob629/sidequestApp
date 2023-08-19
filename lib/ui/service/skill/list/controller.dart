@@ -12,6 +12,7 @@ import 'package:wy/utils/utils.dart';
 
 import '../../../../utils/storage_manager.dart';
 import '../../../../utils/toast_utils.dart';
+import '../../../common/dialog_confirm.dart';
 
 /*
     controller
@@ -116,6 +117,23 @@ class SkillListPageController extends GetxController {
     if (response.statusCode == 200) {
       item?.enabled = checkState ? 1 : 0;
     }
+  }
+
+  void deleteService(int? id) async {
+    Get.dialog(ConfirmDialog(
+      title: 'Confirm'.tr,
+      info: 'Are you sure you want to delete?'.tr,
+      onConfirm: () async {
+        showLoading();
+        var response = await GamesApi.deleteService(id);
+        dismissLoading();
+        Get.back();
+        if (response.statusCode == 200) {
+          showToast('Delete Successful'.tr);
+          onRefresh();
+        }
+      },
+    ));
   }
 
   String getItemDiscount(String discount) {

@@ -27,6 +27,7 @@ import 'package:wy/widget/views.dart';
 
 import '../../../image_utils.dart';
 import '../../../model/beans/game_role_bean.dart';
+import '../../../model/price_range_model.dart';
 import '../../../model/selector_item.dart';
 import '../../../model/service_info_model.dart';
 import '../../../utils/global_key_constants.dart';
@@ -175,8 +176,8 @@ class _AddGamePageState extends State<AddGamePage> {
     return;
   }
 
-  Widget itemBg(view, {Function? fun}) {
-    return PWidget.container(view, [null, 45.h, Color(0xFF2D2E3C)],
+  Widget itemBg(view, {Function? fun, Color? color}) {
+    return PWidget.container(view, [null, 45.h, color ?? Color(0xFF2D2E3C)],
         {'br': 10.r, 'pd': PFun.lg(0, 0, 16, 14), 'fun': fun});
   }
 
@@ -395,93 +396,102 @@ class _AddGamePageState extends State<AddGamePage> {
                   );
                 }),
 
-                Obx(() => Visibility(
-                      visible: (controller.gameLv.value.levelid >=
-                              (controller.gameConfig?.techLevel ?? 0)) &&
-                          (controller.gameConfig?.techLevel ?? 0) > 0,
-                      child: 16.verticalSpace,
-                    )),
-                Obx(() => Visibility(
-                      visible: (controller.gameLv.value.levelid >=
-                              (controller.gameConfig?.techLevel ?? 0)) &&
-                          (controller.gameConfig?.techLevel ?? 0) > 0,
-                      child: itemBg(
-                        PWidget.row([
-                          PWidget.text(
-                            'Role'.tr,
-                            [textColor],
-                          ),
-                          GestureDetector(
-                            onTapDown: (details) {
-                              print(details.globalPosition);
-                              Get.dialog(TableTipsDialog(
-                                offset: details.globalPosition,
-                                tips: 'tips',
-                              ));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: 8.w),
-                              width: 12.w,
-                              height: 12.w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Color(0xffb2b9c9),
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              child: Image.asset(
-                                ImageUtils.icon_help,
-                                width: 10.w,
-                                height: 10.w,
-                              ),
-                            ),
-                          ),
-                          PWidget.boxw(8),
-                          PWidget.text(
-                              controller.isTech.value == 0
-                                  ? 'SideKicker'.tr
-                                  : 'SideKick Pro'.tr,
-                              [textColor, 12.sp],
-                              {'ali': 1, 'exp': true}),
-                          rightJtView(16, textColor),
-                        ]),
-                        fun: () async {
-                          if (controller.platformIndex == null)
-                            return showToast('Please select category first'.tr);
-                          var list = controller
-                              .services[controller.platformIndex].skill;
-                          if (controller.gameIndex == null)
-                            return showToast('Please select service first'.tr);
+                16.verticalSpace,
+                Builder(builder: (context) {
+                  if (controller.platformIndex == null) return PWidget.boxh(0);
+                  var list =
+                      controller.services[controller.platformIndex].skill;
+                  if (controller.gameIndex == null) return PWidget.boxh(0);
+                  var levels = list[controller.gameIndex].level;
+                  if (levels.isEmpty) return PWidget.boxh(0);
 
-                          List<SelectorItem> items = [];
-                          GameRoleBean bean = GameRoleBean();
-                          bean.id = 0;
-                          bean.name = 'SideKicker'.tr;
-                          bean.desc =
-                              'Simple and quick signup, no review required.'.tr;
-                          items.add(bean);
-
-                          bean = GameRoleBean();
-                          bean.id = 1;
-                          bean.name = 'SideKicker Pro'.tr;
-                          bean.desc =
-                              'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'
-                                  .tr;
-                          items.add(bean);
-
-                          var res = await Get.dialog(
-                            SelectorDialog(
-                              items: items,
-                              title: "Select Role".tr,
-                              showInfo: true,
-                            ),
-                            barrierColor: Colors.black26,
-                          );
-                          if (res != null) {
-                            controller.isTech.value = res.id;
-                          }
-                        },
+                  return itemBg(
+                    PWidget.row([
+                      PWidget.text(
+                        'Role'.tr,
+                        [textColor],
                       ),
-                    )),
+                      GestureDetector(
+                        onTapDown: (details) {
+                          print(details.globalPosition);
+                          Get.dialog(TableTipsDialog(
+                            offset: details.globalPosition,
+                            infoList: controller.gameConfig?.infoList ?? [],
+                          ));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 8.w),
+                          width: 12.w,
+                          height: 12.w,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Color(0xffb2b9c9),
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Image.asset(
+                            ImageUtils.icon_help,
+                            width: 10.w,
+                            height: 10.w,
+                          ),
+                        ),
+                      ),
+                      PWidget.boxw(8),
+                      PWidget.text(
+                          controller.isTech.value == 0
+                              ? 'SideKicker'.tr
+                              : 'SideKick Pro'.tr,
+                          [textColor, 12.sp],
+                          {'ali': 1, 'exp': true}),
+                      rightJtView(16, textColor),
+                    ]),
+                    color: ((controller.gameLv.value.levelid >=
+                                (controller.gameConfig?.techLevel ?? 0)) &&
+                            (controller.gameConfig?.techLevel ?? 0) > 0)
+                        ? Colors.grey
+                        : null,
+                    fun: () async {
+                      if ((controller.gameLv.value.levelid >=
+                              (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0) {
+                        return;
+                      }
+                      if (controller.platformIndex == null)
+                        return showToast('Please select category first'.tr);
+                      var list =
+                          controller.services[controller.platformIndex].skill;
+                      if (controller.gameIndex == null)
+                        return showToast('Please select service first'.tr);
+
+                      List<SelectorItem> items = [];
+                      GameRoleBean bean = GameRoleBean();
+                      bean.id = 0;
+                      bean.name = 'SideKicker'.tr;
+                      bean.desc =
+                          'Simple and quick signup, no review required.'.tr;
+                      items.add(bean);
+
+                      bean = GameRoleBean();
+                      bean.id = 1;
+                      bean.name = 'SideKicker Pro'.tr;
+                      bean.desc =
+                          'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'
+                              .tr;
+                      items.add(bean);
+
+                      var res = await Get.dialog(
+                        SelectorDialog(
+                          items: items,
+                          title: "Select Role".tr,
+                          showInfo: true,
+                        ),
+                        barrierColor: Colors.black26,
+                      );
+                      if (res != null) {
+                        controller.isTech.value = res.id;
+                      }
+                    },
+                  );
+                }),
 
                 if (controller.priceRanges.isNotEmpty) 16.verticalSpace,
                 if (controller.priceRanges.isNotEmpty) fieldsRange(context),
@@ -576,10 +586,14 @@ class _AddGamePageState extends State<AddGamePage> {
 }
 
 class TableTipsDialog extends StatelessWidget {
-  TableTipsDialog({Key? key, required this.offset, required this.tips})
-      : super(key: key);
+  TableTipsDialog({
+    Key? key,
+    required this.offset,
+    required this.infoList,
+  }) : super(key: key);
+
   final Offset offset;
-  final String tips;
+  final List<InfoItem> infoList;
 
   @override
   Widget build(BuildContext context) {
@@ -610,9 +624,19 @@ class TableTipsDialog extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xFF616161),
-                  width: 1.w,
+                border: Border(
+                  top: BorderSide(
+                    color: Color(0xFF616161),
+                    width: 1.w,
+                  ),
+                  left: BorderSide(
+                    color: Color(0xFF616161),
+                    width: 1.w,
+                  ),
+                  right: BorderSide(
+                    color: Color(0xFF616161),
+                    width: 1.w,
+                  ),
                 ),
               ),
               child: Column(
@@ -698,387 +722,89 @@ class TableTipsDialog extends StatelessWidget {
                     height: 1.h,
                     color: Color(0xFF616161),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Lv1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '20%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '18%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            '',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 1.h,
-                    color: Color(0xFF616161),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Lv2',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '19%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '16%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            '>=100',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 1.h,
-                    color: Color(0xFF616161),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Lv3',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '18%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '14%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            '>=300',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 1.h,
-                    color: Color(0xFF616161),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Lv4',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '17%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '12%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            '>=600',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 1.h,
-                    color: Color(0xFF616161),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            'Lv5',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '15%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Center(
-                          child: Text(
-                            '10%',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30.h,
-                        width: 1.w,
-                        color: Color(0xFF616161),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Text(
-                            '>=1000',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: FONT_MEDIUM,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ...infoList
+                      .map((e) => Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Center(
+                                      child: Text(
+                                        e.level,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontSize: 10.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 30.h,
+                                    width: 1.w,
+                                    color: Color(0xFF616161),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Center(
+                                      child: Text(
+                                        e.pro,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontSize: 10.sp,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 30.h,
+                                    width: 1.w,
+                                    color: Color(0xFF616161),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Center(
+                                      child: Text(
+                                        e.sidekicker,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontSize: 10.sp,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 30.h,
+                                    width: 1.w,
+                                    color: Color(0xFF616161),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Center(
+                                      child: Text(
+                                        e.orders,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontSize: 10.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 1.h,
+                                color: Color(0xFF616161),
+                              ),
+                            ],
+                          ))
+                      .toList()
                 ],
               ),
             ),

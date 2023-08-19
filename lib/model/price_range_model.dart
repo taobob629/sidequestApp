@@ -7,11 +7,13 @@ class GameConfig {
   final int techLevel;
   final List<FieldsItem> fields;
   final List<PriceRangeModel> priceRange;
+  final List<InfoItem> infoList;
 
   GameConfig({
     required this.techLevel,
     required this.fields,
     required this.priceRange,
+    required this.infoList,
   });
 
   factory GameConfig.fromJson(Map<String, dynamic>? json) => GameConfig(
@@ -22,12 +24,35 @@ class GameConfig {
         priceRange: asT<List>(json, 'priceRange')
             .map((e) => PriceRangeModel.fromJson(e))
             .toList(),
+        infoList:
+            asT<List>(json, 'info').map((e) => InfoItem.fromJson(e)).toList(),
       );
 
   Map<String, dynamic> toJson() => {
         'fields': fields.map((e) => e.toJson()).toList(),
         'priceRange': priceRange.map((e) => e.toJson()).toList(),
       };
+}
+
+class InfoItem {
+  String level;
+  String orders;
+  String pro;
+  String sidekicker;
+
+  InfoItem({
+    this.level = "",
+    this.orders = "",
+    this.pro = "",
+    this.sidekicker = "",
+  });
+
+  factory InfoItem.fromJson(Map<String, dynamic>? json) => InfoItem(
+        level: asT<String>(json, 'level'),
+        orders: asT<String>(json, 'orders'),
+        pro: asT<String>(json, 'pro'),
+        sidekicker: asT<String>(json, 'sidekicker'),
+      );
 }
 
 const int single = 1;

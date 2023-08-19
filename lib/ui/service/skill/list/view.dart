@@ -164,7 +164,8 @@ class SkillListPage extends GetView<SkillListPageController> {
                 ),
               ),
               editStatus(data),
-              addStatus(data)
+              addStatus(data),
+              deleteStatus(data),
             ],
           ),
           5.verticalSpace,
@@ -234,7 +235,7 @@ class SkillListPage extends GetView<SkillListPageController> {
             },
             child: Container(
               width: 32.w,
-              margin: EdgeInsets.only(right: 15.w),
+              margin: EdgeInsets.only(right: 6.w),
               height: 32.w,
               padding: EdgeInsets.all(10),
               decoration: itemDecoration(color: AppColor.yellow, radius: 16.w),
@@ -243,6 +244,25 @@ class SkillListPage extends GetView<SkillListPageController> {
             ),
           )
         : Container();
+  }
+
+  Widget deleteStatus(SkillModel data) {
+    return InkWell(
+      onTap: () => controller.deleteService(data.id),
+      child: Container(
+        width: 32.w,
+        margin: EdgeInsets.symmetric(horizontal: 6.w),
+        height: 32.w,
+        padding: EdgeInsets.all(10),
+        decoration: itemDecoration(color: AppColor.yellow, radius: 16.w),
+        child: ImageUtil.assetImage(
+          'ic_delete2',
+          width: 13.w,
+          height: 13.w,
+          color: Colors.black,
+        ),
+      ),
+    );
   }
 
   Widget addStatus(SkillModel data) {
