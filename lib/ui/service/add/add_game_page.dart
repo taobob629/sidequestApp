@@ -444,17 +444,7 @@ class _AddGamePageState extends State<AddGamePage> {
                           {'ali': 1, 'exp': true}),
                       rightJtView(16, textColor),
                     ]),
-                    color: ((controller.gameLv.value.levelid >=
-                                (controller.gameConfig?.techLevel ?? 0)) &&
-                            (controller.gameConfig?.techLevel ?? 0) > 0)
-                        ? Colors.grey
-                        : null,
                     fun: () async {
-                      if ((controller.gameLv.value.levelid >=
-                              (controller.gameConfig?.techLevel ?? 0)) &&
-                          (controller.gameConfig?.techLevel ?? 0) > 0) {
-                        return;
-                      }
                       if (controller.platformIndex == null)
                         return showToast('Please select category first'.tr);
                       var list =
@@ -469,6 +459,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       bean.desc =
                           'Simple and quick signup, no review required.'.tr;
                       items.add(bean);
+                      bean.setGrey = !((controller.gameLv.value.levelid >=
+                          (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0);
 
                       bean = GameRoleBean();
                       bean.id = 1;
@@ -476,6 +469,10 @@ class _AddGamePageState extends State<AddGamePage> {
                       bean.desc =
                           'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'
                               .tr;
+                      bean.setGrey = !((controller.gameLv.value.levelid >=
+                              (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0);
+
                       items.add(bean);
 
                       var res = await Get.dialog(

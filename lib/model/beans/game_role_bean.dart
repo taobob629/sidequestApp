@@ -4,6 +4,7 @@ class GameRoleBean extends SelectorItem {
   int id = 0;
   String name = "";
   String desc = "";
+  bool setGrey = true;
 
   GameRoleBean();
 
@@ -19,7 +20,7 @@ class GameRoleBean extends SelectorItem {
 
   @override
   bool selectable() {
-    return true;
+    return setGrey;
   }
 
   @override
