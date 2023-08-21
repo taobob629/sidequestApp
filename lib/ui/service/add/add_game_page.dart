@@ -385,6 +385,7 @@ class _AddGamePageState extends State<AddGamePage> {
                         barrierColor: Colors.black26,
                       );
                       if (res != null) {
+                        controller.isTech.value = 0;
                         setState(() {
                           controller.gameLvIndex = int.parse(res.name);
                           controller.gameLv.value =
@@ -436,12 +437,13 @@ class _AddGamePageState extends State<AddGamePage> {
                         ),
                       ),
                       PWidget.boxw(8),
-                      PWidget.text(
-                          controller.isTech.value == 0
-                              ? 'SideKicker'.tr
-                              : 'SideKick Pro'.tr,
-                          [textColor, 12.sp],
-                          {'ali': 1, 'exp': true}),
+                      Obx(() => PWidget.text(
+                            controller.isTech.value == 0
+                                ? 'SideKicker'.tr
+                                : 'SideKick Pro'.tr,
+                            [textColor, 12.sp],
+                            {'ali': 1, 'exp': true},
+                          )),
                       rightJtView(16, textColor),
                     ]),
                     fun: () async {
@@ -459,9 +461,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       bean.desc =
                           'Simple and quick signup, no review required.'.tr;
                       items.add(bean);
-                      bean.setGrey = !((controller.gameLv.value.levelid >=
-                          (controller.gameConfig?.techLevel ?? 0)) &&
-                          (controller.gameConfig?.techLevel ?? 0) > 0);
+                      bean.setGrey = (controller.gameLv.value.levelid >=
+                              (controller.gameConfig?.techLevel ?? 0)) &&
+                          (controller.gameConfig?.techLevel ?? 0) > 0;
 
                       bean = GameRoleBean();
                       bean.id = 1;
@@ -469,9 +471,9 @@ class _AddGamePageState extends State<AddGamePage> {
                       bean.desc =
                           'Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.'
                               .tr;
-                      bean.setGrey = !((controller.gameLv.value.levelid >=
+                      bean.setGrey = (controller.gameLv.value.levelid >=
                               (controller.gameConfig?.techLevel ?? 0)) &&
-                          (controller.gameConfig?.techLevel ?? 0) > 0);
+                          (controller.gameConfig?.techLevel ?? 0) > 0;
 
                       items.add(bean);
 
