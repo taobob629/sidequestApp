@@ -112,44 +112,6 @@ class LoginPage extends StatelessWidget {
                           borderRadius: 40.r,
                           onTap: () => controller.login(),
                         ),
-                        30.verticalSpace,
-                        GestureDetector(
-                          onTap: () => Get.toNamed(AppPages.REGISTER,
-                              arguments: Map()..['type'] = 1),
-                          child: Container(
-                            color: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Sign Up".tr,
-                                  style: TextStyle(
-                                    color: Color(0xffFFD20E),
-                                    fontSize: 16.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                  ),
-                                ),
-                                4.horizontalSpace,
-                                Icon(
-                                  Icons.trending_neutral_rounded,
-                                  color: Color(0xffFFD20E),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        20.verticalSpace,
-                        Center(
-                          child: Text(
-                            'Or Sign in with',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM,
-                            ),
-                          ),
-                        ),
                         10.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -179,31 +141,31 @@ class LoginPage extends StatelessWidget {
                             GetBuilder<AppController>(
                                 id: AppController.find.showGoogleSignInId,
                                 builder: (builder) => Visibility(
-                                      visible: Platform.isAndroid &&
-                                          AppController.find.showGoogleSingIn,
-                                      child: GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () =>
-                                            controller.loginWithGoogle(),
-                                        child: Container(
-                                          width: 46.w,
-                                          height: 46.w,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(46.r),
-                                            border: Border.all(
-                                              color: Color(0xff707070),
-                                              width: 1.w,
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.all(8.r),
-                                          child: Image.asset(
-                                            ImageUtils.google_icon,
-                                            scale: 4,
-                                          ),
+                                  visible: Platform.isAndroid &&
+                                      AppController.find.showGoogleSingIn,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () =>
+                                        controller.loginWithGoogle(),
+                                    child: Container(
+                                      width: 46.w,
+                                      height: 46.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(46.r),
+                                        border: Border.all(
+                                          color: Color(0xff707070),
+                                          width: 1.w,
                                         ),
                                       ),
-                                    )),
+                                      padding: EdgeInsets.all(8.r),
+                                      child: Image.asset(
+                                        ImageUtils.google_icon,
+                                        scale: 4,
+                                      ),
+                                    ),
+                                  ),
+                                )),
                             15.horizontalSpace,
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
@@ -226,6 +188,32 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                        10.verticalSpace,
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppPages.REGISTER,
+                              arguments: Map()..['type'] = 1),
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Sign Up".tr,
+                                  style: TextStyle(
+                                    color: Color(0xffFFD20E),
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                ),
+                                4.horizontalSpace,
+                                Icon(
+                                  Icons.trending_neutral_rounded,
+                                  color: Color(0xffFFD20E),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
