@@ -69,8 +69,8 @@ class ReleasePostController extends GetxController {
 
   pickUploadPhoto() async {
     print('photoList = ${photoList.length}');
-    List<XFile> files = await _picker.pickMultiImage();
-    if (files.isEmpty == true) {
+    List<XFile>? files = await _picker.pickMultiImage();
+    if (files?.isEmpty == true) {
       return;
     }
 

@@ -117,8 +117,8 @@ dependencies {
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'
     implementation 'com.stripe:stripe-android:20.6.2'
-    compile (name: 'alipaysdk-15.8.06.211122170115', ext: 'aar')
-    compile (name: 'pay360mobilesdk', ext: 'aar')
+    implementation (name: 'alipaysdk-15.8.06.211122170115', ext: 'aar')
+    implementation (name: 'pay360mobilesdk', ext: 'aar')
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.1.1')
