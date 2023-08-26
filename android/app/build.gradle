@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'
-    implementation 'com.stripe:stripe-android:20.6.2'
+    implementation 'com.stripe:stripe-android:20.20.0'
     implementation (name: 'alipaysdk-15.8.06.211122170115', ext: 'aar')
     implementation (name: 'pay360mobilesdk', ext: 'aar')
 

@@ -34,9 +34,10 @@ class SelectorDialog extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -78,13 +79,15 @@ class SelectorDialog extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 6),
                       child: Row(
                         children: [
-                          Text(
-                            showName(item.displayLabel()),
-                            style: TextStyle(
-                              color: item.selectable()
-                                  ? Colors.white
-                                  : Colors.grey,
-                              fontSize: 14,
+                          Expanded(
+                            child: Text(
+                              showName(item.displayLabel()),
+                              style: TextStyle(
+                                color: item.selectable()
+                                    ? Colors.white
+                                    : Colors.grey,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                           6.horizontalSpace,

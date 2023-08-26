@@ -102,7 +102,7 @@ class CheckFeeWidget extends GetView<EventPageController> {
                         //计算优惠金额
                         var result = await CouponApi.caculateFee(
                             model.id, controller.eventDetailModel.value.id);
-                        if(result?.total==0)return;
+                        // if(result?.total==0)return;
                         total.value = '${result?.total}';
                         subTotal.value = '${result?.subtotal}';
                         balance.value = '${result?.balance}';
