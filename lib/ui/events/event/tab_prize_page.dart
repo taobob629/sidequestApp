@@ -47,61 +47,63 @@ class TabPrizePage extends StatelessWidget {
                         height: 50.w,
                       )),
                   12.horizontalSpace,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Visibility(
-                        visible: controller.eventDetailModel.value.eventPrize[i]
-                            .nickname.isNotEmpty,
-                        child: Text(
-                          controller
-                              .eventDetailModel.value.eventPrize[i].nickname,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontFamily: 'DIN',
-                          ),
-                        ),
-                      ),
-                      4.verticalSpace,
-                      Row(
-                        children: [
-                          Visibility(
-                            visible: i < 3,
-                            child: Image.asset(
-                              i == 0
-                                  ? ImageUtils.icon_first
-                                  : i == 1
-                                      ? ImageUtils.icon_second
-                                      : ImageUtils.icon_third,
-                              scale: 5.6,
-                            ),
-                          ),
-                          Visibility(
-                            visible: i < 3,
-                            child: 6.horizontalSpace,
-                          ),
-                          Text(
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: controller.eventDetailModel.value.eventPrize[i]
+                              .nickname.isNotEmpty,
+                          child: Text(
                             controller
-                                .eventDetailModel.value.eventPrize[i].name,
+                                .eventDetailModel.value.eventPrize[i].nickname,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
                               fontFamily: 'DIN',
                             ),
                           ),
-                        ],
-                      ),
-                      4.verticalSpace,
-                      Text(
-                        controller.eventDetailModel.value.eventPrize[i].value,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontFamily: 'DIN',
                         ),
-                      ),
-                    ],
+                        4.verticalSpace,
+                        Row(
+                          children: [
+                            Visibility(
+                              visible: i < 3,
+                              child: Image.asset(
+                                i == 0
+                                    ? ImageUtils.icon_first
+                                    : i == 1
+                                        ? ImageUtils.icon_second
+                                        : ImageUtils.icon_third,
+                                scale: 5.6,
+                              ),
+                            ),
+                            Visibility(
+                              visible: i < 3,
+                              child: 6.horizontalSpace,
+                            ),
+                            Text(
+                              controller
+                                  .eventDetailModel.value.eventPrize[i].name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontFamily: 'DIN',
+                              ),
+                            ),
+                          ],
+                        ),
+                        4.verticalSpace,
+                        Text(
+                          controller.eventDetailModel.value.eventPrize[i].value,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: 'DIN',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

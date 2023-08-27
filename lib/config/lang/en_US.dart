@@ -5,6 +5,8 @@ const Map<String, String> en_US = {
   'Password': 'Password',
   'Sign Up': 'Sign Up',
   'Forgotten your password?': 'Forgotten your password?',
+  'Info：': 'Info：',
+  'After applying for an appointment, please go to the SideKick homepage to enter the SideKick Official DC. Wait in the assessment channel 5minutes before the assessment time, if you are not in the DC at the stipulated time, the appointment will be canceled automatically.': 'After applying for an appointment, please go to the SideKick homepage to enter the SideKick Official DC. Wait in the assessment channel 5minutes before the assessment time, if you are not in the DC at the stipulated time, the appointment will be canceled automatically.',
   'Please input your email': 'Please input your email',
   'Please input your password': 'Please input your password',
   'Account Validation': 'Account Validation',

@@ -10,6 +10,8 @@ const Map<String, String> zh_CN = {
   'Account Validation': '账户验证',
   'Validate by': 'Validate by',
   'Validate information': '验证信息',
+  'Info：': '提示',
+  'After applying for an appointment, please go to the SideKick homepage to enter the SideKick Official DC. Wait in the assessment channel 5minutes before the assessment time, if you are not in the DC at the stipulated time, the appointment will be canceled automatically.': '请陪玩申请预约时间后自行到SideKick首页进入SideKick官方DC. 请在审核时间前5分钟在SideKick官方DC的审核频道等待，如在规定时间不在DC，将自动作废此次预约.',
   'CONFIRM': '确认',
   'Please input your': '请输入',
   'Terms and Conditions': '条款和条件',

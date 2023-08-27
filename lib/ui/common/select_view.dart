@@ -9,12 +9,14 @@ class SelectView extends StatelessWidget {
   final Color backgroundColor;
   final Function? onTap;
   final double marginDis;
+  final double? height;
 
   SelectView({
     required this.label,
     required this.tips,
     this.backgroundColor = const Color(0xff48464a),
     this.marginDis = 15,
+    this.height,
     this.value,
     this.onTap,
   });
@@ -44,7 +46,7 @@ class SelectView extends StatelessWidget {
               ),
             ),
             Container(
-                height: 45.h,
+                height: height ?? 45.h,
                 margin: EdgeInsets.only(
                     left: marginDis, right: marginDis, top: 5, bottom: 3),
                 padding: const EdgeInsets.symmetric(horizontal: 15),

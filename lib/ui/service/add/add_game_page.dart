@@ -16,6 +16,7 @@ import 'package:wy/ui/common/floating_button.dart';
 import 'package:wy/ui/common/page_title.dart';
 import 'package:wy/ui/common/privacy_check.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
+import 'package:wy/ui/service/add/pro/view.dart';
 import 'package:wy/utils/image_util.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
@@ -130,7 +131,7 @@ class _AddGamePageState extends State<AddGamePage> {
                   label: '${controller.isEdit ? 'Confirm'.tr : 'Next'.tr}',
                   onTap: () => controller.privacyCheckController.check()
                       ? controller.isEdit
-                          ? controller.updateService()
+                          ? controller.updateService(false)
                           : update()
                       : null,
                 ),
@@ -172,7 +173,11 @@ class _AddGamePageState extends State<AddGamePage> {
     }
 
     //var priceRanges = json.encode(controller.mPriceRanges);
-    controller.toAddServiceTypePage();
+    if (controller.isTech.value == 0) {
+      controller.toAddServiceTypePage();
+    } else {
+      Get.to(() => ProInterviewPage(true));
+    }
     return;
   }
 

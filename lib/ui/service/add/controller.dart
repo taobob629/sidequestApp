@@ -21,12 +21,16 @@ import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/game/game_home_page.dart';
 import 'package:wy/ui/frame/profile/other_profile/record/controller.dart';
 import 'package:wy/ui/profile/edit/crop_page.dart';
+import 'package:wy/ui/service/add/pro/view.dart';
 import 'package:wy/utils/permission_helper.dart';
 import 'package:wy/utils/utils.dart';
 import 'package:wy/widget/profile/voice_widget.dart';
+import 'package:wy/widget/route.dart';
 
 import '../../../../config/app_pages.dart';
+import '../../../utils/time_utils.dart';
 import '../../../utils/toast_utils.dart';
+import '../../common/dialog_date_time_picker.dart';
 import '../skill/list/controller.dart';
 
 class AddGamePageController extends GetxController {
@@ -45,6 +49,7 @@ class AddGamePageController extends GetxController {
 
   SkillItem? get game => _game.value;
   TextEditingController teServiceIntro = TextEditingController();
+  TextEditingController discordIdCtr = TextEditingController();
   RxString _background = RxString('');
 
   GameConfig? gameConfig;
@@ -60,6 +65,8 @@ class AddGamePageController extends GetxController {
   }
 
   var id;
+  var ifSelectDuration = false.obs;
+  var selectTime = DateTime.now().obs;
 
   ServiceDetailModel? get serviceModel => _serviceModel.value;
   late PrivacyCheckController privacyCheckController;
@@ -112,6 +119,7 @@ class AddGamePageController extends GetxController {
 
   // 0:entritainment 1:technology
   var isTech = 0.obs;
+  var language = 0.obs;
 
   getSkillInfo() async {
     serviceModel = await GamesApi.getSkillDetail(id);
@@ -182,6 +190,23 @@ class AddGamePageController extends GetxController {
     mPriceRangesRemark[index] = cacheModel;
   }
 
+  void showSelectTime() {
+    Get.dialog<DateTime?>(
+        DateTimePickerDialog(
+          format: "dd-MMM-yyyy HH:mm",
+          initDateTime: selectTime.value,
+          minuteDivider: 30,
+          ifSkip: true,
+        ),
+        barrierColor: Colors.black26)
+        .then((value) {
+      if (value != null) {
+        ifSelectDuration.value = true;
+        this.selectTime.value = value;
+      }
+    });
+  }
+
   removePriceRange(int index) {
     mPriceRanges.removeAt(index);
     mPriceRangesRemark.removeAt(index);
@@ -236,10 +261,10 @@ class AddGamePageController extends GetxController {
       return;
     }
 
-    updateService();
+    updateService(true);
   }
 
-  updateService() async {
+  updateService(bool flag) async {
     var desc = teServiceIntro.text;
     //flog('priceRanges $mPriceRanges');
     if (!isEdit) {
@@ -259,6 +284,15 @@ class AddGamePageController extends GetxController {
         return;
       }
     }
+    if (flag || isTech.value == 0) {
+      jumpProOrSubmit(desc);
+      return;
+    }
+    await Get.to(() => ProInterviewPage(false));
+    jumpProOrSubmit(desc);
+  }
+
+  void jumpProOrSubmit(String desc) {
     showLoading();
 
     List<LocalPriceRangeBean> priceRangeList = [];
@@ -273,7 +307,7 @@ class AddGamePageController extends GetxController {
         discount = {
           'type': 1,
           'discount':
-              int.parse(element.currentDiscount.value.name.split('%')[0]),
+          int.parse(element.currentDiscount.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 1) {
@@ -281,7 +315,7 @@ class AddGamePageController extends GetxController {
         discount = {
           'type': 3,
           'discount':
-              int.parse(element.currentOrderFree.value.name.split('%')[0]),
+          int.parse(element.currentOrderFree.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 2) {
@@ -317,6 +351,9 @@ class AddGamePageController extends GetxController {
       'backGround': background,
       'voice': voiceUrl,
       'isTech': isTech.value,
+      'language': language.value == 0 ? 'Chinese' : 'English',
+      'discordId': discordIdCtr.text,
+      'interviewDate': (selectTime.value.millisecondsSinceEpoch) ~/ 1000,
       // "des": beGoodAtCon.text,
     };
     http.post('/peiwan/app/service/addService', data: data).then((v) {
@@ -336,10 +373,10 @@ class AddGamePageController extends GetxController {
       } else {
         Get.until((route) => Get.currentRoute.contains(AppPages.SkillList));
         SkillListPageController skillListPageController =
-            Get.find<SkillListPageController>();
+        Get.find<SkillListPageController>();
         skillListPageController.onRefresh();
         Get.to(
-          () => GameHomePage(),
+              () => GameHomePage(),
           arguments: {
             "liveid": v.data['liveid'],
             "skillId": v.data['skillId'],
