@@ -390,10 +390,13 @@ class EventPageController extends BasePageController {
             eventDetailModel.value = await EventsApi.getActivityDetail(id);
             dismissLoading();
             Get.dialog(
-                ConfirmDialog(
-                    title: "Congratulations".tr,
-                    info: "You have successfully signed up!".tr),
-                barrierColor: Colors.black26);
+              ConfirmDialog(
+                title: "Congratulations".tr,
+                info: "You have successfully signed up!".tr,
+              ),
+              barrierColor: Colors.black26,
+            );
+            userController.updateInfo();
           });
         }
       } else {
@@ -423,6 +426,7 @@ class EventPageController extends BasePageController {
                     title: "Congratulations".tr,
                     info: "You have successfully signed up!".tr),
                 barrierColor: Colors.black26);
+            userController.updateInfo();
           });
         }
       }
@@ -437,6 +441,8 @@ class EventPageController extends BasePageController {
     // Get.dialog(ConfirmDialog(title: "Confirm".tr, info: "Successfully Canceled!".tr),
     //     barrierColor: Colors.black26);
     dismissLoading();
+    onRefresh();
+    userController.updateInfo();
   }
 
   void joinMatch(BuildContext context) async {
@@ -483,6 +489,7 @@ class EventPageController extends BasePageController {
                   title: "Congratulations".tr,
                   info: "You have successfully signed up!".tr),
               barrierColor: Colors.black26);
+          userController.updateInfo();
         });
       }
     });

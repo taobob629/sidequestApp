@@ -157,7 +157,8 @@ class CheckFeeWidget extends GetView<EventPageController> {
   void pay(){
     UserController userController = Get.find<UserController>();
     double userBalance = double.parse(userController.userProfile.balance);
-    if (userBalance >= controller.eventDetailModel.value.fee) {
+
+    if (userBalance >= double.parse(total.value)) {
       checkDone.call();
       Get.back();
     } else {
