@@ -195,7 +195,8 @@ class AddGamePageController extends GetxController {
         DateTimePickerDialog(
           format: "dd-MMM-yyyy HH:mm",
           initDateTime: selectTime.value,
-          minuteDivider: 30,
+          minDateTime: DateTime.now(),
+          minuteDivider: 1,
           ifSkip: true,
         ),
         barrierColor: Colors.black26)

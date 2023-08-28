@@ -87,11 +87,10 @@ class SkillListPage extends GetView<SkillListPageController> {
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) => item(index),
                                   separatorBuilder: (context, index) =>
-                                      Container(
-                                    height: 10.h,
-                                  ),
+                                      Container(height: 10.h),
                                   itemCount: controller.list.length,
-                                )),
+                                ),
+                              ),
                   )),
             ));
       }),
@@ -302,7 +301,8 @@ class SkillListPage extends GetView<SkillListPageController> {
     double icon_size = 13;
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5).r,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -383,28 +383,24 @@ class SkillListPage extends GetView<SkillListPageController> {
           ),
           Visibility(
             visible: controller.getItemDiscount(item?.discount ?? '') != '',
-            child: Positioned(
-              left: 0,
-              bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xffDA7A19),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.r),
-                    topRight: Radius.circular(15.r),
-                    bottomRight: Radius.circular(15.r),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xffDA7A19),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.r),
+                  topRight: Radius.circular(15.r),
+                  bottomRight: Radius.circular(15.r),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 4.w,
-                ),
-                child: Text(
-                  controller.getItemDiscount(item?.discount ?? ''),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 7.sp,
-                    fontFamily: FONT_MEDIUM,
-                  ),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 4.w,
+              ),
+              child: Text(
+                controller.getItemDiscount(item?.discount ?? ''),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 7.sp,
+                  fontFamily: FONT_MEDIUM,
                 ),
               ),
             ),
