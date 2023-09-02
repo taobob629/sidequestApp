@@ -77,7 +77,13 @@ class ImageUtils {
   static const String eruption_flag_icon = 'assets/images/eruption_flag_icon.jpg';
   static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
   static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
+  static const String invite_copy_bg = 'assets/images/invite_copy_bg.webp';
   static const String ic_invite = 'assets/images/profile/share.webp';
+  static const String invite_icon = 'assets/images/profile/invite_icon.webp';
+  static const String sidekicker_icon = 'assets/images/profile/sidekicker_icon.webp';
+  static const String coin_icon = 'assets/images/profile/coin_icon.webp';
+  static const String order_icon = 'assets/images/profile/order_icon.webp';
+  static const String diamond_icon = 'assets/images/profile/diamond_icon.webp';
 
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';

@@ -25,6 +25,7 @@ import '../../../profile/balance/balance_page.dart';
 import '../../../profile/events/my_events_page.dart';
 import '../../../profile/task/task_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
+import '../invite/invite_page.dart';
 import 'my_album_page.dart';
 import 'my_dashboard_page.dart';
 import 'my_posts_page.dart';
@@ -536,11 +537,10 @@ class MyProfilePage extends StatelessWidget {
                                   child: _dashboardLabelItem(
                                     ImageUtils.ic_invite,
                                     "Invite".tr,
-                                    onTap: () => Get.to(() => WebPage(
-                                          title: "Invite".tr,
-                                          url:
-                                              '$inviteUrl?token=${StorageManager.getToken()}',
-                                        )),
+                                    onTap: () => Get.to(
+                                      () => InvitePage(),
+                                      arguments: "Invite".tr,
+                                    ),
                                   ),
                                 ),
                               ],
