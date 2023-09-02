@@ -515,7 +515,7 @@ class EventPageController extends BasePageController {
                             Row(
                               children: [
                                 Text(
-                                  'Your entry code:'.tr +'${map['code']}',
+                                  'Battlefly verification code:'.tr +'${map['code']}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
