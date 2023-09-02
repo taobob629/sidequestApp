@@ -86,7 +86,7 @@ class EventsApi {
     return response;
   }
 
-  static Future<void> joinMatch(int eventId,int userId,int location,{var cupsleeve,var memberCouponId}) async {
+  static Future<Map<String, String>> joinMatch(int eventId,int userId,int location,{var cupsleeve,var memberCouponId}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
@@ -97,6 +97,10 @@ class EventsApi {
     var response = await http.post('/app/events/joinMatch',
       data: formData
     );
+    return {
+      'url': response.data['url'],
+      'code': response.data['code'],
+    };
   }
 
   static Future<int> createTeam(int eventId,String name,String code,String role, String discordTag,int location) async {

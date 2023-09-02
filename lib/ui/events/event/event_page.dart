@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wy/api/events_api.dart';
 import 'package:wy/common/base_controller.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -25,6 +27,7 @@ import 'package:wy/utils/time_utils.dart';
 import 'package:wy/widget/views.dart';
 
 import '../../../utils/toast_utils.dart';
+import '../../common/wy_dialog.dart';
 import '../widget/event_header.dart';
 import 'join_button.dart';
 import 'tab_overview_page.dart';
@@ -473,7 +476,7 @@ class EventPageController extends BasePageController {
         LocationModel store = item as LocationModel;
         checkFee(() async {
           showLoading();
-          await EventsApi.joinMatch(
+          final map = await EventsApi.joinMatch(
               eventDetailModel.value.id, userController.user.value.id, store.id,
               memberCouponId: eventDetailModel.value.memberCouponId,
               cupsleeve: timeResult == null
@@ -484,11 +487,129 @@ class EventPageController extends BasePageController {
                       ':'));
           eventDetailModel.value.canCancel = true;
           dismissLoading();
-          Get.dialog(
+          if (map['code'].toString().isEmpty == true) {
+            Get.dialog(
               ConfirmDialog(
                   title: "Congratulations".tr,
                   info: "You have successfully signed up!".tr),
-              barrierColor: Colors.black26);
+              barrierColor: Colors.black26,
+            );
+          } else {
+            Get.dialog(
+              WyDialog(
+                child: Container(
+                  height: 0.7.sw,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Tips'.tr,
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      10.verticalSpace,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '您的密码是：${map['code']}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: '${map['code']}'));
+                                    showToast('Copied Successfully'.tr);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 20.w),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 8.w,
+                                      vertical: 2.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          Color(0xFFD49C21),
+                                          Color(0xFFE96524)
+                                        ],
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Copy".tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: "DIN",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            10.verticalSpace,
+                            Text(
+                              '点击跳转正式报名地址：(需要自行组队找队友)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () async {
+                                Get.back();
+                                if (!await launchUrl(
+                                    Uri.parse(map['url'].toString()))) {
+                                  throw Exception(
+                                      'Could not launch ${map['url']}');
+                                }
+                              },
+                              child: Text(
+                                '${map['url']}',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 14.sp,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ColorfulButton(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            "CONFIRM".tr,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: "DIN",
+                            ),
+                          ),
+                        ),
+                        height: 40,
+                        onTap: () => Get.back(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              barrierColor: Colors.black26,
+            );
+          }
           userController.updateInfo();
         });
       }
