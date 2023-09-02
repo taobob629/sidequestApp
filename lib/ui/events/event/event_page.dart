@@ -515,7 +515,7 @@ class EventPageController extends BasePageController {
                             Row(
                               children: [
                                 Text(
-                                  '您的密码是：${map['code']}',
+                                  'Your entry code:'.tr +'${map['code']}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
