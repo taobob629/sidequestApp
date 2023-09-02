@@ -35,7 +35,11 @@ class PostListItemView extends GetView<PostListController> {
     this.isSelf = false,
     // this.ifShowCaseView = false,
     this.index = 0,
-  }) : super(key: key);
+  }) : super(key: key) {
+    if (!Get.isRegistered<PostListController>()) {
+      Get.put(PostListController());
+    }
+  }
 
   // bool ifShowCaseView;
   int index;
@@ -43,8 +47,6 @@ class PostListItemView extends GetView<PostListController> {
   bool isSelf = false;
   Function()? onTap;
   Function()? onDelete;
-
-
 
   @override
   Widget build(BuildContext context) {

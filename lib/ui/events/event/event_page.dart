@@ -571,9 +571,12 @@ class EventPageController extends BasePageController {
                               onTap: () async {
                                 Get.back();
                                 if (!await launchUrl(
-                                    Uri.parse(map['url'].toString()))) {
+                                  Uri.parse(map['url'].toString()),
+                                  mode: LaunchMode.externalApplication,
+                                )) {
                                   throw Exception(
-                                      'Could not launch ${map['url']}');
+                                    'Could not launch ${map['url']}',
+                                  );
                                 }
                               },
                               child: Text(
