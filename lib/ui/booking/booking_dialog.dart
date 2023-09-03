@@ -385,6 +385,15 @@ class BookingDialog extends StatelessWidget {
       return;
     }
 
+    Get.dialog(ConfirmDialog(
+      title: '',
+      info: 'The deposit of your booking is ${this.area.value.model.bookingPrice}',
+      onConfirm: () => gotoBooking(),
+    ));
+  }
+
+  void gotoBooking() async {
+    Get.back();
     showLoading();
     var response = await http.post(
       '/app/store/cybercafe/booking/reserve',
@@ -411,15 +420,9 @@ class BookingDialog extends StatelessWidget {
 
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.code == 1003) {
-      Get.dialog(ConfirmDialog(
-        title: '',
-        info: 'The deposit of your booking is ${this.area.value.model.bookingPrice}',
-        onConfirm: () {
-          // 跳转充值页面
-          Get.back();
-          Get.off(() => BalancePage());
-        },
-      ));
+      // 跳转充值页面
+      Get.back();
+      Get.off(() => BalancePage());
       return;
     } else if (respData.code == 500) {
       return;
