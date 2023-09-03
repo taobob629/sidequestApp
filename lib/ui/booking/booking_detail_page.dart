@@ -299,7 +299,9 @@ class BookingDetailPage extends StatelessWidget {
                   borderRadius: 20.r,
                   onTap: () => Get.bottomSheet(
                     BookingDialog(
-                        _ctr.model?.id ?? 0, _ctr.model?.userPhone ?? ''),
+                      _ctr.model?.id ?? 0,
+                      _ctr.model?.userPhone ?? '',
+                    ),
                     isScrollControlled: true,
                   ),
                 ),

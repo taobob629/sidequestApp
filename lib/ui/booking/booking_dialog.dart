@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/wy_http.dart';
+import 'package:wy/ui/common/dialog_confirm.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import '../../config/app_pages.dart';
@@ -385,17 +386,19 @@ class BookingDialog extends StatelessWidget {
     }
 
     showLoading();
-    var response =
-        await http.post('/app/store/cybercafe/booking/reserve', data: {
-      "storeId": id,
-      "areaId": area.value.id,
-      "people": players.value,
-      "duration": duration.value.id,
-      "time": (time.value.millisecondsSinceEpoch) ~/ 1000,
-      "storeName": (area.value.model as AreaVoList).storeName,
-      "areaName": area.value.name,
-      "phone": telephoneCtr.text,
-    });
+    var response = await http.post(
+      '/app/store/cybercafe/booking/reserve',
+      data: {
+        "storeId": id,
+        "areaId": area.value.id,
+        "people": players.value,
+        "duration": duration.value.id,
+        "time": (time.value.millisecondsSinceEpoch) ~/ 1000,
+        "storeName": (area.value.model as AreaVoList).storeName,
+        "areaName": area.value.name,
+        "phone": telephoneCtr.text,
+      },
+    );
     dismissLoading();
     if (response.data == null || response.data == '') {
       if (response.statusCode == 200) {
@@ -408,9 +411,15 @@ class BookingDialog extends StatelessWidget {
 
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.code == 1003) {
-      // 跳转充值页面
-      Get.back();
-      Get.off(() => BalancePage());
+      Get.dialog(ConfirmDialog(
+        title: '',
+        info: 'The deposit of your booking is ${this.area.value.model.bookingPrice}',
+        onConfirm: () {
+          // 跳转充值页面
+          Get.back();
+          Get.off(() => BalancePage());
+        },
+      ));
       return;
     } else if (respData.code == 500) {
       return;
