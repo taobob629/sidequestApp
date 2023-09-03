@@ -518,7 +518,7 @@ class EventPageController extends BasePageController {
                             Row(
                               children: [
                                 Text(
-                                  '您的密码是：${map['code']}',
+                                  'Battlefly verification code:'.tr +'${map['code']}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
@@ -562,7 +562,7 @@ class EventPageController extends BasePageController {
                             ),
                             10.verticalSpace,
                             Text(
-                              '点击跳转正式报名地址：(需要自行组队找队友)',
+                              'Register via below link'.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,

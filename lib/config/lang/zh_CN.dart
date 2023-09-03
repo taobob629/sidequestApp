@@ -931,5 +931,7 @@ const Map<String, String> zh_CN = {
   "Consumption record":"游戏记录",
   "Simple and quick signup, no review required.":"",
   "Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.":"更低手续费，更高的价格，更高的点单率。审批时间2-3天。",
-  "Entry Fee":"报名费"
+  "Entry Fee":"报名费",
+  "Register via below link":"点击跳转正式报名地址：(需要自行组队找队友)",
+  "Battlefly verification code:":"您的报名验证码:"
 };
