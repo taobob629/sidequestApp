@@ -313,8 +313,11 @@ class EventPageController extends BasePageController {
       model = await EventsApi.getMatchDetail(id);
       initTabs(model);
     }
-    tabController =
-        TabController(length: tabs.length, initialIndex: 0, vsync: this);
+    tabController = TabController(
+      length: tabs.length,
+      initialIndex: 0,
+      vsync: this,
+    );
     title.value = model.title;
     eventDetailModel.value = model;
   }
