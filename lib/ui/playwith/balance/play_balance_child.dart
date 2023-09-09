@@ -1,3 +1,5 @@
+import 'package:card_swiper/card_swiper.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -27,6 +29,7 @@ import 'package:wy/widget/views.dart';
 
 import '../../../model/beans/coin_category_bean.dart';
 import '../../common/wy_dialog.dart';
+import '../../frame/profile/model/profile_model.dart';
 import '../dialog_pay_psd.dart';
 
 class PlayBalanceChild extends StatefulWidget {
@@ -70,9 +73,42 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     );
   }
 
+  Widget _memberVipWidget() {
+    return Obx(() => Visibility(
+          visible: controller.ads.isNotEmpty,
+          child: Container(
+            margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+            height: 60.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              gradient: LinearGradient(
+                colors: [Color(0xff433B31), Color(0xff262731)],
+              ),
+            ),
+            child: Swiper(
+              itemCount: controller.ads.length,
+              itemBuilder: (c, i) => ClipRRect(
+                borderRadius: BorderRadius.circular(15.r),
+                child: ExtendedImage.network(
+                  controller.ads[i].url,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              scrollDirection: Axis.vertical,
+              autoplay: controller.ads.length > 1 ? true : false,
+              onTap: (index) => controller.ads[index].link != null
+                  ? NavigatorHelper.gotoConfigTarget(
+                      controller.ads[index].link!)
+                  : showError('link is null'.tr),
+            ),
+          ),
+        ));
+  }
+
   List<Widget> get item {
     return [
       cardView(),
+      _memberVipWidget(),
       ItemTitle(title: "Recharge".tr, subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
@@ -438,10 +474,12 @@ class WalletBalancePageController extends GetxListController {
   }
 
   late ChargeRuleModel chargeRule;
+  var ads = <AdModel>[].obs;
 
   Future<List<CoinChargeRuleModel>> loadData() async {
     showLoading();
     chargeRule = await BalanceApi.chargeRule();
+    ads.assignAll(chargeRule.ads);
 
     chargeRule.receipt.forEach((element) {
       if (element.name.toLowerCase().contains('bankcard')) {
