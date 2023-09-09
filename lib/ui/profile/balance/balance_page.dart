@@ -1,4 +1,7 @@
+import 'package:card_swiper/card_swiper.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
 import 'package:wy/common/getx_list_controller.dart';
@@ -15,6 +18,8 @@ import 'package:wy/ui/profile/consume/my_consume_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
+import '../../../utils/toast_utils.dart';
+import '../../frame/profile/model/profile_model.dart';
 import 'charge_item.dart';
 import 'input_formatter.dart';
 import 'top_banner.dart';
@@ -48,6 +53,7 @@ class BalancePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TopBanner(),
+          _memberVipWidget(),
           ItemTitle(
             title: "Top Up".tr,
             subTitle: "",
@@ -91,6 +97,36 @@ class BalancePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _memberVipWidget() => Obx(() => Visibility(
+    visible: controller.ads.isNotEmpty,
+    child: Container(
+      margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+      height: 60.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.r),
+        gradient: LinearGradient(
+          colors: [Color(0xff433B31), Color(0xff262731)],
+        ),
+      ),
+      child: Swiper(
+        itemCount: controller.ads.length,
+        itemBuilder: (c, i) => ClipRRect(
+          borderRadius: BorderRadius.circular(15.r),
+          child: ExtendedImage.network(
+            controller.ads[i].url,
+            fit: BoxFit.fill,
+          ),
+        ),
+        scrollDirection: Axis.vertical,
+        autoplay: controller.ads.length > 1 ? true : false,
+        onTap: (index) => controller.ads[index].link != null
+            ? NavigatorHelper.gotoConfigTarget(
+            controller.ads[index].link!)
+            : showError('link is null'.tr),
+      ),
+    ),
+  ));
 
   Widget _buildChargeItems(BuildContext context) {
     List<Widget> itemList = [];
@@ -240,6 +276,7 @@ class BalancePageController extends GetxListController {
   late TextEditingController accountController;
   late FocusNode accountFocusNode;
   late FocusNode amountFocusNode;
+  var ads = <AdModel>[].obs;
 
   BalancePageController({double amount = 0.0}) {
     customAmount.value = amount;
@@ -306,6 +343,7 @@ class BalancePageController extends GetxListController {
 
   Future<List<CoinChargeRuleModel>> loadData() async {
     var chargeRole = await BalanceApi.chargeRule();
+    ads.assignAll(chargeRole.ads);
     return chargeRole.pwChargeRules ?? [];
   }
 

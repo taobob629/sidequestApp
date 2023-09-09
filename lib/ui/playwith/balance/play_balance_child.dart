@@ -73,42 +73,9 @@ class _PlayBalanceChildState extends State<PlayBalanceChild> {
     );
   }
 
-  Widget _memberVipWidget() {
-    return Obx(() => Visibility(
-          visible: controller.ads.isNotEmpty,
-          child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-            height: 60.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              gradient: LinearGradient(
-                colors: [Color(0xff433B31), Color(0xff262731)],
-              ),
-            ),
-            child: Swiper(
-              itemCount: controller.ads.length,
-              itemBuilder: (c, i) => ClipRRect(
-                borderRadius: BorderRadius.circular(15.r),
-                child: ExtendedImage.network(
-                  controller.ads[i].url,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              scrollDirection: Axis.vertical,
-              autoplay: controller.ads.length > 1 ? true : false,
-              onTap: (index) => controller.ads[index].link != null
-                  ? NavigatorHelper.gotoConfigTarget(
-                      controller.ads[index].link!)
-                  : showError('link is null'.tr),
-            ),
-          ),
-        ));
-  }
-
   List<Widget> get item {
     return [
       cardView(),
-      _memberVipWidget(),
       ItemTitle(title: "Recharge".tr, subTitle: ""),
       PWidget.boxh(8),
       Obx(() => _buildChargeItems(context!)),
@@ -474,12 +441,10 @@ class WalletBalancePageController extends GetxListController {
   }
 
   late ChargeRuleModel chargeRule;
-  var ads = <AdModel>[].obs;
 
   Future<List<CoinChargeRuleModel>> loadData() async {
     showLoading();
     chargeRule = await BalanceApi.chargeRule();
-    ads.assignAll(chargeRule.ads);
 
     chargeRule.receipt.forEach((element) {
       if (element.name.toLowerCase().contains('bankcard')) {
