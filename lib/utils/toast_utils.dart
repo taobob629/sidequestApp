@@ -12,8 +12,8 @@ dismissLoading() {
   SmartDialog.dismiss();
 }
 
-showToast(var msg, {Duration? duration}) {
-  SmartDialog.showToast(msg, displayTime: duration);
+showToast(var msg, {Duration? duration}) async {
+  return await SmartDialog.showToast(msg, displayTime: duration);
 }
 
 showSuccess(var msg, {Duration? duration}) {

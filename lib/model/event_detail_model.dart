@@ -27,6 +27,8 @@ class EventDetailModel {
   late String generalInfo = "";
   late List<ParticipantModel> participants = [];
   late String rules = "";
+  late String code = "";
+  late String url = "";
   late String equipment = "";
   late List<LocationModel> location = [];
   late String listImage = "";
@@ -92,6 +94,8 @@ class EventDetailModel {
     listImage = json['listImage'] == null ? "" : json['listImage'];
     generalInfo = json['generalInfo'] == null ? "No data" : json['generalInfo'];
     rules = json['rules'] == null ? "No data" : json['rules'];
+    code = json['code'] == null ? "" : json['code'];
+    url = json['url'] == null ? "" : json['url'];
     equipment = json['equipment'] == null ? "-" : json['equipment'];
     participants = json['participants'] == null
         ? []
