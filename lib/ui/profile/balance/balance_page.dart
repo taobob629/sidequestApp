@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/api/balance_api.dart';
@@ -18,6 +19,7 @@ import 'package:wy/ui/profile/consume/my_consume_page.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
+import '../../../config/icon_font.dart';
 import '../../../utils/toast_utils.dart';
 import '../../frame/profile/model/profile_model.dart';
 import 'charge_item.dart';
@@ -25,10 +27,9 @@ import 'input_formatter.dart';
 import 'top_banner.dart';
 
 class BalancePage extends StatelessWidget {
-
   late final BalancePageController controller;
 
-  BalancePage({double amount = 0.0}){
+  BalancePage({double amount = 0.0}) {
     controller = Get.put(BalancePageController(amount: amount));
   }
 
@@ -50,7 +51,7 @@ class BalancePage extends StatelessWidget {
       ],
       body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TopBanner(),
           _memberVipWidget(),
@@ -89,44 +90,56 @@ class BalancePage extends StatelessWidget {
       )),
       floatingActionButton: FloatingButton(
         label: "CONFIRM".tr,
-        onTap: () => Get.dialog(ConfirmDialog(
-          title: 'Warning'.tr,
-          info: 'These Credits are only used for SideQuest Hub.'.tr,
-          onConfirm: () => controller.pay(),
-        )),
+        onTap: () {
+          if (controller.productIndex.value == -1) {
+            String amountStr = controller.amountController.text;
+            double amount = 0.0;
+            if (amountStr.isNotEmpty) {
+              amount = double.parse(amountStr);
+            }
+            if (amount < 5 || amount > 500) {
+              showToast('Please enter an integer multiple of 5-500.');
+              return;
+            }
+          }
+          Get.dialog(ConfirmDialog(
+            title: 'Warning'.tr,
+            info: 'These Credits are only used for SideQuest Hub.'.tr,
+            onConfirm: () => controller.pay(),
+          ));
+        },
       ),
     );
   }
 
   Widget _memberVipWidget() => Obx(() => Visibility(
-    visible: controller.ads.isNotEmpty,
-    child: Container(
-      margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-      height: 60.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.r),
-        gradient: LinearGradient(
-          colors: [Color(0xff433B31), Color(0xff262731)],
-        ),
-      ),
-      child: Swiper(
-        itemCount: controller.ads.length,
-        itemBuilder: (c, i) => ClipRRect(
-          borderRadius: BorderRadius.circular(15.r),
-          child: ExtendedImage.network(
-            controller.ads[i].url,
-            fit: BoxFit.fill,
+        visible: controller.ads.isNotEmpty,
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+          height: 60.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            gradient: LinearGradient(
+              colors: [Color(0xff433B31), Color(0xff262731)],
+            ),
+          ),
+          child: Swiper(
+            itemCount: controller.ads.length,
+            itemBuilder: (c, i) => ClipRRect(
+              borderRadius: BorderRadius.circular(15.r),
+              child: ExtendedImage.network(
+                controller.ads[i].url,
+                fit: BoxFit.fill,
+              ),
+            ),
+            scrollDirection: Axis.vertical,
+            autoplay: controller.ads.length > 1 ? true : false,
+            onTap: (index) => controller.ads[index].link != null
+                ? NavigatorHelper.gotoConfigTarget(controller.ads[index].link!)
+                : showError('link is null'.tr),
           ),
         ),
-        scrollDirection: Axis.vertical,
-        autoplay: controller.ads.length > 1 ? true : false,
-        onTap: (index) => controller.ads[index].link != null
-            ? NavigatorHelper.gotoConfigTarget(
-            controller.ads[index].link!)
-            : showError('link is null'.tr),
-      ),
-    ),
-  ));
+      ));
 
   Widget _buildChargeItems(BuildContext context) {
     List<Widget> itemList = [];
@@ -140,38 +153,86 @@ class BalancePage extends StatelessWidget {
       ));
       index++;
     });
-    return GridView.count(
-      physics: NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      shrinkWrap: true,
-      crossAxisCount: 3,
-      mainAxisSpacing: 15,
-      crossAxisSpacing: 15,
-      childAspectRatio: 104 / 114,
-      children: itemList,
+    return Column(
+      children: [
+        GridView.count(
+          physics: NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          childAspectRatio: 104 / 114,
+          children: itemList,
+        ),
+        Container(
+          height: 50.h,
+          decoration: BoxDecoration(
+            color: Colors.white10,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          alignment: Alignment.centerLeft,
+          child: TextField(
+            controller: controller.amountController,
+            focusNode: controller.amountFocusNode,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              isDense: true,
+              isCollapsed: true,
+              hintText: 'Please enter an integer multiple of 5-500',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+            maxLines: 1,
+            style: TextStyle(
+              color: Color(0xFFC5C3C6),
+              fontFamily: FONT_LIGHT,
+              fontSize: 14.sp,
+            ),
+          ),
+        ),
+        // _buildCustomInput(),
+      ],
     );
   }
 
   Widget _buildCustomInput() {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        padding: const EdgeInsets.only(top: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white24))),
+        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+        padding: EdgeInsets.fromLTRB(10.w, 12.h, 10.w, 12.h),
+        decoration: BoxDecoration(
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: TextField(
           maxLines: 1,
-          inputFormatters: [PrecisionLimitFormatter(2)],
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           controller: controller.amountController,
           focusNode: controller.amountFocusNode,
-          cursorColor: Colors.white70,
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
-          style: const TextStyle(color: Colors.white30, fontSize: 26, fontFamily: "DIN"),
+          style: TextStyle(
+            color: Colors.white30,
+            fontSize: 14.sp,
+            fontFamily: "DIN",
+          ),
           onSubmitted: (text) => controller.changeCustomAmount(text),
-          decoration: const InputDecoration(
-              hintText: "£1",
-              hintStyle: TextStyle(fontSize: 26, color: Colors.white30, fontFamily: "DIN"),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 0)),
+          decoration: InputDecoration(
+            hintText: "Please enter an integer multiple of 5-500",
+            hintStyle: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.white30,
+              fontFamily: "DIN",
+            ),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 0),
+          ),
         ));
   }
 
@@ -184,30 +245,28 @@ class BalancePage extends StatelessWidget {
             height: 50,
             padding: const EdgeInsets.only(left: 10, right: 15),
             decoration: BoxDecoration(
-              color: Colors.white10,
-              borderRadius: BorderRadius.circular(12)
-            ),
+                color: Colors.white10, borderRadius: BorderRadius.circular(12)),
             child: Obx(() {
               return Row(
                 children: [
                   Radio(
-                    activeColor: AppColor.accent,
-                    value: 0,
-                    groupValue: controller.accountType.value,
-                    onChanged: (value) {
-                      controller.changeAccountType(0);
-                      controller.accountFocusNode.unfocus();
-                    }
-                  ),
+                      activeColor: AppColor.accent,
+                      value: 0,
+                      groupValue: controller.accountType.value,
+                      onChanged: (value) {
+                        controller.changeAccountType(0);
+                        controller.accountFocusNode.unfocus();
+                      }),
                   Padding(
                     padding: const EdgeInsets.only(top: 2),
                     child: Text(
                       "${userController.user.value.email}",
                       style: TextStyle(
-                        fontSize: 18,
-                        color: controller.accountType.value == 0 ? Colors.white : Colors.white30,
-                        fontFamily: "DIN"
-                      ),
+                          fontSize: 18,
+                          color: controller.accountType.value == 0
+                              ? Colors.white
+                              : Colors.white30,
+                          fontFamily: "DIN"),
                     ),
                   )
                 ],
@@ -295,7 +354,7 @@ class BalancePageController extends GetxListController {
         changeProductIndex(-1);
       } else {
         if (amountController.text.isEmpty) {
-          changeProductIndex(0);
+          changeProductIndex(productIndex.value);
         } else {
           customAmount.value = double.parse(amountController.text);
           if (customAmount.value > 0) {
@@ -348,6 +407,9 @@ class BalancePageController extends GetxListController {
   }
 
   void changeProductIndex(int index) {
+    if (index != -1) {
+      amountFocusNode.unfocus();
+    }
     productIndex.value = index;
     amountController.clear();
   }

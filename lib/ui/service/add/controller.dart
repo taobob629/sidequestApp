@@ -196,6 +196,7 @@ class AddGamePageController extends GetxController {
           format: "dd-MMM-yyyy HH:mm",
           initDateTime: selectTime.value,
           minDateTime: DateTime.now(),
+          maxDateTime: TimeUtils.getSomeDay(DateTime.now(), 7),
           minuteDivider: 1,
           ifSkip: true,
         ),
