@@ -56,6 +56,41 @@ class BalancePage extends StatelessWidget {
           TopBanner(),
           _memberVipWidget(),
           ItemTitle(
+            title: "Custom amount".tr,
+            subTitle: "",
+          ),
+          Container(
+            height: 50.h,
+            decoration: BoxDecoration(
+              color: Colors.white10,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              controller: controller.amountController,
+              focusNode: controller.amountFocusNode,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+                isCollapsed: true,
+                hintText: 'Please enter an integer multiple of 5-500',
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              maxLines: 1,
+              style: TextStyle(
+                color: Color(0xFFC5C3C6),
+                fontFamily: FONT_LIGHT,
+                fontSize: 14.sp,
+              ),
+            ),
+          ),
+          ItemTitle(
             title: "Top Up".tr,
             subTitle: "",
           ),
@@ -153,51 +188,15 @@ class BalancePage extends StatelessWidget {
       ));
       index++;
     });
-    return Column(
-      children: [
-        GridView.count(
-          physics: NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
-          childAspectRatio: 104 / 114,
-          children: itemList,
-        ),
-        Container(
-          height: 50.h,
-          decoration: BoxDecoration(
-            color: Colors.white10,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          alignment: Alignment.centerLeft,
-          child: TextField(
-            controller: controller.amountController,
-            focusNode: controller.amountFocusNode,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              isDense: true,
-              isCollapsed: true,
-              hintText: 'Please enter an integer multiple of 5-500',
-              hintStyle: TextStyle(color: Colors.grey),
-            ),
-            maxLines: 1,
-            style: TextStyle(
-              color: Color(0xFFC5C3C6),
-              fontFamily: FONT_LIGHT,
-              fontSize: 14.sp,
-            ),
-          ),
-        ),
-        // _buildCustomInput(),
-      ],
+    return GridView.count(
+      physics: NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      shrinkWrap: true,
+      crossAxisCount: 3,
+      mainAxisSpacing: 15,
+      crossAxisSpacing: 15,
+      childAspectRatio: 104 / 114,
+      children: itemList,
     );
   }
 

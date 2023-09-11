@@ -191,16 +191,23 @@ class AddGamePageController extends GetxController {
   }
 
   void showSelectTime() {
+    DateTime start = DateTime.parse("1970-01-01 00:00:00");
+    DateTime now = DateTime.now();
+
+    DateTime tomorrow = now
+        .add(Duration(days: 1))
+        .add(Duration(hours: (start.hour - now.hour)))
+        .add(Duration(minutes: 0 - now.minute));
     Get.dialog<DateTime?>(
-        DateTimePickerDialog(
-          format: "dd-MMM-yyyy HH:mm",
-          initDateTime: selectTime.value,
-          minDateTime: DateTime.now(),
-          maxDateTime: TimeUtils.getSomeDay(DateTime.now(), 7),
-          minuteDivider: 1,
-          ifSkip: true,
-        ),
-        barrierColor: Colors.black26)
+            DateTimePickerDialog(
+              format: "dd-MMM-yyyy HH:mm",
+              initDateTime: selectTime.value,
+              minDateTime: tomorrow,
+              maxDateTime: TimeUtils.getSomeDay(tomorrow, 7),
+              minuteDivider: 30,
+              ifSkip: true,
+            ),
+            barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         ifSelectDuration.value = true;
@@ -309,7 +316,7 @@ class AddGamePageController extends GetxController {
         discount = {
           'type': 1,
           'discount':
-          int.parse(element.currentDiscount.value.name.split('%')[0]),
+              int.parse(element.currentDiscount.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 1) {
@@ -317,7 +324,7 @@ class AddGamePageController extends GetxController {
         discount = {
           'type': 3,
           'discount':
-          int.parse(element.currentOrderFree.value.name.split('%')[0]),
+              int.parse(element.currentOrderFree.value.name.split('%')[0]),
           'enable': element.promotionSwitch.value ? 1 : 0,
         };
       } else if (element.currentPromotion.value.id == 2) {
@@ -375,10 +382,10 @@ class AddGamePageController extends GetxController {
       } else {
         Get.until((route) => Get.currentRoute.contains(AppPages.SkillList));
         SkillListPageController skillListPageController =
-        Get.find<SkillListPageController>();
+            Get.find<SkillListPageController>();
         skillListPageController.onRefresh();
         Get.to(
-              () => GameHomePage(),
+          () => GameHomePage(),
           arguments: {
             "liveid": v.data['liveid'],
             "skillId": v.data['skillId'],
