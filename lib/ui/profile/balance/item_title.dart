@@ -6,14 +6,25 @@ class ItemTitle extends StatelessWidget {
   final String subTitle;
   final Widget? customSubTitle;
   final Widget? actions;
+  final double? marginTop;
 
-  ItemTitle({required this.title, required this.subTitle, this.customSubTitle, this.actions});
+  ItemTitle({
+    required this.title,
+    required this.subTitle,
+    this.customSubTitle,
+    this.actions,
+    this.marginTop,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
         constraints: BoxConstraints(maxWidth: Get.width),
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+        padding: EdgeInsets.only(
+          left: 15,
+          right: 15,
+          top: marginTop ?? 20,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,7 +38,8 @@ class ItemTitle extends StatelessWidget {
             customSubTitle ??
                 Text(
                   subTitle,
-                  style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+                  style: TextStyle(
+                      color: Colors.white54, fontFamily: "DIN", fontSize: 18),
                 ),
             Spacer(),
             actions ?? Container()

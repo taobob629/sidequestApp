@@ -50,79 +50,82 @@ class BalancePage extends StatelessWidget {
         )
       ],
       body: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TopBanner(),
-          _memberVipWidget(),
-          ItemTitle(
-            title: "Custom amount".tr,
-            subTitle: "",
-          ),
-          Container(
-            height: 50.h,
-            decoration: BoxDecoration(
-              color: Colors.white10,
-              borderRadius: BorderRadius.circular(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TopBanner(),
+            _memberVipWidget(),
+            ItemTitle(
+              title: "Custom amount".tr,
+              subTitle: "",
+              marginTop: 15.h,
             ),
-            margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            alignment: Alignment.centerLeft,
-            child: TextField(
-              controller: controller.amountController,
-              focusNode: controller.amountFocusNode,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                isDense: true,
-                isCollapsed: true,
-                hintText: 'Please enter an integer multiple of 5-500',
-                hintStyle: TextStyle(color: Colors.grey),
+            Container(
+              height: 46.h,
+              decoration: BoxDecoration(
+                color: Colors.white10,
+                borderRadius: BorderRadius.circular(12),
               ),
-              maxLines: 1,
-              style: TextStyle(
-                color: Color(0xFFC5C3C6),
-                fontFamily: FONT_LIGHT,
-                fontSize: 14.sp,
+              margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                controller: controller.amountController,
+                focusNode: controller.amountFocusNode,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  isDense: true,
+                  isCollapsed: true,
+                  hintText: 'Please enter an integer multiple of 5-500',
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+                maxLines: 1,
+                style: TextStyle(
+                  color: Color(0xFFC5C3C6),
+                  fontFamily: FONT_LIGHT,
+                  fontSize: 14.sp,
+                ),
               ),
             ),
-          ),
-          ItemTitle(
-            title: "Top Up".tr,
-            subTitle: "",
-          ),
-          Obx(() => _buildChargeItems(context)),
-          // ItemTitle(
-          //     title: "Other Top Up Amount".tr,
-          //     subTitle: '',
-          //     actions: Text(
-          //       '${'Min'.tr}:£1',
-          //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-          //     )),
-          // _buildCustomInput(),
-          // ItemTitle(
-          //   title: "Top Up Account".tr,
-          //   subTitle: "",
-          // ),
-          // _buildAccountSelect(context),
-          PWidget.container(
-            PWidget.column([
-              PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
-              Text(
-                '* These Credits are only used for SideQuest Hub.'.tr,
-                style: TextStyle(color: Color(0xff8291B4)),
-              ),
-            ]),
-            {'pd': 16},
-          ),
-          Container(
-            height: 100,
-          )
-        ],
-      )),
+            ItemTitle(
+              title: "Top Up".tr,
+              subTitle: "",
+              marginTop: 15.h,
+            ),
+            Obx(() => _buildChargeItems(context)),
+            // ItemTitle(
+            //     title: "Other Top Up Amount".tr,
+            //     subTitle: '',
+            //     actions: Text(
+            //       '${'Min'.tr}:£1',
+            //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
+            //     )),
+            // _buildCustomInput(),
+            // ItemTitle(
+            //   title: "Top Up Account".tr,
+            //   subTitle: "",
+            // ),
+            // _buildAccountSelect(context),
+            PWidget.container(
+              PWidget.column([
+                PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
+                Text(
+                  '* These Credits are only used for SideQuest Hub.'.tr,
+                  style: TextStyle(color: Color(0xff8291B4)),
+                ),
+              ]),
+              {'pd': 16},
+            ),
+            Container(
+              height: 100,
+            )
+          ],
+        ),
+      ),
       floatingActionButton: FloatingButton(
         label: "CONFIRM".tr,
         onTap: () {
@@ -180,12 +183,14 @@ class BalancePage extends StatelessWidget {
     List<Widget> itemList = [];
     int index = 0;
     controller.list.forEach((element) {
-      itemList.add(ChargeItem(
-        index: index,
-        item: element,
-        selected: index == controller.productIndex.value,
-        onTap: (idx) => controller.changeProductIndex(idx),
-      ));
+      itemList.add(
+        ChargeItem(
+          index: index,
+          item: element,
+          selected: index == controller.productIndex.value,
+          onTap: (idx) => controller.changeProductIndex(idx),
+        ),
+      );
       index++;
     });
     return GridView.count(
@@ -195,7 +200,7 @@ class BalancePage extends StatelessWidget {
       crossAxisCount: 3,
       mainAxisSpacing: 15,
       crossAxisSpacing: 15,
-      childAspectRatio: 104 / 114,
+      childAspectRatio: 104 / 100,
       children: itemList,
     );
   }

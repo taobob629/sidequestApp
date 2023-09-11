@@ -18,7 +18,7 @@ class TopBanner extends StatelessWidget {
         color: Color(0xFFFF3BC1)
       ),
       child: AspectRatio(
-        aspectRatio: 343/136,
+        aspectRatio: 343/100,
         child: Stack(
           children: [
             Positioned(

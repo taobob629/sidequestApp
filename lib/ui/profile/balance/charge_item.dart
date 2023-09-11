@@ -11,12 +11,13 @@ class ChargeItem extends StatelessWidget {
   final bool showCoin;
   final Function(int idx) onTap;
 
-  ChargeItem(
-      {required this.index,
-      required this.item,
-      required this.selected,
-      this.showCoin = false,
-      required this.onTap});
+  ChargeItem({
+    required this.index,
+    required this.item,
+    required this.selected,
+    this.showCoin = false,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +28,19 @@ class ChargeItem extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(
-                top: showCoin ? 6.0 : 10.0, bottom: showCoin ? 6.0 : 10.0),
+              top: showCoin ? 6.0 : 10.0,
+              bottom: showCoin ? 6.0 : 10.0,
+            ),
             decoration: BoxDecoration(
-                color: Colors.white10,
-                borderRadius: BorderRadius.circular(12),
-                border: selected
-                    ? Border.all(color: Color(0xFFF83A01), width: 2)
-                    : Border.all(color: Colors.transparent, width: 2)),
+              color: Colors.white10,
+              borderRadius: BorderRadius.circular(12),
+              border: selected
+                  ? Border.all(color: Color(0xFFF83A01), width: 2)
+                  : Border.all(
+                      color: Colors.transparent,
+                      width: 2,
+                    ),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -50,14 +57,17 @@ class ChargeItem extends StatelessWidget {
                       children: [
                         Container(
                           child: PWidget.image(
-                              'assets/images/ic_balance_money.webp', [20, 20]),
+                            'assets/images/ic_balance_money.webp',
+                            [20, 20],
+                          ),
                         ),
                         Text(
                           " ${item.coin}",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         if (item.freeCoin > 0) ...[
                           Text(
