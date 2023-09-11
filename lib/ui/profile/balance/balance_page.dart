@@ -80,7 +80,7 @@ class BalancePage extends StatelessWidget {
                   border: InputBorder.none,
                   isDense: true,
                   isCollapsed: true,
-                  hintText: 'Please enter an integer multiple of 5-500',
+                  hintText: 'Please enter an integer from 5 to 500'.tr,
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
                 maxLines: 1,
@@ -136,7 +136,7 @@ class BalancePage extends StatelessWidget {
               amount = double.parse(amountStr);
             }
             if (amount < 5 || amount > 500) {
-              showToast('Please enter an integer multiple of 5-500.');
+              showToast('Please enter an integer from 5 to 500'.tr);
               return;
             }
           }
@@ -228,7 +228,7 @@ class BalancePage extends StatelessWidget {
           ),
           onSubmitted: (text) => controller.changeCustomAmount(text),
           decoration: InputDecoration(
-            hintText: "Please enter an integer multiple of 5-500",
+            hintText: "Please enter an integer from 5 to 500".tr,
             hintStyle: TextStyle(
               fontSize: 14.sp,
               color: Colors.white30,
