@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -92,13 +93,17 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
     list.add(AuthInputView(
       tips: "login password".tr,
       editingController: controller.loginPsdController,
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.visiblePassword,
     ));
     list.add(10.verticalSpace);
     list.add(AuthInputView(
       tips: "payment pin".tr,
       editingController: controller.paymentPinController,
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(6),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
+      ],
     ));
     list.add(10.verticalSpace);
     // list.add(AuthInputView(
