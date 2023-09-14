@@ -21,6 +21,7 @@ import 'package:wy/utils/index.dart';
 import 'package:wy/widget/button.dart';
 import 'package:wy/widget/home/index.dart';
 
+import '../addgame/add_game_account_page.dart';
 import '../profile/task/task_page.dart';
 
 List<Map> supports = [
@@ -110,6 +111,11 @@ class HomeDrawer extends StatelessWidget {
                   'Consumption record'.tr,
                   onTapMore: () => Get.toNamed(AppPages.StoreConsumList),
                 ),
+                8.verticalSpace,
+                _listItem(
+                  'Add game account'.tr,
+                  onTapMore: () => Get.to(() => AddGameAccountPage()),
+                ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -160,7 +166,7 @@ class HomeDrawer extends StatelessWidget {
                 color: Color(0xFFC5C5C5),
                 fontFamily: FONT_MEDIUM)),
         TextSpan(
-            text: '${user?.avamins}''mins'.tr,
+            text: '${user?.avamins}' 'mins'.tr,
             style: TextStyle(
                 fontSize: 12.sp,
                 color: AppColor.textYellow,

@@ -84,6 +84,8 @@ class ImageUtils {
   static const String coin_icon = 'assets/images/profile/coin_icon.webp';
   static const String order_icon = 'assets/images/profile/order_icon.webp';
   static const String diamond_icon = 'assets/images/profile/diamond_icon.webp';
+  static const String add_game_account_content = 'assets/images/add_game_account_content.svg';
+  static const String add_game_account_title = 'assets/images/add_game_account_title.webp';
 
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';
