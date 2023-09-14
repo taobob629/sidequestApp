@@ -89,6 +89,18 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
       ),
     ));
     list.add(10.verticalSpace);
+    list.add(AuthInputView(
+      tips: "login password".tr,
+      editingController: controller.loginPsdController,
+      keyboardType: TextInputType.text,
+    ));
+    list.add(10.verticalSpace);
+    list.add(AuthInputView(
+      tips: "payment pin".tr,
+      editingController: controller.paymentPinController,
+      keyboardType: TextInputType.text,
+    ));
+    list.add(10.verticalSpace);
     // list.add(AuthInputView(
     //   tips: "Nick Name".tr,
     //   editingController: controller.nickEditingController,

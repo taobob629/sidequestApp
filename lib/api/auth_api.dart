@@ -185,7 +185,7 @@ class AuthApi {
       }
       int code = result.data['code'];
       return code == 200;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
@@ -208,14 +208,15 @@ class AuthApi {
       "verifyCode": code,
       "uid": uid,
     };
-    final result = await http.post('/app/user/resetPayPassword', data: formData);
+    final result =
+        await http.post('/app/user/resetPayPassword', data: formData);
     try {
       if (result.data == null) {
         return result.statusCode == 200;
       }
       int code = result.data['code'];
       return code == 200;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
@@ -240,6 +241,8 @@ class AuthApi {
     String? email,
     String? birth,
     String? sex,
+    String? pwd,
+    String? payment,
   }) async {
     var formData = {
       'userIdentifier': credential.userIdentifier,
@@ -248,6 +251,8 @@ class AuthApi {
       'familyName': credential.familyName,
       'birth': birth,
       'sex': sex,
+      'pwd': pwd,
+      'payment': payment,
     };
     var response = await http.post(
       url,
@@ -262,6 +267,8 @@ class AuthApi {
     String? idToken, {
     String? birth,
     String? sex,
+    String? pwd,
+    String? payment,
   }) async {
     var formData = {
       'email': account?.email,
@@ -270,6 +277,8 @@ class AuthApi {
       'photoUrl': account?.photoUrl,
       'idToken': idToken,
       'serverAuthCode': account?.serverAuthCode,
+      'pwd': pwd,
+      'payment': payment,
     };
     var response = await http.post(
       url,

@@ -103,7 +103,7 @@ class AddGameAccountPage extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () => ctr.deleteAccount(),
+                      onPressed: () => ctr.deleteAccount(0),
                       icon: Icon(
                         Icons.remove_circle_outline,
                         color: Colors.white,

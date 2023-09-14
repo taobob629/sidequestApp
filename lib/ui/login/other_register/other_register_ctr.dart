@@ -20,6 +20,8 @@ import '../secondary_page.dart';
  */
 class OtherRegisterCtr extends GetxController {
   TextEditingController emailEditingController = TextEditingController();
+  TextEditingController loginPsdController = TextEditingController();
+  TextEditingController paymentPinController = TextEditingController();
 
   late Rx<DateTime> birthday = DateTime.now().obs;
 
@@ -115,6 +117,16 @@ class OtherRegisterCtr extends GetxController {
       }
     }
 
+    if (loginPsdController.text.isEmpty) {
+      showInfo("Please input your login password".tr);
+      return;
+    }
+
+    if (paymentPinController.text.isEmpty) {
+      showInfo("Please input your payment pin".tr);
+      return;
+    }
+
     if (DatetimeUtils.getAge(birthday.value) < 13) {
       showInfo(
         "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
@@ -124,9 +136,7 @@ class OtherRegisterCtr extends GetxController {
     }
 
     if (selectSex.value.name == '') {
-      showInfo(
-        "Please select your gender".tr,
-      );
+      showInfo("Please select your gender".tr);
       return;
     }
 
@@ -134,25 +144,35 @@ class OtherRegisterCtr extends GetxController {
     LoginModel loginModel;
     if (credential != null) {
       loginModel = await AuthApi.signInApple(
-          credential!, '/peiwan/app/user/appleLogin2',
-          email: email,
-          birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-          sex: selectSex.value.name);
+        credential!,
+        '/peiwan/app/user/appleLogin2',
+        email: email,
+        birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        sex: selectSex.value.name,
+        pwd: loginPsdController.text,
+        payment: paymentPinController.text,
+      );
     } else {
       if (googleSignInAccount != null) {
         loginModel = await AuthApi.signInGoogle(
-            '/peiwan/app/user/googleLogin2', googleSignInAccount!, idToken,
-            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-            sex: selectSex.value.name);
+          '/peiwan/app/user/googleLogin2',
+          googleSignInAccount!,
+          idToken,
+          birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+          sex: selectSex.value.name,
+          pwd: loginPsdController.text,
+          payment: paymentPinController.text,
+        );
       } else {
         loginModel = await AuthApi.signInDiscord(
-            '/peiwan/app/user/discordLogin2',
-            discordAppId,
-            otherEmail?.isEmpty == true ? email : otherEmail,
-            nickName,
-            discriminator,
-            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-            sex: selectSex.value.name);
+          '/peiwan/app/user/discordLogin2',
+          discordAppId,
+          otherEmail?.isEmpty == true ? email : otherEmail,
+          nickName,
+          discriminator,
+          birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+          sex: selectSex.value.name,
+        );
       }
     }
     dismissLoading();
