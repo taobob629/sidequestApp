@@ -933,5 +933,6 @@ const Map<String, String> zh_CN = {
   "Lower fees, higher order acceptance rate, higher order prices. Requires 2-3 working days for approval.":"更低手续费，更高的价格，更高的点单率。审批时间2-3天。",
   "Entry Fee":"报名费",
   "Register via below link":"点击跳转正式报名地址：(需要自行组队找队友)",
-  "Battlefly join code:":"您的报名验证码:"
+  "Battlefly join code:":"您的报名验证码:",
+  'Please enter an integer from 5 to 500':'请输入5-500的整数'
 };
