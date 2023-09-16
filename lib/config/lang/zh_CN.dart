@@ -934,5 +934,9 @@ const Map<String, String> zh_CN = {
   "Entry Fee":"报名费",
   "Register via below link":"点击跳转正式报名地址：(需要自行组队找队友)",
   "Battlefly join code:":"您的报名验证码:",
-  'Please enter an integer from 5 to 500':'请输入5-500的整数'
+  'Please enter an integer from 5 to 500':'请输入5-500的整数',
+  "Custom amount":"自定义充值",
+  "Link your game account to the SideQuest account":"链接你的游戏账户到SideQuest",
+  "Link Riot account":"添加Riot账号",
+  "Add game account":"添加游戏账户"
 };

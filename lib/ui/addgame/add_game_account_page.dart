@@ -15,7 +15,7 @@ class AddGameAccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add game account',
+          'Add game account'.tr,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -35,7 +35,7 @@ class AddGameAccountPage extends StatelessWidget {
               vertical: 20.h,
             ),
             child: Text(
-              'Link your game accountto the Sidequest account',
+              'Link your game account to the SideQuest account'.tr,
               style: TextStyle(
                 fontSize: 16.sp,
                 fontFamily: FONT_LIGHT,
@@ -58,7 +58,7 @@ class AddGameAccountPage extends StatelessWidget {
               ),
               20.horizontalSpace,
               Text(
-                'Link Riot account',
+                'Link Riot account'.tr,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontFamily: FONT_LIGHT,
