@@ -101,6 +101,21 @@ class IndexPageController extends GetxController
       length: createTabs().length,
       initialIndex: 0,
     );
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        switch(tabController.index) {
+          case 1:
+            TabNewsPageController.find.onRefresh(init: true);
+            break;
+          case 2:
+            TabGamePageController.find.loadData();
+            break;
+          case 3:
+            CybercafeController.find.onRefresh(init: true);
+            break;
+        }
+      }
+    });
   }
 
   @override

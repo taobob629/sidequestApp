@@ -116,6 +116,8 @@ class TabGamesPage extends StatelessWidget {
 }
 
 class TabGamePageController extends GetxListController<GameModel> {
+  static TabGamePageController get find => Get.find();
+
   RxList<GameModel> popularList = RxList();
 
   RxList<custom.BannerModel> banners = RxList();

@@ -45,6 +45,8 @@ class TabNewsPage extends StatelessWidget {
 }
 
 class TabNewsPageController extends GetxRefreshController<NewsItemModel> {
+  static TabNewsPageController get find => Get.find();
+
   RxList<custom.BannerModel> banners = RxList();
 
   @override

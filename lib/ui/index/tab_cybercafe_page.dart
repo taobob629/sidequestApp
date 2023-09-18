@@ -112,6 +112,8 @@ class TabCybercafePage extends StatelessWidget {
 }
 
 class CybercafeController extends GetxRefreshController<TabCyberCafeModel> {
+  static CybercafeController get find => Get.find();
+
   @override
   void onInit() {
     super.onInit();
@@ -131,7 +133,10 @@ class CybercafeController extends GetxRefreshController<TabCyberCafeModel> {
   Future<List<TabCyberCafeModel>> loadData({int pageNum = 1}) async {
     List<TabCyberCafeModel> list = [];
     var response = await http.get('/app/store/cybercafe/booking/stores',
-        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+        queryParameters: ({
+          'pageNum': pageNum,
+          'pageSize': pageSize,
+        }));
     if (response.data == null) {
       return list;
     }
