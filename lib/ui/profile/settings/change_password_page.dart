@@ -132,6 +132,7 @@ class ChangePasswordPage extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => Get.to(() => ForgetPage(
                       type: type,
+                      flag: 'payPsd',
                     )),
                 child: Container(
                   color: Colors.transparent,
@@ -220,7 +221,7 @@ class ChangePasswordPageController extends GetxController {
     if (type == 1) {
       var formData = {
         "pin": newPwd,
-        "oldPassword":oldPwd,
+        "oldPassword": oldPwd,
       };
       var response =
           await http.get('/peiwan/app/user/setPwd', queryParameters: formData);
@@ -234,7 +235,7 @@ class ChangePasswordPageController extends GetxController {
     }
     var formData = {
       "pin": newPwd,
-      "oldPin":oldPwd,
+      "oldPin": oldPwd,
     };
     var response =
         await http.get('/peiwan/app/user/setPin', queryParameters: formData);

@@ -44,7 +44,7 @@ class TaskDetailCtr extends GetxController {
 
   bool ifShowExpired(int draw, int state) {
     if (draw == 0) {
-      if (state>0) {
+      if (state > 0) {
         return true;
       } else {
         return false;

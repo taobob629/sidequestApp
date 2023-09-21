@@ -162,7 +162,7 @@ class NavigatorHelper {
             break;
           case "task":
             showLoading();
-            var response = await http.get('/app/client/task/newlist?id=$id');
+            var response = await http.get('/app/client/task/task?id=${map['taskId']}');
             dismissLoading();
             if (response.data != null) {
               TaskOutModel outModel = TaskOutModel.fromJson(response.data);
