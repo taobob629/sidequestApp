@@ -57,8 +57,8 @@ class HomeDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double total = user?.totalmins.toDouble() ?? 0;
-    int remain = user?.avamins ?? 1;
+    double total = user.totalmins.toDouble();
+    int remain = user.avamins;
     return Drawer(
       width: drawerWidth,
       backgroundColor: Color(0xFF262731),
@@ -110,11 +110,6 @@ class HomeDrawer extends StatelessWidget {
                 _listItem(
                   'Consumption record'.tr,
                   onTapMore: () => Get.toNamed(AppPages.StoreConsumList),
-                ),
-                8.verticalSpace,
-                _listItem(
-                  'Add game account'.tr,
-                  onTapMore: () => Get.to(() => AddGameAccountPage()),
                 ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
@@ -307,8 +302,8 @@ class HomeDrawer extends StatelessWidget {
               colors: [Color(0xFF292F3F), Color(0x55292F3F)])),
       child: Row(
         children: [
-          achievementItem(user?.coin, 'ic_balance_money'),
-          achievementItem(user?.diamond, 'diamonds_red'),
+          // achievementItem(user?.coin, 'ic_balance_money'),
+          // achievementItem(user?.diamond, 'diamonds_red'),
           achievementItem(user?.balanceMoney(), 'ic_corns_new'),
           achievementItem(user?.coupons, 'ic_coupons_new'),
         ],

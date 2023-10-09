@@ -34,11 +34,6 @@ class NewWalletPage extends StatelessWidget {
         child: Column(
           children: [
             achievements(),
-            contentPadding(EnergyView(
-              width: drawerWidth - 15 * 2.r,
-              percent: total == 0 ? 0 : remain / total,
-              remaining: user.avamins,
-            )),
             Container(
               padding: EdgeInsets.only(left: 30, top: 20, bottom: 10),
               alignment: Alignment.centerLeft,

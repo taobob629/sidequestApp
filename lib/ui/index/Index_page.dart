@@ -77,9 +77,6 @@ class IndexPageController extends GetxController
     tabs.add(Text(
       "Games".tr,
     ));
-    tabs.add(Text(
-      "Stores".tr,
-    ));
 
     return tabs;
   }
@@ -89,7 +86,6 @@ class IndexPageController extends GetxController
     pages.add(KeepAliveWrapper(child: TabHeadlinesPage()));
     pages.add(KeepAliveWrapper(child: TabNewsPage()));
     pages.add(KeepAliveWrapper(child: TabGamesPage()));
-    pages.add(KeepAliveWrapper(child: TabCybercafePage()));
     return pages;
   }
 

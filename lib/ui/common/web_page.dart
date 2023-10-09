@@ -18,6 +18,7 @@ class WebPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    showLoading();
     return BaseScaffold(
       title: "$title",
       actions: [
@@ -37,7 +38,6 @@ class WebPage extends StatelessWidget {
           webPageController.setWebViewController(webViewController);
         },
         onPageStarted: (url){
-          dismissLoading();
         },
         onPageFinished: (url) {
           dismissLoading();

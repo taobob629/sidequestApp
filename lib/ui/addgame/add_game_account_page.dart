@@ -75,7 +75,7 @@ class AddGameAccountPage extends StatelessWidget {
                   size: 30.sp,
                 ),
               ),
-              10.horizontalSpace,
+              20.horizontalSpace,
             ],
           ),
           Expanded(
@@ -92,7 +92,7 @@ class AddGameAccountPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '${ctr.gameAccountModel.value.riot?.users?[i].lolname}',
+                        '${ctr.list[i].lolName}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -103,7 +103,7 @@ class AddGameAccountPage extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () => ctr.deleteAccount(0),
+                      onPressed: () => ctr.deleteAccount(ctr.list[i].id),
                       icon: Icon(
                         Icons.remove_circle_outline,
                         color: Colors.white,
@@ -118,7 +118,7 @@ class AddGameAccountPage extends StatelessWidget {
                 color: Colors.white10,
                 height: 1.h,
               ),
-              itemCount: ctr.gameAccountModel.value.riot?.users?.length ?? 0,
+              itemCount: ctr.list.length,
             ),
           )),
         ],

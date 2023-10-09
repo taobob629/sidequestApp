@@ -34,6 +34,7 @@ import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../utils/toast_utils.dart';
+import '../index/tab_cybercafe_page.dart';
 import 'drawer.dart';
 import 'messages/messages_page.dart';
 import 'profile/my_profile/my_profile_page.dart';
@@ -151,28 +152,8 @@ class MainPage extends GetView<MainPageController> {
                         child: PageView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           controller: controller.controller,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            switch (index) {
-                              case 0:
-                                return IndexPage();
-                              case 1:
-                                //return PlayWithPage();
-                                return SocialPage();
-                                return EventsPage();
-                              case 2:
-                                return KeepAliveWrapper(
-                                  child: SideKickPage(),
-                                );
-                              case 3:
-                                return KeepAliveWrapper(child: MessagesPage());
-
-                              case 4:
-                                return MyProfilePage();
-                              default:
-                                return IndexPage();
-                            }
-                          },
+                          itemCount: controller.tabs.length,
+                          itemBuilder: (context, index) => controller.tabs[index],
                         ),
                       ),
                       Positioned(
@@ -237,16 +218,14 @@ class MainPage extends GetView<MainPageController> {
                                 TabButton(
                                     index: 2,
                                     currentIndex: controller.currentIndex.value,
-                                    iconName: "tab_sidekick",
-                                    title: "SideKick".tr,
+                                    iconName: "tab_stores",
+                                    title: "Stores".tr,
                                     //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
                                     colors: [
                                       Color(0xfffa7f85),
                                       Color(0xffb6262c)
                                     ],
                                     onTap: () {
-                                      SideKickCtr.find.tabbarController?.index =
-                                          0;
                                       controller.controller.jumpToPage(2);
                                       controller.updateCurrentIndex(2);
                                     }),
@@ -335,6 +314,14 @@ class MainPageController extends FullLifeCycleController
   late Timer _timer;
 
   BuildContext? myContext;
+
+  List<Widget> tabs = [
+    IndexPage(),
+    SocialPage(),
+    KeepAliveWrapper(child: TabCybercafePage()),
+    KeepAliveWrapper(child: MessagesPage()),
+    MyProfilePage(),
+  ];
 
   @override
   void onInit() async {

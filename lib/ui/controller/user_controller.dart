@@ -692,6 +692,7 @@ class UserController extends GetxController {
       return;
     }
 
+    flog('收到的消息： ${msg.customElem!.data!}');
     Map<String, dynamic> map = json.decode(msg.customElem!.data!);
 
     switch (map["type"]) {
@@ -734,6 +735,14 @@ class UserController extends GetxController {
             Get.back();
           }
           jumpChat(map["message"]["memberCode"]);
+        }
+        break;
+
+      case 'Riot_Notify':
+        // 拳头登录成功的通知
+        String str = Get.routing.current;
+        if ('/WebPage' == str) {
+          Get.back(result: true);
         }
         break;
 

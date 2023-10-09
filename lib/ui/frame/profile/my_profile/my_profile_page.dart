@@ -16,12 +16,15 @@ import 'package:wy/utils/toast_utils.dart';
 import 'package:wy/widget/home/level.dart';
 import 'package:wy/widget/profile/voice_profile.dart';
 
+import '../../../../config/app_color.dart';
 import '../../../../config/app_pages.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
+import '../../../addgame/add_game_account_page.dart';
 import '../../../common/dialog_show_info.dart';
 import '../../../order/my_orders/my_orders_page.dart';
 import '../../../profile/balance/balance_page.dart';
+import '../../../profile/energy_view.dart';
 import '../../../profile/events/my_events_page.dart';
 import '../../../profile/task/task_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
@@ -163,30 +166,30 @@ class MyProfilePage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Spacer(),
-                                    Obx(() => Showcase(
-                                          key: GlobalKeyConstants
-                                              .profileVoiceKey,
-                                          description:
-                                              'Please leave your voice'.tr,
-                                          targetPadding:
-                                              EdgeInsets.only(left: -12.w),
-                                          targetBorderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(15.r),
-                                              bottomLeft:
-                                                  Radius.circular(15.r)),
-                                          child: VoiceProfileWidget(
-                                            pwId:
-                                                userController.userProfile.pwId,
-                                            voice: userController
-                                                .userProfile.voice?.value,
-                                            maginBottom: 0,
-                                            marginLeft: 12.w,
-                                            width: 100.w,
-                                            toRecordPage: () => userController
-                                                .toRecordPage(context),
-                                          ),
-                                        ))
+                                    // Spacer(),
+                                    // Obx(() => Showcase(
+                                    //       key: GlobalKeyConstants
+                                    //           .profileVoiceKey,
+                                    //       description:
+                                    //           'Please leave your voice'.tr,
+                                    //       targetPadding:
+                                    //           EdgeInsets.only(left: -12.w),
+                                    //       targetBorderRadius: BorderRadius.only(
+                                    //           topLeft: Radius.circular(15.r),
+                                    //           bottomLeft:
+                                    //               Radius.circular(15.r)),
+                                    //       child: VoiceProfileWidget(
+                                    //         pwId:
+                                    //             userController.userProfile.pwId,
+                                    //         voice: userController
+                                    //             .userProfile.voice?.value,
+                                    //         maginBottom: 0,
+                                    //         marginLeft: 12.w,
+                                    //         width: 100.w,
+                                    //         toRecordPage: () => userController
+                                    //             .toRecordPage(context),
+                                    //       ),
+                                    //     ))
                                     // Container(
                                     //   width: 98.w,
                                     //   height: 30.h,
@@ -433,29 +436,36 @@ class MyProfilePage extends StatelessWidget {
                                     )),
                               ],
                             ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () => NavigatorHelper.toOtherProfile(
-                                  userController.userProfile.pwId),
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: 20.w,
-                                    top: 10.h,
-                                    bottom: 10.h,
-                                    right: 10.w),
-                                child: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                  color: Colors.white,
-                                  size: 16.w,
-                                ),
-                              ),
-                            ),
+                            // Spacer(),
+                            // InkWell(
+                            //   onTap: () => NavigatorHelper.toOtherProfile(
+                            //       userController.userProfile.pwId),
+                            //   child: Container(
+                            //     padding: EdgeInsets.only(
+                            //         left: 20.w,
+                            //         top: 10.h,
+                            //         bottom: 10.h,
+                            //         right: 10.w),
+                            //     child: Icon(
+                            //       Icons.arrow_forward_ios_outlined,
+                            //       color: Colors.white,
+                            //       size: 16.w,
+                            //     ),
+                            //   ),
+                            // ),
                             20.horizontalSpace,
                           ],
                         ),
                       ),
                     ),
                   ),
+                  contentPadding(EnergyView(
+                    width: 1.sw - 60.w,
+                    percent: user.totalmins.toDouble() == 0
+                        ? 0
+                        : user.avamins / user.totalmins.toDouble(),
+                    remaining: user.avamins,
+                  )),
                   achievements(),
                   Visibility(
                     visible: userController.userProfile.ads.isNotEmpty,
@@ -496,36 +506,36 @@ class MyProfilePage extends StatelessWidget {
                                         ),
                                       ),
                                     )),
-                                Expanded(
-                                  child: Showcase(
-                                    key: GlobalKeyConstants.profileSideKickKey,
-                                    description: 'Apply now to play with'.tr,
-                                    child: _dashboardLabelItem(
-                                      "assets/images/profile/icon_sidekick.webp",
-                                      "SideKick".tr,
-                                      onTap: () {
-                                        //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                                        Get.toNamed(AppPages.SkillList)?.then(
-                                            (value) =>
-                                                userController.updateInfo());
-                                      },
-                                      badgeNum: userController
-                                          .userProfile.sidekickNum,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: _dashboardLabelItem(
-                                    ImageUtils.icon_order,
-                                    "Orders".tr,
-                                    onTap: () => Get.to(
-                                      () => MyOrdersPage(),
-                                    )?.then(
-                                        (value) => userController.updateInfo()),
-                                    badgeNum:
-                                        userController.userProfile.orderNum,
-                                  ),
-                                ),
+                                // Expanded(
+                                //   child: Showcase(
+                                //     key: GlobalKeyConstants.profileSideKickKey,
+                                //     description: 'Apply now to play with'.tr,
+                                //     child: _dashboardLabelItem(
+                                //       "assets/images/profile/icon_sidekick.webp",
+                                //       "SideKick".tr,
+                                //       onTap: () {
+                                //         //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
+                                //         Get.toNamed(AppPages.SkillList)?.then(
+                                //             (value) =>
+                                //                 userController.updateInfo());
+                                //       },
+                                //       badgeNum: userController
+                                //           .userProfile.sidekickNum,
+                                //     ),
+                                //   ),
+                                // ),
+                                // Expanded(
+                                //   child: _dashboardLabelItem(
+                                //     ImageUtils.icon_order,
+                                //     "Orders".tr,
+                                //     onTap: () => Get.to(
+                                //       () => MyOrdersPage(),
+                                //     )?.then(
+                                //         (value) => userController.updateInfo()),
+                                //     badgeNum:
+                                //         userController.userProfile.orderNum,
+                                //   ),
+                                // ),
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     ImageUtils.icon_ablum,
@@ -543,23 +553,6 @@ class MyProfilePage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            20.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: _dashboardLabelItem(
-                                    ImageUtils.icon_post,
-                                    "Post".tr,
-                                    onTap: () => Get.to(() => MyPostsPage())
-                                        ?.then((value) =>
-                                            userController.updateInfo()),
-                                    badgeNum:
-                                        userController.userProfile.postNum,
-                                  ),
-                                ),
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     "assets/images/profile/icon_bookings.webp",
@@ -569,6 +562,23 @@ class MyProfilePage extends StatelessWidget {
                                     },
                                   ),
                                 ),
+                              ],
+                            ),
+                            20.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // Expanded(
+                                //   child: _dashboardLabelItem(
+                                //     ImageUtils.icon_post,
+                                //     "Post".tr,
+                                //     onTap: () => Get.to(() => MyPostsPage())
+                                //         ?.then((value) =>
+                                //             userController.updateInfo()),
+                                //     badgeNum:
+                                //         userController.userProfile.postNum,
+                                //   ),
+                                // ),
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     "assets/images/profile/icon_activities.webp",
@@ -586,6 +596,14 @@ class MyProfilePage extends StatelessWidget {
                                         (value) => userController.updateInfo()),
                                     badgeNum:
                                         userController.userProfile.taskNum,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: _dashboardLabelItem(
+                                    "assets/images/profile/icon_bookings.webp",
+                                    "Riot".tr,
+                                    onTap: () =>
+                                        Get.to(() => AddGameAccountPage()),
                                   ),
                                 ),
                                 Spacer(),
@@ -606,6 +624,44 @@ class MyProfilePage extends StatelessWidget {
           );
         }));
   }
+
+  Widget remainingTimes() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Remaining game time: '.tr,
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Color(0xFFC5C5C5),
+                  fontFamily: FONT_MEDIUM)),
+          Text('${user.avamins}mins',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColor.textYellow,
+                  fontFamily: FONT_MEDIUM))
+        ],
+      );
+
+  Widget contentPadding(Widget child, {var top, var bootom}) => Container(
+        margin: EdgeInsets.all(15).r,
+        padding: EdgeInsets.all(15).r,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(40, 37, 60, 1),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            remainingTimes(),
+            Container(
+              height: 1.h,
+              color: Color(0xff2D2E3A),
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+            ),
+            child,
+          ],
+        ),
+      );
 
   Widget _memberVipWidget() {
     return Container(
@@ -637,7 +693,7 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget achievements() => Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+        margin: EdgeInsets.only(left: 15, right: 15, top: 0).r,
         padding: EdgeInsets.all(15).r,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
@@ -645,19 +701,19 @@ class MyProfilePage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            achievementItem(
-              user.coin,
-              'ic_balance_money',
-              GlobalKeyConstants.profileCoinKey,
-              'Click to recharge the balance of playing with gold coins'.tr,
-            ),
-            achievementItem(
-              user.diamond,
-              'diamonds_red',
-              GlobalKeyConstants.profileReceivingKey,
-              'Your income from receiving orders can be directly withdrawn to PayPal/Wise.'
-                  .tr,
-            ),
+            // achievementItem(
+            //   user.coin,
+            //   'ic_balance_money',
+            //   GlobalKeyConstants.profileCoinKey,
+            //   'Click to recharge the balance of playing with gold coins'.tr,
+            // ),
+            // achievementItem(
+            //   user.diamond,
+            //   'diamonds_red',
+            //   GlobalKeyConstants.profileReceivingKey,
+            //   'Your income from receiving orders can be directly withdrawn to PayPal/Wise.'
+            //       .tr,
+            // ),
             achievementItem(
               user.balanceMoney(),
               'ic_corns_new',

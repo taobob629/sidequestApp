@@ -15,99 +15,113 @@ class TabCybercafePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SmartRefresher(
-        controller: _ctr.refreshController,
-        onLoading: () => _ctr.loadMore(),
-        onRefresh: () => _ctr.onRefresh(),
-        enablePullUp: true,
-        child: ListView.builder(
-            itemCount: _ctr.list.length,
-            itemBuilder: (context, index) {
-              final model = _ctr.list[index];
-              return GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () =>
-                    Get.to(() => BookingDetailPage(), arguments: model.id),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      20.verticalSpace,
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child: ImageUtil.networkImage(
-                          url: model.headImage,
-                          height: 180.h,
-                          width: Get.width,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      15.verticalSpace,
-                      Text(
-                        model.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontFamily: FONT_MEDIUM,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      10.verticalSpace,
-                      Row(
-                        children: [
-                          Text(
-                            'In business'.tr,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM,
-                              color: Color(0xffFFD20E),
-                            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Stores'.tr,
+          style: TextStyle(
+            fontFamily: FONT_MEDIUM,
+            fontSize: 21.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: false,
+        backgroundColor: Colors.transparent,
+      ),
+      body: Obx(() => SmartRefresher(
+          controller: _ctr.refreshController,
+          onLoading: () => _ctr.loadMore(),
+          onRefresh: () => _ctr.onRefresh(),
+          enablePullUp: true,
+          child: ListView.builder(
+              itemCount: _ctr.list.length,
+              itemBuilder: (context, index) {
+                final model = _ctr.list[index];
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () =>
+                      Get.to(() => BookingDetailPage(), arguments: model.id),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        20.verticalSpace,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.r),
+                          child: ImageUtil.networkImage(
+                            url: model.headImage,
+                            height: 180.h,
+                            width: Get.width,
+                            fit: BoxFit.cover,
                           ),
-                          10.horizontalSpace,
-                          Text(
-                            model.openTime,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM,
-                              color: Color(0xff808388),
-                            ),
+                        ),
+                        15.verticalSpace,
+                        Text(
+                          model.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontFamily: FONT_MEDIUM,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                        ],
-                      ),
-                      10.verticalSpace,
-                      Transform.translate(
-                        offset: Offset(-4.w, 0),
-                        child: Row(
+                        ),
+                        10.verticalSpace,
+                        Row(
                           children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.white,
-                              size: 18.sp,
+                            Text(
+                              'In business'.tr,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: FONT_MEDIUM,
+                                color: Color(0xffFFD20E),
+                              ),
                             ),
-                            Expanded(
-                              child: Text(
-                                model.address,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  color: Color(0xffffffff),
-                                ),
+                            10.horizontalSpace,
+                            Text(
+                              model.openTime,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: FONT_MEDIUM,
+                                color: Color(0xff808388),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        10.verticalSpace,
+                        Transform.translate(
+                          offset: Offset(-4.w, 0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.white,
+                                size: 18.sp,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  model.address,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    color: Color(0xffffffff),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            })));
+                );
+              }))),
+    );
   }
 }
 

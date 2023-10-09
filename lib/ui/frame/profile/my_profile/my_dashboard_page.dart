@@ -45,9 +45,12 @@ class MyDashboardPage extends StatelessWidget {
                           children: UserController.find.userProfile.vips
                               .asMap()
                               .map((index, value) => MapEntry(
-                                  index, InkWell(
-                            onTap: ()=>Get.toNamed(AppPages.VIP_PAGE, arguments: index),
-                            child: _subscriptionItem(value, index),)))
+                                  index,
+                                  InkWell(
+                                    onTap: () => Get.toNamed(AppPages.VIP_PAGE,
+                                        arguments: index),
+                                    child: _subscriptionItem(value, index),
+                                  )))
                               .values
                               .toList(),
                         ),
@@ -57,9 +60,11 @@ class MyDashboardPage extends StatelessWidget {
             ))),
 
         /// Trophies
-        ...UserController.find.userProfile.badges
-            .map((badge) => BadgesWidget(badge))
-            .toList()
+        // ...UserController.find.userProfile.badges
+        //     .map((badge) => BadgesWidget(badge))
+        //     .toList(),
+        if (UserController.find.userProfile.badges.isNotEmpty)
+          BadgesWidget(UserController.find.userProfile.badges[0]),
       ],
     );
   }
@@ -98,24 +103,24 @@ class MyDashboardPage extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               gradient:
-              vipModel.level <= UserController.find.userProfile.vipLevel
-                  ? LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Color(0xff707070), Color(0xff707070)])
-                  : LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Color(0xFF632BDA),
-                    Color(0xFF6029D4),
-                    Color(0xFF652CDF),
-                    Color(0xFF7231DE),
-                    Color(0xFF8A39DE),
-                    Color(0xFFBE38D0),
-                    Color(0xFFDE5D85),
-                    Color(0xFFE68887)
-                  ]),
+                  vipModel.level <= UserController.find.userProfile.vipLevel
+                      ? LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Color(0xff707070), Color(0xff707070)])
+                      : LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                              Color(0xFF632BDA),
+                              Color(0xFF6029D4),
+                              Color(0xFF652CDF),
+                              Color(0xFF7231DE),
+                              Color(0xFF8A39DE),
+                              Color(0xFFBE38D0),
+                              Color(0xFFDE5D85),
+                              Color(0xFFE68887)
+                            ]),
             ),
             alignment: Alignment.center,
             child: Text(
