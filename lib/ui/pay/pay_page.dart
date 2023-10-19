@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pay/pay.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
