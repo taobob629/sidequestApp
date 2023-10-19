@@ -6,12 +6,14 @@
   Copyright © sidequest_hub_app. All rights reserved.
 */
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:pay/pay.dart';
 import 'package:wy/api/address_api.dart';
 import 'package:wy/api/pay_api.dart';
 import 'package:wy/api/user_api.dart';
@@ -44,6 +46,14 @@ class PayPageController extends GetxController {
   var payType = 1.obs;
 
   late PayOrderModel payOrderModel;
+
+  var paymentItems = [
+    PaymentItem(
+      label: 'Total',
+      amount: '99.99',
+      status: PaymentItemStatus.final_price,
+    )
+  ];
 
   Timer? _timer;
 
@@ -396,6 +406,12 @@ class PayPageController extends GetxController {
           }
         }
      // });
+    } else if (payType.value == 9999) {
+      if (Platform.isAndroid) {
+        // 谷歌支付
+      } else if (Platform.isIOS) {
+        // 苹果支付
+      }
     }
   }
 

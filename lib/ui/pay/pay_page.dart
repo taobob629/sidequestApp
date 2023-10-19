@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pay/pay.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
 import 'package:wy/ui/common/colorful_button.dart';
@@ -18,81 +20,98 @@ class PayPage extends StatelessWidget {
   PayPage({
     required PayOrderModel payOrderModel,
   }) {
-    controller = Get.put(PayPageController(payOrderModel: payOrderModel), tag: payOrderModel.totalAmount);
+    controller = Get.put(PayPageController(payOrderModel: payOrderModel),
+        tag: payOrderModel.totalAmount);
   }
 
   @override
   Widget build(BuildContext context) {
-  flog('payOrderModel ${controller.payOrderModel}');
+    flog('payOrderModel ${controller.payOrderModel}');
+    int orderType = controller.payOrderModel.type;
     return KeyboardScaffold(
       title: "Pay Confirm".tr,
-      body:   Platform.isIOS&&StorageManager.getOnline()==false ?ListView(children: [
-        _buildPayView("Apple Pay".tr, "ios_pay", controller.payType.value, controller.payType.value)
-      ],): ListView.separated(
-          itemBuilder: (context, index) {
-            int orderType = controller.payOrderModel.type;
-            //  flog('orderTYpe $orderType');
-            if (index == 0) {
-              return _buildAmount();
-            } else if (index == 1) {
-              return Obx(() => _buildBillAddress());
-            } else if (index == 2) {
-              if (orderType == PayType.PW_RECHARGE) {
-                return Container();
-              }
-              return Obx(() => _buildCredit(1, controller.payType.value));
-            } else if (index == 3) {
-              if (orderType == PayType.PW_STRIP_ACCOUNT) {
-                return Obx(() => _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
-              }
-              if (orderType > 0 || orderType == PayType.PW_RECHARGE) {
-                return Container();
-              } else {
-                return Obx(() => _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
-                //return Container();
-              }
-            } else if (index == 4) {
-              if (orderType == PayType.PW_RECHARGE) {
-                return Obx(() => _buildPayView("Gold Coins".tr, "balance_money", 2, controller.payType.value,
-                    subTitle: Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/ic_balance_money.webp",
-                          width: 14,
-                          height: 14,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${controller.coin.value}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        )
-                      ],
-                    )));
-              } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
-                return Obx(() => _buildPayView("Balance".tr, "balance_money", 2, controller.payType.value,
-                    subTitle: Obx(() => Text(
-                          "￡${controller.balance}",
-                          style: TextStyle(color: controller.isSufficient() ? Colors.white : Colors.white54),
-                        ))));
-              } else if (orderType > -2) {
-                return Container();
-              } else {
-                return Obx(() => _buildPayView("Balance".tr, "balance_money", 2, controller.payType.value));
-              }
-            }
-            return Container(
-              height: 70,
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Container(
-              height: 15,
-            );
-          },
-          itemCount: 5),
+      body: Platform.isIOS && StorageManager.getOnline() == false
+          ? ListView(
+              children: [
+                _buildPayView("Apple Pay".tr, "ios_pay",
+                    controller.payType.value, controller.payType.value)
+              ],
+            )
+          : buildContentWidget(),
       floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
+
+  Widget buildContentWidget() {
+    int orderType = controller.payOrderModel.type;
+    Widget firstWidget = _buildAmount();
+    Widget secondWidget = Obx(() => _buildBillAddress());
+    Widget thirdWidget = orderType == PayType.PW_RECHARGE
+        ? Container()
+        : Obx(
+            () => _buildCredit(1, controller.payType.value, 'Credit Card'.tr));
+    Widget thirdWidget2 = Obx(() => _buildCredit(
+          9999,
+          controller.payType.value,
+          Platform.isAndroid ? 'Google Pay' : 'Apple Pay',
+        ));
+    Widget fourWidget;
+    if (orderType == PayType.PW_STRIP_ACCOUNT) {
+      fourWidget = Obx(() =>
+          _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+    }
+    if (orderType > 0 || orderType == PayType.PW_RECHARGE) {
+      fourWidget = Container();
+    } else {
+      fourWidget = Obx(() =>
+          _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+    }
+    Widget fiveWidget;
+    if (orderType == PayType.PW_RECHARGE) {
+      fiveWidget = Obx(() => _buildPayView(
+          "Gold Coins".tr, "balance_money", 2, controller.payType.value,
+          subTitle: Row(
+            children: [
+              Image.asset(
+                "assets/images/ic_balance_money.webp",
+                width: 14,
+                height: 14,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "${controller.coin.value}",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              )
+            ],
+          )));
+    } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
+      fiveWidget = Obx(() => _buildPayView(
+          "Balance".tr, "balance_money", 2, controller.payType.value,
+          subTitle: Obx(() => Text(
+                "￡${controller.balance}",
+                style: TextStyle(
+                    color: controller.isSufficient()
+                        ? Colors.white
+                        : Colors.white54),
+              ))));
+    } else if (orderType > -2) {
+      fiveWidget = Container();
+    } else {
+      fiveWidget = Obx(() => _buildPayView(
+          "Balance".tr, "balance_money", 2, controller.payType.value));
+    }
+
+    return Column(
+      children: [
+        firstWidget,
+        secondWidget,
+        thirdWidget,
+        thirdWidget2,
+        fourWidget,
+        fiveWidget,
+      ],
     );
   }
 
@@ -105,10 +124,14 @@ class PayPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             "CONFIRM".tr,
-            style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
+            style:
+                TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
           ),
         ),
-        onTap: () => userController.checkLogin(() => Platform.isIOS&&!StorageManager.getOnline()?controller.inAppPay(): controller.pay()),
+        onTap: () => userController.checkLogin(() =>
+            Platform.isIOS && !StorageManager.getOnline()
+                ? controller.inAppPay()
+                : controller.pay()),
       ),
     );
   }
@@ -135,14 +158,20 @@ class PayPage extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
                                   "£",
-                                  style: TextStyle(fontSize: 34, color: Colors.white, fontFamily: "DIN"),
+                                  style: TextStyle(
+                                      fontSize: 34,
+                                      color: Colors.white,
+                                      fontFamily: "DIN"),
                                 ),
                               ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, left: 5),
                           child: Text(
                             "${double.parse(controller.payOrderModel.totalAmount).toStringAsFixed(controller.payOrderModel.type == -2 ? 0 : 2)}",
-                            style: TextStyle(fontSize: 34, color: Colors.white, fontFamily: "DIN"),
+                            style: TextStyle(
+                                fontSize: 34,
+                                color: Colors.white,
+                                fontFamily: "DIN"),
                           ),
                         ),
                       ],
@@ -208,7 +237,8 @@ class PayPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () async {
-              AddressModel? model = await NavigatorHelper.gotoAddressPage(select: true);
+              AddressModel? model =
+                  await NavigatorHelper.gotoAddressPage(select: true);
               if (model != null) {
                 controller.address.value = model;
               }
@@ -236,15 +266,13 @@ class PayPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCredit(int value, int groupValue) {
-    String payMethod = "";
-    if (Platform.isAndroid) {
-      payMethod = "&  Google Pay";
-    } else if (Platform.isIOS) {
-       payMethod = "&  Apple Pay";
-    }
+  Widget _buildCredit(int value, int groupValue, String payMethod) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
+        margin: EdgeInsets.only(
+          left: 15.w,
+          right: 15.w,
+          bottom: 15.h,
+        ),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -256,7 +284,8 @@ class PayPage extends StatelessWidget {
               onTap: () => controller.changePayType(value),
               child: Container(
                 color: Colors.transparent,
-                padding: const EdgeInsets.only(left: 5, right: 15, top: 5, bottom: 5),
+                padding: const EdgeInsets.only(
+                    left: 5, right: 15, top: 5, bottom: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -265,14 +294,18 @@ class PayPage extends StatelessWidget {
                       activeColor: AppColor.accent,
                       value: value,
                       groupValue: groupValue,
-                      onChanged: (value) => controller.changePayType(value as int),
+                      onChanged: (value) =>
+                          controller.changePayType(value as int),
                       hoverColor: AppColor.accent,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        "${'Credit Card'.tr}  $payMethod",
-                        style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                        "$payMethod",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: "DIN"),
                       ),
                     ),
                     Spacer(),
@@ -287,7 +320,8 @@ class PayPage extends StatelessWidget {
         ));
   }
 
-  Widget _buildPayView(String name, String icon, int value, int groupValue, {Widget? subTitle}) {
+  Widget _buildPayView(String name, String icon, int value, int groupValue,
+      {Widget? subTitle}) {
     return GestureDetector(
       onTap: () => controller.changePayType(value),
       child: Container(
@@ -310,7 +344,8 @@ class PayPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 name,
-                style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                style: TextStyle(
+                    color: Colors.white, fontSize: 18, fontFamily: "DIN"),
               ),
             ),
             Spacer(),

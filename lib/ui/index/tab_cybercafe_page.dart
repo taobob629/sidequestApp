@@ -17,6 +17,7 @@ class TabCybercafePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Stores'.tr,
           style: TextStyle(
