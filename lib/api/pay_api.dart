@@ -49,6 +49,7 @@ class PayApi {
     // flog('paytype $paytype type $type');
     switch (paytype) {
       case 1:
+      case 9999:
         return '/app/order/stripe/charge';
       case 2:
         return type == PayType.PW_STRIP_ACCOUNT
