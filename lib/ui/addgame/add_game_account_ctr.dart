@@ -9,6 +9,7 @@ import '../controller/user_controller.dart';
 
 class AddGameAccountCtr extends GetxController {
   var list = <GameAccountModel>[].obs;
+  var selectIndex = (-1).obs;
 
   @override
   void onInit() {
@@ -31,11 +32,11 @@ class AddGameAccountCtr extends GetxController {
 
   void jumpWeb() async {
     final result = await Get.to(
-      WebPage(
-        title: 'Login Roit'.tr,
-        url:
-            'https://auth.riotgames.com/authorize?client_id=7699637b-cdd5-4a7d-b992-e78eb40ca15b&redirect_uri=https://sidequesthub.com/proxy/web/extra/appRoitLogin&response_type=code&scope=openid+offline_access+cpid&state=${UserController.find.userProfile.uk}',
-      ),
+        () => WebPage(
+          title: 'Login Roit'.tr,
+          url:
+          'https://auth.riotgames.com/authorize?client_id=7699637b-cdd5-4a7d-b992-e78eb40ca15b&redirect_uri=https://sidequesthub.com/proxy/web/extra/appRoitLogin&response_type=code&scope=openid+offline_access+cpid&state=${UserController.find.userProfile.uk}',
+        ),
     );
     dismissLoading();
     if (result != null) {
@@ -50,5 +51,10 @@ class AddGameAccountCtr extends GetxController {
         await http.get('/peiwan/app/profile/connections/delete?id=$id');
     dismissLoading();
     requestData();
+  }
+
+  void selectAccount(int i) async {
+    selectIndex.value = i;
+    Get.back(result: true);
   }
 }

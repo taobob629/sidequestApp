@@ -16,33 +16,42 @@ class ActivityItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => EventPage(id: model.id, type: model.matchDiff)),
+      onTap: () => Get.to(() => EventPage(
+            id: model.id,
+            type: model.matchDiff,
+          )),
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(13), color: model.inProgress ? Color(0xFF526EEB) : Color(0xFF28253D)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(13),
+            color: model.inProgress ? Color(0xFF526EEB) : Color(0xFF28253D)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           Stack(children: [ AspectRatio(
-             aspectRatio: 2 / 1,
-             child: ClipRRect(
-               borderRadius: BorderRadius.circular(8),
-               child: CachedNetworkImage(
-                 imageUrl: model.image,
-                 fit: BoxFit.cover,
-               ),
-             ),
-           ),
-           Positioned(
-               right: 10.w,
-               bottom: 10.h,
-               child: Visibility(
-               visible: model.showCounter(),
-               child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(model.addtime* 1000)
-                   .difference(DateTime.now())
-                   .inSeconds)))
-           ],),
+            Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 2 / 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: CachedNetworkImage(
+                      imageUrl: model.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                    right: 10.w,
+                    bottom: 10.h,
+                    child: Visibility(
+                        visible: model.showCounter(),
+                        child: TimerWidget(DateTime.fromMillisecondsSinceEpoch(
+                                model.addtime * 1000)
+                            .difference(DateTime.now())
+                            .inSeconds)))
+              ],
+            ),
             SizedBox(
               width: 10,
               height: 15,
@@ -62,7 +71,9 @@ class ActivityItem extends StatelessWidget {
                   width: 2,
                   height: 12,
                   margin: const EdgeInsets.only(left: 4),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(1), color: Colors.white),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(1),
+                      color: Colors.white),
                 )
               ],
             ),

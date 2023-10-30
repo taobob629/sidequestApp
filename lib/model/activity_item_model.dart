@@ -8,6 +8,7 @@ class ActivityItemModel {
   late bool inProgress = false;
   late int addtime = 0;
   late int matchDiff = 0;
+  late String company = "";
   int showCountdown = 0; //0不显示1显示
   showCounter() {
     return showCountdown == 1 &&
@@ -20,6 +21,7 @@ class ActivityItemModel {
     id = json['id'];
     addtime = json['addtime'] ?? 0;
     matchDiff = json['matchDiff'] ?? 0;
+    company = json['company'] ?? "";
     showCountdown = json['showCountdown'] ?? 0;
     title = json['title'];
     image = json['image'] == null ? AppConfig.noImage : json['image'];

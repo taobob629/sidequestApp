@@ -3,6 +3,7 @@ import 'package:wy/model/safe_convert.dart';
 class ActivityListModel {
   // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/IMG_20230123_103239_582.jpg
   final String image;
+  final String company;
 
   // 0302@2179
   final String unique;
@@ -28,6 +29,7 @@ class ActivityListModel {
 
   ActivityListModel({
     this.image = "",
+    this.company = "",
     this.unique = "",
     this.label = "",
     this.id = 0,
@@ -48,6 +50,7 @@ class ActivityListModel {
   factory ActivityListModel.fromJson(Map<String, dynamic>? json) =>
       ActivityListModel(
         image: asT<String>(json, 'image'),
+        company: asT<String>(json, 'company'),
         unique: asT<String>(json, 'unique'),
         label: asT<String>(json, 'label'),
         id: asT<int>(json, 'id'),
@@ -63,6 +66,7 @@ class ActivityListModel {
 
   Map<String, dynamic> toJson() => {
         'image': image,
+        'company': company,
         'unique': unique,
         'label': label,
         'id': id,

@@ -55,6 +55,7 @@ class ImageUtils {
   static const String diamonds_red = 'assets/images/diamonds_red.webp';
   static const String icon_vip = 'assets/images/icon_vip.webp';
   static const String apple_icon = 'assets/images/apple_icon.webp';
+  static const String icon_xuanze = 'assets/images/icon_xuanze.webp';
   static const String google_icon = 'assets/images/google_icon.webp';
   static const String discord_icon = 'assets/images/discord_icon.webp';
   static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
@@ -86,6 +87,8 @@ class ImageUtils {
   static const String diamond_icon = 'assets/images/profile/diamond_icon.webp';
   static const String add_game_account_content = 'assets/images/add_game_account_content.svg';
   static const String add_game_account_title = 'assets/images/add_game_account_title.webp';
+  static const String icon_jiangbei = 'assets/images/icon_jiangbei.webp';
+  static const String icon_quantou = 'assets/images/icon_quantou.webp';
 
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';

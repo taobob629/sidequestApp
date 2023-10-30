@@ -12,7 +12,7 @@ class WebPage extends StatelessWidget {
   final String? url;
   late final WebPageController webPageController;
 
-  WebPage({required this.title, required this.url}){
+  WebPage({required this.title, required this.url}) {
     webPageController = Get.put(WebPageController(url: url));
   }
 
@@ -23,12 +23,15 @@ class WebPage extends StatelessWidget {
       title: "$title",
       actions: [
         ActionButton(
-          icon: Icon(Icons.refresh,color: Colors.white,),
-          onTap: (){
+          icon: Icon(
+            Icons.refresh,
+            color: Colors.white,
+          ),
+          onTap: () {
             dismissLoading();
             showLoading();
             webPageController.webViewController.reload();
-            },
+          },
         )
       ],
       body: WebView(
@@ -37,8 +40,7 @@ class WebPage extends StatelessWidget {
         onWebViewCreated: (WebViewController webViewController) {
           webPageController.setWebViewController(webViewController);
         },
-        onPageStarted: (url){
-        },
+        onPageStarted: (url) {},
         onPageFinished: (url) {
           dismissLoading();
           String cookie = '''
@@ -46,7 +48,7 @@ class WebPage extends StatelessWidget {
           ''';
           webPageController.webViewController.runJavascript(cookie);
         },
-        onWebResourceError: (error){
+        onWebResourceError: (error) {
           dismissLoading();
         },
       ),
@@ -54,18 +56,24 @@ class WebPage extends StatelessWidget {
   }
 }
 
-class WebPageController extends GetxController{
+class WebPageController extends GetxController {
   final String? url;
   late WebViewController webViewController;
+  CookieManager? cookieManage;
+
   WebPageController({required this.url});
 
-  void setWebViewController(WebViewController webViewController){
+  void setWebViewController(WebViewController webViewController) {
     this.webViewController = webViewController;
+    cookieManage?.clearCookies();
   }
 
   @override
   void onReady() {
     super.onReady();
     showLoading();
+    if (cookieManage == null) {
+      cookieManage = CookieManager();
+    }
   }
 }

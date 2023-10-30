@@ -25,7 +25,10 @@ class ActivityListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(() => EventPage(id: model.id, type: model.matchDiff)),
+      onTap: () => Get.to(() => EventPage(
+            id: model.id,
+            type: model.matchDiff,
+          )),
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 10.h).w,
         height: 270.h,
@@ -60,23 +63,26 @@ class ActivityListItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text('${model.title}\n',
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      style: TextStyle(
-                      fontSize: 14.sp,
-                      overflow: TextOverflow.ellipsis,
-                      fontFamily: FONT_MEDIUM,
-                    ),),
-                    5.verticalSpace,
-                    Text('${model.datetime.toDateStr}',
+                      Text(
+                        '${model.title}\n',
                         textAlign: TextAlign.start,
+                        maxLines: 1,
                         style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 12.sp,
-                      fontFamily: FONT_MEDIUM,
-                    )),
-                  ],),
+                          fontSize: 14.sp,
+                          overflow: TextOverflow.ellipsis,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                      ),
+                      5.verticalSpace,
+                      Text('${model.datetime.toDateStr}',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                          )),
+                    ],
+                  ),
                 )),
             Positioned(
                 top: 200.h - imageSize / 2,

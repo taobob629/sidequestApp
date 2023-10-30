@@ -28,6 +28,7 @@ import 'package:wy/widget/views.dart';
 
 import '../../../utils/toast_utils.dart';
 import '../../common/wy_dialog.dart';
+import '../../frame/social/activity/list/riot_dialog.dart';
 import '../widget/event_header.dart';
 import 'join_button.dart';
 import 'tab_overview_page.dart';
@@ -41,10 +42,17 @@ class EventPage extends StatelessWidget {
   late final int id;
   late final bool joined;
 
-  EventPage({required int id, required int type, bool joined = false}) {
+  EventPage({
+    required int id,
+    required int type,
+    bool joined = false,
+  }) {
     this.id = id;
     this.joined = joined;
-    controller = Get.put(EventPageController(id: id, type: type));
+    controller = Get.put(EventPageController(
+      id: id,
+      type: type,
+    ));
   }
 
   @override
@@ -259,7 +267,10 @@ class EventPageController extends BasePageController {
   late int id;
   late int type;
 
-  EventPageController({required this.id, required this.type});
+  EventPageController({
+    required this.id,
+    required this.type,
+  });
 
   void changeTitleColor(Color titleColor) {
     this.titleColor.value = titleColor;
@@ -455,6 +466,14 @@ class EventPageController extends BasePageController {
   }
 
   void joinMatch(BuildContext context) async {
+    print('zengchao = ${eventDetailModel.value.company.isNotEmpty}');
+    if (eventDetailModel.value.company.isNotEmpty) {
+      final result = await Get.bottomSheet(RiotDialog());
+      if (result != null) {
+
+      }
+    }
+
     int type = eventDetailModel.value.matchDiff;
     var timeResult;
     if (type == 5) {

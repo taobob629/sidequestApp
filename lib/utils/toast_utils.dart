@@ -39,3 +39,22 @@ showError(var msg, {Duration? duration}) {
     displayTime: duration,
   );
 }
+
+showCustom(
+    Widget widget, {
+      bool clickMaskDismiss = false,
+      AlignmentGeometry? alignment,
+      Color? maskColor,
+      // 点击事件是否穿透
+      bool usePenetrate = false,
+      VoidCallback? onDismiss,
+    }) async {
+  return await SmartDialog.show(
+    builder: (builder) => widget,
+    clickMaskDismiss: clickMaskDismiss,
+    alignment: alignment,
+    maskColor: maskColor,
+    usePenetrate: usePenetrate,
+    onDismiss: onDismiss,
+  );
+}

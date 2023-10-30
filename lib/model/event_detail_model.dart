@@ -14,6 +14,7 @@ class EventDetailModel {
   late String formation = "";
   late int matchDiff = 0;
   late String checkinTime = "";
+  late String company = "";
   late int checkin = 0;
   late int start = 0;
   late String title = "";
@@ -67,6 +68,7 @@ class EventDetailModel {
     checkin = json['checkin'] ?? 0;
 
     checkinTime = json['checkinTime'] ?? '';
+    company = json['company'] ?? '';
     constraint = json['constraint'] ?? '';
     formation = json['Formation'] ?? '';
     matchDiff = json['matchDiff'] ?? 0;
