@@ -50,47 +50,61 @@ class BadgesWidget extends GetView<ProfileController> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20.w),
-              child: Row(
-                children: [
-                  Text(
-                    '${badge.name}'.tr,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(
+                    left: 15.w,
                   ),
-                  GestureDetector(
-                    onTapDown: (details) {
-                      print(details.globalPosition);
-                      Get.dialog(TipsDialog(
-                        offset: details.globalPosition,
-                        tips: badge.tips,
-                      ));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 6),
-                      width: 12.w,
-                      height: 12.w,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Color(0xffb2b9c9),
-                        borderRadius: BorderRadius.circular(12.r),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 6.w,
+                        height: 18.h,
+                        margin: EdgeInsets.only(right: 4.w),
+                        color: hexColor('FFB20E'),
                       ),
-                      child: Image.asset(
-                        ImageUtils.icon_help,
-                        width: 10.w,
-                        height: 10.w,
+                      Text(
+                        '${badge.name.toUpperCase()}'.tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTapDown: (details) {
+                    print(details.globalPosition);
+                    Get.dialog(TipsDialog(
+                      offset: details.globalPosition,
+                      tips: badge.tips,
+                    ));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 6),
+                    width: 12.w,
+                    height: 12.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xffb2b9c9),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                  )
-                ],
-              ),
+                    child: Image.asset(
+                      ImageUtils.icon_help,
+                      width: 10.w,
+                      height: 10.w,
+                    ),
+                  ),
+                )
+              ],
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 4.w),
-              margin: EdgeInsets.all(15.w),
+              margin: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 0),
               decoration: BoxDecoration(
                 color: Color(0xff262731),
                 borderRadius: BorderRadius.circular(15.r),

@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import StripeApplePay
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, FlutterStreamHandler {
@@ -11,9 +11,9 @@ import StripeApplePay
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-        GeneratedPluginRegistrant.register(with: self)
+      GeneratedPluginRegistrant.register(with: self)
       
-        StripeAPI.defaultPublishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg"
+//        StripeAPI.defaultPublishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg"
           
         let controller:FlutterViewController = window.rootViewController as! FlutterViewController
         let eventChannel = FlutterEventChannel(

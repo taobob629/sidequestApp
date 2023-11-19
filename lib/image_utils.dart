@@ -89,6 +89,7 @@ class ImageUtils {
   static const String add_game_account_title = 'assets/images/add_game_account_title.webp';
   static const String icon_jiangbei = 'assets/images/icon_jiangbei.webp';
   static const String icon_quantou = 'assets/images/icon_quantou.webp';
+  static const String energy_right_icon = 'assets/images/energy_right_icon.webp';
 
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';

@@ -5,6 +5,8 @@ import 'package:wy/config/app_pages.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/model/profile_model.dart';
 
+import '../../../../config/app_color.dart';
+import '../../../../config/icon_font.dart';
 import 'badges_widget.dart';
 import 'my_profile_page.dart';
 
@@ -22,23 +24,37 @@ class MyDashboardPage extends StatelessWidget {
             visible: UserController.find.online.value,
             child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(top: 15.h),
+              margin: EdgeInsets.only(top: 10.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 15.w),
-                    child: Text(
-                      "Subscriptions".tr,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(
+                      left: 15.w,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 6.w,
+                          height: 18.h,
+                          margin: EdgeInsets.only(right: 4.w),
+                          color: hexColor('FFB20E'),
+                        ),
+                        Text(
+                          'SUBSCRIPTIONS'.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Obx(() => Container(
                         width: Get.width,
-                        height: 48,
+                        height: 90.h,
                         margin: EdgeInsets.only(top: 10),
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -71,24 +87,23 @@ class MyDashboardPage extends StatelessWidget {
 
   Widget _subscriptionItem(VipModel vipModel, int index) {
     return Container(
-      // width: 128.w,
-      height: 48,
-      margin: EdgeInsets.only(left: 12),
+      width: 90.h,
+      margin: EdgeInsets.only(left: 12.w),
       decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff707070), width: 1.5),
-          borderRadius: BorderRadius.circular(10)),
-      child: Row(
+        border: Border.all(
+          color: Color(0xff707070),
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Image.asset(
-              "assets/images/profile/icon_level_${vipModel.level}.webp",
-              width: 26,
-            ),
+          Image.asset(
+            "assets/images/profile/icon_level_${vipModel.level}.webp",
+            width: 26,
           ),
-          SizedBox(
-            width: 5,
-          ),
+          3.verticalSpace,
           Text(
             vipModel.name,
             style: TextStyle(
@@ -97,9 +112,13 @@ class MyDashboardPage extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
           Container(
-            width: 50,
-            height: 20,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            width: 56.w,
+            height: 24.h,
+            margin: EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 3.h,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               gradient:

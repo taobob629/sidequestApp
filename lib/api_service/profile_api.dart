@@ -14,7 +14,7 @@ abstract class ProfileApi {
 
   /// profile 用户信息
   static Future getProfileInfo() async {
-    var response = await http.get('/peiwan/app/profile/info');
+    var response = await http.get('/peiwan/app/profile/memberInfo');
     return ProfileModel.fromJson(response.data);
   }
 

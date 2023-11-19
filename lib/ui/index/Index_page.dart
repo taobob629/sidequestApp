@@ -1,4 +1,3 @@
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wy/common/keep_alive_wrapper.dart';
@@ -42,23 +41,6 @@ class IndexPage extends StatelessWidget {
         children: controller.createPages(),
       ),
     );
-  }
-
-  String decryptData(String data) {
-    final key = encrypt.Key.fromUtf8('my 32 length key.......sidequest');
-    final iv = encrypt.IV.fromLength(16);
-    final encryptMaker =
-        encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
-    encrypt.Encrypted encrypted = encrypt.Encrypted.fromBase64(data);
-    return encryptMaker.decrypt(encrypted, iv: iv);
-  }
-
-  void encryptData(String data) {
-    final key = encrypt.Key.fromUtf8('my 32 length key.......sidequest');
-    final iv = encrypt.IV.fromLength(16);
-    final encryptMaker =
-        encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.ecb));
-    final encrypted = encryptMaker.encrypt(data, iv: iv);
   }
 }
 

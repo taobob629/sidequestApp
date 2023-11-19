@@ -58,418 +58,422 @@ class MyProfilePage extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: 215,
-                    width: double.infinity,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Obx(() => ImageUtil.networkImage(
+                  Stack(
+                    children: [
+                      Container(
+                        height: 230.h,
+                        width: double.infinity,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Obx(() => ImageUtil.networkImage(
                               url: t.background.value,
                               fit: BoxFit.cover,
                             )),
-                        Opacity(
-                          opacity: 0.5,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [Color(0x00131010), Color(0xFF1B1A1E)],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20, bottom: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SafeArea(
-                                child: GestureDetector(
-                                  onTap: () => Get.toNamed(AppPages.Setting),
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    margin: EdgeInsets.only(right: 20.w),
-                                    child: Showcase(
-                                      key: GlobalKeyConstants.profileSetKey,
-                                      description: 'APP Settings',
-                                      child: Image.asset(
-                                        "assets/images/profile_setting.webp",
-                                        width: 26.w,
-                                        height: 26.w,
-                                      ),
-                                    ),
+                            Opacity(
+                              opacity: 0.5,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [Color(0x00131010), Color(0xFF1B1A1E)],
                                   ),
                                 ),
                               ),
-                              Spacer(),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () =>
-                                          Get.to(() => ProfileEditPage()),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 20, bottom: 40.h),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SafeArea(
+                                    child: GestureDetector(
+                                      onTap: () => Get.toNamed(AppPages.Setting),
                                       child: Container(
-                                        margin: EdgeInsets.only(right: 25),
-                                        child: Row(
-                                          children: [
-                                            Stack(
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Obx(() => Showcase(
-                                                        key: GlobalKeyConstants
-                                                            .profileSetInfoKey,
-                                                        description:
-                                                            'Click to complete the information of SideKickers.'
-                                                                .tr,
-                                                        targetShapeBorder:
-                                                            CircleBorder(),
-                                                        child: Container(
-                                                          height: 64,
-                                                          alignment: Alignment
-                                                              .bottomCenter,
-                                                          child: ClipOval(
-                                                            child: ImageUtil
-                                                                .networkImage(
-                                                              url: userController
-                                                                  .userProfile
-                                                                  .avatar,
-                                                              width: 60,
-                                                              height: 60,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )),
-                                                  Image.asset(
-                                                    "assets/images/profile_avatar_border.webp",
-                                                    width: 64,
-                                                  ),
-                                                  Obx(() => Visibility(
-                                                        visible: userController
-                                                                .userProfile
-                                                                .vipLevel >=
-                                                            5,
-                                                        child: Positioned(
-                                                            bottom: -10,
-                                                            child: Image.asset(
-                                                              "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
-                                                              height: 28,
-                                                            )),
-                                                      )),
-                                                ]),
-                                          ],
+                                        alignment: Alignment.centerRight,
+                                        margin: EdgeInsets.only(right: 20.w),
+                                        child: Showcase(
+                                          key: GlobalKeyConstants.profileSetKey,
+                                          description: 'APP Settings',
+                                          child: Image.asset(
+                                            "assets/images/profile_setting.webp",
+                                            width: 26.w,
+                                            height: 26.w,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    // Spacer(),
-                                    // Obx(() => Showcase(
-                                    //       key: GlobalKeyConstants
-                                    //           .profileVoiceKey,
-                                    //       description:
-                                    //           'Please leave your voice'.tr,
-                                    //       targetPadding:
-                                    //           EdgeInsets.only(left: -12.w),
-                                    //       targetBorderRadius: BorderRadius.only(
-                                    //           topLeft: Radius.circular(15.r),
-                                    //           bottomLeft:
-                                    //               Radius.circular(15.r)),
-                                    //       child: VoiceProfileWidget(
-                                    //         pwId:
-                                    //             userController.userProfile.pwId,
-                                    //         voice: userController
-                                    //             .userProfile.voice?.value,
-                                    //         maginBottom: 0,
-                                    //         marginLeft: 12.w,
-                                    //         width: 100.w,
-                                    //         toRecordPage: () => userController
-                                    //             .toRecordPage(context),
-                                    //       ),
-                                    //     ))
-                                    // Container(
-                                    //   width: 98.w,
-                                    //   height: 30.h,
-                                    //   decoration: BoxDecoration(
-                                    //       borderRadius: BorderRadius.only(topLeft: Radius.circular(15.r), bottomLeft: Radius.circular(15.r)),
-                                    //       gradient: LinearGradient(colors: [Color(0xFF6B5BFF), Color(0xFF7643E3)]),
-                                    //       boxShadow: [
-                                    //         BoxShadow(color: Color(0x29632BDA), offset: Offset(0, 3.5), blurRadius: 8, spreadRadius: 0.5),
-                                    //         BoxShadow(color: Color(0x29FFFFFF), offset: Offset(0, -1.5), blurRadius: 10, spreadRadius: 0.5),
-                                    //       ]),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       GestureDetector(
-                                    //         onTap: () {
-                                    //           //播放
-                                    //           AudioManager.instance.play(userController.userProfile.voice);
-                                    //         },
-                                    //         child: Row(
-                                    //           children: [
-                                    //             6.horizontalSpace,
-                                    //             Image.asset("assets/images/profile/icon_voice_play.webp", width: 20, height: 20),
-                                    //             8.horizontalSpace,
-                                    //             Image.asset("assets/images/profile/icon_voice_progress.webp", height: 13.h, fit: BoxFit.cover),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       Expanded(
-                                    //           child: GestureDetector(
-                                    //             onTap: () {
-                                    //               //编辑
-                                    //               userController.toRecordPage(context);
-                                    //             },
-                                    //             child: Container(
-                                    //               alignment: Alignment.center,
-                                    //               child: ImageUtil.assetImage('ic_edit', width: 14),
-                                    //             ),
-                                    //           )),
-                                    //     ],
-                                    //   ),
-                                    // ),
+                                  ),
+                                  Spacer(),
+                                  Row(
+                                    children: [
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: () =>
+                                            Get.to(() => ProfileEditPage()),
+                                        child: Stack(
+                                            alignment: AlignmentDirectional.center,
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              Obx(() => Showcase(
+                                                key: GlobalKeyConstants
+                                                    .profileSetInfoKey,
+                                                description:
+                                                'Click to complete the information of SideKickers.'
+                                                    .tr,
+                                                targetShapeBorder:
+                                                CircleBorder(),
+                                                child: Container(
+                                                  height: 64,
+                                                  alignment:
+                                                  Alignment.bottomCenter,
+                                                  child: ClipOval(
+                                                    child:
+                                                    ImageUtil.networkImage(
+                                                      url: userController
+                                                          .userProfile.avatar,
+                                                      width: 60,
+                                                      height: 60,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )),
+                                              Image.asset(
+                                                "assets/images/profile_avatar_border.webp",
+                                                width: 64,
+                                              ),
+                                              Obx(() => Visibility(
+                                                visible: userController
+                                                    .userProfile.vipLevel >=
+                                                    5,
+                                                child: Positioned(
+                                                    bottom: -10,
+                                                    child: Image.asset(
+                                                      "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                                      height: 28,
+                                                    )),
+                                              )),
+                                            ]),
+                                      ),
+                                      15.horizontalSpace,
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 30.h,
+                              left: 15.w,
+                              child: GestureDetector(
+                                onTap: t.goDev,
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          /// nickname
+                                          Row(
+                                            children: [
+                                              Obx(() => Text(
+                                                userController
+                                                    .userProfile.nickName,
+                                                style: TextStyle(
+                                                  fontSize: 20.sp,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )),
+                                              6.horizontalSpace,
+                                              GameLevelWidget(
+                                                height: 20.h,
+                                                level: user.sidekickLevel,
+                                                isAuth: user.isAuth,
+                                                userId: user.pwId,
+                                              ),
+                                            ],
+                                          ),
+                                          6.verticalSpace,
+
+                                          6.verticalSpace,
+
+                                          /// labels: sex、language、location
+                                          Obx(() => Padding(
+                                            padding:
+                                            const EdgeInsets.only(top: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  height: 16.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          3),
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .centerLeft,
+                                                          end: Alignment
+                                                              .centerRight,
+                                                          colors: [
+                                                            if (userController
+                                                                .userProfile
+                                                                .gender ==
+                                                                0) ...[
+                                                              Color(0xFF1F84C9),
+                                                              Color(0xFF7CB9D5),
+                                                            ] else if (userController
+                                                                .userProfile
+                                                                .gender ==
+                                                                1) ...[
+                                                              Color(0xFFD57CAB),
+                                                              Color(0xFFC91FA7),
+                                                            ] else ...[
+                                                              Color(0xFF99BCCC),
+                                                              Color(0xFF587284),
+                                                            ]
+                                                          ])),
+                                                  child: Row(
+                                                    children: [
+                                                      if (userController
+                                                          .userProfile
+                                                          .gender !=
+                                                          2)
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .only(
+                                                              right: 3),
+                                                          child: Image.asset(
+                                                            "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
+                                                            width: 8,
+                                                          ),
+                                                        )
+                                                      else
+                                                        Text(
+                                                          "?",
+                                                          style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              color:
+                                                              Colors.white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal),
+                                                        ),
+                                                      Text(
+                                                        "${userController.userProfile.age}",
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .normal),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  height: 16.h,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          3),
+                                                      color: Color(0xff32353D)),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        userController
+                                                            .userProfile
+                                                            .language,
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .normal),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: userController
+                                                      .userProfile
+                                                      .location
+                                                      .country
+                                                      .isNotEmpty,
+                                                  child: Container(
+                                                    padding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                    margin: EdgeInsets.only(
+                                                        right: 10),
+                                                    height: 16.h,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(3),
+                                                        color:
+                                                        Color(0xff32353D)),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          "assets/images/profile/icon_dibiao.webp",
+                                                          width: 8,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          userController
+                                                              .userProfile
+                                                              .location
+                                                              .country,
+                                                          style: TextStyle(
+                                                              fontSize: 10.sp,
+                                                              color:
+                                                              Colors.white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .normal),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+
+                                          /// email
+                                          Obx(() => Padding(
+                                            padding:
+                                            const EdgeInsets.only(top: 8),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(
+                                                      right: 15),
+                                                  child: Text(
+                                                    "ID:${userController.userProfile.uk}",
+                                                    style: TextStyle(
+                                                        fontSize: 10.sp,
+                                                        color:
+                                                        Color(0xffC5C5C5),
+                                                        fontWeight:
+                                                        FontWeight.bold),
+                                                  ),
+                                                ),
+                                                // Text(
+                                                //   t.vm.value.email,
+                                                //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
+                                                // )
+                                              ],
+                                            ),
+                                          )),
+                                        ],
+                                      ),
+                                      // Spacer(),
+                                      // InkWell(
+                                      //   onTap: () => NavigatorHelper.toOtherProfile(
+                                      //       userController.userProfile.pwId),
+                                      //   child: Container(
+                                      //     padding: EdgeInsets.only(
+                                      //         left: 20.w,
+                                      //         top: 10.h,
+                                      //         bottom: 10.h,
+                                      //         right: 10.w),
+                                      //     child: Icon(
+                                      //       Icons.arrow_forward_ios_outlined,
+                                      //       color: Colors.white,
+                                      //       size: 16.w,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      20.horizontalSpace,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.r),
+                          color: Color(0xff262731),
+                        ),
+                        margin: EdgeInsets.only(left: 15, right: 15, top: 215).r,
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.r),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Color(0xFFA88229),
+                                    Color(0xFFAB3FD7),
+                                    Color(0xFF2B369D)
                                   ],
                                 ),
                               ),
-                            ],
+                              child: EnergyView(
+                                width: 1.sw - 60.w,
+                                percent: user.totalmins.toDouble() == 0
+                                    ? 0
+                                    : user.avamins / user.totalmins.toDouble(),
+                                remaining: user.avamins,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            achievements(),
+                            10.verticalSpace,
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    visible: userController.userProfile.ads.isNotEmpty,
+                    child: _memberVipWidget(),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(left: 15.w, top: 20.h),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 6.w,
+                          height: 18.h,
+                          margin: EdgeInsets.only(right: 4.w),
+                          color: hexColor('FFB20E'),
+                        ),
+                        Text(
+                          'MY SERVICES'.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.sp,
+                            fontFamily: FONT_MEDIUM,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Divider(
-                    indent: 20,
-                    endIndent: 20,
-                    height: 1,
-                    color: Color(0xff262731),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    child: GestureDetector(
-                      onTap: t.goDev,
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// nickname
-                                Row(
-                                  children: [
-                                    Obx(() => Text(
-                                          userController.userProfile.nickName,
-                                          style: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                    6.horizontalSpace,
-                                    GameLevelWidget(
-                                      height: 20.h,
-                                      level: user.sidekickLevel,
-                                      isAuth: user.isAuth,
-                                      userId: user.pwId,
-                                    ),
-                                  ],
-                                ),
-                                6.verticalSpace,
-
-                                6.verticalSpace,
-
-                                /// labels: sex、language、location
-                                Obx(() => Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: 16.h,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.centerLeft,
-                                                    end: Alignment.centerRight,
-                                                    colors: [
-                                                      if (userController
-                                                              .userProfile
-                                                              .gender ==
-                                                          0) ...[
-                                                        Color(0xFF1F84C9),
-                                                        Color(0xFF7CB9D5),
-                                                      ] else if (userController
-                                                              .userProfile
-                                                              .gender ==
-                                                          1) ...[
-                                                        Color(0xFFD57CAB),
-                                                        Color(0xFFC91FA7),
-                                                      ] else ...[
-                                                        Color(0xFF99BCCC),
-                                                        Color(0xFF587284),
-                                                      ]
-                                                    ])),
-                                            child: Row(
-                                              children: [
-                                                if (userController
-                                                        .userProfile.gender !=
-                                                    2)
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 3),
-                                                    child: Image.asset(
-                                                      "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
-                                                      width: 8,
-                                                    ),
-                                                  )
-                                                else
-                                                  Text(
-                                                    "?",
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
-                                                Text(
-                                                  "${userController.userProfile.age}",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.normal),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            margin: EdgeInsets.only(right: 10),
-                                            height: 16.h,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
-                                                color: Color(0xff32353D)),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  userController
-                                                      .userProfile.language,
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.normal),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Visibility(
-                                            visible: userController.userProfile
-                                                .location.country.isNotEmpty,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5),
-                                              margin:
-                                                  EdgeInsets.only(right: 10),
-                                              height: 16.h,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(3),
-                                                  color: Color(0xff32353D)),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset(
-                                                    "assets/images/profile/icon_dibiao.webp",
-                                                    width: 8,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    userController.userProfile
-                                                        .location.country,
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-
-                                /// email
-                                Obx(() => Padding(
-                                      padding: const EdgeInsets.only(top: 8),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 15),
-                                            child: Text(
-                                              "ID:${userController.userProfile.uk}",
-                                              style: TextStyle(
-                                                  fontSize: 10.sp,
-                                                  color: Color(0xffC5C5C5),
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          // Text(
-                                          //   t.vm.value.email,
-                                          //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                          // )
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            ),
-                            // Spacer(),
-                            // InkWell(
-                            //   onTap: () => NavigatorHelper.toOtherProfile(
-                            //       userController.userProfile.pwId),
-                            //   child: Container(
-                            //     padding: EdgeInsets.only(
-                            //         left: 20.w,
-                            //         top: 10.h,
-                            //         bottom: 10.h,
-                            //         right: 10.w),
-                            //     child: Icon(
-                            //       Icons.arrow_forward_ios_outlined,
-                            //       color: Colors.white,
-                            //       size: 16.w,
-                            //     ),
-                            //   ),
-                            // ),
-                            20.horizontalSpace,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  contentPadding(EnergyView(
-                    width: 1.sw - 60.w,
-                    percent: user.totalmins.toDouble() == 0
-                        ? 0
-                        : user.avamins / user.totalmins.toDouble(),
-                    remaining: user.avamins,
-                  )),
-                  achievements(),
-                  Visibility(
-                    visible: userController.userProfile.ads.isNotEmpty,
-                    child: _memberVipWidget(),
                   ),
                   Showcase(
                       key: GlobalKeyConstants.profileFunKey,
@@ -484,7 +488,7 @@ class MyProfilePage extends StatelessWidget {
                           horizontal: 4.w,
                           vertical: 15.h,
                         ),
-                        margin: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
+                        margin: EdgeInsets.fromLTRB(15.w, 4.h, 15.w, 15.h),
                         decoration: BoxDecoration(
                           color: Color(0xff262731),
                           borderRadius: BorderRadius.circular(15.r),
@@ -692,86 +696,39 @@ class MyProfilePage extends StatelessWidget {
     );
   }
 
-  Widget achievements() => Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 0).r,
-        padding: EdgeInsets.all(15).r,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          color: Color(0xff262731),
-        ),
-        child: Row(
-          children: [
-            // achievementItem(
-            //   user.coin,
-            //   'ic_balance_money',
-            //   GlobalKeyConstants.profileCoinKey,
-            //   'Click to recharge the balance of playing with gold coins'.tr,
-            // ),
-            // achievementItem(
-            //   user.diamond,
-            //   'diamonds_red',
-            //   GlobalKeyConstants.profileReceivingKey,
-            //   'Your income from receiving orders can be directly withdrawn to PayPal/Wise.'
-            //       .tr,
-            // ),
-            achievementItem(
-              user.balanceMoney(),
-              'ic_corns_new',
-              GlobalKeyConstants.profileTopUpKey,
-              'UK offline store top-up'.tr,
-            ),
-            achievementItem(
-              user.coupons,
-              'ic_coupons_new',
-              GlobalKeyConstants.profileCouponsKey,
-              'Your Coupons'.tr,
-            ),
-          ],
-        ),
+  Widget achievements() => Row(
+        children: [
+          achievementItem(
+            user.balanceMoney(),
+            'ic_corns_new',
+            GlobalKeyConstants.profileTopUpKey,
+            "Credits\n".tr,
+            'UK offline store top-up'.tr,
+          ),
+          achievementItem(
+            user.coupons,
+            'ic_coupons_new',
+            GlobalKeyConstants.profileCouponsKey,
+            "Vouchers\n".tr,
+            'Your Coupons'.tr,
+          ),
+        ],
       );
 
   Widget achievementItem(
-      var text, var icon, GlobalKey key, String description) {
-    var textStyle = TextStyle(
-        color: Color(0xFFFFFFFF), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
-    double width = 18;
-    double height = 18;
-    switch (icon) {
-      case 'ic_balance_money':
-        width = 18;
-        height = 18;
-        break;
-      case 'ic_coupons_new':
-        width = 22;
-        height = 18;
-        break;
-      case 'diamonds_red':
-        width = 18;
-        height = 18;
-        break;
-      case 'ic_corns_new':
-        width = 22;
-        height = 18;
-        break;
-    }
+    var text,
+    var icon,
+    GlobalKey key,
+    String iconText,
+    String description,
+  ) {
     return Expanded(
       child: InkWell(
         onTap: () {
           switch (icon) {
-            case 'ic_balance_money':
-              if (StorageManager.getOnline())
-                Get.toNamed(AppPages.WALLET_PAGE,
-                    arguments: Map()..['page'] = 0);
-              break;
             case 'ic_coupons_new':
               NavigatorHelper.gotoCouponTabPage(
                   whenComplete: () => UserController.instance().updateInfo());
-              break;
-            case 'diamonds_red':
-              StorageManager.getOnline()
-                  ? Get.toNamed(AppPages.WALLET_PAGE,
-                      arguments: Map()..['page'] = 1)
-                  : null;
               break;
             case 'ic_corns_new':
               if (StorageManager.getOnline())
@@ -780,19 +737,36 @@ class MyProfilePage extends StatelessWidget {
               break;
           }
         },
-        child: Showcase(
-          key: key,
-          description: description,
-          child: Column(
-            children: [
-              ImageUtil.assetImage(icon, width: width, height: height),
-              6.verticalSpace,
-              Text(
-                '$text' ?? '',
-                style: textStyle,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ImageUtil.assetImage(
+              icon,
+              width: 56.w,
+              height: 56.w,
+            ),
+            8.horizontalSpace,
+            RichText(
+              text: TextSpan(
+                text: iconText,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: FONT_LIGHT,
+                  fontSize: 12.sp,
+                ),
+                children: [
+                  TextSpan(
+                    text: "$text",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: FONT_MEDIUM,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

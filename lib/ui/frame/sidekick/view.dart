@@ -45,7 +45,7 @@ class SideKickPage extends StatelessWidget {
                       tabs: controller.tabsList,
                       isScrollable: true,
                       overlayColor:
-                      MaterialStateProperty.all(Colors.transparent),
+                          MaterialStateProperty.all(Colors.transparent),
                       indicator: BoxDecoration(),
                       onTap: (index) => controller.currentIndex.value = index,
                     ),
