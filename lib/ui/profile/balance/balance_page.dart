@@ -140,11 +140,7 @@ class BalancePage extends StatelessWidget {
               return;
             }
           }
-          Get.dialog(ConfirmDialog(
-            title: 'Warning'.tr,
-            info: 'These Credits are only used for SideQuest Hub.'.tr,
-            onConfirm: () => controller.pay(),
-          ));
+          controller.pay();
         },
       ),
     );

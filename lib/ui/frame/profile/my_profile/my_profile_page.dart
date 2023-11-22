@@ -189,12 +189,10 @@ class MyProfilePage extends StatelessWidget {
                                                 ),
                                               )),
                                               6.horizontalSpace,
-                                              GameLevelWidget(
-                                                height: 20.h,
-                                                level: user.sidekickLevel,
-                                                isAuth: user.isAuth,
-                                                userId: user.pwId,
-                                              ),
+                                              Image.asset(
+                                                "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                height: 20.w,
+                                              )
                                             ],
                                           ),
                                           6.verticalSpace,
@@ -604,7 +602,7 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: _dashboardLabelItem(
-                                    "assets/images/profile/icon_bookings.webp",
+                                    "assets/images/profile/icon_riot.webp",
                                     "Riot".tr,
                                     onTap: () =>
                                         Get.to(() => AddGameAccountPage()),
@@ -699,7 +697,7 @@ class MyProfilePage extends StatelessWidget {
   Widget achievements() => Row(
         children: [
           achievementItem(
-            user.balanceMoney(),
+            '£${user.balance}',
             'ic_corns_new',
             GlobalKeyConstants.profileTopUpKey,
             "Credits\n".tr,
@@ -799,6 +797,7 @@ class MyProfilePage extends StatelessWidget {
                   width: 26,
                 ),
               ),
+              4.verticalSpace,
               Text(
                 title,
                 style: TextStyle(
