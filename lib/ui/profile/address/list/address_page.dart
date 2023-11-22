@@ -27,7 +27,10 @@ class AddressPage extends StatelessWidget {
         }
         if (controller.list.length == 0) {
           return Stack(
-            children: [Positioned(left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())],
+            children: [
+              Positioned(
+                  left: 0, right: 0, top: 0, bottom: 0, child: EmptyView())
+            ],
           );
         }
         return ListView.separated(
@@ -50,7 +53,8 @@ class AddressPage extends StatelessWidget {
             itemCount: controller.list.length);
       }),
       floatingActionButton: Obx(() => controller.floatingActionButtonShow.value
-          ? FloatingButton(label: "NEW ADDRESS".tr, onTap: () => gotoEditPage(false))
+          ? FloatingButton(
+              label: "NEW ADDRESS".tr, onTap: () => gotoEditPage(false))
           : Container()),
     );
   }

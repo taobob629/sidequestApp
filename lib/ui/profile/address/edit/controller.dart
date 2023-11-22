@@ -22,10 +22,10 @@ class EditAddressPageController extends GetxListController<Shire> {
   var lastNameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
-  var line1Controller = TextEditingController();
-  var line2Controller = TextEditingController();
+  // var line1Controller = TextEditingController();
+  // var line2Controller = TextEditingController();
   var codeController = TextEditingController();
-  var cityController = TextEditingController();
+  // var cityController = TextEditingController();
 
   var id = 0;
 
@@ -35,10 +35,10 @@ class EditAddressPageController extends GetxListController<Shire> {
       lastNameController.text = address.lastName;
       emailController.text = address.email;
       phoneController.text = address.phone;
-      line1Controller.text = address.line1;
-      line2Controller.text = address.line2;
+      // line1Controller.text = address.line1;
+      // line2Controller.text = address.line2;
       codeController.text = address.postCode;
-      cityController.text = address.city;
+      // cityController.text = address.city;
       useAsDefault.value = address.useDefault;
       id = address.id;
     }
@@ -50,10 +50,10 @@ class EditAddressPageController extends GetxListController<Shire> {
     lastNameController.dispose();
     emailController.dispose();
     phoneController.dispose();
-    line1Controller.dispose();
-    line2Controller.dispose();
+    // line1Controller.dispose();
+    // line2Controller.dispose();
     codeController.dispose();
-    cityController.dispose();
+    // cityController.dispose();
     super.onClose();
   }
 
@@ -96,12 +96,12 @@ class EditAddressPageController extends GetxListController<Shire> {
       showToast("Please input a phone number".tr);
       return;
     }
-    String line1 = line1Controller.text;
-    if(line1.isEmpty){
-      showToast("Please input a detail address".tr);
-      return;
-    }
-    String line2 = line2Controller.text;
+    // String line1 = line1Controller.text;
+    // if(line1.isEmpty){
+    //   showToast("Please input a detail address".tr);
+    //   return;
+    // }
+    // String line2 = line2Controller.text;
 
     String code = codeController.text;
     if(code.isEmpty){
@@ -109,21 +109,21 @@ class EditAddressPageController extends GetxListController<Shire> {
       return;
     }
 
-    String city = cityController.text;
-    if(city.isEmpty){
-      showToast("Please input your city".tr);
-      return;
-    }
+    // String city = cityController.text;
+    // if(city.isEmpty){
+    //   showToast("Please input your city".tr);
+    //   return;
+    // }
     AddressModel model = AddressModel();
     model.id = id;
     model.firstName = firstName;
     model.lastName = lastName;
     model.email = email;
     model.phone = phone;
-    model.line1 = line1;
-    model.line2 = line2;
+    // model.line1 = line1;
+    // model.line2 = line2;
     model.postCode = code;
-    model.city = city;
+    // model.city = city;
     model.useDefault = useAsDefault.value;
     showLoading();
     await AddressApi.save(model);

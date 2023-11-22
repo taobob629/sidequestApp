@@ -40,7 +40,7 @@ class EditAddressPage extends StatelessWidget {
         child: Column(
           children: [
             _buildContactView(),
-            _buildAddressView(context),
+            // _buildAddressView(context),
             _buildDefaultView(),
             SizedBox(
               height: 100,
@@ -56,7 +56,8 @@ class EditAddressPage extends StatelessWidget {
   }
 
   var intputDecoration = BoxDecoration(
-      color: Color(0xff2D2E3C), borderRadius: BorderRadius.all(Radius.circular(10.r)));
+      color: Color(0xff2D2E3C),
+      borderRadius: BorderRadius.all(Radius.circular(10.r)));
 
   Widget _buildContactView() {
     return Column(
@@ -66,9 +67,7 @@ class EditAddressPage extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
           decoration: itemDecoration(),
-          margin: EdgeInsets
-              .all(15)
-              .r,
+          margin: EdgeInsets.all(15).r,
           child: Column(
             children: [
               InputView(
@@ -102,6 +101,14 @@ class EditAddressPage extends StatelessWidget {
                   tips: "Input your mobile phone number".tr,
                   textInputType: TextInputType.phone,
                   controller: controller.phoneController),
+              divider,
+              InputView(
+                  decoration: intputDecoration,
+                  autoHeight: true,
+                  label: "Post Code".tr,
+                  tips: "Input your post code".tr,
+                  textInputType: TextInputType.text,
+                  controller: controller.codeController),
             ],
           ),
         )
@@ -116,58 +123,51 @@ class EditAddressPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         lable_text("Shipping Address".tr),
-        Container(
-          padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
-          decoration: itemDecoration(),
-          margin: EdgeInsets
-              .all(15)
-              .r,
-          child: Column(
-            children: [
-              InputView(
-                  decoration: intputDecoration,
-                  autoHeight: true,
-                  label: "Address Line 1".tr,
-                  tips: "Input your detailed address".tr,
-                  textInputType: TextInputType.streetAddress,
-                  controller: controller.line1Controller),
-              divider,
-              InputView(
-                  decoration: intputDecoration,
-                  autoHeight: true,
-                  label: "Address Line 2 (Optional)".tr,
-                  tips: "Input your detailed address".tr,
-                  textInputType: TextInputType.streetAddress,
-                  controller: controller.line2Controller),
-              divider,
-              InputView(
-                  decoration: intputDecoration,
-                  autoHeight: true,
-                  label: "Post Code".tr,
-                  tips: "Input your post code".tr,
-                  textInputType: TextInputType.text,
-                  controller: controller.codeController),
-              divider,
-              InputView(
-                  decoration: intputDecoration,
-                  autoHeight: true,
-                  label: "City".tr,
-                  tips: "Input your city".tr,
-                  textInputType: TextInputType.text,
-                  controller: controller.cityController),
-            ],
-          ),
-        )
+        // Container(
+        //   padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
+        //   decoration: itemDecoration(),
+        //   margin: EdgeInsets.all(15).r,
+        //   child: Column(
+        //     children: [
+        //       InputView(
+        //           decoration: intputDecoration,
+        //           autoHeight: true,
+        //           label: "Address Line 1".tr,
+        //           tips: "Input your detailed address".tr,
+        //           textInputType: TextInputType.streetAddress,
+        //           controller: controller.line1Controller),
+        //       divider,
+        //       InputView(
+        //           decoration: intputDecoration,
+        //           autoHeight: true,
+        //           label: "Address Line 2 (Optional)".tr,
+        //           tips: "Input your detailed address".tr,
+        //           textInputType: TextInputType.streetAddress,
+        //           controller: controller.line2Controller),
+        //       divider,
+        //       divider,
+        //       InputView(
+        //           decoration: intputDecoration,
+        //           autoHeight: true,
+        //           label: "City".tr,
+        //           tips: "Input your city".tr,
+        //           textInputType: TextInputType.text,
+        //           controller: controller.cityController),
+        //     ],
+        //   ),
+        // )
       ],
     );
   }
 
   Widget lable_text(var text) {
     return Padding(
-      padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 15.w, right: 15.w),
+      padding:
+          EdgeInsets.only(top: 20.h, bottom: 10.h, left: 15.w, right: 15.w),
       child: Text(
         '$text',
-        style: TextStyle(color: Colors.white, fontSize: 18.sp, fontFamily: FONT_LIGHT),
+        style: TextStyle(
+            color: Colors.white, fontSize: 18.sp, fontFamily: FONT_LIGHT),
       ),
     );
   }
@@ -180,13 +180,13 @@ class EditAddressPage extends StatelessWidget {
         children: [
           Text(
             "Use this as default".tr,
-            style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: FONT_LIGHT),
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontFamily: FONT_LIGHT),
           ),
-          Obx(() =>
-              CupertinoSwitch(
-               //   activeColor: AppColor.accent,
-                  value: controller.useAsDefault.value,
-                  onChanged: (value) => controller.useAsDefault.value = value))
+          Obx(() => CupertinoSwitch(
+              //   activeColor: AppColor.accent,
+              value: controller.useAsDefault.value,
+              onChanged: (value) => controller.useAsDefault.value = value))
         ],
       ),
     );

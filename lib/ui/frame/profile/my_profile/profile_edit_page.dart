@@ -143,7 +143,6 @@ class ProfileEditPage extends StatelessWidget {
                               maxLength: 20,
                               tips:
                                   "${UserController.find.userProfile.nickName}"),
-                          _eplayerIntroWidget(),
                           Container(
                             height: 40.h,
                             padding:
@@ -336,67 +335,6 @@ class ProfileEditPage extends StatelessWidget {
                               },
                             );
                           }).marginSymmetric(horizontal: 15),
-                          Container(
-                            height: 40.h,
-                            padding:
-                                EdgeInsets.only(top: 16, left: 16, right: 16),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Language".tr,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontFamily: FONT_MEDIUM),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ),
-                          Builder(builder: (optionContext) {
-                            return GestureDetector(
-                              child: Obx(() => Container(
-                                  height: 50,
-                                  padding: EdgeInsets.only(left: 15, right: 10),
-                                  decoration: BoxDecoration(
-                                    color: AppColor.itemBg2,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        t.languageList.join("/"),
-                                        style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: AppColor.colorB9C9),
-                                      ),
-                                      Spacer(),
-                                      Icon(
-                                        Icons.keyboard_arrow_down,
-                                        color: AppColor.colorB9C9,
-                                      ),
-                                    ],
-                                  ))),
-                              onTap: () {
-                                Get.dialog(
-                                    CsDropDownMulitSelectDialog(
-                                      optionContext: optionContext,
-                                      itemList: [
-                                        DropDownModel()..title = "English",
-                                        DropDownModel()..title = "Chinese"
-                                      ],
-                                      initSelectList: t.languageList,
-                                      onSelect: (value) {
-                                        t.languageList.clear();
-                                        t.languageList.addAll(value);
-                                        // t.languageList.refresh();
-                                      },
-                                    ),
-                                    barrierColor: Colors.transparent,
-                                    useSafeArea: false);
-                              },
-                            );
-                          }).marginSymmetric(horizontal: 15),
                           // Obx(() => AddressItemView(
                           //       address: t.addressModel.value,
                           //       onEdit: () => t.jumpEditAddress(true, address: t.addressModel.value),
@@ -441,49 +379,6 @@ class ProfileEditPage extends StatelessWidget {
             }),
           ));
   }
-
-  Widget _eplayerIntroWidget() => Container(
-        margin: const EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            10.verticalSpace,
-            Text(
-              'SideKicker Introduction'.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-            6.verticalSpace,
-            Container(
-              margin: EdgeInsets.only(top: 6.h, bottom: 6.h),
-              padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 6.h),
-              decoration: BoxDecoration(
-                color: Color(0xff313033),
-                borderRadius: BorderRadius.all(Radius.circular(8)).w,
-              ),
-              child: TextField(
-                controller: t.signatureController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '${UserController.find.userProfile.signature}',
-                  hintStyle:
-                      TextStyle(color: Color(0xffb2b9c9), fontSize: 14.sp),
-                  helperStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
-                  labelStyle: TextStyle(color: Colors.white, fontSize: 14.sp),
-                ),
-                style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                maxLength: 255,
-                maxLines: 4,
-                minLines: 4,
-              ),
-            )
-          ],
-        ),
-      );
 }
 
 class AddressItemView extends StatelessWidget {
@@ -622,7 +517,6 @@ class ProfileEditController extends GetxController {
   BuildContext? myContext;
 
   TextEditingController nickController = TextEditingController();
-  TextEditingController signatureController = TextEditingController();
 
   TextEditingController phoneController = TextEditingController();
 
@@ -640,8 +534,6 @@ class ProfileEditController extends GetxController {
   final addressModel = AddressModel().obs;
   final phone = "".obs;
   final digalCode = "+44".obs;
-
-  final languageList = <String>[].obs;
 
   ///是否正在上传文件
   bool isUploadFile = false;
@@ -666,7 +558,6 @@ class ProfileEditController extends GetxController {
     ProfileApi.profileInit().then((res) {
       profile = res;
       nickController.text = res.nick;
-      signatureController.text = res.signature;
       gender.value = int.parse(res.gender);
 
       phone.value = res.phone;
@@ -685,8 +576,6 @@ class ProfileEditController extends GetxController {
         print(tempCountry);
         curCountry.value = ((tempCountry.emoji ?? "") + tempCountry.name);
       }
-      languageList.addIf(res.language.contains("English"), "English");
-      languageList.addIf(res.language.contains("Chinese"), "Chinese");
     });
   }
 
@@ -697,17 +586,9 @@ class ProfileEditController extends GetxController {
       );
       return;
     }
-    if (languageList.isEmpty) {
-      showInfo(
-        "Please set language first".tr,
-      );
-      return;
-    }
     ProfileApi.updateProfile(
             nickController.text,
-            signatureController.text,
             phone.value,
-            languageList.join("/"),
             jsonEncode({"country": curCountry.value}),
             gender.value.toString())
         .then((value) {

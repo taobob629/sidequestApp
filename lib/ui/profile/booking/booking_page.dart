@@ -14,63 +14,38 @@ import 'controller.dart';
 class BookingPage extends GetView<BookingPageController> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: pageDecoration(),
+    return Scaffold(
+      appBar: AppBar(
+        title: PageTitle(
+          title: "My Bookings".tr,
         ),
-        NestedScrollView(
-            headerSliverBuilder: (context, _) => [
-                  SliverAppBar(
-                    title: PageTitle(
-                      title: "My Bookings".tr,
-                    ),
-                    pinned: true,
-                    backgroundColor: Colors.transparent,
-                  )
-                ],
-            body: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: null,
-              body: Stack(
-                children: [
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      top: 0,
-                      bottom: 0,
-                      child: Obx(() => controller.initializing.value
-                          ? Container()
-                          : controller.list.length == 0
-                              ? EmptyView()
-                              : MediaQuery.removePadding(
-                                  context: context,
-                                  removeTop: true,
-                                  child: ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                      controller: controller.scrollController,
-                                      itemBuilder: (context, index) {
-                                        BookingModel model = controller.list[index];
-                                        return BookingItem(
-                                          model: model,
-                                          onCancel: (id) => controller.cancelBook(id),
-                                        );
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return listDivider15;
-                                      },
-                                      itemCount: controller.list.length))))
-                ],
-              ),
-              bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
-                  ? Padding(padding: EdgeInsets.only(bottom: 10.h),child: FloatingButton(
-                label: "MAKE A NEW BOOKING".tr,
-                onTap: () => gotoAddPage(),
-              ),)
-                  : Container()),
-            ))
-      ],
+      ),
+      body: Obx(
+        () => controller.initializing.value
+            ? Container()
+            : controller.list.length == 0
+                ? Center(child: EmptyView())
+                : ListView.separated(
+                    itemBuilder: (context, index) {
+                      BookingModel model = controller.list[index];
+                      return BookingItem(
+                        model: model,
+                        onCancel: (id) => controller.cancelBook(id),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return listDivider15;
+                    },
+                    itemCount: controller.list.length,
+                  ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 10.h),
+        child: FloatingButton(
+          label: "MAKE A NEW BOOKING".tr,
+          onTap: () => gotoAddPage(),
+        ),
+      ),
     );
   }
 

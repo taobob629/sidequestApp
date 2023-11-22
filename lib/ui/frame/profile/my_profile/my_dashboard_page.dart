@@ -24,7 +24,7 @@ class MyDashboardPage extends StatelessWidget {
             visible: UserController.find.online.value,
             child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(top: 10.h),
+              margin: EdgeInsets.only(top: 4.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -32,13 +32,14 @@ class MyDashboardPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(
                       left: 15.w,
+                      bottom: 10.h,
                     ),
                     child: Row(
                       children: [
                         Container(
                           width: 6.w,
                           height: 18.h,
-                          margin: EdgeInsets.only(right: 4.w),
+                          margin: EdgeInsets.only(right: 4.w,),
                           color: hexColor('FFB20E'),
                         ),
                         Text(
@@ -54,7 +55,7 @@ class MyDashboardPage extends StatelessWidget {
                   ),
                   Obx(() => Container(
                         width: Get.width,
-                        height: 90.h,
+                        height: 100.h,
                         margin: EdgeInsets.only(top: 10),
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -117,7 +118,7 @@ class MyDashboardPage extends StatelessWidget {
             margin: EdgeInsets.only(
               left: 10,
               right: 10,
-              top: 3.h,
+              top: 10.h,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),

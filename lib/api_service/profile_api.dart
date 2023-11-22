@@ -101,8 +101,8 @@ abstract class ProfileApi {
   }
 
   /// profile-album  添加图片到相册
-  static Future updateProfile(String nick, String signature, String phone, String language, String country, String gender) async {
-    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "signature": signature, "phone": phone, "language": language, "country": country, "gender": gender});
+  static Future updateProfile(String nick, String phone, String country, String gender) async {
+    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "phone": phone, "country": country, "gender": gender});
     return response.data;
   }
 

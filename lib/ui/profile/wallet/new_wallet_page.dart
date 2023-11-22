@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../config/app_color.dart';
 import '../../../config/app_pages.dart';
 import '../../../config/icon_font.dart';
+import '../../../utils/global_key_constants.dart';
 import '../../../utils/image_util.dart';
 import '../../../utils/navigator_helper.dart';
 import '../../../utils/storage_manager.dart';
@@ -33,7 +34,15 @@ class NewWalletPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            achievements(),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.r),
+                color: Color(0xff262731),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 20.h),
+              margin: EdgeInsets.only(left: 15, right: 15,).r,
+              child: achievements(),
+            ),
             Container(
               padding: EdgeInsets.only(left: 30, top: 20, bottom: 10),
               alignment: Alignment.centerLeft,
@@ -54,25 +63,25 @@ class NewWalletPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.r)),
               child: Column(
                 children: [
-                  _balanceItem(
-                    imgName: "assets/images/coin_red.webp",
-                    title: '${userController.userProfile.coin}' + " Coin".tr,
-                    subTitle: "These coins are only used for SideKick".tr,
-                    btnTitle: "TOP UP".tr,
-                    onTap: () {
-                      Get.toNamed(AppPages.WALLET_PAGE);
-                    },
-                  ),
-                  _balanceItem(
-                    imgName: "assets/images/diamonds_red.webp",
-                    title: "${userController.userProfile.diamond} Diamonds".tr,
-                    subTitle: "6 Diamonds for £1".tr,
-                    btnTitle: "WITHDRAW".tr,
-                    onTap: () {
-                      Get.toNamed(AppPages.WALLET_PAGE,
-                          arguments: Map()..['page'] = 1);
-                    },
-                  ),
+                  // _balanceItem(
+                  //   imgName: "assets/images/coin_red.webp",
+                  //   title: '${userController.userProfile.coin}' + " Coin".tr,
+                  //   subTitle: "These coins are only used for SideKick".tr,
+                  //   btnTitle: "TOP UP".tr,
+                  //   onTap: () {
+                  //     Get.toNamed(AppPages.WALLET_PAGE);
+                  //   },
+                  // ),
+                  // _balanceItem(
+                  //   imgName: "assets/images/diamonds_red.webp",
+                  //   title: "${userController.userProfile.diamond} Diamonds".tr,
+                  //   subTitle: "6 Diamonds for £1".tr,
+                  //   btnTitle: "WITHDRAW".tr,
+                  //   onTap: () {
+                  //     Get.toNamed(AppPages.WALLET_PAGE,
+                  //         arguments: Map()..['page'] = 1);
+                  //   },
+                  // ),
                   _balanceItem(
                     imgName: "assets/images/ic_corns_new.webp",
                     title: "£${userController.userProfile.balance} Credits".tr,
@@ -145,115 +154,81 @@ class NewWalletPage extends StatelessWidget {
         ],
       );
 
-  Widget achievements() => Container(
-        margin: EdgeInsets.symmetric(horizontal: 15.w),
+  Widget achievements() => Row(
+        children: [
+          achievementItem(
+            '£${user.balance}',
+            'ic_corns_new',
+            GlobalKeyConstants.profileTopUpKey,
+            "Credits\n".tr,
+            'UK offline store top-up'.tr,
+          ),
+          achievementItem(
+            user.coupons,
+            'ic_coupons_new',
+            GlobalKeyConstants.profileCouponsKey,
+            "Vouchers\n".tr,
+            'Your Coupons'.tr,
+          ),
+        ],
+      );
+
+  Widget achievementItem(
+    var text,
+    var icon,
+    GlobalKey key,
+    String iconText,
+    String description,
+  ) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          switch (icon) {
+            case 'ic_coupons_new':
+              NavigatorHelper.gotoCouponPage(
+                couponType: 5,
+                whenComplete: () => UserController.instance().updateInfo(),
+              );
+              break;
+            case 'ic_corns_new':
+              if (StorageManager.getOnline())
+                Get.to(() => BalancePage())?.whenComplete(
+                    () => UserController.instance().updateInfo());
+              break;
+          }
+        },
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (StorageManager.getOnline())
-                    Get.toNamed(AppPages.WALLET_PAGE,
-                        arguments: Map()..['page'] = 0);
-                },
-                child: Container(
-                  height: 88.h,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff786728),
-                        width: 0.5.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.r)),
-                  child: achievementItem(user.coin, 'ic_balance_money'),
-                ),
-              ),
+            ImageUtil.assetImage(
+              icon,
+              width: 50.w,
+              height: 50.w,
             ),
-            6.horizontalSpace,
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (StorageManager.getOnline())
-                    Get.toNamed(AppPages.WALLET_PAGE,
-                        arguments: Map()..['page'] = 1);
-                },
-                child: Container(
-                  height: 88.h,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff786728),
-                        width: 0.5.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.r)),
-                  child: achievementItem(user.diamond, 'diamonds_red'),
+            8.horizontalSpace,
+            RichText(
+              text: TextSpan(
+                text: iconText,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: FONT_LIGHT,
+                  fontSize: 12.sp,
                 ),
-              ),
-            ),
-            6.horizontalSpace,
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (StorageManager.getOnline())
-                    Get.to(() => BalancePage())?.whenComplete(
-                            () => UserController.instance().updateInfo());
-                },
-                child: Container(
-                  height: 88.h,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff786728),
-                        width: 0.5.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.r)),
-                  child: achievementItem(user.balanceMoney(), 'ic_corns_new'),
-                ),
-              ),
-            ),
-            6.horizontalSpace,
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  NavigatorHelper.gotoCouponTabPage(
-                      whenComplete: () =>
-                          UserController.instance().updateInfo());
-                },
-                child: Container(
-                  height: 88.h,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff786728),
-                        width: 0.5.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.r)),
-                  child: achievementItem(user.coupons, 'ic_coupons_new'),
-                ),
+                children: [
+                  TextSpan(
+                    text: "$text",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: FONT_MEDIUM,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      );
-
-  Widget achievementItem(var text, var icon) {
-    var textStyle = TextStyle(
-        color: Colors.white,
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
-        fontFamily: FONT_MEDIUM);
-    double width = 24.w;
-    double height = 24.w;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ImageUtil.assetImage(icon, width: width, height: height),
-        17.verticalSpace,
-        Text(
-          '$text',
-          style: textStyle,
-        ),
-      ],
+      ),
     );
   }
 

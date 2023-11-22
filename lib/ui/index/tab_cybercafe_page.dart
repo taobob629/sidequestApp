@@ -16,18 +16,11 @@ class TabCybercafePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Stores'.tr,
-          style: TextStyle(
-            fontFamily: FONT_MEDIUM,
-            fontSize: 21.sp,
-            fontWeight: FontWeight.bold,
-          ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          title: Text("Flutter 留着状态栏高度，去掉appbar高度"),
         ),
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
       ),
       body: Obx(() => SmartRefresher(
           controller: _ctr.refreshController,

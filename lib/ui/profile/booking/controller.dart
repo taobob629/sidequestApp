@@ -11,40 +11,8 @@ import 'package:wy/model/booking_model.dart';
 import 'package:wy/ui/common/dialog_confirm.dart';
 
 import '../../../utils/toast_utils.dart';
+
 class BookingPageController extends GetxListController<BookingModel> {
-
-  late ScrollController scrollController;
-  late var floatingActionButtonShow = true.obs;
-  late double offset = 0;
-
-  @override
-  void onInit() {
-    super.onInit();
-    scrollController = ScrollController();
-  }
-
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
-  }
-
-  @override
-  void onReady() {
-    scrollController.addListener(() {
-      if (scrollController.offset - offset > 0) { //down
-        if (floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = false;
-        }
-      } else { //up
-        if (!floatingActionButtonShow.value) {
-          floatingActionButtonShow.value = true;
-        }
-      }
-      offset = scrollController.offset;
-    });
-    super.onReady();
-  }
 
   Future<List<BookingModel>> loadData() async {
     showLoading();

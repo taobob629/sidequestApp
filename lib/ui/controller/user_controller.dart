@@ -39,6 +39,7 @@ import '../../api/wy_http.dart';
 import '../../api_service/profile_api.dart';
 import '../../config/icon_font.dart';
 import '../../event_bus/beans/match_event.dart';
+import '../../event_bus/beans/user_info_suc_bean.dart';
 import '../../image_utils.dart';
 import '../../model/match/match_order_player.dart';
 import '../../utils/db_helper.dart';
@@ -210,6 +211,7 @@ class UserController extends GetxController {
     if (StorageManager.getToken().isNotEmpty) {
       //    userInfoModel.value = await UserApi.info();
       userProfile = await ProfileApi.getProfileInfo();
+      eventBus.fire(UserInfoSucBean());
       //判断是否有语音
       if (hasDidVoiceCheck) return;
       //  voiceCheck();

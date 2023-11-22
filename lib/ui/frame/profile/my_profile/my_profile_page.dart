@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:badges/badges.dart' as badges;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
@@ -5,20 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:wy/config/app_config.dart';
+import 'package:wy/event_bus/beans/user_info_suc_bean.dart';
 import 'package:wy/ui/common/dialog_input.dart';
-import 'package:wy/ui/common/web_page.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 import 'package:wy/utils/toast_utils.dart';
-import 'package:wy/widget/home/level.dart';
-import 'package:wy/widget/profile/voice_profile.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/app_pages.dart';
 import '../../../../config/icon_font.dart';
+import '../../../../event_bus/event_bus.dart';
 import '../../../../image_utils.dart';
 import '../../../addgame/add_game_account_page.dart';
 import '../../../common/dialog_show_info.dart';
@@ -29,6 +29,7 @@ import '../../../profile/events/my_events_page.dart';
 import '../../../profile/task/task_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
 import '../invite/invite_page.dart';
+import '../model/profile_model.dart';
 import 'my_album_page.dart';
 import 'my_dashboard_page.dart';
 import 'my_posts_page.dart';
@@ -38,7 +39,6 @@ class MyProfilePage extends StatelessWidget {
   MyProfilePage({Key? key}) : super(key: key);
   final t = Get.put(ProfileController());
   final userController = UserController.find;
-  final user = UserController.find.userProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +67,9 @@ class MyProfilePage extends StatelessWidget {
                           fit: StackFit.expand,
                           children: [
                             Obx(() => ImageUtil.networkImage(
-                              url: t.background.value,
-                              fit: BoxFit.cover,
-                            )),
+                                  url: t.background.value,
+                                  fit: BoxFit.cover,
+                                )),
                             Opacity(
                               opacity: 0.5,
                               child: Container(
@@ -77,7 +77,10 @@ class MyProfilePage extends StatelessWidget {
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
-                                    colors: [Color(0x00131010), Color(0xFF1B1A1E)],
+                                    colors: [
+                                      Color(0x00131010),
+                                      Color(0xFF1B1A1E)
+                                    ],
                                   ),
                                 ),
                               ),
@@ -90,7 +93,8 @@ class MyProfilePage extends StatelessWidget {
                                 children: [
                                   SafeArea(
                                     child: GestureDetector(
-                                      onTap: () => Get.toNamed(AppPages.Setting),
+                                      onTap: () =>
+                                          Get.toNamed(AppPages.Setting),
                                       child: Container(
                                         alignment: Alignment.centerRight,
                                         margin: EdgeInsets.only(right: 20.w),
@@ -114,48 +118,51 @@ class MyProfilePage extends StatelessWidget {
                                         onTap: () =>
                                             Get.to(() => ProfileEditPage()),
                                         child: Stack(
-                                            alignment: AlignmentDirectional.center,
+                                            alignment:
+                                                AlignmentDirectional.center,
                                             clipBehavior: Clip.none,
                                             children: [
                                               Obx(() => Showcase(
-                                                key: GlobalKeyConstants
-                                                    .profileSetInfoKey,
-                                                description:
-                                                'Click to complete the information of SideKickers.'
-                                                    .tr,
-                                                targetShapeBorder:
-                                                CircleBorder(),
-                                                child: Container(
-                                                  height: 64,
-                                                  alignment:
-                                                  Alignment.bottomCenter,
-                                                  child: ClipOval(
-                                                    child:
-                                                    ImageUtil.networkImage(
-                                                      url: userController
-                                                          .userProfile.avatar,
-                                                      width: 60,
-                                                      height: 60,
-                                                      fit: BoxFit.cover,
+                                                    key: GlobalKeyConstants
+                                                        .profileSetInfoKey,
+                                                    description:
+                                                        'Click to complete the information of SideKickers.'
+                                                            .tr,
+                                                    targetShapeBorder:
+                                                        CircleBorder(),
+                                                    child: Container(
+                                                      height: 64,
+                                                      alignment: Alignment
+                                                          .bottomCenter,
+                                                      child: ClipOval(
+                                                        child: ImageUtil
+                                                            .networkImage(
+                                                          url: userController
+                                                              .userProfile
+                                                              .avatar,
+                                                          width: 60,
+                                                          height: 60,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              )),
+                                                  )),
                                               Image.asset(
                                                 "assets/images/profile_avatar_border.webp",
                                                 width: 64,
                                               ),
                                               Obx(() => Visibility(
-                                                visible: userController
-                                                    .userProfile.vipLevel >=
-                                                    5,
-                                                child: Positioned(
-                                                    bottom: -10,
-                                                    child: Image.asset(
-                                                      "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
-                                                      height: 28,
-                                                    )),
-                                              )),
+                                                    visible: userController
+                                                            .userProfile
+                                                            .vipLevel >=
+                                                        5,
+                                                    child: Positioned(
+                                                        bottom: -10,
+                                                        child: Image.asset(
+                                                          "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                                          height: 28,
+                                                        )),
+                                                  )),
                                             ]),
                                       ),
                                       15.horizontalSpace,
@@ -174,20 +181,21 @@ class MyProfilePage extends StatelessWidget {
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           /// nickname
                                           Row(
                                             children: [
                                               Obx(() => Text(
-                                                userController
-                                                    .userProfile.nickName,
-                                                style: TextStyle(
-                                                  fontSize: 20.sp,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              )),
+                                                    userController
+                                                        .userProfile.nickName,
+                                                    style: TextStyle(
+                                                      fontSize: 20.sp,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )),
                                               6.horizontalSpace,
                                               Image.asset(
                                                 "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
@@ -201,187 +209,177 @@ class MyProfilePage extends StatelessWidget {
 
                                           /// labels: sex、language、location
                                           Obx(() => Padding(
-                                            padding:
-                                            const EdgeInsets.only(top: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  height: 16.h,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          3),
-                                                      gradient: LinearGradient(
-                                                          begin: Alignment
-                                                              .centerLeft,
-                                                          end: Alignment
-                                                              .centerRight,
-                                                          colors: [
-                                                            if (userController
-                                                                .userProfile
-                                                                .gender ==
-                                                                0) ...[
-                                                              Color(0xFF1F84C9),
-                                                              Color(0xFF7CB9D5),
-                                                            ] else if (userController
-                                                                .userProfile
-                                                                .gender ==
-                                                                1) ...[
-                                                              Color(0xFFD57CAB),
-                                                              Color(0xFFC91FA7),
-                                                            ] else ...[
-                                                              Color(0xFF99BCCC),
-                                                              Color(0xFF587284),
-                                                            ]
-                                                          ])),
-                                                  child: Row(
-                                                    children: [
-                                                      if (userController
-                                                          .userProfile
-                                                          .gender !=
-                                                          2)
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              right: 3),
-                                                          child: Image.asset(
-                                                            "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
-                                                            width: 8,
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 5),
+                                                      margin: EdgeInsets.only(
+                                                          right: 10),
+                                                      height: 16.h,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(3),
+                                                          gradient: LinearGradient(
+                                                              begin: Alignment
+                                                                  .centerLeft,
+                                                              end: Alignment
+                                                                  .centerRight,
+                                                              colors: [
+                                                                if (userController
+                                                                        .userProfile
+                                                                        .gender ==
+                                                                    0) ...[
+                                                                  Color(
+                                                                      0xFF1F84C9),
+                                                                  Color(
+                                                                      0xFF7CB9D5),
+                                                                ] else if (userController
+                                                                        .userProfile
+                                                                        .gender ==
+                                                                    1) ...[
+                                                                  Color(
+                                                                      0xFFD57CAB),
+                                                                  Color(
+                                                                      0xFFC91FA7),
+                                                                ] else ...[
+                                                                  Color(
+                                                                      0xFF99BCCC),
+                                                                  Color(
+                                                                      0xFF587284),
+                                                                ]
+                                                              ])),
+                                                      child: Row(
+                                                        children: [
+                                                          if (userController
+                                                                  .userProfile
+                                                                  .gender !=
+                                                              2)
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right: 3),
+                                                              child:
+                                                                  Image.asset(
+                                                                "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
+                                                                width: 8,
+                                                              ),
+                                                            )
+                                                          else
+                                                            Text(
+                                                              "?",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal),
+                                                            ),
+                                                          Text(
+                                                            "${userController.userProfile.age}",
+                                                            style: TextStyle(
+                                                                fontSize: 10.sp,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal),
                                                           ),
-                                                        )
-                                                      else
-                                                        Text(
-                                                          "?",
-                                                          style: TextStyle(
-                                                              fontSize: 10.sp,
-                                                              color:
-                                                              Colors.white,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .normal),
-                                                        ),
-                                                      Text(
-                                                        "${userController.userProfile.age}",
-                                                        style: TextStyle(
-                                                            fontSize: 10.sp,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  height: 16.h,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          3),
-                                                      color: Color(0xff32353D)),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        userController
-                                                            .userProfile
-                                                            .language,
-                                                        style: TextStyle(
-                                                            fontSize: 10.sp,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                  visible: userController
-                                                      .userProfile
-                                                      .location
-                                                      .country
-                                                      .isNotEmpty,
-                                                  child: Container(
-                                                    padding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                    margin: EdgeInsets.only(
-                                                        right: 10),
-                                                    height: 16.h,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                        BorderRadius
-                                                            .circular(3),
-                                                        color:
-                                                        Color(0xff32353D)),
-                                                    child: Row(
-                                                      children: [
-                                                        Image.asset(
-                                                          "assets/images/profile/icon_dibiao.webp",
-                                                          width: 8,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          userController
-                                                              .userProfile
-                                                              .location
-                                                              .country,
-                                                          style: TextStyle(
-                                                              fontSize: 10.sp,
-                                                              color:
-                                                              Colors.white,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .normal),
-                                                        ),
-                                                      ],
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )),
+                                                    Visibility(
+                                                      visible: userController
+                                                          .userProfile
+                                                          .location
+                                                          .country
+                                                          .isNotEmpty,
+                                                      child: Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 5),
+                                                        margin: EdgeInsets.only(
+                                                            right: 10),
+                                                        height: 16.h,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3),
+                                                            color: Color(
+                                                                0xff32353D)),
+                                                        child: Row(
+                                                          children: [
+                                                            Image.asset(
+                                                              "assets/images/profile/icon_dibiao.webp",
+                                                              width: 8,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              userController
+                                                                  .userProfile
+                                                                  .location
+                                                                  .country,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
 
                                           /// email
                                           Obx(() => Padding(
-                                            padding:
-                                            const EdgeInsets.only(top: 8),
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets.only(
-                                                      right: 15),
-                                                  child: Text(
-                                                    "ID:${userController.userProfile.uk}",
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color:
-                                                        Color(0xffC5C5C5),
-                                                        fontWeight:
-                                                        FontWeight.bold),
-                                                  ),
+                                                padding: const EdgeInsets.only(
+                                                    top: 8),
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 15),
+                                                      child: Text(
+                                                        "ID:${userController.userProfile.uk}",
+                                                        style: TextStyle(
+                                                          fontSize: 12.sp,
+                                                          color: Colors.white,
+                                                          fontFamily:
+                                                              FONT_MEDIUM,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      userController
+                                                          .userProfile.email,
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        color: Colors.white,
+                                                        fontFamily: FONT_MEDIUM,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                // Text(
-                                                //   t.vm.value.email,
-                                                //   style: TextStyle(fontSize: 10.sp, color: Color(0xff54B3EF), fontWeight: FontWeight.normal),
-                                                // )
-                                              ],
-                                            ),
-                                          )),
+                                              )),
                                         ],
                                       ),
                                       // Spacer(),
@@ -415,7 +413,8 @@ class MyProfilePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15.r),
                           color: Color(0xff262731),
                         ),
-                        margin: EdgeInsets.only(left: 15, right: 15, top: 215).r,
+                        margin:
+                            EdgeInsets.only(left: 15, right: 15, top: 215).r,
                         child: Column(
                           children: [
                             Container(
@@ -431,13 +430,13 @@ class MyProfilePage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              child: EnergyView(
+                              child: Obx(() => EnergyView(
                                 width: 1.sw - 60.w,
-                                percent: user.totalmins.toDouble() == 0
+                                percent: t.user.value.totalmins.toDouble() == 0
                                     ? 0
-                                    : user.avamins / user.totalmins.toDouble(),
-                                remaining: user.avamins,
-                              ),
+                                    : t.user.value.avamins / t.user.value.totalmins.toDouble(),
+                                remaining: t.user.value.avamins,
+                              )),
                             ),
                             10.verticalSpace,
                             achievements(),
@@ -453,7 +452,7 @@ class MyProfilePage extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 15.w, top: 20.h),
+                    margin: EdgeInsets.only(left: 15.w, top: 20.h, bottom: 10.h,),
                     child: Row(
                       children: [
                         Container(
@@ -635,11 +634,11 @@ class MyProfilePage extends StatelessWidget {
                   fontSize: 12.sp,
                   color: Color(0xFFC5C5C5),
                   fontFamily: FONT_MEDIUM)),
-          Text('${user.avamins}mins',
+          Obx(() => Text('${t.user.value.avamins}mins',
               style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColor.textYellow,
-                  fontFamily: FONT_MEDIUM))
+                  fontFamily: FONT_MEDIUM)))
         ],
       );
 
@@ -668,7 +667,7 @@ class MyProfilePage extends StatelessWidget {
   Widget _memberVipWidget() {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
-      height: 60.h,
+      height: 70.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         gradient: LinearGradient(
@@ -694,24 +693,24 @@ class MyProfilePage extends StatelessWidget {
     );
   }
 
-  Widget achievements() => Row(
-        children: [
-          achievementItem(
-            '£${user.balance}',
-            'ic_corns_new',
-            GlobalKeyConstants.profileTopUpKey,
-            "Credits\n".tr,
-            'UK offline store top-up'.tr,
-          ),
-          achievementItem(
-            user.coupons,
-            'ic_coupons_new',
-            GlobalKeyConstants.profileCouponsKey,
-            "Vouchers\n".tr,
-            'Your Coupons'.tr,
-          ),
-        ],
-      );
+  Widget achievements() => Obx(() => Row(
+    children: [
+      achievementItem(
+        '£${t.user.value.balance}',
+        'ic_corns_new',
+        GlobalKeyConstants.profileTopUpKey,
+        "Credits\n".tr,
+        'UK offline store top-up'.tr,
+      ),
+      achievementItem(
+        t.user.value.coupons,
+        'ic_coupons_new',
+        GlobalKeyConstants.profileCouponsKey,
+        "Vouchers\n".tr,
+        'Your Coupons'.tr,
+      ),
+    ],
+  ));
 
   Widget achievementItem(
     var text,
@@ -725,8 +724,10 @@ class MyProfilePage extends StatelessWidget {
         onTap: () {
           switch (icon) {
             case 'ic_coupons_new':
-              NavigatorHelper.gotoCouponTabPage(
-                  whenComplete: () => UserController.instance().updateInfo());
+              NavigatorHelper.gotoCouponPage(
+                couponType: 5,
+                whenComplete: () => UserController.instance().updateInfo(),
+              );
               break;
             case 'ic_corns_new':
               if (StorageManager.getOnline())
@@ -740,8 +741,8 @@ class MyProfilePage extends StatelessWidget {
           children: [
             ImageUtil.assetImage(
               icon,
-              width: 56.w,
-              height: 56.w,
+              width: 40.w,
+              height: 40.w,
             ),
             8.horizontalSpace,
             RichText(
@@ -853,6 +854,9 @@ class ProfileController extends GetxController
 
   int devCount = 0;
 
+  var user = ProfileModel().obs;
+  StreamSubscription? subscription;
+
   @override
   void onInit() {
     super.onInit();
@@ -885,6 +889,10 @@ class ProfileController extends GetxController
     //             GlobalKeyConstants.profileFriendshipKey,
     //           ]));
     // }
+
+    subscription = eventBus.on<UserInfoSucBean>().listen((event) {
+      user.value = UserController.find.userProfile;
+    });
   }
 
   @override
@@ -919,7 +927,9 @@ class ProfileController extends GetxController
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
+
+    subscription?.cancel();
+    subscription = null;
   }
 }
