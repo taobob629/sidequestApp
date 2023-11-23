@@ -106,11 +106,6 @@ class HomeDrawer extends StatelessWidget {
                   'Quest'.tr,
                   onTapMore: () => Get.to(() => TaskPage()),
                 ),
-                8.verticalSpace,
-                _listItem(
-                  'Consumption record'.tr,
-                  onTapMore: () => Get.toNamed(AppPages.StoreConsumList),
-                ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
@@ -200,7 +195,7 @@ class HomeDrawer extends StatelessWidget {
                         right: 0,
                         bottom: 10.h,
                         child: Image.asset(
-                          "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                          "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                           height: iconSize / 2,
                         )),
                   )),
@@ -210,27 +205,30 @@ class HomeDrawer extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${user?.nickName}',
-                style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
+              Row(
+                children: [
+                  Text(
+                    '${user.nickName}',
+                    style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
+                  ),
+                  Visibility(
+                    visible: user.vipLevel >= 5,
+                    child: Image.asset(
+                      "assets/images/profile/huizhang_${user.vipLevel == 0 ? 5 : user.vipLevel}.webp",
+                      height: 14,
+                    ),
+                  ),
+                ],
               ),
               5.verticalSpace,
               Text(
-                '${user?.uk}',
+                '${user.uk}',
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontFamily: FONT_LIGHT,
                     color: AppColor.textC5C5),
               )
             ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 5),
-            child: GameLevelWidget(
-              level: user.sidekickLevel,
-              isAuth: user.isAuth,
-              userId: user.pwId,
-            ),
           ),
           Spacer(),
           Expanded(
