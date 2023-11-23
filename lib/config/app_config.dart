@@ -78,7 +78,7 @@ class AppConfig {
     await Stripe.instance.applySettings();
 
     bool? initDone = await _coreInstance.init(
-        sdkAppID:( env.contains("dev") || env.contains("test"))?40000150:40000072, // 控制台申请的 SDKAppID
+        sdkAppID:( env.contains("dev") || env.contains("test"))?40000072:40000072, // 控制台申请的 SDKAppID
         loglevel: LogLevelEnum.V2TIM_LOG_NONE,
         language: LanguageEnum.en,
         listener: V2TimSDKListener());
