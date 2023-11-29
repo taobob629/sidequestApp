@@ -299,84 +299,18 @@ class MyProfilePage extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
-                                                    Visibility(
-                                                      visible: userController
-                                                          .userProfile
-                                                          .location
-                                                          .country
-                                                          .isNotEmpty,
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 5),
-                                                        margin: EdgeInsets.only(
-                                                            right: 10),
-                                                        height: 16.h,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        3),
-                                                            color: Color(
-                                                                0xff32353D)),
-                                                        child: Row(
-                                                          children: [
-                                                            Image.asset(
-                                                              "assets/images/profile/icon_dibiao.webp",
-                                                              width: 8,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              userController
-                                                                  .userProfile
-                                                                  .location
-                                                                  .country,
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      10.sp,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              )),
-
-                                          /// email
-                                          Obx(() => Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8),
-                                                child: Row(
-                                                  children: [
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              right: 15),
+                                                      const EdgeInsets.only(
+                                                          right: 15),
                                                       child: Text(
                                                         "ID:${userController.userProfile.uk}",
                                                         style: TextStyle(
                                                           fontSize: 12.sp,
                                                           color: Colors.white,
                                                           fontFamily:
-                                                              FONT_MEDIUM,
+                                                          FONT_MEDIUM,
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      userController
-                                                          .userProfile.email,
-                                                      style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        color: Colors.white,
-                                                        fontFamily: FONT_MEDIUM,
                                                       ),
                                                     ),
                                                   ],
@@ -611,7 +545,7 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: _dashboardLabelItem(
-                                    "assets/images/profile/icon_bookings.webp",
+                                    "assets/images/profile/icon_consumption.webp",
                                     "Consumption".tr,
                                     onTap: () {
                                       Get.toNamed(AppPages.StoreConsumList);

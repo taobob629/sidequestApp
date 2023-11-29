@@ -106,6 +106,11 @@ class HomeDrawer extends StatelessWidget {
                   'Quest'.tr,
                   onTapMore: () => Get.to(() => TaskPage()),
                 ),
+                8.verticalSpace,
+                _listItem(
+                  'Consumption record'.tr,
+                  onTapMore: () => Get.toNamed(AppPages.StoreConsumList),
+                ),
                 sectionText('Support'.tr),
                 10.verticalSpace,
                 supportsWidget(supports),
