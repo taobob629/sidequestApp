@@ -152,14 +152,12 @@ class MyProfilePage extends StatelessWidget {
                                                 width: 64,
                                               ),
                                               Obx(() => Visibility(
-                                                    visible: userController
-                                                            .userProfile
-                                                            .vipLevel >=
+                                                    visible: t.user.value.vipLevel >=
                                                         5,
                                                     child: Positioned(
                                                         bottom: -10,
                                                         child: Image.asset(
-                                                          "assets/images/profile/icon_level_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                                          "assets/images/profile/huizhang_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
                                                           height: 28,
                                                         )),
                                                   )),
@@ -197,10 +195,14 @@ class MyProfilePage extends StatelessWidget {
                                                     ),
                                                   )),
                                               6.horizontalSpace,
-                                              Image.asset(
-                                                "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
-                                                height: 20.w,
-                                              )
+                                              Obx(() => Visibility(
+                                                visible: t.user.value.vipLevel >=
+                                                    5,
+                                                child: Image.asset(
+                                                  "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                  height: 20.w,
+                                                ),
+                                              )),
                                             ],
                                           ),
                                           6.verticalSpace,
@@ -602,12 +604,20 @@ class MyProfilePage extends StatelessWidget {
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     "assets/images/profile/icon_riot.webp",
-                                    "Riot".tr,
+                                    "Connections".tr,
                                     onTap: () =>
                                         Get.to(() => AddGameAccountPage()),
                                   ),
                                 ),
-                                Spacer(),
+                                Expanded(
+                                  child: _dashboardLabelItem(
+                                    "assets/images/profile/icon_bookings.webp",
+                                    "Consumption".tr,
+                                    onTap: () {
+                                      Get.toNamed(AppPages.StoreConsumList);
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ],
