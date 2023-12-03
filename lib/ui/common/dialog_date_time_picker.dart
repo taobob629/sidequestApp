@@ -8,15 +8,13 @@ import '../../utils/toast_utils.dart';
 import '../booking/booking_detail_ctr.dart';
 
 class DateTimePickerDialog extends StatelessWidget {
-  late final DateTimePickerDialogController controller;
-
   final String format;
 
   final DateTime? minDateTime;
 
   final DateTime? maxDateTime;
 
-  final DateTime initDateTime;
+  late DateTime initDateTime;
 
   final int? minuteDivider;
 
@@ -29,9 +27,7 @@ class DateTimePickerDialog extends StatelessWidget {
     required this.initDateTime,
     this.minuteDivider,
     this.ifSkip = false,
-  }) {
-    controller = Get.put(DateTimePickerDialogController(date: initDateTime));
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +65,7 @@ class DateTimePickerDialog extends StatelessWidget {
               showTitle: false,
               backgroundColor: Colors.white12,
               itemTextStyle: TextStyle(color: Colors.white, fontSize: 14)),
-          onChange: (date, _) => controller.updateDate(date),
+          onChange: (date, _) => initDateTime = date,
         ));
   }
 
@@ -82,41 +78,44 @@ class DateTimePickerDialog extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: ColorfulButton(
-            onTap: () {
-              DateTime selectTime = controller.getDate();
-              if (ifSkip && (selectTime.hour > 24 || selectTime.hour < 12)) {
-                showError(
-                    "${BookingDetailCtr.find.model?.name} ${'is closed at that time.'.tr}");
-                return;
-              }
-              Get.back(result: selectTime);
-            },
-            height: 40,
-            child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  "CONFIRM".tr,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 18, fontFamily: "DIN"),
-                )),
-          ))
+            child: ColorfulButton(
+              onTap: () {
+                DateTime selectTime = initDateTime;
+                if (ifSkip && (selectTime.hour > 24 || selectTime.hour < 12)) {
+                  showError(
+                      "${BookingDetailCtr.find.model?.name} ${'is closed at that time.'.tr}");
+                  return;
+                }
+                Get.back(result: selectTime);
+              },
+              height: 40,
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    "CONFIRM".tr,
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                  )),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class DateTimePickerDialogController extends GetxController {
-  late DateTime date;
-
-  DateTimePickerDialogController({required this.date});
-
-  void updateDate(DateTime date) {
-    this.date = date;
-  }
-
-  DateTime getDate() {
-    return this.date;
-  }
-}
+// class DateTimePickerDialogController extends GetxController {
+//   late DateTime date;
+//
+//   DateTimePickerDialogController({required this.date}) {
+//     updateDate(date);
+//   }
+//
+//   void updateDate(DateTime date) {
+//     this.date = date;
+//   }
+//
+//   DateTime getDate() {
+//     return this.date;
+//   }
+// }

@@ -24,7 +24,7 @@ class MyDashboardPage extends StatelessWidget {
             visible: UserController.find.online.value,
             child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(top: 4.h),
+              margin: EdgeInsets.only(top: 0.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -56,7 +56,6 @@ class MyDashboardPage extends StatelessWidget {
                   Obx(() => Container(
                         width: Get.width,
                         height: 100.h,
-                        margin: EdgeInsets.only(top: 10),
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: UserController.find.userProfile.vips

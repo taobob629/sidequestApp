@@ -44,7 +44,7 @@ class BadgesWidget extends GetView<ProfileController> {
           ? 'The higher your companion level, the more badges you get.'.tr
           : 'The affinity level will increase with the gifts you receive.'.tr,
       child: Container(
-        margin: EdgeInsets.only(top: 10.h),
+        margin: EdgeInsets.only(top: 4.h),
         padding: EdgeInsets.only(top: 5.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -104,7 +104,7 @@ class BadgesWidget extends GetView<ProfileController> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 4.w),
-              margin: EdgeInsets.fromLTRB(15.w, 10.h, 15.w, 0),
+              margin: EdgeInsets.fromLTRB(15.w, 6.h, 15.w, 0),
               decoration: BoxDecoration(
                 color: Color(0xff262731),
                 borderRadius: BorderRadius.circular(15.r),

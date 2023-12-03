@@ -40,7 +40,7 @@ class EnergyView extends StatelessWidget {
     int full = (num * percent).round();
     List<Widget> energyList = [];
 
-    energyList.add(6.horizontalSpace);
+    energyList.add(15.horizontalSpace);
 
     List<Widget> energyWidgets = [];
     for (int i = 0; i < num; i++) {
@@ -82,34 +82,37 @@ class EnergyView extends StatelessWidget {
       ),
     );
     energyList.add(
-      Image.asset(
-        ImageUtils.energy_right_icon,
-        width: 90.w,
-        height: 90.w,
+      Transform.translate(
+        offset: Offset(0, -14.h),
+        child: Image.asset(
+          ImageUtils.energy_right_icon,
+          width: 90.w,
+          height: 90.w,
+        ),
       ),
     );
     return energyList;
   }
 
   Widget _buildEnergy(bool full) {
-    return Container(
-      width: 10,
-      height: 21.h,
-      child: Stack(
-        children: [
-          Image.asset(
-            "assets/images/energy_empty.webp",
-            fit: BoxFit.contain,
-            color: hexColor('FFED5B'),
-          ),
-          full
-              ? Image.asset(
-                  "assets/images/energy_full.webp",
-                  fit: BoxFit.contain,
-                )
-              : Container()
-        ],
-      ),
+    return Stack(
+      children: [
+        Image.asset(
+          "assets/images/energy_empty.webp",
+          fit: BoxFit.fill,
+          color: hexColor('FFED5B'),
+          width: 10.w,
+          height: 18.h,
+        ),
+        full
+            ? Image.asset(
+                "assets/images/energy_full.webp",
+                fit: BoxFit.contain,
+                width: 10.w,
+                height: 18.h,
+              )
+            : Container()
+      ],
     );
   }
 }

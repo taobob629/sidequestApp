@@ -71,15 +71,15 @@ class MyProfilePage extends StatelessWidget {
                                   fit: BoxFit.cover,
                                 )),
                             Opacity(
-                              opacity: 0.5,
+                              opacity: 0.7,
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      Color(0x00131010),
-                                      Color(0xFF1B1A1E)
+                                      Color(0xFF1B1A1E),
+                                      Color(0xFF000000)
                                     ],
                                   ),
                                 ),
@@ -388,7 +388,7 @@ class MyProfilePage extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 15.w, top: 20.h, bottom: 10.h,),
+                    margin: EdgeInsets.only(left: 15.w, top: 10.h, bottom: 10.h,),
                     child: Row(
                       children: [
                         Container(
@@ -421,7 +421,7 @@ class MyProfilePage extends StatelessWidget {
                           horizontal: 4.w,
                           vertical: 15.h,
                         ),
-                        margin: EdgeInsets.fromLTRB(15.w, 4.h, 15.w, 15.h),
+                        margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 10.h),
                         decoration: BoxDecoration(
                           color: Color(0xff262731),
                           borderRadius: BorderRadius.circular(15.r),
