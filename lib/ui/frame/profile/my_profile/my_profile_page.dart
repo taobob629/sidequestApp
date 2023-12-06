@@ -10,6 +10,7 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:wy/event_bus/beans/user_info_suc_bean.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
+import 'package:wy/ui/frame/profile/my_profile/qrcode/my_qr_code_page.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
@@ -91,23 +92,50 @@ class MyProfilePage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  10.verticalSpace,
                                   SafeArea(
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          Get.toNamed(AppPages.Setting),
-                                      child: Container(
-                                        alignment: Alignment.centerRight,
-                                        margin: EdgeInsets.only(right: 20.w),
-                                        child: Showcase(
-                                          key: GlobalKeyConstants.profileSetKey,
-                                          description: 'APP Settings',
-                                          child: Image.asset(
-                                            "assets/images/profile_setting.webp",
-                                            width: 26.w,
-                                            height: 26.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () =>
+                                              Get.to(() => MyQrCodePage()),
+                                          child: Container(
+                                            width: 30.w,
+                                            height: 30.w,
+                                            decoration: ShapeDecoration(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              shape: OvalBorder(),
+                                            ),
+                                            child: Image.asset(
+                                              ImageUtils.qr_code,
+                                              scale: 1.8,
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        GestureDetector(
+                                          onTap: () =>
+                                              Get.toNamed(AppPages.Setting),
+                                          child: Container(
+                                            width: 30.w,
+                                            height: 30.w,
+                                            margin: EdgeInsets.only(
+                                              right: 15.w,
+                                              left: 10.w,
+                                            ),
+                                            decoration: ShapeDecoration(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              shape: OvalBorder(),
+                                            ),
+                                            child: Image.asset(
+                                              "assets/images/profile_setting.webp",
+                                              scale: 1.8,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Spacer(),
@@ -152,8 +180,9 @@ class MyProfilePage extends StatelessWidget {
                                                 width: 64,
                                               ),
                                               Obx(() => Visibility(
-                                                    visible: t.user.value.vipLevel >=
-                                                        5,
+                                                    visible:
+                                                        t.user.value.vipLevel >=
+                                                            5,
                                                     child: Positioned(
                                                         bottom: -10,
                                                         child: Image.asset(
@@ -196,13 +225,14 @@ class MyProfilePage extends StatelessWidget {
                                                   )),
                                               6.horizontalSpace,
                                               Obx(() => Visibility(
-                                                visible: t.user.value.vipLevel >=
-                                                    5,
-                                                child: Image.asset(
-                                                  "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
-                                                  height: 20.w,
-                                                ),
-                                              )),
+                                                    visible:
+                                                        t.user.value.vipLevel >=
+                                                            5,
+                                                    child: Image.asset(
+                                                      "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                      height: 20.w,
+                                                    ),
+                                                  )),
                                             ],
                                           ),
                                           6.verticalSpace,
@@ -301,15 +331,15 @@ class MyProfilePage extends StatelessWidget {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.only(
-                                                          right: 15),
+                                                          const EdgeInsets.only(
+                                                              right: 15),
                                                       child: Text(
                                                         "ID:${userController.userProfile.uk}",
                                                         style: TextStyle(
                                                           fontSize: 12.sp,
                                                           color: Colors.white,
                                                           fontFamily:
-                                                          FONT_MEDIUM,
+                                                              FONT_MEDIUM,
                                                         ),
                                                       ),
                                                     ),
@@ -367,12 +397,15 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                               ),
                               child: Obx(() => EnergyView(
-                                width: 1.sw - 60.w,
-                                percent: t.user.value.totalmins.toDouble() == 0
-                                    ? 0
-                                    : t.user.value.avamins / t.user.value.totalmins.toDouble(),
-                                remaining: t.user.value.avamins,
-                              )),
+                                    width: 1.sw - 60.w,
+                                    percent:
+                                        t.user.value.totalmins.toDouble() == 0
+                                            ? 0
+                                            : t.user.value.avamins /
+                                                t.user.value.totalmins
+                                                    .toDouble(),
+                                    remaining: t.user.value.avamins,
+                                  )),
                             ),
                             10.verticalSpace,
                             achievements(),
@@ -388,7 +421,11 @@ class MyProfilePage extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 15.w, top: 10.h, bottom: 10.h,),
+                    margin: EdgeInsets.only(
+                      left: 15.w,
+                      top: 10.h,
+                      bottom: 10.h,
+                    ),
                     child: Row(
                       children: [
                         Container(
@@ -638,23 +675,23 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget achievements() => Obx(() => Row(
-    children: [
-      achievementItem(
-        '£${t.user.value.balance}',
-        'ic_corns_new',
-        GlobalKeyConstants.profileTopUpKey,
-        "Credits\n".tr,
-        'UK offline store top-up'.tr,
-      ),
-      achievementItem(
-        t.user.value.coupons,
-        'ic_coupons_new',
-        GlobalKeyConstants.profileCouponsKey,
-        "Vouchers\n".tr,
-        'Your Coupons'.tr,
-      ),
-    ],
-  ));
+        children: [
+          achievementItem(
+            '£${t.user.value.balance}',
+            'ic_corns_new',
+            GlobalKeyConstants.profileTopUpKey,
+            "Credits\n".tr,
+            'UK offline store top-up'.tr,
+          ),
+          achievementItem(
+            t.user.value.coupons,
+            'ic_coupons_new',
+            GlobalKeyConstants.profileCouponsKey,
+            "Vouchers\n".tr,
+            'Your Coupons'.tr,
+          ),
+        ],
+      ));
 
   Widget achievementItem(
     var text,

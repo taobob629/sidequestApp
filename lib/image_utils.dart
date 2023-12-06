@@ -95,4 +95,7 @@ class ImageUtils {
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';
   static const String icon_third = 'assets/images/task/icon_third.webp';
+  static const String qr_code = 'assets/images/qr_code.webp';
+  static const String qr_code_icon = 'assets/images/qr_code_icon.webp';
+  static const String qr_code_border = 'assets/images/qr_code_border.webp';
 }
