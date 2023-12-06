@@ -25,6 +25,7 @@ import '../../../api/wy_http.dart';
 import '../../../utils/toast_utils.dart';
 import '../../common/dialog_confirm.dart';
 import '../../frame/main_page.dart';
+import '../../frame/profile/my_profile/profile_edit_page.dart';
 import 'setting_item.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -38,6 +39,10 @@ class SettingsPage extends StatelessWidget {
       title: "Settings".tr,
       body: Column(
         children: [
+          SettingItem(
+            title: "Personal".tr,
+            onTap: () => Get.to(() => ProfileEditPage()),
+          ),
           SettingItem(
             title: "Account Password".tr,
             onTap: () => controller.checkHasPwd(1),

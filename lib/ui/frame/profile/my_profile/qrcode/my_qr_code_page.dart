@@ -49,7 +49,9 @@ class MyQrCodePage extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 10.w,),
+                        margin: EdgeInsets.only(
+                          left: 10.w,
+                        ),
                         child: IconButton(
                           onPressed: () => Get.back(),
                           icon: Icon(
@@ -164,47 +166,48 @@ class MyQrCodePage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                  left: 15.w,
-                  right: 15.w,
-                  top: 620.h,
-                  child: GestureDetector(
-                    onTap: () => Get.to(() => ScanPage()),
-                    child: Container(
-                      height: 46.h,
-                      decoration: ShapeDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment(-1.00, 0.00),
-                          end: Alignment(1, 0),
-                          colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(60.r),
-                        ),
+                left: 15.w,
+                right: 15.w,
+                top: 620.h,
+                child: GestureDetector(
+                  onTap: () => Get.to(() => ScanPage()),
+                  child: Container(
+                    height: 46.h,
+                    decoration: ShapeDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(-1.00, 0.00),
+                        end: Alignment(1, 0),
+                        colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 3.h, right: 6.w),
-                            child: Image.asset(
-                              ImageUtils.qr_code_icon,
-                              scale: 2,
-                            ),
-                          ),
-                          Text(
-                            'Scan QR code'.tr,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: FONT_MEDIUM,
-                            ),
-                          ),
-                        ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60.r),
                       ),
                     ),
-                  )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 3.h, right: 6.w),
+                          child: Image.asset(
+                            ImageUtils.qr_code_icon,
+                            scale: 2,
+                          ),
+                        ),
+                        Text(
+                          'Scan QR code'.tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

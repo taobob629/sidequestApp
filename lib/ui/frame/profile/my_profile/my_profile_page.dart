@@ -11,6 +11,7 @@ import 'package:wy/event_bus/beans/user_info_suc_bean.dart';
 import 'package:wy/ui/common/dialog_input.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/my_profile/qrcode/my_qr_code_page.dart';
+import 'package:wy/ui/frame/profile/my_profile/select_avatar_dialog.dart';
 import 'package:wy/ui/profile/developer/developer_page.dart';
 import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
@@ -143,8 +144,11 @@ class MyProfilePage extends StatelessWidget {
                                     children: [
                                       Spacer(),
                                       GestureDetector(
-                                        onTap: () =>
-                                            Get.to(() => ProfileEditPage()),
+                                        onTap: () => showCustom(
+                                          SelectAvatarDialog(),
+                                          alignment: Alignment.bottomCenter,
+                                          clickMaskDismiss: true,
+                                        ),
                                         child: Stack(
                                             alignment:
                                                 AlignmentDirectional.center,
@@ -162,15 +166,23 @@ class MyProfilePage extends StatelessWidget {
                                                       height: 64,
                                                       alignment: Alignment
                                                           .bottomCenter,
-                                                      child: ClipOval(
-                                                        child: ImageUtil
-                                                            .networkImage(
-                                                          url: userController
-                                                              .userProfile
-                                                              .avatar,
-                                                          width: 60,
-                                                          height: 60,
-                                                          fit: BoxFit.cover,
+                                                      child: Opacity(
+                                                        opacity: userController
+                                                                    .userProfile
+                                                                    .userAvatar ==
+                                                                1
+                                                            ? 1
+                                                            : 0.3,
+                                                        child: ClipOval(
+                                                          child: ImageUtil
+                                                              .networkImage(
+                                                            url: userController
+                                                                .userProfile
+                                                                .avatar,
+                                                            width: 60,
+                                                            height: 60,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

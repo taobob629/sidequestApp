@@ -620,12 +620,14 @@ class ProfileEditController extends GetxController {
       var _image = File(pickedFile.path);
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         // flog(value!.path, 'selectAvatar');
-        isUploadFile = true;
-        showLoading();
-        await Common.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
-        dismissLoading();
-        isUploadFile = false;
-        UserController.find.updateInfo();
+        if (value != null) {
+          isUploadFile = true;
+          showLoading();
+          await Common.uploadAvatar(value!, (p0, p1) => flog("$p0,$p1"));
+          dismissLoading();
+          isUploadFile = false;
+          UserController.find.updateInfo();
+        }
       });
     } else {
       print('No image selected.');

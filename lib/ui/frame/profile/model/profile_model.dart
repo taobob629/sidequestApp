@@ -26,6 +26,7 @@ class ProfileModel {
   int gender = 1;
   String avatar = "";
   int coin = 0;
+  int userAvatar = 0;
   String email = "";
   int age = 0;
   List<VipModel> vips = [];
@@ -72,6 +73,7 @@ class ProfileModel {
       this.gender = 1,
       this.avatar = "",
       this.coin = 0,
+      this.userAvatar = 0,
       this.email = "",
       this.age = 0,
       this.vips = const [],
@@ -124,6 +126,7 @@ class ProfileModel {
     gender = json["gender"] ?? 1;
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
+    userAvatar = json["userAvatar"] ?? 0;
     email = json["email"] ?? "";
     age = json["age"] ?? 0;
     vips = json["vips"] != null
