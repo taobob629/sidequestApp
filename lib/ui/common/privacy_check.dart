@@ -27,8 +27,6 @@ class PrivacyCheck extends StatelessWidget {
           PrivacyInfo('Terms and Conditions'.tr, TermsAndConditionLink),
           PrivacyInfo('', ''),
           PrivacyInfo('Privacy Policy'.tr, PrivacyPolicyLink),
-          PrivacyInfo('', ''),
-          PrivacyInfo('SideKick Policy'.tr, 'https://sidequesthub.com/static/pdfjs/web/viewer.html?file=/static/policy/SideKick-Policies.pdf'),
         ];
         break;
       case TYPE_ADD_GAME:
