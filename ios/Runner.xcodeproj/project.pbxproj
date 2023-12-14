@@ -16,12 +16,12 @@
 		15D714BA2AE905CE0031D6F6 /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 15D714B92AE905CE0031D6F6 /* StripePaymentSheet */; };
 		15D714BC2AE905CE0031D6F6 /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 15D714BB2AE905CE0031D6F6 /* StripePayments */; };
 		15D714BE2AE905CE0031D6F6 /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 15D714BD2AE905CE0031D6F6 /* StripePaymentsUI */; };
+		2B0AE12B1DF071AEFBB9C78B /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980C8121BBCEF764472AD539 /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		A65BAAA8BFD57FA3DBDA58D9 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D695C3D89062282A976B60B7 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,14 +40,15 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		23B83974ED0B7CAF2E2D5851 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		61F27D29A8A1244E7062E6F0 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		6AE443C0B9EFB1B1809CA598 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		6FC2D459BC1902B84B5DC4E4 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		771A52C72875ABA100761566 /* RunnerProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerProfile.entitlements; sourceTree = "<group>"; };
 		7764DC3427E477A600E4AF8A /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
-		8711845AE72AE02C4EA7373E /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,8 +56,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1DDD1D9905826CD97F3E3BA /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		D695C3D89062282A976B60B7 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		980C8121BBCEF764472AD539 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,10 +69,10 @@
 				15D714B22AE905CE0031D6F6 /* StripeApplePay in Frameworks */,
 				15D714B82AE905CE0031D6F6 /* StripeIdentity in Frameworks */,
 				15D714BA2AE905CE0031D6F6 /* StripePaymentSheet in Frameworks */,
-				A65BAAA8BFD57FA3DBDA58D9 /* Pods_Runner.framework in Frameworks */,
 				15D714BE2AE905CE0031D6F6 /* StripePaymentsUI in Frameworks */,
 				15D714BC2AE905CE0031D6F6 /* StripePayments in Frameworks */,
 				15D714B02AE905CE0031D6F6 /* Stripe in Frameworks */,
+				2B0AE12B1DF071AEFBB9C78B /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,9 +82,9 @@
 		8EA6EAED3A9D4166782F34DC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B1DDD1D9905826CD97F3E3BA /* Pods-Runner.debug.xcconfig */,
-				61F27D29A8A1244E7062E6F0 /* Pods-Runner.release.xcconfig */,
-				8711845AE72AE02C4EA7373E /* Pods-Runner.profile.xcconfig */,
+				23B83974ED0B7CAF2E2D5851 /* Pods-Runner.debug.xcconfig */,
+				6AE443C0B9EFB1B1809CA598 /* Pods-Runner.release.xcconfig */,
+				6FC2D459BC1902B84B5DC4E4 /* Pods-Runner.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -107,7 +107,7 @@
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
 				8EA6EAED3A9D4166782F34DC /* Pods */,
-				DEE824C0357BEC25CB2B0797 /* Frameworks */,
+				A13396BFA89003F62319E462 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,10 +136,10 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
-		DEE824C0357BEC25CB2B0797 /* Frameworks */ = {
+		A13396BFA89003F62319E462 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D695C3D89062282A976B60B7 /* Pods_Runner.framework */,
+				980C8121BBCEF764472AD539 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,15 +151,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				6CB52FA6092C0AF6E832925F /* [CP] Check Pods Manifest.lock */,
+				E64FE8F1B8201C0D4EB312D0 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				5AB3FFD2571420951FA62AF0 /* [CP] Embed Pods Frameworks */,
-				7E664C5423D8DFC4B45D57AE /* [CP] Copy Pods Resources */,
+				9CC621331CC0468694BAA868 /* [CP] Embed Pods Frameworks */,
+				BB6A8F93AF8C4F44E7AB061E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -246,7 +246,22 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
-		5AB3FFD2571420951FA62AF0 /* [CP] Embed Pods Frameworks */ = {
+		9740EEB61CF901F6004384FC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		9CC621331CC0468694BAA868 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -263,7 +278,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6CB52FA6092C0AF6E832925F /* [CP] Check Pods Manifest.lock */ = {
+		BB6A8F93AF8C4F44E7AB061E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E64FE8F1B8201C0D4EB312D0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,38 +316,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		7E664C5423D8DFC4B45D57AE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -437,7 +437,224 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.70;
-				"OTHER_LDFLAGS[arch=*]" = "-ld_classic";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AVKit\"",
+					"-framework",
+					"\"AlipaySDK\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Contacts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"DKImagePickerController\"",
+					"-framework",
+					"\"DKPhotoGallery\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FMDB\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Hydra\"",
+					"-framework",
+					"\"ImSDK_Plus\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MTBBarcodeScanner\"",
+					"-framework",
+					"\"Mantle\"",
+					"-framework",
+					"\"PassKit\"",
+					"-framework",
+					"\"PhoneNumberKit\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"PhotosUI\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SDWebImageWebPCoder\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Stripe\"",
+					"-framework",
+					"\"StripeApplePay\"",
+					"-framework",
+					"\"StripeCore\"",
+					"-framework",
+					"\"StripeFinancialConnections\"",
+					"-framework",
+					"\"StripePaymentSheet\"",
+					"-framework",
+					"\"StripePayments\"",
+					"-framework",
+					"\"StripePaymentsUI\"",
+					"-framework",
+					"\"StripeUICore\"",
+					"-framework",
+					"\"SwiftyGif\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"ai_barcode\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"camera_avfoundation\"",
+					"-framework",
+					"\"device_info\"",
+					"-framework",
+					"\"disk_space\"",
+					"-framework",
+					"\"file_picker\"",
+					"-framework",
+					"\"firebase_auth\"",
+					"-framework",
+					"\"firebase_core\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"flutter_apns_only\"",
+					"-framework",
+					"\"flutter_app_badger\"",
+					"-framework",
+					"\"flutter_image_compress\"",
+					"-framework",
+					"\"flutter_keyboard_visibility\"",
+					"-framework",
+					"\"flutter_plugin_record_plus\"",
+					"-framework",
+					"\"flutter_ringtone_player\"",
+					"-framework",
+					"\"flutter_web_auth\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"google_sign_in_ios\"",
+					"-framework",
+					"\"image_editor_common\"",
+					"-framework",
+					"\"image_gallery_saver\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"in_app_purchase_storekit\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"libphonenumber_plugin\"",
+					"-framework",
+					"\"libwebp\"",
+					"-framework",
+					"\"local_notifications_for_us\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"photo_manager\"",
+					"-framework",
+					"\"plain_notification_token_for_us\"",
+					"-framework",
+					"\"record\"",
+					"-framework",
+					"\"scan\"",
+					"-framework",
+					"\"share\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"sign_in_with_apple\"",
+					"-framework",
+					"\"smart_auth\"",
+					"-framework",
+					"\"sqflite\"",
+					"-framework",
+					"\"store_redirect\"",
+					"-framework",
+					"\"stripe_ios\"",
+					"-framework",
+					"\"tencent_cloud_chat_sdk\"",
+					"-framework",
+					"\"tencent_open_file\"",
+					"-framework",
+					"\"tim_ui_kit_push_plugin\"",
+					"-framework",
+					"\"url_launcher_ios\"",
+					"-framework",
+					"\"video_player_avfoundation\"",
+					"-framework",
+					"\"video_thumbnail\"",
+					"-framework",
+					"\"wakelock\"",
+					"-framework",
+					"\"webview_flutter_wkwebview\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.sidequest.wy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -595,7 +812,224 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.70;
-				"OTHER_LDFLAGS[arch=*]" = "-ld_classic";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AVKit\"",
+					"-framework",
+					"\"AlipaySDK\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Contacts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"DKImagePickerController\"",
+					"-framework",
+					"\"DKPhotoGallery\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FMDB\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Hydra\"",
+					"-framework",
+					"\"ImSDK_Plus\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MTBBarcodeScanner\"",
+					"-framework",
+					"\"Mantle\"",
+					"-framework",
+					"\"PassKit\"",
+					"-framework",
+					"\"PhoneNumberKit\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"PhotosUI\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SDWebImageWebPCoder\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Stripe\"",
+					"-framework",
+					"\"StripeApplePay\"",
+					"-framework",
+					"\"StripeCore\"",
+					"-framework",
+					"\"StripeFinancialConnections\"",
+					"-framework",
+					"\"StripePaymentSheet\"",
+					"-framework",
+					"\"StripePayments\"",
+					"-framework",
+					"\"StripePaymentsUI\"",
+					"-framework",
+					"\"StripeUICore\"",
+					"-framework",
+					"\"SwiftyGif\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"ai_barcode\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"camera_avfoundation\"",
+					"-framework",
+					"\"device_info\"",
+					"-framework",
+					"\"disk_space\"",
+					"-framework",
+					"\"file_picker\"",
+					"-framework",
+					"\"firebase_auth\"",
+					"-framework",
+					"\"firebase_core\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"flutter_apns_only\"",
+					"-framework",
+					"\"flutter_app_badger\"",
+					"-framework",
+					"\"flutter_image_compress\"",
+					"-framework",
+					"\"flutter_keyboard_visibility\"",
+					"-framework",
+					"\"flutter_plugin_record_plus\"",
+					"-framework",
+					"\"flutter_ringtone_player\"",
+					"-framework",
+					"\"flutter_web_auth\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"google_sign_in_ios\"",
+					"-framework",
+					"\"image_editor_common\"",
+					"-framework",
+					"\"image_gallery_saver\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"in_app_purchase_storekit\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"libphonenumber_plugin\"",
+					"-framework",
+					"\"libwebp\"",
+					"-framework",
+					"\"local_notifications_for_us\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"photo_manager\"",
+					"-framework",
+					"\"plain_notification_token_for_us\"",
+					"-framework",
+					"\"record\"",
+					"-framework",
+					"\"scan\"",
+					"-framework",
+					"\"share\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"sign_in_with_apple\"",
+					"-framework",
+					"\"smart_auth\"",
+					"-framework",
+					"\"sqflite\"",
+					"-framework",
+					"\"store_redirect\"",
+					"-framework",
+					"\"stripe_ios\"",
+					"-framework",
+					"\"tencent_cloud_chat_sdk\"",
+					"-framework",
+					"\"tencent_open_file\"",
+					"-framework",
+					"\"tim_ui_kit_push_plugin\"",
+					"-framework",
+					"\"url_launcher_ios\"",
+					"-framework",
+					"\"video_player_avfoundation\"",
+					"-framework",
+					"\"video_thumbnail\"",
+					"-framework",
+					"\"wakelock\"",
+					"-framework",
+					"\"webview_flutter_wkwebview\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.sidequest.wy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -643,7 +1077,224 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.70;
-				"OTHER_LDFLAGS[arch=*]" = "-ld_classic";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AVKit\"",
+					"-framework",
+					"\"AlipaySDK\"",
+					"-framework",
+					"\"AppAuth\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"Contacts\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"DKImagePickerController\"",
+					"-framework",
+					"\"DKPhotoGallery\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FMDB\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMAppAuth\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleSignIn\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Hydra\"",
+					"-framework",
+					"\"ImSDK_Plus\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"LocalAuthentication\"",
+					"-framework",
+					"\"MTBBarcodeScanner\"",
+					"-framework",
+					"\"Mantle\"",
+					"-framework",
+					"\"PassKit\"",
+					"-framework",
+					"\"PhoneNumberKit\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"PhotosUI\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SDWebImageWebPCoder\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Stripe\"",
+					"-framework",
+					"\"StripeApplePay\"",
+					"-framework",
+					"\"StripeCore\"",
+					"-framework",
+					"\"StripeFinancialConnections\"",
+					"-framework",
+					"\"StripePaymentSheet\"",
+					"-framework",
+					"\"StripePayments\"",
+					"-framework",
+					"\"StripePaymentsUI\"",
+					"-framework",
+					"\"StripeUICore\"",
+					"-framework",
+					"\"SwiftyGif\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"ai_barcode\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"camera_avfoundation\"",
+					"-framework",
+					"\"device_info\"",
+					"-framework",
+					"\"disk_space\"",
+					"-framework",
+					"\"file_picker\"",
+					"-framework",
+					"\"firebase_auth\"",
+					"-framework",
+					"\"firebase_core\"",
+					"-framework",
+					"\"firebase_messaging\"",
+					"-framework",
+					"\"flutter_apns_only\"",
+					"-framework",
+					"\"flutter_app_badger\"",
+					"-framework",
+					"\"flutter_image_compress\"",
+					"-framework",
+					"\"flutter_keyboard_visibility\"",
+					"-framework",
+					"\"flutter_plugin_record_plus\"",
+					"-framework",
+					"\"flutter_ringtone_player\"",
+					"-framework",
+					"\"flutter_web_auth\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"google_sign_in_ios\"",
+					"-framework",
+					"\"image_editor_common\"",
+					"-framework",
+					"\"image_gallery_saver\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"in_app_purchase_storekit\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"libphonenumber_plugin\"",
+					"-framework",
+					"\"libwebp\"",
+					"-framework",
+					"\"local_notifications_for_us\"",
+					"-framework",
+					"\"nanopb\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"photo_manager\"",
+					"-framework",
+					"\"plain_notification_token_for_us\"",
+					"-framework",
+					"\"record\"",
+					"-framework",
+					"\"scan\"",
+					"-framework",
+					"\"share\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"sign_in_with_apple\"",
+					"-framework",
+					"\"smart_auth\"",
+					"-framework",
+					"\"sqflite\"",
+					"-framework",
+					"\"store_redirect\"",
+					"-framework",
+					"\"stripe_ios\"",
+					"-framework",
+					"\"tencent_cloud_chat_sdk\"",
+					"-framework",
+					"\"tencent_open_file\"",
+					"-framework",
+					"\"tim_ui_kit_push_plugin\"",
+					"-framework",
+					"\"url_launcher_ios\"",
+					"-framework",
+					"\"video_player_avfoundation\"",
+					"-framework",
+					"\"video_thumbnail\"",
+					"-framework",
+					"\"wakelock\"",
+					"-framework",
+					"\"webview_flutter_wkwebview\"",
+					"-weak_framework",
+					"\"AuthenticationServices\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.sidequest.wy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
