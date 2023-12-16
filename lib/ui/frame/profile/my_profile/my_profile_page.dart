@@ -68,25 +68,38 @@ class MyProfilePage extends StatelessWidget {
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
-                            Obx(() => ImageUtil.networkImage(
-                                  url: t.background.value,
-                                  fit: BoxFit.cover,
-                                )),
-                            Opacity(
-                              opacity: 0.7,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xFF1B1A1E),
-                                      Color(0xFF000000)
-                                    ],
+                            Obx(() => ShaderMask(
+                                  shaderCallback: (Rect bounds) {
+                                    return LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.white,
+                                        Colors.transparent
+                                      ],
+                                      stops: [0.1, 1.0],
+                                    ).createShader(bounds);
+                                  },
+                                  child: ImageUtil.networkImage(
+                                    url: t.background.value,
+                                    fit: BoxFit.cover,
                                   ),
-                                ),
-                              ),
-                            ),
+                                )),
+                            // Opacity(
+                            //   opacity: 0.7,
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       gradient: LinearGradient(
+                            //         begin: Alignment.topCenter,
+                            //         end: Alignment.bottomCenter,
+                            //         colors: [
+                            //           Color(0xFF1B1A1E),
+                            //           Color(0xFF000000)
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             Padding(
                               padding: EdgeInsets.only(left: 20, bottom: 40.h),
                               child: Column(
@@ -164,8 +177,8 @@ class MyProfilePage extends StatelessWidget {
                                                         CircleBorder(),
                                                     child: Container(
                                                       height: 64,
-                                                      alignment: Alignment
-                                                          .center,
+                                                      alignment:
+                                                          Alignment.center,
                                                       child: Opacity(
                                                         opacity: userController
                                                                     .userProfile
