@@ -97,7 +97,7 @@ class ProfileEditPage extends StatelessWidget {
                                               clipBehavior: Clip.antiAlias,
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(34),
+                                                      BorderRadius.circular(68.r),
                                                   border: Border.all(
                                                       color: Colors.white)),
                                               child: ImageUtil.networkImage(
@@ -117,7 +117,8 @@ class ProfileEditPage extends StatelessWidget {
                                                     .userProfile.vipLevel >=
                                                 5,
                                             child: Image.asset(
-                                              "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                              // "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                              "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                                               height: 28.w,
                                             ),
                                           ))),

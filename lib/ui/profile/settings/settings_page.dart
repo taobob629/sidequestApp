@@ -62,16 +62,16 @@ class SettingsPage extends StatelessWidget {
             title: "About Us".tr,
             onTap: () => gotoAboutPage(context),
           ),
-          Obx(() => controller.online.value &&
-                  userController.userProfile.vipLevel > 0
-              ? SettingItem(
-                  title: "Cancel Subscription".tr,
-                  info:
-                      "${controller.getVipName(userController.userProfile.vipLevel)}",
-                  onTap: () =>
-                      controller.cancelVip(userController.userProfile.vipLevel),
-                )
-              : Container()),
+          // Obx(() => controller.online.value &&
+          //         userController.userProfile.vipLevel > 0
+          //     ? SettingItem(
+          //         title: "Cancel Subscription".tr,
+          //         info:
+          //             "${controller.getVipName(userController.userProfile.vipLevel)}",
+          //         onTap: () =>
+          //             controller.cancelVip(userController.userProfile.vipLevel),
+          //       )
+          //     : Container()),
           Obx(() => SettingItem(
                 title: "Version".tr,
                 info: "${controller.version.value}",

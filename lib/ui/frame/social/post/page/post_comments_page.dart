@@ -26,72 +26,36 @@ class PostCommentsPage extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         floatingActionButton: Container(
-          margin: EdgeInsets.symmetric(horizontal: 15),
+          margin: EdgeInsets.only(left: 15),
           padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                  padding: EdgeInsets.only(left: 20),
-                  child: Row(
-                    children: [
-                      Obx(() => Expanded(
-                          child: TextFormField(
-                            controller: t.commentController,
-                            focusNode: t.commentNode,
-                            decoration: InputDecoration(
-                                hintText: t.replyModel.value.nickname.isNotEmpty ? "reply:".tr + t.replyModel.value.nickname : "Comment".tr,
-                                hintStyle: TextStyle(color: AppColor.textSubtitle, fontSize: 14)),
-                          ))),
-                      GestureDetector(
-                        onTap: () => t.postComment(),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Image.asset("assets/images/post/icon_send.png", width: 20, height: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: !t.isSelf && UserController.find.online.value,
-                child: GestureDetector(
-                  onTapDown: (details) async {
-                    var heartNum = await Get.bottomSheet(
-                        GiveGiftsDialog(
-                          receiverId: t.postItem.uid.toString(),
-                          postId: t.postItem.id.toString(),
-                          avatar: t.postItem.head,
-                        ),
-                        ignoreSafeArea: true);
-                    if (heartNum != null) {
-                      Future.delayed(Duration(milliseconds: 300)).then(
-                            (v) {
-                          SmartDialog.show(
-                            builder: (builder) => GiftSucAnim(heartNum),
-                            displayTime: Duration(seconds: 2),
-                          );
-                        },
-                      );
-                    }
-                  },
+          child: Container(
+            decoration: BoxDecoration(
+                color: AppColor.color3033,
+                borderRadius: BorderRadius.circular(25)),
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
+              children: [
+                Obx(() => Expanded(
+                        child: TextFormField(
+                      controller: t.commentController,
+                      focusNode: t.commentNode,
+                      decoration: InputDecoration(
+                          hintText: t.replyModel.value.nickname.isNotEmpty
+                              ? "reply:".tr + t.replyModel.value.nickname
+                              : "Comment".tr,
+                          hintStyle: TextStyle(
+                              color: AppColor.textSubtitle, fontSize: 14)),
+                    ))),
+                GestureDetector(
+                  onTap: () => t.postComment(),
                   child: Container(
-                    width: 50,
-                    height: 50,
-                    margin: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(color: AppColor.color3033, borderRadius: BorderRadius.circular(25)),
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      "assets/images/post/icon_gift.png",
-                      width: 24,
-                      height: 24,
-                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Image.asset("assets/images/post/icon_send.png",
+                        width: 20, height: 20),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
         resizeToAvoidBottomInset: false,
@@ -115,7 +79,8 @@ class PostCommentsPage extends StatelessWidget {
                       }
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       child: Container(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +91,9 @@ class PostCommentsPage extends StatelessWidget {
                               },
                               child: ClipOval(
                                 child: ImageUtil.networkImage(
-                                  url: model.isReply ? model.replyHead : model.head,
+                                  url: model.isReply
+                                      ? model.replyHead
+                                      : model.head,
                                   fit: BoxFit.cover,
                                   width: 50,
                                   height: 50,
@@ -147,27 +114,43 @@ class PostCommentsPage extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          model.isReply ? model.replyNickname : model.nickname,
-                                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                                          model.isReply
+                                              ? model.replyNickname
+                                              : model.nickname,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         SizedBox(
                                           width: 10,
                                         ),
                                         Text(
                                           model.addTime.toDateStr,
-                                          style: TextStyle(color: Color(0xff808388), fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              color: Color(0xff808388),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         )
                                       ],
                                     ),
                                   ),
                                   RichText(
-                                      text: TextSpan(style: TextStyle(fontSize: 14, color: Colors.white), children: [
-                                    if (model.isReply) ...[
-                                      TextSpan(text: "reply ".tr),
-                                      TextSpan(text: model.nickname + " : ", style: TextStyle(color: AppColor.yellow, fontWeight: FontWeight.bold)),
-                                    ],
-                                    TextSpan(text: model.content),
-                                  ])),
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white),
+                                          children: [
+                                        if (model.isReply) ...[
+                                          TextSpan(text: "reply ".tr),
+                                          TextSpan(
+                                              text: model.nickname + " : ",
+                                              style: TextStyle(
+                                                  color: AppColor.yellow,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                        TextSpan(text: model.content),
+                                      ])),
                                 ],
                               ),
                             ))
@@ -297,7 +280,11 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
       showInfo("Please enter comment!".tr);
       return;
     }
-    PostApi.postComment(postsId: postItem.id, content: commentController.text, replyId: replyModel.value.uid).whenComplete(() {
+    PostApi.postComment(
+            postsId: postItem.id,
+            content: commentController.text,
+            replyId: replyModel.value.uid)
+        .whenComplete(() {
       showSuccess('${'Comments'.tr} ${'Success'.tr}!');
       onRefresh();
       replyModel.value = PostCommentModel();
@@ -316,7 +303,8 @@ class PostCommentController extends GetxRefreshController<PostCommentModel> {
   @override
   Future<List<PostCommentModel>> loadData({int pageNum = 1}) async {
     // TODO: implement loadData
-    return await PostApi.getPostCommentsList(page: pageNum, postsId: postItem.id);
+    return await PostApi.getPostCommentsList(
+        page: pageNum, postsId: postItem.id);
     throw UnimplementedError();
   }
 }

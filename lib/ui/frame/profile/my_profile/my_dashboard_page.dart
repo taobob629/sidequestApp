@@ -79,8 +79,8 @@ class MyDashboardPage extends StatelessWidget {
         // ...UserController.find.userProfile.badges
         //     .map((badge) => BadgesWidget(badge))
         //     .toList(),
-        if (UserController.find.userProfile.badges.isNotEmpty)
-          BadgesWidget(UserController.find.userProfile.badges[0]),
+        // if (UserController.find.userProfile.badges.isNotEmpty)
+        //   BadgesWidget(UserController.find.userProfile.badges[0]),
       ],
     );
   }

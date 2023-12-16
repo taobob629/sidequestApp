@@ -165,7 +165,7 @@ class MyProfilePage extends StatelessWidget {
                                                     child: Container(
                                                       height: 64,
                                                       alignment: Alignment
-                                                          .bottomCenter,
+                                                          .center,
                                                       child: Opacity(
                                                         opacity: userController
                                                                     .userProfile
@@ -191,17 +191,17 @@ class MyProfilePage extends StatelessWidget {
                                                 "assets/images/profile_avatar_border.webp",
                                                 width: 64,
                                               ),
-                                              Obx(() => Visibility(
-                                                    visible:
-                                                        t.user.value.vipLevel >=
-                                                            5,
-                                                    child: Positioned(
-                                                        bottom: -10,
-                                                        child: Image.asset(
-                                                          "assets/images/profile/huizhang_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
-                                                          height: 28,
-                                                        )),
-                                                  )),
+                                              // Obx(() => Visibility(
+                                              //       visible:
+                                              //           t.user.value.vipLevel >=
+                                              //               5,
+                                              //       child: Positioned(
+                                              //           bottom: -10,
+                                              //           child: Image.asset(
+                                              //             "assets/images/profile/huizhang_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                              //             height: 28,
+                                              //           )),
+                                              //     )),
                                             ]),
                                       ),
                                       15.horizontalSpace,
@@ -229,7 +229,7 @@ class MyProfilePage extends StatelessWidget {
                                                     userController
                                                         .userProfile.nickName,
                                                     style: TextStyle(
-                                                      fontSize: 20.sp,
+                                                      fontSize: 22.sp,
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -249,12 +249,12 @@ class MyProfilePage extends StatelessWidget {
                                           ),
                                           6.verticalSpace,
 
-                                          6.verticalSpace,
-
                                           /// labels: sex、language、location
                                           Obx(() => Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
+                                                padding: EdgeInsets.only(
+                                                  top: 5,
+                                                  bottom: 20.h,
+                                                ),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
@@ -487,7 +487,11 @@ class MyProfilePage extends StatelessWidget {
                                           "assets/images/profile/icon_wallet.webp",
                                           "Wallet".tr,
                                           onTap: () {
-                                            Get.to(() => NewWalletPage());
+                                            userController.checkLogin(() =>
+                                                Get.to(() => BalancePage())
+                                                    ?.whenComplete(() =>
+                                                        userController
+                                                            .updateInfo()));
                                           },
                                         ),
                                       ),
@@ -524,13 +528,6 @@ class MyProfilePage extends StatelessWidget {
                                 // ),
                                 Expanded(
                                   child: _dashboardLabelItem(
-                                    ImageUtils.icon_ablum,
-                                    "Album".tr,
-                                    onTap: () => Get.to(() => MyAlbumPage()),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: _dashboardLabelItem(
                                     ImageUtils.ic_invite,
                                     "Invite".tr,
                                     onTap: () => Get.to(
@@ -545,6 +542,15 @@ class MyProfilePage extends StatelessWidget {
                                     "Bookings".tr,
                                     onTap: () {
                                       Get.toNamed(AppPages.BOOKING_PAGE);
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: _dashboardLabelItem(
+                                    "assets/images/profile/icon_activities.webp",
+                                    "Activities".tr,
+                                    onTap: () {
+                                      Get.to(() => MyEventsPage());
                                     },
                                   ),
                                 ),
@@ -565,15 +571,6 @@ class MyProfilePage extends StatelessWidget {
                                 //         userController.userProfile.postNum,
                                 //   ),
                                 // ),
-                                Expanded(
-                                  child: _dashboardLabelItem(
-                                    "assets/images/profile/icon_activities.webp",
-                                    "Activities".tr,
-                                    onTap: () {
-                                      Get.to(() => MyEventsPage());
-                                    },
-                                  ),
-                                ),
                                 Expanded(
                                   child: _dashboardLabelItem(
                                     "assets/images/profile/icon_task.webp",
@@ -601,6 +598,7 @@ class MyProfilePage extends StatelessWidget {
                                     },
                                   ),
                                 ),
+                                Expanded(child: Container()),
                               ],
                             ),
                           ],

@@ -171,9 +171,9 @@ class NavigatorHelper {
                   'model': outModel.tasks.first,
                   'skipFlag': true,
                 });
-              } else {
+              } /*else {
                 showErrorWidget('data is empty'.tr);
-              }
+              }*/
             }
             break;
         }

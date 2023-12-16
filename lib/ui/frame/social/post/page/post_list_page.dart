@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,7 +53,7 @@ class PostListPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.r),
                       boxShadow: [
                         BoxShadow(
-                          color: hexColor('3FFFFFFF'),
+                          color: hexColor('80000000'),
                           blurRadius: 2,
                           offset: Offset(2, 2),
                           spreadRadius: 0,
@@ -73,15 +74,25 @@ class PostListPage extends StatelessWidget {
                               ),
                               useSafeArea: false,
                             ),
-                            child: ExtendedImage.network(
-                              t.list[index].imageList[0],
-                              fit: BoxFit.cover,
-                              shape: BoxShape.rectangle,
+                            child: ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(8.r),
                                 topLeft: Radius.circular(8.r),
                               ),
+                              child: CachedNetworkImage(
+                                imageUrl: t.list[index].imageList[0],
+                                fit: BoxFit.cover,
+                              ),
                             ),
+                            // child: ExtendedImage.network(
+                            //   t.list[index].imageList[0],
+                            //   fit: BoxFit.cover,
+                            //   shape: BoxShape.rectangle,
+                            //   borderRadius: BorderRadius.only(
+                            //     topRight: Radius.circular(8.r),
+                            //     topLeft: Radius.circular(8.r),
+                            //   ),
+                            // ),
                           ),
                         Container(
                           margin: EdgeInsets.symmetric(

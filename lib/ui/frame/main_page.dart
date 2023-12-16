@@ -305,7 +305,7 @@ class MainPageController extends FullLifeCycleController
   static MainPageController get find => Get.find();
 
   late PageController controller;
-  var currentIndex = 2.obs;
+  var currentIndex = 0.obs;
 
   bool checking = false;
 
@@ -327,7 +327,7 @@ class MainPageController extends FullLifeCycleController
   void onInit() async {
     super.onInit();
     LocationService().init();
-    controller = PageController(initialPage: 2);
+    controller = PageController(initialPage: currentIndex.value);
     // controller.addListener(() {
     //   var curpage = controller.page;
     //   if (curpage == 2.0) userController.checkLogin(() => null);
