@@ -85,21 +85,6 @@ class MyProfilePage extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                                 )),
-                            // Opacity(
-                            //   opacity: 0.7,
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       gradient: LinearGradient(
-                            //         begin: Alignment.topCenter,
-                            //         end: Alignment.bottomCenter,
-                            //         colors: [
-                            //           Color(0xFF1B1A1E),
-                            //           Color(0xFF000000)
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                             Padding(
                               padding: EdgeInsets.only(left: 20, bottom: 40.h),
                               child: Column(

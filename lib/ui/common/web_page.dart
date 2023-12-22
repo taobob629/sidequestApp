@@ -44,7 +44,7 @@ class WebPage extends StatelessWidget {
         onPageFinished: (url) {
           dismissLoading();
           String cookie = '''
-            document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()}';
+            document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()};samesite=None; secure=true';
           ''';
           webPageController.webViewController.runJavascript(cookie);
         },

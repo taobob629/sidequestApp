@@ -49,19 +49,6 @@ class MyQrCodePage extends StatelessWidget {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          left: 10.w,
-                        ),
-                        child: IconButton(
-                          onPressed: () => Get.back(),
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                            size: 16.sp,
-                          ),
-                        ),
-                      ),
-                      Container(
                         width: Get.width,
                         margin: EdgeInsets.only(top: 12.h),
                         child: Text(
@@ -72,6 +59,19 @@ class MyQrCodePage extends StatelessWidget {
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                             fontFamily: FONT_LIGHT,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 10.w,
+                        ),
+                        child: IconButton(
+                          onPressed: () => Get.back(),
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 16.sp,
                           ),
                         ),
                       ),
