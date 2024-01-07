@@ -57,7 +57,7 @@ class EnergyView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             energyRow,
-            10.verticalSpace,
+            6.verticalSpace,
             RichText(
               text: TextSpan(
                   text: "Remaining game times：",

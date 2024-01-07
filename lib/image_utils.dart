@@ -98,4 +98,6 @@ class ImageUtils {
   static const String qr_code = 'assets/images/qr_code.webp';
   static const String qr_code_icon = 'assets/images/qr_code_icon.webp';
   static const String qr_code_border = 'assets/images/qr_code_border.webp';
+  static const String profile_emery_bg = 'assets/images/profile_emery_bg.webp';
+  static const String profile_top_bg = 'assets/images/profile_top_bg.png';
 }

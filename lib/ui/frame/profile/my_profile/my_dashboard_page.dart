@@ -37,16 +37,18 @@ class MyDashboardPage extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 6.w,
-                          height: 18.h,
-                          margin: EdgeInsets.only(right: 4.w,),
+                          width: 4.w,
+                          height: 16.h,
+                          margin: EdgeInsets.only(
+                            right: 4.w,
+                          ),
                           color: hexColor('FFB20E'),
                         ),
                         Text(
                           'SUBSCRIPTIONS'.tr,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             fontFamily: FONT_MEDIUM,
                           ),
                         ),
@@ -91,10 +93,23 @@ class MyDashboardPage extends StatelessWidget {
       margin: EdgeInsets.only(left: 12.w),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xff707070),
-          width: 1.5,
+          color: Color(index % 2 == 0
+              ? 0xffFFD2B2
+              : index % 3 == 0
+                  ? 0xff94D1FF
+                  : 0xffD6D6D6),
+          width: 1,
         ),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15.r),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: index % 2 == 0
+              ? [hexColor('262731'), hexColor('604C3B')]
+              : index % 3 == 0
+                  ? [hexColor('262731'), hexColor('3C5365')]
+                  : [hexColor('262731'), hexColor('494949')],
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
