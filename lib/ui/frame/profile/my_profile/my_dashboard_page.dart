@@ -130,61 +130,65 @@ class MyDashboardPage extends StatelessWidget {
                     : [hexColor('262731'), hexColor('494949')],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/profile/icon_level_${vipModel.level}.webp",
-              width: 26,
-            ),
-            3.verticalSpace,
-            Text(
-              vipModel.name,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.bold),
-            ),
-            Container(
-              width: 56.w,
-              height: 24.h,
-              margin: EdgeInsets.only(
-                left: 10,
-                right: 10,
-                top: 10.h,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => Get.toNamed(AppPages.VIP_PAGE, arguments: index),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/profile/huizhang_${vipModel.level}.webp",
+                height: 26.h,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                gradient:
-                    vipModel.level <= UserController.find.userProfile.vipLevel
-                        ? LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Color(0xff707070), Color(0xff707070)])
-                        : LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                                Color(0xFF632BDA),
-                                Color(0xFF6029D4),
-                                Color(0xFF652CDF),
-                                Color(0xFF7231DE),
-                                Color(0xFF8A39DE),
-                                Color(0xFFBE38D0),
-                                Color(0xFFDE5D85),
-                                Color(0xFFE68887)
-                              ]),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "£${vipModel.price}",
+              3.verticalSpace,
+              Text(
+                vipModel.name,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.bold),
               ),
-            )
-          ],
+              Container(
+                width: 56.w,
+                height: 24.h,
+                margin: EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                  top: 10.h,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  gradient:
+                      vipModel.level <= UserController.find.userProfile.vipLevel
+                          ? LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Color(0xff707070), Color(0xff707070)])
+                          : LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                  Color(0xFF632BDA),
+                                  Color(0xFF6029D4),
+                                  Color(0xFF652CDF),
+                                  Color(0xFF7231DE),
+                                  Color(0xFF8A39DE),
+                                  Color(0xFFBE38D0),
+                                  Color(0xFFDE5D85),
+                                  Color(0xFFE68887)
+                                ]),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "£${vipModel.price}",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

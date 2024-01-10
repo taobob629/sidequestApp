@@ -275,7 +275,7 @@ class MyProfilePage extends StatelessWidget {
                                                         AppPages.VIP_PAGE,
                                                       ),
                                                       child: Image.asset(
-                                                        "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                        "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                                                         height: 20.w,
                                                       ),
                                                     ),
