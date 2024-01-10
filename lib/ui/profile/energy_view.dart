@@ -30,8 +30,27 @@ class EnergyView extends StatelessWidget {
       onTap: () {
         NavigatorHelper.gotoCouponPage(couponType: 5);
       },
-      child: Row(
-        children: _buildEnergyList(num),
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                ImageUtils.profile_energy_w_icon,
+                height: 70.h,
+                fit: BoxFit.fill,
+              ),
+              Image.asset(
+                ImageUtils.profile_energy_w_icon,
+                height: 70.h,
+                fit: BoxFit.fill,
+              ),
+            ],
+          ),
+          Row(
+            children: _buildEnergyList(num),
+          ),
+        ],
       ),
     );
   }
@@ -56,19 +75,21 @@ class EnergyView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            16.verticalSpace,
             energyRow,
             6.verticalSpace,
             RichText(
               text: TextSpan(
                   text: "Remaining game times：",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: hexColor('808388'),
                     fontSize: 12.sp,
                     fontFamily: FONT_LIGHT,
                   ),
                   children: [
                     TextSpan(
-                      text: "${UserController.find.userProfile.avamins} hours",
+                      text:
+                          "${UserController.find.userProfile.avamins} minutes",
                       style: TextStyle(
                         color: hexColor('FFCB0D'),
                         fontSize: 12.sp,
@@ -81,12 +102,14 @@ class EnergyView extends StatelessWidget {
         ),
       ),
     );
+    energyList.add(10.horizontalSpace);
+
     energyList.add(
       Transform.translate(
         offset: Offset(0, -14.h),
         child: Image.asset(
           ImageUtils.energy_right_icon,
-          width: 90.w,
+          width: 70.w,
           height: 90.w,
         ),
       ),
@@ -100,7 +123,6 @@ class EnergyView extends StatelessWidget {
         Image.asset(
           "assets/images/energy_empty.webp",
           fit: BoxFit.fill,
-          color: hexColor('FFED5B'),
           width: 10.w,
           height: 18.h,
         ),

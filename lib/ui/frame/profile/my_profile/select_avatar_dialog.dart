@@ -18,7 +18,7 @@ class SelectAvatarDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: Get.width,
-        height: 340.h,
+        height: 300.h,
         decoration: ShapeDecoration(
           color: Color(0xFF262731),
           shape: RoundedRectangleBorder(
@@ -68,37 +68,36 @@ class SelectAvatarDialog extends StatelessWidget {
                 ),
               )
             ),
-            30.verticalSpace,
-            GestureDetector(
-              onTap: () => dismissLoading(),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.w),
-                width: Get.width,
-                height: 46.h,
-                decoration: ShapeDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(-1.00, 0.00),
-                    end: Alignment(1, 0),
-                    colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60.r),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Use default avatar'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                ),
-              ),
-            ),
-            10.verticalSpace,
+            40.verticalSpace,
+            // GestureDetector(
+            //   onTap: () => dismissLoading(),
+            //   child: Container(
+            //     margin: EdgeInsets.symmetric(horizontal: 15.w),
+            //     width: Get.width,
+            //     height: 46.h,
+            //     decoration: ShapeDecoration(
+            //       gradient: LinearGradient(
+            //         begin: Alignment(-1.00, 0.00),
+            //         end: Alignment(1, 0),
+            //         colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
+            //       ),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(60.r),
+            //       ),
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: Text(
+            //       'Use default avatar'.tr,
+            //       textAlign: TextAlign.center,
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 16.sp,
+            //         fontWeight: FontWeight.w400,
+            //         fontFamily: FONT_MEDIUM,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             GestureDetector(
               onTap: () => selectUpdateAvatar(),
               child: Container(

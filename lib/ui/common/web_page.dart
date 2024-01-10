@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wy/utils/storage_manager.dart';
@@ -12,68 +13,72 @@ class WebPage extends StatelessWidget {
   final String? url;
   late final WebPageController webPageController;
 
-  WebPage({required this.title, required this.url}) {
+  WebPage({required this.title, required this.url}){
     webPageController = Get.put(WebPageController(url: url));
   }
 
   @override
   Widget build(BuildContext context) {
-    showLoading();
-    return BaseScaffold(
-      title: "$title",
-      actions: [
-        ActionButton(
-          icon: Icon(
-            Icons.refresh,
-            color: Colors.white,
+    return Scaffold(
+      body: Stack(
+        children: [
+          WebView(
+            initialUrl: "$url?X-Wanyoo-Token=${StorageManager.getToken()}&samesite=None&secure=true&language=${Get.locale?.languageCode}",
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              webPageController.setWebViewController(webViewController);
+            },
+            onPageStarted: (url) {
+              String cookie = '''
+                document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()};samesite=None; secure=true;language=${Get.locale?.languageCode}';
+              ''';
+              webPageController.webViewController.runJavascript(cookie);
+            },
+            onPageFinished: (url) {
+              dismissLoading();
+            },
+            onWebResourceError: (error) {
+              dismissLoading();
+            },
           ),
-          onTap: () {
-            dismissLoading();
-            showLoading();
-            webPageController.webViewController.reload();
-          },
-        )
-      ],
-      body: WebView(
-        initialUrl: url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          webPageController.setWebViewController(webViewController);
-        },
-        onPageStarted: (url) {},
-        onPageFinished: (url) {
-          dismissLoading();
-          String cookie = '''
-            document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()};samesite=None; secure=true';
-          ''';
-          webPageController.webViewController.runJavascript(cookie);
-        },
-        onWebResourceError: (error) {
-          dismissLoading();
-        },
+          SafeArea(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () => Get.back(),
+              child: Container(
+                width: 30.w,
+                height: 30.w,
+                margin: EdgeInsets.only(left: 15.w),
+                decoration: ShapeDecoration(
+                  color: Colors.black.withOpacity(0.2),
+                  shape: OvalBorder(),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class WebPageController extends GetxController {
+class WebPageController extends GetxController{
   final String? url;
   late WebViewController webViewController;
-  CookieManager? cookieManage;
-
   WebPageController({required this.url});
 
-  void setWebViewController(WebViewController webViewController) {
+  void setWebViewController(WebViewController webViewController){
     this.webViewController = webViewController;
-    cookieManage?.clearCookies();
   }
 
   @override
   void onReady() {
     super.onReady();
     showLoading();
-    if (cookieManage == null) {
-      cookieManage = CookieManager();
-    }
   }
 }

@@ -18,6 +18,7 @@ class PostListController extends GetxRefreshController<PostItemModel> {
   @override
   void onInit() {
     // getPostList();
+    this.initialRefresh = true;
     super.onInit();
   }
 
@@ -61,9 +62,7 @@ class PostListController extends GetxRefreshController<PostItemModel> {
 
   @override
   Future<List<PostItemModel>> loadData({int pageNum = 1}) async {
-    showLoading();
     final result = await PostApi.getPostList(page: pageNum);
-    dismissLoading();
     return result;
   }
 }

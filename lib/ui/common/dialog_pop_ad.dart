@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,45 +12,47 @@ import 'package:wy/utils/toast_utils.dart';
 
 class PopAdDialog extends StatelessWidget {
   final PromotionItemModel model;
-  final File image;
 
-  PopAdDialog({required this.model, required this.image});
+  PopAdDialog({required this.model});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 25),
+    double width = MediaQuery.of(context).size.width;
+    return Center(
+      child: Container(
+        width: width,
+        height: width / 0.8,
+        margin: EdgeInsets.symmetric(horizontal: 15.w),
         child: GestureDetector(
-            onTap: () {
-              UserController userController = Get.find<UserController>();
-              if (userController.user.value.id != 0) {
-                IndexApi.readAD(model.id, model.title);
-              }
-              Get.back();
-              NavigatorHelper.gotoConfigTarget(model.content);
-            },
-            child: Center(
-              child: Stack(
-                children: [
-                  Image.file(
-                    image,
-                    fit: BoxFit.contain,
-                    width: 1.sw - 30.w,
-                  ),
-                  50.verticalSpace,
-                  Positioned(
-                    right: 10.w,
-                    top: 10.h,
-                    child: _buildCloseButton(),
-                  ),
-                ],
+          onTap: () {
+            UserController userController = Get.find<UserController>();
+            if (userController.user.value.id != 0) {
+              IndexApi.readAD(model.id, model.title);
+            }
+            dismissLoading();
+            NavigatorHelper.gotoConfigTarget(model.content);
+          },
+          child: Stack(
+            children: [
+              Image.network(
+                model.image,
+                fit: BoxFit.contain,
               ),
-            )));
+              Positioned(
+                right: 10.w,
+                top: 10.h,
+                child: _buildCloseButton(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildCloseButton() {
     return GestureDetector(
-      onTap: () => Get.back(),
+      onTap: () => dismissLoading(),
       child: Container(
         height: 30,
         width: 30,
@@ -69,13 +72,11 @@ class PopAdDialog extends StatelessWidget {
     );
   }
 
-  static Future<bool?> show(
-      BuildContext context, PromotionItemModel model, File image,
+  static Future<bool?> show(BuildContext context, PromotionItemModel model,
       {bool cancelable = true}) async {
     return await showCustom(
       PopAdDialog(
         model: model,
-        image: image,
       ),
       clickMaskDismiss: true,
       alignment: Alignment.center,

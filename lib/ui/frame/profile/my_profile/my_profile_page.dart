@@ -67,352 +67,298 @@ class MyProfilePage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      Stack(
-                        children: [
-                          Container(
-                            height: 200.h,
-                            width: double.infinity,
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                // Obx(() => ShaderMask(
-                                //       shaderCallback: (Rect bounds) {
-                                //         return LinearGradient(
-                                //           begin: Alignment.topCenter,
-                                //           end: Alignment.bottomCenter,
-                                //           colors: [
-                                //             Colors.white,
-                                //             Colors.transparent
-                                //           ],
-                                //           stops: [0.1, 1.0],
-                                //         ).createShader(bounds);
-                                //       },
-                                //       child: ImageUtil.networkImage(
-                                //         url: t.background.value,
-                                //         fit: BoxFit.cover,
-                                //       ),
-                                //     )),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 20, bottom: 40.h),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      10.verticalSpace,
-                                      SafeArea(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () =>
-                                                  Get.to(() => MyQrCodePage()),
-                                              child: Container(
-                                                width: 30.w,
-                                                height: 30.w,
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.black
-                                                      .withOpacity(0.2),
-                                                  shape: OvalBorder(),
-                                                ),
-                                                child: Image.asset(
-                                                  ImageUtils.qr_code,
-                                                  scale: 1.8,
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () =>
-                                                  Get.toNamed(AppPages.Setting),
-                                              child: Container(
-                                                width: 30.w,
-                                                height: 30.w,
-                                                margin: EdgeInsets.only(
-                                                  right: 15.w,
-                                                  left: 10.w,
-                                                ),
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.black
-                                                      .withOpacity(0.2),
-                                                  shape: OvalBorder(),
-                                                ),
-                                                child: Image.asset(
-                                                  "assets/images/profile_setting.webp",
-                                                  scale: 1.8,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            10.verticalSpace,
+                            SafeArea(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => Get.to(() => MyQrCodePage()),
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      decoration: ShapeDecoration(
+                                        color: Colors.black.withOpacity(0.2),
+                                        shape: OvalBorder(),
                                       ),
-                                      Spacer(),
-                                      Row(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => showCustom(
-                                              SelectAvatarDialog(),
-                                              alignment: Alignment.bottomCenter,
-                                              clickMaskDismiss: true,
-                                            ),
-                                            child: Stack(
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Obx(() => Showcase(
-                                                        key: GlobalKeyConstants
-                                                            .profileSetInfoKey,
-                                                        description:
-                                                            'Click to complete the information of SideKickers.'
-                                                                .tr,
-                                                        targetShapeBorder:
-                                                            CircleBorder(),
-                                                        child: Container(
-                                                          height: 64,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Opacity(
-                                                            opacity: userController
-                                                                        .userProfile
-                                                                        .userAvatar ==
-                                                                    1
-                                                                ? 1
-                                                                : 0.3,
-                                                            child: ClipOval(
-                                                              child: ImageUtil
-                                                                  .networkImage(
-                                                                url: userController
-                                                                    .userProfile
-                                                                    .avatar,
-                                                                width: 60,
-                                                                height: 60,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )),
-                                                  Image.asset(
-                                                    "assets/images/profile_avatar_border.webp",
-                                                    width: 64,
-                                                  ),
-                                                  // Obx(() => Visibility(
-                                                  //       visible:
-                                                  //           t.user.value.vipLevel >=
-                                                  //               5,
-                                                  //       child: Positioned(
-                                                  //           bottom: -10,
-                                                  //           child: Image.asset(
-                                                  //             "assets/images/profile/huizhang_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
-                                                  //             height: 28,
-                                                  //           )),
-                                                  //     )),
-                                                ]),
-                                          ),
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: t.goDev,
+                                      child: Image.asset(
+                                        ImageUtils.qr_code,
+                                        scale: 1.8,
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => Get.toNamed(AppPages.Setting),
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 30.w,
+                                      margin: EdgeInsets.only(
+                                        right: 15.w,
+                                        left: 10.w,
+                                      ),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.black.withOpacity(0.2),
+                                        shape: OvalBorder(),
+                                      ),
+                                      child: Image.asset(
+                                        "assets/images/profile_setting.webp",
+                                        scale: 1.8,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () => showCustom(
+                                    SelectAvatarDialog(),
+                                    alignment: Alignment.bottomCenter,
+                                    clickMaskDismiss: true,
+                                  ),
+                                  child: Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Obx(() => Showcase(
+                                              key: GlobalKeyConstants
+                                                  .profileSetInfoKey,
+                                              description:
+                                                  'Click to complete the information of SideKickers.'
+                                                      .tr,
+                                              targetShapeBorder: CircleBorder(),
                                               child: Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.w),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    /// nickname
-                                                    Row(
-                                                      children: [
-                                                        Obx(() => Text(
-                                                              userController
-                                                                  .userProfile
-                                                                  .nickName,
-                                                              style: TextStyle(
-                                                                fontSize: 20.sp,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            )),
-                                                        6.horizontalSpace,
-                                                        Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      5),
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  right: 10),
-                                                          height: 16.h,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              3),
-                                                                  gradient: LinearGradient(
-                                                                      begin: Alignment
-                                                                          .centerLeft,
-                                                                      end: Alignment
-                                                                          .centerRight,
-                                                                      colors: [
-                                                                        if (userController.userProfile.gender ==
-                                                                            0) ...[
-                                                                          Color(
-                                                                              0xFF1F84C9),
-                                                                          Color(
-                                                                              0xFF7CB9D5),
-                                                                        ] else if (userController.userProfile.gender ==
-                                                                            1) ...[
-                                                                          Color(
-                                                                              0xFFD57CAB),
-                                                                          Color(
-                                                                              0xFFC91FA7),
-                                                                        ] else ...[
-                                                                          Color(
-                                                                              0xFF99BCCC),
-                                                                          Color(
-                                                                              0xFF587284),
-                                                                        ]
-                                                                      ])),
-                                                          child: Row(
-                                                            children: [
-                                                              if (userController
-                                                                      .userProfile
-                                                                      .gender !=
-                                                                  2)
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      right: 3),
-                                                                  child: Image
-                                                                      .asset(
-                                                                    "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
-                                                                    width: 8,
-                                                                  ),
-                                                                )
-                                                              else
-                                                                Text(
-                                                                  "?",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          10.sp,
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal),
-                                                                ),
-                                                              Text(
-                                                                "${userController.userProfile.age}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10.sp,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Obx(() => Visibility(
-                                                              visible: t
-                                                                      .user
-                                                                      .value
-                                                                      .vipLevel >=
-                                                                  5,
-                                                              child:
-                                                                  Image.asset(
-                                                                "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
-                                                                height: 20.w,
-                                                              ),
-                                                            )),
-                                                      ],
+                                                height: 64,
+                                                alignment: Alignment.center,
+                                                child: Opacity(
+                                                  opacity: userController
+                                                              .userProfile
+                                                              .userAvatar ==
+                                                          1
+                                                      ? 1
+                                                      : 0.3,
+                                                  child: ClipOval(
+                                                    child:
+                                                        ImageUtil.networkImage(
+                                                      url: userController
+                                                          .userProfile.avatar,
+                                                      width: 60,
+                                                      height: 60,
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    6.verticalSpace,
-
-                                                    /// labels: sex、language、location
-                                                    Obx(() => Row(
-                                                          children: [
-                                                            Text(
-                                                              "ID:${userController.userProfile.uk}",
-                                                              style: TextStyle(
-                                                                fontSize: 10.sp,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontFamily:
-                                                                    FONT_MEDIUM,
-                                                              ),
-                                                            ),
-                                                            10.horizontalSpace,
-                                                            Text(
-                                                              "${userController.userProfile.email}",
-                                                              style: TextStyle(
-                                                                fontSize: 10.sp,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontFamily:
-                                                                    FONT_MEDIUM,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )),
+                                                  ),
+                                                ),
+                                              ),
+                                            )),
+                                        Image.asset(
+                                          "assets/images/profile_avatar_border.webp",
+                                          width: 64,
+                                        ),
+                                        // Obx(() => Visibility(
+                                        //       visible:
+                                        //           t.user.value.vipLevel >=
+                                        //               5,
+                                        //       child: Positioned(
+                                        //           bottom: -10,
+                                        //           child: Image.asset(
+                                        //             "assets/images/profile/huizhang_${userController.userProfile.vipLevel == 0 ? 5 : userController.userProfile.vipLevel}.webp",
+                                        //             height: 28,
+                                        //           )),
+                                        //     )),
+                                      ]),
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: t.goDev,
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 20.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          /// nickname
+                                          Row(
+                                            children: [
+                                              Obx(() => Text(
+                                                    userController
+                                                        .userProfile.nickName,
+                                                    style: TextStyle(
+                                                      fontSize: 20.sp,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )),
+                                              6.horizontalSpace,
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                margin:
+                                                    EdgeInsets.only(right: 10),
+                                                height: 16.h,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3),
+                                                    gradient: LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        end: Alignment
+                                                            .centerRight,
+                                                        colors: [
+                                                          if (userController
+                                                                  .userProfile
+                                                                  .gender ==
+                                                              0) ...[
+                                                            Color(0xFF1F84C9),
+                                                            Color(0xFF7CB9D5),
+                                                          ] else if (userController
+                                                                  .userProfile
+                                                                  .gender ==
+                                                              1) ...[
+                                                            Color(0xFFD57CAB),
+                                                            Color(0xFFC91FA7),
+                                                          ] else ...[
+                                                            Color(0xFF99BCCC),
+                                                            Color(0xFF587284),
+                                                          ]
+                                                        ])),
+                                                child: Row(
+                                                  children: [
+                                                    if (userController
+                                                            .userProfile
+                                                            .gender !=
+                                                        2)
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(right: 3),
+                                                        child: Image.asset(
+                                                          "assets/images/profile/icon_sex_${userController.userProfile.gender}.png",
+                                                          width: 8,
+                                                        ),
+                                                      )
+                                                    else
+                                                      Text(
+                                                        "?",
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal),
+                                                      ),
+                                                    Text(
+                                                      "${userController.userProfile.age}",
+                                                      style: TextStyle(
+                                                          fontSize: 10.sp,
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight
+                                                              .normal),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                              Obx(() => Visibility(
+                                                    visible:
+                                                        t.user.value.vipLevel >=
+                                                            5,
+                                                    child: GestureDetector(
+                                                      onTap: () => Get.toNamed(
+                                                        AppPages.VIP_PAGE,
+                                                      ),
+                                                      child: Image.asset(
+                                                        "assets/images/profile/icon_level_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                        height: 20.w,
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
                                           ),
-                                          15.horizontalSpace,
+                                          6.verticalSpace,
+
+                                          /// labels: sex、language、location
+                                          Obx(() => Row(
+                                                children: [
+                                                  Text(
+                                                    "ID:${userController.userProfile.uk}",
+                                                    style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      color: Colors.white,
+                                                      fontFamily: FONT_MEDIUM,
+                                                    ),
+                                                  ),
+                                                  10.horizontalSpace,
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${userController.userProfile.email}",
+                                                      style: TextStyle(
+                                                        fontSize: 10.sp,
+                                                        color: Colors.white,
+                                                        fontFamily: FONT_MEDIUM,
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 15, right: 15, top: 185)
-                                    .r,
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          ImageUtils.profile_emery_bg),
-                                      fit: BoxFit.fill,
                                     ),
                                   ),
-                                  child: Obx(() => EnergyView(
-                                        width: 1.sw - 60.w,
-                                        percent:
-                                            t.user.value.totalmins.toDouble() ==
-                                                    0
-                                                ? 0
-                                                : t.user.value.avamins /
-                                                    t.user.value.totalmins
-                                                        .toDouble(),
-                                        remaining: t.user.value.avamins,
-                                      )),
                                 ),
-                                achievements(),
+                                15.horizontalSpace,
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      Visibility(
-                        visible: userController.userProfile.ads.isNotEmpty,
-                        child: _memberVipWidget(),
+                      Container(
+                        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 70.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.r),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Color(0xFF413A62),
+                                    Color(0xFF591E3A),
+                                    Color(0xFF413A62),
+                                  ],
+                                ),
+                              ),
+                              child: Obx(() => EnergyView(
+                                    width: 1.sw - 60.w,
+                                    percent:
+                                        t.user.value.totalmins.toDouble() == 0
+                                            ? 0
+                                            : t.user.value.avamins /
+                                                t.user.value.totalmins
+                                                    .toDouble(),
+                                    remaining: t.user.value.avamins,
+                                  )),
+                            ),
+                            achievements(),
+                          ],
+                        ),
                       ),
+                      Obx(() => Visibility(
+                            visible: userController.userProfile.ads.isNotEmpty,
+                            child: _memberVipWidget(),
+                          )),
                       Container(
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(
@@ -672,11 +618,18 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget achievements() => Obx(() => Container(
+        height: 70.h,
         decoration: BoxDecoration(
-          color: hexColor("262731"),
           borderRadius: BorderRadius.circular(15.r),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color(0xFF2D2923),
+              Color(0xFF262731),
+            ],
+          ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 20.h),
         margin: EdgeInsets.symmetric(vertical: 15.h),
         child: Row(
           children: [
@@ -785,7 +738,7 @@ class MyProfilePage extends StatelessWidget {
                   width: 26,
                 ),
               ),
-              8.verticalSpace,
+              6.verticalSpace,
               Text(
                 title,
                 style: TextStyle(

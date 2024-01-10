@@ -60,8 +60,8 @@ class BadgesWidget extends GetView<ProfileController> {
                   child: Row(
                     children: [
                       Container(
-                        width: 6.w,
-                        height: 18.h,
+                        width: 4.w,
+                        height: 16.h,
                         margin: EdgeInsets.only(right: 4.w),
                         color: hexColor('FFB20E'),
                       ),

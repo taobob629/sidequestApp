@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,6 +35,7 @@ import 'package:wy/utils/global_key_constants.dart';
 import 'package:wy/utils/index.dart';
 
 import '../../utils/toast_utils.dart';
+import '../common/web_page.dart';
 import '../index/tab_cybercafe_page.dart';
 import 'drawer.dart';
 import 'messages/messages_page.dart';
@@ -436,8 +438,18 @@ class MainPageController extends FullLifeCycleController
   void checkAd(BuildContext context) {
     IndexApi.getAD().then((value) async {
       if (value != null && value.image.isNotEmpty) {
-        var file = await DefaultCacheManager().getSingleFile(value.image);
-        PopAdDialog.show(context, value, file, cancelable: false);
+        Map<String, dynamic> map = jsonDecode(value.content);
+        if (map["type"] == "h5" && map["fullScreen"] == 1) {
+          if (userController.user.value.id != 0) {
+            IndexApi.readAD(value.id, value.title);
+          }
+          String? url = map["target"];
+          Get.to(() => WebPage(
+            url: url, title: '',
+          ));
+        } else {
+          PopAdDialog.show(context, value, cancelable: false);
+        }
       }
     });
   }
