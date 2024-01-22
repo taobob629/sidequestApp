@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
-showLoading({bool clickMaskDismiss = true}) {
+showLoading({String msg = 'loading...', bool clickMaskDismiss = true}) {
   SmartDialog.showLoading(
+    msg: msg,
     maskColor: Colors.transparent,
     clickMaskDismiss: clickMaskDismiss,
   );
@@ -41,14 +42,14 @@ showError(var msg, {Duration? duration}) {
 }
 
 showCustom(
-    Widget widget, {
-      bool clickMaskDismiss = false,
-      AlignmentGeometry? alignment,
-      Color? maskColor,
-      // 点击事件是否穿透
-      bool usePenetrate = false,
-      VoidCallback? onDismiss,
-    }) async {
+  Widget widget, {
+  bool clickMaskDismiss = false,
+  AlignmentGeometry? alignment,
+  Color? maskColor,
+  // 点击事件是否穿透
+  bool usePenetrate = false,
+  VoidCallback? onDismiss,
+}) async {
   return await SmartDialog.show(
     builder: (builder) => widget,
     clickMaskDismiss: clickMaskDismiss,

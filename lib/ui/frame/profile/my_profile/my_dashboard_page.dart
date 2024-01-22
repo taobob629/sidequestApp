@@ -20,81 +20,79 @@ class MyDashboardPage extends StatelessWidget {
     return Column(
       children: [
         /// Subscriptions
-        Obx(() => Visibility(
-            visible: UserController.find.online.value,
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 0.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(
-                      left: 15.w,
-                      bottom: 10.h,
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(top: 0.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(
+                  left: 15.w,
+                  bottom: 10.h,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 4.w,
+                      height: 16.h,
+                      margin: EdgeInsets.only(
+                        right: 4.w,
+                      ),
+                      color: hexColor('FFB20E'),
                     ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 4.w,
-                          height: 16.h,
-                          margin: EdgeInsets.only(
-                            right: 4.w,
-                          ),
-                          color: hexColor('FFB20E'),
-                        ),
-                        Text(
-                          'SUBSCRIPTIONS'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'SUBSCRIPTIONS'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                      ),
                     ),
-                  ),
-                  Obx(() => Row(
-                    children: [
-                      12.horizontalSpace,
-                      if (UserController.find.userProfile.vips.length > 0)
-                        _subscriptionItem(UserController.find.userProfile.vips[0], 0),
-                      8.horizontalSpace,
-                      if (UserController.find.userProfile.vips.length > 1)
-                        _subscriptionItem(UserController.find.userProfile.vips[1], 1),
-                      8.horizontalSpace,
-                      if (UserController.find.userProfile.vips.length > 2)
-                        _subscriptionItem(UserController.find.userProfile.vips[2], 2),
-                      8.horizontalSpace,
-                      if (UserController.find.userProfile.vips.length > 3)
-                        _subscriptionItem(UserController.find.userProfile.vips[3], 3),
-                      12.horizontalSpace,
-                    ],
-                  )),
-
-                  // Obx(() => Container(
-                  //       width: Get.width,
-                  //       height: 100.h,
-                  //       child: ListView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         physics: NeverScrollableScrollPhysics(),
-                  //         children: UserController.find.userProfile.vips
-                  //             .asMap()
-                  //             .map((index, value) => MapEntry(
-                  //                 index,
-                  //                 InkWell(
-                  //                   onTap: () => Get.toNamed(AppPages.VIP_PAGE,
-                  //                       arguments: index),
-                  //                   child: _subscriptionItem(value, index),
-                  //                 )))
-                  //             .values
-                  //             .toList(),
-                  //       ),
-                  //     ))
-                ],
+                  ],
+                ),
               ),
-            ))),
+              Obx(() => Row(
+                children: [
+                  12.horizontalSpace,
+                  if (UserController.find.userProfile.vips.length > 0)
+                    _subscriptionItem(UserController.find.userProfile.vips[0], 0),
+                  8.horizontalSpace,
+                  if (UserController.find.userProfile.vips.length > 1)
+                    _subscriptionItem(UserController.find.userProfile.vips[1], 1),
+                  8.horizontalSpace,
+                  if (UserController.find.userProfile.vips.length > 2)
+                    _subscriptionItem(UserController.find.userProfile.vips[2], 2),
+                  8.horizontalSpace,
+                  if (UserController.find.userProfile.vips.length > 3)
+                    _subscriptionItem(UserController.find.userProfile.vips[3], 3),
+                  12.horizontalSpace,
+                ],
+              )),
+
+              // Obx(() => Container(
+              //       width: Get.width,
+              //       height: 100.h,
+              //       child: ListView(
+              //         scrollDirection: Axis.horizontal,
+              //         physics: NeverScrollableScrollPhysics(),
+              //         children: UserController.find.userProfile.vips
+              //             .asMap()
+              //             .map((index, value) => MapEntry(
+              //                 index,
+              //                 InkWell(
+              //                   onTap: () => Get.toNamed(AppPages.VIP_PAGE,
+              //                       arguments: index),
+              //                   child: _subscriptionItem(value, index),
+              //                 )))
+              //             .values
+              //             .toList(),
+              //       ),
+              //     ))
+            ],
+          ),
+        ),
 
         /// Trophies
         ...UserController.find.userProfile.badges

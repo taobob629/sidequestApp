@@ -65,6 +65,7 @@ class PayPageController extends GetxController {
   late StreamSubscription<List<PurchaseDetails>> _subscription;
 
   initInAppPay() {
+    print('initInAppPay = ${_inAppPurchase.isAvailable()}');
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
     _subscription =
@@ -74,7 +75,7 @@ class PayPageController extends GetxController {
       print('onDone====');
       _subscription.cancel();
     }, onError: (Object error) {
-      // handle error here.
+      print('onError====$error');
     });
   }
 
@@ -111,20 +112,51 @@ class PayPageController extends GetxController {
   }
 
   inAppPayCharge(PurchaseDetails detail) async {
-    showLoading();
-    var res = await PayApi.applePay(Map<String, dynamic>()
-      ..['chargeid'] = payOrderModel.chargeid
-      ..['localVerificationData']=detail.verificationData.localVerificationData
-      ..['serverVerificationData']=detail.verificationData.serverVerificationData
-       ..['source']=detail.verificationData.source
-      ..['productID'] = detail.productID
-      ..['purchaseID'] = detail.purchaseID);
-    if (res.statusCode==200) {
-      dismissLoading();
-      UserController.find.updateInfo();
-      Get.back();
+    showLoading(msg: "flag = ${payOrderModel.flag}");
+    if (payOrderModel.flag == 0) {
+      // 充值
+      var res = await PayApi.appleCreditPay(Map<String, dynamic>()
+        ..['chargeid'] = payOrderModel.chargeid
+        ..['goodsPrice'] = payOrderModel.goodsPrice
+        // type(0：充值，1：订阅)
+        ..['type'] = 0
+        ..['paytype'] = payType.value
+        ..['localVerificationData'] =
+            detail.verificationData.localVerificationData
+        ..['serverVerificationData'] =
+            detail.verificationData.serverVerificationData
+        ..['source'] = detail.verificationData.source
+        ..['productID'] = detail.productID
+        ..['purchaseID'] = detail.purchaseID);
+      // dismissLoading();
+      if (res.statusCode == 200) {
+        UserController.find.updateInfo();
+        Get.back();
+      } else {
+        showError(res.statusMessage);
+      }
     } else {
-      showError(res.statusMessage);
+      // 订阅
+      var res = await PayApi.appleSub(Map<String, dynamic>()
+        ..['chargeid'] = payOrderModel.chargeid
+        ..['goodsPrice'] = payOrderModel.goodsPrice
+        // type(订阅传登记)
+        ..['type'] = payOrderModel.type
+        ..['paytype'] = payType.value
+        ..['localVerificationData'] =
+            detail.verificationData.localVerificationData
+        ..['serverVerificationData'] =
+            detail.verificationData.serverVerificationData
+        ..['source'] = detail.verificationData.source
+        ..['productID'] = detail.productID
+        ..['purchaseID'] = detail.purchaseID);
+      // dismissLoading();
+      if (res.statusCode == 200) {
+        UserController.find.updateInfo();
+        Get.back();
+      } else {
+        showError(res.statusMessage);
+      }
     }
   }
 
@@ -204,6 +236,12 @@ class PayPageController extends GetxController {
   }
 
   void pay({bool isPlay = false}) async {
+    flog('pay 正常支付进来了');
+    if (Platform.isIOS && payType.value == 7) {
+      // 苹果内购
+      inAppPay();
+      return;
+    }
     if (!isPlay) {
       if (address.value.id == 0) {
         showInfo("Please select your billing address".tr);
@@ -239,7 +277,7 @@ class PayPageController extends GetxController {
   }) async {
     checkCount = 0;
     payOrderModel.payType = payType.value;
-  //  flog('payType $payType');
+    //  flog('payType $payType');
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
@@ -343,60 +381,60 @@ class PayPageController extends GetxController {
       }
     } else if (payType.value == 2) {
       //余额支付
-    //  checkPayPin(() async {
-        flog(payOrderModel.code, 'payOrderModel.code');
-        PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-        flog(payOrderModel.type, 'payOrderModel.type');
-        if (payOrderModel.type == -2 || payOrderModel.type == -3) {
-          if (payInfoModel.insufficient) {
-            Get.dialog(
-              ConfirmDialog(
-                title: "Payment Result".tr,
-                info: "Insufficient coin, Please recharge first!".tr,
-                onConfirm: () {
-                  Get.back();
-                  Get.back();
-                  Get.toNamed(AppPages.WALLET_PAGE);
-                },
-              ),
-              barrierColor: Colors.black26,
-            );
-          } else {
-            Get.dialog(
-                    ConfirmDialog(
-                        title: "Payment Result".tr,
-                        info: "Payment Successful!".tr),
-                    barrierColor: Colors.black26)
-                .whenComplete(() {
-              if (payOrderModel.type == -3) {
-                Get.back(result: payInfoModel.desc);
-              } else {
-                if (!isPlay) Get.back(result: true);
-                Get.back(result: payInfoModel.uk);
-                Get.find<UserController>().updateInfo();
-              }
-            });
-          }
+      //  checkPayPin(() async {
+      flog(payOrderModel.code, 'payOrderModel.code');
+      PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
+      flog(payOrderModel.type, 'payOrderModel.type');
+      if (payOrderModel.type == -2 || payOrderModel.type == -3) {
+        if (payInfoModel.insufficient) {
+          Get.dialog(
+            ConfirmDialog(
+              title: "Payment Result".tr,
+              info: "Insufficient coin, Please recharge first!".tr,
+              onConfirm: () {
+                Get.back();
+                Get.back();
+                Get.toNamed(AppPages.WALLET_PAGE);
+              },
+            ),
+            barrierColor: Colors.black26,
+          );
         } else {
-          if (payInfoModel.orderNo.isEmpty) {
-            showError("Server response error!".tr);
-          } else {
-            if (payOrderModel.type == -1) {
-              var cartController = Get.find<CartController>();
-              cartController.clearCart();
-            }
-            Get.dialog(
-                    ConfirmDialog(
-                        title: "Payment Result".tr,
-                        info: "Payment Successful!".tr),
-                    barrierColor: Colors.black26)
-                .whenComplete(() {
-              Get.back();
+          Get.dialog(
+                  ConfirmDialog(
+                      title: "Payment Result".tr,
+                      info: "Payment Successful!".tr),
+                  barrierColor: Colors.black26)
+              .whenComplete(() {
+            if (payOrderModel.type == -3) {
+              Get.back(result: payInfoModel.desc);
+            } else {
+              if (!isPlay) Get.back(result: true);
+              Get.back(result: payInfoModel.uk);
               Get.find<UserController>().updateInfo();
-            });
-          }
+            }
+          });
         }
-     // });
+      } else {
+        if (payInfoModel.orderNo.isEmpty) {
+          showError("Server response error!".tr);
+        } else {
+          if (payOrderModel.type == -1) {
+            var cartController = Get.find<CartController>();
+            cartController.clearCart();
+          }
+          Get.dialog(
+                  ConfirmDialog(
+                      title: "Payment Result".tr,
+                      info: "Payment Successful!".tr),
+                  barrierColor: Colors.black26)
+              .whenComplete(() {
+            Get.back();
+            Get.find<UserController>().updateInfo();
+          });
+        }
+      }
+      // });
     } else if (payType.value == 9999) {
       if (Platform.isAndroid) {
         // 谷歌支付
@@ -562,6 +600,7 @@ class PayPageController extends GetxController {
    * 苹果内购
    */
   inAppPay() {
+    flog('pay 苹果内购进来了');
     //苹果内购
     if (cartController.products.isEmpty) {
       showError('No products，Retry later');
@@ -571,8 +610,8 @@ class PayPageController extends GetxController {
     //根据金额，找到对应的内购商品
     var price = parsePrice(payOrderModel.goodsPrice);
     var product = cartController.products.firstWhereOrNull((element) {
-      if(payOrderModel.type>=5){
-        return element.id=='VIP_${payOrderModel.goodsPrice}';
+      if (payOrderModel.type >= 5) {
+        return element.id == 'VIP_${payOrderModel.goodsPrice}';
       }
       return element.id == 'coin_$price';
     });
@@ -586,7 +625,9 @@ class PayPageController extends GetxController {
       productDetails: product,
     );
     _inAppPurchase.buyConsumable(
-        purchaseParam: purchaseParam, autoConsume: true);
+      purchaseParam: purchaseParam,
+      autoConsume: true,
+    );
   }
 
   parsePrice(var price) {

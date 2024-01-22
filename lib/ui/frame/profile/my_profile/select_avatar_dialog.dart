@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wy/config/icon_font.dart';
+import 'package:wy/ui/frame/profile/my_profile/profile_edit_page.dart';
 import 'package:wy/utils/toast_utils.dart';
 
 import '../../../../api/common.dart';
@@ -18,7 +19,7 @@ class SelectAvatarDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: Get.width,
-        height: 300.h,
+        height: 340.h,
         decoration: ShapeDecoration(
           color: Color(0xFF262731),
           shape: RoundedRectangleBorder(
@@ -37,7 +38,7 @@ class SelectAvatarDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Upload avatar, showcase yourself',
+              'Upload your profile image',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
@@ -58,61 +59,38 @@ class SelectAvatarDialog extends StatelessWidget {
             ),
             15.verticalSpace,
             Center(
-              child: Text(
-                UserController.find.userProfile.nickName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
-                  fontSize: 18.sp,
-                  fontFamily: FONT_MEDIUM,
-                ),
-              )
-            ),
-            40.verticalSpace,
-            // GestureDetector(
-            //   onTap: () => dismissLoading(),
-            //   child: Container(
-            //     margin: EdgeInsets.symmetric(horizontal: 15.w),
-            //     width: Get.width,
-            //     height: 46.h,
-            //     decoration: ShapeDecoration(
-            //       gradient: LinearGradient(
-            //         begin: Alignment(-1.00, 0.00),
-            //         end: Alignment(1, 0),
-            //         colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-            //       ),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(60.r),
-            //       ),
-            //     ),
-            //     alignment: Alignment.center,
-            //     child: Text(
-            //       'Use default avatar'.tr,
-            //       textAlign: TextAlign.center,
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 16.sp,
-            //         fontWeight: FontWeight.w400,
-            //         fontFamily: FONT_MEDIUM,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+                child: Text(
+              UserController.find.userProfile.nickName,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.6),
+                fontSize: 18.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            )),
+            30.verticalSpace,
             GestureDetector(
-              onTap: () => selectUpdateAvatar(),
+              onTap: () {
+                dismissLoading();
+                Get.to(() => ProfileEditPage());
+              },
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 width: Get.width,
                 height: 46.h,
                 decoration: ShapeDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(-1.00, 0.00),
+                    end: Alignment(1, 0),
+                    colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
+                  ),
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 2, color: Color(0xFFFFB20E)),
-                    borderRadius: BorderRadius.circular(60),
+                    borderRadius: BorderRadius.circular(60.r),
                   ),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'Select from album'.tr,
+                  'Edit your profile'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -121,8 +99,33 @@ class SelectAvatarDialog extends StatelessWidget {
                     fontFamily: FONT_MEDIUM,
                   ),
                 ),
-              )
+              ),
             ),
+            10.verticalSpace,
+            GestureDetector(
+                onTap: () => selectUpdateAvatar(),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15.w),
+                  width: Get.width,
+                  height: 46.h,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 2, color: Color(0xFFFFB20E)),
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Select from album'.tr,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                )),
           ],
         ),
       );
@@ -141,7 +144,7 @@ class SelectAvatarDialog extends StatelessWidget {
       Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
         if (value != null) {
           showLoading();
-          await Common.uploadAvatar(value!, (p0, p1) {});
+          await Common.uploadAvatar(value, (p0, p1) {});
           dismissLoading();
           UserController.find.updateInfo();
         }

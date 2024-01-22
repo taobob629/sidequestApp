@@ -409,22 +409,19 @@ class MyProfilePage extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Obx(() => Visibility(
-                                          visible: userController.online.value,
-                                          child: Expanded(
-                                            child: _dashboardLabelItem(
-                                              "assets/images/profile/icon_wallet.webp",
-                                              "Wallet".tr,
-                                              onTap: () {
-                                                userController.checkLogin(() =>
-                                                    Get.to(() => BalancePage())
-                                                        ?.whenComplete(() =>
-                                                            userController
-                                                                .updateInfo()));
-                                              },
-                                            ),
-                                          ),
-                                        )),
+                                    Expanded(
+                                      child: _dashboardLabelItem(
+                                        "assets/images/profile/icon_wallet.webp",
+                                        "Wallet".tr,
+                                        onTap: () {
+                                          userController.checkLogin(() =>
+                                              Get.to(() => BalancePage())
+                                                  ?.whenComplete(() =>
+                                                      userController
+                                                          .updateInfo()));
+                                        },
+                                      ),
+                                    ),
                                     // Expanded(
                                     //   child: Showcase(
                                     //     key: GlobalKeyConstants.profileSideKickKey,

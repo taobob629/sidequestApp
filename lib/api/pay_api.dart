@@ -249,4 +249,16 @@ class PayApi {
     flog('response.data ${response.data}');
     return response;
   }
+
+  static Future<Response> appleCreditPay(Map<String, dynamic> params) async {
+    var response = await http.post('/app/order/appleCreditPay', data: params);
+    flog('response.data ${response.data}');
+    return response;
+  }
+
+  static Future<Response> appleSub(Map<String, dynamic> params) async {
+    var response = await http.post('/app/order/appleSub', data: params);
+    flog('response.data ${response.data}');
+    return response;
+  }
 }

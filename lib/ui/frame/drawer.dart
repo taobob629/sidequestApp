@@ -90,16 +90,13 @@ class HomeDrawer extends StatelessWidget {
                   remaining: user?.avamins ?? 0,
                 )),
                 8.verticalSpace,
-                Visibility(
-                  visible: UserController.find.online.value,
-                  child: _listItem(
-                    'My Subscription'.tr,
-                    onTapMore: () =>
-                        Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
-                            ?.whenComplete(
-                      () => UserController.instance().updateInfo(),
-                    ),
-                  ),
+                _listItem(
+                  'My Subscription'.tr,
+                  onTapMore: () =>
+                      Get.toNamed(AppPages.VIP_PAGE, arguments: 0)
+                          ?.whenComplete(
+                            () => UserController.instance().updateInfo(),
+                      ),
                 ),
                 8.verticalSpace,
                 _listItem(

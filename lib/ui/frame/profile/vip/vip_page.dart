@@ -569,6 +569,7 @@ class VipPageController extends GetxController {
     }
 
     PayOrderModel model = PayOrderModel();
+    model.flag = 1;
     model.type = vipInfoModel.level;
     model.phrase = 0;
     model.goodsPrice = "${vipInfoModel.monthFee}";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wy/config/app_color.dart';
 import 'package:wy/model/pay_order_model.dart';
@@ -35,80 +36,148 @@ class PayPage extends StatelessWidget {
               ],
             )
           : ListView.separated(
-              itemBuilder: (context, index) {
-                int orderType = controller.payOrderModel.type;
-                //  flog('orderTYpe $orderType');
-                if (index == 0) {
-                  return _buildAmount();
-                } else if (index == 1) {
-                  return Obx(() => _buildBillAddress());
-                } else if (index == 2) {
-                  if (orderType == PayType.PW_RECHARGE) {
-                    return Container();
-                  }
-                  return Obx(() => _buildCredit(1, controller.payType.value));
-                } else if (index == 3) {
-                  if (orderType == PayType.PW_STRIP_ACCOUNT) {
-                    return Obx(() => _buildPayView(
-                        "Alipay".tr, "alipay", 4, controller.payType.value));
-                  }
-                  if (orderType > 0 || orderType == PayType.PW_RECHARGE) {
-                    return Container();
-                  } else {
-                    return Obx(() => _buildPayView(
-                        "Alipay".tr, "alipay", 4, controller.payType.value));
-                    //return Container();
-                  }
-                } else if (index == 4) {
-                  if (orderType == PayType.PW_RECHARGE) {
-                    return Obx(() => _buildPayView("Gold Coins".tr,
-                        "balance_money", 2, controller.payType.value,
-                        subTitle: Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/ic_balance_money.webp",
-                              width: 14,
-                              height: 14,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "${controller.coin.value}",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
-                            )
-                          ],
-                        )));
-                  } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
-                    return Obx(() => _buildPayView("Balance".tr,
-                        "balance_money", 2, controller.payType.value,
-                        subTitle: Obx(() => Text(
-                              "￡${controller.balance}",
-                              style: TextStyle(
-                                  color: controller.isSufficient()
-                                      ? Colors.white
-                                      : Colors.white54),
-                            ))));
-                  } else if (orderType > -2) {
-                    return Container();
-                  } else {
-                    return Obx(() => _buildPayView("Balance".tr,
-                        "balance_money", 2, controller.payType.value));
-                  }
-                }
-                return Container(
-                  height: 70,
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Container(
-                  height: 15,
-                );
-              },
-              itemCount: 5),
+              itemBuilder: (context, index) =>
+                  Platform.isIOS ? iosWidget(index) : androidWidget(index),
+              separatorBuilder: (context, index) => 15.verticalSpace,
+              itemCount: Platform.isIOS ? 6 : 5,
+            ),
       floatingActionButton: _buildFloatingActionButton(),
     );
+  }
+
+  Widget iosWidget(int index) {
+    int orderType = controller.payOrderModel.type;
+    //  flog('orderTYpe $orderType');
+    if (index == 0) {
+      return _buildAmount();
+    } else if (index == 1) {
+      return Obx(() => _buildBillAddress());
+    } else if (index == 2) {
+      if (orderType == PayType.PW_RECHARGE) {
+        return Container();
+      }
+      return Obx(() => _buildCredit(1, controller.payType.value));
+    } else if (index == 3) {
+      return Obx(() => _buildPayView(
+            "Apple Pay".tr,
+            "Apple Pay".tr,
+            7,
+            controller.payType.value,
+          ));
+    } else if (index == 4) {
+      if (orderType == PayType.PW_STRIP_ACCOUNT) {
+        return Obx(() =>
+            _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+      }
+      if (orderType > 0 || orderType == PayType.PW_RECHARGE) {
+        return Container();
+      } else {
+        return Obx(() =>
+            _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+        //return Container();
+      }
+    } else if (index == 5) {
+      if (orderType == PayType.PW_RECHARGE) {
+        return Obx(() => _buildPayView(
+            "Gold Coins".tr, "balance_money", 2, controller.payType.value,
+            subTitle: Row(
+              children: [
+                Image.asset(
+                  "assets/images/ic_balance_money.webp",
+                  width: 14,
+                  height: 14,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "${controller.coin.value}",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                )
+              ],
+            )));
+      } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
+        return Obx(() => _buildPayView(
+            "Balance".tr, "balance_money", 2, controller.payType.value,
+            subTitle: Obx(() => Text(
+                  "￡${controller.balance}",
+                  style: TextStyle(
+                      color: controller.isSufficient()
+                          ? Colors.white
+                          : Colors.white54),
+                ))));
+      } else if (orderType > -2) {
+        return 0.verticalSpace;
+      } else {
+        return Obx(() => _buildPayView(
+            "Balance".tr, "balance_money", 2, controller.payType.value));
+      }
+    }
+    return 70.verticalSpace;
+  }
+
+  Widget androidWidget(int index) {
+    int orderType = controller.payOrderModel.type;
+    //  flog('orderTYpe $orderType');
+    if (index == 0) {
+      return _buildAmount();
+    } else if (index == 1) {
+      return Obx(() => _buildBillAddress());
+    } else if (index == 2) {
+      if (orderType == PayType.PW_RECHARGE) {
+        return Container();
+      }
+      return Obx(() => _buildCredit(1, controller.payType.value));
+    } else if (index == 3) {
+      if (orderType == PayType.PW_STRIP_ACCOUNT) {
+        return Obx(() =>
+            _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+      }
+      if (orderType > 0 || orderType == PayType.PW_RECHARGE) {
+        return Container();
+      } else {
+        return Obx(() =>
+            _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
+        //return Container();
+      }
+    } else if (index == 4) {
+      if (orderType == PayType.PW_RECHARGE) {
+        return Obx(() => _buildPayView(
+            "Gold Coins".tr, "balance_money", 2, controller.payType.value,
+            subTitle: Row(
+              children: [
+                Image.asset(
+                  "assets/images/ic_balance_money.webp",
+                  width: 14,
+                  height: 14,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "${controller.coin.value}",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                )
+              ],
+            )));
+      } else if (orderType == PayType.PW_STRIP_ACCOUNT) {
+        return Obx(() => _buildPayView(
+            "Balance".tr, "balance_money", 2, controller.payType.value,
+            subTitle: Obx(() => Text(
+                  "￡${controller.balance}",
+                  style: TextStyle(
+                      color: controller.isSufficient()
+                          ? Colors.white
+                          : Colors.white54),
+                ))));
+      } else if (orderType > -2) {
+        return 0.verticalSpace;
+      } else {
+        return Obx(() => _buildPayView(
+            "Balance".tr, "balance_money", 2, controller.payType.value));
+      }
+    }
+    return 70.verticalSpace;
   }
 
   Widget _buildFloatingActionButton() {
@@ -124,10 +193,12 @@ class PayPage extends StatelessWidget {
                 TextStyle(color: Colors.white, fontSize: 20, fontFamily: "DIN"),
           ),
         ),
-        onTap: () => userController.checkLogin(() =>
-            Platform.isIOS && !StorageManager.getOnline()
-                ? controller.inAppPay()
-                : controller.pay()),
+        onTap: () => userController.checkLogin(
+          () => controller.pay(),
+          // () => Platform.isIOS && !StorageManager.getOnline()
+          //     ? controller.inAppPay()
+          //     : controller.pay(),
+        ),
       ),
     );
   }
@@ -267,7 +338,7 @@ class PayPage extends StatelessWidget {
     if (Platform.isAndroid) {
       payMethod = "&  Google Pay";
     } else if (Platform.isIOS) {
-      payMethod = "&  Apple Pay";
+      // payMethod = "&  Apple Pay";
     }
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),

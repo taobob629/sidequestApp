@@ -16,6 +16,7 @@ import 'package:wy/ui/common/keyboard_scaffold.dart';
 import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/profile/balance/item_title.dart';
 import 'package:wy/ui/profile/consume/my_consume_page.dart';
+import 'package:wy/utils/index.dart';
 import 'package:wy/utils/navigator_helper.dart';
 import 'package:wy/widget/paixs_widget.dart';
 
@@ -55,39 +56,45 @@ class BalancePage extends StatelessWidget {
           children: [
             TopBanner(),
             _memberVipWidget(),
-            ItemTitle(
-              title: "Custom amount".tr,
-              subTitle: "",
-              marginTop: 15.h,
-            ),
-            Container(
-              height: 46.h,
-              decoration: BoxDecoration(
-                color: Colors.white10,
-                borderRadius: BorderRadius.circular(12),
+            Visibility(
+              visible: Platform.isAndroid,
+              child: ItemTitle(
+                title: "Custom amount".tr,
+                subTitle: "",
+                marginTop: 15.h,
               ),
-              margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                controller: controller.amountController,
-                focusNode: controller.amountFocusNode,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  isDense: true,
-                  isCollapsed: true,
-                  hintText: 'Please enter an integer from 5 to 500'.tr,
-                  hintStyle: TextStyle(color: Colors.grey),
+            ),
+            Visibility(
+              visible: Platform.isAndroid,
+              child: Container(
+                height: 46.h,
+                decoration: BoxDecoration(
+                  color: Colors.white10,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                maxLines: 1,
-                style: TextStyle(
-                  color: Color(0xFFC5C3C6),
-                  fontFamily: FONT_LIGHT,
-                  fontSize: 14.sp,
+                margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  controller: controller.amountController,
+                  focusNode: controller.amountFocusNode,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    isDense: true,
+                    isCollapsed: true,
+                    hintText: 'Please enter an integer from 5 to 500'.tr,
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: Color(0xFFC5C3C6),
+                    fontFamily: FONT_LIGHT,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ),
