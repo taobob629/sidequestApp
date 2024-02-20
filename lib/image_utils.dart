@@ -92,12 +92,28 @@ class ImageUtils {
   static const String energy_right_icon = 'assets/images/energy_right_icon.webp';
   static const String icon_dianzan = 'assets/images/profile/icon_dianzan.webp';
 
-  static const String icon_first = 'assets/images/task/icon_first.webp';
-  static const String icon_second = 'assets/images/task/icon_second.webp';
-  static const String icon_third = 'assets/images/task/icon_third.webp';
   static const String qr_code = 'assets/images/qr_code.webp';
   static const String qr_code_icon = 'assets/images/qr_code_icon.webp';
   static const String qr_code_border = 'assets/images/qr_code_border.webp';
   static const String profile_top_bg = 'assets/images/profile_top_bg.png';
   static const String profile_energy_w_icon = 'assets/images/profile_energy_w_icon.webp';
+  static const String icon_first = 'assets/images/task/icon_first.webp';
+  static const String icon_second = 'assets/images/task/icon_second.webp';
+  static const String icon_third = 'assets/images/task/icon_third.webp';
+  static const String integral_vip_icon = 'assets/images/integral_vip_icon.webp';
+  static const String integral_benefit_icon = 'assets/images/integral_benefit_icon.webp';
+  static const String integral_point_mall_icon = 'assets/images/integral_point_mall_icon.webp';
+  static const String integral_points_mall_bottom_icon = 'assets/images/integral_points_mall_bottom_icon.webp';
+  static const String integral_checkin_icon = 'assets/images/integral_checkin_icon.webp';
+  static const String integral_arrow_icon = 'assets/images/integral_arrow_icon.webp';
+  static const String integral_benefit_bottom_icon = 'assets/images/integral_benefit_bottom_icon.webp';
+  static const String integral_redemption_top_icon = 'assets/images/integral_redemption_top_icon.png';
+  static const String integral_detail_dialog_icon = 'assets/images/integral_detail_dialog_icon.webp';
+  static const String integral_interests_lv_icon = 'assets/images/integral_interests_lv_icon.webp';
+  static const String integral_interests_lock_icon = 'assets/images/integral_interests_lock_icon.webp';
+  static const String integral_level_benefit_left_icon = 'assets/images/integral_level_benefit_left_icon.webp';
+  static const String integral_level_benefit_right_icon = 'assets/images/integral_level_benefit_right_icon.webp';
+  static const String integral_level_benefit_text_icon = 'assets/images/integral_level_benefit_text_icon.webp';
+  static const String integral_detail_couple_icon = 'assets/images/integral_detail_couple_icon.webp';
+  static const String integral_task_detail_top = 'assets/images/integral_task_detail_top.webp';
 }

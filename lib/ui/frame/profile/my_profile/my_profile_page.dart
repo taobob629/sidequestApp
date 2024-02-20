@@ -30,6 +30,7 @@ import '../../../profile/energy_view.dart';
 import '../../../profile/events/my_events_page.dart';
 import '../../../profile/task/task_page.dart';
 import '../../../profile/wallet/new_wallet_page.dart';
+import '../integral/integral_home_page.dart';
 import '../invite/invite_page.dart';
 import '../model/profile_model.dart';
 import 'my_album_page.dart';
@@ -526,7 +527,13 @@ class MyProfilePage extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    Expanded(child: Container()),
+                                    Expanded(
+                                      child: _dashboardLabelItem(
+                                        "assets/images/profile/icon_task.webp",
+                                        "Integral".tr,
+                                        onTap: () => Get.to(() => IntegralHomePage()),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],

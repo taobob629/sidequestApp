@@ -23,7 +23,7 @@ class ColorfulButton extends StatelessWidget {
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors:colors?? [Color(0xFFD49C21), Color(0xFFE96524)])),
+                    colors:colors?? [Color(0xFFE96524), Color(0xFFD49C21)])),
             child: Center(
               child: child,
             ),
