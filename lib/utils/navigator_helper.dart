@@ -31,6 +31,7 @@ class NavigatorHelper {
 
   static void gotoPayPage(PayOrderModel payOrderModel,
       {bool offPage = false, Function? whenComplete}) {
+    // showInfo('Please recharge via our store till');
     if (offPage) {
       Get.off(() => PayPage(payOrderModel: payOrderModel))?.then((value) {
         if (value != null && value == true) {

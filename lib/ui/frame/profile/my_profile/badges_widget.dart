@@ -69,7 +69,7 @@ class BadgesWidget extends GetView<ProfileController> {
                         '${badge.name.toUpperCase()}'.tr,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18.sp,
+                          fontSize: 16.sp,
                           fontFamily: FONT_MEDIUM,
                         ),
                       ),

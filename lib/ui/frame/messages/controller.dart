@@ -25,7 +25,6 @@ class MessagesPageController extends BasePageController {
   var showMenu = false.obs;
   var tabs = [
     "Message".tr,
-    "Group".tr,
   ];
   late TabController tabController;
 

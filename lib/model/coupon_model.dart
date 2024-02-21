@@ -1,5 +1,5 @@
-
 import 'package:wy/model/safe_convert.dart';
+
 class CouponModel {
   static const int AVILABLE = 1;
   late int id = 0;
@@ -18,7 +18,11 @@ class CouponModel {
   late int usedCount = 0;
   late int available = 0; //
 
-  String get discount => unit == 'OFF' ? '$_discount%' :type==4?'£$_discount    ':'$_discount';
+  String get discount => unit == 'OFF'
+      ? '$_discount%'
+      : type == 4
+          ? '£$_discount    '
+          : '$_discount';
 
   @override
   String toString() {
@@ -27,16 +31,33 @@ class CouponModel {
 
   CouponModel();
 
-  CouponModel.fromJson(Map<String, dynamic> json) {
+  CouponModel.fromJson(
+    Map<String, dynamic> json, {
+    bool needHourMinSec = false,
+  }) {
     id = json['coupon']['id'];
     name = json['coupon']['name'] == null ? "" : json['coupon']['name'];
-    _discount = json['coupon']['discount'] == null ? 0 : json['coupon']['discount'];
+    _discount =
+        json['coupon']['discount'] == null ? 0 : json['coupon']['discount'];
     type = json['coupon']['type'];
-    expireTime = json['coupon']['expireTime'] == null ? "" : json['coupon']['expireTime'].toString().substring(0, 10);
-    description = json['coupon']['description'] == null ? "" : json['coupon']['description'];
-    limitStore = json['coupon']['limitStore'] == null ? "" : json['coupon']['limitStore'];
+    if (needHourMinSec) {
+      expireTime = json['coupon']['expireTime'] == null
+          ? ""
+          : json['coupon']['expireTime'].toString();
+    } else {
+      expireTime = json['coupon']['expireTime'] == null
+          ? ""
+          : json['coupon']['expireTime'].toString().substring(0, 10);
+    }
+    description = json['coupon']['description'] == null
+        ? ""
+        : json['coupon']['description'];
+    limitStore = json['coupon']['limitStore'] == null
+        ? ""
+        : json['coupon']['limitStore'];
     freeTime = json['coupon']['freeTime'] ?? 0;
-    productId = json['coupon']['productId'] == null ? "0" : json['coupon']['productId'];
+    productId =
+        json['coupon']['productId'] == null ? "0" : json['coupon']['productId'];
     couponCode = json['coupon']['code'] == null ? "" : json['coupon']['code'];
     typeName = json['type'] == null ? "" : json['type'];
     qrcode = json['qrcode'] == null ? "" : json['qrcode'];
@@ -46,14 +67,16 @@ class CouponModel {
   }
 }
 
-
 class ActivityDiscountModel {
   // 5.0
   final double total;
+
   // 0.00
   final String balance;
+
   // 5.0
   final String subtotal;
+
   // 0
   final String discount;
 
@@ -64,17 +87,18 @@ class ActivityDiscountModel {
     this.discount = "",
   });
 
-  factory ActivityDiscountModel.fromJson(Map<String, dynamic>? json) => ActivityDiscountModel(
-    total: asT<double>(json, 'total'),
-    balance: asT<String>(json, 'balance'),
-    subtotal: asT<String>(json, 'subtotal'),
-    discount: asT<String>(json, 'discount'),
-  );
+  factory ActivityDiscountModel.fromJson(Map<String, dynamic>? json) =>
+      ActivityDiscountModel(
+        total: asT<double>(json, 'total'),
+        balance: asT<String>(json, 'balance'),
+        subtotal: asT<String>(json, 'subtotal'),
+        discount: asT<String>(json, 'discount'),
+      );
 
   Map<String, dynamic> toJson() => {
-    'total': total,
-    'balance': balance,
-    'subtotal': subtotal,
-    'discount': discount,
-  };
+        'total': total,
+        'balance': balance,
+        'subtotal': subtotal,
+        'discount': discount,
+      };
 }

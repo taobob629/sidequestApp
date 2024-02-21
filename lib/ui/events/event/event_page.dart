@@ -323,9 +323,9 @@ class EventPageController extends BasePageController {
     } else {
       model = await EventsApi.getMatchDetail(id);
       initTabs(model);
-      if (model.code.isNotEmpty) {
-        showInfoDialog(model.code, model.url);
-      }
+      // if (model.code.isNotEmpty) {
+      //   showInfoDialog(model.code, model.url);
+      // }
     }
     tabController = TabController(
       length: tabs.length,
@@ -519,144 +519,144 @@ class EventPageController extends BasePageController {
                   info: "You have successfully signed up!".tr),
               barrierColor: Colors.black26,
             );
-          } else {
+          } /*else {
             showInfoDialog(
               map['code'].toString(),
               map['url'].toString(),
             );
-          }
+          }*/
           userController.updateInfo();
         });
       }
     });
   }
 
-  void showInfoDialog(String code, String url) {
-    Get.dialog(
-      WyDialog(
-        child: Container(
-          height: 0.6.sw,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                'Tips'.tr,
-                style: TextStyle(fontSize: 16, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-              10.verticalSpace,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Battlefly join code:'.tr + '$code',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            Clipboard.setData(ClipboardData(text: '$code'));
-                            showToast('Copied Successfully'.tr);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20.w),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.w,
-                              vertical: 2.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFFD49C21), Color(0xFFE96524)],
-                              ),
-                            ),
-                            child: Text(
-                              "Copy".tr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: "DIN",
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    10.verticalSpace,
-                    Text(
-                      'Register via below link'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    10.verticalSpace,
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () async {
-                        Get.back();
-                        if (!await launchUrl(
-                          Uri.parse(url),
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          throw Exception(
-                            'Could not launch $url',
-                          );
-                        }
-                      },
-                      child: Text(
-                        '$url',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 14.sp,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ColorfulButton(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    "CONFIRM".tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: "DIN",
-                    ),
-                  ),
-                ),
-                height: 40,
-                onTap: () async {
-                  Get.back();
-                  await showToast('Copied Successfully'.tr);
-                  if (!await launchUrl(
-                    Uri.parse(url),
-                    mode: LaunchMode.externalApplication,
-                  )) {
-                    throw Exception(
-                      'Could not launch $url',
-                    );
-                  }
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-      barrierColor: Colors.black26,
-    );
-  }
+  // void showInfoDialog(String code, String url) {
+  //   Get.dialog(
+  //     WyDialog(
+  //       child: Container(
+  //         height: 0.6.sw,
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             Text(
+  //               'Tips'.tr,
+  //               style: TextStyle(fontSize: 16, color: Colors.white),
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             10.verticalSpace,
+  //             Expanded(
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Text(
+  //                         'Battlefly join code:'.tr + '$code',
+  //                         style: TextStyle(
+  //                           color: Colors.white,
+  //                           fontSize: 14.sp,
+  //                         ),
+  //                       ),
+  //                       GestureDetector(
+  //                         behavior: HitTestBehavior.translucent,
+  //                         onTap: () {
+  //                           Clipboard.setData(ClipboardData(text: '$code'));
+  //                           showToast('Copied Successfully'.tr);
+  //                         },
+  //                         child: Container(
+  //                           margin: EdgeInsets.only(left: 20.w),
+  //                           padding: EdgeInsets.symmetric(
+  //                             horizontal: 8.w,
+  //                             vertical: 2.h,
+  //                           ),
+  //                           decoration: BoxDecoration(
+  //                             borderRadius: BorderRadius.circular(10.r),
+  //                             gradient: LinearGradient(
+  //                               begin: Alignment.centerLeft,
+  //                               end: Alignment.centerRight,
+  //                               colors: [Color(0xFFD49C21), Color(0xFFE96524)],
+  //                             ),
+  //                           ),
+  //                           child: Text(
+  //                             "Copy".tr,
+  //                             style: TextStyle(
+  //                               color: Colors.white,
+  //                               fontSize: 14.sp,
+  //                               fontFamily: "DIN",
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   10.verticalSpace,
+  //                   Text(
+  //                     'Register via below link'.tr,
+  //                     style: TextStyle(
+  //                       color: Colors.white,
+  //                       fontSize: 14.sp,
+  //                     ),
+  //                   ),
+  //                   10.verticalSpace,
+  //                   GestureDetector(
+  //                     behavior: HitTestBehavior.translucent,
+  //                     onTap: () async {
+  //                       Get.back();
+  //                       if (!await launchUrl(
+  //                         Uri.parse(url),
+  //                         mode: LaunchMode.externalApplication,
+  //                       )) {
+  //                         throw Exception(
+  //                           'Could not launch $url',
+  //                         );
+  //                       }
+  //                     },
+  //                     child: Text(
+  //                       '$url',
+  //                       style: TextStyle(
+  //                         color: Colors.blue,
+  //                         fontSize: 14.sp,
+  //                         decoration: TextDecoration.underline,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             ColorfulButton(
+  //               child: Padding(
+  //                 padding: const EdgeInsets.only(top: 4),
+  //                 child: Text(
+  //                   "CONFIRM".tr,
+  //                   style: TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 18,
+  //                     fontFamily: "DIN",
+  //                   ),
+  //                 ),
+  //               ),
+  //               height: 40,
+  //               onTap: () async {
+  //                 Get.back();
+  //                 await showToast('Copied Successfully'.tr);
+  //                 if (!await launchUrl(
+  //                   Uri.parse(url),
+  //                   mode: LaunchMode.externalApplication,
+  //                 )) {
+  //                   throw Exception(
+  //                     'Could not launch $url',
+  //                   );
+  //                 }
+  //               },
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //     barrierColor: Colors.black26,
+  //   );
+  // }
 
   void viewTeam() {
     Get.to(() => TeamPage(

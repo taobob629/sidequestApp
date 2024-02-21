@@ -453,16 +453,16 @@ class MyProfilePage extends StatelessWidget {
                                     //         userController.userProfile.orderNum,
                                     //   ),
                                     // ),
-                                    Expanded(
-                                      child: _dashboardLabelItem(
-                                        ImageUtils.ic_invite,
-                                        "Invite".tr,
-                                        onTap: () => Get.to(
-                                          () => InvitePage(),
-                                          arguments: "Invite".tr,
-                                        ),
-                                      ),
-                                    ),
+                                    // Expanded(
+                                    //   child: _dashboardLabelItem(
+                                    //     ImageUtils.ic_invite,
+                                    //     "Invite".tr,
+                                    //     onTap: () => Get.to(
+                                    //       () => InvitePage(),
+                                    //       arguments: "Invite".tr,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Expanded(
                                       child: _dashboardLabelItem(
                                         "assets/images/profile/icon_bookings.webp",
@@ -527,13 +527,13 @@ class MyProfilePage extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    Expanded(
-                                      child: _dashboardLabelItem(
-                                        "assets/images/profile/icon_task.webp",
-                                        "Integral".tr,
-                                        onTap: () => Get.to(() => IntegralHomePage()),
-                                      ),
-                                    ),
+                                    // Expanded(
+                                    //   child: _dashboardLabelItem(
+                                    //     "assets/images/profile/icon_task.webp",
+                                    //     "Integral".tr,
+                                    //     onTap: () => Get.to(() => IntegralHomePage()),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ],
