@@ -89,7 +89,7 @@ class EnergyView extends StatelessWidget {
                   children: [
                     TextSpan(
                       text:
-                          "${UserController.find.userProfile.avamins} minutes",
+                          "${UserController.find.userProfile.avamins} mins",
                       style: TextStyle(
                         color: hexColor('FFCB0D'),
                         fontSize: 12.sp,

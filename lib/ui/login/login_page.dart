@@ -138,55 +138,55 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            GetBuilder<AppController>(
-                                id: AppController.find.showGoogleSignInId,
-                                builder: (builder) => Visibility(
-                                  visible: Platform.isAndroid &&
-                                      AppController.find.showGoogleSingIn,
-                                  child: GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () =>
-                                        controller.loginWithGoogle(),
-                                    child: Container(
-                                      width: 46.w,
-                                      height: 46.w,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.circular(46.r),
-                                        border: Border.all(
-                                          color: Color(0xff707070),
-                                          width: 1.w,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.all(8.r),
-                                      child: Image.asset(
-                                        ImageUtils.google_icon,
-                                        scale: 4,
-                                      ),
-                                    ),
-                                  ),
-                                )),
+                            // GetBuilder<AppController>(
+                            //     id: AppController.find.showGoogleSignInId,
+                            //     builder: (builder) => Visibility(
+                            //       visible: Platform.isAndroid &&
+                            //           AppController.find.showGoogleSingIn,
+                            //       child: GestureDetector(
+                            //         behavior: HitTestBehavior.translucent,
+                            //         onTap: () =>
+                            //             controller.loginWithGoogle(),
+                            //         child: Container(
+                            //           width: 46.w,
+                            //           height: 46.w,
+                            //           decoration: BoxDecoration(
+                            //             borderRadius:
+                            //             BorderRadius.circular(46.r),
+                            //             border: Border.all(
+                            //               color: Color(0xff707070),
+                            //               width: 1.w,
+                            //             ),
+                            //           ),
+                            //           padding: EdgeInsets.all(8.r),
+                            //           child: Image.asset(
+                            //             ImageUtils.google_icon,
+                            //             scale: 4,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     )),
                             15.horizontalSpace,
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => controller.loginWithDiscord(),
-                              child: Container(
-                                width: 46.w,
-                                height: 46.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(46.r),
-                                  border: Border.all(
-                                    color: Color(0xff707070),
-                                    width: 1.w,
-                                  ),
-                                ),
-                                padding: EdgeInsets.all(8.r),
-                                child: Image.asset(
-                                  ImageUtils.discord_icon,
-                                  scale: 4,
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   behavior: HitTestBehavior.translucent,
+                            //   onTap: () => controller.loginWithDiscord(),
+                            //   child: Container(
+                            //     width: 46.w,
+                            //     height: 46.w,
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(46.r),
+                            //       border: Border.all(
+                            //         color: Color(0xff707070),
+                            //         width: 1.w,
+                            //       ),
+                            //     ),
+                            //     padding: EdgeInsets.all(8.r),
+                            //     child: Image.asset(
+                            //       ImageUtils.discord_icon,
+                            //       scale: 4,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         10.verticalSpace,

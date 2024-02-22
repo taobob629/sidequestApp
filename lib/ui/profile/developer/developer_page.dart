@@ -55,14 +55,14 @@ class DeveloperPage extends StatelessWidget {
                     children: [
                       Radio<String>(
                           activeColor: AppColor.accent,
-                          value: "dev184",
+                          value: "dev137",
                           groupValue: controller.env.value,
                           onChanged: (value) {
                             controller.env.value = value!;
                           }),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("dev184", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev137", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),
