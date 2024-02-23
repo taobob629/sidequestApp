@@ -50,6 +50,9 @@ import '../common/dialog_match_top.dart';
 import '../frame/messages/chat/chat_page.dart';
 import '../frame/profile/model/profile_model.dart';
 import '../login/other_register/other_register_page.dart';
+import '../login/qr_login_page.dart';
+import '../profile/balance/balance_page.dart';
+import '../scan/scan_page.dart';
 
 class UserController extends GetxController {
   bool hasDidVoiceCheck = false; //只检查一次
@@ -919,5 +922,27 @@ class UserController extends GetxController {
     // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
     //   if (result != null) userProfile.voice = result;
     // });
+  }
+
+  void scan() {
+    Get.to(() => ScanPage())?.then((value) async {
+      flog('value $value');
+      if (value == null) {
+        return;
+      }
+      String data = value.toString();
+      //String deData = decryptData(data);
+      if (data.indexOf("qlogin") >= 0) {
+        Get.to(() => QrLoginPage(
+          code: data,
+        ));
+        return;
+      }
+      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
+        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
+        Get.to(() => BalancePage());
+        return;
+      }
+    });
   }
 }

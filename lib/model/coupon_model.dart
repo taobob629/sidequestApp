@@ -17,6 +17,7 @@ class CouponModel {
   late String unit = "";
   late int usedCount = 0;
   late int available = 0; //
+  late List<String> stores = []; //
 
   String get discount => unit == 'OFF'
       ? '$_discount%'
@@ -63,6 +64,7 @@ class CouponModel {
     qrcode = json['qrcode'] == null ? "" : json['qrcode'];
     unit = json['unit'] == null ? "" : json['unit'];
     available = json['available'] == null ? "" : json['available'];
+    stores = json['coupon']["stores"] == null ? [] : List<String>.from(json['coupon']["stores"]!.map((x) => x));
     usedCount = json['usedCount'] == null ? 0 : json['usedCount'];
   }
 }

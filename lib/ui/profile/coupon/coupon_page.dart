@@ -236,10 +236,9 @@ class CouponPageController extends GetxListController<CouponModel> {
       Get.back(result: model);
     } else {
       Get.dialog(
-          CouponDialog(
-            model: model,
-          ),
-          barrierColor: Colors.black26);
+        CouponDialog(model: model),
+        barrierColor: Colors.black26,
+      );
     }
   }
 }

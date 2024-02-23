@@ -8,7 +8,6 @@ import 'package:wy/ui/controller/user_controller.dart';
 
 import '../../../../../utils/image_util.dart';
 import '../../../../../utils/storage_manager.dart';
-import '../../../../scan/scan_page.dart';
 
 class MyQrCodePage extends StatelessWidget {
   CreatorController controller = CreatorController();
@@ -170,7 +169,7 @@ class MyQrCodePage extends StatelessWidget {
                 right: 15.w,
                 top: 620.h,
                 child: GestureDetector(
-                  onTap: () => Get.to(() => ScanPage()),
+                  onTap: () => UserController.find.scan(),
                   child: Container(
                     height: 46.h,
                     decoration: ShapeDecoration(

@@ -18,9 +18,8 @@ class QrLoginPage extends StatelessWidget {
 
   final userController = Get.find<UserController>();
 
-  QrLoginPage({required String code, required QrLoginInfoModel loginInfo}) {
-    controller =
-        Get.put(QrLoginPageController(code: code, loginInfoModel: loginInfo));
+  QrLoginPage({required String code}) {
+    controller = Get.put(QrLoginPageController(code: code));
   }
 
   @override
@@ -164,8 +163,7 @@ class QrLoginPage extends StatelessWidget {
 
 class QrLoginPageController extends GetxController {
   String code;
-  Rxn<QrLoginInfoModel> _qrLoginInfoModel=Rxn();
-
+  Rxn<QrLoginInfoModel> _qrLoginInfoModel = Rxn();
 
   QrLoginInfoModel? get qrLoginInfoModel => _qrLoginInfoModel.value;
 
@@ -173,24 +171,32 @@ class QrLoginPageController extends GetxController {
     _qrLoginInfoModel.value = value;
   }
 
-  QrLoginPageController({required this.code , QrLoginInfoModel? loginInfoModel}){
-    this.qrLoginInfoModel=loginInfoModel;
+  QrLoginPageController({required this.code});
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    scanInfo();
+  }
+
+  void scanInfo() async {
+    this.qrLoginInfoModel = await AuthApi.scanInfo(code);
   }
 
   void login() async {
-    showLoading();
-    var res= await AuthApi.qrCodeLogin(code);
-    dismissLoading();
-    if(res.code==0) {
+    var res = await AuthApi.qrCodeLogin(code);
+    if (res.code == 0) {
       showSuccess("Success".tr, duration: Duration(seconds: 3))
           .then((value) => Get.back());
     }
   }
+
   void topUp() async {
-    Get.to(() => BalancePage())?.then((value)  async {
+    Get.to(() => BalancePage())?.then((value) async {
       flog('value--$value');
       var res = await AuthApi.scanInfo(code);
-      this.qrLoginInfoModel=res;
+      this.qrLoginInfoModel = res;
     });
   }
 }

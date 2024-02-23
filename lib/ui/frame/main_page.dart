@@ -105,7 +105,7 @@ class MainPage extends GetView<MainPageController> {
                                 bool access = await PermissionHelper
                                     .requestCameraPermission(context);
                                 if (access) {
-                                  controller.scan();
+                                  UserController.find.scan();
                                 }
                               });
                             },
@@ -518,32 +518,5 @@ class MainPageController extends FullLifeCycleController
   Future onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) async {
     print('onDidReceiveLocalNotification: $title');
-  }
-
-  void scan() {
-    Get.to(() => ScanPage())?.then((value) async {
-      flog('value $value');
-      if (value == null) {
-        return;
-      }
-      String data = value.toString();
-      //String deData = decryptData(data);
-      if (data.indexOf("qlogin") >= 0) {
-        //
-        var qrLoginInfo = await AuthApi.scanInfo(data);
-        flog('qrLoginInfo ${qrLoginInfo.toJson()}');
-        Get.to(() => QrLoginPage(
-              code: data,
-              loginInfo: qrLoginInfo,
-            ));
-
-        return;
-      }
-      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
-        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
-        Get.to(() => BalancePage());
-        return;
-      }
-    });
   }
 }
