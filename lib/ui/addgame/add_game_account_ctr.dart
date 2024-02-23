@@ -4,6 +4,7 @@ import 'package:wy/utils/index.dart';
 import '../../api/wy_http.dart';
 import '../../model/game_account_model.dart';
 import '../../utils/toast_utils.dart';
+import '../common/dialog_confirm.dart';
 import '../common/web_page.dart';
 import '../controller/user_controller.dart';
 
@@ -32,11 +33,11 @@ class AddGameAccountCtr extends GetxController {
 
   void jumpWeb() async {
     final result = await Get.to(
-        () => WebPage(
-          title: 'Login Roit'.tr,
-          url:
-          'https://auth.riotgames.com/authorize?client_id=7699637b-cdd5-4a7d-b992-e78eb40ca15b&redirect_uri=https://sidequesthub.com/proxy/web/extra/appRoitLogin&response_type=code&scope=openid+offline_access+cpid&state=${UserController.find.userProfile.uk}',
-        ),
+      () => WebPage(
+        title: 'Login Roit'.tr,
+        url:
+            'https://auth.riotgames.com/authorize?client_id=7699637b-cdd5-4a7d-b992-e78eb40ca15b&redirect_uri=https://sidequesthub.com/proxy/web/extra/appRoitLogin&response_type=code&scope=openid+offline_access+cpid&state=${UserController.find.userProfile.uk}',
+      ),
     );
     dismissLoading();
     if (result != null) {
@@ -46,11 +47,20 @@ class AddGameAccountCtr extends GetxController {
   }
 
   void deleteAccount(int? id) async {
-    showLoading();
-    final response =
-        await http.get('/peiwan/app/profile/connections/delete?id=$id');
-    dismissLoading();
-    requestData();
+    Get.dialog(
+      ConfirmDialog(
+        title: "Confirm Delete",
+        info: "Are you sure to delete this account?",
+        onConfirm: () async {
+          showLoading();
+          final response =
+              await http.get('/peiwan/app/profile/connections/delete?id=$id');
+          dismissLoading();
+          Get.back();
+          requestData();
+        },
+      ),
+    );
   }
 
   void selectAccount(int i) async {

@@ -79,48 +79,46 @@ class AddGameAccountPage extends StatelessWidget {
             ],
           ),
           Expanded(
-              child: Obx(
-            () => ListView.separated(
-              itemBuilder: (c, i) => Container(
-                padding: EdgeInsets.fromLTRB(
-                  26.w,
-                  14.h,
-                  18.w,
-                  14.h,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${ctr.list[i].lolName}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontFamily: FONT_LIGHT,
-                          color: Colors.white,
-                        ),
+              child: Obx(() => ListView.separated(
+                    itemBuilder: (c, i) => Container(
+                      padding: EdgeInsets.fromLTRB(
+                        26.w,
+                        14.h,
+                        18.w,
+                        14.h,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${ctr.list[i].lolName}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontFamily: FONT_LIGHT,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () => ctr.deleteAccount(ctr.list[i].id),
+                            icon: Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.red,
+                              size: 30.sp,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => ctr.deleteAccount(ctr.list[i].id),
-                      icon: Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.white,
-                        size: 30.sp,
-                      ),
+                    separatorBuilder: (c, i) => Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      color: Colors.white10,
+                      height: 1.h,
                     ),
-                  ],
-                ),
-              ),
-              separatorBuilder: (c, i) => Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
-                color: Colors.white10,
-                height: 1.h,
-              ),
-              itemCount: ctr.list.length,
-            ),
-          )),
+                    itemCount: ctr.list.length,
+                  ))),
         ],
       ),
     );
