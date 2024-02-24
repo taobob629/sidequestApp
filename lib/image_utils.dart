@@ -116,4 +116,9 @@ class ImageUtils {
   static const String integral_level_benefit_text_icon = 'assets/images/integral_level_benefit_text_icon.webp';
   static const String integral_detail_couple_icon = 'assets/images/integral_detail_couple_icon.webp';
   static const String integral_task_detail_top = 'assets/images/integral_task_detail_top.webp';
+  static const String coupon_dialog_logo_icon = 'assets/images/coupon_dialog_logo_icon.png';
+  static const String coupon_dialog_code_bg = 'assets/images/coupon_dialog_code_bg.webp';
+  static const String coupon_dialog_line = 'assets/images/coupon_dialog_line.webp';
+  static const String coupon_avali_left_icon = 'assets/images/coupon_avali_left_icon.webp';
+  static const String coupon_dialog_right_icon = 'assets/images/coupon_dialog_right_icon.webp';
 }
