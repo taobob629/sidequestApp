@@ -78,7 +78,6 @@ class IntegralRecordPage extends StatelessWidget {
 
   Widget _itemWidget(IntegralListRow model) => GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => Get.to(() => IntegralDetailPage()),
         child: Row(
           children: [
             Expanded(

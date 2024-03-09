@@ -123,7 +123,7 @@ class ResponseData extends BaseResponseData {
   bool get success => 200 == code;
 
   ResponseData.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
+    code = json['code'] ?? -1;
     msg = json['msg'] == null ? "" : json['msg'];
     data = json['data'];
     if (data == null && json["rows"] != null) {

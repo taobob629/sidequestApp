@@ -100,7 +100,6 @@ class ImageUtils {
   static const String icon_first = 'assets/images/task/icon_first.webp';
   static const String icon_second = 'assets/images/task/icon_second.webp';
   static const String icon_third = 'assets/images/task/icon_third.webp';
-  static const String integral_vip_icon = 'assets/images/integral_vip_icon.webp';
   static const String integral_benefit_icon = 'assets/images/integral_benefit_icon.webp';
   static const String integral_point_mall_icon = 'assets/images/integral_point_mall_icon.webp';
   static const String integral_points_mall_bottom_icon = 'assets/images/integral_points_mall_bottom_icon.webp';
@@ -121,4 +120,5 @@ class ImageUtils {
   static const String coupon_dialog_line = 'assets/images/coupon_dialog_line.webp';
   static const String coupon_avali_left_icon = 'assets/images/coupon_avali_left_icon.webp';
   static const String coupon_dialog_right_icon = 'assets/images/coupon_dialog_right_icon.webp';
+  static const String integral_coupon_icon = 'assets/images/integral_coupon_icon.webp';
 }
