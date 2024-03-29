@@ -25,8 +25,10 @@ class IndexPage extends StatelessWidget {
             isScrollable: true,
             indicatorColor: Colors.white38,
             indicatorSize: TabBarIndicatorSize.label,
-            indicator:
-                HomeIndicator(colors: [AppColor.yellow, AppColor.yellow]),
+            indicator: HomeIndicator(colors: [
+              AppColor.yellow,
+              AppColor.yellow,
+            ]),
             labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             indicatorWeight: 4,
             indicatorPadding: EdgeInsets.only(bottom: 5),
@@ -81,7 +83,7 @@ class IndexPageController extends GetxController
     );
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
-        switch(tabController.index) {
+        switch (tabController.index) {
           case 1:
             TabNewsPageController.find.onRefresh(init: true);
             break;

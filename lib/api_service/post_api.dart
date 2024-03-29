@@ -19,7 +19,7 @@ class PostApi {
 
   /// Social-Post  帖子列表
   static Future<List<PostItemModel>> getPostList({int page = 0}) async {
-    var response = await http.post('/peiwan/app/posts/list', data: {
+    var response = await http.post('/peiwan/app/posts/no/log/list', data: {
       "pageNum": page,
       "pageSize": 20,
     });

@@ -11,6 +11,7 @@ class IntegralHomeCtr extends GetxController {
     checkList: [],
     nexIntegralNumber: 0,
     integralTotal: 0,
+    lv: 1,
   ).obs;
   var integralTaskModel = IntegralTaskModel().obs;
   var goods = [].obs;

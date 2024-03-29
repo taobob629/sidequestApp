@@ -357,7 +357,7 @@ class RegisterPage extends GetView<RegisterPageController> {
     //   height: 20,
     // ));
     list.add(AuthInputView(
-      tips: "Nick Name".tr,
+      tips: "Enter your nickname".tr,
       editingController: controller.nickEditingController,
       keyboardType: TextInputType.name,
     ));
@@ -409,7 +409,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         selectorTextStyle: TextStyle(color: AppColor.colorB9C9),
         textStyle: TextStyle(color: AppColor.colorB9C9),
         inputDecoration: InputDecoration(
-          hintText: "Phone number",
+          hintText: "Enter your phone number",
           hintStyle: TextStyle(color: AppColor.colorB9C9),
           labelStyle: TextStyle(color: AppColor.colorB9C9),
           helperStyle: TextStyle(color: AppColor.colorB9C9),
@@ -418,7 +418,7 @@ class RegisterPage extends GetView<RegisterPageController> {
         textFieldController: controller.phoneEditingController,
         formatInput: false,
         cursorColor: Colors.white,
-        hintText: "Phone number",
+        hintText: "Enter your phone number",
         keyboardType:
             TextInputType.numberWithOptions(signed: true, decimal: true),
         inputBorder: OutlineInputBorder(),
@@ -438,7 +438,7 @@ class RegisterPage extends GetView<RegisterPageController> {
       height: 20,
     ));
     list.add(AuthInputView(
-        tips: "Login Password".tr,
+        tips: "Enter your password".tr,
         editingController: controller.passwordEditingController,
         keyboardType: TextInputType.visiblePassword));
     list.add(SizedBox(
@@ -452,7 +452,7 @@ class RegisterPage extends GetView<RegisterPageController> {
             LengthLimitingTextInputFormatter(6),
             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')) //设置只允许输入数字
           ],
-          tips: "Payment Pin".tr),
+          tips: "Enter your payment pin".tr),
     );
     if (controller.type == 1) {
       list.add(SizedBox(

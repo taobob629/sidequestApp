@@ -31,7 +31,7 @@ class IntegralInterestsCtr extends GetxController {
   void onInit() {
     super.onInit();
 
-    currentVIPIndex.value = Get.arguments;
+    currentVIPIndex.value = (Get.arguments ?? 1) - 1;
     requestData();
   }
 

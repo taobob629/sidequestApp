@@ -147,7 +147,7 @@ class IntegralInterestsPage extends StatelessWidget {
                     scale: 0.9,
                     loop: false,
                     index: ctr.currentVIPIndex.value,
-                    onIndexChanged: (int index) => ctr.changeIndex(index),
+                    // onIndexChanged: (int index) => ctr.changeIndex(index),
                   ),
                 )),
             Obx(() => Container(

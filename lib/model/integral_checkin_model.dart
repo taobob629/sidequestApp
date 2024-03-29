@@ -2,7 +2,7 @@ class IntegralCheckInModel {
   int? checkTotal;
   List<CheckList> checkList;
   int? checkCount;
-  int? lv;
+  int lv;
   int nexIntegralNumber;
   int integralTotal;
   String? describe;
@@ -13,7 +13,7 @@ class IntegralCheckInModel {
     this.checkTotal,
     required this.checkList,
     this.checkCount,
-    this.lv,
+    required this.lv,
     required this.nexIntegralNumber,
     this.describe,
     this.userName,
@@ -25,7 +25,7 @@ class IntegralCheckInModel {
     checkTotal: json["checkTotal"],
     checkList: json["checkList"] == null ? [] : List<CheckList>.from(json["checkList"]!.map((x) => CheckList.fromJson(x))),
     checkCount: json["checkCount"],
-    lv: json["lv"],
+    lv: json["lv"] ?? 1,
     nexIntegralNumber: json["nexIntegralNumber"] ?? 0,
     describe: json["describe"],
     userName: json["userName"],

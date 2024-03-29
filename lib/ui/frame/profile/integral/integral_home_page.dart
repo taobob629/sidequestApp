@@ -100,7 +100,7 @@ class IntegralHomePage extends StatelessWidget {
                     ),
                   ),
                   Obx(() => Image.asset(
-                        'assets/images/integral_lv${t.integralCheckInModel.value.lv ?? 1}_icon.webp',
+                        'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
                         scale: 2,
                       )),
                   15.horizontalSpace,
@@ -382,6 +382,7 @@ class IntegralHomePage extends StatelessWidget {
                 leftText: "Task Center",
                 marginLeft: 0,
                 marginRight: 0,
+                viewAllText: '',
                 onTap: () => null,
               ),
               taskCenterWidget(),
