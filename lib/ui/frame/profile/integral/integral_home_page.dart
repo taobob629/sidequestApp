@@ -7,12 +7,14 @@ import 'package:wy/config/app_color.dart';
 import 'package:wy/config/icon_font.dart';
 import 'package:wy/image_utils.dart';
 import 'package:wy/ui/common/base_scaffold.dart';
+import 'package:wy/ui/controller/user_controller.dart';
 import 'package:wy/ui/frame/profile/integral/integral_redemption_page.dart';
 import 'package:wy/ui/frame/profile/integral/integral_task_detail_page.dart';
 
 import '../../../../model/integral_checkin_model.dart';
 import '../../../../model/integral_goods_model.dart';
 import '../../../../widget/linear_progressbar_widget.dart';
+import '../../../profile/task/task_page.dart';
 import 'ctr/integral_home_ctr.dart';
 import 'integral_detail_page.dart';
 import 'integral_interests_page.dart';
@@ -99,195 +101,215 @@ class IntegralHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Obx(() => Image.asset(
-                        'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
-                        scale: 2,
+                  Obx(() => GestureDetector(
+                        onTap: () => Get.to(
+                          () => IntegralInterestsPage(),
+                          arguments: t.integralCheckInModel.value.lv,
+                        ),
+                        child: Image.asset(
+                          'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
+                          scale: 2,
+                        ),
                       )),
                   15.horizontalSpace,
                 ],
               ),
-              Obx(() => Text(
-                    '${t.integralCheckInModel.value.describe}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontFamily: 'DIN',
-                      fontWeight: FontWeight.w400,
+              Obx(() => GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => Get.to(
+                      () => IntegralInterestsPage(),
+                      arguments: t.integralCheckInModel.value.lv,
+                    ),
+                    child: Text(
+                      '${t.integralCheckInModel.value.describe}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.sp,
+                        fontFamily: 'DIN',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   )),
               6.verticalSpace,
               Obx(() => Transform.translate(
                     offset: Offset(-6.w, 0),
-                    child: LinearProgressBar(
-                      width: 200.w,
-                      progress: (t.integralCheckInModel.value.integralTotal!
-                                  .toDouble() /
-                              t.integralCheckInModel.value.nexIntegralNumber!
-                                  .toDouble()) *
-                          100,
-                      height: 6.h,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => Get.to(
+                        () => IntegralInterestsPage(),
+                        arguments: t.integralCheckInModel.value.lv,
+                      ),
+                      child: LinearProgressBar(
+                        width: 200.w,
+                        progress: (t.integralCheckInModel.value.integralTotal
+                                    .toDouble() /
+                                t.integralCheckInModel.value.nexIntegralNumber
+                                    .toDouble()) *
+                            100,
+                        height: 6.h,
+                      ),
                     ),
                   )),
               30.verticalSpace,
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 60.h,
-                      decoration: ShapeDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment(0.00, -1.00),
-                          end: Alignment(0, 1),
-                          colors: [Color(0xFF202026), Color(0xFF202026)],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 60.w,
-                            height: 60.h,
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFF4E2828), Color(0xFF202026)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 10.w,
-                            bottom: 0,
-                            child: Image.asset(
-                              ImageUtils.integral_benefit_bottom_icon,
-                              width: 32.w,
-                              height: 12.h,
-                            ),
-                          ),
-                          Center(
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => Get.to(
-                                () => IntegralInterestsPage(),
-                                arguments: t.integralCheckInModel.value.lv,
-                              ),
-                              child: Row(
-                                children: [
-                                  10.horizontalSpace,
-                                  Image.asset(
-                                    ImageUtils.integral_benefit_icon,
-                                    scale: 2.5,
-                                  ),
-                                  8.horizontalSpace,
-                                  Expanded(
-                                    child: Text(
-                                      'My Benefits'.tr,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    ImageUtils.integral_arrow_icon,
-                                  ),
-                                  6.horizontalSpace,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  10.horizontalSpace,
-                  Expanded(
-                    child: Container(
-                      height: 60.h,
-                      decoration: ShapeDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment(0.00, -1.00),
-                          end: Alignment(0, 1),
-                          colors: [Color(0xFF202026), Color(0xFF202026)],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 60.w,
-                            height: 60.h,
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFF4E2828), Color(0xFF202026)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 10.w,
-                            bottom: 0,
-                            child: Image.asset(
-                              ImageUtils.integral_points_mall_bottom_icon,
-                              width: 32.w,
-                              height: 12.h,
-                            ),
-                          ),
-                          Center(
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => Get.to(
-                                () => IntegralRedemptionPage(),
-                                arguments:
-                                    t.integralCheckInModel.value.checkTotal,
-                              ),
-                              child: Row(
-                                children: [
-                                  10.horizontalSpace,
-                                  Image.asset(
-                                    ImageUtils.integral_point_mall_icon,
-                                    scale: 2.5,
-                                  ),
-                                  8.horizontalSpace,
-                                  Expanded(
-                                    child: Text(
-                                      'Points Mall'.tr,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    ImageUtils.integral_arrow_icon,
-                                  ),
-                                  6.horizontalSpace,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              15.verticalSpace,
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Container(
+              //         height: 60.h,
+              //         decoration: ShapeDecoration(
+              //           gradient: LinearGradient(
+              //             begin: Alignment(0.00, -1.00),
+              //             end: Alignment(0, 1),
+              //             colors: [Color(0xFF202026), Color(0xFF202026)],
+              //           ),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
+              //         ),
+              //         child: Stack(
+              //           children: [
+              //             Container(
+              //               width: 60.w,
+              //               height: 60.h,
+              //               decoration: ShapeDecoration(
+              //                 gradient: LinearGradient(
+              //                   begin: Alignment.centerLeft,
+              //                   end: Alignment.centerRight,
+              //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
+              //                 ),
+              //                 shape: RoundedRectangleBorder(
+              //                   borderRadius: BorderRadius.circular(10.r),
+              //                 ),
+              //               ),
+              //             ),
+              //             Positioned(
+              //               left: 10.w,
+              //               bottom: 0,
+              //               child: Image.asset(
+              //                 ImageUtils.integral_benefit_bottom_icon,
+              //                 width: 32.w,
+              //                 height: 12.h,
+              //               ),
+              //             ),
+              //             Center(
+              //               child: GestureDetector(
+              //                 behavior: HitTestBehavior.translucent,
+              //                 onTap: () => Get.to(
+              //                   () => IntegralInterestsPage(),
+              //                   arguments: t.integralCheckInModel.value.lv,
+              //                 ),
+              //                 child: Row(
+              //                   children: [
+              //                     10.horizontalSpace,
+              //                     Image.asset(
+              //                       ImageUtils.integral_benefit_icon,
+              //                       scale: 2.5,
+              //                     ),
+              //                     8.horizontalSpace,
+              //                     Expanded(
+              //                       child: Text(
+              //                         'My Benefits'.tr,
+              //                         style: TextStyle(
+              //                           color: Colors.white,
+              //                           fontSize: 16.sp,
+              //                           fontFamily: 'DIN',
+              //                           fontWeight: FontWeight.w700,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Image.asset(
+              //                       ImageUtils.integral_arrow_icon,
+              //                     ),
+              //                     6.horizontalSpace,
+              //                   ],
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //     10.horizontalSpace,
+              //     Expanded(
+              //       child: Container(
+              //         height: 60.h,
+              //         decoration: ShapeDecoration(
+              //           gradient: LinearGradient(
+              //             begin: Alignment(0.00, -1.00),
+              //             end: Alignment(0, 1),
+              //             colors: [Color(0xFF202026), Color(0xFF202026)],
+              //           ),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10.r),
+              //           ),
+              //         ),
+              //         child: Stack(
+              //           children: [
+              //             Container(
+              //               width: 60.w,
+              //               height: 60.h,
+              //               decoration: ShapeDecoration(
+              //                 gradient: LinearGradient(
+              //                   begin: Alignment.centerLeft,
+              //                   end: Alignment.centerRight,
+              //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
+              //                 ),
+              //                 shape: RoundedRectangleBorder(
+              //                   borderRadius: BorderRadius.circular(10.r),
+              //                 ),
+              //               ),
+              //             ),
+              //             Positioned(
+              //               left: 10.w,
+              //               bottom: 0,
+              //               child: Image.asset(
+              //                 ImageUtils.integral_points_mall_bottom_icon,
+              //                 width: 32.w,
+              //                 height: 12.h,
+              //               ),
+              //             ),
+              //             Center(
+              //               child: GestureDetector(
+              //                 behavior: HitTestBehavior.translucent,
+              //                 onTap: () => Get.to(
+              //                   () => IntegralRedemptionPage(),
+              //                   arguments:
+              //                       t.integralCheckInModel.value.checkTotal,
+              //                 ),
+              //                 child: Row(
+              //                   children: [
+              //                     10.horizontalSpace,
+              //                     Image.asset(
+              //                       ImageUtils.integral_point_mall_icon,
+              //                       scale: 2.5,
+              //                     ),
+              //                     8.horizontalSpace,
+              //                     Expanded(
+              //                       child: Text(
+              //                         'Points Mall'.tr,
+              //                         style: TextStyle(
+              //                           color: Colors.white,
+              //                           fontSize: 16.sp,
+              //                           fontFamily: 'DIN',
+              //                           fontWeight: FontWeight.w700,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Image.asset(
+              //                       ImageUtils.integral_arrow_icon,
+              //                     ),
+              //                     6.horizontalSpace,
+              //                   ],
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // 15.verticalSpace,
               Container(
                 width: 1.sw,
                 decoration: ShapeDecoration(
@@ -382,8 +404,8 @@ class IntegralHomePage extends StatelessWidget {
                 leftText: "Task Center",
                 marginLeft: 0,
                 marginRight: 0,
-                viewAllText: '',
-                onTap: () => null,
+                onTap: () => Get.to(() => TaskPage())
+                    ?.then((value) => UserController.find.updateInfo()),
               ),
               taskCenterWidget(),
               titleWidget(
@@ -826,7 +848,9 @@ class IntegralHomePage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Image.asset(
-                    ImageUtils.integral_checkin_icon,
+                    model.checkType == 0
+                        ? ImageUtils.integral_checkin_icon
+                        : ImageUtils.integral_checkin_grey_icon,
                     width: 28.w,
                     height: 28.w,
                   ),

@@ -22,9 +22,11 @@ import '../../../../config/app_pages.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../event_bus/event_bus.dart';
 import '../../../../image_utils.dart';
+import '../../../../widget/linear_progressbar_widget.dart';
 import '../../../addgame/add_game_account_page.dart';
 import '../../../common/dialog_show_info.dart';
 import '../../../order/my_orders/my_orders_page.dart';
+import '../../../playwith/balance/widget/tips_dialog.dart';
 import '../../../profile/balance/balance_page.dart';
 import '../../../profile/energy_view.dart';
 import '../../../profile/events/my_events_page.dart';
@@ -160,7 +162,7 @@ class MyProfilePage extends StatelessWidget {
                                             )),
                                         Image.asset(
                                           "assets/images/profile_avatar_border.webp",
-                                          width: 64,
+                                          width: 64.w,
                                         ),
                                         // Obx(() => Visibility(
                                         //       visible:
@@ -285,46 +287,123 @@ class MyProfilePage extends StatelessWidget {
                                           ),
                                           6.verticalSpace,
 
-                                          /// labels: sex、language、location
-                                          Obx(() => Row(
-                                                children: [
-                                                  Text(
-                                                    "ID:${userController.userProfile.uk}",
-                                                    style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white,
-                                                      fontFamily: FONT_MEDIUM,
-                                                    ),
-                                                  ),
-                                                  10.horizontalSpace,
-                                                  Expanded(
-                                                    child: Text(
-                                                      "${userController.userProfile.email}",
+                                          Obx(() => Container(
+                                                alignment: Alignment.centerLeft,
+                                                margin:
+                                                    EdgeInsets.only(top: 8).r,
+                                                child: Row(
+                                                  children: [
+                                                    Obx(() => Image.asset(
+                                                          'assets/images/integral_lv${userController.userProfile.lv == 0 ? userController.userProfile.lv + 1 : userController.userProfile.lv}_icon.webp',
+                                                          scale: 9,
+                                                        )),
+                                                    4.horizontalSpace,
+                                                    Text(
+                                                      "Level${userController.userProfile.lv}",
                                                       style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color: Colors.white,
+                                                        fontSize: 13.sp,
                                                         fontFamily: FONT_MEDIUM,
+                                                        color: Colors.white,
                                                       ),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
                                                     ),
-                                                  ),
-                                                ],
+                                                    GestureDetector(
+                                                      onTapDown: (details) {
+                                                        print(details
+                                                            .globalPosition);
+                                                        Get.dialog(TipsDialog(
+                                                          offset: details
+                                                              .globalPosition,
+                                                          tips: userController
+                                                              .userProfile
+                                                              .describe,
+                                                        ));
+                                                      },
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                          left: 3.w,
+                                                        ),
+                                                        width: 12.w,
+                                                        height: 12.w,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xffb2b9c9),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            12.r,
+                                                          ),
+                                                        ),
+                                                        child: Image.asset(
+                                                          ImageUtils.icon_help,
+                                                          width: 10.w,
+                                                          height: 10.w,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
+                                          Obx(() => Container(
+                                                alignment: Alignment.centerLeft,
+                                                margin:
+                                                    EdgeInsets.only(top: 4).r,
+                                                child: LinearProgressBar(
+                                                  width: 1.sw - 150.w,
+                                                  progress: userController
+                                                          .userProfile
+                                                          .integralTotal /
+                                                      userController.userProfile
+                                                          .nexIntegralNumber *
+                                                      100,
+                                                  height: 4.h,
+                                                ),
                                               )),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
-                                15.horizontalSpace,
                               ],
                             ),
                           ],
                         ),
                       ),
+
+                      10.verticalSpace,
+
+                      /// labels: sex、language、location
+                      Obx(() => Row(
+                            children: [
+                              104.horizontalSpace,
+                              Text(
+                                "ID:${userController.userProfile.uk}",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.white,
+                                  fontFamily: FONT_MEDIUM,
+                                ),
+                              ),
+                              10.horizontalSpace,
+                              Expanded(
+                                child: Text(
+                                  "${userController.userProfile.email}",
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.white,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          )),
+
                       Container(
-                        margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
+                        margin: EdgeInsets.only(left: 15, right: 15, top: 40).r,
                         child: Column(
                           children: [
                             Container(
@@ -531,7 +610,8 @@ class MyProfilePage extends StatelessWidget {
                                       child: _dashboardLabelItem(
                                         "assets/images/profile/icon_task.webp",
                                         "Integral".tr,
-                                        onTap: () => Get.to(() => IntegralHomePage()),
+                                        onTap: () =>
+                                            Get.to(() => IntegralHomePage()),
                                       ),
                                     ),
                                   ],
@@ -622,7 +702,6 @@ class MyProfilePage extends StatelessWidget {
   }
 
   Widget achievements() => Obx(() => Container(
-        height: 70.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
           gradient: LinearGradient(
@@ -635,20 +714,28 @@ class MyProfilePage extends StatelessWidget {
           ),
         ),
         margin: EdgeInsets.symmetric(vertical: 15.h),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Row(
           children: [
             achievementItem(
               '£${t.user.value.balance}',
-              'ic_corns_new',
+              'ic_corns_new2',
               GlobalKeyConstants.profileTopUpKey,
-              "Credits\n".tr,
+              "Credits".tr,
               'UK offline store top-up'.tr,
             ),
             achievementItem(
               t.user.value.coupons,
               'ic_coupons_new',
               GlobalKeyConstants.profileCouponsKey,
-              "Vouchers\n".tr,
+              "Vouchers".tr,
+              'Your Coupons'.tr,
+            ),
+            achievementItem(
+              t.user.value.checkTotal,
+              'ic_coupons_points',
+              GlobalKeyConstants.profileCouponsKey,
+              "Points".tr,
               'Your Coupons'.tr,
             ),
           ],
@@ -679,34 +766,32 @@ class MyProfilePage extends StatelessWidget {
               break;
           }
         },
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ImageUtil.assetImage(
               icon,
-              width: 36.w,
-              height: 36.w,
+              width: 30.w,
+              height: 30.w,
             ),
-            8.horizontalSpace,
-            RichText(
-              text: TextSpan(
-                text: iconText,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: FONT_LIGHT,
-                  fontSize: 11.sp,
-                  height: 1.5,
-                ),
-                children: [
-                  TextSpan(
-                    text: "$text",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: FONT_MEDIUM,
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                ],
+            6.verticalSpace,
+            Text(
+              "$text",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: FONT_MEDIUM,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            6.verticalSpace,
+            Text(
+              iconText,
+              style: TextStyle(
+                color: Colors.grey,
+                fontFamily: FONT_LIGHT,
+                fontSize: 11.sp,
+                height: 1.5,
               ),
             ),
           ],

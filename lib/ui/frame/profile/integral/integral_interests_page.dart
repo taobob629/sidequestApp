@@ -8,6 +8,8 @@ import 'package:wy/config/icon_font.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_coupon_model.dart';
 import '../../../../widget/linear_progressbar_widget.dart';
+import '../../../controller/user_controller.dart';
+import '../../../profile/task/task_page.dart';
 import 'ctr/integral_interests_ctr.dart';
 import 'integral_detail_page.dart';
 
@@ -99,34 +101,39 @@ class IntegralInterestsPage extends StatelessWidget {
                                     progressEndColor: hexColor('ffffff'),
                                   ),
                                 ),
-                                Container(
-                                  height: 26.h,
-                                  margin: EdgeInsets.only(top: 15.h),
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 10.w),
-                                  decoration: ShapeDecoration(
-                                    color: Colors.black.withOpacity(0.2),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.r)),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Go do tasks to earn points',
-                                          style: TextStyle(
-                                            color: Color(0xFF9CA3AF),
-                                            fontSize: 11.sp,
-                                            fontFamily: FONT_LIGHT,
+                                GestureDetector(
+                                  onTap: () => Get.to(() => TaskPage())?.then(
+                                      (value) =>
+                                          UserController.find.updateInfo()),
+                                  child: Container(
+                                    height: 26.h,
+                                    margin: EdgeInsets.only(top: 15.h),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.w),
+                                    decoration: ShapeDecoration(
+                                      color: Colors.black.withOpacity(0.2),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r)),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Go do tasks to earn points',
+                                            style: TextStyle(
+                                              color: Color(0xFF9CA3AF),
+                                              fontSize: 11.sp,
+                                              fontFamily: FONT_LIGHT,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Image.asset(
-                                        ImageUtils.integral_arrow_icon,
-                                        scale: 1.4,
-                                      ),
-                                    ],
+                                        Image.asset(
+                                          ImageUtils.integral_arrow_icon,
+                                          scale: 1.4,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -317,106 +324,108 @@ class IntegralInterestsPage extends StatelessWidget {
                     ],
                   ),
                   Obx(() => ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (c, i) => Container(
-                      width: 1.sw,
-                      decoration: ShapeDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment(-1.00, -0.04),
-                          end: Alignment(1, 0.04),
-                          colors: [Color(0xFF302D26), Color(0xFF2D2D34)],
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFF524B41)),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 15.h,
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 42.w,
-                            height: 42.w,
-                            decoration: ShapeDecoration(
-                              color: Color(0x19F097FF),
-                              shape: OvalBorder(),
+                        shrinkWrap: true,
+                        itemBuilder: (c, i) => Container(
+                          width: 1.sw,
+                          decoration: ShapeDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment(-1.00, -0.04),
+                              end: Alignment(1, 0.04),
+                              colors: [Color(0xFF302D26), Color(0xFF2D2D34)],
                             ),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(24.r),
-                                child: Image.asset(
-                                  ImageUtils.integral_coupon_icon,
-                                  width: 20.w,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 1, color: Color(0xFF524B41)),
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 15.h,
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 42.w,
+                                height: 42.w,
+                                decoration: ShapeDecoration(
+                                  color: Color(0x19F097FF),
+                                  shape: OvalBorder(),
+                                ),
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(24.r),
+                                    child: Image.asset(
+                                      ImageUtils.integral_coupon_icon,
+                                      width: 20.w,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          10.horizontalSpace,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${ctr.integralCouponModel.value.couponList[i].name}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                  ),
+                              10.horizontalSpace,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${ctr.integralCouponModel.value.couponList[i].name}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                      ),
+                                    ),
+                                    8.verticalSpace,
+                                    Text(
+                                      '${ctr.integralCouponModel.value.couponList[i].description}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10.sp,
+                                        fontFamily: FONT_LIGHT,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                                8.verticalSpace,
-                                Text(
-                                  '${ctr.integralCouponModel.value.couponList[i].description}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontFamily: FONT_LIGHT,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                              ),
+                              // GestureDetector(
+                              //   behavior: HitTestBehavior.translucent,
+                              //   child: Container(
+                              //     height: 30.h,
+                              //     padding: EdgeInsets.symmetric(
+                              //       horizontal: 14.w,
+                              //       vertical: 4.h,
+                              //     ),
+                              //     decoration: ShapeDecoration(
+                              //       gradient: LinearGradient(
+                              //         begin: Alignment(1.00, 0.00),
+                              //         end: Alignment(-1, 0),
+                              //         colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
+                              //       ),
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.circular(30.r),
+                              //       ),
+                              //     ),
+                              //     alignment: Alignment.center,
+                              //     child: Text(
+                              //       'Use',
+                              //       style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: 14.sp,
+                              //         fontFamily: 'DIN',
+                              //         fontWeight: FontWeight.w400,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // )
+                            ],
                           ),
-                          // GestureDetector(
-                          //   behavior: HitTestBehavior.translucent,
-                          //   child: Container(
-                          //     height: 30.h,
-                          //     padding: EdgeInsets.symmetric(
-                          //       horizontal: 14.w,
-                          //       vertical: 4.h,
-                          //     ),
-                          //     decoration: ShapeDecoration(
-                          //       gradient: LinearGradient(
-                          //         begin: Alignment(1.00, 0.00),
-                          //         end: Alignment(-1, 0),
-                          //         colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                          //       ),
-                          //       shape: RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.circular(30.r),
-                          //       ),
-                          //     ),
-                          //     alignment: Alignment.center,
-                          //     child: Text(
-                          //       'Use',
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 14.sp,
-                          //         fontFamily: 'DIN',
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                    ),
-                    separatorBuilder: (c, i) => 10.verticalSpace,
-                    itemCount: ctr.integralCouponModel.value.couponList.length,
-                  )),
+                        ),
+                        separatorBuilder: (c, i) => 10.verticalSpace,
+                        itemCount:
+                            ctr.integralCouponModel.value.couponList.length,
+                      )),
                 ],
               ),
             ),

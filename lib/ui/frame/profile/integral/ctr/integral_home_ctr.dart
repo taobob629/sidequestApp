@@ -46,7 +46,8 @@ class IntegralHomeCtr extends GetxController {
     showLoading();
     final response = await http.post('/web/app/integral/addCheckIn');
     dismissLoading();
-    if (response.data['code'] == 200) {
+    requestData();
+    if (response.data != null && response.data['code'] == 200) {
       showToast(response.data['msg']);
     }
   }

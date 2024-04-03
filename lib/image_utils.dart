@@ -104,6 +104,7 @@ class ImageUtils {
   static const String integral_point_mall_icon = 'assets/images/integral_point_mall_icon.webp';
   static const String integral_points_mall_bottom_icon = 'assets/images/integral_points_mall_bottom_icon.webp';
   static const String integral_checkin_icon = 'assets/images/integral_checkin_icon.webp';
+  static const String integral_checkin_grey_icon = 'assets/images/integral_checkin_grey_icon.webp';
   static const String integral_arrow_icon = 'assets/images/integral_arrow_icon.webp';
   static const String integral_benefit_bottom_icon = 'assets/images/integral_benefit_bottom_icon.webp';
   static const String integral_redemption_top_icon = 'assets/images/integral_redemption_top_icon.png';
