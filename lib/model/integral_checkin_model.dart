@@ -47,6 +47,7 @@ class IntegralCheckInModel {
 }
 
 class CheckList {
+  // 1签到的，0未签到
   int? checkType;
   int? number;
   String day;

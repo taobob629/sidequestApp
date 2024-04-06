@@ -189,16 +189,21 @@ class MyProfilePage extends StatelessWidget {
                                           /// nickname
                                           Row(
                                             children: [
-                                              Obx(() => Text(
-                                                    userController
-                                                        .userProfile.nickName,
-                                                    style: TextStyle(
-                                                      fontSize: 20.sp,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )),
+                                              Flexible(
+                                                child: Obx(() => Text(
+                                                      userController
+                                                          .userProfile.nickName,
+                                                      style: TextStyle(
+                                                        fontSize: 20.sp,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    )),
+                                              ),
                                               6.horizontalSpace,
                                               Container(
                                                 padding: EdgeInsets.symmetric(
@@ -283,83 +288,46 @@ class MyProfilePage extends StatelessWidget {
                                                       ),
                                                     ),
                                                   )),
+                                              6.horizontalSpace,
+                                              Obx(() => GestureDetector(
+                                                    onTap: () => Get.to(() =>
+                                                        IntegralHomePage()),
+                                                    child: Image.asset(
+                                                      'assets/images/integral_lv${userController.userProfile.lv == 0 ? userController.userProfile.lv + 1 : userController.userProfile.lv}_icon.webp',
+                                                      scale: 9,
+                                                    ),
+                                                  )),
+                                              6.horizontalSpace,
                                             ],
                                           ),
                                           6.verticalSpace,
 
-                                          Obx(() => Container(
-                                                alignment: Alignment.centerLeft,
-                                                margin:
-                                                    EdgeInsets.only(top: 8).r,
-                                                child: Row(
-                                                  children: [
-                                                    Obx(() => Image.asset(
-                                                          'assets/images/integral_lv${userController.userProfile.lv == 0 ? userController.userProfile.lv + 1 : userController.userProfile.lv}_icon.webp',
-                                                          scale: 9,
-                                                        )),
-                                                    4.horizontalSpace,
-                                                    Text(
-                                                      "Level${userController.userProfile.lv}",
-                                                      style: TextStyle(
-                                                        fontSize: 13.sp,
-                                                        fontFamily: FONT_MEDIUM,
-                                                        color: Colors.white,
-                                                      ),
+                                          /// labels: sex、language、location
+                                          Obx(() => Row(
+                                                children: [
+                                                  Text(
+                                                    "ID:${userController.userProfile.uk}",
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: Colors.white,
+                                                      fontFamily: FONT_MEDIUM,
                                                     ),
-                                                    GestureDetector(
-                                                      onTapDown: (details) {
-                                                        print(details
-                                                            .globalPosition);
-                                                        Get.dialog(TipsDialog(
-                                                          offset: details
-                                                              .globalPosition,
-                                                          tips: userController
-                                                              .userProfile
-                                                              .describe,
-                                                        ));
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(
-                                                          left: 3.w,
-                                                        ),
-                                                        width: 12.w,
-                                                        height: 12.w,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xffb2b9c9),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            12.r,
-                                                          ),
-                                                        ),
-                                                        child: Image.asset(
-                                                          ImageUtils.icon_help,
-                                                          width: 10.w,
-                                                          height: 10.w,
-                                                        ),
+                                                  ),
+                                                  10.horizontalSpace,
+                                                  Expanded(
+                                                    child: Text(
+                                                      "${userController.userProfile.email}",
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        color: Colors.white,
+                                                        fontFamily: FONT_MEDIUM,
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                              )),
-                                          Obx(() => Container(
-                                                alignment: Alignment.centerLeft,
-                                                margin:
-                                                    EdgeInsets.only(top: 4).r,
-                                                child: LinearProgressBar(
-                                                  width: 1.sw - 150.w,
-                                                  progress: userController
-                                                          .userProfile
-                                                          .integralTotal /
-                                                      userController.userProfile
-                                                          .nexIntegralNumber *
-                                                      100,
-                                                  height: 4.h,
-                                                ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ],
                                               )),
                                         ],
                                       ),
@@ -371,39 +339,8 @@ class MyProfilePage extends StatelessWidget {
                           ],
                         ),
                       ),
-
-                      10.verticalSpace,
-
-                      /// labels: sex、language、location
-                      Obx(() => Row(
-                            children: [
-                              104.horizontalSpace,
-                              Text(
-                                "ID:${userController.userProfile.uk}",
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.white,
-                                  fontFamily: FONT_MEDIUM,
-                                ),
-                              ),
-                              10.horizontalSpace,
-                              Expanded(
-                                child: Text(
-                                  "${userController.userProfile.email}",
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Colors.white,
-                                    fontFamily: FONT_MEDIUM,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          )),
-
                       Container(
-                        margin: EdgeInsets.only(left: 15, right: 15, top: 40).r,
+                        margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
                         child: Column(
                           children: [
                             Container(
@@ -723,21 +660,31 @@ class MyProfilePage extends StatelessWidget {
               GlobalKeyConstants.profileTopUpKey,
               "Credits".tr,
               'UK offline store top-up'.tr,
+              onTap: () {
+                if (StorageManager.getOnline())
+                  Get.to(() => BalancePage())?.whenComplete(
+                      () => UserController.instance().updateInfo());
+              },
             ),
             achievementItem(
-              t.user.value.coupons,
-              'ic_coupons_new',
-              GlobalKeyConstants.profileCouponsKey,
-              "Vouchers".tr,
-              'Your Coupons'.tr,
-            ),
+                t.user.value.coupons,
+                'ic_coupons_new',
+                GlobalKeyConstants.profileCouponsKey,
+                "Vouchers".tr,
+                'Your Coupons'.tr, onTap: () {
+              NavigatorHelper.gotoCouponPage(
+                couponType: 5,
+                whenComplete: () => UserController.instance().updateInfo(),
+              );
+            }),
             achievementItem(
-              t.user.value.checkTotal,
-              'ic_coupons_points',
-              GlobalKeyConstants.profileCouponsKey,
-              "Points".tr,
-              'Your Coupons'.tr,
-            ),
+                t.user.value.checkTotal,
+                'ic_coupons_points',
+                GlobalKeyConstants.profileCouponsKey,
+                "Points".tr,
+                'Your Coupons'.tr,
+                onTap: () => Get.to(() => IntegralHomePage())?.whenComplete(
+                    () => UserController.instance().updateInfo())),
           ],
         ),
       ));
@@ -747,25 +694,12 @@ class MyProfilePage extends StatelessWidget {
     var icon,
     GlobalKey key,
     String iconText,
-    String description,
-  ) {
+    String description, {
+    required Function onTap,
+  }) {
     return Expanded(
       child: InkWell(
-        onTap: () {
-          switch (icon) {
-            case 'ic_coupons_new':
-              NavigatorHelper.gotoCouponPage(
-                couponType: 5,
-                whenComplete: () => UserController.instance().updateInfo(),
-              );
-              break;
-            case 'ic_corns_new':
-              if (StorageManager.getOnline())
-                Get.to(() => BalancePage())?.whenComplete(
-                    () => UserController.instance().updateInfo());
-              break;
-          }
-        },
+        onTap: () => onTap.call(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

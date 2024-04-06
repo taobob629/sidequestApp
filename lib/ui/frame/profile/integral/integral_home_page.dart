@@ -24,416 +24,444 @@ class IntegralHomePage extends StatelessWidget {
   final t = Get.put(IntegralHomeCtr());
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SafeArea(
-                child: GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  Obx(() => ExtendedImage.network(
-                        '${t.integralCheckInModel.value.memberPhoto}',
-                        width: 40.w,
-                        height: 40.w,
-                        shape: BoxShape.circle,
-                        fit: BoxFit.cover,
-                        loadStateChanged: (ExtendedImageState state) {
-                          switch (state.extendedImageLoadState) {
-                            case LoadState.failed:
-                              return ExtendedImage.asset(
-                                ImageUtils.default_logo,
+  Widget build(BuildContext context) => Obx(
+        () => t.isLoading.value
+            ? Container()
+            : SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SafeArea(
+                        child: GestureDetector(
+                          onTap: () => Get.back(),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Obx(() => ExtendedImage.network(
+                                '${t.integralCheckInModel.value.memberPhoto}',
                                 width: 40.w,
                                 height: 40.w,
                                 shape: BoxShape.circle,
                                 fit: BoxFit.cover,
-                              );
-                          }
-                        },
-                      )),
-                  10.horizontalSpace,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(() => Text(
-                              '${t.integralCheckInModel.value.userName}',
-                              textAlign: TextAlign.center,
+                                loadStateChanged: (ExtendedImageState state) {
+                                  switch (state.extendedImageLoadState) {
+                                    case LoadState.failed:
+                                      return ExtendedImage.asset(
+                                        ImageUtils.default_logo,
+                                        width: 40.w,
+                                        height: 40.w,
+                                        shape: BoxShape.circle,
+                                        fit: BoxFit.cover,
+                                      );
+                                  }
+                                },
+                              )),
+                          10.horizontalSpace,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Obx(() => Text(
+                                      '${t.integralCheckInModel.value.userName}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                      ),
+                                    )),
+                                6.verticalSpace,
+                                GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () =>
+                                      Get.to(() => IntegralRecordPage()),
+                                  child: Row(
+                                    children: [
+                                      Obx(() => Text(
+                                            'Points:${t.integralCheckInModel.value.checkTotal}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color(0xFF9CA3AF),
+                                              fontSize: 16.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                            ),
+                                          )),
+                                      3.horizontalSpace,
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: Color(0xFF9CA3AF),
+                                        size: 13.sp,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Obx(() => GestureDetector(
+                                onTap: () => Get.to(
+                                  () => IntegralInterestsPage(),
+                                  arguments: t.integralCheckInModel.value.lv,
+                                ),
+                                child: Image.asset(
+                                  'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
+                                  scale: 2,
+                                ),
+                              )),
+                          15.horizontalSpace,
+                        ],
+                      ),
+                      Obx(() => GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => Get.to(
+                              () => IntegralInterestsPage(),
+                              arguments: t.integralCheckInModel.value.lv,
+                            ),
+                            child: Text(
+                              '${t.integralCheckInModel.value.describe}',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16.sp,
-                                fontFamily: FONT_MEDIUM,
+                                fontSize: 13.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
                               ),
-                            )),
-                        6.verticalSpace,
-                        GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => Get.to(() => IntegralRecordPage()),
-                          child: Row(
-                            children: [
-                              Obx(() => Text(
-                                    'Points:${t.integralCheckInModel.value.checkTotal}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF9CA3AF),
-                                      fontSize: 16.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                    ),
-                                  )),
-                              3.horizontalSpace,
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Color(0xFF9CA3AF),
-                                size: 13.sp,
+                            ),
+                          )),
+                      6.verticalSpace,
+                      Obx(() => Transform.translate(
+                            offset: Offset(-6.w, 0),
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => Get.to(
+                                () => IntegralInterestsPage(),
+                                arguments: t.integralCheckInModel.value.lv,
                               ),
-                            ],
+                              child: LinearProgressBar(
+                                width: 200.w,
+                                progress: (t.integralCheckInModel.value
+                                            .integralTotal
+                                            .toDouble() /
+                                        t.integralCheckInModel.value
+                                            .nexIntegralNumber
+                                            .toDouble()) *
+                                    100,
+                                height: 6.h,
+                              ),
+                            ),
+                          )),
+                      30.verticalSpace,
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 60.h,
+                      //         decoration: ShapeDecoration(
+                      //           gradient: LinearGradient(
+                      //             begin: Alignment(0.00, -1.00),
+                      //             end: Alignment(0, 1),
+                      //             colors: [Color(0xFF202026), Color(0xFF202026)],
+                      //           ),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(10.r),
+                      //           ),
+                      //         ),
+                      //         child: Stack(
+                      //           children: [
+                      //             Container(
+                      //               width: 60.w,
+                      //               height: 60.h,
+                      //               decoration: ShapeDecoration(
+                      //                 gradient: LinearGradient(
+                      //                   begin: Alignment.centerLeft,
+                      //                   end: Alignment.centerRight,
+                      //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
+                      //                 ),
+                      //                 shape: RoundedRectangleBorder(
+                      //                   borderRadius: BorderRadius.circular(10.r),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Positioned(
+                      //               left: 10.w,
+                      //               bottom: 0,
+                      //               child: Image.asset(
+                      //                 ImageUtils.integral_benefit_bottom_icon,
+                      //                 width: 32.w,
+                      //                 height: 12.h,
+                      //               ),
+                      //             ),
+                      //             Center(
+                      //               child: GestureDetector(
+                      //                 behavior: HitTestBehavior.translucent,
+                      //                 onTap: () => Get.to(
+                      //                   () => IntegralInterestsPage(),
+                      //                   arguments: t.integralCheckInModel.value.lv,
+                      //                 ),
+                      //                 child: Row(
+                      //                   children: [
+                      //                     10.horizontalSpace,
+                      //                     Image.asset(
+                      //                       ImageUtils.integral_benefit_icon,
+                      //                       scale: 2.5,
+                      //                     ),
+                      //                     8.horizontalSpace,
+                      //                     Expanded(
+                      //                       child: Text(
+                      //                         'My Benefits'.tr,
+                      //                         style: TextStyle(
+                      //                           color: Colors.white,
+                      //                           fontSize: 16.sp,
+                      //                           fontFamily: 'DIN',
+                      //                           fontWeight: FontWeight.w700,
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                     Image.asset(
+                      //                       ImageUtils.integral_arrow_icon,
+                      //                     ),
+                      //                     6.horizontalSpace,
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     10.horizontalSpace,
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 60.h,
+                      //         decoration: ShapeDecoration(
+                      //           gradient: LinearGradient(
+                      //             begin: Alignment(0.00, -1.00),
+                      //             end: Alignment(0, 1),
+                      //             colors: [Color(0xFF202026), Color(0xFF202026)],
+                      //           ),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(10.r),
+                      //           ),
+                      //         ),
+                      //         child: Stack(
+                      //           children: [
+                      //             Container(
+                      //               width: 60.w,
+                      //               height: 60.h,
+                      //               decoration: ShapeDecoration(
+                      //                 gradient: LinearGradient(
+                      //                   begin: Alignment.centerLeft,
+                      //                   end: Alignment.centerRight,
+                      //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
+                      //                 ),
+                      //                 shape: RoundedRectangleBorder(
+                      //                   borderRadius: BorderRadius.circular(10.r),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             Positioned(
+                      //               left: 10.w,
+                      //               bottom: 0,
+                      //               child: Image.asset(
+                      //                 ImageUtils.integral_points_mall_bottom_icon,
+                      //                 width: 32.w,
+                      //                 height: 12.h,
+                      //               ),
+                      //             ),
+                      //             Center(
+                      //               child: GestureDetector(
+                      //                 behavior: HitTestBehavior.translucent,
+                      //                 onTap: () => Get.to(
+                      //                   () => IntegralRedemptionPage(),
+                      //                   arguments:
+                      //                       t.integralCheckInModel.value.checkTotal,
+                      //                 ),
+                      //                 child: Row(
+                      //                   children: [
+                      //                     10.horizontalSpace,
+                      //                     Image.asset(
+                      //                       ImageUtils.integral_point_mall_icon,
+                      //                       scale: 2.5,
+                      //                     ),
+                      //                     8.horizontalSpace,
+                      //                     Expanded(
+                      //                       child: Text(
+                      //                         'Points Mall'.tr,
+                      //                         style: TextStyle(
+                      //                           color: Colors.white,
+                      //                           fontSize: 16.sp,
+                      //                           fontFamily: 'DIN',
+                      //                           fontWeight: FontWeight.w700,
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                     Image.asset(
+                      //                       ImageUtils.integral_arrow_icon,
+                      //                     ),
+                      //                     6.horizontalSpace,
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // 15.verticalSpace,
+                      Container(
+                        width: 1.sw,
+                        decoration: ShapeDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment(0.00, -1.00),
+                            end: Alignment(0, 1),
+                            colors: [Color(0xFF202026), Color(0xFF202026)],
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Obx(() => GestureDetector(
-                        onTap: () => Get.to(
-                          () => IntegralInterestsPage(),
-                          arguments: t.integralCheckInModel.value.lv,
-                        ),
-                        child: Image.asset(
-                          'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
-                          scale: 2,
-                        ),
-                      )),
-                  15.horizontalSpace,
-                ],
-              ),
-              Obx(() => GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(
-                      () => IntegralInterestsPage(),
-                      arguments: t.integralCheckInModel.value.lv,
-                    ),
-                    child: Text(
-                      '${t.integralCheckInModel.value.describe}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.sp,
-                        fontFamily: 'DIN',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  )),
-              6.verticalSpace,
-              Obx(() => Transform.translate(
-                    offset: Offset(-6.w, 0),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => Get.to(
-                        () => IntegralInterestsPage(),
-                        arguments: t.integralCheckInModel.value.lv,
-                      ),
-                      child: LinearProgressBar(
-                        width: 200.w,
-                        progress: (t.integralCheckInModel.value.integralTotal
-                                    .toDouble() /
-                                t.integralCheckInModel.value.nexIntegralNumber
-                                    .toDouble()) *
-                            100,
-                        height: 6.h,
-                      ),
-                    ),
-                  )),
-              30.verticalSpace,
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: Container(
-              //         height: 60.h,
-              //         decoration: ShapeDecoration(
-              //           gradient: LinearGradient(
-              //             begin: Alignment(0.00, -1.00),
-              //             end: Alignment(0, 1),
-              //             colors: [Color(0xFF202026), Color(0xFF202026)],
-              //           ),
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(10.r),
-              //           ),
-              //         ),
-              //         child: Stack(
-              //           children: [
-              //             Container(
-              //               width: 60.w,
-              //               height: 60.h,
-              //               decoration: ShapeDecoration(
-              //                 gradient: LinearGradient(
-              //                   begin: Alignment.centerLeft,
-              //                   end: Alignment.centerRight,
-              //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
-              //                 ),
-              //                 shape: RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.circular(10.r),
-              //                 ),
-              //               ),
-              //             ),
-              //             Positioned(
-              //               left: 10.w,
-              //               bottom: 0,
-              //               child: Image.asset(
-              //                 ImageUtils.integral_benefit_bottom_icon,
-              //                 width: 32.w,
-              //                 height: 12.h,
-              //               ),
-              //             ),
-              //             Center(
-              //               child: GestureDetector(
-              //                 behavior: HitTestBehavior.translucent,
-              //                 onTap: () => Get.to(
-              //                   () => IntegralInterestsPage(),
-              //                   arguments: t.integralCheckInModel.value.lv,
-              //                 ),
-              //                 child: Row(
-              //                   children: [
-              //                     10.horizontalSpace,
-              //                     Image.asset(
-              //                       ImageUtils.integral_benefit_icon,
-              //                       scale: 2.5,
-              //                     ),
-              //                     8.horizontalSpace,
-              //                     Expanded(
-              //                       child: Text(
-              //                         'My Benefits'.tr,
-              //                         style: TextStyle(
-              //                           color: Colors.white,
-              //                           fontSize: 16.sp,
-              //                           fontFamily: 'DIN',
-              //                           fontWeight: FontWeight.w700,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     Image.asset(
-              //                       ImageUtils.integral_arrow_icon,
-              //                     ),
-              //                     6.horizontalSpace,
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //     10.horizontalSpace,
-              //     Expanded(
-              //       child: Container(
-              //         height: 60.h,
-              //         decoration: ShapeDecoration(
-              //           gradient: LinearGradient(
-              //             begin: Alignment(0.00, -1.00),
-              //             end: Alignment(0, 1),
-              //             colors: [Color(0xFF202026), Color(0xFF202026)],
-              //           ),
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(10.r),
-              //           ),
-              //         ),
-              //         child: Stack(
-              //           children: [
-              //             Container(
-              //               width: 60.w,
-              //               height: 60.h,
-              //               decoration: ShapeDecoration(
-              //                 gradient: LinearGradient(
-              //                   begin: Alignment.centerLeft,
-              //                   end: Alignment.centerRight,
-              //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
-              //                 ),
-              //                 shape: RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.circular(10.r),
-              //                 ),
-              //               ),
-              //             ),
-              //             Positioned(
-              //               left: 10.w,
-              //               bottom: 0,
-              //               child: Image.asset(
-              //                 ImageUtils.integral_points_mall_bottom_icon,
-              //                 width: 32.w,
-              //                 height: 12.h,
-              //               ),
-              //             ),
-              //             Center(
-              //               child: GestureDetector(
-              //                 behavior: HitTestBehavior.translucent,
-              //                 onTap: () => Get.to(
-              //                   () => IntegralRedemptionPage(),
-              //                   arguments:
-              //                       t.integralCheckInModel.value.checkTotal,
-              //                 ),
-              //                 child: Row(
-              //                   children: [
-              //                     10.horizontalSpace,
-              //                     Image.asset(
-              //                       ImageUtils.integral_point_mall_icon,
-              //                       scale: 2.5,
-              //                     ),
-              //                     8.horizontalSpace,
-              //                     Expanded(
-              //                       child: Text(
-              //                         'Points Mall'.tr,
-              //                         style: TextStyle(
-              //                           color: Colors.white,
-              //                           fontSize: 16.sp,
-              //                           fontFamily: 'DIN',
-              //                           fontWeight: FontWeight.w700,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     Image.asset(
-              //                       ImageUtils.integral_arrow_icon,
-              //                     ),
-              //                     6.horizontalSpace,
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // 15.verticalSpace,
-              Container(
-                width: 1.sw,
-                decoration: ShapeDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.00, -1.00),
-                    end: Alignment(0, 1),
-                    colors: [Color(0xFF202026), Color(0xFF202026)],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                ),
-                padding: EdgeInsets.all(15.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                          text: "Check-in days ".tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontFamily: "DIN",
-                          ),
+                        padding: EdgeInsets.all(15.r),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TextSpan(
-                                text: " 300".tr,
-                                style: TextStyle(
-                                  color: Color(0xFFFFB20E),
-                                  fontSize: 13.sp,
-                                  fontFamily: "DIN",
+                            RichText(
+                              text: TextSpan(
+                                  text: "Check-in days ".tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    fontFamily: "DIN",
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: " 300".tr,
+                                        style: TextStyle(
+                                          color: Color(0xFFFFB20E),
+                                          fontSize: 13.sp,
+                                          fontFamily: "DIN",
+                                        )),
+                                  ]),
+                            ),
+                            10.verticalSpace,
+                            Obx(() => Row(
+                                  children: [
+                                    if (t.integralCheckInModel.value.checkList
+                                        .isNotEmpty)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[0]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        1)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[1]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        2)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[2]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        3)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[3]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        4)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[4]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        5)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[5]),
+                                      ),
+                                    8.horizontalSpace,
+                                    if (t.integralCheckInModel.value.checkList
+                                            .length >
+                                        6)
+                                      Expanded(
+                                        child: weekCheckInWidget(t
+                                            .integralCheckInModel
+                                            .value
+                                            .checkList[6]),
+                                      ),
+                                  ],
                                 )),
-                          ]),
-                    ),
-                    10.verticalSpace,
-                    Obx(() => Row(
-                          children: [
-                            if (t.integralCheckInModel.value.checkList
-                                .isNotEmpty)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[0]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                1)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[1]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                2)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[2]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                3)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[3]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                4)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[4]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                5)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[5]),
-                              ),
-                            8.horizontalSpace,
-                            if (t.integralCheckInModel.value.checkList.length >
-                                6)
-                              Expanded(
-                                child: weekCheckInWidget(
-                                    t.integralCheckInModel.value.checkList[6]),
-                              ),
                           ],
-                        )),
-                  ],
+                        ),
+                      ),
+                      titleWidget(
+                        leftText: "Task Center",
+                        marginLeft: 0,
+                        marginRight: 0,
+                        onTap: () => Get.to(() => TaskPage())
+                            ?.then((value) => UserController.find.updateInfo()),
+                      ),
+                      taskCenterWidget(),
+                      titleWidget(
+                        leftText: "Points Redemption",
+                        marginLeft: 0,
+                        marginRight: 0,
+                        onTap: () => Get.to(
+                          () => IntegralRedemptionPage(),
+                          arguments: t.integralCheckInModel.value.checkTotal,
+                        ),
+                      ),
+                      Obx(() => GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // 3 columns
+                              childAspectRatio: 0.72,
+                              crossAxisSpacing: 15.0.w,
+                              mainAxisSpacing: 15.0.h,
+                            ),
+                            itemBuilder: (context, index) =>
+                                pointsRedemptionWidget(index),
+                            itemCount: t.goods.length > 4 ? 4 : t.goods.length,
+                          )),
+                    ],
+                  ),
                 ),
               ),
-              titleWidget(
-                leftText: "Task Center",
-                marginLeft: 0,
-                marginRight: 0,
-                onTap: () => Get.to(() => TaskPage())
-                    ?.then((value) => UserController.find.updateInfo()),
-              ),
-              taskCenterWidget(),
-              titleWidget(
-                leftText: "Points Redemption",
-                marginLeft: 0,
-                marginRight: 0,
-                onTap: () => Get.to(
-                  () => IntegralRedemptionPage(),
-                  arguments: t.integralCheckInModel.value.checkTotal,
-                ),
-              ),
-              Obx(() => GridView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // 3 columns
-                      childAspectRatio: 0.72,
-                      crossAxisSpacing: 15.0.w,
-                      mainAxisSpacing: 15.0.h,
-                    ),
-                    itemBuilder: (context, index) =>
-                        pointsRedemptionWidget(index),
-                    itemCount: t.goods.length > 4 ? 4 : t.goods.length,
-                  )),
-            ],
-          ),
-        ),
       );
 
   Widget pointsRedemptionWidget(int index) => Expanded(
@@ -848,9 +876,10 @@ class IntegralHomePage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Image.asset(
-                    model.checkType == 0
-                        ? ImageUtils.integral_checkin_icon
-                        : ImageUtils.integral_checkin_grey_icon,
+                    // model.checkType == 0
+                    //     ? ImageUtils.integral_checkin_icon
+                    //     : ImageUtils.integral_checkin_grey_icon,
+                    t.getCheckInIcon(model),
                     width: 28.w,
                     height: 28.w,
                   ),
