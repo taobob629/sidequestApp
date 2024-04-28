@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wy/config/icon_font.dart';
-import 'package:wy/widget/scrollbar.dart';
-import 'package:wy/widget/widget_tap.dart';
+import 'package:sq_hub_app/widget/scrollbar.dart';
+import 'package:sq_hub_app/widget/widget_tap.dart';
 
+import '../config/icon_font.dart';
 import 'mytext.dart';
 
 class PWidget {
@@ -113,7 +113,9 @@ class PWidget {
       }
     }
     if (map['cs'] != null) view = Container(color: map['cs'], child: view);
-    if (map['fun'] != null) view = WidgetTap(isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
+    if (map['fun'] != null)
+      view = WidgetTap(
+          isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
     if (map['exp'] != null) {
       view = Expanded(child: view, flex: map['exp']);
     }
@@ -198,7 +200,9 @@ class PWidget {
       }
     }
     if (map['cs'] != null) view = Container(color: map['cs'], child: view);
-    if (map['fun'] != null) view = WidgetTap(isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
+    if (map['fun'] != null)
+      view = WidgetTap(
+          isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
     if (map['exp'] != null) {
       view = Expanded(child: view, flex: map['exp']);
     }
@@ -276,7 +280,9 @@ class PWidget {
         );
       }
     }
-    if (map['fun'] != null) view = WidgetTap(isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
+    if (map['fun'] != null)
+      view = WidgetTap(
+          isElastic: map['tap'] ?? false, child: view, onTap: map['fun']);
     if (map['cs'] != null) view = Container(color: map['cs'], child: view);
     if (map['fill'] != null) view = IntrinsicHeight(child: view);
     if (map['exp'] != null) view = Expanded(child: view, flex: map['exp']);
@@ -287,11 +293,11 @@ class PWidget {
   // ignore: slash_for_doc_comments
   /**
       MyText(
-    
+
       text,
 
       color: list[0],
-      
+
       size: isDataNull(() => list[1], 14),
 
       isBold: list.length > 2 ? list[2] : false,
@@ -392,7 +398,7 @@ class PWidget {
         child: MyText(
           text,
           color: list[0],
-          fontFamily: data['ff']??FONT_MEDIUM,
+          fontFamily: data['ff'] ?? FONT_MEDIUM,
           size: isDataNull(() => list[1], 14),
           isBold: list.length > 2 ? list[2] : false,
           // height: data['h'],
@@ -422,7 +428,7 @@ class PWidget {
 
       size: isDataNull(() => list[1], 24),
 
-    );
+      );
    */
   static Widget icon(
     IconData icon, [
@@ -473,17 +479,17 @@ class PWidget {
   // ignore: slash_for_doc_comments
   /**
       Image.asset(
-        
-        name,
 
-        width: isDataNull(() => list[0]),
+      name,
 
-        height: isDataNull(() => list[1]),
+      width: isDataNull(() => list[0]),
 
-        color: list.length > 2 ? list[2] : null,
+      height: isDataNull(() => list[1]),
 
-        fit: list.length > 3 ? list[3] : null,
-        
+      color: list.length > 2 ? list[2] : null,
+
+      fit: list.length > 3 ? list[3] : null,
+
       );
    */
   static Widget image(
@@ -546,14 +552,15 @@ class PWidget {
         );
       }
     }
-    if (data['fun'] != null) view = WidgetTap(isElastic: true, child: view, onTap: data['fun']);
+    if (data['fun'] != null)
+      view = WidgetTap(isElastic: true, child: view, onTap: data['fun']);
     if (data['exp'] != null) view = Expanded(child: view);
     return view;
   }
 
   // ignore: slash_for_doc_comments
   /**
-    AnimatedPositioned(
+      AnimatedPositioned(
 
       child: child,
 
@@ -569,7 +576,7 @@ class PWidget {
 
       curve: data['anima'] == null ? Curves.easeOutCubic : data['anima'][1],
 
-    );
+      );
    */
   static Widget positioned(
     child, [
@@ -607,14 +614,15 @@ class PWidget {
               ? null
               : list[3].toDouble()
           : null,
-      duration: Duration(milliseconds: data['anima'] == null ? 300 : data['anima'][0]),
+      duration: Duration(
+          milliseconds: data['anima'] == null ? 300 : data['anima'][0]),
       curve: data['anima'] == null ? Curves.easeOutCubic : data['anima'][1],
     );
   }
 
   // ignore: slash_for_doc_comments
   /**
-     Stack(
+      Stack(
 
       children: children,
 
@@ -624,7 +632,7 @@ class PWidget {
 
       fit: list.length > 3 ? list[3] : StackFit.loose,
 
-    );
+      );
    */
   static Widget stack([
     List<Widget> children = const <Widget>[],
@@ -642,7 +650,9 @@ class PWidget {
     // if (list.isEmpty) list = [0, 0, Clip.none, StackFit.loose];
     Widget view = Stack(
       children: children,
-      alignment: list.isEmpty ? AlignmentDirectional.topStart : Alignment(list[0].toDouble(), list[1].toDouble()),
+      alignment: list.isEmpty
+          ? AlignmentDirectional.topStart
+          : Alignment(list[0].toDouble(), list[1].toDouble()),
       clipBehavior: list.length > 2 ? list[2] : Clip.none,
       fit: list.length > 3 ? list[3] : StackFit.loose,
     );
@@ -658,101 +668,102 @@ class PWidget {
   }
 
   static Widget boxw(double v) => SizedBox(width: v);
+
   static Widget boxh(double v) => SizedBox(height: v);
 
   static Widget spacer() => Spacer();
 
-  // ignore: slash_for_doc_comments
-  /**
-     WrapperImage(
+// ignore: slash_for_doc_comments
+/**
+    WrapperImage(
 
-      urlBuilder: () => url,
+    urlBuilder: () => url,
 
-      width: isDataNull(() => list[0], 24),
+    width: isDataNull(() => list[0], 24),
 
-      height: isDataNull(() => list[1], 24),
-      
-      fit: map['fit'] ?? BoxFit.cover,
+    height: isDataNull(() => list[1], 24),
 
-      imageType: map['type'] ?? ImageType.normal,
+    fit: map['fit'] ?? BoxFit.cover,
 
-      w: map['w'] ?? 250,
+    imageType: map['type'] ?? ImageType.normal,
+
+    w: map['w'] ?? 250,
 
     );
-   */
-  // static Widget wrapperImage(String url, [dynamic list1, dynamic map1]) {
-  //   var list, map;
-  //   if (list1.toString().contains('{')) {
-  //     list = map1 ?? [];
-  //     map = list1 ?? {};
-  //   } else {
-  //     list = list1 ?? [];
-  //     map = map1 ?? {};
-  //   }
-  //   Widget view = WrapperImage(
-  //     urlBuilder: () => url,
-  //     width: map['isNull'] == true ? null : isDataNull(() => list[0], 24),
-  //     height: map['isNull'] == true ? null : isDataNull(() => list[1], 24),
-  //     fit: map['fit'] ?? BoxFit.cover,
-  //     alignment: map['ali'] == null ? null : Alignment(isDataNull(() => map['ali'][0], 1), isDataNull(() => map['ali'][1], 1)),
-  //     imageType: map['type'] ?? ImageType.normal,
-  //     w: map['w'] ?? 500,
-  //     headers: map['headers'],
-  //   );
-  //   if (map['br'] != null) {
-  //     if (map['br'].toString().contains('[')) {
-  //       view = ClipRRect(
-  //         child: view,
-  //         borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(isDataNull(() => map['br'][0])),
-  //           topRight: Radius.circular(isDataNull(() => map['br'][1])),
-  //           bottomLeft: Radius.circular(isDataNull(() => map['br'][2])),
-  //           bottomRight: Radius.circular(isDataNull(() => map['br'][3])),
-  //         ),
-  //       );
-  //     } else {
-  //       view = ClipRRect(
-  //         child: view,
-  //         borderRadius: BorderRadius.circular(map['br'].toDouble()),
-  //       );
-  //     }
-  //   }
+ */
+// static Widget wrapperImage(String url, [dynamic list1, dynamic map1]) {
+//   var list, map;
+//   if (list1.toString().contains('{')) {
+//     list = map1 ?? [];
+//     map = list1 ?? {};
+//   } else {
+//     list = list1 ?? [];
+//     map = map1 ?? {};
+//   }
+//   Widget view = WrapperImage(
+//     urlBuilder: () => url,
+//     width: map['isNull'] == true ? null : isDataNull(() => list[0], 24),
+//     height: map['isNull'] == true ? null : isDataNull(() => list[1], 24),
+//     fit: map['fit'] ?? BoxFit.cover,
+//     alignment: map['ali'] == null ? null : Alignment(isDataNull(() => map['ali'][0], 1), isDataNull(() => map['ali'][1], 1)),
+//     imageType: map['type'] ?? ImageType.normal,
+//     w: map['w'] ?? 500,
+//     headers: map['headers'],
+//   );
+//   if (map['br'] != null) {
+//     if (map['br'].toString().contains('[')) {
+//       view = ClipRRect(
+//         child: view,
+//         borderRadius: BorderRadius.only(
+//           topLeft: Radius.circular(isDataNull(() => map['br'][0])),
+//           topRight: Radius.circular(isDataNull(() => map['br'][1])),
+//           bottomLeft: Radius.circular(isDataNull(() => map['br'][2])),
+//           bottomRight: Radius.circular(isDataNull(() => map['br'][3])),
+//         ),
+//       );
+//     } else {
+//       view = ClipRRect(
+//         child: view,
+//         borderRadius: BorderRadius.circular(map['br'].toDouble()),
+//       );
+//     }
+//   }
 
-  //   if (map['pd'] != null) {
-  //     if (map['pd'].toString().contains('[')) {
-  //       view = Padding(
-  //         child: view,
-  //         padding: EdgeInsets.only(
-  //           top: isDataNull(() => map['pd'][0]),
-  //           bottom: isDataNull(() => map['pd'][1]),
-  //           left: isDataNull(() => map['pd'][2]),
-  //           right: isDataNull(() => map['pd'][3]),
-  //         ),
-  //       );
-  //     } else {
-  //       view = Padding(
-  //         child: view,
-  //         padding: EdgeInsets.all(map['pd'].toDouble()),
-  //       );
-  //     }
-  //   }
-  //   if (map['ar'] != null) {
-  //     view = AspectRatio(
-  //       aspectRatio: isDataNull(() => map['ar'], 1 / 1),
-  //       child: view,
-  //     );
-  //   }
-  //   if (map['fun'] != null) view = WidgetTap(child: view, onTap: map['fun']);
-  //   if (map['exp'] == true) view = Expanded(child: view);
-  //   return view;
-  // }
+//   if (map['pd'] != null) {
+//     if (map['pd'].toString().contains('[')) {
+//       view = Padding(
+//         child: view,
+//         padding: EdgeInsets.only(
+//           top: isDataNull(() => map['pd'][0]),
+//           bottom: isDataNull(() => map['pd'][1]),
+//           left: isDataNull(() => map['pd'][2]),
+//           right: isDataNull(() => map['pd'][3]),
+//         ),
+//       );
+//     } else {
+//       view = Padding(
+//         child: view,
+//         padding: EdgeInsets.all(map['pd'].toDouble()),
+//       );
+//     }
+//   }
+//   if (map['ar'] != null) {
+//     view = AspectRatio(
+//       aspectRatio: isDataNull(() => map['ar'], 1 / 1),
+//       child: view,
+//     );
+//   }
+//   if (map['fun'] != null) view = WidgetTap(child: view, onTap: map['fun']);
+//   if (map['exp'] == true) view = Expanded(child: view);
+//   return view;
+// }
 
-  // static Widget align(view, [List data = const []]) {
-  //   return Align(
-  //     alignment: data.isEmpty == null ? null : Alignment(isDataNull(() => data[0], 0), isDataNull(() => data[1], 0)),
-  //     child: view,
-  //   );
-  // }
+// static Widget align(view, [List data = const []]) {
+//   return Align(
+//     alignment: data.isEmpty == null ? null : Alignment(isDataNull(() => data[0], 0), isDataNull(() => data[1], 0)),
+//     child: view,
+//   );
+// }
 }
 
 ///自定义容器
@@ -760,12 +771,14 @@ class PaixsContainer extends StatefulWidget {
   final Map data;
   final Widget? child;
   final List list;
+
   const PaixsContainer({
     Key? key,
     this.data = const {},
     this.child,
     this.list = const [],
   }) : super(key: key);
+
   @override
   _PaixsContainerState createState() => _PaixsContainerState();
 }
@@ -774,13 +787,18 @@ class _PaixsContainerState extends State<PaixsContainer> {
   @override
   Widget build(BuildContext context) {
     Widget view = AnimatedContainer(
-      duration: Duration(milliseconds: widget.data['anima'] == null ? 250 : widget.data['anima'][0]),
+      duration: Duration(
+          milliseconds:
+              widget.data['anima'] == null ? 250 : widget.data['anima'][0]),
       curve: widget.data['anima'] == null
           ? Curves.easeOutCubic
           : widget.data['anima'].length > 1
               ? widget.data['anima'][1]
               : Curves.easeOutCubic,
-      alignment: widget.data['ali'] == null ? null : Alignment(isDataNull(() => widget.data['ali'][0], 1), isDataNull(() => widget.data['ali'][1], 1)),
+      alignment: widget.data['ali'] == null
+          ? null
+          : Alignment(isDataNull(() => widget.data['ali'][0], 1),
+              isDataNull(() => widget.data['ali'][1], 1)),
       width: widget.list.length > 0
           ? widget.list[0] == null
               ? null
@@ -812,10 +830,14 @@ class _PaixsContainerState extends State<PaixsContainer> {
             ? null
             : widget.data['br'].toString().contains('[')
                 ? BorderRadius.only(
-                    topLeft: Radius.circular(isDataNull(() => widget.data['br'][0])),
-                    topRight: Radius.circular(isDataNull(() => widget.data['br'][1])),
-                    bottomLeft: Radius.circular(isDataNull(() => widget.data['br'][2])),
-                    bottomRight: Radius.circular(isDataNull(() => widget.data['br'][3])),
+                    topLeft:
+                        Radius.circular(isDataNull(() => widget.data['br'][0])),
+                    topRight:
+                        Radius.circular(isDataNull(() => widget.data['br'][1])),
+                    bottomLeft:
+                        Radius.circular(isDataNull(() => widget.data['br'][2])),
+                    bottomRight:
+                        Radius.circular(isDataNull(() => widget.data['br'][3])),
                   )
                 : BorderRadius.circular(widget.data['br'].toDouble()),
         border: widget.data['bd'] == null
@@ -826,28 +848,36 @@ class _PaixsContainerState extends State<PaixsContainer> {
                     : BorderSide(
                         color: (widget.data['bd'][0]),
                         width: widget.data['bd'][1]?.toDouble(),
-                        style: widget.data['bd'][1] == 0 ? BorderStyle.none : BorderStyle.solid,
+                        style: widget.data['bd'][1] == 0
+                            ? BorderStyle.none
+                            : BorderStyle.solid,
                       ),
                 bottom: widget.data['bd'].length <= 2
                     ? BorderSide.none
                     : BorderSide(
                         color: (widget.data['bd'][0]),
                         width: widget.data['bd'][2]?.toDouble(),
-                        style: widget.data['bd'][2] == 0 ? BorderStyle.none : BorderStyle.solid,
+                        style: widget.data['bd'][2] == 0
+                            ? BorderStyle.none
+                            : BorderStyle.solid,
                       ),
                 left: widget.data['bd'].length <= 3
                     ? BorderSide.none
                     : BorderSide(
                         color: (widget.data['bd'][0]),
                         width: widget.data['bd'][3]?.toDouble(),
-                        style: widget.data['bd'][3] == 0 ? BorderStyle.none : BorderStyle.solid,
+                        style: widget.data['bd'][3] == 0
+                            ? BorderStyle.none
+                            : BorderStyle.solid,
                       ),
                 right: widget.data['bd'].length <= 4
                     ? BorderSide.none
                     : BorderSide(
                         color: (widget.data['bd'][0]),
                         width: widget.data['bd'][4]?.toDouble(),
-                        style: widget.data['bd'][4] == 0 ? BorderStyle.none : BorderStyle.solid,
+                        style: widget.data['bd'][4] == 0
+                            ? BorderStyle.none
+                            : BorderStyle.solid,
                       ),
               ),
         boxShadow: widget.data['sd'] == null
@@ -856,7 +886,8 @@ class _PaixsContainerState extends State<PaixsContainer> {
                 BoxShadow(
                   color: widget.data['sd'][0],
                   blurRadius: isDataNull(() => widget.data['sd'][1]),
-                  offset: Offset(isDataNull(() => widget.data['sd'][2]), isDataNull(() => widget.data['sd'][3])),
+                  offset: Offset(isDataNull(() => widget.data['sd'][2]),
+                      isDataNull(() => widget.data['sd'][3])),
                   spreadRadius: isDataNull(() => widget.data['sd'][4]),
                 ),
               ],
@@ -885,8 +916,10 @@ class _PaixsContainerState extends State<PaixsContainer> {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(isDataNull(() => widget.data['crr'][0])),
             topRight: Radius.circular(isDataNull(() => widget.data['crr'][1])),
-            bottomLeft: Radius.circular(isDataNull(() => widget.data['crr'][2])),
-            bottomRight: Radius.circular(isDataNull(() => widget.data['crr'][3])),
+            bottomLeft:
+                Radius.circular(isDataNull(() => widget.data['crr'][2])),
+            bottomRight:
+                Radius.circular(isDataNull(() => widget.data['crr'][3])),
           ),
         );
       } else {
@@ -922,7 +955,11 @@ class _PaixsContainerState extends State<PaixsContainer> {
         ),
         child: view,
       );
-    if (widget.data['fun'] != null) view = WidgetTap(isElastic: widget.data['tap'] ?? false, child: view, onTap: widget.data['fun']);
+    if (widget.data['fun'] != null)
+      view = WidgetTap(
+          isElastic: widget.data['tap'] ?? false,
+          child: view,
+          onTap: widget.data['fun']);
     if (widget.data['exp'] == true) view = Expanded(child: view);
     return view;
   }

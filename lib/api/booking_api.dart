@@ -1,6 +1,6 @@
+import 'package:sq_hub_app/api/wy_http.dart';
 
-import 'package:wy/api/wy_http.dart';
-import 'package:wy/model/booking_model.dart';
+import '../model/booking_model.dart';
 
 class BookingApi  {
   static Future<List<BookingModel>> list() async {

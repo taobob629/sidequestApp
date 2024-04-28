@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
+
+import '../../config/app_color.dart';
 
 class DropdownWithSearch<T> extends StatelessWidget {
   final String title;

@@ -1,6 +1,5 @@
-import 'package:wy/model/user_model.dart';
-
-import 'selector_item.dart';
+import 'package:sq_hub_app/model/selector_item.dart';
+import 'package:sq_hub_app/model/user_model.dart';
 
 class LoginModel {
   late UserModel user;

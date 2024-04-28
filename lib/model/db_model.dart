@@ -1,4 +1,3 @@
-
 class PayRecord{
   late String orderId;
   late String tranId;

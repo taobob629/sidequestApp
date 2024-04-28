@@ -1,8 +1,8 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:wy/utils/toast_utils.dart';
 
+import '../utils/toast_utils.dart';
 import 'base_controller.dart';
 
 abstract class GetxListController<T> extends BasePageController {

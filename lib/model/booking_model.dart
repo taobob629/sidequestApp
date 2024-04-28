@@ -1,5 +1,6 @@
-import 'package:wy/model/cybercafe_detail_model.dart';
-import 'package:wy/model/selector_item.dart';
+import 'package:sq_hub_app/model/selector_item.dart';
+
+import 'cybercafe_detail_model.dart';
 
 class BookingModel {
   late int id = 0;

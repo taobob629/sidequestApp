@@ -6,7 +6,6 @@
 import 'dart:core';
 
 import 'package:intl/intl.dart';
-import 'package:wy/utils/utils.dart';
 
 /**
  * 日期工具
@@ -211,7 +210,6 @@ class TimeUtils {
   static DateTime getSomeDay(DateTime dateTime, int index) {
     DateTime yesterDay = new DateTime.fromMillisecondsSinceEpoch(
         dateTime.millisecondsSinceEpoch + (index * 24 * 60 * 60 * 1000));
-    flog('time ${getYYYYMMDD(yesterDay, "-")}');
     return yesterDay;
   }
 

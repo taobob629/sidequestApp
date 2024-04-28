@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wy/config/icon_font.dart';
+
+import '../config/icon_font.dart';
 
 class MyText extends StatefulWidget {
   final dynamic text;

@@ -1,8 +1,10 @@
-import 'package:wy/api/wy_http.dart';
-import 'package:wy/model/coupon_model.dart';
-import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/ui/profile/coupon/coupon_page.dart';
-import 'package:wy/utils/index.dart';
+import 'dart:developer';
+
+import 'package:sq_hub_app/api/wy_http.dart';
+
+import '../model/coupon_model.dart';
+import '../model/pay_order_model.dart';
+import '../ui/pages/profile/coupon/coupon_page.dart';
 
 class CouponApi {
   static Future<List<CouponModel>> list(
@@ -80,7 +82,7 @@ class CouponApi {
       var couponId, var matchId) async {
     var response = await http.get('/app/coupon/selectCoupon',
         queryParameters: ({"couponId": couponId, 'matchId': matchId}));
-    flog('response $response');
+    log('response $response');
     return ActivityDiscountModel.fromJson(response.data);
   }
 }

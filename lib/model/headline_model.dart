@@ -1,10 +1,9 @@
-
 import 'dart:developer';
 
-import 'package:wy/model/activity_item_model.dart';
-import 'package:wy/model/match_item_model.dart';
-import 'package:wy/model/promotion_item_model.dart';
+import 'package:sq_hub_app/model/promotion_item_model.dart';
 
+import 'activity_item_model.dart';
+import 'match_item_model.dart';
 import 'news_item_model.dart';
 
 class HeadlineModel {

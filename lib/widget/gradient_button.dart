@@ -7,7 +7,7 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:wy/res/dimens.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GradientButton extends StatelessWidget {
   const GradientButton({
@@ -43,13 +43,13 @@ class GradientButton extends StatelessWidget {
       _colors = [Colors.grey.withAlpha(100), Colors.grey.withAlpha(100)];
     } else {
       //确保colors数组不空
-      _colors = colors ?? [Color(0xFFD0A920), Color(0xFFED5A24)];
+      _colors = colors ?? [const Color(0xFFD0A920), const Color(0xFFED5A24)];
     }
 
     return DecoratedBox(
       decoration: decoration ??
           BoxDecoration(
-            borderRadius: borderRadius??BorderRadius.circular(Dimens.btnRadius),
+            borderRadius: borderRadius ?? BorderRadius.circular(40.r),
             gradient: LinearGradient(colors: _colors),
           ),
       child: Material(
@@ -67,7 +67,7 @@ class GradientButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DefaultTextStyle(
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                   child: child,
                 ),
               ),

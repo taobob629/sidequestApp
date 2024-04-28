@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
 
+import '../../../../config/app_color.dart';
 import '../models/country_model.dart';
 import '../test/test_helper.dart';
 import '../utils/selector_config.dart';

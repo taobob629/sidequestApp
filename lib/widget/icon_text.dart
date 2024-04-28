@@ -5,8 +5,8 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wy/config/icon_font.dart';
-import 'package:wy/utils/image_util.dart';
+
+import '../config/icon_font.dart';
 
 class IconTextWidget extends StatelessWidget {
   Widget? spacing;
@@ -34,7 +34,7 @@ class IconTextWidget extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment,
       children: [
         iconWidget ??
-            ImageUtil.assetImage(icon, color: iconColor ?? Colors.white, width: size, height: size),
+            Image.asset(icon, color: iconColor ?? Colors.white, width: size, height: size),
         spacing ?? 8.5.horizontalSpace,
         Expanded(
             child: Text(

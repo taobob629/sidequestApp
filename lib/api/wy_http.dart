@@ -3,16 +3,11 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:get/get.dart' as Get;
-import 'package:wy/service/location_service.dart';
-import 'package:wy/ui/controller/user_controller.dart';
-import 'package:wy/ui/login/login_page.dart';
-import 'package:wy/utils/utils.dart';
-import 'package:wy/widget/show_error_widget.dart';
-
-import '../config/app_config.dart';
+import 'package:sq_hub_app/ui/pages/login/login_page.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
 import '../utils/toast_utils.dart';
+import '../widget/show_error_widget.dart';
 import 'base_http.dart';
 
 ///是否正在登录
@@ -23,7 +18,8 @@ Http http = Http();
 class Http extends BaseHttp {
   @override
   void init() async {
-    options.baseUrl = AppConfig.getBaseServer();
+    options.baseUrl = "https://sidequestmeta.com";
+    // options.baseUrl = "http://114.117.203.137:8081";
     interceptors
       ..add(ApiInterceptor())
       ..add(HeaderInterceptor());
@@ -39,8 +35,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
     // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
-    options.headers['longitude'] = LocationService().position?.longitude ?? 0;
-    options.headers['latitude'] = LocationService().position?.latitude ?? 0;
+    options.headers['longitude'] = 0;
+    options.headers['latitude'] = 0;
     log(jsonEncode(options.headers), name: 'options.headers');
     handler.next(options);
   }
@@ -73,7 +69,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) async {
     String requestPath = response.requestOptions.path;
-    flog(' requestPath:$requestPath onResponse api-response ${response}');
+    log(' requestPath:$requestPath onResponse api-response $response');
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {
       response.data = respData.data;
@@ -93,7 +89,7 @@ class ApiInterceptor extends InterceptorsWrapper {
         } else {
           if (isSigningIn) return;
           isSigningIn = true;
-          UserController.find.switchLogin();
+          // UserController.find.switchLogin();
         }
       } else {
         dismissLoading();
@@ -114,6 +110,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
+    log(' onError: ${err.message}');
     dismissLoading();
     showToast("Networking Failure");
   }
@@ -123,8 +120,8 @@ class ResponseData extends BaseResponseData {
   bool get success => 200 == code;
 
   ResponseData.fromJson(Map<String, dynamic> json) {
-    code = json['code'] ?? -1;
-    msg = json['msg'] == null ? "" : json['msg'];
+    code = json['code'];
+    msg = json['msg'] ?? "";
     data = json['data'];
     if (data == null && json["rows"] != null) {
       data = json;

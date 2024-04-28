@@ -6,10 +6,11 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wy/config/lang/translations.dart';
-import 'package:wy/main.dart';
-import 'package:wy/model/credit_card_model.dart';
-import 'package:wy/model/user_model.dart';
+
+import '../config/lang/translations.dart';
+import '../main.dart';
+import '../model/credit_card_model.dart';
+import '../model/user_model.dart';
 
 // const String default_server='dev184';//上线时候要改成prod
 const String default_server='prod';//上线时候要改成prod

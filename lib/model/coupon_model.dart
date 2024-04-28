@@ -1,4 +1,4 @@
-import 'package:wy/model/safe_convert.dart';
+import 'package:sq_hub_app/model/safe_convert.dart';
 
 class CouponModel {
   static const int AVILABLE = 1;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
-import 'package:wy/config/icon_font.dart';
+import 'package:sq_hub_app/widget/custom_scroll_physics.dart';
 
-import '../ui/common/home_indicator.dart';
-import 'custom_scroll_physics.dart';
+import '../common/home_indicator.dart';
+import '../config/app_color.dart';
+import '../config/icon_font.dart';
 import 'my_bouncing_scroll_physics.dart';
 
 const int TAB_STYLE_DEFAULT = 0;

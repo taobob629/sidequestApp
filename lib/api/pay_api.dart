@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:wy/api/wy_http.dart';
-import 'package:wy/model/pay_info_model.dart';
-import 'package:wy/model/pay_order_model.dart';
-import 'package:wy/utils/utils.dart';
+import 'package:sq_hub_app/api/wy_http.dart';
+
+import '../model/pay_info_model.dart';
+import '../model/pay_order_model.dart';
+import '../utils/utils.dart';
 
 class PayApi {
   static Future<PayInfoModel> pay(PayOrderModel model) async {

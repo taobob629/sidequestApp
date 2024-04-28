@@ -53,7 +53,6 @@ showCustom(
   return await SmartDialog.show(
     builder: (builder) => widget,
     clickMaskDismiss: clickMaskDismiss,
-    alignment: alignment,
     maskColor: maskColor,
     usePenetrate: usePenetrate,
     onDismiss: onDismiss,

@@ -1,4 +1,4 @@
-import '../ui/frame/profile/model/profile_model.dart';
+import 'package:sq_hub_app/model/profile_model.dart';
 
 /// chargeRatio : "10"
 /// pw_charge_rules : [{"id":null,"name":null,"money":"10","coin":100,"coinIos":70,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null},{"id":null,"name":null,"money":"30","coin":310,"coinIos":217,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null},{"id":null,"name":null,"money":"50","coin":530,"coinIos":371,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null},{"id":null,"name":null,"money":"100","coin":1080,"coinIos":756,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null},{"id":null,"name":null,"money":"200","coin":2100,"coinIos":1470,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null},{"id":null,"name":null,"money":"300","coin":3300,"coinIos":2310,"productId":null,"googlePid":null,"give":null,"listOrder":null,"addtime":null,"coinPaypal":null}]

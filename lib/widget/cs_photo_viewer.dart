@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:wy/widget/views.dart';
+import 'package:sq_hub_app/widget/views.dart';
 
 class CsPhotoViewer extends StatelessWidget {
   CsPhotoViewer({Key? key, this.photoList = const [], this.tapIndex = 0}) : super(key: key);
@@ -22,7 +21,7 @@ class CsPhotoViewer extends StatelessWidget {
         scrollPhysics: const BouncingScrollPhysics(),
         builder: (BuildContext context, int index) {
           var imgUrl = photoList[index];
-          final image = imgUrl.contains("http") ? CachedNetworkImageProvider(imgUrl) : AssetImage(imgUrl);
+          final image = imgUrl.contains("http") ? NetworkImage(imgUrl) : AssetImage(imgUrl);
           return PhotoViewGalleryPageOptions(
             imageProvider: image as ImageProvider,
             initialScale: PhotoViewComputedScale.contained * 0.8,

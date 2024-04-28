@@ -1,4 +1,4 @@
-import 'package:wy/model/safe_convert.dart';
+import 'package:sq_hub_app/model/safe_convert.dart';
 
 class ActivityListModel {
   // https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/IMG_20230123_103239_582.jpg

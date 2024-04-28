@@ -1,14 +1,11 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:wy/api/base_http.dart';
-import 'package:wy/model/login_model.dart';
-import 'package:wy/model/qr_login_info.dart';
-import 'package:wy/utils/platform_utils.dart';
-import 'package:wy/utils/storage_manager.dart';
+import 'package:sq_hub_app/utils/storage_manager.dart';
 
+import '../model/login_model.dart';
 import '../model/qr_login.dart';
+import '../model/qr_login_info.dart';
 import '../model/user_model.dart';
-import '../utils/utils.dart';
+import '../utils/platform_utils.dart';
+import 'base_http.dart';
 import 'wy_http.dart';
 
 class AuthApi {
@@ -109,29 +106,6 @@ class AuthApi {
     };
     final response = await http.post('/web/index/appRegister', data: formData);
     return LoginModel.fromJson(response.data);
-  }
-
-  static Future<UserModel> validateInfo(
-    String name,
-    String value,
-    String token,
-  ) async {
-    var formData = {
-      "name": name,
-      "value": value,
-    };
-    Options options = Options(headers: {'X-Wanyoo-Token': token});
-    var response = await http.post(
-      '/web/index/secondary',
-      queryParameters: ({
-        'name': name,
-        'value': value,
-      }),
-      data: formData,
-      options: options,
-    );
-
-    return UserModel.fromJson(response.data);
   }
 
   static Future<void> updateProfile(
@@ -235,58 +209,6 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<LoginModel> signInApple(
-    AuthorizationCredentialAppleID credential,
-    String url, {
-    String? email,
-    String? birth,
-    String? sex,
-    String? pwd,
-    String? payment,
-  }) async {
-    var formData = {
-      'userIdentifier': credential.userIdentifier,
-      'email': credential.email ?? email,
-      'givenName': credential.givenName,
-      'familyName': credential.familyName,
-      'birth': birth,
-      'sex': sex,
-      'pwd': pwd,
-      'payment': payment,
-    };
-    var response = await http.post(
-      url,
-      data: formData,
-    );
-    return LoginModel.fromJson(response.data);
-  }
-
-  static Future<LoginModel> signInGoogle(
-    String url,
-    GoogleSignInAccount? account,
-    String? idToken, {
-    String? birth,
-    String? sex,
-    String? pwd,
-    String? payment,
-  }) async {
-    var formData = {
-      'email': account?.email,
-      'id': account?.id,
-      'displayName': account?.displayName,
-      'photoUrl': account?.photoUrl,
-      'idToken': idToken,
-      'serverAuthCode': account?.serverAuthCode,
-      'pwd': pwd,
-      'payment': payment,
-    };
-    var response = await http.post(
-      url,
-      data: formData,
-    );
-    return LoginModel.fromJson(response.data);
-  }
-
   static Future<LoginModel> signInDiscord(
     String url,
     String? discordAppId,
@@ -317,24 +239,6 @@ class AuthApi {
     );
   }
 
-  static Future<QrLoginModel> qrCodeLogin(String code) async {
-    var formData = {
-      "secret": code,
-    };
-    var res = await http.post('/app/index/qrcode/login', data: formData);
-    return QrLoginModel.fromJson(res.data);
-  }
-
-  static Future<QrLoginInfoModel> scanInfo(String code) async {
-    var formData = {
-      "secret": code,
-    };
-    flog("qrCodeLogin::$code name");
-
-    var response = await http.post('/app/index/scanInfo', data: formData);
-    return QrLoginInfoModel.fromJson(response.data);
-  }
-
   static Future<void> appNotifyCallback(
     int memberId,
     String extInfo,
@@ -347,5 +251,22 @@ class AuthApi {
     };
 
     await http.post('/web/extra/appNotifyCallback', data: formData);
+  }
+
+  static Future<QrLoginInfoModel> scanInfo(String code) async {
+    var formData = {
+      "secret": code,
+    };
+
+    var response = await http.post('/app/index/scanInfo', data: formData);
+    return QrLoginInfoModel.fromJson(response.data);
+  }
+
+  static Future<QrLoginModel> qrCodeLogin(String code) async {
+    var formData = {
+      "secret": code,
+    };
+    var res = await http.post('/app/index/qrcode/login', data: formData);
+    return QrLoginModel.fromJson(res.data);
   }
 }

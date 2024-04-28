@@ -4,7 +4,8 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/native_imp.dart';
 import 'package:flutter/foundation.dart';
-import 'package:wy/utils/platform_utils.dart';
+
+import '../utils/platform_utils.dart';
 
 export 'package:dio/dio.dart';
 
@@ -21,7 +22,7 @@ abstract class BaseHttp extends DioForNative {
   BaseHttp() {
     /// 初始化 加入app通用处理
     (transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
-    interceptors..add(HeaderInterceptor());
+    interceptors.add(HeaderInterceptor());
 
     (httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
       client.badCertificateCallback = (X509Certificate cert, String host, int port){

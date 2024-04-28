@@ -1,6 +1,6 @@
-
 import 'package:intl/intl.dart';
-import 'package:wy/utils/datetime_utils.dart';
+
+import '../utils/datetime_utils.dart';
 
 class UserModel {
   late int id = 0;

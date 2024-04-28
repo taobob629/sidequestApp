@@ -8,7 +8,7 @@
 import 'dart:ui';
 
 import 'package:get/get.dart';
-import 'package:wy/config/lang/zh_CN.dart';
+import 'package:sq_hub_app/config/lang/zh_CN.dart';
 
 import 'en_US.dart';
 

@@ -1,5 +1,3 @@
-
-
 class CreditCardModel {
   late String cardNumber = "";
   late String cardHolder = "";

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wy/config/app_color.dart';
 
-import '../../../../ui/login/register/controller.dart';
+import '../../../../config/app_color.dart';
+import '../../../../ui/pages/register/controller.dart';
 import '../models/country_list.dart';
 import '../models/country_model.dart';
 import '../providers/country_provider.dart';

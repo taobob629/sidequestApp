@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wy/view/custom_error_widget.dart';
+
+import 'custom_error_widget.dart';
 
 void showErrorWidget(String message) {
   var shouldRemoveOverlay = false.obs;

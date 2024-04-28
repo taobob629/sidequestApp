@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:wy/config/app_config.dart';
-import 'package:wy/model/participant_model.dart';
-import 'package:wy/model/selector_item.dart';
+import 'package:sq_hub_app/model/participant_model.dart';
+import 'package:sq_hub_app/model/selector_item.dart';
+
+import '../config/app_config.dart';
 
 const int TYPE_PRIZE = 6; //抽奖
 

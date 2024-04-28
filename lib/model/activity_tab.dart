@@ -1,5 +1,6 @@
 
-import 'package:wy/model/safe_convert.dart';
+import 'package:sq_hub_app/model/safe_convert.dart';
+
 class ActivityTabModel {
   // 0
   final int amount;

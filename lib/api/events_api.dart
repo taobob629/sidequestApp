@@ -1,10 +1,10 @@
 
 import 'package:dio/dio.dart';
-import 'package:wy/api/wy_http.dart';
-import 'package:wy/model/activity_item_model.dart';
-import 'package:wy/model/event_detail_model.dart';
-import 'package:wy/model/match_item_model.dart';
-import 'package:wy/model/match_team_model.dart';
+import 'package:sq_hub_app/api/wy_http.dart';
+
+import '../model/activity_item_model.dart';
+import '../model/event_detail_model.dart';
+import '../model/match_item_model.dart';
 
 class EventsApi {
 
@@ -132,10 +132,10 @@ class EventsApi {
     return response;
   }
 
-  static Future<MatchTeamModel> myTeam(int id) async {
-    var response = await http.get('/app/team/myTeam',
-      queryParameters: ({"matchId":id})
-    );
-    return MatchTeamModel.fromJson(response.data);
-  }
+  // static Future<MatchTeamModel> myTeam(int id) async {
+  //   var response = await http.get('/app/team/myTeam',
+  //     queryParameters: ({"matchId":id})
+  //   );
+  //   return MatchTeamModel.fromJson(response.data);
+  // }
 }

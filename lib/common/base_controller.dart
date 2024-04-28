@@ -5,7 +5,7 @@
  */
 import 'package:get/get.dart';
 
-import 'page/empty_view.dart';
+import 'empty_view.dart';
 
 class PageState {
   static const int initialing = 0;
@@ -16,7 +16,7 @@ class PageState {
 }
 
 class BasePageController extends GetxController with GetSingleTickerProviderStateMixin{
-  RxInt _pageState = RxInt(PageState.initialing);
+  final RxInt _pageState = RxInt(PageState.initialing);
 
   int get pageState => _pageState.value;
 

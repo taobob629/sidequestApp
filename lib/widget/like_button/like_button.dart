@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wy/widget/like_button/painter/bubbles_painter.dart';
-import 'package:wy/widget/like_button/painter/circle_painter.dart';
-import 'package:wy/widget/like_button/utils/like_button_model.dart';
-import 'package:wy/widget/like_button/utils/like_button_typedef.dart';
-import 'package:wy/widget/like_button/utils/like_button_util.dart';
+import 'package:sq_hub_app/widget/like_button/painter/bubbles_painter.dart';
+import 'package:sq_hub_app/widget/like_button/painter/circle_painter.dart';
+import 'package:sq_hub_app/widget/like_button/utils/like_button_model.dart';
+import 'package:sq_hub_app/widget/like_button/utils/like_button_typedef.dart';
+import 'package:sq_hub_app/widget/like_button/utils/like_button_util.dart';
 
 class LikeButton extends StatefulWidget {
   const LikeButton({

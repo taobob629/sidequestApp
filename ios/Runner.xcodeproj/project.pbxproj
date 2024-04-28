@@ -448,7 +448,7 @@
 					"-ObjC",
 					"-l\"c++\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sidequest.wy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sq.hub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sidequest_dis;
@@ -613,7 +613,7 @@
 					"-ObjC",
 					"-l\"c++\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sidequest.wy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sq.hub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sidequest_dis;
@@ -668,7 +668,7 @@
 					"-ObjC",
 					"-l\"c++\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sidequest.wy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uk.co.sq.hub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sidequest_dis;

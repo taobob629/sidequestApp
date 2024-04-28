@@ -1,5 +1,6 @@
-import 'package:wy/api/wy_http.dart';
-import 'package:wy/model/address_model.dart';
+import 'package:sq_hub_app/api/wy_http.dart';
+
+import '../common/address_model.dart';
 
 class AddressApi{
 

@@ -1,4 +1,4 @@
-import 'package:wy/config/app_config.dart';
+import '../config/app_config.dart';
 
 class ActivityItemModel {
   late int id = 0;

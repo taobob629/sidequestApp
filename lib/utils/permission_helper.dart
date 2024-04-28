@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wy/ui/common/dialog_confirm.dart';
-import 'package:wy/utils/platform_utils.dart';
+import 'package:sq_hub_app/utils/platform_utils.dart';
+
+import '../ui/dialog/dialog_confirm.dart';
 
 class PermissionHelper {
   static bool isDenied(PermissionStatus status) {
@@ -59,7 +60,8 @@ class PermissionHelper {
       status = await Permission.photos.request();
     }
     if (isDenied(status)) {
-      var ret = await ConfirmDialog.show(context, "Permission required","Your photos is not available, please click the button below to change current setting.");
+      var ret = await ConfirmDialog.show(context, "Permission required",
+          "Your photos is not available, please click the button below to change current setting.");
       if (ret == true) {
         await openAppSettings();
       }

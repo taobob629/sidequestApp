@@ -1,6 +1,3 @@
-
-
-
 class ParticipantModel {
   late String avatar = "";
   late String name = "";
