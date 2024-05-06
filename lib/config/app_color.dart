@@ -13,7 +13,7 @@ class AppColor {
   static const Color itemBg = Color(0xFF262731);
   static const Color dropDownBtBg = Color(0xFF262731);
   static const Color itemBg2 = Color(0xFF313033);
-  static const Color yellow = Color(0xFFFFD20E);
+  static const Color yellow = Color(0xFFFFB20E);
   static const Color greyAF = Color(0xFFAFAFAF);
   static const Color whiteGray = Color(0xFFC5C3C6);
   static const Color textWhiteGrey = Color(0xFFC5C3C6);

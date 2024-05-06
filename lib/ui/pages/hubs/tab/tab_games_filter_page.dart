@@ -28,7 +28,7 @@ class TabGamesFilterPage extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (c, i) => Obx(() => GestureDetector(
                           behavior: HitTestBehavior.translucent,
-                          onTap: () => controller.clickLeftTab(i),
+                          onTap: () => controller.clickLeftTab(i, controller.leftTabs[i].name),
                           child: Container(
                             width: 74.w,
                             height: i != 2 ? 80.h : 90.h,
@@ -96,7 +96,7 @@ class TabGamesFilterPage extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) => Column(
                       children: [
                         ImageUtil.networkImage(
-                          url: controller.list[index].image,
+                          url: "${controller.list[index].image}",
                           width: 120.w,
                           height: 120.w,
                           fit: BoxFit.cover,
@@ -104,7 +104,7 @@ class TabGamesFilterPage extends StatelessWidget {
                         ),
                         10.verticalSpace,
                         Text(
-                          controller.list[index].name,
+                          '${controller.list[index].name}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -125,7 +125,7 @@ class TabGamesFilterPage extends StatelessWidget {
       );
 }
 
-class TabGamesFilterController extends GetxListController<GameModel> {
+class TabGamesFilterController extends GetxController {
   static TabGamesFilterController get find => Get.find();
 
   List<GamesLeftTabBean> leftTabs = [
@@ -136,13 +136,23 @@ class TabGamesFilterController extends GetxListController<GameModel> {
 
   var selectLeftTabIndex = 0.obs;
 
+  List<GameModel> totalList = [];
+  var list = <GameItemModel>[].obs;
+
   @override
-  Future<List<GameModel>> loadData() async {
-    List<GameModel> list = await IndexApi.getGames();
-    return list;
+  void onInit() {
+    super.onInit();
+
+    requestData();
   }
 
-  void clickLeftTab(int i) {
+  void requestData() async {
+    totalList = await IndexApi.getGames();
+    list.assignAll(totalList.firstWhere((element) => "pc".contains(element.type?.toLowerCase() ?? '')).list);
+  }
+
+  void clickLeftTab(int i, String clickTabName) {
     selectLeftTabIndex.value = i;
+    list.assignAll(totalList.firstWhere((element) => clickTabName.toLowerCase().contains(element.type?.toLowerCase() ?? '')).list);
   }
 }

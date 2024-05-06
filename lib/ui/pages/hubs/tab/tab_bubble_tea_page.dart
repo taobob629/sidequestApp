@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../../widget/image_util.dart';
+import '../confirm_order_page.dart';
 
 class TabBubbleTeaPage extends StatelessWidget {
   final ctr = TabBubbleTeaCtr.find;
@@ -261,7 +261,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                                   child: Center(
                                     child: RichText(
                                       text: TextSpan(
-                                        text: 'Discount：-3.2 ',
+                                        text: 'Discount：-0.0 ',
                                         style: TextStyle(
                                           color: Colors.white.withOpacity(0.6),
                                           fontSize: 12.sp,
@@ -282,24 +282,27 @@ class TabBubbleTeaPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  width: 100.w,
-                                  height: 44.w,
-                                  decoration: ShapeDecoration(
-                                    color: hexColor('FFB20E'),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(60),
+                                InkWell(
+                                  onTap: () => Get.to(() => ConfirmOrderPage()),
+                                  child: Container(
+                                    width: 100.w,
+                                    height: 44.w,
+                                    decoration: ShapeDecoration(
+                                      color: hexColor('FFB20E'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
                                     ),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Drink Now',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.w700,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Drink Now',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -385,7 +388,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                         fontFamily: FONT_MEDIUM,
                         fontWeight: FontWeight.w400,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Visibility(
@@ -418,23 +421,25 @@ class TabBubbleTeaPage extends StatelessWidget {
                 onTap: () => ctr.minusMoney(i),
                 child: Icon(
                   Icons.remove_circle_outline,
-                  color: Colors.white,
+                  color: ctr.selectTeaList[i].count.value == 1
+                      ? Colors.white.withOpacity(0.6)
+                      : Colors.white,
                 ),
               ),
               Obx(() => Text(
-                '${ctr.selectTeaList[i].count.value}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontFamily: FONT_LIGHT,
-                  fontWeight: FontWeight.w600,
-                ),
-              ).paddingSymmetric(horizontal: 15.w)),
+                    '${ctr.selectTeaList[i].count.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_LIGHT,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ).paddingSymmetric(horizontal: 15.w)),
               InkWell(
                 onTap: () => ctr.addMoney(i),
                 child: Icon(
                   Icons.add_circle_outline,
-                  color: Colors.white,
+                  color: hexColor('#FFB20E'),
                 ),
               ),
               16.horizontalSpace,

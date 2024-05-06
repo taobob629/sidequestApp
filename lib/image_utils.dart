@@ -18,6 +18,8 @@ class ImageUtils {
   static const String tab_profile = 'assets/images/tab_profile.webp';
   static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
   static const String icon_ps = 'assets/images/icon_ps.webp';
+  static const String tea_icon = 'assets/images/tea_icon.webp';
+  static const String tea_app_logo_icon = 'assets/images/tea_app_logo_icon.webp';
   static const String icon_gift = 'assets/images/icon_gift.png';
   static const String drink_now_icon = 'assets/images/drink_now_icon.png';
   static const String icon_liwu = 'assets/images/icon_liwu.webp';

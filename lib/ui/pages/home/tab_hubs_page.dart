@@ -83,7 +83,9 @@ class TabHubsPageController extends GetxController {
 
   void clickTopTab(int i) {
     selectTopTabIndex.value = i;
-    if (selectTopTabIndex.value == 2) {
+    if (selectTopTabIndex.value == 0) {
+      TabGamesFilterController.find.requestData();
+    } else if (selectTopTabIndex.value == 2) {
       TabBubbleTeaCtr.find.requestData();
     }
   }

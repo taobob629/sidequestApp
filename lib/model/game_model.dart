@@ -1,22 +1,47 @@
-import '../config/app_config.dart';
-
 class GameModel {
-  late int gid;
-  late String image;
-  late String name;
-  late int stars;
-  late bool popular;
+  String? type;
+  List<GameItemModel> list;
 
-  GameModel();
+  GameModel({
+    this.type,
+    required this.list,
+  });
 
-  GameModel.fromJson(Map<String, dynamic> json) {
-    gid = json['gid'];
-    name = json['name'];
-    stars = json['stars'];
-    popular = json['popular'];
-    image = json['image'] == null ? AppConfig.noImage : json['image'];
-  }
+  factory GameModel.fromJson(Map<String, dynamic> json) => GameModel(
+    type: json["type"],
+    list: json["list"] == null ? [] : List<GameItemModel>.from(json["list"]!.map((x) => GameItemModel.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "type": type,
+    "list": List<dynamic>.from(list.map((x) => x.toJson())),
+  };
 }
+
+class GameItemModel {
+  String? image;
+  String? name;
+  int? type;
+
+  GameItemModel({
+    this.image,
+    this.name,
+    this.type,
+  });
+
+  factory GameItemModel.fromJson(Map<String, dynamic> json) => GameItemModel(
+    image: json["image"],
+    name: json["name"],
+    type: json["type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "image": image,
+    "name": name,
+    "type": type,
+  };
+}
+
 class SimpleGameModel {
   SimpleGameModel({
     this.name,
@@ -44,7 +69,7 @@ class SimpleGameModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SimpleGameModel && runtimeType == other.runtimeType && id == other.id;
+          other is SimpleGameModel && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

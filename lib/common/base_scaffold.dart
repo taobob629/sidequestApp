@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sq_hub_app/common/page_title.dart';
 
 import '../config/app_color.dart';
@@ -10,6 +11,7 @@ class BaseScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final Widget body;
   final Widget? floatingActionButton;
+  final Widget? leading;
   final bool resizeToAvoidBottomInset;
 
   BaseScaffold({
@@ -18,6 +20,7 @@ class BaseScaffold extends StatelessWidget {
     this.appBarBackgroundColor = AppColor.background,
     required this.body,
     this.actions,
+    this.leading,
     this.floatingActionButton,
     this.resizeToAvoidBottomInset = true,
   });
@@ -28,6 +31,7 @@ class BaseScaffold extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: appBarBackgroundColor,
+        leading: leading,
         elevation: 0,
         title: PageTitle(
           title: title,
