@@ -5,8 +5,8 @@
  */
 import 'package:get/get.dart';
 
-import '../../../../../common/base_tab_controller.dart';
-import '../../../../../model/activity_tab.dart';
+import '../../../../common/base_tab_controller.dart';
+import '../../../../model/activity_tab.dart';
 
 class ActivityTabController extends BaseTabContoller<ActivityTabModel> {
   Rxn<ActivityTabModel> _curTab = Rxn();

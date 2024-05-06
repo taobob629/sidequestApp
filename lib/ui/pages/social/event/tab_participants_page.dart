@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../../../config/icon_font.dart';
 import '../../../../../model/participant_model.dart';
-import '../../event/event_page.dart';
-import '../activity/list/widget/list_item.dart';
+import '../../../../common/styles.dart';
+import '../../events/event/event_page.dart';
 
 class TabParticipantsPage extends StatelessWidget {
   final controller = Get.find<EventPageController>();

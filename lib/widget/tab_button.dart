@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sq_hub_app/image_utils.dart';
 
 class TabButton extends StatefulWidget {
   final int index;
   final int currentIndex;
-  final String iconName;
+  final String selectIconName;
+  final String normalIconName;
   final Function onTap;
-  final List<Color> colors;
-  final String title;
 
-  TabButton(
-      {required this.index,
-      required this.currentIndex,
-      required this.title,
-      required this.iconName,
-      required this.colors,
-      required this.onTap});
+  TabButton({
+    required this.index,
+    required this.currentIndex,
+    required this.selectIconName,
+    required this.normalIconName,
+    required this.onTap,
+  });
 
   @override
   State createState() => _TabButtonState();
@@ -35,11 +36,10 @@ class _TabButtonState extends State<TabButton>
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(30),
       onTap: () => widget.onTap.call(),
       child: SizedBox(
-        width: 50,
-        height: widget.index == widget.currentIndex ? 80 : 50,
+        width: 50.h,
+        height: 50.h,
         child: Stack(
           children: createIcon(),
         ),
@@ -50,57 +50,32 @@ class _TabButtonState extends State<TabButton>
   List<Widget> createIcon() {
     List<Widget> icons = [];
 
-    // Widget icon = SvgPicture.asset("assets/images/ic_tab_${widget.iconName}.svg");
-    // Widget iconLight = SvgPicture.asset("assets/images/ic_tab_${widget.iconName}_light.svg",color: Colors.white,);
-    Widget icon = Image.asset(
-      "assets/images/${widget.iconName}.png",
-      width: 28,
-      fit: BoxFit.contain,
-    );
-
     if (widget.index == widget.currentIndex) {
-      Container bgColorContainer = Container(
-        decoration: BoxDecoration(
-            gradient: RadialGradient(
-                center: const Alignment(0.8, -0.8), //中心点偏移量,x和y均为0.0表示在正中心位置
-                radius: 2,
-                stops: [0.1, 1.0],
-                colors: widget.colors),
-            borderRadius: BorderRadius.all(Radius.elliptical(25, 25))),
+      icons.add(
+        Container(
+          alignment: Alignment.center,
+          width: 50.h,
+          height: 50.h,
+          child: Image.asset(
+            widget.selectIconName,
+            fit: BoxFit.contain,
+            height: 50.h,
+          ),
+        ),
       );
-      icons.add(bgColorContainer);
-
-      Column column = Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          // Icon(
-          //   widget.icon,
-          //   size: 26,
-          //   color: widget.index == widget.currentIndex ? Colors.white : Colors.grey,
-          // ),
-          icon,
-          Text(
-            widget.title,
-            style: TextStyle(color: Colors.white, fontSize: 10),
-          )
-        ],
-      );
-      icons.add(Center(
-        child: Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 8), child: column),
-      ));
     } else {
-      icons.add(Container(
-          width: 50,
-          height: 50,
-          padding: const EdgeInsets.symmetric(horizontal: 11),
+      icons.add(
+        Container(
+          width: 50.h,
+          height: 50.h,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           color: Colors.transparent,
-          // child: Icon(
-          //   widget.icon,
-          //   size: 26,
-          //   color: widget.index == widget.currentIndex ? Colors.white : Colors.grey,
-          // ),
-          child: icon));
+          child: Image.asset(
+            widget.normalIconName,
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
     }
     return icons;
   }

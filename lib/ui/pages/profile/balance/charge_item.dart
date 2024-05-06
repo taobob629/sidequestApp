@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sq_hub_app/image_utils.dart';
 
 import '../../../../model/chage_rule_model.dart';
 import '../../../../widget/paixs_widget.dart';
@@ -58,7 +59,7 @@ class ChargeItem extends StatelessWidget {
                       children: [
                         Container(
                           child: PWidget.image(
-                            'assets/images/ic_balance_money.webp',
+                            ImageUtils.ic_balance_money,
                             [20, 20],
                           ),
                         ),
@@ -121,9 +122,9 @@ class ChargeItem extends StatelessWidget {
               child: Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/images/charge_badge.png"))),
+                        image: AssetImage(ImageUtils.charge_badge))),
                 child: Transform.rotate(
                   angle: pi / 4,
                   alignment: Alignment.center,
@@ -134,7 +135,7 @@ class ChargeItem extends StatelessWidget {
                     child: Text(
                       '${item.give}%UP',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.bold),

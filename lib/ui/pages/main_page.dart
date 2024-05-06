@@ -1,26 +1,24 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/ui/pages/profile/my_profile_page.dart';
+import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
+import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
 import 'package:sq_hub_app/ui/pages/social/view.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
 import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 
+import '../../common/keep_alive_wrapper.dart';
 import '../../config/app_color.dart';
-import '../../config/icon_font.dart';
 import '../../controller/user_controller.dart';
-import '../../utils/permission_helper.dart';
 import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
-import 'booking/booking_page.dart';
-import 'home/drawer.dart';
 import 'login/login_page.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -51,153 +49,122 @@ class MainPage extends StatelessWidget {
         }
         return false;
       },
-      child: AnnotatedRegion(
-          value: SystemUiOverlayStyle.light,
-          child: Obx(() => Scaffold(
-              backgroundColor: AppColor.background,
-              key: homeDrawerKey,
-              drawer: HomeDrawer(),
-              appBar: controller.currentIndex.value == 0
-                  ? AppBar(
-                      elevation: 0,
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () => Get.to(() => BookingPage()),
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.only(bottom: 10, right: 4),
-                              child: Image.asset(
-                                ImageUtils.ic_store,
-                                width: 27,
-                                height: 27,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                          10.horizontalSpace,
-                          GestureDetector(
-                            onTap: () {
-                              UserController.find.checkLogin(() async {
-                                bool access = await PermissionHelper
-                                    .requestCameraPermission(context);
-                                if (access) {
-                                  UserController.find.scan();
-                                }
-                              });
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(bottom: 10, right: 5),
-                              child: Icon(
-                                IconFonts.scan,
-                                size: 22,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  : null,
-              body: Stack(
-                children: [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: padding.bottom + 50,
-                    //  child: buildTabView(),
-                    child: PageView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: controller.controller,
-                      itemCount: controller.tabs.length,
-                      itemBuilder: (context, index) => controller.tabs[index],
+      child: Scaffold(
+          backgroundColor: AppColor.background,
+          key: homeDrawerKey,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(0),
+            child: AppBar(
+              title: const Text("Flutter 留着状态栏高度，去掉appbar高度"),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: padding.bottom + 50,
+                child: PageView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: controller.controller,
+                  itemCount: controller.tabs.length,
+                  itemBuilder: (context, index) => controller.tabs[index],
+                ),
+              ),
+              Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: padding.bottom + 50,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
                     ),
-                  ),
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      height: padding.bottom + 50,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
+                  )),
+              Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: padding.bottom,
+                  height: 80.h,
+                  child: Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TabButton(
+                          index: 0,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_home,
+                          normalIconName: ImageUtils.tab_home_normal,
+                          onTap: () {
+                            controller.controller.jumpToPage(0);
+                            controller.updateCurrentIndex(0);
+                          }),
+                      TabButton(
+                          index: 1,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_social,
+                          normalIconName: ImageUtils.tab_social_normal,
+                          onTap: () {
+                            controller.controller.jumpToPage(1);
+                            controller.updateCurrentIndex(1);
+                          }),
+                      TabButton(
+                          index: 2,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_games,
+                          normalIconName: ImageUtils.tab_games_normal,
+                          onTap: () {
+                            controller.controller.jumpToPage(2);
+                            controller.updateCurrentIndex(2);
+                          }),
+                      Badge(
+                        shape: BadgeShape.circle,
+                        badgeColor: Colors.red,
+                        position: BadgePosition(top: 3.h, end: 5.h),
+                        animationType: BadgeAnimationType.fade,
+                        animationDuration:
+                        const Duration(microseconds: 500),
+                        showBadge:
+                        UserController.find.unreadMsgCount.value >
+                            0,
+                        badgeContent: Text(
+                          "${UserController.find.unreadMsgCount.value}",
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: Colors.white,
+                          ),
                         ),
-                      )),
-                  Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: padding.bottom,
-                      height: 80,
-                      child: Obx(() {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            TabButton(
-                                index: 0,
-                                currentIndex: controller.currentIndex.value,
-                                iconName: "tab_home",
-                                title: "Home".tr,
-                                colors: const [
-                                  Color(0xffb991ff),
-                                  Color(0xff1817FF)
-                                ],
-                                onTap: () {
-                                  controller.controller.jumpToPage(0);
-                                  controller.updateCurrentIndex(0);
-                                }),
-                            TabButton(
-                                index: 1,
-                                currentIndex: controller.currentIndex.value,
-                                iconName: "tab_social",
-                                title: "Social".tr,
-                                colors: const [
-                                  Color(0xffFFD189),
-                                  Color(0xffFF3617)
-                                ],
-                                onTap: () {
-                                  controller.controller.jumpToPage(1);
-                                  controller.updateCurrentIndex(1);
-                                }),
-                            TabButton(
-                                index: 2,
-                                currentIndex: controller.currentIndex.value,
-                                iconName: "tab_stores",
-                                title: "Stores".tr,
-                                //colors: [Color(0xff4cd8fa), Color(0xff01819c)],
-                                colors: const [
-                                  Color(0xfffa7f85),
-                                  Color(0xffb6262c)
-                                ],
-                                onTap: () {
-                                  controller.controller.jumpToPage(2);
-                                  controller.updateCurrentIndex(2);
-                                }),
-                            TabButton(
-                                index: 3,
-                                currentIndex: controller.currentIndex.value,
-                                iconName: "tab_profile",
-                                title: "Profile".tr,
-                                colors: const [
-                                  Color(0xff99c6fa),
-                                  Color(0xff727DFF)
-                                ],
-                                onTap: () {
-                                  var account = StorageManager.getToken();
-                                  if (account.isEmpty) {
-                                    Get.to(() => LoginPage());
-                                  } else {
-                                    controller.controller.jumpToPage(3);
-                                    controller.updateCurrentIndex(3);
-                                  }
-                                }),
-                          ],
-                        );
-                      }))
-                ],
-              )))),
+                        ignorePointer: true,
+                        child: TabButton(
+                            index: 3,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_stores,
+                            normalIconName:
+                            ImageUtils.tab_stores_normal,
+                            onTap: () {
+                              controller.controller.jumpToPage(3);
+                              controller.updateCurrentIndex(3);
+                            }),
+                      ),
+                      TabButton(
+                          index: 4,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_profile,
+                          normalIconName: ImageUtils.tab_profile_normal,
+                          onTap: () {
+                            var account = StorageManager.getToken();
+                            if (account.isEmpty) {
+                              Get.to(() => LoginPage());
+                            } else {
+                              controller.controller.jumpToPage(4);
+                              controller.updateCurrentIndex(4);
+                            }
+                          }),
+                    ],
+                  )))
+            ],
+          )),
     );
   }
 }
@@ -220,7 +187,8 @@ class MainPageController extends FullLifeCycleController
   List<Widget> tabs = [
     IndexPage(),
     SocialPage(),
-    TabCybercafePage(),
+    TabHubsPage(),
+    KeepAliveWrapper(child: TabCybercafePage()),
     MyProfilePage(),
   ];
 

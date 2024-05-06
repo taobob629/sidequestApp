@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/ui/pages/profile/balance/top_banner.dart';
+import 'package:sq_hub_app/ui/pages/profile/consume/my_consume_page.dart';
 
 import '../../../../api/balance_api.dart';
 import '../../../../common/floating_button.dart';
@@ -17,11 +19,13 @@ import '../../../../model/chage_rule_model.dart';
 import '../../../../model/pay_order_model.dart';
 import '../../../../model/profile_model.dart';
 import '../../../../utils/navigator_helper.dart';
-import '../../../../utils/platform_utils.dart';
 import '../../../../utils/toast_utils.dart';
+import '../../../../widget/action_button.dart';
 import '../../../../widget/paixs_widget.dart';
 import 'charge_item.dart';
+import 'input_formatter.dart';
 import 'item_title.dart';
+import 'top_banner.dart';
 
 class BalancePage extends StatelessWidget {
   late final BalancePageController controller;
@@ -36,6 +40,16 @@ class BalancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyboardScaffold(
       title: "SideQuest Hub".tr,
+      actions: [
+        ActionButton(
+          icon: Icon(
+            Icons.list,
+            size: 26,
+            color: Colors.white,
+          ),
+          onTap: () => Get.to(() => MyConsumePage()),
+        )
+      ],
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,11 +407,8 @@ class BalancePageController extends GetxListController {
     }
   }
 
-  @override
   Future<List<CoinChargeRuleModel>> loadData() async {
-    showLoading();
     var chargeRole = await BalanceApi.chargeRule();
-    dismissLoading();
     ads.assignAll(chargeRole.ads);
     return chargeRole.pwChargeRules ?? [];
   }

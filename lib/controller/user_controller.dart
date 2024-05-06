@@ -4,24 +4,47 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:tencent_cloud_chat_uikit/data_services/core/core_services_implements.dart';
+import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
+import '../../api/wy_http.dart';
+import '../../utils/navigator_helper.dart';
+import '../../utils/toast_utils.dart';
 import '../api/auth_api.dart';
+import '../api/im_api.dart';
 import '../api/pay_api.dart';
 import '../api/profile_api.dart';
-import '../config/lang/translations.dart';
+import '../config/app_config.dart';
+import '../event_bus/beans/user_info_suc_bean.dart';
+import '../event_bus/event_bus.dart';
 import '../model/db_model.dart';
+import '../model/im_sig_model.dart';
 import '../model/login_model.dart';
 import '../model/profile_model.dart';
+import '../model/user_info_model.dart';
 import '../model/user_model.dart';
+import '../service/push_service.dart';
+import '../service/voice_player.dart';
 import '../ui/dialog/dialog_confirm.dart';
 import '../ui/pages/login/login_page.dart';
+import '../ui/pages/login/other_register/other_register_page.dart';
+import '../ui/pages/messages/chat/chat_page.dart';
+import '../ui/pages/messages/chat/chat_tool.dart';
+import '../ui/pages/profile/balance/balance_page.dart';
 import '../ui/pages/scan/qr_login_page.dart';
 import '../ui/pages/scan/scan_page.dart';
 import '../utils/db_helper.dart';
+import '../utils/login_flag.dart';
 import '../utils/storage_manager.dart';
-import '../utils/toast_utils.dart';
+import '../utils/utils.dart';
+import '../widget/show_error_widget.dart';
+import '../widget/voice_widget.dart';
 
 class UserController extends GetxController {
   bool hasDidVoiceCheck = false; //只检查一次
@@ -37,8 +60,6 @@ class UserController extends GetxController {
 
   var _userProfile = ProfileModel().obs;
 
-  DBHelper? db;
-
   Rx<ProfileModel> getRxuserProfile() {
     return _userProfile;
   }
@@ -51,6 +72,8 @@ class UserController extends GetxController {
 
   RxList<String> imBlackList = RxList();
 
+  final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
+
   late Timer _timer;
 
   Timer? _payNotifyTimer;
@@ -59,6 +82,8 @@ class UserController extends GetxController {
 
   int nums = 1;
 
+  DBHelper? db;
+
   DateTime lastLoginTime = DateTime.parse("1970-01-01 00:00:00");
 
   var imLoginDone = false.obs;
@@ -66,69 +91,48 @@ class UserController extends GetxController {
   var unreadMsgCount = 0.obs;
   final online = false.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    Get.updateLocale(Get.locale ?? ENGLISH);
-    initEasyLoadding();
-  }
-
-  initEasyLoadding() {
-    // 全局配置SmartDialog的参数
-    SmartDialog.config.toast = SmartConfigToast(alignment: Alignment.center);
-    SmartDialog.config.loading = SmartConfigLoading(clickMaskDismiss: true);
-  }
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   void onReady() async {
     super.onReady();
+    flog('UserController onReady==');
     await switchLogin();
-    _timer = Timer.periodic(const Duration(minutes: 10), (timer) {
+    _timer = Timer.periodic(Duration(minutes: 10), (timer) {
       switchLogin();
     });
   }
 
-  ///开始定时回调支付结果
-  void startPayNotify() {
-    _cancelPayNotify();
-    _payNotifyTimer = Timer.periodic(Duration(seconds: 2), (timer) async {
-      if (db != null) {
-        List<PayRecord> list = await db!.selectPayRecords();
-        if (list.isEmpty) {
-          print("no pay order need notify");
-          _cancelPayNotify();
-        }
-        list.forEach((payRecord) async {
-          print(
-              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
-          bool ret = await PayApi.backgroundNotify(
-              payRecord.orderId, payRecord.tranId);
-          if (ret == true) {
-            await db!.deletePayRecord(payRecord.orderId);
-          }
-        });
-      }
-      _payNotifyTimes++;
-      if (_payNotifyTimes >= 60) {
-        _cancelPayNotify();
-      }
-    });
-  }
-
   Future<void> switchLogin({bool checkLastLoginTime = false}) async {
-    await login(
-      showLoadings: false,
-      checkLastLoginTime: checkLastLoginTime,
-    );
-  }
+    var loginFlag = StorageManager.getString('loginFlag');
+    switch (loginFlag?.toLowerCase()) {
+      case LoginFlag.ios:
+        await appleLogin(showLoadings: false);
+        isSigningIn = false;
+        break;
 
-  Future<void> updateInfo() async {
-    if (StorageManager.getToken().isNotEmpty) {
-      //    userInfoModel.value = await UserApi.info();
-      userProfile = await ProfileApi.getProfileInfo();
-      //判断是否有语音
-      if (hasDidVoiceCheck) return;
-      //  voiceCheck();
+      case LoginFlag.google:
+        await googleLogin(showLoadings: false);
+        isSigningIn = false;
+        break;
+
+      case LoginFlag.discord:
+        await discordLogin(showLoadings: false);
+        isSigningIn = false;
+        break;
+
+      default:
+        await login(
+          showLoadings: false,
+          checkLastLoginTime: checkLastLoginTime,
+        );
+        isSigningIn = false;
+        break;
     }
   }
 
@@ -158,15 +162,69 @@ class UserController extends GetxController {
 
   @override
   void onClose() {
+    AudioManager.instance.stop();
     _timer.cancel();
     _cancelPayNotify();
     super.onClose();
+  }
+
+  ///开始定时回调支付结果
+  void startPayNotify() {
+    _cancelPayNotify();
+    _payNotifyTimer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      if (db != null) {
+        List<PayRecord> list = await db!.selectPayRecords();
+        if (list.isEmpty) {
+          print("no pay order need notify");
+          _cancelPayNotify();
+        }
+        list.forEach((payRecord) async {
+          print(
+              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+          bool ret = await PayApi.backgroundNotify(
+              payRecord.orderId, payRecord.tranId);
+          if (ret == true) {
+            await db!.deletePayRecord(payRecord.orderId);
+          }
+        });
+      }
+      _payNotifyTimes++;
+      if (_payNotifyTimes >= 60) {
+        _cancelPayNotify();
+      }
+    });
   }
 
   void _cancelPayNotify() {
     if (_payNotifyTimer != null) {
       _payNotifyTimer!.cancel();
       _payNotifyTimes = 0;
+    }
+  }
+
+  Future<void> updateInfo() async {
+    if (StorageManager.getToken().isNotEmpty) {
+      //    userInfoModel.value = await UserApi.info();
+      userProfile = await ProfileApi.getProfileInfo();
+      eventBus.fire(UserInfoSucBean());
+      //判断是否有语音
+      if (hasDidVoiceCheck) return;
+      //  voiceCheck();
+    }
+  }
+
+  void voiceCheck() {
+    if (userProfile.isAuth == TYPE_VIP && userProfile.voice?.isEmpty == true) {
+      hasDidVoiceCheck = true;
+      Get.dialog(ConfirmDialog(
+        title: 'Confirm'.tr,
+        info: 'We suggest that you supplement the recording materials'.tr,
+        concelBtn: 'CANCEL'.tr,
+        onConfirm: () {
+          Get.back();
+          toRecordPage(Get.context!!);
+        },
+      ));
     }
   }
 
@@ -185,20 +243,24 @@ class UserController extends GetxController {
 
   Future<void> login(
       {String? email,
-      String? password,
-      bool showLoadings = false,
-      bool checkLastLoginTime = false,
-      Function(LoginModel)? done}) async {
+        String? password,
+        bool showLoadings = false,
+        bool checkLastLoginTime = false,
+        Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
-              lastLoginTime.millisecondsSinceEpoch <
+          lastLoginTime.millisecondsSinceEpoch <
           600000) {
         return;
       }
     }
 
-    email ??= StorageManager.getAccount();
-    password ??= StorageManager.getPassword();
+    if (email == null) {
+      email = StorageManager.getAccount();
+    }
+    if (password == null) {
+      password = StorageManager.getPassword();
+    }
     if (email.isEmpty || password.isEmpty) {
       return;
     }
@@ -206,29 +268,249 @@ class UserController extends GetxController {
       showLoading(clickMaskDismiss: false);
     }
     LoginModel loginModel =
-        await AuthApi.signIn(email, password).catchError((e) {
+    await AuthApi.signIn(email, password).catchError((e) {
       dismissLoading();
     });
 
     setLocalInfo(
       loginModel,
       done,
-      loginFlag: 'password',
+      loginFlag: LoginFlag.password,
       password: password,
     );
   }
 
-  void setLocalInfo(
-    LoginModel loginModel,
-    Function(LoginModel)? done, {
-    String? password,
-    String? loginFlag,
-    String? idToken,
-    String? discordAppId,
-    String? email,
-    String? nickName,
-    String? discriminator,
+  Future<void> appleLogin({
+    bool needLogin = false,
+    bool showLoadings = true,
+    bool checkLastLoginTime = false,
+    Function(LoginModel)? done,
   }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+          lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+
+    AuthorizationCredentialAppleID credential;
+    String? userIdentifier = StorageManager.getString('userIdentifier');
+    if (userIdentifier == null) {
+      credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      flog(
+          "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+    } else {
+      if (needLogin) {
+        credential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+        );
+        flog(
+            "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+      } else {
+        credential = AuthorizationCredentialAppleID(
+          userIdentifier: userIdentifier,
+          authorizationCode: '',
+        );
+      }
+    }
+
+    if (showLoadings) showLoading(clickMaskDismiss: false);
+    LoginModel loginModel = await AuthApi.signInApple(
+      credential,
+      '/peiwan/app/user/appleLogin1',
+    ).catchError((e) {
+      dismissLoading();
+    });
+
+    StorageManager.setString(
+      'userIdentifier',
+      credential.userIdentifier.toString(),
+    );
+
+    setLocalInfo(
+      loginModel,
+      done,
+      loginFlag: LoginFlag.ios,
+      credential: credential,
+    );
+  }
+
+  Future<void> googleLogin({
+    bool checkLastLoginTime = false,
+    bool showLoadings = true,
+    Function(LoginModel)? done,
+  }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+          lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+    if (showLoadings) showLoading(clickMaskDismiss: false);
+
+    try {
+      GoogleSignInAccount? account = await googleSignIn.signIn();
+      GoogleSignInAuthentication? authentication =
+      await account?.authentication;
+
+      flog('google sign in $account');
+      LoginModel loginModel = await AuthApi.signInGoogle(
+        '/peiwan/app/user/googleLogin1',
+        account,
+        authentication?.idToken,
+      ).catchError((e) {
+        dismissLoading();
+      });
+
+      setLocalInfo(
+        loginModel,
+        done,
+        loginFlag: LoginFlag.google,
+        account: account,
+        idToken: authentication?.idToken,
+      );
+    } catch (e) {
+      dismissLoading();
+      flog('sign in err $e');
+      showErrorWidget(e.toString());
+    }
+  }
+
+  Future<void> discordLogin({
+    bool needLogin = false,
+    bool checkLastLoginTime = false,
+    bool showLoadings = true,
+    Function(LoginModel)? done,
+  }) async {
+    if (checkLastLoginTime) {
+      if (DateTime.now().millisecondsSinceEpoch -
+          lastLoginTime.millisecondsSinceEpoch <
+          600000) {
+        return;
+      }
+    }
+    if (showLoadings) showLoading(clickMaskDismiss: false);
+
+    try {
+      String? saveDiscordAppId = StorageManager.getString('discordAppId');
+      String? saveEmail = StorageManager.getString('email');
+      String? nickName;
+      String? discriminator;
+      if (saveDiscordAppId == null) {
+        final result = await _discordLogin();
+        saveDiscordAppId = Uri.parse(result).queryParameters['discordAppId'];
+        saveEmail = Uri.parse(result).queryParameters['email'];
+        nickName = Uri.parse(result).queryParameters['nickName'];
+        discriminator = Uri.parse(result).queryParameters['discriminator'];
+      } else {
+        if (needLogin) {
+          final result = await _discordLogin();
+          saveDiscordAppId = Uri.parse(result).queryParameters['discordAppId'];
+          saveEmail = Uri.parse(result).queryParameters['email'];
+          nickName = Uri.parse(result).queryParameters['nickName'];
+          discriminator = Uri.parse(result).queryParameters['discriminator'];
+        }
+      }
+
+      LoginModel loginModel = await AuthApi.signInDiscord(
+        '/peiwan/app/user/discordLogin1',
+        saveDiscordAppId,
+        saveEmail,
+        nickName,
+        discriminator,
+      ).catchError((e) {
+        dismissLoading();
+      });
+
+      StorageManager.setString(
+        'discordAppId',
+        saveDiscordAppId!,
+      );
+      StorageManager.setString(
+        'email',
+        saveEmail!,
+      );
+
+      setLocalInfo(
+        loginModel,
+        done,
+        loginFlag: LoginFlag.discord,
+        discordAppId: saveDiscordAppId,
+        email: saveEmail,
+        nickName: nickName,
+        discriminator: discriminator,
+      );
+    } catch (e) {
+      dismissLoading();
+      flog('sign in err $e');
+      showErrorWidget(e.toString());
+    }
+  }
+
+  Future<String> _discordLogin() async {
+    String clientId = '1043016152168792094';
+    String redirectUri = 'https://sidequesthub.com/proxy/web/extra/appToken';
+    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri': redirectUri,
+      'scope': 'identify email',
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(), callbackUrlScheme: 'sidequest')
+        .onError((error, stackTrace) {
+      dismissLoading();
+      return '';
+    });
+
+    return result;
+  }
+
+  void setLocalInfo(
+      LoginModel loginModel,
+      Function(LoginModel)? done, {
+        String? password,
+        String? loginFlag,
+        AuthorizationCredentialAppleID? credential,
+        GoogleSignInAccount? account,
+        String? idToken,
+        String? discordAppId,
+        String? email,
+        String? nickName,
+        String? discriminator,
+      }) async {
+    if (loginModel.gotoLogin2) {
+      dismissLoading();
+      if (loginFlag == LoginFlag.ios) {
+        Get.to(() => OtherRegisterPage(), arguments: credential);
+      } else if (loginFlag == LoginFlag.google) {
+        Get.to(() => OtherRegisterPage(), arguments: {
+          'account': account,
+          'idToken': idToken,
+        });
+      } else if (loginFlag == LoginFlag.discord) {
+        Get.to(() => OtherRegisterPage(), arguments: {
+          'discordAppId': discordAppId,
+          'email': email,
+          'nickName': nickName,
+          'discriminator': discriminator,
+        });
+      }
+      return;
+    }
+
     if (loginModel.token.isEmpty) {
       dismissLoading();
       return;
@@ -249,14 +531,176 @@ class UserController extends GetxController {
         StorageManager.setPassword(password);
       }
       StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+      await updateInfo();
     }
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
-
+    await imLogin();
     done?.call(loginModel);
+  }
 
-    await updateInfo();
+  uploadOfflinePushInfoToken() async {
+    if (!kIsWeb) {
+      ChannelPush.requestPermission();
+      Future.delayed(const Duration(seconds: 5), () async {
+        final bool isUploadSuccess =
+        await ChannelPush.uploadToken(PushConfig.appInfo);
+        // ignore: avoid_print
+        print("Push token upload result: $isUploadSuccess");
+      });
+    }
+  }
+
+  ///处理推送点击事件
+  void handleClickNotification(Map<String, dynamic> msg) async {
+    String ext = msg['ext'] ?? "";
+    Map<String, dynamic> extMsp = jsonDecode(ext);
+    String convId = extMsp["conversationID"] ?? "";
+    if (convId.isNotEmpty) {
+      Future.delayed(Duration(seconds: 1)).then((value) async {
+        var conversationManager =
+        TencentImSDKPlugin.v2TIMManager.getConversationManager();
+        V2TimValueCallback<V2TimConversation> conv =
+        await conversationManager.getConversation(conversationID: convId);
+        if (conv.data != null) {
+          Get.to(() => ChatPage(selectedConversation: conv.data!));
+        }
+      });
+    } else {
+      // 通知栏的消息
+      NavigatorHelper.gotoConfigTarget(json.encode(extMsp["goto"]));
+      AuthApi.appNotifyCallback(
+        userProfile.memberId,
+        ext,
+        Platform.isAndroid ? 'Android' : 'IOS',
+      );
+    }
+  }
+
+  jumpChat(uk) async {
+    if (uk == null) {
+      return;
+    }
+
+    if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
+      Get.back();
+    } else {
+      var conversationManager =
+      TencentImSDKPlugin.v2TIMManager.getConversationManager();
+      V2TimValueCallback<V2TimConversation> conv = await conversationManager
+          .getConversation(conversationID: "c2c_${uk}");
+      if (conv.data != null)
+        Get.to(() => ChatPage(
+          selectedConversation: conv.data!,
+        ));
+    }
+  }
+
+  initOfflinePush() async {
+    await ChannelPush.init(handleClickNotification);
+    uploadOfflinePushInfoToken();
+  }
+
+  imLogin() async {
+    flog('imLogin --${imLoginDone.value}');
+    if (imLoginDone.value == false) {
+      ImSigModel userSig = await ImApi.login();
+      if (userSig.token.isEmpty) return;
+      // if(userSig == ""){
+      //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
+      // }
+      // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
+      await _coreInstance
+          .login(userID: "${userSig.uid}", userSig: userSig.token)
+          .then((value) async {
+        if (value.code != 0) {
+          showToast(value.desc);
+        } else {
+          imLoginDone.value = true;
+        }
+        //执行登录 IM 成功后调用。初始化push
+        initOfflinePush();
+        // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
+        TencentImSDKPlugin.v2TIMManager
+            .getConversationManager()
+            .addConversationListener(
+            listener: V2TimConversationListener(
+                onTotalUnreadMessageCountChanged: (count) {
+                  flog(count, 'onTotalUnreadMessageCountChanged');
+                  unreadMsgCount.value = count;
+                  FlutterAppBadger.isAppBadgeSupported().then((value) {
+                    flog(value, 'onTotalUnreadMessageCountChanged');
+                    if (unreadMsgCount.value == 0) {
+                      FlutterAppBadger.removeBadge();
+                    } else {
+                      FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                          title: 'New Message');
+                    }
+                  });
+                }, onConversationChanged: (v) {
+              flog(v.length, 'onConversationChanged');
+            }, onNewConversation: (v) {
+              flog(v.length, 'onNewConversation');
+            }));
+        TencentImSDKPlugin.v2TIMManager
+            .getMessageManager()
+            .addAdvancedMsgListener(listener:
+        V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+          //播放提示音
+          if (msg.customElem?.data != null) {
+            var data = msg.customElem!.data!;
+            if (data.contains(ChatTool.converFilters.first)) {
+              if (unreadMsgCount > 0) {
+                unreadMsgCount.value -= 1;
+                FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
+              }
+            } else {
+              FlutterRingtonePlayer.playNotification();
+            }
+          } else {
+            FlutterRingtonePlayer.playNotification();
+          }
+          _dealMsg(msg);
+        }));
+
+        unreadMsgCount.value = await ChatTool.getUnreadMsgCount();
+
+        ///获取未读数量
+        // var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
+        // if (v2timValueCallback.code == 0) {
+        //   flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
+        //   unreadMsgCount.value = v2timValueCallback.data!;
+        //   FlutterAppBadger.isAppBadgeSupported().then((value) {
+        //     if (unreadMsgCount.value == 0) {
+        //       FlutterAppBadger.removeBadge();
+        //     } else {
+        //       flog(value, 'getTotalUnreadMessageCount');
+        //       FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
+        //     }
+        //   });
+        // }
+      });
+    }
+  }
+
+  void _dealMsg(V2TimMessage msg) {
+    if (msg.customElem == null || msg.customElem?.data == null) {
+      return;
+    }
+
+    flog('收到的消息： ${msg.customElem!.data!}');
+    Map<String, dynamic> map = json.decode(msg.customElem!.data!);
+
+    switch (map["type"]) {
+      case 'Riot_Notify':
+      // 拳头登录成功的通知
+        String str = Get.routing.current;
+        if ('/WebPage' == str) {
+          Get.back(result: true);
+        }
+        break;
+    }
   }
 
   void logout({Function? done}) async {
@@ -267,6 +711,7 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
+    await _coreInstance.logout();
     imLoginDone.value = false;
     unreadMsgCount.value = 0;
     done?.call();
@@ -275,20 +720,52 @@ class UserController extends GetxController {
   Future<void> appLogout() async {
     showLoading();
     await AuthApi.signOut();
+    await _coreInstance.logout();
+    await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     dismissLoading();
     logout(done: () => Get.offAll(() => LoginPage()));
   }
 
+  String gradeImg() {
+    int isauth = userProfile.isAuth;
+    int level = userProfile.sidekickLevel;
+    if (level == 0) {
+      if (isauth == TYPE_VIP) {
+        return 'assets/images/${isauth == TYPE_VIP ? 'v_' : ''}grade1.webp';
+      }
+    }
+    return 'assets/images/${isauth == TYPE_VIP ? 'v_' : ''}grade$level.webp';
+  }
+
+  toRecordPage(BuildContext context, {int type = 0}) {
+    pickVoiceDialog(context, userProfile.voice?.value, (result) {
+      flog('callback $result');
+      if (result != null) userProfile.voice?.value = result;
+    }, recordType: type);
+    // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
+    //   if (result != null) userProfile.voice = result;
+    // });
+  }
+
   void scan() {
     Get.to(() => ScanPage())?.then((value) async {
+      flog('value $value');
       if (value == null) {
         return;
       }
       String data = value.toString();
       //String deData = decryptData(data);
-      Get.to(() => QrLoginPage(
-        code: data,
-      ));
+      if (data.indexOf("qlogin") >= 0) {
+        Get.to(() => QrLoginPage(
+          code: data,
+        ));
+        return;
+      }
+      if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {
+        // Eb13IPoTrQ2uJNr/sAA70A==  page:balance
+        Get.to(() => BalancePage());
+        return;
+      }
     });
   }
 }

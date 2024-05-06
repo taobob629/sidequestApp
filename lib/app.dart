@@ -13,14 +13,15 @@ import 'package:sq_hub_app/widget/custom_warn_widget.dart';
 
 import 'config/app_color.dart';
 import 'config/app_config.dart';
+import 'config/controller/bindings.dart';
 import 'config/icon_font.dart';
 import 'config/lang/translations.dart';
 import 'controller/cart_controller.dart';
 import 'controller/user_controller.dart';
 
 class App extends StatelessWidget {
-
   final cartController = Get.put(CartController(), permanent: true);
+
   final userController = Get.put(UserController(), permanent: true);
 
   @override
@@ -49,6 +50,7 @@ class App extends StatelessWidget {
           splitScreenMode: true,
           builder: (context, child) {
             return GetMaterialApp(
+              initialBinding: InitialBindings(),
               // useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               navigatorKey: AppConfig.navigatorKey,

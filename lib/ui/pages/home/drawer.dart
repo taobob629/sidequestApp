@@ -18,21 +18,24 @@ import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
 import '../../../../utils/navigator_helper.dart';
 import '../../../../widget/button.dart';
+import '../../../utils/storage_manager.dart';
 import '../../dialog/dialog_confirm.dart';
 import '../profile/balance/balance_page.dart';
+import '../profile/integral/integral_home_page.dart';
 import '../profile/task/task_page.dart';
 import '../profile/view/energy_view.dart';
+import '../profile/vip/vip_page.dart';
 import '../setting/settings_page.dart';
 
 List<Map> supports = [
   // Map()
   //   ..['title'] = 'FAQ'
   //   ..['action'] = () => SmartDialog.showToast('FAQ'),
-  Map()
+  {}
     ..['title'] = 'Help Centre'.tr
     ..['action'] =
         () => Get.to(WebPage(title: 'Help Centre'.tr, url: HelpCenterLink)),
-  Map()
+  {}
     ..['title'] = 'Give us feedback'.tr
     ..['action'] = () => Get.dialog(ConfirmDialog(
         title: 'feedback'.tr,
@@ -41,11 +44,11 @@ List<Map> supports = [
                 .tr)),
 ];
 List<Map> legals = [
-  Map()
+  {}
     ..['title'] = 'Terms of use'.tr
     ..['action'] = () =>
         Get.to(WebPage(title: 'Terms of use'.tr, url: TermsAndConditionLink)),
-  Map()
+  {}
     ..['title'] = 'Privacy Policy'.tr
     ..['action'] = () =>
         Get.to(WebPage(title: 'Privacy Policy'.tr, url: PrivacyPolicyLink)),
@@ -61,7 +64,7 @@ class HomeDrawer extends StatelessWidget {
     int remain = user.avamins;
     return Drawer(
       width: drawerWidth,
-      backgroundColor: Color(0xFF262731),
+      backgroundColor: const Color(0xFF262731),
       child: Scaffold(
         body: MediaQuery.removePadding(
             removeTop: true,
@@ -104,7 +107,7 @@ class HomeDrawer extends StatelessWidget {
                   child: EnergyView(
                     width: drawerWidth - 15 * 2.r,
                     percent: total == 0 ? 0 : remain / total,
-                    remaining: user.avamins ?? 0,
+                    remaining: user.avamins,
                   ),
                 ),
                 // 8.verticalSpace,
@@ -217,7 +220,7 @@ class HomeDrawer extends StatelessWidget {
                         right: 0,
                         bottom: 10.h,
                         child: Image.asset(
-                          "assets/images/profile/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                          "assets/images/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                           height: iconSize / 2,
                         )),
                   )),
@@ -233,18 +236,28 @@ class HomeDrawer extends StatelessWidget {
                     user.nickName,
                     style: TextStyle(fontFamily: FONT_MEDIUM, fontSize: 16.sp),
                   ),
+                  6.horizontalSpace,
                   Visibility(
                     visible: user.vipLevel >= 5,
                     child: Image.asset(
-                      "assets/images/profile/huizhang_${user.vipLevel == 0 ? 5 : user.vipLevel}.webp",
+                      "assets/images/huizhang_${user.vipLevel == 0 ? 5 : user.vipLevel}.webp",
                       height: 14,
+                    ),
+                  ),
+                  6.horizontalSpace,
+                  GestureDetector(
+                    onTap: () => Get.to(
+                            () => IntegralHomePage()),
+                    child: Image.asset(
+                      'assets/images/integral_lv${user.lv == 0 ? user.lv + 1 : user.lv}_icon.webp',
+                      scale: 11,
                     ),
                   ),
                 ],
               ),
               5.verticalSpace,
               Text(
-                '${user.uk}',
+                user.uk,
                 style: TextStyle(
                     fontSize: 12.sp,
                     fontFamily: FONT_LIGHT,
@@ -282,7 +295,7 @@ class HomeDrawer extends StatelessWidget {
 
   Widget contentPadding(Widget child, {var top, var bootom}) {
     return Padding(
-      padding: EdgeInsets.only(left: 15, top: 15).r,
+      padding: const EdgeInsets.only(left: 15, top: 15).r,
       child: child,
     );
   }
@@ -324,16 +337,43 @@ class HomeDrawer extends StatelessWidget {
         children: [
           // achievementItem(user?.coin, 'ic_balance_money'),
           // achievementItem(user?.diamond, 'diamonds_red'),
-          achievementItem(user.balanceMoney(), ImageUtils.ic_corns_new),
-          achievementItem(user.coupons, ImageUtils.ic_coupons_new),
+          achievementItem(
+            user.balanceMoney(),
+            ImageUtils.ic_corns_new,
+            onTap: () {
+              if (StorageManager.getOnline()) {
+                Get.to(() => BalancePage())?.whenComplete(
+                    () => UserController.instance().updateInfo());
+              }
+            },
+          ),
+          achievementItem(
+            user.coupons,
+            ImageUtils.ic_coupons_new,
+            onTap: () => NavigatorHelper.gotoCouponTabPage(
+                whenComplete: () => UserController.instance().updateInfo()),
+          ),
+          achievementItem(
+            user.checkTotal,
+            ImageUtils.ic_coupons_points,
+            onTap: () => Get.to(() => IntegralHomePage())
+                ?.whenComplete(() => UserController.instance().updateInfo()),
+          ),
         ],
       ),
     );
   }
 
-  Widget achievementItem(var text, var icon) {
+  Widget achievementItem(
+    var text,
+    var icon, {
+    required Function onTap,
+  }) {
     var textStyle = TextStyle(
-        color: Color(0xFFC5C5C5), fontSize: 12.sp, fontFamily: FONT_MEDIUM);
+      color: const Color(0xFFC5C5C5),
+      fontSize: 12.sp,
+      fontFamily: FONT_MEDIUM,
+    );
     double width = 18;
     double height = 18;
     switch (icon) {
@@ -355,39 +395,19 @@ class HomeDrawer extends StatelessWidget {
         break;
     }
     return Expanded(
-        child: InkWell(
-      onTap: () {
-        switch (icon) {
-          case 'ic_balance_money':
-            // if (StorageManager.getOnline())
-            // Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-            break;
-          case ImageUtils.ic_coupons_new:
-            NavigatorHelper.gotoCouponTabPage(
-                whenComplete: () => UserController.instance().updateInfo());
-            break;
-          case 'diamonds_red':
-            // StorageManager.getOnline()
-            //     ? Get.toNamed(AppPages.WALLET_PAGE,
-            //         arguments: Map()..['page'] = 1)
-            //     : null;
-            break;
-          case ImageUtils.ic_corns_new:
-            Get.to(() => BalancePage())
-                ?.whenComplete(() => UserController.instance().updateInfo());
-            break;
-        }
-      },
-      child: Column(
-        children: [
-          Image.asset(icon, width: width, height: height),
-          2.verticalSpace,
-          Text(
-            '$text' ?? '',
-            style: textStyle,
-          ),
-        ],
+      child: InkWell(
+        onTap: () => onTap.call(),
+        child: Column(
+          children: [
+            Image.asset(icon, width: width, height: height),
+            2.verticalSpace,
+            Text(
+              '$text' ?? '',
+              style: textStyle,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

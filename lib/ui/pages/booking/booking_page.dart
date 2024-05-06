@@ -7,7 +7,9 @@ import '../../../common/empty_view.dart';
 import '../../../common/floating_button.dart';
 import '../../../common/page_title.dart';
 import '../../../common/styles.dart';
+import '../../../controller/user_controller.dart';
 import '../../../model/booking_model.dart';
+import 'booking_dialog.dart';
 import 'booking_item.dart';
 import 'controller.dart';
 
@@ -53,10 +55,18 @@ class BookingPage extends StatelessWidget {
   }
 
   void gotoAddPage() {
-    Get.to(() => ReservePage())?.then((value) {
-      if (value != null && value == true) {
-        controller.reload();
-      }
-    });
+    // Get.to(() => ReservePage())?.then((value) {
+    //   if (value != null && value == true) {
+    //     controller.reload();
+    //   }
+    // });
+    Get.bottomSheet(
+      BookingDialog(
+        true,
+        -1,
+        UserController.find.user.value.phone,
+      ),
+      isScrollControlled: true,
+    );
   }
 }

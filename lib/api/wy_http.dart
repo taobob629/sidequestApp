@@ -3,10 +3,15 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:get/get.dart' as Get;
-import 'package:sq_hub_app/ui/pages/login/login_page.dart';
+
+import '../config/app_config.dart';
+import '../controller/user_controller.dart';
+import '../service/location_service.dart';
+import '../ui/pages/login/login_page.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
 import '../utils/toast_utils.dart';
+import '../utils/utils.dart';
 import '../widget/show_error_widget.dart';
 import 'base_http.dart';
 
@@ -18,8 +23,7 @@ Http http = Http();
 class Http extends BaseHttp {
   @override
   void init() async {
-    options.baseUrl = "https://sidequestmeta.com";
-    // options.baseUrl = "http://114.117.203.137:8081";
+    options.baseUrl = AppConfig.getBaseServer();
     interceptors
       ..add(ApiInterceptor())
       ..add(HeaderInterceptor());
@@ -35,8 +39,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
     // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
-    options.headers['longitude'] = 0;
-    options.headers['latitude'] = 0;
+    options.headers['longitude'] = LocationService().position?.longitude ?? 0;
+    options.headers['latitude'] = LocationService().position?.latitude ?? 0;
     log(jsonEncode(options.headers), name: 'options.headers');
     handler.next(options);
   }
@@ -69,7 +73,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) async {
     String requestPath = response.requestOptions.path;
-    log(' requestPath:$requestPath onResponse api-response $response');
+    flog(' requestPath:$requestPath onResponse api-response ${response}');
     ResponseData respData = ResponseData.fromJson(response.data);
     if (respData.success) {
       response.data = respData.data;
@@ -89,7 +93,7 @@ class ApiInterceptor extends InterceptorsWrapper {
         } else {
           if (isSigningIn) return;
           isSigningIn = true;
-          // UserController.find.switchLogin();
+          UserController.find.switchLogin();
         }
       } else {
         dismissLoading();
@@ -120,8 +124,8 @@ class ResponseData extends BaseResponseData {
   bool get success => 200 == code;
 
   ResponseData.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    msg = json['msg'] ?? "";
+    code = json['code'] ?? -1;
+    msg = json['msg'] == null ? "" : json['msg'];
     data = json['data'];
     if (data == null && json["rows"] != null) {
       data = json;

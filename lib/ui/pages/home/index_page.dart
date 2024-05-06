@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/api/index_api.dart';
 import 'package:sq_hub_app/common/keep_alive_wrapper.dart';
-import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
+import 'package:sq_hub_app/config/icon_font.dart';
+import 'package:sq_hub_app/ui/pages/home/tab_bundles_page.dart';
+import 'package:sq_hub_app/ui/pages/home/tab_events_page.dart';
+import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 
-import '../../../common/home_indicator.dart';
 import '../../../config/app_color.dart';
 import '../../../controller/user_controller.dart';
-import '../../../widget/tab_widget.dart';
-import 'tab_games_page.dart';
+import '../../../model/index_tab_model.dart';
 import 'tab_headlines_page.dart';
 import 'tab_news_page.dart';
 
@@ -18,90 +21,124 @@ class IndexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      headerSliverBuilder: (context, _) => [
-        SliverToBoxAdapter(
-          child: TabBar(
-            controller: controller.tabController,
-            isScrollable: true,
-            indicatorColor: Colors.white38,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicator: const HomeIndicator(colors: [
-              AppColor.yellow,
-              AppColor.yellow,
-            ]),
-            labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-            indicatorWeight: 4,
-            indicatorPadding: const EdgeInsets.only(bottom: 5),
-            labelStyle: selectTabStyle(TAB_STYLE_2),
-            unselectedLabelStyle: unSelectTabStyle(TAB_STYLE_2),
-            tabs: controller.createTabs(),
-          ),
-        )
-      ],
-      body: TabBarView(
-        controller: controller.tabController,
-        children: controller.createPages(),
-      ),
-    );
+    return Obx(() => !controller.isLoadFinish.value
+        ? Container()
+        : Column(
+            children: [
+              Container(
+                height: 34.h,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                  vertical: 10.h,
+                ),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (c, i) => Obx(() => GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => controller.clickTab(i),
+                        child: Container(
+                          width: 86.w,
+                          decoration: controller.selectTabStr.value ==
+                                  controller.tabs[i].name
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  border: Border.all(
+                                    width: 1.w,
+                                    color: hexColor('FFB20E'),
+                                  ),
+                                )
+                              : BoxDecoration(
+                                  color: hexColor('141414'),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            controller.tabs[i].name,
+                            style: TextStyle(
+                              color: controller.selectTabStr.value ==
+                                      controller.tabs[i].name
+                                  ? hexColor('FFB20E')
+                                  : Colors.white,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                      )),
+                  separatorBuilder: (c, i) => 15.horizontalSpace,
+                  itemCount: controller.tabs.length,
+                ),
+              ),
+              if (controller.selectTabStr.value.toLowerCase() ==
+                  "Events".toLowerCase())
+                Expanded(child: TabEventsPage()),
+              if (controller.selectTabStr.value.toLowerCase() ==
+                  "Bundles".toLowerCase())
+                Expanded(child: TabBundlesPage()),
+              if (controller.selectTabStr.value.toLowerCase() ==
+                  "News".toLowerCase())
+                Expanded(child: TabNewsPage()),
+            ],
+          ));
   }
 }
 
 class IndexPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  late TabController tabController;
+  TabController? tabController;
 
-  List<Widget> createTabs() {
-    List<Widget> tabs = [];
-    tabs.add(Text(
-      "Recommend".tr,
-    ));
-    tabs.add(Text(
-      "News".tr,
-    ));
-    tabs.add(Text(
-      "Games".tr,
-    ));
-
-    return tabs;
-  }
+  var isLoadFinish = false.obs;
+  var selectTabStr = "Events".obs;
+  List<IndexTabModel> tabs = [];
 
   List<Widget> createPages() {
     List<Widget> pages = [];
     pages.add(KeepAliveWrapper(child: TabHeadlinesPage()));
     pages.add(KeepAliveWrapper(child: TabNewsPage()));
-    pages.add(KeepAliveWrapper(child: TabGamesPage()));
+    pages.add(KeepAliveWrapper(child: TabHubsPage()));
     return pages;
   }
 
   @override
   void onInit() {
     super.onInit();
+
+    Get.put(TabEventsPageController());
+    Get.put(TabBundlesPageController());
+    Get.put(TabNewsPageController());
+
+    requestData();
+  }
+
+  void requestData() async {
+    isLoadFinish.value = false;
+    tabs.clear();
+    tabs.addAll(await IndexApi.getIndexTabs());
+    selectTabStr.value = tabs[0].name;
+
     tabController = TabController(
       vsync: this,
-      length: createTabs().length,
+      length: tabs.length,
       initialIndex: 0,
     );
-    tabController.addListener(() {
-      if (!tabController.indexIsChanging) {
-        switch (tabController.index) {
-          case 1:
-            TabNewsPageController.find.onRefresh(init: true);
-            break;
-          case 2:
-            TabGamePageController.find.loadData();
-            break;
-          case 3:
-            CybercafeController.find.onRefresh(init: true);
-            break;
-        }
-      }
-    });
+    isLoadFinish.value = true;
+  }
+
+  void clickTab(int i) {
+    selectTabStr.value = tabs[i].name;
+    if (selectTabStr.value.toLowerCase() == "Events".toLowerCase()) {
+      TabEventsPageController.find.onRefresh(init: true);
+    } else if (selectTabStr.value.toLowerCase() == "Bundles".toLowerCase()) {
+      TabBundlesPageController.find.onRefresh(init: true);
+    } else if (selectTabStr.value.toLowerCase() == "News".toLowerCase()) {
+      TabNewsPageController.find.onRefresh(init: true);
+    }
   }
 
   @override
   void onClose() {
-    tabController.dispose();
+    tabController?.dispose();
     super.onClose();
   }
 

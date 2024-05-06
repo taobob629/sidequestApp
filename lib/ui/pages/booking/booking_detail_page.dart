@@ -304,6 +304,7 @@ class BookingDetailPage extends StatelessWidget {
                     } else {
                       Get.bottomSheet(
                         BookingDialog(
+                          false,
                           _ctr.model?.id ?? 0,
                           _ctr.model?.userPhone ?? '',
                         ),

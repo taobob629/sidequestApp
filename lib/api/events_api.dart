@@ -5,34 +5,35 @@ import 'package:sq_hub_app/api/wy_http.dart';
 import '../model/activity_item_model.dart';
 import '../model/event_detail_model.dart';
 import '../model/match_item_model.dart';
+import '../model/match_team_model.dart';
 
 class EventsApi {
 
   static Future<List<ActivityItemModel>> activities(int pageNum, int pageSize) async {
     var response = await http.get('/app/events/activities',
-      queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
+        queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
     );
     //print(response.data);
     List<ActivityItemModel> list = response.data
-      .map<ActivityItemModel>((item) => ActivityItemModel.fromJson(item))
-      .toList();
+        .map<ActivityItemModel>((item) => ActivityItemModel.fromJson(item))
+        .toList();
     return list;
   }
 
   static Future<List<MatchItemModel>> matches(int pageNum, int pageSize) async {
     var response = await http.get('/app/events/matches',
-      queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
+        queryParameters: ({'pageNum': pageNum,'pageSize':pageSize})
     );
     //print(response.data);
     List<MatchItemModel> list = response.data
-      .map<MatchItemModel>((item) => MatchItemModel.fromJson(item))
-      .toList();
+        .map<MatchItemModel>((item) => MatchItemModel.fromJson(item))
+        .toList();
     return list;
   }
 
   static Future<EventDetailModel> getMatchDetail(int id) async {
     var response = await http.get('/app/events/26/match/detail/$id',
-      queryParameters: ({})
+        queryParameters: ({})
     );
     return EventDetailModel.fromJson(response.data);
   }
@@ -40,7 +41,7 @@ class EventsApi {
   static Future<EventDetailModel> getActivityDetail(int id) async {
     // var response = await http.get('/app/events/event/detail/$id',
     var response = await http.get('/app/events/26/event/detail/$id',
-      queryParameters: ({})
+        queryParameters: ({})
     );
     return EventDetailModel.fromJson(response.data);
   }
@@ -49,23 +50,23 @@ class EventsApi {
 
   static Future<List<ActivityItemModel>> userActivities() async {
     var response = await http.get('/app/events/userActivities',
-      queryParameters: ({})
+        queryParameters: ({})
     );
     //print(response.data);
     List<ActivityItemModel> list = response.data
-      .map<ActivityItemModel>((item) => ActivityItemModel.fromJson(item))
-      .toList();
+        .map<ActivityItemModel>((item) => ActivityItemModel.fromJson(item))
+        .toList();
     return list;
   }
 
   static Future<List<MatchItemModel>> userMatches() async {
     var response = await http.get('/app/events/userMatches',
-      queryParameters: ({})
+        queryParameters: ({})
     );
     //print(response.data);
     List<MatchItemModel> list = response.data
-      .map<MatchItemModel>((item) => MatchItemModel.fromJson(item))
-      .toList();
+        .map<MatchItemModel>((item) => MatchItemModel.fromJson(item))
+        .toList();
     return list;
   }
 
@@ -78,7 +79,7 @@ class EventsApi {
       'memberCouponId':memberCouponId
     };
     var response = await http.post('/app/events/joinActivity',
-      data: formData
+        data: formData
     );
   }
   static Future<Response> cancelActivity(var eventId) async {
@@ -95,7 +96,7 @@ class EventsApi {
       'memberCouponId':memberCouponId
     };
     var response = await http.post('/app/events/joinMatch',
-      data: formData
+        data: formData
     );
     return {
       'url': response.data['url'],
@@ -113,7 +114,7 @@ class EventsApi {
       "location" : location
     };
     var response = await http.post('/app/events/createTeam',
-      data: formData
+        data: formData
     );
 
     return response.data;
@@ -127,15 +128,15 @@ class EventsApi {
       "discordTag" : discordTag,
     };
     var response = await http.post('/app/events/joinTeam',
-      data: formData
+        data: formData
     );
     return response;
   }
 
-  // static Future<MatchTeamModel> myTeam(int id) async {
-  //   var response = await http.get('/app/team/myTeam',
-  //     queryParameters: ({"matchId":id})
-  //   );
-  //   return MatchTeamModel.fromJson(response.data);
-  // }
+  static Future<MatchTeamModel> myTeam(int id) async {
+    var response = await http.get('/app/team/myTeam',
+        queryParameters: ({"matchId":id})
+    );
+    return MatchTeamModel.fromJson(response.data);
+  }
 }

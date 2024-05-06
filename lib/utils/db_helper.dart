@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
-import 'package:sqflite_common/sqflite.dart';
-import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../model/db_model.dart';
 
@@ -10,7 +9,9 @@ class DBHelper {
     return DBHelper.init(uid);
   }
 
-  DBHelper.init(this.uid);
+  DBHelper.init(int uid){
+    this.uid = uid;
+  }
 
   late int uid;
 

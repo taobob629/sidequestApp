@@ -5,9 +5,9 @@
  */
 import 'package:dio/src/response.dart' as dio;
 
-import '../../../../../../api/network_method.dart';
-import '../../../../../../common/refreshlist_controller.dart';
-import '../../../../../../model/activity_list_model.dart';
+import '../../../../../api/network_method.dart';
+import '../../../../../common/refreshlist_controller.dart';
+import '../../../../../model/activity_list_model.dart';
 
 class ActivityListController extends RefreshListController<ActivityListModel> {
   ActivityListController();

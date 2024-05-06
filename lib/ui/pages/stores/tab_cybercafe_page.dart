@@ -26,126 +26,127 @@ class TabCybercafePage extends StatelessWidget {
           title: const Text("Flutter 留着状态栏高度，去掉appbar高度"),
         ),
       ),
-      body: Obx(() => SmartRefresher(
-            controller: _ctr.refreshController,
-            onLoading: () => _ctr.loadMore(),
-            onRefresh: () => _ctr.onRefresh(),
-            enablePullUp: true,
-            child: ListView.separated(
-              itemCount: _ctr.list.length,
-              itemBuilder: (context, index) {
-                final model = _ctr.list[index];
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () =>
-                      Get.to(() => BookingDetailPage(), arguments: model.id),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: Stack(
-                      children: [
-                        20.verticalSpace,
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15.r),
-                          child: Image.network(
-                            model.headImage,
-                            height: 180.h,
-                            width: Get.width,
-                            fit: BoxFit.cover,
-                          ),
+      body: Obx(
+        () => SmartRefresher(
+          controller: _ctr.refreshController,
+          onLoading: () => _ctr.loadMore(),
+          onRefresh: () => _ctr.onRefresh(),
+          enablePullUp: true,
+          child: ListView.separated(
+            itemCount: _ctr.list.length,
+            itemBuilder: (context, index) {
+              final model = _ctr.list[index];
+              return GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () =>
+                    Get.to(() => BookingDetailPage(), arguments: model.id),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Stack(
+                    children: [
+                      20.verticalSpace,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15.r),
+                        child: Image.network(
+                          model.headImage,
+                          height: 180.h,
+                          width: Get.width,
+                          fit: BoxFit.cover,
                         ),
-                        15.verticalSpace,
-                        Container(
-                          margin: EdgeInsets.only(left: 30.w, top: 100.h),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.white,
-                                    size: 18.sp,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      model.address,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        color: const Color(0xffffffff),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              10.verticalSpace,
-                              Text(
-                                model.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
+                      ),
+                      15.verticalSpace,
+                      Container(
+                        margin: EdgeInsets.only(left: 30.w, top: 100.h),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  size: 18.sp,
                                 ),
-                              ),
-                              10.verticalSpace,
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1.w,
-                                    color: AppColor.yellow,
-                                  ),
-                                  borderRadius: BorderRadius.circular(4.r),
-                                ),
-                                padding: EdgeInsets.only(right: 4.w),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColor.yellow,
-                                        borderRadius:
-                                            BorderRadius.circular(2.r),
-                                      ),
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 4.w),
-                                      child: Text(
-                                        'In business'.tr,
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                Expanded(
+                                  child: Text(
+                                    model.address,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                      color: const Color(0xffffffff),
                                     ),
-                                    4.horizontalSpace,
-                                    Text(
-                                      model.openTime,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            10.verticalSpace,
+                            Text(
+                              model.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.w,
+                                  color: AppColor.yellow,
+                                ),
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                              padding: EdgeInsets.only(right: 4.w),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColor.yellow,
+                                      borderRadius: BorderRadius.circular(2.r),
+                                    ),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 4.w),
+                                    child: Text(
+                                      'In business'.tr,
                                       style: TextStyle(
                                         fontSize: 12.sp,
                                         fontFamily: FONT_MEDIUM,
                                         color: Colors.white,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  4.horizontalSpace,
+                                  Text(
+                                    model.openTime,
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  15.verticalSpace,
-            ),
-          )),
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                15.verticalSpace,
+          ),
+        ),
+      ),
     );
   }
 }

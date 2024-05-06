@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CountView extends StatelessWidget {
+
   final String icon;
   final String title;
   final String count;
@@ -20,20 +21,12 @@ class CountView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title,
-            style:
-                TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
-          ),
-          SizedBox(
-            height: 5,
-          ),
+          Text(title, style: TextStyle(color: Colors.white,fontFamily: "DIN",fontSize: 18),),
+          SizedBox(height: 5,),
           Row(
             children: [
               Image.asset(
-                customIcon.isNotEmpty
-                    ? customIcon
-                    : "assets/images/ic_balance_$icon.webp",
+                customIcon.isNotEmpty ? customIcon : icon,
                 width: 30,
                 height: 30,
               ),
@@ -41,8 +34,7 @@ class CountView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8, left: 5),
                 child: Text(
                   count,
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: "DIN", fontSize: 34),
+                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 34),
                 ),
               ),
               icon == "time"
@@ -50,14 +42,10 @@ class CountView extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10.0, left: 5),
                       child: Text(
                         "mins".tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "DIN",
-                          fontSize: 22,
-                        ),
+                        style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 22),
                       ),
                     )
-                  : Container()
+                :Container()
             ],
           )
         ],

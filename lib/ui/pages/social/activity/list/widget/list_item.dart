@@ -9,15 +9,12 @@ import 'package:get/get.dart';
 import 'package:sq_hub_app/common/string_ext.dart';
 import 'package:sq_hub_app/image_utils.dart';
 
-import '../../../../../../../config/app_color.dart';
-import '../../../../../../../config/icon_font.dart';
-import '../../../../../../../model/activity_list_model.dart';
-import '../../../../../../../widget/timer_widget.dart';
-import '../../../../event/event_page.dart';
-
-BoxDecoration itemDecoration({var color, var radius}) => BoxDecoration(
-    color: color ?? AppColor.itemBg,
-    borderRadius: BorderRadius.circular(radius ?? 16.r));
+import '../../../../../../common/styles.dart';
+import '../../../../../../config/icon_font.dart';
+import '../../../../../../model/activity_list_model.dart';
+import '../../../../../../widget/image_util.dart';
+import '../../../../../../widget/timer_widget.dart';
+import '../../../../events/event/event_page.dart';
 
 class ActivityListItemWidget extends StatelessWidget {
   late ActivityListModel model;
@@ -29,10 +26,10 @@ class ActivityListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => Get.to(() => EventPage(
-      //       id: model.id,
-      //       type: model.matchDiff,
-      //     )),
+      onTap: () => Get.to(() => EventPage(
+            id: model.id,
+            type: model.matchDiff,
+          )),
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15, top: 10.h).w,
         height: 270.h,
@@ -163,14 +160,13 @@ class ActivityListItemWidget extends StatelessWidget {
           bottom: 0,
           top: 0,
           left: (index - 1) * imageSize * 3 / 4,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(imageSize / 2),
-            child: Image.network(
-              item.photo,
-              fit: BoxFit.cover,
-              width: imageSize,
-              height: imageSize,
-            ),
+          child: Container(
+            child: ImageUtil.networkImage(
+                fit: BoxFit.cover,
+                url: item.photo,
+                width: imageSize,
+                height: imageSize,
+                border: imageSize / 2),
           ));
     }).toList();
   }

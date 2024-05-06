@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static Color primary = Color(0xFF1B1A1E);
+  static Color primary = Color(0xFF0A0A0A);
   static Color accent = Color(0xffe33e45);
   static Color iconColorPrimary = Color(0xFFC5C3C6);
   static Color dividerColor = Color(0xFF2D2E3A);
@@ -9,7 +9,7 @@ class AppColor {
   static Color navBar = Color(0xff0d2432);
   static Color navBarActive = Color(0xffe23e45);
   static Color navBarInactive = Color(0xff8eb2be);
-  static const Color background = Color(0xFF1B1A1E);
+  static const Color background = Color(0xFF0A0A0A);
   static const Color itemBg = Color(0xFF262731);
   static const Color dropDownBtBg = Color(0xFF262731);
   static const Color itemBg2 = Color(0xFF313033);

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:sq_hub_app/widget/timer_widget.dart';
 
 import '../config/app_color.dart';
-import '../ui/pages/event/event_page.dart';
+import '../ui/pages/events/event/event_page.dart';
 
 class EventFlexibleHeader extends GetView<EventPageController> {
   final String image;

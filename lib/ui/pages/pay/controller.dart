@@ -32,6 +32,7 @@ import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../utils/utils.dart';
 import '../../dialog/dialog_confirm.dart';
+import '../playwith/play_balance_page.dart';
 
 class PayPageController extends GetxController {
   static const MethodChannel _channel =
@@ -114,7 +115,7 @@ class PayPageController extends GetxController {
     showLoading(msg: "flag = ${payOrderModel.flag}");
     if (payOrderModel.flag == 0) {
       // 充值
-      var res = await PayApi.appleCreditPay(Map<String, dynamic>()
+      var res = await PayApi.appleCreditPay(<String, dynamic>{}
         ..['chargeid'] = payOrderModel.chargeid
         ..['goodsPrice'] = payOrderModel.goodsPrice
         // type(0：充值，1：订阅)
@@ -179,12 +180,6 @@ class PayPageController extends GetxController {
     }, cancelOnError: true);
     await havePassword();
   }
-
-  // @override
-  // void onReady() async {
-  //   super.onReady();
-  //   print("apple pay:: ${Stripe.instance.isApplePaySupported.value}");
-  // }
 
   ///硬币
   var coin = 0.obs;
@@ -334,7 +329,7 @@ class PayPageController extends GetxController {
           applePay: applePay,
           googlePay: googlePay,
           style: ThemeMode.dark,
-          appearance: PaymentSheetAppearance(
+          appearance: const PaymentSheetAppearance(
             colors: PaymentSheetAppearanceColors(
               background: AppColor.background,
               componentBackground: Color(0xff444444),
@@ -393,7 +388,7 @@ class PayPageController extends GetxController {
               onConfirm: () {
                 Get.back();
                 Get.back();
-                // Get.toNamed(AppPages.WALLET_PAGE);
+                Get.to(() => PlayBalancePage());
               },
             ),
             barrierColor: Colors.black26,
@@ -469,9 +464,11 @@ class PayPageController extends GetxController {
         300) {
       checkDone.call();
     } else {
-      Get.dialog(PasswordDialog(),
-              barrierDismissible: true, barrierColor: Colors.black26)
-          .then((value) {
+      Get.dialog(
+        PasswordDialog(),
+        barrierDismissible: true,
+        barrierColor: Colors.black26,
+      ).then((value) {
         if (value == true) {
           StorageManager.setPayPasswordCheckTime(now);
           checkDone.call();

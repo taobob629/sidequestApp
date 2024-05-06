@@ -27,7 +27,12 @@ class ProfileModel {
   String avatar = "";
   int coin = 0;
   int userAvatar = 0;
+  int integralTotal = 0;
+  int nexIntegralNumber = 0;
+  int lv = 0;
+  int checkTotal = 0;
   String email = "";
+  String describe = "";
   int age = 0;
   List<VipModel> vips = [];
   List<AdModel> ads = [];
@@ -74,7 +79,12 @@ class ProfileModel {
       this.avatar = "",
       this.coin = 0,
       this.userAvatar = 0,
+      this.integralTotal = 0,
+      this.nexIntegralNumber = 0,
+      this.lv = 0,
+      this.checkTotal = 0,
       this.email = "",
+      this.describe = "",
       this.age = 0,
       this.vips = const [],
       this.ads = const [],
@@ -127,7 +137,12 @@ class ProfileModel {
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     userAvatar = json["userAvatar"] ?? 0;
+    integralTotal = json["integralTotal"] ?? 0;
+    checkTotal = json["checkTotal"] ?? 0;
+    nexIntegralNumber = json["nexIntegralNumber"] ?? 0;
+    lv = json["lv"] ?? 0;
     email = json["email"] ?? "";
+    describe = json["describe"] ?? "";
     age = json["age"] ?? 0;
     vips = json["vips"] != null
         ? json["vips"].map<VipModel>((e) => VipModel.fromJson(e)).toList()

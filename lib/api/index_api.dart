@@ -1,14 +1,41 @@
 import 'package:dio/dio.dart';
+import 'package:dio/src/response.dart';
 import 'package:sq_hub_app/api/wy_http.dart';
+import 'package:sq_hub_app/model/index_tab_model.dart';
 
 import '../model/banner_model.dart';
+import '../model/bundles_detail_model.dart';
+import '../model/bundles_model.dart';
 import '../model/game_model.dart';
+import '../model/game_service_model.dart';
 import '../model/headline_model.dart';
 import '../model/news_detail_model.dart';
 import '../model/news_item_model.dart';
 import '../model/promotion_item_model.dart';
+import '../model/tab_news_model.dart';
+import '../model/version_model.dart';
+import '../model/what_on_event_model.dart';
+import '../utils/platform_utils.dart';
 
 class IndexApi {
+  static Future<List<IndexTabModel>> getIndexTabs() async {
+    var response = await http.get('/app/whatOn/tabs');
+    List<IndexTabModel> list = response.data
+        .map<IndexTabModel>((item) => IndexTabModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<List<WhatOnEventModel>> getEvents(
+      int pageNum, int pageSize) async {
+    var response = await http.get('/app/whatOn/events',
+        queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
+    List<WhatOnEventModel> list = response.data
+        .map<WhatOnEventModel>((item) => WhatOnEventModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
   static Future<List<BannerModel>> getBanners(int tab) async {
     var response =
         await http.get('/app/index/banners', queryParameters: ({'tab': tab}));
@@ -28,13 +55,27 @@ class IndexApi {
     return list;
   }
 
-  static Future<List<NewsItemModel>> getNews(int pageNum, int pageSize) async {
-    var response = await http.get('/app/index/news',
+  static Future<TabNewsModel> getNews(int pageNum, int pageSize) async {
+    var response = await http.get('/app/whatOn/news',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
-    List<NewsItemModel> list = response.data
-        .map<NewsItemModel>((item) => NewsItemModel.fromJson(item))
+    TabNewsModel model = TabNewsModel.fromJson(response.data);
+    return model;
+  }
+
+  static Future<List<BundlesModel>> getBundles() async {
+    var response = await http.get('/app/whatOn/bundles');
+    List<BundlesModel> list = response.data
+        .map<BundlesModel>((item) => BundlesModel.fromJson(item))
         .toList();
     return list;
+  }
+
+  static Future<BundlesDetailModel> bundleDetail(String id) async {
+    var response = await http.get('/app/whatOn/bundleDetial', queryParameters: {
+      "id": id,
+    });
+    BundlesDetailModel model = BundlesDetailModel.fromJson(response.data);
+    return model;
   }
 
   static Future<List<GameModel>> getGames() async {
@@ -44,6 +85,12 @@ class IndexApi {
         .map<GameModel>((item) => GameModel.fromJson(item))
         .toList();
     return list;
+  }
+
+  static Future<NewsDetailModel> getNewsDetail(int id) async {
+    var response =
+        await http.get('/app/index/news/detail/$id', queryParameters: ({}));
+    return NewsDetailModel.fromJson(response.data);
   }
 
   static Future<PromotionItemModel?> getAD() async {
@@ -64,6 +111,14 @@ class IndexApi {
         queryParameters: ({"promotionId": id, "promotionName": name}));
   }
 
+  static Future<VersionModel> checkVersion() async {
+    String platform = Platform.operatingSystem;
+    String version = await PlatformUtils.getAppVersion();
+    var response = await http.get('/app/index/checkVersion',
+        queryParameters: ({"version": version, "platform": platform}));
+    return VersionModel.fromJson(response.data);
+  }
+
   //搜索
   static Future<String> searchBankByCode(var code) async {
     var response = await http.get('/peiwan/app/card/sortcode/$code');
@@ -73,15 +128,17 @@ class IndexApi {
     return response.data;
   }
 
+  static Future<List<GameServiceModel>> getMoreGames({int pwid = 0}) async {
+    var response = await http.get('/peiwan/app/home/getServices');
+    List<GameServiceModel> list = response.data
+        .map<GameServiceModel>((item) => GameServiceModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
   static Future<Response> focusGame({var gameid = 0}) async {
     Response response = await http.post('/peiwan/app/home/addFavorite',
         data: Map<String, dynamic>()..['gameid'] = gameid);
     return response;
-  }
-
-  static Future<NewsDetailModel> getNewsDetail(int id) async {
-    var response =
-    await http.get('/app/index/news/detail/$id', queryParameters: ({}));
-    return NewsDetailModel.fromJson(response.data);
   }
 }

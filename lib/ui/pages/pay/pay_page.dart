@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,7 +11,6 @@ import '../../../config/app_color.dart';
 import '../../../controller/user_controller.dart';
 import '../../../model/pay_order_model.dart';
 import '../../../utils/navigator_helper.dart';
-import '../../../utils/platform_utils.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/utils.dart';
 import 'controller.dart';
@@ -306,6 +307,13 @@ class PayPage extends StatelessWidget {
             height: 15,
           ),
           GestureDetector(
+            onTap: () async {
+              AddressModel? model =
+                  await NavigatorHelper.gotoAddressPage(select: true);
+              if (model != null) {
+                controller.address.value = model;
+              }
+            },
             child: Container(
               color: Colors.transparent,
               padding: const EdgeInsets.symmetric(horizontal: 15),

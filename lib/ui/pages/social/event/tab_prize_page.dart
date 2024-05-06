@@ -1,12 +1,12 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../../image_utils.dart';
-import '../../event/event_page.dart';
-import '../activity/list/widget/list_item.dart';
+import '../../../../common/styles.dart';
+import '../../../../widget/image_util.dart';
+import '../../events/event/event_page.dart';
 
 class TabPrizePage extends StatelessWidget {
   final controller = Get.find<EventPageController>();
@@ -31,25 +31,17 @@ class TabPrizePage extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30.w),
-                    child: ExtendedImage.network(
-                      controller.eventDetailModel.value.eventPrize[i].avatar,
+                  ImageUtil.networkImage(
+                    url: controller.eventDetailModel.value.eventPrize[i].avatar,
+                    width: 50.w,
+                    height: 50.w,
+                    border: 30.w,
+                    fit: BoxFit.cover,
+                    errorWidget: ExtendedImage.asset(
+                      ImageUtils.default_logo,
+                      shape: BoxShape.circle,
                       width: 50.w,
                       height: 50.w,
-                      fit: BoxFit.cover,
-                      loadStateChanged: (state) {
-                        switch (state.extendedImageLoadState) {
-                          case LoadState.failed:
-                            return Image.asset(
-                              ImageUtils.default_logo,
-                              width: 50.w,
-                              height: 50.w,
-                              fit: BoxFit.cover,
-                            );
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   12.horizontalSpace,

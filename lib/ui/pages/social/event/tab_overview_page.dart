@@ -10,8 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../config/icon_font.dart';
 import '../../../../../model/event_detail_model.dart';
 import '../../../../../widget/paixs_widget.dart';
-import '../../event/event_page.dart';
-import '../activity/list/widget/list_item.dart';
+import '../../../../common/styles.dart';
+import '../../events/event/event_page.dart';
 
 class TabOverviewPage extends StatelessWidget {
   final controller = Get.find<EventPageController>();
