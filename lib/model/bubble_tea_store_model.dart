@@ -1,4 +1,6 @@
-class BubbleTeaStoreModel {
+import 'package:sq_hub_app/model/selector_item.dart';
+
+class BubbleTeaStoreModel implements SelectorItem{
   int? id;
   String? name;
   String? address;
@@ -72,4 +74,19 @@ class BubbleTeaStoreModel {
     "areaVoList": areaVoList,
     "userPhone": userPhone,
   };
+
+  @override
+  String displayInfo() {
+    return address ?? '';
+  }
+
+  @override
+  String displayLabel() {
+    return name ?? '';
+  }
+
+  @override
+  bool selectable() {
+    return true;
+  }
 }

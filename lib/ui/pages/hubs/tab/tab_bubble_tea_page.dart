@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
+import 'package:sq_hub_app/utils/toast_utils.dart';
 
+import '../../../../common/dialog_selector.dart';
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../getx_ctr/tab_bubble_tea_ctr.dart';
@@ -20,64 +22,67 @@ class TabBubbleTeaPage extends StatelessWidget {
   Widget build(BuildContext context) => Expanded(
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Sidequest Hub Coventry  ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          children: [
-                            WidgetSpan(
-                              child: Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                color: Colors.white,
-                                size: 14.sp,
-                              ),
+            InkWell(
+              onTap: () => ctr.selectStore(),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(() => RichText(
+                          text: TextSpan(
+                            text: '${ctr.currentSelectStore.value.name}  ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w600,
                             ),
-                          ],
-                        ),
-                      ),
-                      6.verticalSpace,
-                      RichText(
-                        text: TextSpan(
-                          text: "52m",
-                          style: TextStyle(
-                            color: const Color(0xFFFFB20E),
-                            fontSize: 12.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: " away from you",
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 12.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
+                            children: [
+                              WidgetSpan(
+                                child: Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                  color: Colors.white,
+                                  size: 14.sp,
+                                ),
                               ),
+                            ],
+                          ),
+                        )),
+                        6.verticalSpace,
+                        RichText(
+                          text: TextSpan(
+                            text: "52m",
+                            style: TextStyle(
+                              color: const Color(0xFFFFB20E),
+                              fontSize: 12.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w400,
                             ),
-                          ],
+                            children: [
+                              TextSpan(
+                                text: " away from you",
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 12.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Image.asset(
-                  ImageUtils.bubble_tea_store_icon,
-                  width: 52.w,
-                  height: 38.h,
-                ),
-              ],
+                  Image.asset(
+                    ImageUtils.bubble_tea_store_icon,
+                    width: 52.w,
+                    height: 38.h,
+                  ),
+                ],
+              ),
             ),
             10.verticalSpace,
             SizedBox(

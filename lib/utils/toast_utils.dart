@@ -43,7 +43,7 @@ showError(var msg, {Duration? duration}) {
 
 showCustom(
   Widget widget, {
-  bool clickMaskDismiss = false,
+  bool clickMaskDismiss = true,
   AlignmentGeometry? alignment,
   Color? maskColor,
   // 点击事件是否穿透
