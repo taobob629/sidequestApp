@@ -76,8 +76,6 @@ class TabGamesFilterPage extends StatelessWidget {
                                     fontFamily: 'DIN',
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),

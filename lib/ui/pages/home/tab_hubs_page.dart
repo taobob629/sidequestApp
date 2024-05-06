@@ -15,69 +15,61 @@ class TabHubsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Obx(() => Column(
-    children: [
-      Container(
-        height: 34.h,
-        margin: EdgeInsets.symmetric(
-          horizontal: 15.w,
-          vertical: 10.h,
-        ),
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (c, i) => Obx(() => GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => controller.clickTopTab(i),
-            child: Container(
-              width: 86.w,
-              decoration: controller.selectTopTabIndex.value == i
-                  ? BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(
-                  width: 1.w,
-                  color: hexColor('FFB20E'),
-                ),
-              )
-                  : BoxDecoration(
-                color: hexColor('141414'),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                controller.topTabs[i],
-                style: TextStyle(
-                  color: controller.selectTopTabIndex.value == i
-                      ? hexColor('FFB20E')
-                      : Colors.white,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                ),
-              ),
+        children: [
+          Container(
+            height: 34.h,
+            margin: EdgeInsets.symmetric(
+              horizontal: 15.w,
+              vertical: 10.h,
             ),
-          )),
-          separatorBuilder: (c, i) => 15.horizontalSpace,
-          itemCount: controller.topTabs.length,
-        ),
-      ),
-      if (controller.selectTopTabIndex.value == 0)
-        TabGamesFilterPage(),
-      if (controller.selectTopTabIndex.value == 1)
-        TabGamesFilterPage(),
-      if (controller.selectTopTabIndex.value == 2)
-        TabBubbleTeaPage(),
-    ],
-  ));
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (c, i) => Obx(() => GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => controller.clickTopTab(i),
+                    child: Container(
+                      width: 86.w,
+                      decoration: controller.selectTopTabIndex.value == i
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(
+                                width: 1.w,
+                                color: hexColor('FFB20E'),
+                              ),
+                            )
+                          : BoxDecoration(
+                              color: hexColor('141414'),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        controller.topTabs[i],
+                        style: TextStyle(
+                          color: controller.selectTopTabIndex.value == i
+                              ? hexColor('FFB20E')
+                              : Colors.white,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                  )),
+              separatorBuilder: (c, i) => 15.horizontalSpace,
+              itemCount: controller.topTabs.length,
+            ),
+          ),
+          if (controller.selectTopTabIndex.value == 0) TabGamesFilterPage(),
+          if (controller.selectTopTabIndex.value == 1) TabGamesFilterPage(),
+          if (controller.selectTopTabIndex.value == 2) TabBubbleTeaPage(),
+        ],
+      ));
 }
 
 class TabHubsPageController extends GetxController {
   static TabHubsPageController get find => Get.find();
 
   List<String> topTabs = ["Games".tr, "HIW".tr, "Bubble tea".tr];
-  List<GamesLeftTabBean> leftTabs = [
-    GamesLeftTabBean(name: "PC".tr, icon: ImageUtils.tab_pc_icon),
-    GamesLeftTabBean(name: "Console".tr, icon: ImageUtils.tab_console_icon),
-    GamesLeftTabBean(name: "Racing\nsims".tr, icon: ImageUtils.tab_racing_icon),
-  ];
 
   var selectTopTabIndex = 0.obs;
 

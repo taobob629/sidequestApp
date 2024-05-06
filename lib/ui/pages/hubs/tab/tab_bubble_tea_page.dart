@@ -222,28 +222,28 @@ class TabBubbleTeaPage extends StatelessWidget {
                                     badgeColor: hexColor('FF4848'),
                                     position: badges.BadgePosition(top: -8.h),
                                     alignment: Alignment.topRight,
-                                    child: Container(
-                                      width: 44.w,
-                                      height: 44.w,
-                                      decoration: ShapeDecoration(
-                                        color: hexColor('141517'),
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 1.w,
-                                              color: hexColor('FFB20E')),
-                                          borderRadius:
-                                              BorderRadius.circular(60.r),
-                                        ),
-                                      ),
-                                      child: Builder(
-                                        builder: (context) {
-                                          cartContext = context;
-                                          return Image.asset(
+                                    child: Builder(
+                                      builder: (context) {
+                                        cartContext = context;
+                                        return Container(
+                                          width: 44.w,
+                                          height: 44.w,
+                                          decoration: ShapeDecoration(
+                                            color: hexColor('141517'),
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  width: 1.w,
+                                                  color: hexColor('FFB20E')),
+                                              borderRadius:
+                                                  BorderRadius.circular(60.r),
+                                            ),
+                                          ),
+                                          child: Image.asset(
                                             ImageUtils.drink_now_icon,
                                             scale: 2,
-                                          );
-                                        },
-                                      ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -357,7 +357,94 @@ class TabBubbleTeaPage extends StatelessWidget {
                 ],
               ),
             ).paddingOnly(left: 16.w),
+            ctr.selectTeaList.length <= 3
+                ? commonWidget(true)
+                : Expanded(child: commonWidget(false)),
           ],
         ),
+      );
+
+  Widget commonWidget(bool shrinkWrap) => ListView.separated(
+        padding: EdgeInsets.zero,
+        shrinkWrap: shrinkWrap,
+        itemBuilder: (c, i) => Container(
+          height: 70.h,
+          child: Row(
+            children: [
+              16.horizontalSpace,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${ctr.selectTeaList[i].name}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Visibility(
+                      visible: ctr.selectTeaList[i].brief != null,
+                      child: Text(
+                        '${ctr.selectTeaList[i].brief}',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 10.sp,
+                          fontFamily: FONT_LIGHT,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Text(
+                '£ ${ctr.selectTeaList[i].retailPrice}',
+                style: TextStyle(
+                  color: Color(0xFFFFB20E),
+                  fontSize: 16.sp,
+                  fontFamily: FONT_MEDIUM,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).paddingSymmetric(horizontal: 10.w),
+              InkWell(
+                onTap: () => ctr.minusMoney(i),
+                child: Icon(
+                  Icons.remove_circle_outline,
+                  color: Colors.white,
+                ),
+              ),
+              Obx(() => Text(
+                '${ctr.selectTeaList[i].count.value}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: FONT_LIGHT,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).paddingSymmetric(horizontal: 15.w)),
+              InkWell(
+                onTap: () => ctr.addMoney(i),
+                child: Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white,
+                ),
+              ),
+              16.horizontalSpace,
+            ],
+          ),
+        ),
+        separatorBuilder: (c, i) => Container(
+          height: 1.h,
+          decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
+        ),
+        itemCount: ctr.selectTeaList.length,
       );
 }

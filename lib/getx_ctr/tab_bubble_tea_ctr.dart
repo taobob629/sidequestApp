@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 
@@ -39,5 +40,27 @@ class TabBubbleTeaCtr extends GetxController {
     }
 
     totalPrice.value = selectTeaList.fold<String>("0", (previousValue, element) => previousValue.add(element.retailPrice ?? "0"));
+  }
+
+  void addMoney(int i) {
+    selectTeaList[i].count.value += 1;
+    calculateTotal();
+    print('zengchao ${selectTeaList[i].count.value}');
+  }
+
+  void minusMoney(int i) {
+    if (selectTeaList[i].count.value > 1) {
+      selectTeaList[i].count.value -= 1;
+      calculateTotal();
+      print('zengchao ${selectTeaList[i].count.value}');
+    }
+  }
+
+  String calculateTotal() {
+    Decimal total = Decimal.parse("0");
+    for (StoreTeaModel item in selectTeaList) {
+      total += Decimal.parse(item.getTotalPrice());
+    }
+    return total.toString();
   }
 }

@@ -32,16 +32,4 @@ class BundlesDetailCtr extends GetxController {
 
     totalMoney.value = model.value.price.mul(count.value.toString());
   }
-
-  void addMoney() {
-    count.value++;
-    totalMoney.value = model.value.price.mul(count.value.toString());
-  }
-
-  void minusMoney() {
-    if (count.value > 1) {
-      count.value--;
-      totalMoney.value = model.value.price.mul(count.value.toString());
-    }
-  }
 }

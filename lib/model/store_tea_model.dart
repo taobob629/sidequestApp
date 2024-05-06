@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:sq_hub_app/utils/decimal_utils.dart';
+
 class StoreTeaModel {
   int? id;
   int? storeId;
@@ -31,6 +34,7 @@ class StoreTeaModel {
   String? name;
   dynamic onSale;
   String? image;
+  var count = 1.obs;
 
   StoreTeaModel({
     this.id,
@@ -135,5 +139,10 @@ class StoreTeaModel {
     "name": name,
     "onSale": onSale,
     "image": image,
+    "count": count,
   };
+
+  String getTotalPrice() {
+    return (retailPrice ?? "0").mul(count.value.toString());
+  }
 }
