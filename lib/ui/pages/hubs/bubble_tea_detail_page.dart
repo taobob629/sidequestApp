@@ -150,13 +150,29 @@ class BubbleTeaDetailPage extends StatelessWidget {
                             ],
                           ),
                           if (ctr.sizeTags.isNotEmpty)
-                            commonWidget("Size", ctr.sizeTags),
+                            commonWidget(
+                              title: "Size",
+                              selectSize: 1,
+                              tagList: ctr.sizeTags,
+                            ),
                           if (ctr.iceTags.isNotEmpty)
-                            commonWidget("Ice Level", ctr.iceTags),
+                            commonWidget(
+                              title: "Ice Level",
+                              selectSize: 1,
+                              tagList: ctr.iceTags,
+                            ),
                           if (ctr.sugarTags.isNotEmpty)
-                            commonWidget("Sugar", ctr.sugarTags),
+                            commonWidget(
+                              title: "Sugar",
+                              selectSize: 1,
+                              tagList: ctr.sugarTags,
+                            ),
                           if (ctr.toppingTags.isNotEmpty)
-                            commonWidget("Toppings", ctr.toppingTags),
+                            commonWidget(
+                              title: "Toppings",
+                              selectSize: 2,
+                              tagList: ctr.toppingTags,
+                            ),
                         ],
                       ),
                     ),
@@ -233,7 +249,12 @@ class BubbleTeaDetailPage extends StatelessWidget {
             )),
       );
 
-  Widget commonWidget(String title, List<TagBean> tagList) => Column(
+  Widget commonWidget({
+    required String title,
+    required int selectSize,
+    required List<TagBean> tagList,
+  }) =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -247,6 +268,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
           ).paddingOnly(left: 16.w, top: 24.h),
           SimpleTags(
             content: tagList,
+            selectSize: selectSize,
             wrapSpacing: 10.w,
             wrapRunSpacing: 10.h,
             onTagPress: (TagBean tagBean) {},

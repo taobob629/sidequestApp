@@ -38,6 +38,8 @@ class SimpleTags extends StatelessWidget {
 
   final bool? tagTextSoftWrap;
 
+  final bool? isSelectAll;
+
   final Locale? tagTextLocale;
 
   final WrapCrossAlignment wrapCrossAxisAlignment;
@@ -58,6 +60,9 @@ class SimpleTags extends StatelessWidget {
 
   final VerticalDirection wrapVerticalDirection;
 
+  // 可以选择多少个
+  final int selectSize;
+
   SimpleTags({
     Key? key,
     required this.content,
@@ -70,12 +75,14 @@ class SimpleTags extends StatelessWidget {
     this.tagContainerPadding = EdgeInsets.zero,
     this.tagContainerMargin = EdgeInsets.zero,
     this.tagTextStyle,
+    required this.selectSize,
     this.tagSelectTextStyle,
     this.tagTextSoftWrap,
     this.tagTextAlign,
     this.tagTextOverflow,
     this.tagTextMaxlines,
     this.tagTextLocale,
+    this.isSelectAll,
     this.wrapCrossAxisAlignment = WrapCrossAlignment.start,
     this.wrapAlignment = WrapAlignment.start,
     this.wrapRunSpacing = 0,
@@ -89,9 +96,11 @@ class SimpleTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    content.forEach((element) {
-      selectStr.add(element.value);
-    });
+    if (isSelectAll == true) {
+      content.forEach((element) {
+        selectStr.add(element.value);
+      });
+    }
 
     return Obx(
       () => Wrap(
@@ -134,7 +143,16 @@ class SimpleTags extends StatelessWidget {
             if (onTagPress != null) {
               onTagPress!(content[i]);
               if (!selectStr.contains(tag)) {
-                selectStr.add(tag);
+                if (1 == selectSize) {
+                  // 单选
+                  selectStr.clear();
+                  selectStr.add(tag);
+                } else {
+                  // 多选
+                  if (selectStr.length < selectSize) {
+                    selectStr.add(tag);
+                  }
+                }
               } else {
                 selectStr.remove(tag);
               }
