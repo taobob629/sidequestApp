@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
@@ -14,9 +15,12 @@ class TabBubbleTeaCtr extends GetxController {
   var teaList = <StoreTeaModel>[].obs;
   var storesList = <BubbleTeaStoreModel>[].obs;
 
+  var isShowDrinkNow = true.obs;
   var selectTeaList = <StoreTeaModel>[].obs;
   var totalPrice = "0".obs;
   var currentSelectStore = BubbleTeaStoreModel().obs;
+
+  late BuildContext cartContext;
 
   @override
   void onInit() {
@@ -50,7 +54,7 @@ class TabBubbleTeaCtr extends GetxController {
         .firstWhereOrNull((element) => element.id == teaList[i].id);
     if (result == null) {
       selectTeaList.add(teaList[i]);
-      showError("Successful.".tr);
+      showSuccess("Successful.".tr);
     } else {
       showError("You've already added it.".tr);
     }
@@ -91,5 +95,10 @@ class TabBubbleTeaCtr extends GetxController {
       currentSelectStore.value = value as BubbleTeaStoreModel;
       requestStoreInDataByStoreId(currentSelectStore.value.id, true);
     }
+  }
+
+  void clearTea() {
+    selectTeaList.clear();
+    dismissLoading();
   }
 }
