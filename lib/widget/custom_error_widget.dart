@@ -26,12 +26,6 @@ class CustomErrorWidget extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Image.asset(
-                //   ImageUtils.iconError,
-                //   width: 18.w,
-                //   height: 18.w,
-                // ),
-                // 7.horizontalSpace,
                 Text(
                   'Information'.tr,
                   style: TextStyle(

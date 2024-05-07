@@ -1,4 +1,5 @@
 import 'package:sq_hub_app/api/wy_http.dart';
+import 'package:sq_hub_app/model/goods_detail_model.dart';
 
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
@@ -17,6 +18,12 @@ class HubsApi {
     var response = await http
         .get('/app/hubs/teaBanners', queryParameters: {"storeId": storeId});
     return response.data;
+  }
+
+  static Future<GoodsDetailModel> goodDetail(int? id) async {
+    var response = await http
+        .get('/app/hubs/goodDetail', queryParameters: {"id": id});
+    return GoodsDetailModel.fromJson(response.data);
   }
 
   static Future<List<StoreTeaModel>> getTeaList(

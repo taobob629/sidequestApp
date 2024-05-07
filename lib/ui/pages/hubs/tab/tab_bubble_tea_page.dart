@@ -11,6 +11,7 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../../widget/image_util.dart';
+import '../bubble_tea_detail_page.dart';
 import '../confirm_order_page.dart';
 
 class TabBubbleTeaPage extends StatelessWidget {
@@ -110,6 +111,10 @@ class TabBubbleTeaPage extends StatelessWidget {
                       ListView.separated(
                         itemBuilder: (c, i) => GestureDetector(
                           behavior: HitTestBehavior.translucent,
+                          onTap: () => Get.to(() => BubbleTeaDetailPage(), arguments: {
+                            "id": ctr.teaList[i].id,
+                            "index": i,
+                          }),
                           child: Container(
                             height: 112.h,
                             decoration: ShapeDecoration(

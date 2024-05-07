@@ -58,34 +58,34 @@ class SimpleTags extends StatelessWidget {
 
   final VerticalDirection wrapVerticalDirection;
 
-  SimpleTags(
-      {Key? key,
-      required this.content,
-      this.onTagPress,
-      this.onTagDoubleTap,
-      this.onTagLongPress,
-      this.tagContainerDecoration,
-      this.tagContainerSelectDecoration,
-      this.tagIcon,
-      this.tagContainerPadding = EdgeInsets.zero,
-      this.tagContainerMargin = EdgeInsets.zero,
-      this.tagTextStyle,
-      this.tagSelectTextStyle,
-      this.tagTextSoftWrap,
-      this.tagTextAlign,
-      this.tagTextOverflow,
-      this.tagTextMaxlines,
-      this.tagTextLocale,
-      this.wrapCrossAxisAlignment = WrapCrossAlignment.start,
-      this.wrapAlignment = WrapAlignment.start,
-      this.wrapRunSpacing = 0,
-      this.wrapRunAlignment = WrapAlignment.start,
-      this.wrapDirection = Axis.horizontal,
-      this.wrapSpacing = 0,
-      this.wrapTextDirection,
-      this.wrapClipBehavior = Clip.none,
-      this.wrapVerticalDirection = VerticalDirection.down})
-      : super(key: key);
+  SimpleTags({
+    Key? key,
+    required this.content,
+    this.onTagPress,
+    this.onTagDoubleTap,
+    this.onTagLongPress,
+    this.tagContainerDecoration,
+    this.tagContainerSelectDecoration,
+    this.tagIcon,
+    this.tagContainerPadding = EdgeInsets.zero,
+    this.tagContainerMargin = EdgeInsets.zero,
+    this.tagTextStyle,
+    this.tagSelectTextStyle,
+    this.tagTextSoftWrap,
+    this.tagTextAlign,
+    this.tagTextOverflow,
+    this.tagTextMaxlines,
+    this.tagTextLocale,
+    this.wrapCrossAxisAlignment = WrapCrossAlignment.start,
+    this.wrapAlignment = WrapAlignment.start,
+    this.wrapRunSpacing = 0,
+    this.wrapRunAlignment = WrapAlignment.start,
+    this.wrapDirection = Axis.horizontal,
+    this.wrapSpacing = 0,
+    this.wrapTextDirection,
+    this.wrapClipBehavior = Clip.none,
+    this.wrapVerticalDirection = VerticalDirection.down,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

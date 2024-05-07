@@ -50,6 +50,9 @@ class TabBubbleTeaCtr extends GetxController {
         .firstWhereOrNull((element) => element.id == teaList[i].id);
     if (result == null) {
       selectTeaList.add(teaList[i]);
+      showError("Successful.".tr);
+    } else {
+      showError("You've already added it.".tr);
     }
 
     totalPrice.value = selectTeaList.fold<String>(
