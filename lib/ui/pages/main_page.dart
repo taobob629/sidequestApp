@@ -13,12 +13,14 @@ import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
 import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 
+import '../../api/index_api.dart';
 import '../../common/keep_alive_wrapper.dart';
 import '../../config/app_color.dart';
 import '../../controller/user_controller.dart';
 import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
+import '../dialog/dialog_upgrade.dart';
 import 'login/login_page.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -206,6 +208,15 @@ class MainPageController extends FullLifeCycleController
       Get.offAll(() => SplashPage());
       return;
     }
+
+    _timer = Timer.periodic(Duration(minutes: 5), (timer) {
+      IndexApi.checkVersion().then((value) {
+        if (value.upgrade && value.force) {
+          UpgradeDialog.show(Get.context!, value, cancelable: !value.force);
+          _timer.cancel();
+        }
+      });
+    });
   }
 
   @override
