@@ -20,10 +20,11 @@ class ProfileModel {
   int vipLevel = 0;
   int followers = 0;
   int followerToday = 0;
+  int posts = 0;
   String balance = "0.00";
   String uk = "";
   List<TrophieModel> trophies = [];
-  int gender = 1;
+  String gender = "1";
   String avatar = "";
   int coin = 0;
   int userAvatar = 0;
@@ -71,11 +72,12 @@ class ProfileModel {
       this.vipLevel = 0,
       this.followers = 0,
       this.followerToday = 0,
+      this.posts = 0,
       this.balance = "0.00",
       this.uk = "",
       this.trophies = const [],
       this.badges = const [],
-      this.gender = 1,
+      this.gender = "1",
       this.avatar = "",
       this.coin = 0,
       this.userAvatar = 0,
@@ -125,6 +127,7 @@ class ProfileModel {
     vipLevel = json["vipLevel"] ?? 0;
     followers = json["followers"] ?? 0;
     followerToday = json["followerToday"] ?? 0;
+    posts = json["posts"] ?? 0;
     balance = json["balance"] ?? "0.00";
     uk = json["uk"] ?? "";
     trophies = json["trophies"] != null
@@ -133,7 +136,7 @@ class ProfileModel {
     badges = json["badges"] != null
         ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList()
         : [];
-    gender = json["gender"] ?? 1;
+    gender = json["gender"] ?? "1";
     avatar = json["avatar"] ?? "";
     coin = json["coin"] ?? 0;
     userAvatar = json["userAvatar"] ?? 0;

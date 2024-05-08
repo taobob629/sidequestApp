@@ -28,6 +28,7 @@ class ImageUtils {
   static const String bundles_detail_price_bg = 'assets/images/bundles_detail_price_bg.webp';
   static const String follow = 'assets/images/follow.webp';
   static const String icon_language = 'assets/images/icon_language.webp';
+  static const String emenry_bg_icon = 'assets/images/emenry_bg_icon.webp';
   static const String followed = 'assets/images/followed.webp';
   static const String msg_head_bg = 'assets/images/msg_head_bg.webp';
   static const String icon_love_progress = 'assets/images/icon_love_progress.webp';
@@ -43,7 +44,6 @@ class ImageUtils {
   static const String icon_voice_progress = 'assets/images/icon_voice_progress.webp';
   static const String splash_logo = 'assets/images/splash_logo.png';
   static const String icon_send = 'assets/images/icon_send.png';
-  static const String profile_top_bg = 'assets/images/profile_top_bg.png';
   static const String empty = 'assets/images/empty.webp';
   static const String tab_pc_icon = 'assets/images/tab_pc_icon.webp';
   static const String tab_console_icon = 'assets/images/tab_console_icon.webp';
@@ -60,6 +60,7 @@ class ImageUtils {
   static const String icon_dianzan = 'assets/images/icon_dianzan.webp';
   static const String arrow_more = 'assets/images/arrow_more.webp';
   static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
+  static const String emenry_pc_icon = 'assets/images/emenry_pc_icon.webp';
   static const String icon_first = 'assets/images/icon_first.webp';
   static const String icon_second = 'assets/images/icon_second.webp';
   static const String icon_third = 'assets/images/icon_third.webp';
