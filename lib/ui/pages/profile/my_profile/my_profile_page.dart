@@ -354,45 +354,17 @@ class MyProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(() => Visibility(
-                  visible: userController.userProfile.ads.isNotEmpty,
-                  child: _memberVipWidget(),
-                )),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(
-                left: 15.w,
-                top: 10.h,
-                bottom: 10.h,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 4.w,
-                    height: 16.h,
-                    margin: EdgeInsets.only(right: 4.w),
-                    color: hexColor('FFB20E'),
-                  ),
-                  Text(
-                    'MY SERVICES'.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: FONT_MEDIUM,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 4.w,
                 vertical: 18.h,
               ),
               margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 10.h),
-              decoration: BoxDecoration(
-                color: Color(0xff262731),
-                borderRadius: BorderRadius.circular(15.r),
+              decoration: ShapeDecoration(
+                color: Color(0xFF141517),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
               ),
               child: Column(
                 children: [
