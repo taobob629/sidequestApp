@@ -24,6 +24,7 @@ class Http extends BaseHttp {
   @override
   void init() async {
     options.baseUrl = AppConfig.getBaseServer();
+    // options.baseUrl = 'http://114.117.203.137:8081';
     interceptors
       ..add(ApiInterceptor())
       ..add(HeaderInterceptor());

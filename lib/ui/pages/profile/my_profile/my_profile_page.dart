@@ -44,6 +44,15 @@ class MyProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double progress = 0;
+    double percent = (t.user.value.totalmins.toDouble() == 0
+        ? 0
+        : t.user.value.avamins / t.user.value.totalmins.toDouble());
+    progress = 234.w - 234.w * percent;
+    if (progress > 234.w) {
+      progress = 0;
+    }
+
     return Scaffold(
       backgroundColor: hexColor('0A0A0A'),
       body: SingleChildScrollView(
@@ -105,35 +114,23 @@ class MyProfilePage extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           clickMaskDismiss: true,
                         ),
-                        child: Stack(
-                            alignment: AlignmentDirectional.center,
-                            clipBehavior: Clip.none,
-                            children: [
-                              Obx(() => Container(
-                                    height: 64,
-                                    alignment: Alignment.center,
-                                    child: Opacity(
-                                      opacity: userController
-                                                  .userProfile.userAvatar ==
-                                              1
-                                          ? 1
-                                          : 0.3,
-                                      child: ClipOval(
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              userController.userProfile.avatar,
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                              Image.asset(
-                                ImageUtils.profile_avatar_border,
-                                width: 64.w,
+                        child: Obx(() => Container(
+                              alignment: Alignment.center,
+                              child: Opacity(
+                                opacity:
+                                    userController.userProfile.userAvatar == 1
+                                        ? 1
+                                        : 0.3,
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    imageUrl: userController.userProfile.avatar,
+                                    width: 50.w,
+                                    height: 50.w,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ]),
+                            )),
                       ),
                       Expanded(
                         child: GestureDetector(
@@ -272,7 +269,7 @@ class MyProfilePage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 50.h,
+                    height: 52.h,
                     decoration: ShapeDecoration(
                       color: Color(0xFF141517),
                       shape: RoundedRectangleBorder(
@@ -295,10 +292,9 @@ class MyProfilePage extends StatelessWidget {
                             children: [
                               Image.asset(
                                 ImageUtils.emenry_pc_icon,
-                                width: 30.w,
-                                height: 30.w,
+                                width: 40.w,
                               ),
-                              12.horizontalSpace,
+                              6.horizontalSpace,
                               Expanded(
                                 child: Obx(() => MyProgressbar(
                                       value:
@@ -310,15 +306,7 @@ class MyProfilePage extends StatelessWidget {
                                       width: 234.w,
                                       height: 12.h,
                                       padding: EdgeInsets.only(
-                                        right: 234.w -
-                                            (t.user.value.totalmins
-                                                            .toDouble() ==
-                                                        0
-                                                    ? 0
-                                                    : t.user.value.avamins /
-                                                        t.user.value.totalmins
-                                                            .toDouble())
-                                                .w,
+                                        right: progress,
                                       ),
                                       direction: Axis.horizontal,
                                       innerDecoration: BoxDecoration(
@@ -359,7 +347,7 @@ class MyProfilePage extends StatelessWidget {
                 horizontal: 4.w,
                 vertical: 18.h,
               ),
-              margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 10.h),
+              margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
               decoration: ShapeDecoration(
                 color: Color(0xFF141517),
                 shape: RoundedRectangleBorder(
@@ -367,14 +355,25 @@ class MyProfilePage extends StatelessWidget {
                 ),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    'MY FEATURES'.tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ).paddingOnly(left: 16.w),
+                  20.verticalSpace,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         child: _dashboardLabelItem(
                           ImageUtils.icon_wallet,
-                          "Wallet".tr,
+                          "Top Up".tr,
                           onTap: () {
                             userController.checkLogin(() =>
                                 Get.to(() => BalancePage())?.whenComplete(
@@ -382,46 +381,31 @@ class MyProfilePage extends StatelessWidget {
                           },
                         ),
                       ),
-                      // Expanded(
-                      //   child: Showcase(
-                      //     key: GlobalKeyConstants.profileSideKickKey,
-                      //     description: 'Apply now to play with'.tr,
-                      //     child: _dashboardLabelItem(
-                      //       "assets/images/profile/icon_sidekick.webp",
-                      //       "SideKick".tr,
-                      //       onTap: () {
-                      //         //  Get.toNamed(AppPages.WALLET_PAGE, arguments: Map()..['page'] = 0);
-                      //         Get.toNamed(AppPages.SkillList)?.then(
-                      //             (value) =>
-                      //                 userController.updateInfo());
-                      //       },
-                      //       badgeNum: userController
-                      //           .userProfile.sidekickNum,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Expanded(
-                      //   child: _dashboardLabelItem(
-                      //     ImageUtils.icon_order,
-                      //     "Orders".tr,
-                      //     onTap: () => Get.to(
-                      //       () => MyOrdersPage(),
-                      //     )?.then(
-                      //         (value) => userController.updateInfo()),
-                      //     badgeNum:
-                      //         userController.userProfile.orderNum,
-                      //   ),
-                      // ),
                       Expanded(
                         child: _dashboardLabelItem(
-                          ImageUtils.share,
-                          "Invite".tr,
+                          ImageUtils.icon_vouchers,
+                          "Vouchers".tr,
                           onTap: () => Get.to(
                             () => InvitePage(),
                             arguments: "Invite".tr,
                           ),
                         ),
                       ),
+                      Expanded(
+                        child: _dashboardLabelItem(
+                          ImageUtils.icon_orders,
+                          "Orders".tr,
+                          onTap: () {
+                            Get.to(() => BookingPage());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  20.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       Expanded(
                         child: _dashboardLabelItem(
                           ImageUtils.icon_bookings,
@@ -433,32 +417,6 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: _dashboardLabelItem(
-                          ImageUtils.icon_activities,
-                          "Activities".tr,
-                          onTap: () {
-                            Get.to(() => MyEventsPage());
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // Expanded(
-                      //   child: _dashboardLabelItem(
-                      //     ImageUtils.icon_post,
-                      //     "Post".tr,
-                      //     onTap: () => Get.to(() => MyPostsPage())
-                      //         ?.then((value) =>
-                      //             userController.updateInfo()),
-                      //     badgeNum:
-                      //         userController.userProfile.postNum,
-                      //   ),
-                      // ),
-                      Expanded(
-                        child: _dashboardLabelItem(
                           ImageUtils.icon_task,
                           "Quest".tr,
                           onTap: () => Get.to(() => TaskPage())
@@ -467,30 +425,84 @@ class MyProfilePage extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_riot,
-                          "Connections".tr,
-                          onTap: () => Get.to(() => AddGameAccountPage()),
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_consumption,
-                          "Consumption".tr,
-                          onTap: () {
-                            Get.to(() => StoreConsumListPage());
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_task,
-                          "Integral".tr,
-                          onTap: () => Get.to(() => IntegralHomePage()),
-                        ),
+                        child: Container(),
                       ),
                     ],
                   ),
+                ],
+              ),
+            ),
+            Container(
+              width: 1.sw,
+              height: 100.h,
+              margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+              decoration: ShapeDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xFF141517), Color(0xFF322531)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+              ),
+              child: Row(
+                children: [
+                  14.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Loyalty Card",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        8.verticalSpace,
+                        RichText(
+                          text: TextSpan(
+                            text: "Buy",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                              height: 1.5,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: " ${t.user.value.loyalty} ",
+                                style: TextStyle(
+                                  color: AppColor.yellow,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  height: 1.5,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "more Bubbletea to get a free drink",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Image.asset(
+                    ImageUtils.profile_loyalty_icon,
+                    width: 120.w,
+                  ),
+                  8.horizontalSpace,
                 ],
               ),
             ),
@@ -611,7 +623,7 @@ class MyProfilePage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.6),
                     fontFamily: FONT_MEDIUM,
-                    fontSize: 12.sp,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -657,15 +669,16 @@ class MyProfilePage extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: Image.asset(
                   imageName,
-                  width: 26,
+                  width: 24.w,
+                  height: 24.w,
                 ),
               ),
               6.verticalSpace,
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
+                  color: Colors.white.withOpacity(0.6),
+                  fontSize: 13.sp,
                 ),
               )
             ],

@@ -12,6 +12,7 @@ class ProfileModel {
   String signature = "";
   int isAuth = 0;
   int sidekickLevel = 1;
+  int loyalty = 1;
   CountryModel location = CountryModel();
   String nickName = "";
   int fans = 0;
@@ -65,6 +66,7 @@ class ProfileModel {
       this.avamins = 0,
       this.isAuth = 0,
       this.sidekickLevel = 1,
+      this.loyalty = 0,
       this.nickName = "",
       this.fans = 0,
       this.visitor = 0,
@@ -108,6 +110,7 @@ class ProfileModel {
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 1;
     memberId = json["memberId"] ?? 0;
+    loyalty = json["loyalty"] ?? 0;
     backGround = json["backGround"] ?? "";
     signature = json["signature"] ?? "";
     pwId = json["pwId"] ?? 0;

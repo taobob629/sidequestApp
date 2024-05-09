@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:sq_hub_app/config/app_color.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../common/getx_refresh_controller.dart';
 import '../../../config/icon_font.dart';
-import '../../../controller/user_controller.dart';
 import '../../../model/tab_cybercafe_model.dart';
-import '../../../utils/permission_helper.dart';
+import '../../../widget/image_util.dart';
 import '../booking/booking_detail_page.dart';
 
 class TabCybercafePage extends StatelessWidget {
@@ -21,132 +18,176 @@ class TabCybercafePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
+        preferredSize: Size.fromHeight(0),
         child: AppBar(
-          title: const Text("Flutter 留着状态栏高度，去掉appbar高度"),
+          title: Text("Flutter 留着状态栏高度，去掉appbar高度"),
         ),
       ),
-      body: Obx(
-        () => SmartRefresher(
-          controller: _ctr.refreshController,
-          onLoading: () => _ctr.loadMore(),
-          onRefresh: () => _ctr.onRefresh(),
-          enablePullUp: true,
-          child: ListView.separated(
-            itemCount: _ctr.list.length,
-            itemBuilder: (context, index) {
-              final model = _ctr.list[index];
-              return GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () =>
-                    Get.to(() => BookingDetailPage(), arguments: model.id),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Stack(
-                    children: [
-                      20.verticalSpace,
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child: Image.network(
-                          model.headImage,
-                          height: 180.h,
-                          width: Get.width,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      15.verticalSpace,
-                      Container(
-                        margin: EdgeInsets.only(left: 30.w, top: 100.h),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+      body: Obx(() => SmartRefresher(
+            controller: _ctr.refreshController,
+            onLoading: () => _ctr.loadMore(),
+            onRefresh: () => _ctr.onRefresh(),
+            enablePullUp: true,
+            child: ListView.separated(
+              padding: EdgeInsets.zero,
+              itemCount: _ctr.list.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  20.verticalSpace,
+              itemBuilder: (context, index) {
+                final model = _ctr.list[index];
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () =>
+                      Get.to(() => BookingDetailPage(), arguments: model.id),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    height: 320.h,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            decoration: ShapeDecoration(
+                              color: Color(0xFF141414),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.location_on,
-                                  color: Colors.white,
-                                  size: 18.sp,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    model.address,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      color: const Color(0xffffffff),
-                                    ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(16.r),
+                                    topLeft: Radius.circular(16.r),
+                                  ),
+                                  child: ImageUtil.networkImage(
+                                    url: model.headImage,
+                                    height: 180.h,
+                                    width: Get.width,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ],
-                            ),
-                            10.verticalSpace,
-                            Text(
-                              model.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            10.verticalSpace,
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1.w,
-                                  color: AppColor.yellow,
-                                ),
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              padding: EdgeInsets.only(right: 4.w),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColor.yellow,
-                                      borderRadius: BorderRadius.circular(2.r),
+                                15.verticalSpace,
+                                Row(
+                                  children: [
+                                    16.horizontalSpace,
+                                    Expanded(
+                                      child: Text(
+                                        model.name,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 4.w),
-                                    child: Text(
-                                      'In business'.tr,
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                      size: 18.sp,
+                                    ),
+                                    16.horizontalSpace,
+                                  ],
+                                ),
+                                10.verticalSpace,
+                                Row(
+                                  children: [
+                                    16.horizontalSpace,
+                                    Text(
+                                      'In operation'.tr,
                                       style: TextStyle(
-                                        fontSize: 12.sp,
+                                        fontSize: 14.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        color: Color(0xff32BE48),
+                                      ),
+                                    ),
+                                    10.horizontalSpace,
+                                    Text(
+                                      model.openTime,
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
                                         fontFamily: FONT_MEDIUM,
                                         color: Colors.white,
                                       ),
                                     ),
+                                  ],
+                                ),
+                                10.verticalSpace,
+                                Transform.translate(
+                                  offset: Offset(-4.w, 0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      14.horizontalSpace,
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.white.withOpacity(0.6),
+                                        size: 18.sp,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 36.h,
+                                          child: Text(
+                                            model.address,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  4.horizontalSpace,
-                                  Text(
-                                    model.openTime,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
+                                ),
+                                10.verticalSpace,
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 16.w,
+                          top: 0,
+                          child: Container(
+                            width: 46.w,
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  ImageUtils.store_ranking_icon,
+                                ),
                               ),
                             ),
-                          ],
+                            padding: EdgeInsets.only(top: 5.h),
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              index < 10 ? "0${index + 1}" : "${index + 1}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 26.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                15.verticalSpace,
-          ),
-        ),
-      ),
+                );
+              },
+            ),
+          )),
     );
   }
 }
@@ -155,15 +196,28 @@ class CybercafeController extends GetxRefreshController<TabCyberCafeModel> {
   static CybercafeController get find => Get.find();
 
   @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  @override
   Future<List<TabCyberCafeModel>> loadData({int pageNum = 1}) async {
-    showLoading();
     List<TabCyberCafeModel> list = [];
-    var response = await http.get('/app/store/cybercafe/booking/newStores',
+    var response = await http.get('/app/store/cybercafe/booking/stores',
         queryParameters: ({
           'pageNum': pageNum,
           'pageSize': pageSize,
         }));
-    dismissLoading();
     if (response.data == null) {
       return list;
     }

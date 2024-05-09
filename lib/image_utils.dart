@@ -27,10 +27,14 @@ class ImageUtils {
   static const String shop_icon = 'assets/images/shop_icon.webp';
   static const String bundles_detail_price_bg = 'assets/images/bundles_detail_price_bg.webp';
   static const String follow = 'assets/images/follow.webp';
+  static const String icon_orders = 'assets/images/icon_orders.webp';
   static const String icon_language = 'assets/images/icon_language.webp';
   static const String emenry_bg_icon = 'assets/images/emenry_bg_icon.webp';
   static const String followed = 'assets/images/followed.webp';
   static const String msg_head_bg = 'assets/images/msg_head_bg.webp';
+  static const String upgrade_top_bg = 'assets/images/upgrade_top_bg.webp';
+  static const String store_ranking_icon = 'assets/images/store_ranking_icon.webp';
+  static const String profile_loyalty_icon = 'assets/images/profile_loyalty_icon.webp';
   static const String icon_love_progress = 'assets/images/icon_love_progress.webp';
   static const String icon_intimacy_bg = 'assets/images/icon_intimacy_bg.webp';
   static const String icon_dibiao = 'assets/images/icon_dibiao.webp';
@@ -140,6 +144,7 @@ class ImageUtils {
   static const String ic_under_review = 'assets/images/ic_under_review.webp';
   static const String ic_info_red = 'assets/images/ic_info_red.webp';
   static const String share = 'assets/images/share.webp';
+  static const String icon_vouchers = 'assets/images/icon_vouchers.webp';
   static const String ic_corns_new2 = 'assets/images/ic_corns_new2.webp';
   static const String add_game_account_content = 'assets/images/add_game_account_content.svg';
   static const String integral_checkin_green_icon = 'assets/images/integral_checkin_green_icon.webp';

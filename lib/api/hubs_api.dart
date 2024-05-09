@@ -7,7 +7,7 @@ import '../model/vip_info_model.dart';
 
 class HubsApi {
   static Future<List<BubbleTeaStoreModel>> getStores() async {
-    var response = await http.get('/app/hubs/stores');
+    var response = await http.get('/sideQuest/app/hubs/stores');
     List<BubbleTeaStoreModel> list = response.data
         .map<BubbleTeaStoreModel>((item) => BubbleTeaStoreModel.fromJson(item))
         .toList();
@@ -16,19 +16,19 @@ class HubsApi {
 
   static Future<dynamic> getTeaBanners(int? storeId) async {
     var response = await http
-        .get('/app/hubs/teaBanners', queryParameters: {"storeId": storeId});
+        .get('/sideQuest/app/hubs/teaBanners', queryParameters: {"storeId": storeId});
     return response.data;
   }
 
   static Future<GoodsDetailModel> goodDetail(int? id) async {
     var response = await http
-        .get('/app/hubs/goodDetail', queryParameters: {"id": id});
+        .get('/sideQuest/app/hubs/goodDetail', queryParameters: {"id": id});
     return GoodsDetailModel.fromJson(response.data);
   }
 
   static Future<List<StoreTeaModel>> getTeaList(
       int? storeId, String categoryId) async {
-    var response = await http.get('/app/hubs/teas', queryParameters: {
+    var response = await http.get('/sideQuest/app/hubs/teas', queryParameters: {
       "storeId": storeId,
       "categoryId": categoryId,
     });

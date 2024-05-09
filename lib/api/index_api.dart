@@ -19,7 +19,7 @@ import '../utils/platform_utils.dart';
 
 class IndexApi {
   static Future<List<IndexTabModel>> getIndexTabs() async {
-    var response = await http.get('/app/whatOn/tabs');
+    var response = await http.get('/sideQuest/app/whatOn/tabs');
     List<IndexTabModel> list = response.data
         .map<IndexTabModel>((item) => IndexTabModel.fromJson(item))
         .toList();
@@ -28,7 +28,7 @@ class IndexApi {
 
   static Future<List<WhatOnEventModel>> getEvents(
       int pageNum, int pageSize) async {
-    var response = await http.get('/app/whatOn/events',
+    var response = await http.get('/sideQuest/app/whatOn/events',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     List<WhatOnEventModel> list = response.data
         .map<WhatOnEventModel>((item) => WhatOnEventModel.fromJson(item))
@@ -56,14 +56,14 @@ class IndexApi {
   }
 
   static Future<TabNewsModel> getNews(int pageNum, int pageSize) async {
-    var response = await http.get('/app/whatOn/news',
+    var response = await http.get('/sideQuest/app/whatOn/news',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     TabNewsModel model = TabNewsModel.fromJson(response.data);
     return model;
   }
 
   static Future<List<BundlesModel>> getBundles() async {
-    var response = await http.get('/app/whatOn/bundles');
+    var response = await http.get('/sideQuest/app/whatOn/bundles');
     List<BundlesModel> list = response.data
         .map<BundlesModel>((item) => BundlesModel.fromJson(item))
         .toList();
@@ -71,7 +71,7 @@ class IndexApi {
   }
 
   static Future<BundlesDetailModel> bundleDetail(String id) async {
-    var response = await http.get('/app/whatOn/bundleDetial', queryParameters: {
+    var response = await http.get('/sideQuest/app/whatOn/bundleDetial', queryParameters: {
       "id": id,
     });
     BundlesDetailModel model = BundlesDetailModel.fromJson(response.data);
@@ -79,7 +79,7 @@ class IndexApi {
   }
 
   static Future<List<GameModel>> getGames() async {
-    var response = await http.get('/app/hubs/games',
+    var response = await http.get('/sideQuest/app/hubs/games',
         queryParameters: ({'pageNum': 0, 'pageSize': 100}));
     List<GameModel> list = response.data
         .map<GameModel>((item) => GameModel.fromJson(item))

@@ -27,6 +27,11 @@ class SettingsPage extends StatelessWidget {
       body: Column(
         children: [
           SettingItem(
+            title: "ID".tr,
+            info: "${UserController.find.userProfile.uk}",
+            onTap: () {},
+          ),
+          SettingItem(
             title: "Language".tr,
             onTap: () => Get.to(() => LanguagePage()),
           ),
