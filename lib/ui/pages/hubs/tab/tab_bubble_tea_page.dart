@@ -18,6 +18,7 @@ class TabBubbleTeaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Expanded(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
               onTap: () => ctr.selectStore(),
@@ -101,6 +102,43 @@ class TabBubbleTeaPage extends StatelessWidget {
               ),
             ),
             10.verticalSpace,
+            InkWell(
+              child: Row(
+                children: [
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: "",
+                      children: [
+                        WidgetSpan(
+                          child: Image.asset(
+                            ImageUtils.all_type_tea_icon,
+                            scale: 2,
+                          ),
+                        ),
+                        WidgetSpan(
+                          child: 10.horizontalSpace,
+                        ),
+                        TextSpan(
+                          text: "All Type",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: FONT_MEDIUM,
+                            fontSize: 18.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down_outlined,
+                    color: Colors.white.withOpacity(0.6),
+                    size: 26.sp,
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Obx(() => Stack(
                     children: [
@@ -194,7 +232,8 @@ class TabBubbleTeaPage extends StatelessWidget {
                         itemCount: ctr.teaList.length,
                       ),
                       Visibility(
-                        visible: ctr.selectTeaList.isNotEmpty && ctr.isShowDrinkNow.value,
+                        visible: ctr.selectTeaList.isNotEmpty &&
+                            ctr.isShowDrinkNow.value,
                         child: Positioned(
                           bottom: 0,
                           left: 0,
@@ -207,129 +246,126 @@ class TabBubbleTeaPage extends StatelessWidget {
             ),
             Builder(builder: (context) {
               ctr.cartContext = context;
-              return SizedBox(height: 0.h,);
+              return SizedBox(
+                height: 0.h,
+              );
             }),
           ],
         ).paddingSymmetric(horizontal: 16.w),
       );
 
   Widget drinkNowWidget(double horizontal) => Container(
-    height: 44.w,
-    decoration: ShapeDecoration(
-      color: hexColor('4C3608'),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(60.r),
-      ),
-    ),
-    margin: EdgeInsets.symmetric(horizontal: horizontal),
-    child: Row(
-      children: [
-        GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            ctr.isShowDrinkNow.value = false;
-            SmartDialog.showAttach(
-                targetContext: ctr.cartContext,
-                usePenetrate: false,
-                alignment: Alignment.topCenter,
-                builder: (_) => cartWidget(),
-                onDismiss: () => ctr.isShowDrinkNow.value = true
-            );
-          },
-          child: badges.Badge(
-            showBadge: ctr.selectTeaList.isNotEmpty,
-            badgeContent: Text(
-              '${ctr.selectTeaList.length}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.sp,
-              ),
-            ),
-            badgeColor: hexColor('FF4848'),
-            position: badges.BadgePosition(top: -8.h),
-            alignment: Alignment.topRight,
-            child: Container(
-              width: 44.w,
-              height: 44.w,
-              decoration: ShapeDecoration(
-                color: hexColor('141517'),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      width: 1.w,
-                      color: hexColor('FFB20E')),
-                  borderRadius:
-                  BorderRadius.circular(60.r),
-                ),
-              ),
-              child: Image.asset(
-                ImageUtils.drink_now_icon,
-                scale: 2,
-              ),
-            ),
+        height: 44.w,
+        decoration: ShapeDecoration(
+          color: hexColor('4C3608'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(60.r),
           ),
         ),
-        14.horizontalSpace,
-        Text(
-          '£${ctr.totalPrice.value}',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
-            fontFamily: FONT_MEDIUM,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Expanded(
-          child: Center(
-            child: RichText(
-              text: TextSpan(
-                text: 'Discount：-0.0 ',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
-                  fontSize: 12.sp,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.w400,
+        margin: EdgeInsets.symmetric(horizontal: horizontal),
+        child: Row(
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                ctr.isShowDrinkNow.value = false;
+                SmartDialog.showAttach(
+                    targetContext: ctr.cartContext,
+                    usePenetrate: false,
+                    alignment: Alignment.topCenter,
+                    builder: (_) => cartWidget(),
+                    onDismiss: () => ctr.isShowDrinkNow.value = true);
+              },
+              child: badges.Badge(
+                showBadge: ctr.selectTeaList.isNotEmpty,
+                badgeContent: Text(
+                  '${ctr.selectTeaList.length}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                  ),
                 ),
-                children: [
-                  WidgetSpan(
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      color:
-                      Colors.white.withOpacity(0.6),
-                      size: 14.sp,
+                badgeColor: hexColor('FF4848'),
+                position: badges.BadgePosition(top: -8.h),
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 44.w,
+                  height: 44.w,
+                  decoration: ShapeDecoration(
+                    color: hexColor('141517'),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1.w, color: hexColor('FFB20E')),
+                      borderRadius: BorderRadius.circular(60.r),
                     ),
                   ),
-                ],
+                  child: Image.asset(
+                    ImageUtils.drink_now_icon,
+                    scale: 2,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        InkWell(
-          onTap: () => Get.to(() => ConfirmOrderPage()),
-          child: Container(
-            width: 100.w,
-            height: 44.w,
-            decoration: ShapeDecoration(
-              color: hexColor('FFB20E'),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(60),
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'Drink Now',
-              textAlign: TextAlign.center,
+            14.horizontalSpace,
+            Text(
+              '£${ctr.totalPrice.value}',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
                 fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ),
+            Expanded(
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Discount：-0.0 ',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    children: [
+                      WidgetSpan(
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white.withOpacity(0.6),
+                          size: 14.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Get.to(() => ConfirmOrderPage()),
+              child: Container(
+                width: 100.w,
+                height: 44.w,
+                decoration: ShapeDecoration(
+                  color: hexColor('FFB20E'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(60),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Drink Now',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget cartWidget() => Container(
         constraints: BoxConstraints(
@@ -443,14 +479,14 @@ class TabBubbleTeaPage extends StatelessWidget {
                 ),
               ).paddingSymmetric(horizontal: 10.w),
               Obx(() => InkWell(
-                onTap: () => ctr.minusMoney(i),
-                child: Icon(
-                  Icons.remove_circle_outline,
-                  color: ctr.selectTeaList[i].count.value == 1
-                      ? Colors.white.withOpacity(0.6)
-                      : Colors.white,
-                ),
-              )),
+                    onTap: () => ctr.minusMoney(i),
+                    child: Icon(
+                      Icons.remove_circle_outline,
+                      color: ctr.selectTeaList[i].count.value == 1
+                          ? Colors.white.withOpacity(0.6)
+                          : Colors.white,
+                    ),
+                  )),
               Obx(() => Text(
                     '${ctr.selectTeaList[i].count.value}',
                     style: TextStyle(
