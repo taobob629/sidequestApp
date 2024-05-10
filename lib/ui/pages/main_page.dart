@@ -6,22 +6,19 @@ import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/model/version_model.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
-import 'package:sq_hub_app/ui/pages/social/view.dart';
+import 'package:sq_hub_app/ui/pages/social/tab_social_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
 import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 
-import '../../api/index_api.dart';
 import '../../common/keep_alive_wrapper.dart';
 import '../../config/app_color.dart';
 import '../../controller/user_controller.dart';
 import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
-import '../dialog/dialog_upgrade.dart';
 import 'login/login_page.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
@@ -187,7 +184,7 @@ class MainPageController extends FullLifeCycleController
 
   List<Widget> tabs = [
     IndexPage(),
-    SocialPage(),
+    TabSocialPage(),
     TabHubsPage(),
     KeepAliveWrapper(child: TabCybercafePage()),
     MyProfilePage(),

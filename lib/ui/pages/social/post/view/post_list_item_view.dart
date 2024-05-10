@@ -5,17 +5,22 @@ import 'dart:math';
 
 import 'package:badges/badges.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sq_hub_app/image_utils.dart';
+import 'package:sq_hub_app/utils/my_swiper_pagination.dart';
 
+import '../../../../../api/user_api.dart';
 import '../../../../../config/app_color.dart';
+import '../../../../../config/icon_font.dart';
 import '../../../../../controller/user_controller.dart';
 import '../../../../../model/post_item_model.dart';
 import '../../../../../utils/navigator_helper.dart';
+import '../../../../../utils/toast_utils.dart';
 import '../../../../../widget/cs_photo_viewer.dart';
 import '../../../../../widget/image_util.dart';
 import '../../../../../widget/level.dart';
@@ -24,6 +29,7 @@ import '../../../../im/im_util.dart' as imUtil;
 import '../post_detail_page.dart';
 import '../post_list_controller.dart';
 import '../release_post_controller.dart';
+import 'gift_animation.dart';
 import 'gift_suc_anim.dart';
 import 'give_gifts_dialog.dart';
 
@@ -48,6 +54,7 @@ class PostListItemView extends GetView<PostListController> {
   bool isSelf = false;
   Function()? onTap;
   Function()? onDelete;
+  var followStr = "Follow".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +63,10 @@ class PostListItemView extends GetView<PostListController> {
         onTap?.call();
       },
       child: Container(
-        margin: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            border:
-                Border(bottom: BorderSide(color: AppColor.itemBg, width: 1))),
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 6.h,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,16 +75,16 @@ class PostListItemView extends GetView<PostListController> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // if (!isSelf) {
-                    NavigatorHelper.toOtherProfile(model.uid);
-                    // }
+                    if (!isSelf) {
+                      NavigatorHelper.toOtherProfile(model.uid);
+                    }
                   },
                   child: ClipOval(
                     child: ImageUtil.networkImage(
                       url: model.head,
                       fit: BoxFit.cover,
-                      width: 50,
-                      height: 50,
+                      width: 40.w,
+                      height: 40.w,
                     ),
                   ),
                 ),
@@ -99,18 +106,9 @@ class PostListItemView extends GetView<PostListController> {
                               softWrap: false,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            6.horizontalSpace,
-                            GameLevelWidget(
-                              height: 16.h,
-                              level: model.isAuth == 0
-                                  ? model.titlesLevel
-                                  : model.userLevel,
-                              isAuth: model.isAuth,
-                              userId: UserController.find.userProfile.pwId,
                             ),
                           ],
                         ),
@@ -118,8 +116,8 @@ class PostListItemView extends GetView<PostListController> {
                         Text(
                           controller.dealDateTime(model.addTime),
                           style: TextStyle(
-                              color: Color(0xff808388),
-                              fontSize: 14,
+                              color: Colors.white.withOpacity(0.6),
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.normal),
                         ),
                       ],
@@ -136,7 +134,7 @@ class PostListItemView extends GetView<PostListController> {
                         color: Colors.white,
                       ),
                     ),
-                  )
+                  ),
               ],
             ),
             12.verticalSpace,
@@ -145,23 +143,29 @@ class PostListItemView extends GetView<PostListController> {
                     model.content,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   )
                 : imUtil.buildGroupInviteWidget(
                     context, model.content, model.imageList.first),
             if (model.imageList.isNotEmpty)
-              GridView.count(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(top: 15),
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: min(model.imageList.length, 3),
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: model.imageList.length == 1 ? 345 / 195 : 1,
-                children: model.imageList
-                    .map((imgUrl) => (model.type == TYPE_INVITE)
+              Container(
+                height: 210.h,
+                margin: EdgeInsets.only(top: 15.h),
+                child: Swiper(
+                  itemCount: model.imageList.length,
+                  pagination: SwiperPagination(
+                    alignment: Alignment.bottomCenter,
+                    builder: SwiperCustomPagination(
+                        builder: (context, config) => MySwiperPagination(
+                              config.activeIndex,
+                              model.imageList.length,
+                            )),
+                  ),
+                  itemBuilder: (c, i) => ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: model.type == TYPE_INVITE
                         ? Container(
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -170,7 +174,8 @@ class PostListItemView extends GetView<PostListController> {
                             clipBehavior: Clip.antiAlias,
                             child: QrImage(
                               foregroundColor: Colors.white,
-                              data: jsonEncode(Map()..['gid'] = imgUrl),
+                              data: jsonEncode(
+                                  Map()..['gid'] = model.imageList[i]),
                             ),
                           )
                         : GestureDetector(
@@ -178,187 +183,145 @@ class PostListItemView extends GetView<PostListController> {
                               Get.dialog(
                                   CsPhotoViewer(
                                     photoList: model.imageList,
-                                    tapIndex: model.imageList.indexOf(imgUrl),
+                                    tapIndex: model.imageList
+                                        .indexOf(model.imageList[i]),
                                   ),
                                   useSafeArea: false);
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Color(0xff313033)),
+                                borderRadius: BorderRadius.circular(15),
+                                color: Color(0xff313033),
+                              ),
                               clipBehavior: Clip.antiAlias,
                               child: ImageUtil.networkImage(
-                                url: imgUrl,
+                                url: model.imageList[i],
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          ))
-                    .toList(),
+                          ),
+                  ),
+                ),
               ),
-            Container(
-              height: 44,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Image.asset(
-                              ImageUtils.icon_pinlun,
-                              width: 16,
-                            ),
-                          ),
-                          badges.Badge(
-                            showBadge: model.newComment.value > 0,
-                            badgeContent: Text(
-                              '${model.newComment.value}',
-                              style: TextStyle(fontSize: 10.sp),
-                            ),
-                            position: BadgePosition.topEnd(),
-                            child: Text(
-                              model.commentNum.toString(),
-                              style: TextStyle(
-                                color: Color(0xff808388),
-                                fontSize: 11.sp,
-                              ),
-                            ),
-                          ),
-                        ],
+            15.verticalSpace,
+            Row(
+              children: [
+                Obx(() => badges.Badge(
+                      showBadge: model.newPraise.value > 0,
+                      badgeContent: Text(
+                        '${model.newPraise.value}',
+                        style: TextStyle(fontSize: 10.sp),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Obx(() => badges.Badge(
-                            showBadge: model.newPraise.value > 0,
-                            badgeContent: Text(
-                              '${model.newPraise.value}',
-                              style: TextStyle(fontSize: 10.sp),
-                            ),
-                            position: BadgePosition.topEnd(),
-                            padding: EdgeInsets.all(3.r),
-                            child: LikeButton(
-                              likeCount: model.praiseNum,
-                              size: 16.sp,
-                              isLiked: model.isPraise.value,
-                              animationDuration: Duration(milliseconds: 2000),
-                              likeBuilder: (isLiked) => Image.asset(
-                                ImageUtils.icon_dianzan,
-                                width: 16,
-                                color:
-                                    model.isPraise.value ? Colors.pink : null,
-                              ),
-                              countBuilder: (count, isLiked, text) => Text(
-                                model.praiseNum.toString(),
-                                style: TextStyle(
-                                  color: Color(0xff808388),
-                                  fontSize: 11.sp,
-                                ),
-                              ),
-                              onTap: (bool isLiked) async {
-                                if (!isSelf) {
-                                  PostListController.find
-                                      .praisePost(model)
-                                      .then((value) {
-                                    if (value) {
-                                      model.isPraise.value =
-                                          !model.isPraise.value;
-                                      if (model.isPraise.value) {
-                                        model.praiseNum += 1;
-                                      } else {
-                                        model.praiseNum -= 1;
-                                      }
-                                    }
-                                  });
-                                } else {
-                                  Get.to(() => PostDetailPage(),
-                                          arguments: model)!
-                                      .whenComplete(
-                                          () => controller.onRefresh());
-                                }
-                                return !isLiked;
-                              },
-                            ),
-                          )),
-                    ),
-                  ),
-                  Visibility(
-                    visible: UserController.find.online.value,
-                    child: Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTapDown: (details) async {
-                          if (!isSelf) {
-                            var heartNum = await Get.bottomSheet(
-                                GiveGiftsDialog(
-                                  receiverId: model.uid.toString(),
-                                  postId: model.id.toString(),
-                                  avatar: model.head,
-                                ),
-                                ignoreSafeArea: true);
-                            if (heartNum != null) {
-                              Future.delayed(Duration(milliseconds: 300)).then(
-                                (v) {
-                                  SmartDialog.show(
-                                    builder: (builder) => GiftSucAnim(heartNum),
-                                    displayTime: Duration(seconds: 2),
-                                  );
-                                },
-                              );
-                            }
-                          }
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Image.asset(
-                                  ImageUtils.icon_liwu,
-                                  width: 16,
-                                ),
-                              ),
-                            ],
+                      position: BadgePosition.topEnd(),
+                      padding: EdgeInsets.all(3.r),
+                      child: LikeButton(
+                        // likeCount: model.praiseNum,
+                        size: 24.w,
+                        isLiked: model.isPraise.value,
+                        animationDuration: Duration(milliseconds: 2000),
+                        likeBuilder: (isLiked) => Image.asset(
+                          ImageUtils.icon_dianzan,
+                          color: model.isPraise.value ? Colors.pink : null,
+                        ),
+                        countBuilder: (count, isLiked, text) => Text(
+                          model.praiseNum.toString(),
+                          style: TextStyle(
+                            color: Color(0xff808388),
+                            fontSize: 11.sp,
                           ),
                         ),
+                        onTap: (bool isLiked) async {
+                          if (!isSelf) {
+                            PostListController.find
+                                .praisePost(model)
+                                .then((value) {
+                              if (value) {
+                                model.isPraise.value = !model.isPraise.value;
+                                if (model.isPraise.value) {
+                                  model.praiseNum += 1;
+                                } else {
+                                  model.praiseNum -= 1;
+                                }
+                              }
+                            });
+                          } else {
+                            Get.to(() => PostDetailPage(), arguments: model)!
+                                .whenComplete(() => controller.onRefresh());
+                          }
+                          return !isLiked;
+                        },
                       ),
-                    ),
+                    )),
+                24.horizontalSpace,
+                badges.Badge(
+                  showBadge: model.newComment.value > 0,
+                  badgeContent: Text(
+                    '${model.newComment.value}',
+                    style: TextStyle(fontSize: 10.sp),
                   ),
-                  // Expanded(
-                  //   child: GestureDetector(
-                  //     behavior: HitTestBehavior.translucent,
-                  //     onTapDown: (detail) async {
-                  //       final value = await Get.dialog(
-                  //         MoreFunWidget(),
-                  //         arguments: {
-                  //           'offset': detail.globalPosition,
-                  //           'nickName': model.nickname,
-                  //           'id': model.id,
-                  //           'pwId': model.uid,
-                  //         },
-                  //       );
-                  //       if (value != null) {
-                  //         PostListController.find.onRefresh();
-                  //       }
-                  //     },
-                  //     child: Icon(
-                  //       Icons.clear,
-                  //       color: Color(0xff808388),
-                  //       size: 16.sp,
-                  //     ),
-                  //   ),
-                  // )
-                ],
-              ),
-            )
+                  position: BadgePosition.topEnd(),
+                  child: Image.asset(
+                    ImageUtils.icon_pinlun,
+                    width: 24.w,
+                    height: 24.w,
+                  ),
+                ),
+                // 24.horizontalSpace,
+                // GestureDetector(
+                //   behavior: HitTestBehavior.opaque,
+                //   onTapDown: (details) async {
+                //     if (!isSelf) {
+                //       var heartNum = await Get.bottomSheet(
+                //           GiveGiftsDialog(
+                //             receiverId: model.uid.toString(),
+                //             postId: model.id.toString(),
+                //             avatar: model.head,
+                //           ),
+                //           ignoreSafeArea: true);
+                //       if (heartNum != null) {
+                //         Future.delayed(Duration(milliseconds: 300)).then(
+                //               (v) {
+                //             SmartDialog.show(
+                //               builder: (builder) => GiftSucAnim(heartNum),
+                //               displayTime: Duration(seconds: 2),
+                //             );
+                //           },
+                //         );
+                //       }
+                //     }
+                //   },
+                //   child: Image.asset(
+                //     ImageUtils.icon_liwu,
+                //     width: 24.w,
+                //     height: 24.w,
+                //   ),
+                // ),
+                // Expanded(
+                //   child: GestureDetector(
+                //     behavior: HitTestBehavior.translucent,
+                //     onTapDown: (detail) async {
+                //       final value = await Get.dialog(
+                //         MoreFunWidget(),
+                //         arguments: {
+                //           'offset': detail.globalPosition,
+                //           'nickName': model.nickname,
+                //           'id': model.id,
+                //           'pwId': model.uid,
+                //         },
+                //       );
+                //       if (value != null) {
+                //         PostListController.find.onRefresh();
+                //       }
+                //     },
+                //     child: Icon(
+                //       Icons.clear,
+                //       color: Color(0xff808388),
+                //       size: 16.sp,
+                //     ),
+                //   ),
+                // )
+              ],
+            ),
           ],
         ),
       ),

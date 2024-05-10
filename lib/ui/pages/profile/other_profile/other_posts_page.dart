@@ -4,10 +4,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/common/getx_refresh_controller.dart';
 
 import '../../../../api/profile_api.dart';
+import '../../../../model/player_info_mdoel.dart';
 import '../../../../model/post_item_model.dart';
 import '../../social/post/post_detail_page.dart';
 import '../../social/post/view/post_list_item_view.dart';
-import 'mdoel/player_info_mdoel.dart';
 
 class OtherPostsPage extends StatelessWidget {
   OtherPostsPage({Key? key}) : super(key: key);

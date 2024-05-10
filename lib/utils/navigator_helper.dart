@@ -58,27 +58,27 @@ class NavigatorHelper {
     showLoading();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
-      Get.to(() => OtherProfilePage(),
-          arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
-    })
+          Get.to(() => OtherProfilePage(),
+              arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
+        })
         .whenComplete(() => dismissLoading())
         .catchError((err) {
-      print(err);
-      dismissLoading();
-    });
+          print(err);
+          dismissLoading();
+        });
   }
 
   static void toPostDetail(postId) {
     showLoading();
     PostApi.getPostDetail(postsId: postId)
         .then((postItem) {
-      Get.to(() => PostDetailPage(), arguments: postItem);
-    })
+          Get.to(() => PostDetailPage(), arguments: postItem);
+        })
         .whenComplete(() => dismissLoading())
         .catchError((err) {
-      print(err);
-      dismissLoading();
-    });
+          print(err);
+          dismissLoading();
+        });
   }
 
   static void gotoSearchPage() {
@@ -97,24 +97,24 @@ class NavigatorHelper {
   static Future<AddressModel?> gotoAddressPage({bool select = false}) async {
     AddressModel? model;
     await Get.to(() => AddressPage(
-      select: select,
-    ))?.then((value) => model = value);
+          select: select,
+        ))?.then((value) => model = value);
     return model;
   }
 
   static void gotoCouponPage(
       {int couponType = 0,
-        int tab=0,
-        PayOrderModel? payOrderModel,
-        Map<String, dynamic>? preOrder,
-        Function(CouponModel)? onSelect,
-        Function? whenComplete}) {
+      int tab = 0,
+      PayOrderModel? payOrderModel,
+      Map<String, dynamic>? preOrder,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
     Get.to(() => CouponPage(
-      couponType: couponType,
-      payOrderModel: payOrderModel,
-      preOrder: preOrder,
-      tab: tab,
-    ))?.then((model) {
+          couponType: couponType,
+          payOrderModel: payOrderModel,
+          preOrder: preOrder,
+          tab: tab,
+        ))?.then((model) {
       if (model != null) {
         onSelect?.call(model);
       }
@@ -123,9 +123,9 @@ class NavigatorHelper {
 
   static void gotoCouponTabPage(
       {int couponType = 0,
-        PayOrderModel? payOrderModel,
-        Function(CouponModel)? onSelect,
-        Function? whenComplete}) {
+      PayOrderModel? payOrderModel,
+      Function(CouponModel)? onSelect,
+      Function? whenComplete}) {
     Get.to(() => CouponTabPage())?.then((model) {
       if (model != null) {
         onSelect?.call(model);
@@ -139,9 +139,9 @@ class NavigatorHelper {
       String? url = map["target"];
       String? title = map["title"];
       Get.to(() => WebPage(
-        title: title,
-        url: url,
-      ));
+            title: title,
+            url: url,
+          ));
     } else if (map["type"] == "page") {
       String? page = map["target"];
       int? id = map["id"];
@@ -167,7 +167,8 @@ class NavigatorHelper {
             break;
           case "task":
             showLoading();
-            var response = await http.get('/app/client/task/task?id=${map['id']}');
+            var response =
+                await http.get('/app/client/task/task?id=${map['id']}');
             dismissLoading();
             if (response.data != null) {
               TaskOutModel outModel = TaskOutModel.fromJson(response.data);
@@ -186,8 +187,8 @@ class NavigatorHelper {
       if (page == "balance") {
         double amount = map["amount"] == null ? 0.0 : map["amount"] * 1.0;
         Get.to(() => BalancePage(
-          amount: amount,
-        ));
+              amount: amount,
+            ));
       } else if (page == "booking") {
         Get.to(() => BookingPage());
       } else if (page == "coin") {

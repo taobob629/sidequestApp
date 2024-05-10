@@ -8,7 +8,7 @@ import '../../../../api/profile_api.dart';
 import '../../../../common/getx_refresh_controller.dart';
 import '../../../../config/app_color.dart';
 import '../../../../model/album_item_model.dart';
-import 'mdoel/player_info_mdoel.dart';
+import '../../../../model/player_info_mdoel.dart';
 
 class OtherAlbumPage extends StatelessWidget {
   OtherAlbumPage({Key? key}) : super(key: key);

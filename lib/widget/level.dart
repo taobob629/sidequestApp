@@ -34,7 +34,7 @@ class GameLevelWidget extends StatelessWidget {
       child: isAuth != TYPE_VIP
           ? userIcon(level, height: height)
           : Image.asset(
-              isAuth == TYPE_VIP ? 'assets/images/lv$level' : 'assets/images/titles_$level',
+              isAuth == TYPE_VIP ? 'assets/images/lv$level.webp' : 'assets/images/titles_$level.webp',
               height: 15.w,
             ),
     );
@@ -57,7 +57,7 @@ userIcon(int level, {double height = 24}) {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(
-          'assets/images/${getUserImg(level)}',
+          'assets/images/${getUserImg(level)}.webp',
           height: height - 2,
           width: height - 2,
         ),

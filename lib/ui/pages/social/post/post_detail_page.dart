@@ -15,6 +15,7 @@ import '../../../../../../widget/cs_photo_viewer.dart';
 import '../../../../../common/page_title.dart';
 import '../../../../../config/app_color.dart';
 import '../../../../../config/icon_font.dart';
+import '../../../../utils/navigator_helper.dart';
 import '../more_fun_widget.dart';
 
 Widget buildGroupInviteWidget(BuildContext context, var content, String gid) {
@@ -80,6 +81,8 @@ class PostDetailPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
+                                  onTap: () => NavigatorHelper.toOtherProfile(
+                                      t.postItem.value.uid),
                                   child: ClipOval(
                                     child: Image.network(
                                       t.postItem.value.head,

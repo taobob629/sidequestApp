@@ -7,9 +7,11 @@ import 'package:get/get.dart';
 
 import '../../../../common/base_tab_controller.dart';
 
-class SocialTabController extends BaseTabContoller {
-  @override
-  initTabs() {
-    tabs = ['Posts'.tr, 'Events'.tr];
+class SocialTabController extends GetxController {
+  List<String> tabs = ['Social Feed'.tr, 'Messages'.tr];
+  var selectTopTabIndex = 0.obs;
+
+  void clickTopTab(int i) {
+    selectTopTabIndex.value = i;
   }
 }
