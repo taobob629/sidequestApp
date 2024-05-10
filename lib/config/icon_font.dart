@@ -22,3 +22,4 @@ class IconFonts {
 const FONT_LIGHT='Light-6';
 const FONT_MEDIUM='Medium-7';
 const FONT_BLACK='Black-2';
+const ZEN_DOTS='zenDots';

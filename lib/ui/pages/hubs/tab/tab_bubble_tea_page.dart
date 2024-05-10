@@ -103,9 +103,10 @@ class TabBubbleTeaPage extends StatelessWidget {
             ),
             10.verticalSpace,
             InkWell(
+              onTap: () => ctr.showCategoryDialog(),
               child: Row(
                 children: [
-                  RichText(
+                  Obx(() => RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "",
@@ -120,7 +121,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                           child: 10.horizontalSpace,
                         ),
                         TextSpan(
-                          text: "All Type",
+                          text: ctr.categoryStr.value,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -130,7 +131,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  )),
                   Icon(
                     Icons.arrow_drop_down_outlined,
                     color: Colors.white.withOpacity(0.6),

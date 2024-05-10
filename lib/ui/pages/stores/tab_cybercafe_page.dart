@@ -168,14 +168,14 @@ class TabCybercafePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            padding: EdgeInsets.only(top: 5.h),
+                            padding: EdgeInsets.only(top: 10.h),
                             alignment: Alignment.topCenter,
                             child: Text(
                               index < 10 ? "0${index + 1}" : "${index + 1}",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 26.sp,
-                                fontFamily: FONT_MEDIUM,
+                                fontSize: 20.sp,
+                                fontFamily: ZEN_DOTS,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

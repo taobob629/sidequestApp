@@ -78,6 +78,7 @@ dependencies:
   flutter_web_auth: ^0.5.0
   waterfall_flow: ^3.0.2
   decimal: ^2.3.3
+#  google_fonts: 4.0.4
   # tim_ui_kit: 0.1.8
   # tencent_cloud_chat_uikit: ^1.7.0
   tencent_cloud_chat_uikit:
@@ -148,9 +149,30 @@ flutter:
     - assets/flags/
 
   fonts:
+    - family: Black-2
+      fonts:
+        - asset: assets/fonts/Montserrat-Black-2.ttf
+    - family: Light-6
+      fonts:
+        - asset: assets/fonts/Montserrat-Light-6.ttf
+    - family: Medium-7
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium-7.ttf
+    - family: DIN-Condensed-Bold
+      fonts:
+        - asset: assets/fonts/DIN-Condensed-Bold.ttf
+    - family: iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
     - family: wy
       fonts:
         - asset: assets/fonts/wy.ttf
+    - family: Blak_W90_Ultra
+      fonts:
+        - asset: assets/fonts/Blak_W90_Ultra.ttf
+    - family: zenDots
+      fonts:
+        - asset: assets/fonts/ZenDots-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

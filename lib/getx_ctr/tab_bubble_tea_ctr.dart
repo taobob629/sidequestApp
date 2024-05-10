@@ -8,11 +8,14 @@ import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
+import '../model/tea_category_model.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
 
   var teaList = <StoreTeaModel>[].obs;
+  List<TeaCategoryModel> teaCategoryList = [];
+  var categoryStr = "All Type".obs;
   var storesList = <BubbleTeaStoreModel>[].obs;
 
   var isShowDrinkNow = true.obs;
@@ -41,11 +44,17 @@ class TabBubbleTeaCtr extends GetxController {
     if (isShowLoading) showLoading();
     final list = await Future.wait([
       HubsApi.getTeaBanners(storeId),
-      HubsApi.getTeaList(storeId, "0"),
+      HubsApi.getTeaList(storeId, 0),
+      HubsApi.getTeaCategory(storeId),
     ]);
     if (isShowLoading) dismissLoading();
     if (list.length > 1) {
       teaList.assignAll(list[1]);
+    }
+    if (list.length > 2) {
+      teaCategoryList.clear();
+      teaCategoryList.add(TeaCategoryModel(id: 0, name: "All Type"));
+      teaCategoryList.addAll(list[2]);
     }
   }
 
@@ -100,5 +109,20 @@ class TabBubbleTeaCtr extends GetxController {
   void clearTea() {
     selectTeaList.clear();
     dismissLoading();
+  }
+
+  void showCategoryDialog() async {
+    final value = await Get.dialog(
+      SelectorDialog(items: this.teaCategoryList, title: "Select Type".tr),
+      barrierColor: Colors.black26,
+    );
+    if (value != null) {
+      TeaCategoryModel model = value as TeaCategoryModel;
+      categoryStr.value = model.name ?? '';
+      showLoading();
+      teaList.assignAll(
+          await HubsApi.getTeaList(currentSelectStore.value.id, model.id));
+      dismissLoading();
+    }
   }
 }
