@@ -22,6 +22,7 @@ import '../../../../utils/string_utils.dart';
 import '../../../../utils/toast_utils.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widget/cs_Intimacy_progress.dart';
+import '../../../../widget/image_util.dart';
 import '../../../../widget/level.dart';
 import '../../../../widget/profile/voice_profile.dart';
 import '../../../../widget/profile/voice_widget.dart';
@@ -54,8 +55,8 @@ class OtherProfilePage extends StatelessWidget {
         ? t.player.value.signature
         : "Thank you for your attention and love";
     final TextStyle textStyle = TextStyle(
-      fontSize: 13.sp,
-      color: Color(0xFFC5C5C5),
+      fontSize: 14.sp,
+      color: Colors.white,
       fontFamily: FONT_LIGHT,
     );
 
@@ -69,13 +70,7 @@ class OtherProfilePage extends StatelessWidget {
     // 必须要有这个maxWidth，不然就会只能是一行
     textPainter.layout(maxWidth: Get.width - 40);
 
-    final expandedHeight = Platform.isAndroid
-        ? t.isSelf
-            ? textPainter.height + 90.h + 250.h
-            : textPainter.height + 140.h + 250.h
-        : t.isSelf
-            ? textPainter.height + 60.h + 250.h
-            : textPainter.height + 110.h + 250.h;
+    final expandedHeight = textPainter.height + 270.h;
 
     return Scaffold(
       body: Stack(
@@ -92,7 +87,9 @@ class OtherProfilePage extends StatelessWidget {
                         child: Text(
                           t.player.value.nickName,
                           style: TextStyle(
-                              fontSize: 19.sp, fontFamily: FONT_LIGHT),
+                            fontSize: 19.sp,
+                            fontFamily: FONT_LIGHT,
+                          ),
                         ))),
                     centerTitle: true,
                     expandedHeight: expandedHeight,
@@ -100,352 +97,88 @@ class OtherProfilePage extends StatelessWidget {
                       collapseMode: CollapseMode.pin,
                       background: Container(
                         // color: Colors.lightBlue,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Stack(
                           children: [
                             Container(
-                              height: 200.h,
+                              height: 230.h,
                               width: double.infinity,
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  Obx(() => CachedNetworkImage(
-                                        imageUrl: t.player.value.backGround,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  Container(
-                                    color: Color(0xFF161616).withOpacity(0.26),
-                                  ),
-                                  Positioned(
-                                    left: 20,
-                                    right: 0,
-                                    height: 65.h,
-                                    bottom: 12.5.h,
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (!t.isSelf) {
-                                              UserController.find
-                                                  .jumpChat(t.player.value.uk);
-                                            }
-                                          },
-                                          child: Obx(() => Container(
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.white,
-                                                      width: 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          (65 / 2).r),
-                                                ),
-                                                child: ExtendedImage.network(
-                                                  t.player.value.avatar,
-                                                  width: 65.h,
-                                                  height: 65.h,
-                                                  fit: BoxFit.cover,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              )),
+                                  Obx(() => ShaderMask(
+                                        shaderCallback: (Rect bounds) {
+                                          return LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.white,
+                                              Colors.black.withOpacity(0.9)
+                                            ],
+                                            stops: [0.1, 1],
+                                          ).createShader(bounds);
+                                        },
+                                        child: CachedNetworkImage(
+                                          imageUrl: t.player.value.backGround,
+                                          fit: BoxFit.cover,
                                         ),
-                                        8.horizontalSpace,
-                                        Spacer(),
-                                        Obx(() => Visibility(
-                                              visible: t.player.value.voice
-                                                  .isNotEmpty,
-                                              child: Obx(() =>
-                                                  VoiceProfileWidget(
-                                                    pwId: UserController
-                                                        .find.userProfile.pwId,
-                                                    voice: t.player.value.voice,
-                                                    maginBottom: 0,
-                                                    marginLeft: 12.w,
-                                                    needEdit: t.isSelf,
-                                                    width:
-                                                        t.isSelf ? 98.w : 80.w,
-                                                    toRecordPage: () =>
-                                                        t.toRecordPage(context),
-                                                  )),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                      left: 66.w,
-                                      bottom: 16.h,
-                                      child: Obx(() => Visibility(
-                                            visible: t.player.value.follow,
-                                            child: Image.asset(
-                                              ImageUtils.followed,
-                                              width: 26.w,
-                                              height: 26.w,
-                                            ),
-                                          )))
-                                ],
-                              ),
-                            ),
-                            Visibility(
-                              visible: !t.isSelf,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () async {
-                                  var heartNum = await Get.bottomSheet(
-                                    GiveGiftsDialog(
-                                      receiverId: t.player.value.uid.toString(),
-                                      postId: "",
-                                      avatar: UserController
-                                          .find.userProfile.avatar,
-                                      source: 1,
-                                    ),
-                                    ignoreSafeArea: true,
-                                  );
-                                  if (heartNum != null) {
-                                    Future.delayed(const Duration(milliseconds: 300))
-                                        .then(
-                                      (v) async {
-                                        await SmartDialog.show(
-                                          builder: (builder) =>
-                                              GiftSucAnim(heartNum),
-                                          displayTime: const Duration(seconds: 2),
-                                        );
-
-                                        try {
-                                          Map<String, dynamic> json =
-                                              StringUtil.parseDataString(
-                                                  heartNum);
-                                          t.player.value.currentIntimacy.value =
-                                              json['currentIntimacy'];
-                                        } catch (e) {
-                                          showErrorWidget(e.toString());
-                                        }
-                                      },
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: 14, right: 14, top: 15),
-                                  child: Obx(() => CsIntimacyProgress(
-                                        firstAvatar: t.player.value.avatar,
-                                        secondAvatar: UserController
-                                            .find.userProfile.avatar,
-                                        lv: t.player.value.intimacyLevel,
-                                        currentIntimacy: t
-                                            .player.value.currentIntimacy.value,
-                                        maxIntimacy: t.player.value.maxIntimacy,
                                       )),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 20, top: 15),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                  Positioned(
+                                    left: 16.w,
+                                    top: 90.h,
+                                    right: 0,
+                                    child: Stack(
+                                      children: [
+                                        Row(
                                           children: [
-                                            /// nickname
-                                            Obx(() => Container(
-                                                  height: 24.h,
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        constraints:
-                                                            BoxConstraints(
-                                                                maxWidth: 240),
-                                                        height: 24.h,
-                                                        child: Text(
-                                                          t.player.value
-                                                              .nickName,
-                                                          maxLines: 1,
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 19.sp,
-                                                            fontFamily:
-                                                                FONT_MEDIUM,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      12.horizontalSpace,
-                                                      Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 5),
-                                                        height: 16.h,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            3),
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment
-                                                                        .centerLeft,
-                                                                    end: Alignment
-                                                                        .centerRight,
-                                                                    colors: [
-                                                                      if (t.player.value
-                                                                              .sex ==
-                                                                          0) ...[
-                                                                        Color(
-                                                                            0xFF1F84C9),
-                                                                        Color(
-                                                                            0xFF7CB9D5),
-                                                                      ] else if (t
-                                                                              .player
-                                                                              .value
-                                                                              .sex ==
-                                                                          1) ...[
-                                                                        Color(
-                                                                            0xFFD57CAB),
-                                                                        Color(
-                                                                            0xFFC91FA7),
-                                                                      ] else ...[
-                                                                        Color(
-                                                                            0xFF99BCCC),
-                                                                        Color(
-                                                                            0xFF587284),
-                                                                      ]
-                                                                    ])),
-                                                        child: Row(
-                                                          children: [
-                                                            if (t.player.value
-                                                                    .sex !=
-                                                                2)
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            3),
-                                                                child:
-                                                                    Image.asset(
-                                                                  "assets/images/icon_sex_${t.player.value.sex}.png",
-                                                                  width: 8,
-                                                                ),
-                                                              )
-                                                            else
-                                                              Text(
-                                                                "?",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10.sp,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal),
-                                                              ),
-                                                            Text(
-                                                              "${t.player.value.age}",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      10.sp,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      7.horizontalSpace,
-                                                      // Container(
-                                                      //   padding: EdgeInsets
-                                                      //       .symmetric(
-                                                      //           horizontal:
-                                                      //               8),
-                                                      //   height: 19.h,
-                                                      //   decoration:
-                                                      //       BoxDecoration(
-                                                      //           borderRadius:
-                                                      //               BorderRadius.circular(10
-                                                      //                   .r),
-                                                      //           gradient: LinearGradient(
-                                                      //               begin: Alignment
-                                                      //                   .centerLeft,
-                                                      //               end: Alignment
-                                                      //                   .centerRight,
-                                                      //               colors: [
-                                                      //                 Color(0xFF9A6FE9),
-                                                      //                 Color(0xFF8050E5),
-                                                      //               ])),
-                                                      //   child: Row(
-                                                      //     children: [
-                                                      //       Padding(
-                                                      //         padding: const EdgeInsets
-                                                      //                 .only(
-                                                      //             right:
-                                                      //                 5),
-                                                      //         child: Image
-                                                      //             .asset(
-                                                      //           "assets/images/profile/icon_level_${(t.player.value.userLevel ~/ 5) * 5}.webp",
-                                                      //           width:
-                                                      //               12.w,
-                                                      //         ),
-                                                      //       ),
-                                                      //       Text(
-                                                      //         "${t.player.value.userLevel}",
-                                                      //         style: TextStyle(
-                                                      //             fontSize: 11
-                                                      //                 .sp,
-                                                      //             color: Colors
-                                                      //                 .white),
-                                                      //       ),
-                                                      //     ],
-                                                      //   ),
-                                                      // ),
-                                                      // Visibility(
-                                                      //   visible: !t.isSelf,
-                                                      //   child: GestureDetector(
-                                                      //     onTapDown: (details) {
-                                                      //       t.followOrNot(context, details.globalPosition);
-                                                      //     },
-                                                      //     child: Container(
-                                                      //       height: 30,
-                                                      //       padding: const EdgeInsets.only(left: 10),
-                                                      //       child: Image.asset(
-                                                      //         t.player.value.follow ? "assets/images/profile/followed.webp" : "assets/images/profile/follow.webp",
-                                                      //         width: 20,
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // )
-                                                      5.horizontalSpace,
-                                                      GameLevelWidget(
-                                                        isAuth: t.player.value
-                                                                .isAuth
-                                                            ? 1
-                                                            : 0,
-                                                        level: t.player.value
-                                                            .userLevel,
-                                                        height: 20.h,
-                                                        userId:
-                                                            t.player.value.uid,
-                                                      )
-                                                    ],
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (!t.isSelf) {
+                                                  UserController.find.jumpChat(
+                                                      t.player.value.uk);
+                                                }
+                                              },
+                                              child: Obx(() =>
+                                                  ImageUtil.networkImage(
+                                                    url: t.player.value.avatar,
+                                                    fit: BoxFit.cover,
+                                                    width: 78.w,
+                                                    height: 78.w,
+                                                    border: 78.w,
+                                                  )),
+                                            ),
+                                            8.horizontalSpace,
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    t.player.value.nickName,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 24.sp,
+                                                      fontFamily: FONT_MEDIUM,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
-                                                )),
-
-                                            /// labels: sex、language、location
-                                            Obx(() => Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
+                                                  10.verticalSpace,
+                                                  Row(
                                                     children: [
+                                                      Text(
+                                                        "ID:" +
+                                                            t.player.value.uk,
+                                                        style: TextStyle(
+                                                          color: Colors.white
+                                                              .withOpacity(0.6),
+                                                          fontSize: 12.sp,
+                                                          fontFamily:
+                                                              FONT_LIGHT,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
                                                       Visibility(
                                                         visible: t
                                                             .player
@@ -461,18 +194,13 @@ class OtherProfilePage extends StatelessWidget {
                                                               CrossAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Image.asset(
-                                                              ImageUtils.icon_dibiao,
-                                                              width: 8.w,
-                                                            ),
-                                                            4.horizontalSpace,
                                                             Container(
                                                               constraints:
                                                                   BoxConstraints(
                                                                       maxWidth:
                                                                           120.w),
                                                               child: Text(
-                                                                '${t.player.value.location.country}',
+                                                                '   ${t.player.value.location.country}',
                                                                 strutStyle:
                                                                     StrutStyle(
                                                                         forceStrutHeight:
@@ -481,215 +209,261 @@ class OtherProfilePage extends StatelessWidget {
                                                                 softWrap: false,
                                                                 style:
                                                                     TextStyle(
+                                                                  color: Colors
+                                                                      .white
+                                                                      .withOpacity(
+                                                                          0.6),
                                                                   fontSize:
                                                                       12.sp,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  fontFamily:
+                                                                      FONT_LIGHT,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
-                                                                  fontFamily:
-                                                                      FONT_MEDIUM,
+                                                                          .w400,
                                                                 ),
                                                               ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
-                                                      Visibility(
-                                                        visible: t
-                                                            .player
-                                                            .value
-                                                            .language
-                                                            .isNotEmpty,
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 15.w),
-                                                          height: 16.h,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Image.asset(
-                                                                ImageUtils.icon_language,
-                                                                width: 11.w,
-                                                              ),
-                                                              2.horizontalSpace,
-                                                              Text(
-                                                                t.player.value
-                                                                    .language,
-                                                                strutStyle:
-                                                                    StrutStyle(
-                                                                        forceStrutHeight:
-                                                                            true),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  fontFamily:
-                                                                      FONT_MEDIUM,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      15.horizontalSpace,
-                                                      Text(
-                                                        "ID:" +
-                                                            t.player.value.uk,
-                                                        strutStyle: StrutStyle(
-                                                            forceStrutHeight:
-                                                                true),
-                                                        style: TextStyle(
-                                                          fontSize: 12.sp,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontFamily:
-                                                              FONT_MEDIUM,
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
-                                                )),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      ),
+                                        Positioned(
+                                          top: 24.h,
+                                          right: 0,
+                                          height: 30.h,
+                                          child: Obx(() => Visibility(
+                                                visible: t.player.value.voice
+                                                    .isNotEmpty,
+                                                child: VoiceProfileWidget(
+                                                  pwId: UserController
+                                                      .find.userProfile.pwId,
+                                                  voice: t.player.value.voice,
+                                                  maginBottom: 0,
+                                                  marginLeft: 12.w,
+                                                  needEdit: t.isSelf,
+                                                  width: t.isSelf ? 98.w : 80.w,
+                                                  toRecordPage: () =>
+                                                      t.toRecordPage(context),
+                                                ),
+                                              )),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            GestureDetector(
-                              onTapDown: (details) {
-                                print(details.globalPosition);
-                                Offset offset = details.globalPosition;
-                                Get.dialog(Stack(
-                                  alignment: AlignmentDirectional.topCenter,
-                                  children: [
-                                    Positioned(
-                                      top: offset.dy -
-                                          MediaQuery.of(Get.context!)
-                                              .padding
-                                              .top +
-                                          15,
-                                      left: offset.dx - 10,
-                                      child: ClipPath(
-                                        clipper: Triangle(dir: -1),
-                                        child: Container(
-                                          width: 20.0,
-                                          height: 10.0,
-                                          color: Color(0xff282640),
-                                        ),
-                                      ),
+                            Positioned(
+                              top: 190.h,
+                              left: 16.w,
+                              right: 16.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTapDown: (details) {
+                                      print(details.globalPosition);
+                                      Offset offset = details.globalPosition;
+                                      Get.dialog(Stack(
+                                        alignment:
+                                            AlignmentDirectional.topCenter,
+                                        children: [
+                                          Positioned(
+                                            top: offset.dy -
+                                                MediaQuery.of(Get.context!)
+                                                    .padding
+                                                    .top +
+                                                15,
+                                            left: offset.dx - 10,
+                                            child: ClipPath(
+                                              clipper: Triangle(dir: -1),
+                                              child: Container(
+                                                width: 20.0,
+                                                height: 10.0,
+                                                color: Color(0xff282640),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: offset.dy -
+                                                MediaQuery.of(Get.context!)
+                                                    .padding
+                                                    .top +
+                                                15 +
+                                                10,
+                                            child: Container(
+                                              width: Get.width - 30.w,
+                                              padding: EdgeInsets.all(10.r),
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xff282640),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r)),
+                                              child: Text(
+                                                t.player.value.signature,
+                                                style: TextStyle(
+                                                  color: Color(0xff8291B4),
+                                                  height: 1.2,
+                                                  fontSize: 12.sp,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ));
+                                    },
+                                    child: Text(
+                                      text,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyle,
                                     ),
-                                    Positioned(
-                                      top: offset.dy -
-                                          MediaQuery.of(Get.context!)
-                                              .padding
-                                              .top +
-                                          15 +
-                                          10,
-                                      child: Container(
-                                        width: Get.width - 30.w,
-                                        padding: EdgeInsets.all(10.r),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xff282640),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        child: Text(
-                                          t.player.value.signature,
-                                          style: TextStyle(
-                                            color: Color(0xff8291B4),
-                                            height: 1.2,
-                                            fontSize: 12.sp,
+                                  ),
+                                  20.verticalSpace,
+                                  Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "${t.player.value.followers}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          6.verticalSpace,
+                                          Text(
+                                            'Following',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                              fontSize: 12.sp,
+                                              fontFamily: FONT_LIGHT,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      26.horizontalSpace,
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "${t.player.value.fans}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          6.verticalSpace,
+                                          Text(
+                                            'Fans',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                              fontSize: 12.sp,
+                                              fontFamily: FONT_LIGHT,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      26.horizontalSpace,
+                                      // Column(
+                                      //   children: [
+                                      //     Text(
+                                      //       "${t.player.value.}",
+                                      //       textAlign: TextAlign.center,
+                                      //       style: TextStyle(
+                                      //         color: Colors.white,
+                                      //         fontSize: 15.sp,
+                                      //         fontFamily: FONT_MEDIUM,
+                                      //         fontWeight: FontWeight.w500,
+                                      //       ),
+                                      //     ),
+                                      //     6.verticalSpace,
+                                      //     Text(
+                                      //       'Likes & Col',
+                                      //       textAlign: TextAlign.center,
+                                      //       style: TextStyle(
+                                      //         color:
+                                      //             Colors.white.withOpacity(0.6),
+                                      //         fontSize: 12.sp,
+                                      //         fontFamily: FONT_LIGHT,
+                                      //         fontWeight: FontWeight.w400,
+                                      //       ),
+                                      //     )
+                                      //   ],
+                                      // ),
+                                      Spacer(),
+                                      Obx(() => Visibility(
+                                            visible: !t.isSelf &&
+                                                !t.player.value.follow,
+                                            child: GestureDetector(
+                                              onTapDown: (details) {
+                                                t.followOrNot(
+                                                  context,
+                                                  details.globalPosition,
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 76.w,
+                                                height: 34.h,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  border: t.player.value.follow
+                                                      ? null
+                                                      : Border.all(
+                                                          color:
+                                                              AppColor.yellow),
+                                                  gradient: t
+                                                          .player.value.follow
+                                                      ? LinearGradient(
+                                                          colors: AppColor
+                                                              .yellowGradient)
+                                                      : null,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                ),
+                                                child: Text(
+                                                  "Follow".tr,
+                                                  style: TextStyle(
+                                                    color: AppColor.yellow,
+                                                    fontSize: 14.sp,
+                                                    fontFamily: FONT_MEDIUM,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                      12.horizontalSpace,
+                                      if (!t.isSelf)
+                                        InkWell(
+                                          onTap: () =>
+                                              t.jumpChat(t.player.value.uk),
+                                          child: Image.asset(
+                                            ImageUtils.profile_chat_icon,
+                                            height: 34.h,
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    left: 20,
-                                    right: 20,
-                                    bottom: 10.h,
-                                    top: 10.h),
-                                child: Text(
-                                  text,
-                                  maxLines: 5,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textStyle,
-                                ),
-                              ),
-                            ),
-                            Obx(
-                              () => Container(
-                                height: 43.h,
-                                margin:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  top: BorderSide(
-                                      color: AppColor.itemBg, width: 1),
-                                  bottom: BorderSide(
-                                      color: AppColor.itemBg, width: 1),
-                                )),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Followings".tr +
-                                          ": ${t.player.value.followers}",
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
-                                        fontFamily: FONT_MEDIUM,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Followers".tr +
-                                          ": ${t.player.value.fans}",
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
-                                        fontFamily: FONT_MEDIUM,
-                                      ),
-                                    ),
-                                    Visibility(
-                                      child: Text(
-                                        "Rating".tr +
-                                            ": ${t.player.value.ranking}",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.white,
-                                          fontFamily: FONT_MEDIUM,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Orders".tr + ": ${t.player.value.age}",
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.white,
-                                        fontFamily: FONT_MEDIUM,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -699,28 +473,42 @@ class OtherProfilePage extends StatelessWidget {
                     bottom: PreferredSize(
                         preferredSize: Size(double.infinity, 40.h),
                         child: Container(
+                          width: 1.sw,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF141517),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                          ),
+                          alignment: Alignment.center,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                                top: 0, left: 30, right: 20),
+                              top: 0,
+                              left: 30,
+                              right: 20,
+                            ),
                             child: TabBar(
                               padding: EdgeInsets.zero,
                               controller: t.tabController,
-                              isScrollable: false,
+                              isScrollable: true,
                               labelColor: Color(0xFFFFCB0D),
                               unselectedLabelColor: AppColor.textC5C5,
                               indicatorColor: Color(0xFFFFCB0D),
                               indicatorSize: TabBarIndicatorSize.label,
                               indicatorWeight: 2,
-                              indicatorPadding: EdgeInsets.only(bottom: 5),
-                              labelPadding:
-                                  const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                              indicatorPadding: EdgeInsets.only(bottom: 0),
+                              labelPadding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 12.h),
                               labelStyle: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: FONT_MEDIUM,
                               ),
                               unselectedLabelStyle: TextStyle(
-                                fontSize: 13.sp,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: FONT_MEDIUM,
                               ),
@@ -731,107 +519,31 @@ class OtherProfilePage extends StatelessWidget {
                   ),
                 ];
               },
-              body: TabBarView(
-                  controller: t.tabController, children: createPages())),
-          if (!t.isSelf)
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: 42.h + Get.mediaQuery.padding.bottom + 20,
-                child: Visibility(
-                  visible: !t.isSelf && !t.player.value.follow,
-                  child: Container(
-                    color: AppColor.itemBg,
-                    child: Row(
+              body: Column(
+                children: [
+                  Container(
+                    height: 11.h,
+                    child: Stack(
                       children: [
-                        15.horizontalSpace,
-                        Obx(() => Visibility(
-                              visible: !t.isSelf && !t.player.value.follow,
-                              child: GestureDetector(
-                                onTapDown: (details) {
-                                  t.followOrNot(
-                                    context,
-                                    details.globalPosition,
-                                  );
-                                },
-                                child: Container(
-                                  width: 110.w,
-                                  height: 42.h,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    border: t.player.value.follow
-                                        ? null
-                                        : Border.all(color: AppColor.yellow),
-                                    gradient: t.player.value.follow
-                                        ? LinearGradient(
-                                        colors: AppColor.yellowGradient)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(21.r),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 10.w),
-                                        child: Image.asset(
-                                          ImageUtils.follow,
-                                          width: 16,
-                                          // color: AppColor.accent,
-                                          // color: t.player.value.follow ? AppColor.accent : AppColor.yellow,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Follow".tr,
-                                        style: TextStyle(
-                                            color: AppColor.yellow,
-                                            fontSize: 14.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              t.jumpChat(t.player.value.uk);
-                            },
-                            child: Container(
-                              height: 42.h,
-                              margin: EdgeInsets.symmetric(horizontal: 15),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: AppColor.yellowGradient),
-                                borderRadius: BorderRadius.circular(21.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Image.asset(
-                                      ImageUtils.icon_pinlun,
-                                      width: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Messages".tr,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                        Container(
+                          color: Color(0xFF141517),
+                          height: 11.h,
+                        ),
+                        Container(
+                          color: hexColor('#303030'),
+                          height: 1.h,
                         ),
                       ],
                     ),
                   ),
-                ))
+                  Expanded(
+                    child: TabBarView(
+                      controller: t.tabController,
+                      children: createPages(),
+                    ),
+                  ),
+                ],
+              )),
         ],
       ),
     );
@@ -839,10 +551,6 @@ class OtherProfilePage extends StatelessWidget {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    if (t.player.value.isAuth)
-      tabs.add(Text(
-        "Info".tr,
-      ));
     tabs.add(Text(
       "Posts".tr,
     ));
@@ -855,7 +563,6 @@ class OtherProfilePage extends StatelessWidget {
 
   List<Widget> createPages() {
     List<Widget> pages = [];
-    if (t.player.value.isAuth) pages.add(OtherDashboardPage());
     pages.add(OtherPostsPage());
     pages.add(OtherAlbumPage());
     return pages;

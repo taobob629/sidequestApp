@@ -16,47 +16,50 @@ class OtherAlbumPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = Get.put(OtherAlbumController());
 
-    return Obx(() {
-      return SmartRefresher(
-          controller: t.refreshController,
-          onRefresh: () => t.onRefresh(),
-          onLoading: () => t.loadMore(),
-          enablePullUp: true,
-          child: GridView.builder(
-            padding: EdgeInsets.all(15),
-            itemCount: t.list.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 3 columns
-              childAspectRatio: 1.0,
-              crossAxisSpacing: 15.0,
-              mainAxisSpacing: 15.0,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.to(() => PhotoViewPage(photoUrl: t.list[index].thumb));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: AppColor.color7070),
-                    borderRadius: BorderRadius.circular(11),
-                    color: AppColor.color3033,
+    return Container(
+      color: Color(0xFF141517),
+      child: Obx(() {
+        return SmartRefresher(
+            controller: t.refreshController,
+            onRefresh: () => t.onRefresh(),
+            onLoading: () => t.loadMore(),
+            enablePullUp: true,
+            child: GridView.builder(
+              padding: EdgeInsets.all(15),
+              itemCount: t.list.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 3 columns
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 15.0,
+                mainAxisSpacing: 15.0,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(() => PhotoViewPage(photoUrl: t.list[index].thumb));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: AppColor.color7070),
+                      borderRadius: BorderRadius.circular(11),
+                      color: AppColor.color3033,
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: t.list[index].thumb,
+                          fit: BoxFit.cover,
+                        ),
+                      ],
+                    ),
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl: t.list[index].thumb,
-                        fit: BoxFit.cover,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ));
-    });
+                );
+              },
+            ));
+      }),
+    );
   }
 }
 
