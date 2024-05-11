@@ -29,7 +29,10 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../widget/linear_progressbar_widget.dart';
 import '../../../../widget/my_progressbar.dart';
 import '../../../consum/list/view.dart';
+import '../../../dialog/dialog_confirm.dart';
 import '../../booking/booking_page.dart';
+import '../../messages/fans/fans_list_page.dart';
+import '../../messages/follow/follow_list_page.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
 import '../events/my_events_page.dart';
@@ -176,24 +179,30 @@ class MyProfilePage extends StatelessWidget {
                                 /// labels: sex、language、location
                                 Row(
                                   children: [
-                                    Text(
-                                      '${t.user.value.followers}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w700,
+                                    InkWell(
+                                      onTap: () => Get.to(() => FollowListPage()),
+                                      child: Text(
+                                        '${t.user.value.followers}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
                                     6.horizontalSpace,
-                                    Text(
-                                      'Followers',
-                                      style: TextStyle(
-                                        color: Color(0xFF808388),
-                                        fontSize: 12.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w400,
+                                    InkWell(
+                                      onTap: () => Get.to(() => FollowListPage()),
+                                      child: Text(
+                                        'Followers',
+                                        style: TextStyle(
+                                          color: Color(0xFF808388),
+                                          fontSize: 12.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -204,24 +213,30 @@ class MyProfilePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           color: Color(0xFF727272)),
                                     ),
-                                    Text(
-                                      '${t.user.value.fans}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w700,
+                                    InkWell(
+                                      onTap: () => Get.to(() => FansListPage()),
+                                      child: Text(
+                                        '${t.user.value.fans}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
                                     6.horizontalSpace,
-                                    Text(
-                                      'Fans',
-                                      style: TextStyle(
-                                        color: Color(0xFF808388),
-                                        fontSize: 12.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w400,
+                                    InkWell(
+                                      onTap: () => Get.to(() => FansListPage()),
+                                      child: Text(
+                                        'Fans',
+                                        style: TextStyle(
+                                          color: Color(0xFF808388),
+                                          fontSize: 12.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                     Container(

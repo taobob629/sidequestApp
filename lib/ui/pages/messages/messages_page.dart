@@ -30,109 +30,17 @@ class MessagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: 750.0 / 365,
-          child: Image.asset(
-            ImageUtils.msg_head_bg,
-            fit: BoxFit.fitWidth,
-            width: Get.width,
-          ),
-        ),
-        Scaffold(
-          appBar: AppBar(
-            leading: Container(),
-            backgroundColor: Colors.transparent,
-            actions: [
-              Obx(() => Visibility(
-                  visible: controller.showMenu.value,
-                  child: PopupMenuButton(
-                      color: AppColor.itemBg,
-                      icon: Icon(
-                        Icons.more_vert_outlined,
-                        color: Colors.white,
-                      ),
-                      onSelected: (item) {
-                        if (item == 'Create Room'.tr) {
-                          controller.toCreatGoupPage();
-                        }
-                        if (item == "Scan".tr) {
-                          controller.toScan(context);
-                        }
-                      },
-                      itemBuilder: (context) => <PopupMenuEntry<String>>[
-                            ...controller.popMenus
-                                .map((e) => PopupMenuItem<String>(
-                                      value: e['title'],
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              "assets/images/${e['img']!}",
-                                              width: 20.w),
-                                          10.horizontalSpace,
-                                          Text(
-                                            '${e['title']}',
-                                            style: TextStyle(),
-                                          )
-                                        ],
-                                      ),
-                                    ))
-                          ])))
-            ],
-            flexibleSpace: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Spacer(),
-                TabBar(
-                  controller: controller.tabController,
-                  isScrollable: true,
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.white,
-                  indicator: BoxDecoration(),
-                  indicatorColor: Colors.transparent,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorWeight: 3,
-                  // indicatorPadding: const EdgeInsets.only(bottom: 0),
-                  labelPadding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                  labelStyle:
-                      TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold),
-                  unselectedLabelStyle:
-                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.normal),
-                  tabs: controller.tabs
-                      .mapIndexed((index, e) => tabItem(index, e))
-                      .toList(),
-                ).paddingOnly(left: 15),
-              ],
-            ),
-          ),
-          backgroundColor: Colors.transparent,
-          body: TabBarView(controller: controller.tabController, children: [
-            KeepAliveWrapper(
-                child: ConversationListPage(
-              unreadCountChange: (int count) {
-                Future.delayed(Duration(seconds: 1), () {
-                  unreadSingleCount = count;
-                  unreadGrouCount = UserController.find.unreadMsgCount.value -
-                      unreadSingleCount;
-                });
-                //   flog('MessagesPage unreadCountChange $count');
-              },
-              type: type_single_chat,
-            )),
-            KeepAliveWrapper(
-                child: ConversationListPage(
-              unreadCountChange: (count) {
-                Future.delayed(Duration(seconds: 1), () {
-                  unreadGrouCount = count;
-                });
-                //   flog('MessagesPage unreadCountChange---$count');
-              },
-              type: type_group,
-            )),
-          ]),
-        ),
-      ],
+    return Expanded(
+      child: ConversationListPage(
+        unreadCountChange: (int count) {
+          Future.delayed(Duration(seconds: 1), () {
+            unreadSingleCount = count;
+            unreadGrouCount =
+                UserController.find.unreadMsgCount.value - unreadSingleCount;
+          });
+        },
+        type: type_single_chat,
+      ),
     );
   }
 

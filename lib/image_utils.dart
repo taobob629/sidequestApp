@@ -1,6 +1,7 @@
 class ImageUtils {
 
   static const String default_logo = 'assets/images/default_logo.webp';
+  static const String ic_exchange = 'assets/images/ic_exchange.webp';
   static const String profile_chat_icon = 'assets/images/profile_chat_icon.webp';
   static const String add_to_cart_icon = 'assets/images/add_to_cart_icon.webp';
   static const String bundles_cart_icon = 'assets/images/bundles_cart_icon.webp';
@@ -26,6 +27,7 @@ class ImageUtils {
   static const String drink_now_icon = 'assets/images/drink_now_icon.png';
   static const String icon_liwu = 'assets/images/icon_liwu.webp';
   static const String shop_icon = 'assets/images/shop_icon.webp';
+  static const String confirm_dialog_icon = 'assets/images/confirm_dialog_icon.webp';
   static const String all_type_tea_icon = 'assets/images/all_type_tea_icon.webp';
   static const String bundles_detail_price_bg = 'assets/images/bundles_detail_price_bg.webp';
   static const String follow = 'assets/images/follow.webp';
@@ -66,6 +68,7 @@ class ImageUtils {
   static const String icon_dianzan = 'assets/images/icon_dianzan.webp';
   static const String arrow_more = 'assets/images/arrow_more.webp';
   static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
+  static const String post_add_border_icon = 'assets/images/post_add_border_icon.webp';
   static const String emenry_pc_icon = 'assets/images/emenry_pc_icon.webp';
   static const String icon_first = 'assets/images/icon_first.webp';
   static const String icon_second = 'assets/images/icon_second.webp';

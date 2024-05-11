@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_editor/image_editor.dart';
+import 'package:sq_hub_app/config/icon_font.dart';
 
 import '../../common/colorful_button.dart';
+import '../../common/wy_confirm_dialog.dart';
 import '../../common/wy_dialog.dart';
 
 class ConfirmDialog extends StatelessWidget {
@@ -31,62 +35,94 @@ class ConfirmDialog extends StatelessWidget {
 
   ///可滚动
   Widget view2(BuildContext context) {
-    return WyDialog(
+    return WyConfirmDialog(
       child: SizedBox(
         height: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
             Text(
               title,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: Colors.white,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             Expanded(
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 30),
-                  child: Text("$info",
-                      style: TextStyle(color: Colors.white, fontSize: 14)),
+                  margin: EdgeInsets.symmetric(vertical: 20.h),
+                  child: Text(
+                    "$info",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                    ),
+                  ),
                 ),
               ),
             ),
             Row(
               children: [
                 if (concelBtn != null)
-                  Flexible(
-                      child: ColorfulButton(
-                          height: 40,
-                          onTap: () => Navigator.pop(context, true),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text(
-                              "$concelBtn",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontFamily: "DIN"),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context, true),
+                      child: Container(
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1.w,
+                              color: Color(0xFFFFB20E),
                             ),
-                          ))),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "$concelBtn",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        height: 40.h,
+                      ),
+                    ),
+                  ),
                 if (concelBtn != null)
                   Container(
                     width: 16,
                   ),
-                Flexible(
-                    child: ColorfulButton(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      "$confirmBtn".tr,
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+                Expanded(
+                  child: InkWell(
+                    onTap: () => onConfirm == null
+                        ? Navigator.pop(context, true)
+                        : onConfirm!.call(),
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFFFB20E),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "$confirmBtn".tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      height: 40.h,
                     ),
                   ),
-                  height: 40,
-                  onTap: () => onConfirm == null
-                      ? Navigator.pop(context, true)
-                      : onConfirm!.call(),
-                ))
+                )
               ],
             )
           ],
@@ -97,55 +133,87 @@ class ConfirmDialog extends StatelessWidget {
 
   ///不可滚动
   Widget view1(BuildContext context) {
-    return WyDialog(
+    return WyConfirmDialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: Colors.white,
+              fontFamily: FONT_MEDIUM,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 30),
-            child: Text("$info",
-                style: TextStyle(color: Colors.white, fontSize: 14)),
+            margin: EdgeInsets.only(top: 10.h, bottom: 30.h),
+            child: Text(
+              "$info",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+              ),
+            ),
           ),
           Row(
             children: [
               if (concelBtn != null)
-                Flexible(
-                    child: ColorfulButton(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            "$concelBtn",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontFamily: "DIN"),
+                Expanded(
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context, true),
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            width: 1.w,
+                            color: Color(0xFFFFB20E),
                           ),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        height: 40,
-                        onTap: () => Navigator.pop(context, true))),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "$concelBtn",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      height: 40.h,
+                    ),
+                  ),
+                ),
               if (concelBtn != null)
                 Container(
                   width: 16,
                 ),
-              Flexible(
-                  child: ColorfulButton(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    "$confirmBtn".tr,
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 18, fontFamily: "DIN"),
+              Expanded(
+                child: InkWell(
+                  onTap: () => onConfirm == null
+                      ? Navigator.pop(context, true)
+                      : onConfirm!.call(),
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFFFB20E),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "$confirmBtn".tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    height: 40.h,
                   ),
                 ),
-                height: 40,
-                onTap: () => onConfirm == null
-                    ? Navigator.pop(context, true)
-                    : onConfirm!.call(),
-              ))
+              )
             ],
           )
         ],

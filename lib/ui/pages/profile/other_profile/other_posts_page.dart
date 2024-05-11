@@ -17,7 +17,6 @@ import '../../../../widget/cs_photo_viewer.dart';
 import '../../../../widget/like_button/like_button.dart';
 import '../../social/post/post_detail_page.dart';
 import '../../social/post/post_list_controller.dart';
-import '../../social/post/view/post_list_item_view.dart';
 
 class OtherPostsPage extends StatelessWidget {
   OtherPostsPage({Key? key}) : super(key: key);
@@ -34,156 +33,50 @@ class OtherPostsPage extends StatelessWidget {
           onLoading: t.loadMore,
           enablePullUp: true,
           enablePullDown: true,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Obx(() => WaterfallFlow.builder(
-                      padding: EdgeInsets.all(5.0.r),
-                      gridDelegate:
-                          SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.r,
-                        mainAxisSpacing: 10.r,
-                      ),
-                      itemBuilder: (BuildContext c, int index) {
-                        return GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => Get.to(() => PostDetailPage(),
-                              arguments: t.list[index]),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (t.list[index].imageList.isNotEmpty)
-                                GestureDetector(
-                                  onTap: () => Get.dialog(
-                                    CsPhotoViewer(
-                                      photoList: t.list[index].imageList,
-                                      tapIndex: t.list[index].imageList
-                                          .indexOf(t.list[index].imageList[0]),
-                                    ),
-                                    useSafeArea: false,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(8.r),
-                                      topLeft: Radius.circular(8.r),
-                                    ),
-                                    child: CachedNetworkImage(
-                                      imageUrl: t.list[index].imageList[0],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 4.w,
-                                  vertical: 8.h,
-                                ),
-                                child: Text(
-                                  t.list[index].content,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  4.horizontalSpace,
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    child: CachedNetworkImage(
-                                      imageUrl: t.list[index].head,
-                                      fit: BoxFit.cover,
-                                      width: 16.w,
-                                      height: 16.w,
-                                    ),
-                                  ),
-                                  2.horizontalSpace,
-                                  Text(
-                                    t.list[index].nickname,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.sp,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Spacer(),
-                                  Obx(() => badges.Badge(
-                                    showBadge:
-                                    t.list[index].newPraise.value > 0,
-                                    badgeContent: Text(
-                                      '${t.list[index].newPraise.value}',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                    position: badges.BadgePosition.topEnd(),
-                                    padding: EdgeInsets.all(3.r),
-                                    child: LikeButton(
-                                      likeCount: t.list[index].praiseNum,
-                                      size: 16.sp,
-                                      isLiked: t.list[index].isPraise.value,
-                                      animationDuration:
-                                      Duration(milliseconds: 2000),
-                                      likeBuilder: (isLiked) => Image.asset(
-                                        ImageUtils.icon_dianzan,
-                                        width: 16,
-                                        color: t.list[index].isPraise.value
-                                            ? Colors.pink
-                                            : hexColor('80ffffff'),
-                                      ),
-                                      countBuilder:
-                                          (count, isLiked, text) => Text(
-                                        t.list[index].praiseNum.toString(),
-                                        style: TextStyle(
-                                          color: hexColor('80ffffff'),
-                                          fontSize: 11.sp,
-                                        ),
-                                      ),
-                                      onTap: (bool isLiked) async {
-                                        if (UserController
-                                            .find.userProfile.pwId !=
-                                            t.list[index].uid) {
-                                          PostListController.find
-                                              .praisePost(t.list[index])
-                                              .then((value) {
-                                            if (value) {
-                                              t.list[index].isPraise.value =
-                                              !t.list[index].isPraise
-                                                  .value;
-                                              if (t.list[index].isPraise
-                                                  .value) {
-                                                t.list[index].praiseNum +=
-                                                1;
-                                              } else {
-                                                t.list[index].praiseNum -=
-                                                1;
-                                              }
-                                            }
-                                          });
-                                        } else {
-                                          Get.to(() => PostDetailPage(),
-                                              arguments: t.list[index])!;
-                                        }
-                                        return !isLiked;
-                                      },
-                                    ),
-                                  )),
-                                  4.horizontalSpace,
-                                ],
-                              ),
-                              4.verticalSpace,
-                            ],
+          child: Obx(() => WaterfallFlow.builder(
+            padding: EdgeInsets.all(5.0.r),
+            gridDelegate:
+            SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.r,
+              mainAxisSpacing: 10.r,
+            ),
+            itemBuilder: (BuildContext c, int index) {
+              return GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => Get.to(() => PostDetailPage(),
+                    arguments: t.list[index]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (t.list[index].imageList.isNotEmpty)
+                      GestureDetector(
+                        onTap: () => Get.dialog(
+                          CsPhotoViewer(
+                            photoList: t.list[index].imageList,
+                            tapIndex: t.list[index].imageList
+                                .indexOf(
+                                t.list[index].imageList[0]),
                           ),
-                        );
-                      },
-                      itemCount: t.list.length,
-                    )),
-              ),
-            ],
-          )),
+                          useSafeArea: false,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8.r),
+                            topLeft: Radius.circular(8.r),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: t.list[index].imageList[0],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+            itemCount: t.list.length,
+          )),),
     );
   }
 }

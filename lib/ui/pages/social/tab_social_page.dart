@@ -15,6 +15,7 @@ import '../../../../common/keep_alive_wrapper.dart';
 import '../../../../config/app_color.dart';
 import '../../../../widget/tab_widget.dart';
 import '../../../config/icon_font.dart';
+import '../messages/messages_page.dart';
 import 'activity/view.dart';
 import 'controller.dart';
 
@@ -23,7 +24,7 @@ class TabSocialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Obx(() => Column(
       children: [
         Container(
           height: 34.h,
@@ -34,43 +35,43 @@ class TabSocialPage extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemBuilder: (c, i) => Obx(() => GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => controller.clickTopTab(i),
-                  child: Container(
-                    width: 96.w,
-                    decoration: controller.selectTopTabIndex.value == i
-                        ? BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(
-                              width: 1.w,
-                              color: hexColor('FFB20E'),
-                            ),
-                          )
-                        : BoxDecoration(
-                            color: hexColor('141414'),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      controller.tabs[i],
-                      style: TextStyle(
-                        color: controller.selectTopTabIndex.value == i
-                            ? hexColor('FFB20E')
-                            : Colors.white,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
-                      ),
-                    ),
+              behavior: HitTestBehavior.translucent,
+              onTap: () => controller.clickTopTab(i),
+              child: Container(
+                width: 96.w,
+                decoration: controller.selectTopTabIndex.value == i
+                    ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 1.w,
+                    color: hexColor('FFB20E'),
                   ),
-                )),
+                )
+                    : BoxDecoration(
+                  color: hexColor('141414'),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  controller.tabs[i],
+                  style: TextStyle(
+                    color: controller.selectTopTabIndex.value == i
+                        ? hexColor('FFB20E')
+                        : Colors.white,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            )),
             separatorBuilder: (c, i) => 15.horizontalSpace,
             itemCount: controller.tabs.length,
           ),
         ),
         if (controller.selectTopTabIndex.value == 0) PostListPage(),
-        if (controller.selectTopTabIndex.value == 1) PostListPage(),
+        if (controller.selectTopTabIndex.value == 1) MessagesPage(),
       ],
-    );
+    ));
   }
 }

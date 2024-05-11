@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/image_utils.dart';
 
 import '../../../../api/im_api.dart';
 import '../../../../api/user_api.dart';
@@ -20,6 +21,7 @@ import '../../../../widget/sex_age_widget.dart';
 
 class FansListPage extends StatelessWidget {
   FansListPage({Key? key}) : super(key: key);
+
   static void to({var groupName, var gid}) {
     Get.to(() => FansListPage(),
         arguments: {}
@@ -27,6 +29,7 @@ class FansListPage extends StatelessWidget {
           ..['gid'] = gid
           ..['select_mode'] = true);
   }
+
   final t = Get.put(FansListController());
 
   @override
@@ -51,11 +54,11 @@ class FansListPage extends StatelessWidget {
                         Visibility(
                             visible: t.selelctMode,
                             child: Obx(() => Checkbox(
-                              value: model.isSelet,
-                              onChanged: (bool? value) {
-                                model.isSelet = value ?? false;
-                              },
-                            ))),
+                                  value: model.isSelet,
+                                  onChanged: (bool? value) {
+                                    model.isSelet = value ?? false;
+                                  },
+                                ))),
                         GestureDetector(
                             onTap: () =>
                                 NavigatorHelper.toOtherProfile(model.id),
@@ -74,8 +77,7 @@ class FansListPage extends StatelessWidget {
                               Text(
                                 model.name,
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -93,7 +95,7 @@ class FansListPage extends StatelessWidget {
                                         : model.userLevel,
                                     isAuth: model.isAuth,
                                     userId:
-                                    UserController.find.userProfile.pwId,
+                                        UserController.find.userProfile.pwId,
                                   ),
                                 ],
                               ),
@@ -120,9 +122,10 @@ class FansListPage extends StatelessWidget {
                                   color: AppColor.itemBg,
                                   borderRadius: BorderRadius.circular(14)),
                               child: Image.asset(
-                                  "assets/images/ic_exchange.webp",
-                                  width: 16,
-                                  height: 16),
+                                ImageUtils.ic_exchange,
+                                width: 16,
+                                height: 16,
+                              ),
                             ),
                           )
                         else
@@ -162,6 +165,7 @@ class FansListController extends GetxRefreshController<AttentionModel> {
   var gid = '';
   var groupName = '';
   var selects = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -193,13 +197,14 @@ class FansListController extends GetxRefreshController<AttentionModel> {
   Future<List<AttentionModel>> loadData({int pageNum = 1}) async {
     return await UserApi.fansList(pageNum, 20);
   }
+
   invite() async {
     var selects = list.where((item) => item.isSelet);
-    if(selects.isEmpty){
+    if (selects.isEmpty) {
       showToast('please select at least one user to share!'.tr);
       return;
     }
-    var ids=selects.map((e) => e.uk).toList();
+    var ids = selects.map((e) => e.uk).toList();
     flog(ids);
     // var nickName = UserController.find.userProfile.nickName;
     // var params = Map()
@@ -208,7 +213,7 @@ class FansListController extends GetxRefreshController<AttentionModel> {
     //   ..['groupId'] = gid //群id
     //   ..['group_name'] = groupName; //群名字
     //   ImUtils.invite(params);
-   var res =await ImApi.shareGroup(Map()
+    var res = await ImApi.shareGroup(Map()
       ..['shareIds'] = ids
       ..['groupId'] = gid
       ..['group_name'] = groupName
@@ -217,5 +222,4 @@ class FansListController extends GetxRefreshController<AttentionModel> {
     showToast('Share sucess!'.tr);
     Get.back();
   }
-
 }
