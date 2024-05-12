@@ -9,8 +9,8 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../../widget/image_util.dart';
+import '../bubble_confirm_order_page.dart';
 import '../bubble_tea_detail_page.dart';
-import '../confirm_order_page.dart';
 
 class TabBubbleTeaPage extends StatelessWidget {
   final ctr = TabBubbleTeaCtr.find;
@@ -247,9 +247,7 @@ class TabBubbleTeaPage extends StatelessWidget {
             ),
             Builder(builder: (context) {
               ctr.cartContext = context;
-              return SizedBox(
-                height: 0.h,
-              );
+              return 0.verticalSpace;
             }),
           ],
         ).paddingSymmetric(horizontal: 16.w),
@@ -341,7 +339,7 @@ class TabBubbleTeaPage extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Get.to(() => ConfirmOrderPage()),
+              onTap: () => Get.to(() => BubbleConfirmOrderPage()),
               child: Container(
                 width: 100.w,
                 height: 44.w,

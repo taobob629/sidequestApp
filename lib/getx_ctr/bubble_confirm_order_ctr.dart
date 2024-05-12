@@ -8,7 +8,7 @@ import '../model/chage_rule_model.dart';
 import '../model/pay_order_model.dart';
 import '../utils/navigator_helper.dart';
 
-class ConfirmOrderCtr extends GetxController with GetTickerProviderStateMixin {
+class BubbleConfirmOrderCtr extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
   late List<Widget> tabs = [
     Text(

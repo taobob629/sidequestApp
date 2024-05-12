@@ -7,7 +7,7 @@ import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/icon_font.dart';
 import '../../../getx_ctr/bundles_detail_ctr.dart';
-import '../../../widget/tag/simple_tags.dart';
+import 'bundle_confirm_order_page.dart';
 
 class BundlesDetailPage extends StatelessWidget {
   final ctr = Get.put(BundlesDetailCtr());
@@ -119,7 +119,7 @@ class BundlesDetailPage extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Image.asset(ImageUtils.product_content_icon),
+                            Image.asset(ImageUtils.product_content_icon, height: 20.h,),
                             10.horizontalSpace,
                             Text(
                               'Product Content',
@@ -143,7 +143,7 @@ class BundlesDetailPage extends StatelessWidget {
                         ).paddingOnly(left: 44.w, top: 20.h),
                         Row(
                           children: [
-                            Image.asset(ImageUtils.shop_icon),
+                            Image.asset(ImageUtils.shop_icon, height: 20.h,),
                             10.horizontalSpace,
                             Text(
                               'Supported Stores',
@@ -171,19 +171,34 @@ class BundlesDetailPage extends StatelessWidget {
                             .toList(),
                         Visibility(
                           visible: ctr.model.value.introduce != null,
-                          child: Text(
-                            '${ctr.model.value.introduce}',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 12.sp,
-                              fontFamily: 'DIN',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ).paddingOnly(
-                            left: 16.w,
-                            right: 110.w,
-                            top: 12.h,
-                            bottom: 12.h,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(ImageUtils.introduce_icon, height: 20.h,),
+                                  10.horizontalSpace,
+                                  Text(
+                                    'Instructions',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
+                              Text(
+                                '${ctr.model.value.introduce}',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 14.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ).paddingOnly(left: 44.w, top: 20.h),
+                            ],
                           ),
                         ),
                       ],
@@ -207,7 +222,7 @@ class BundlesDetailPage extends StatelessWidget {
                       children: [
                         15.verticalSpace,
                         Text(
-                          '£20',
+                          '£${double.parse(ctr.model.value.price).toStringAsFixed(0)}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -218,7 +233,7 @@ class BundlesDetailPage extends StatelessWidget {
                         ),
                         4.verticalSpace,
                         Text(
-                          '£32',
+                          '£${double.parse(ctr.model.value.originalPrice).toStringAsFixed(0)}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -261,35 +276,27 @@ class BundlesDetailPage extends StatelessWidget {
                             ),
                           ).paddingOnly(left: 16.w),
                         ),
-                        Container(
-                          height: 40.h,
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          margin: EdgeInsets.only(right: 16.w),
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFFFB20E),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                ImageUtils.add_to_cart_icon,
+                        InkWell(
+                          onTap: () => Get.to(() => BundleConfirmOrderPage()),
+                          child: Container(
+                            height: 40.h,
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            margin: EdgeInsets.only(right: 16.w),
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFFFB20E),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Buy Now',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
                               ),
-                              6.horizontalSpace,
-                              Text(
-                                'Add To Cart',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ],

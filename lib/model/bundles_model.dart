@@ -1,9 +1,13 @@
+import 'package:get/get.dart';
+import 'package:sq_hub_app/utils/decimal_utils.dart';
+
 class BundlesModel {
   String? brief;
   String? image;
   String? price;
   String? name;
   int? id;
+  var count = 1.obs;
 
   BundlesModel({
     this.brief,
@@ -28,4 +32,8 @@ class BundlesModel {
     "name": name,
     "id": id,
   };
+
+  String getTotalPrice() {
+    return (price ?? "0").mul(count.value.toString());
+  }
 }

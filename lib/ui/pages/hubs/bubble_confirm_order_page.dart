@@ -3,17 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/base_scaffold.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
-import 'package:sq_hub_app/getx_ctr/confirm_order_ctr.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/utils/navigator_helper.dart';
 import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/app_color.dart';
+import '../../../getx_ctr/bubble_confirm_order_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../widget/container_tab_indicator.dart';
 
-class ConfirmOrderPage extends StatelessWidget {
-  final ctr = Get.put(ConfirmOrderCtr());
+class BubbleConfirmOrderPage extends StatelessWidget {
+  final ctr = Get.put(BubbleConfirmOrderCtr());
 
   @override
   Widget build(BuildContext context) => BaseScaffold(

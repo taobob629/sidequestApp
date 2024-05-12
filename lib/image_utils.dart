@@ -27,6 +27,7 @@ class ImageUtils {
   static const String drink_now_icon = 'assets/images/drink_now_icon.png';
   static const String icon_liwu = 'assets/images/icon_liwu.webp';
   static const String shop_icon = 'assets/images/shop_icon.webp';
+  static const String introduce_icon = 'assets/images/introduce_icon.webp';
   static const String confirm_dialog_icon = 'assets/images/confirm_dialog_icon.webp';
   static const String all_type_tea_icon = 'assets/images/all_type_tea_icon.webp';
   static const String bundles_detail_price_bg = 'assets/images/bundles_detail_price_bg.webp';
