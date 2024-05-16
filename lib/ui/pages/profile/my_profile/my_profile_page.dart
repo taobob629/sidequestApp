@@ -174,7 +174,8 @@ class MyProfilePage extends StatelessWidget {
                                 Row(
                                   children: [
                                     InkWell(
-                                      onTap: () => Get.to(() => FollowListPage()),
+                                      onTap: () =>
+                                          Get.to(() => FollowListPage()),
                                       child: Text(
                                         '${t.user.value.followers}',
                                         textAlign: TextAlign.center,
@@ -188,7 +189,8 @@ class MyProfilePage extends StatelessWidget {
                                     ),
                                     6.horizontalSpace,
                                     InkWell(
-                                      onTap: () => Get.to(() => FollowListPage()),
+                                      onTap: () =>
+                                          Get.to(() => FollowListPage()),
                                       child: Text(
                                         'Followers',
                                         style: TextStyle(
@@ -333,7 +335,7 @@ class MyProfilePage extends StatelessWidget {
                               ),
                               16.horizontalSpace,
                               Text(
-                                '${t.user.value.avamins} min',
+                                t.getShowTime(),
                                 style: TextStyle(
                                   color: Color(0xFFFFCB0D),
                                   fontSize: 14.sp,
@@ -795,6 +797,20 @@ class ProfileController extends GetxController
         Get.back();
       }
     });
+  }
+
+  String getShowTime() {
+    if (user.value.avamins >= 60) {
+      double hours = user.value.avamins / 60;
+      if (hours == hours.truncate()) {
+        // 如果是整数
+        return '${hours.toInt()} h';
+      } else {
+        return '${hours.toStringAsFixed(2)} h';
+      }
+    } else {
+      return '${user.value.avamins} min';
+    }
   }
 
   @override

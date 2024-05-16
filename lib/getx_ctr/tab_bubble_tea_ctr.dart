@@ -9,6 +9,8 @@ import '../common/dialog_selector.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
+import '../service/location_service.dart';
+import '../utils/geolocator_utils.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
@@ -22,6 +24,7 @@ class TabBubbleTeaCtr extends GetxController {
   var selectTeaList = <StoreTeaModel>[].obs;
   var totalPrice = "0".obs;
   var currentSelectStore = BubbleTeaStoreModel().obs;
+  var distances = 0.0.obs;
 
   late BuildContext cartContext;
 
@@ -36,6 +39,18 @@ class TabBubbleTeaCtr extends GetxController {
     storesList.value = await HubsApi.getStores();
     if (storesList.isNotEmpty) {
       currentSelectStore.value = storesList[0];
+      if (currentSelectStore.value.map != null) {
+        List<String> latLog = currentSelectStore.value.map!.split(", ");
+
+        // (51.5074, 0.1278)是伦敦的经纬度
+        distances.value = GeolocatorUtils.calculateDistance(
+          LocationService().position?.latitude ?? 51.5074,
+          LocationService().position?.longitude ?? 0.1278,
+          double.parse(latLog[0]),
+          double.parse(latLog[1]),
+        );
+      }
+
       requestStoreInDataByStoreId(storesList.first.id, false);
     }
   }
@@ -102,6 +117,18 @@ class TabBubbleTeaCtr extends GetxController {
     ));
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
+      if (currentSelectStore.value.map != null) {
+        List<String> latLog = currentSelectStore.value.map!.split(", ");
+
+        // (51.5074, 0.1278)是伦敦的经纬度
+        distances.value = GeolocatorUtils.calculateDistance(
+          LocationService().position?.latitude ?? 51.5074,
+          LocationService().position?.longitude ?? 0.1278,
+          double.parse(latLog[0]),
+          double.parse(latLog[1]),
+        );
+      }
+
       requestStoreInDataByStoreId(currentSelectStore.value.id, true);
     }
   }

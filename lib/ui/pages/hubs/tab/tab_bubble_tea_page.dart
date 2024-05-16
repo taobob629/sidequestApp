@@ -49,9 +49,9 @@ class TabBubbleTeaPage extends StatelessWidget {
                               ),
                             )),
                         6.verticalSpace,
-                        RichText(
+                        Obx(() => RichText(
                           text: TextSpan(
-                            text: "52m",
+                            text: "${ctr.distances.value.toStringAsFixed(2)}m",
                             style: TextStyle(
                               color: const Color(0xFFFFB20E),
                               fontSize: 12.sp,
@@ -70,6 +70,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                               ),
                             ],
                           ),
+                        )
                         ),
                       ],
                     ),
