@@ -56,6 +56,7 @@ class ImageUtils {
   static const String icon_send = 'assets/images/icon_send.png';
   static const String empty = 'assets/images/empty.webp';
   static const String tab_pc_icon = 'assets/images/tab_pc_icon.webp';
+  static const String tab_favorite_icon = 'assets/images/tab_favorite_icon.webp';
   static const String tab_console_icon = 'assets/images/tab_console_icon.webp';
   static const String tab_racing_icon = 'assets/images/tab_racing_icon.webp';
   static const String bubble_tea_store_icon = 'assets/images/bubble_tea_store_icon.webp';

@@ -306,39 +306,41 @@ class TabBubbleTeaPage extends StatelessWidget {
               ),
             ),
             14.horizontalSpace,
-            Text(
-              '£${ctr.totalPrice.value}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
             Expanded(
-              child: Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Discount：-0.0 ',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 12.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white.withOpacity(0.6),
-                          size: 14.sp,
-                        ),
-                      ),
-                    ],
-                  ),
+              child: Text(
+                '£${ctr.totalPrice.value}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.sp,
+                  fontFamily: FONT_MEDIUM,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
+            // Expanded(
+            //   child: Center(
+            //     child: RichText(
+            //       text: TextSpan(
+            //         text: 'Discount：-0.0 ',
+            //         style: TextStyle(
+            //           color: Colors.white.withOpacity(0.6),
+            //           fontSize: 12.sp,
+            //           fontFamily: FONT_MEDIUM,
+            //           fontWeight: FontWeight.w400,
+            //         ),
+            //         children: [
+            //           WidgetSpan(
+            //             child: Icon(
+            //               Icons.arrow_forward_ios,
+            //               color: Colors.white.withOpacity(0.6),
+            //               size: 14.sp,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () => Get.to(() => BubbleConfirmOrderPage()),
               child: Container(
@@ -470,7 +472,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '£ ${ctr.selectTeaList[i].price}',
+                '£ ${ctr.getPrice(i)}',
                 style: TextStyle(
                   color: Color(0xFFFFB20E),
                   fontSize: 16.sp,

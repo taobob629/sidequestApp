@@ -115,8 +115,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                               selectSize: 1,
                               tagList: ctr.sizeTags,
                               isDefaultSelectFirst: true,
-                              onTagPress: (tagBean) =>
-                                  ctr.model.value.selectSize = tagBean,
+                              onTagPress: (tagBean, isAdd) => ctr.selectSize(tagBean),
                             ),
                           if (ctr.iceTags.isNotEmpty)
                             commonWidget(
@@ -124,8 +123,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                               selectSize: 1,
                               isDefaultSelectFirst: true,
                               tagList: ctr.iceTags,
-                              onTagPress: (tagBean) =>
-                                  ctr.model.value.selectIce = tagBean,
+                              onTagPress: (tagBean, isAdd) => ctr.selectIce(tagBean),
                             ),
                           if (ctr.sugarTags.isNotEmpty)
                             commonWidget(
@@ -133,8 +131,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                               selectSize: 1,
                               isDefaultSelectFirst: true,
                               tagList: ctr.sugarTags,
-                              onTagPress: (tagBean) =>
-                                  ctr.model.value.selectSugar = tagBean,
+                              onTagPress: (tagBean, isAdd) => ctr.selectSugar(tagBean),
                             ),
                           if (ctr.toppingTags.isNotEmpty)
                             commonWidget(
@@ -142,13 +139,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                               selectSize: 2,
                               isDefaultSelectFirst: true,
                               tagList: ctr.toppingTags,
-                              onTagPress: (tagBean) {
-                                ctr.model.value.selectTopping.removeWhere(
-                                    (element) =>
-                                        element.name == tagBean.name &&
-                                        element.value == tagBean.value);
-                                ctr.model.value.selectTopping.add(tagBean);
-                              },
+                              onTagPress: (tagBean, isAdd) => ctr.selectToppings(tagBean, isAdd),
                             ),
                         ],
                       ),
@@ -170,7 +161,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
     required int selectSize,
     required bool isDefaultSelectFirst,
     required List<TagBean> tagList,
-    required Function(TagBean) onTagPress,
+    required Function(TagBean, bool isAdd) onTagPress,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +181,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
             isDefaultSelectFirst: isDefaultSelectFirst,
             wrapSpacing: 10.w,
             wrapRunSpacing: 10.h,
-            onTagPress: (TagBean tagBean) => onTagPress(tagBean),
+            onTagPress: (TagBean tagBean, bool isAdd) => onTagPress(tagBean, isAdd),
             tagContainerPadding: EdgeInsets.symmetric(
               vertical: 6.h,
               horizontal: 15.w,
@@ -241,7 +232,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
         child: Row(
           children: [
             Obx(() => badges.Badge(
-                  showBadge: ctr.count.value > 0,
+                  showBadge: ctr.count.value > 0 && !ctr.showAddToCart.value,
                   badgeContent: Text(
                     '${ctr.count.value}',
                     style: TextStyle(
@@ -312,15 +303,13 @@ class BubbleTeaDetailPage extends StatelessWidget {
 
   Widget qualityWidget() => Row(
         children: [
-          Obx(() => InkWell(
-                onTap: () => ctr.minusMoney(),
-                child: Icon(
-                  Icons.remove_circle_outline,
-                  color: ctr.count.value == 1
-                      ? Colors.white.withOpacity(0.6)
-                      : Colors.white,
-                ),
-              )),
+          InkWell(
+            onTap: () => ctr.minusMoney(),
+            child: Icon(
+              Icons.remove_circle_outline,
+              color: Colors.white,
+            ),
+          ),
           Obx(() => Text(
                 '${ctr.count.value}',
                 style: TextStyle(

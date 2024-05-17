@@ -10,7 +10,8 @@ class SimpleTags extends StatelessWidget {
 
   var selectStr = <String>[].obs;
 
-  final Function(TagBean)? onTagPress;
+  // bool：true添加，false删除
+  final Function(TagBean, bool)? onTagPress;
 
   final Function(String)? onTagDoubleTap;
 
@@ -150,20 +151,22 @@ class SimpleTags extends StatelessWidget {
           selectStr: selectStr.value,
           onPressed: () {
             if (onTagPress != null) {
-              onTagPress!(content[i]);
               if (!selectStr.contains(tag)) {
                 if (1 == selectSize) {
                   // 单选
                   selectStr.clear();
                   selectStr.add(tag);
+                  onTagPress!(content[i], true);
                 } else {
                   // 多选
                   if (selectStr.length < selectSize) {
                     selectStr.add(tag);
+                    onTagPress!(content[i], true);
                   }
                 }
               } else {
                 selectStr.remove(tag);
+                onTagPress!(content[i], false);
               }
             }
           },

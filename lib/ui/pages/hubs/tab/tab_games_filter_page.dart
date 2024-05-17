@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../api/index_api.dart';
-import '../../../../common/getx_list_controller.dart';
+import '../../../../common/empty_view.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/beans/games_left_tab_bean.dart';
 import '../../../../model/game_model.dart';
@@ -28,7 +28,8 @@ class TabGamesFilterPage extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (c, i) => Obx(() => GestureDetector(
                           behavior: HitTestBehavior.translucent,
-                          onTap: () => controller.clickLeftTab(i, controller.leftTabs[i].name),
+                          onTap: () => controller.clickLeftTab(
+                              i, controller.leftTabs[i].name),
                           child: Container(
                             width: 74.w,
                             height: i != 2 ? 80.h : 90.h,
@@ -86,38 +87,43 @@ class TabGamesFilterPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: GridView.builder(
-                    itemCount: controller.list.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemBuilder: (BuildContext context, int index) => Column(
-                      children: [
-                        ImageUtil.networkImage(
-                          url: "${controller.list[index].image}",
-                          width: 120.w,
-                          height: 120.w,
-                          fit: BoxFit.cover,
-                          border: 8.r,
-                        ),
-                        10.verticalSpace,
-                        Text(
-                          '${controller.list[index].name}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
+                  child: controller.list.isNotEmpty
+                      ? GridView.builder(
+                          itemCount: controller.list.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.8,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          itemBuilder: (BuildContext context, int index) =>
+                              Column(
+                            children: [
+                              ImageUtil.networkImage(
+                                url: "${controller.list[index].image}",
+                                width: 120.w,
+                                height: 120.w,
+                                fit: BoxFit.cover,
+                                border: 8.r,
+                              ),
+                              10.verticalSpace,
+                              Text(
+                                '${controller.list[index].name}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
                         )
-                      ],
-                    ),
-                  ),
+                      : Center(
+                          child: EmptyView(),
+                        ),
                 ),
                 15.horizontalSpace,
               ],
@@ -132,6 +138,7 @@ class TabGamesFilterController extends GetxController {
     GamesLeftTabBean(name: "PC".tr, icon: ImageUtils.tab_pc_icon),
     GamesLeftTabBean(name: "Console".tr, icon: ImageUtils.tab_console_icon),
     GamesLeftTabBean(name: "Racing\nsims".tr, icon: ImageUtils.tab_racing_icon),
+    GamesLeftTabBean(name: "Favorite".tr, icon: ImageUtils.tab_favorite_icon),
   ];
 
   var selectLeftTabIndex = 0.obs;
@@ -148,11 +155,24 @@ class TabGamesFilterController extends GetxController {
 
   void requestData() async {
     totalList = await IndexApi.getGames();
-    list.assignAll(totalList.firstWhere((element) => "pc".contains(element.type?.toLowerCase() ?? '')).list);
+    list.assignAll(totalList
+        .firstWhere(
+            (element) => "pc".contains(element.type?.toLowerCase() ?? ''))
+        .list);
   }
 
   void clickLeftTab(int i, String clickTabName) {
     selectLeftTabIndex.value = i;
-    list.assignAll(totalList.firstWhere((element) => clickTabName.toLowerCase().contains(element.type?.toLowerCase() ?? '')).list);
+    final result = totalList
+        .where((element) => clickTabName
+            .toLowerCase()
+            .contains(element.type?.toLowerCase() ?? ''))
+        .toList();
+
+    if (result.isNotEmpty) {
+      list.assignAll(result.first.list);
+    } else {
+      list.clear();
+    }
   }
 }

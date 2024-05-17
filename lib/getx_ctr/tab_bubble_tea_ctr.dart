@@ -58,6 +58,21 @@ class TabBubbleTeaCtr extends GetxController {
     }
   }
 
+  String getPrice(int i) {
+    String paramsPrice = (selectTeaList[i].selectSize?.value ?? "0")
+        .add(selectTeaList[i].selectIce?.value ?? "0")
+        .add(selectTeaList[i].selectSugar?.value ?? "0")
+        .add(selectTeaList[i].selectTopping[0].value);
+    if (selectTeaList[i].selectTopping.length > 1) {
+      paramsPrice = (selectTeaList[i].selectSize?.value ?? "0")
+          .add(selectTeaList[i].selectIce?.value ?? "0")
+          .add(selectTeaList[i].selectSugar?.value ?? "0")
+          .add(selectTeaList[i].selectTopping[0].value)
+          .add(selectTeaList[i].selectTopping[1].value);
+    }
+    return (selectTeaList[i].price ?? "0").add(paramsPrice);
+  }
+
   void requestStoreInDataByStoreId(int? storeId, bool isShowLoading) async {
     if (isShowLoading) showLoading();
     final list = await Future.wait([
@@ -94,8 +109,22 @@ class TabBubbleTeaCtr extends GetxController {
     totalCount.value = 0;
     Decimal total = Decimal.parse("0");
     for (GoodsDetailModel item in selectTeaList) {
-      total += Decimal.parse((item.price ?? "0").mul(item.count.toString()));
       totalCount += item.count;
+
+      String paramsPrice = (item.selectSize?.value ?? "0")
+          .add(item.selectIce?.value ?? "0")
+          .add(item.selectSugar?.value ?? "0")
+          .add(item.selectTopping[0].value);
+      if (item.selectTopping.length > 1) {
+        paramsPrice = (item.selectSize?.value ?? "0")
+            .add(item.selectIce?.value ?? "0")
+            .add(item.selectSugar?.value ?? "0")
+            .add(item.selectTopping[0].value)
+            .add(item.selectTopping[1].value);
+      }
+
+      total += Decimal.parse(
+          (item.price ?? "0").add(paramsPrice).mul(item.count.toString()));
     }
     totalPrice.value = total.toString();
   }

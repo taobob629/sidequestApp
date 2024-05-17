@@ -66,7 +66,6 @@ class GoodsDetailModel {
         "sugar": List<dynamic>.from(sugar.map((x) => x.toJson())),
       };
 
-  // 深拷贝构造函数
   GoodsDetailModel.deepCopy(GoodsDetailModel original)
       : this.brief = original.brief,
         this.image = original.image,
@@ -103,7 +102,6 @@ class GoodsParams {
         "name": name,
       };
 
-  // 深拷贝构造函数
   GoodsParams.deepCopy(GoodsParams original)
       : this.price = original.price,
         this.name = original.name;

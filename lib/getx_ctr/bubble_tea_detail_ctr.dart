@@ -16,7 +16,7 @@ class BubbleTeaDetailCtr extends GetxController {
   var sugarTags = <TagBean>[].obs;
 
   var totalMoney = "0".obs;
-  var count = 0.obs;
+  var count = 1.obs;
 
   late Map<String, dynamic> map;
 
@@ -34,8 +34,6 @@ class BubbleTeaDetailCtr extends GetxController {
     showLoading();
     model.value = await HubsApi.goodDetail(map["id"]);
     dismissLoading();
-
-    totalMoney.value = model.value.price.toString();
 
     sizeTags.clear();
     model.value.cpusize.forEach((element) {
@@ -70,36 +68,62 @@ class BubbleTeaDetailCtr extends GetxController {
     if (toppingTags.isNotEmpty) {
       model.value.selectTopping.assign(toppingTags[0]);
     }
+
+    calculateTotalPrice();
   }
 
   void addToCart() {
     showAddToCart.value = false;
-    count.value++;
-    calculatePrice();
+    calculateOutPrice();
   }
 
   void addMoney() {
     count.value++;
-    totalMoney.value = (model.value.price ?? "0").mul(count.value.toString());
 
-    calculatePrice();
+    calculateTotalPrice();
+    calculateOutPrice();
+  }
+
+  void calculateTotalPrice() {
+    // 选择参数后的价格
+    String paramsPrice = (model.value.selectSize?.value ?? "0")
+        .add(model.value.selectIce?.value ?? "0")
+        .add(model.value.selectSugar?.value ?? "0")
+        .add(model.value.selectTopping[0].value);
+    if (model.value.selectTopping.length > 1) {
+      paramsPrice = (model.value.selectSize?.value ?? "0")
+          .add(model.value.selectIce?.value ?? "0")
+          .add(model.value.selectSugar?.value ?? "0")
+          .add(model.value.selectTopping[0].value)
+          .add(model.value.selectTopping[1].value);
+    }
+
+    totalMoney.value =
+        (model.value.price ?? "0").add(paramsPrice).mul(count.value.toString());
   }
 
   void minusMoney() {
     if (count.value > 1) {
       count.value--;
-      totalMoney.value = (model.value.price ?? "0").mul(count.value.toString());
+      calculateTotalPrice();
 
-      calculatePrice();
+      calculateOutPrice();
+    } else {
+      count.value = 1;
+      calculateTotalPrice();
+      showAddToCart.value = true;
+
+      TabBubbleTeaCtr.find.selectTeaList.clear();
+      TabBubbleTeaCtr.find.calculateTotal();
     }
   }
 
-  void calculatePrice() {
+  void calculateOutPrice() {
     GoodsDetailModel cacheModel = GoodsDetailModel.deepCopy(model.value);
     cacheModel.count = count.value;
 
     final result =
-    TabBubbleTeaCtr.find.selectTeaList.firstWhereOrNull((element) {
+        TabBubbleTeaCtr.find.selectTeaList.firstWhereOrNull((element) {
       if (cacheModel.selectTopping.length == 1) {
         return element.id == cacheModel.id &&
             element.brief == cacheModel.brief &&
@@ -141,5 +165,33 @@ class BubbleTeaDetailCtr extends GetxController {
     }
 
     TabBubbleTeaCtr.find.calculateTotal();
+  }
+
+  void selectSize(TagBean tagBean) {
+    model.value.selectSize = tagBean;
+
+    calculateTotalPrice();
+  }
+
+  void selectIce(TagBean tagBean) {
+    model.value.selectIce = tagBean;
+
+    calculateTotalPrice();
+  }
+
+  void selectSugar(TagBean tagBean) {
+    model.value.selectSugar = tagBean;
+
+    calculateTotalPrice();
+  }
+
+  void selectToppings(TagBean tagBean, bool isAdd) {
+    model.value.selectTopping.removeWhere((element) =>
+        element.name == tagBean.name && element.value == tagBean.value);
+    if (isAdd) {
+      model.value.selectTopping.add(tagBean);
+    }
+
+    calculateTotalPrice();
   }
 }
