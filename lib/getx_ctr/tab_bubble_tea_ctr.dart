@@ -101,11 +101,15 @@ class TabBubbleTeaCtr extends GetxController {
       selectTeaList[i].count -= 1;
     } else {
       selectTeaList.removeWhere((element) => element.id == selectTeaList[i].id);
+      if (selectTeaList.isEmpty) {
+        dismissLoading();
+      }
     }
     calculateTotal();
   }
 
   void calculateTotal() {
+    selectTeaList.refresh();
     totalCount.value = 0;
     Decimal total = Decimal.parse("0");
     for (GoodsDetailModel item in selectTeaList) {

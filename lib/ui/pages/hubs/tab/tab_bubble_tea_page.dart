@@ -276,7 +276,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                   onDismiss: () => ctr.isShowDrinkNow.value = true,
                 );
               },
-              child: badges.Badge(
+              child: Obx(() => badges.Badge(
                 showBadge: ctr.selectTeaList.isNotEmpty,
                 badgeContent: Text(
                   '${ctr.totalCount.value}',
@@ -303,11 +303,11 @@ class TabBubbleTeaPage extends StatelessWidget {
                     scale: 2,
                   ),
                 ),
-              ),
+              )),
             ),
             14.horizontalSpace,
             Expanded(
-              child: Text(
+              child: Obx(() => Text(
                 '£${ctr.totalPrice.value}',
                 style: TextStyle(
                   color: Colors.white,
@@ -315,7 +315,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                   fontFamily: FONT_MEDIUM,
                   fontWeight: FontWeight.w600,
                 ),
-              ),
+              )),
             ),
             // Expanded(
             //   child: Center(
@@ -392,7 +392,7 @@ class TabBubbleTeaPage extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: RichText(
+                  child: Obx(() => RichText(
                     text: TextSpan(
                       text: "${ctr.selectTeaList.length}  ",
                       style: TextStyle(
@@ -413,7 +413,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ).paddingOnly(left: 16.w),
+                  ).paddingOnly(left: 16.w)),
                 ),
                 InkWell(
                   onTap: () => ctr.clearTea(),
@@ -480,15 +480,13 @@ class TabBubbleTeaPage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ).paddingSymmetric(horizontal: 10.w),
-              Obx(() => InkWell(
-                    onTap: () => ctr.minusMoney(i),
-                    child: Icon(
-                      Icons.remove_circle_outline,
-                      color: ctr.selectTeaList[i].count == 1
-                          ? Colors.white.withOpacity(0.6)
-                          : Colors.white,
-                    ),
-                  )),
+              InkWell(
+                onTap: () => ctr.minusMoney(i),
+                child: Icon(
+                  Icons.remove_circle_outline,
+                  color: Colors.white,
+                ),
+              ),
               Obx(() => Text(
                     '${ctr.selectTeaList[i].count}',
                     style: TextStyle(
