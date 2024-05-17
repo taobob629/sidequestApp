@@ -7,10 +7,12 @@ import 'package:sq_hub_app/utils/toast_utils.dart';
 import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
 import '../model/bubble_tea_store_model.dart';
+import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
 import '../service/location_service.dart';
 import '../utils/geolocator_utils.dart';
+import '../widget/tag/tag_bean.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
@@ -21,7 +23,8 @@ class TabBubbleTeaCtr extends GetxController {
   var storesList = <BubbleTeaStoreModel>[].obs;
 
   var isShowDrinkNow = true.obs;
-  var selectTeaList = <StoreTeaModel>[].obs;
+  var selectTeaList = <GoodsDetailModel>[].obs;
+  var totalCount = 0.obs;
   var totalPrice = "0".obs;
   var currentSelectStore = BubbleTeaStoreModel().obs;
   var distances = 0.0.obs;
@@ -73,38 +76,26 @@ class TabBubbleTeaCtr extends GetxController {
     }
   }
 
-  void addTea(int i) {
-    final result = selectTeaList
-        .firstWhereOrNull((element) => element.id == teaList[i].id);
-    if (result == null) {
-      selectTeaList.add(teaList[i]);
-      showSuccess("Successful.".tr);
-    } else {
-      showError("You've already added it.".tr);
-    }
-
-    totalPrice.value = selectTeaList.fold<String>(
-        "0",
-        (previousValue, element) =>
-            previousValue.add(element.retailPrice ?? "0"));
-  }
-
   void addMoney(int i) {
-    selectTeaList[i].count.value += 1;
+    selectTeaList[i].count += 1;
     calculateTotal();
   }
 
   void minusMoney(int i) {
-    if (selectTeaList[i].count.value > 1) {
-      selectTeaList[i].count.value -= 1;
-      calculateTotal();
+    if (selectTeaList[i].count > 1) {
+      selectTeaList[i].count -= 1;
+    } else {
+      selectTeaList.removeWhere((element) => element.id == selectTeaList[i].id);
     }
+    calculateTotal();
   }
 
   void calculateTotal() {
+    totalCount.value = 0;
     Decimal total = Decimal.parse("0");
-    for (StoreTeaModel item in selectTeaList) {
-      total += Decimal.parse(item.getTotalPrice());
+    for (GoodsDetailModel item in selectTeaList) {
+      total += Decimal.parse((item.price ?? "0").mul(item.count.toString()));
+      totalCount += item.count;
     }
     totalPrice.value = total.toString();
   }
@@ -135,6 +126,7 @@ class TabBubbleTeaCtr extends GetxController {
 
   void clearTea() {
     selectTeaList.clear();
+    calculateTotal();
     dismissLoading();
   }
 
@@ -147,6 +139,7 @@ class TabBubbleTeaCtr extends GetxController {
       TeaCategoryModel model = value as TeaCategoryModel;
       categoryStr.value = model.name ?? '';
       showLoading();
+
       teaList.assignAll(
           await HubsApi.getTeaList(currentSelectStore.value.id, model.id));
       dismissLoading();

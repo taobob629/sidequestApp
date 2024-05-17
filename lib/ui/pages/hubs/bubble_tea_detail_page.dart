@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/config/app_color.dart';
 import 'package:sq_hub_app/image_utils.dart';
@@ -7,8 +9,8 @@ import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/icon_font.dart';
 import '../../../getx_ctr/bubble_tea_detail_ctr.dart';
-import '../../../getx_ctr/bundles_detail_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
+import '../../../utils/toast_utils.dart';
 import '../../../widget/tag/simple_tags.dart';
 import '../../../widget/tag/tag_bean.dart';
 
@@ -107,71 +109,46 @@ class BubbleTeaDetailPage extends StatelessWidget {
                               ),
                             ).paddingOnly(left: 16.w, top: 16.h),
                           ),
-                          20.verticalSpace,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'Quantity',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ).paddingOnly(left: 16.w),
-                              ),
-                              InkWell(
-                                onTap: () => ctr.minusMoney(),
-                                child: Icon(
-                                  Icons.remove_circle_outline,
-                                  color: ctr.count.value == 1
-                                      ? Colors.white.withOpacity(0.6)
-                                      : Colors.white,
-                                ),
-                              ),
-                              Obx(() => Text(
-                                    '${ctr.count.value}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.sp,
-                                      fontFamily: FONT_LIGHT,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ).paddingSymmetric(horizontal: 15.w)),
-                              InkWell(
-                                onTap: () => ctr.addMoney(),
-                                child: Icon(
-                                  Icons.add_circle_outline,
-                                  color: hexColor('#FFB20E'),
-                                ),
-                              ),
-                              16.horizontalSpace,
-                            ],
-                          ),
                           if (ctr.sizeTags.isNotEmpty)
                             commonWidget(
                               title: "Size",
                               selectSize: 1,
                               tagList: ctr.sizeTags,
+                              isDefaultSelectFirst: true,
+                              onTagPress: (tagBean) =>
+                                  ctr.model.value.selectSize = tagBean,
                             ),
                           if (ctr.iceTags.isNotEmpty)
                             commonWidget(
                               title: "Ice Level",
                               selectSize: 1,
+                              isDefaultSelectFirst: true,
                               tagList: ctr.iceTags,
+                              onTagPress: (tagBean) =>
+                                  ctr.model.value.selectIce = tagBean,
                             ),
                           if (ctr.sugarTags.isNotEmpty)
                             commonWidget(
                               title: "Sugar",
                               selectSize: 1,
+                              isDefaultSelectFirst: true,
                               tagList: ctr.sugarTags,
+                              onTagPress: (tagBean) =>
+                                  ctr.model.value.selectSugar = tagBean,
                             ),
                           if (ctr.toppingTags.isNotEmpty)
                             commonWidget(
                               title: "Toppings",
                               selectSize: 2,
+                              isDefaultSelectFirst: true,
                               tagList: ctr.toppingTags,
+                              onTagPress: (tagBean) {
+                                ctr.model.value.selectTopping.removeWhere(
+                                    (element) =>
+                                        element.name == tagBean.name &&
+                                        element.value == tagBean.value);
+                                ctr.model.value.selectTopping.add(tagBean);
+                              },
                             ),
                         ],
                       ),
@@ -182,68 +159,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: Container(
-                    width: 1.sw,
-                    height: 60.h,
-                    decoration: ShapeDecoration(
-                      color: hexColor('141517'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20.r),
-                          topRight: Radius.circular(20.r),
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Obx(() => Expanded(
-                              child: Text(
-                                '£ ${ctr.totalMoney.value}',
-                                style: TextStyle(
-                                  color: const Color(0xFFFFB20E),
-                                  fontSize: 24.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ).paddingOnly(left: 16.w),
-                            )),
-                        InkWell(
-                          onTap: () => ctr.addTea(),
-                          child: Container(
-                            height: 40.h,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            margin: EdgeInsets.only(right: 16.w),
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFFFFB20E),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  ImageUtils.add_to_cart_icon,
-                                ),
-                                6.horizontalSpace,
-                                Text(
-                                  'Add To Cart',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: addToCartWidget(16.w),
                 ),
               ],
             )),
@@ -252,7 +168,9 @@ class BubbleTeaDetailPage extends StatelessWidget {
   Widget commonWidget({
     required String title,
     required int selectSize,
+    required bool isDefaultSelectFirst,
     required List<TagBean> tagList,
+    required Function(TagBean) onTagPress,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,9 +187,10 @@ class BubbleTeaDetailPage extends StatelessWidget {
           SimpleTags(
             content: tagList,
             selectSize: selectSize,
+            isDefaultSelectFirst: isDefaultSelectFirst,
             wrapSpacing: 10.w,
             wrapRunSpacing: 10.h,
-            onTagPress: (TagBean tagBean) {},
+            onTagPress: (TagBean tagBean) => onTagPress(tagBean),
             tagContainerPadding: EdgeInsets.symmetric(
               vertical: 6.h,
               horizontal: 15.w,
@@ -303,6 +222,122 @@ class BubbleTeaDetailPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.r),
             ),
           ).paddingOnly(left: 16.w, top: 10.h, right: 16.w),
+        ],
+      );
+
+  Widget addToCartWidget(double horizontal) => Container(
+        width: 1.sw,
+        height: 60.h,
+        decoration: ShapeDecoration(
+          color: hexColor('141517'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.r),
+              topRight: Radius.circular(20.r),
+            ),
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: horizontal),
+        child: Row(
+          children: [
+            Obx(() => badges.Badge(
+                  showBadge: ctr.count.value > 0,
+                  badgeContent: Text(
+                    '${ctr.count.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                  badgeColor: hexColor('FF4848'),
+                  position: badges.BadgePosition(top: -8.h),
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 44.w,
+                    height: 44.w,
+                    decoration: ShapeDecoration(
+                      color: hexColor('141517'),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1.w, color: hexColor('FFB20E')),
+                        borderRadius: BorderRadius.circular(60.r),
+                      ),
+                    ),
+                    child: Image.asset(
+                      ImageUtils.drink_now_icon,
+                      scale: 2,
+                    ),
+                  ),
+                )),
+            14.horizontalSpace,
+            Expanded(
+              child: Obx(() => Text(
+                    '£${ctr.totalMoney.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )),
+            ),
+            Obx(() => !ctr.showAddToCart.value
+                ? qualityWidget()
+                : InkWell(
+                    onTap: () => ctr.addToCart(),
+                    child: Container(
+                      width: 100.w,
+                      height: 44.w,
+                      decoration: ShapeDecoration(
+                        color: hexColor('FFB20E'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Add To Cart',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  )),
+          ],
+        ),
+      );
+
+  Widget qualityWidget() => Row(
+        children: [
+          Obx(() => InkWell(
+                onTap: () => ctr.minusMoney(),
+                child: Icon(
+                  Icons.remove_circle_outline,
+                  color: ctr.count.value == 1
+                      ? Colors.white.withOpacity(0.6)
+                      : Colors.white,
+                ),
+              )),
+          Obx(() => Text(
+                '${ctr.count.value}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontFamily: FONT_LIGHT,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).paddingSymmetric(horizontal: 15.w)),
+          InkWell(
+            onTap: () => ctr.addMoney(),
+            child: Icon(
+              Icons.add_circle_outline,
+              color: hexColor('#FFB20E'),
+            ),
+          ),
+          16.horizontalSpace,
         ],
       );
 }

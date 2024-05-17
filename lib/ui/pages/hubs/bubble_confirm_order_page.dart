@@ -337,7 +337,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
           Column(
             children: [
               Text(
-                '£${TabBubbleTeaCtr.find.selectTeaList[i].retailPrice}',
+                '£${TabBubbleTeaCtr.find.selectTeaList[i].price}',
                 style: TextStyle(
                   color: Color(0xFFFFB20E),
                   fontSize: 16.sp,
