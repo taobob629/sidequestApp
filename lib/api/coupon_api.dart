@@ -51,15 +51,10 @@ class CouponApi {
     return list;
   }
 
-  static Future<List<CouponModel>> listCoupon(int type) async {
-    var response = await http.get('/app/coupon/listCoupon?couponType=$type');
-    List<CouponModel> list = response.data
-        .map<CouponModel>((item) => CouponModel.fromJson(
-              item,
-              needHourMinSec: true,
-            ))
-        .toList();
-    return list;
+  static Future<CouponOurModel> listCoupon(int type) async {
+    var response = await http.get('/sideQuest/app/sq/user/listCoupon?couponType=$type');
+    CouponOurModel result = CouponOurModel.fromJson(response.data);
+    return result;
   }
 
   static Future<String?> add(String code) async {

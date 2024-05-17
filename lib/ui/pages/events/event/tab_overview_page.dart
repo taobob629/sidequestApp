@@ -22,7 +22,10 @@ class TabOverviewPage extends StatelessWidget {
       child: Column(
         children: [
           _buildSectionTop(),
-          _buildSectionBottom(),
+          Visibility(
+            visible: controller.eventDetailModel.value.generalInfo != "",
+            child: _buildSectionBottom(),
+          ),
           Container(
             height: 100,
           )
@@ -37,93 +40,98 @@ class TabOverviewPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           decoration: itemDecoration(),
           child: Column(
-            children:controller.eventDetailModel.value.matchDiff==TYPE_PRIZE?[
-              _buildSectionTopItem(
-                "time".tr,
-                "Draw Time".tr,
-                "${controller.eventDetailModel.value.start.toDateStr}",
-              ),
-              _buildSectionTopItem(
-                "people".tr,
-                "Participants".tr,
-                "${controller.eventDetailModel.value.participantNum}",
-              ),
-              _buildSectionTopItem(
-                "fee".tr,
-                "Price".tr,
-                "${controller.eventDetailModel.value.fee}",
-              ),
-              _buildSectionTopItem(
-                "day".tr,
-                "Constraint".tr,
-                "${controller.eventDetailModel.value.constraint}",
-              ),
-              _buildSectionTopItem(
-                "day".tr,
-                "Formation".tr,
-                "${controller.eventDetailModel.value.formation}",
-              ),
-            ]: [
-              // _buildSectionTopItem("time", "Check In", "${controller.eventDetailModel.value.checkinTime}"),
-              // _buildSectionTopItem("day", "Event Time", "${controller.eventDetailModel.value.startTime}"),
-              // controller.type == 2 ? _buildSectionTopItem("game", "Game", "${controller.eventDetailModel.value.gameName}") : Container(),
-              // _buildSectionTopItem("people", "Participants", "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}"),
-              // controller.type == 2 ? _buildSectionTopItem("device", "Equipment", "${controller.eventDetailModel.value.equipment}") : Container(),
-              // _buildSectionTopItem(
-              //   "fee",
-              //   "Price",
-              //   "£ ${controller.eventDetailModel.value.fee}",
-              //   align: CrossAxisAlignment.start,
-              // ),
-              // _buildSectionTopItem("online", "Location", "${controller.eventDetailModel.value.getLocationList()}", align: CrossAxisAlignment.start),
-              _buildSectionTopItem(
-                "time".tr,
-                "Start Time".tr,
-                "${controller.eventDetailModel.value.start.toDateStr}",
-              ),
-              controller.type == 0
-                  ? _buildSectionTopItem(
-                      "time".tr, "Check In".tr, "${controller.eventDetailModel.value.checkin.toDateStr}")
-                  : Container(),
-              _buildSectionTopItem(
-                "fee".tr,
-                "Price".tr,
-                "£ ${controller.eventDetailModel.value.fee}",
-                align: CrossAxisAlignment.start,
-              ),
-              _buildSectionTopItem(
-                "day".tr,
-                "Constraint".tr,
-                "${controller.eventDetailModel.value.constraint}",
-              ),
-              _buildSectionTopItem(
-                "day".tr,
-                "Formation".tr,
-                "${controller.eventDetailModel.value.formation}",
-              ),
-              controller.type == 0
-                  ? _buildSectionTopItem(
-                      "game".tr, "Game".tr, "${controller.eventDetailModel.value.gameName}")
-                  : Container(),
-              // _buildSectionTopItem("people", "Participants", "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}"),
-              // controller.type == 0 ? _buildSectionTopItem("device", "Equipment", "${controller.eventDetailModel.value.equipment}") : Container(),
-              // _buildSectionTopItem(
-              //   "fee",
-              //   "Price",
-              //   "£ ${controller.eventDetailModel.value.fee}",
-              //   align: CrossAxisAlignment.start,
-              // ),
-              _buildSectionTopItem(
-                "online".tr,
-                "Location&Participants".tr,
-                List.generate(controller.eventDetailModel.value.location.length, (i) {
-                  var locationModel = controller.eventDetailModel.value.location[i];
-                  // return '\n${locationModel.name}\t\t${locationModel.join}/${locationModel.total}';
-                  return '${locationModel.name}';
-                }).join('\n'),
-                align: CrossAxisAlignment.start,
-              ),
-            ],
+            children: controller.eventDetailModel.value.matchDiff == TYPE_PRIZE
+                ? [
+                    _buildSectionTopItem(
+                      "time".tr,
+                      "Draw Time".tr,
+                      "${controller.eventDetailModel.value.start.toDateStr}",
+                    ),
+                    _buildSectionTopItem(
+                      "people".tr,
+                      "Participants".tr,
+                      "${controller.eventDetailModel.value.participantNum}",
+                    ),
+                    _buildSectionTopItem(
+                      "fee".tr,
+                      "Price".tr,
+                      "${controller.eventDetailModel.value.fee}",
+                    ),
+                    _buildSectionTopItem(
+                      "day".tr,
+                      "Constraint".tr,
+                      "${controller.eventDetailModel.value.constraint}",
+                    ),
+                    _buildSectionTopItem(
+                      "day".tr,
+                      "Formation".tr,
+                      "${controller.eventDetailModel.value.formation}",
+                    ),
+                  ]
+                : [
+                    // _buildSectionTopItem("time", "Check In", "${controller.eventDetailModel.value.checkinTime}"),
+                    // _buildSectionTopItem("day", "Event Time", "${controller.eventDetailModel.value.startTime}"),
+                    // controller.type == 2 ? _buildSectionTopItem("game", "Game", "${controller.eventDetailModel.value.gameName}") : Container(),
+                    // _buildSectionTopItem("people", "Participants", "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}"),
+                    // controller.type == 2 ? _buildSectionTopItem("device", "Equipment", "${controller.eventDetailModel.value.equipment}") : Container(),
+                    // _buildSectionTopItem(
+                    //   "fee",
+                    //   "Price",
+                    //   "£ ${controller.eventDetailModel.value.fee}",
+                    //   align: CrossAxisAlignment.start,
+                    // ),
+                    // _buildSectionTopItem("online", "Location", "${controller.eventDetailModel.value.getLocationList()}", align: CrossAxisAlignment.start),
+                    _buildSectionTopItem(
+                      "time".tr,
+                      "Start Time".tr,
+                      "${controller.eventDetailModel.value.start.toDateStr}",
+                    ),
+                    controller.type == 0
+                        ? _buildSectionTopItem("time".tr, "Check In".tr,
+                            "${controller.eventDetailModel.value.checkin.toDateStr}")
+                        : Container(),
+                    _buildSectionTopItem(
+                      "fee".tr,
+                      "Price".tr,
+                      "£ ${controller.eventDetailModel.value.fee}",
+                      align: CrossAxisAlignment.start,
+                    ),
+                    _buildSectionTopItem(
+                      "day".tr,
+                      "Constraint".tr,
+                      "${controller.eventDetailModel.value.constraint}",
+                    ),
+                    _buildSectionTopItem(
+                      "day".tr,
+                      "Formation".tr,
+                      "${controller.eventDetailModel.value.formation}",
+                    ),
+                    controller.type == 0
+                        ? _buildSectionTopItem("game".tr, "Game".tr,
+                            "${controller.eventDetailModel.value.gameName}")
+                        : Container(),
+                    // _buildSectionTopItem("people", "Participants", "${controller.eventDetailModel.value.participants.length}/${controller.eventDetailModel.value.totalMembers}"),
+                    // controller.type == 0 ? _buildSectionTopItem("device", "Equipment", "${controller.eventDetailModel.value.equipment}") : Container(),
+                    // _buildSectionTopItem(
+                    //   "fee",
+                    //   "Price",
+                    //   "£ ${controller.eventDetailModel.value.fee}",
+                    //   align: CrossAxisAlignment.start,
+                    // ),
+                    _buildSectionTopItem(
+                      "online".tr,
+                      "Location&Participants".tr,
+                      List.generate(
+                          controller.eventDetailModel.value.location.length,
+                          (i) {
+                        var locationModel =
+                            controller.eventDetailModel.value.location[i];
+                        // return '\n${locationModel.name}\t\t${locationModel.join}/${locationModel.total}';
+                        return '${locationModel.name}';
+                      }).join('\n'),
+                      align: CrossAxisAlignment.start,
+                    ),
+                  ],
           ),
         ));
   }
@@ -150,18 +158,23 @@ class TabOverviewPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10, top: 4),
               child: Text(
                 title,
-                style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 16),
+                style: TextStyle(
+                    color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 16),
               ),
             ),
             if (!title.contains('Location'.tr))
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(top: align == CrossAxisAlignment.start ? 6 : 0),
+                  padding: EdgeInsets.only(
+                      top: align == CrossAxisAlignment.start ? 6 : 0),
                   child: Text(
                     content,
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        color: iconColor, fontSize: 12, fontFamily: FONT_MEDIUM, height: 1.5),
+                        color: iconColor,
+                        fontSize: 12,
+                        fontFamily: FONT_MEDIUM,
+                        height: 1.5),
                   ),
                 ),
               )
@@ -171,7 +184,11 @@ class TabOverviewPage extends StatelessWidget {
           Text(
             content,
             textAlign: TextAlign.right,
-            style: TextStyle(color: iconColor, fontFamily: FONT_MEDIUM, fontSize: 12, height: 1.5),
+            style: TextStyle(
+                color: iconColor,
+                fontFamily: FONT_MEDIUM,
+                fontSize: 12,
+                height: 1.5),
           ),
       ], '111'),
     );
@@ -179,6 +196,7 @@ class TabOverviewPage extends StatelessWidget {
 
   Widget _buildSectionBottom() {
     return Obx(() => Container(
+        width: 1.sw,
         margin: const EdgeInsets.all(15),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         decoration: itemDecoration(),
@@ -189,14 +207,22 @@ class TabOverviewPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 "GENERAL INFORMATION".tr,
-                style: TextStyle(color: Colors.white, fontFamily: FONT_MEDIUM, fontSize: 16.sp),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: FONT_MEDIUM,
+                    fontSize: 16.sp),
               ),
             ),
             Html(
               data: controller.eventDetailModel.value.generalInfo,
-              style: {"body": Style(color: Colors.white54, lineHeight: LineHeight(2),fontFamily: FONT_MEDIUM)},
-              onLinkTap: (String? url, RenderContext context, Map<String, String> attributes,
-                  dom.Element? element) async {
+              style: {
+                "body": Style(
+                    color: Colors.white54,
+                    lineHeight: LineHeight(2),
+                    fontFamily: FONT_MEDIUM)
+              },
+              onLinkTap: (String? url, RenderContext context,
+                  Map<String, String> attributes, dom.Element? element) async {
                 if (url != null) {
                   await launch(url);
                 }

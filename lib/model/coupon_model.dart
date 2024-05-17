@@ -1,5 +1,26 @@
 import 'package:sq_hub_app/model/safe_convert.dart';
 
+class CouponOurModel {
+  late int gaming = 0;
+  late int product = 0;
+  late int event = 0;
+  late List<CouponModel> coupons = [];
+
+  CouponOurModel({
+    required this.gaming,
+    required this.product,
+    required this.coupons,
+    required this.event,
+  });
+
+  factory CouponOurModel.fromJson(Map<String, dynamic> json) => CouponOurModel(
+    gaming: json["gaming"],
+    product: json["product"],
+    coupons: json["coupons"] == null ? [] : List<CouponModel>.from(json["coupons"]!.map((x) => CouponModel.fromJson(x))),
+    event: json["event"],
+  );
+}
+
 class CouponModel {
   static const int AVILABLE = 1;
   late int id = 0;

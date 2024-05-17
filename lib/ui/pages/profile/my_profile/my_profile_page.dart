@@ -396,9 +396,9 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           ImageUtils.icon_vouchers,
                           "Vouchers".tr,
-                          onTap: () => Get.to(
-                            () => InvitePage(),
-                            arguments: "Invite".tr,
+                          onTap: () => NavigatorHelper.gotoCouponPage(
+                            couponType: 5,
+                            whenComplete: () => UserController.instance().updateInfo(),
                           ),
                         ),
                       ),
@@ -594,13 +594,13 @@ class MyProfilePage extends StatelessWidget {
                     whenComplete: () => UserController.instance().updateInfo(),
                   );
                 }),
-                achievementItem(
-                    t.user.value.checkTotal,
-                    ImageUtils.ic_coupons_points,
-                    "Points".tr,
-                    'Your Coupons'.tr,
-                    onTap: () => Get.to(() => IntegralHomePage())?.whenComplete(
-                        () => UserController.instance().updateInfo())),
+                // achievementItem(
+                //     t.user.value.checkTotal,
+                //     ImageUtils.ic_coupons_points,
+                //     "Points".tr,
+                //     'Your Coupons'.tr,
+                //     onTap: () => Get.to(() => IntegralHomePage())?.whenComplete(
+                //         () => UserController.instance().updateInfo())),
               ],
             ),
           ],

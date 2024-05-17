@@ -71,8 +71,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         10.verticalSpace,
                         Text(
-                          "Enter your email, username, or phone number to sign in"
-                              .tr,
+                          "Enter your SideQuest ID,email to sign in".tr,
                           style: TextStyle(
                             color: hexColor('#C5C3C6'),
                             fontFamily: "DIN",

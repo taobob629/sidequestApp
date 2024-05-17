@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:sq_hub_app/image_utils.dart';
 
 import '../../../../api/coupon_api.dart';
 import '../../../../common/floating_button.dart';
@@ -50,60 +52,64 @@ class CouponPage extends StatelessWidget {
           : null,
       body: Obx(() => controller.initializing.value
           ? buildLoad()
-          : Column(
-              children: [
-                TabBar(
-                  padding: EdgeInsets.zero,
-                  controller: controller.tabController,
-                  isScrollable: false,
-                  labelColor: Color(0xFFFFCB0D),
-                  unselectedLabelColor: AppColor.textC5C5,
-                  indicatorColor: Color(0xFFFFCB0D),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorWeight: 2,
-                  indicatorPadding: EdgeInsets.only(bottom: 5),
-                  labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                  labelStyle: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                  tabs: controller.createTabs(),
-                  onTap: (index) => controller.requestData(index),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 2,
-                      right: 2,
+          : controller.list.isEmpty
+              ? noDataEmpty()
+              : Column(
+                  children: [
+                    TabBar(
+                      padding: EdgeInsets.zero,
+                      controller: controller.tabController,
+                      isScrollable: false,
+                      labelColor: Color(0xFFFFCB0D),
+                      unselectedLabelColor: AppColor.textC5C5,
+                      indicatorColor: Color(0xFFFFCB0D),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorWeight: 2,
+                      indicatorPadding: EdgeInsets.only(bottom: 5),
+                      labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                      labelStyle: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      unselectedLabelStyle: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: FONT_MEDIUM,
+                      ),
+                      tabs: controller.createTabs(),
+                      onTap: (index) => controller.requestData(index),
                     ),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: 10.0,
-                              crossAxisSpacing: 10.0,
-                              childAspectRatio: 688 / 333),
-                      itemBuilder: (context, index) {
-                        CouponModel model = controller.list[index];
-                        return CouponItem(
-                          model: model,
-                          onTap: (model) => controller.selectCoupon(model),
-                        );
-                      },
-                      itemCount: controller.list.length,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          left: 2,
+                          right: 2,
+                        ),
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 10.0,
+                                  crossAxisSpacing: 10.0,
+                                  childAspectRatio: 688 / 333),
+                          itemBuilder: (context, index) {
+                            CouponModel model = controller.list[index];
+                            return CouponItem(
+                              model: model,
+                              onTap: (model) => controller.selectCoupon(model),
+                            );
+                          },
+                          itemCount: controller.list.length,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            )),
-      bottomNavigationBar: Obx(() => controller.floatingActionButtonShow.value
+                  ],
+                )),
+      bottomNavigationBar: Obx(() => controller
+                  .floatingActionButtonShow.value &&
+              controller.list.isNotEmpty
           ? FloatingButton(
               label: "ADD".tr,
               onTap: () => Get.dialog(
@@ -122,6 +128,28 @@ class CouponPage extends StatelessWidget {
           : Container()),
     );
   }
+
+  Widget noDataEmpty() => Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              ImageUtils.coupon_no_data_icon,
+              width: 116.w,
+            ),
+            Text(
+              'No updates~',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
+      );
 }
 
 class CouponPageController extends GetxListController<CouponModel> {
@@ -136,6 +164,9 @@ class CouponPageController extends GetxListController<CouponModel> {
   Map<String, dynamic>? preOrder;
   int type = 3;
   bool isFirstEnter = true;
+
+  var couponOurModel =
+      CouponOurModel(gaming: 0, product: 0, coupons: [], event: 0).obs;
 
   CouponPageController(
       {required this.payOrderModel,
@@ -179,15 +210,54 @@ class CouponPageController extends GetxListController<CouponModel> {
 
   List<Widget> createTabs() {
     List<Widget> tabs = [];
-    tabs.add(Text(
-      "Product".tr,
-    ));
-    tabs.add(Text(
-      "Gaming".tr,
-    ));
-    tabs.add(Text(
-      "Event".tr,
-    ));
+    tabs.add(Obx(() => badges.Badge(
+          showBadge: couponOurModel.value.product > 0,
+          badgeContent: Text(
+            '${couponOurModel.value.product}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 8.sp,
+            ),
+          ),
+          badgeColor: Color(0xffFF4848),
+          position: badges.BadgePosition(end: -13.w, top: -2.h),
+          alignment: Alignment.topRight,
+          child: Text(
+            "Product".tr,
+          ),
+        )));
+    tabs.add(Obx(() => badges.Badge(
+          showBadge: couponOurModel.value.gaming > 0,
+          badgeContent: Text(
+            '${couponOurModel.value.gaming}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 8.sp,
+            ),
+          ),
+          badgeColor: Color(0xffFF4848),
+          position: badges.BadgePosition(end: -13.w, top: -2.h),
+          alignment: Alignment.topRight,
+          child: Text(
+            "Gaming".tr,
+          ),
+        )));
+    tabs.add(Obx(() => badges.Badge(
+          showBadge: couponOurModel.value.event > 0,
+          badgeContent: Text(
+            '${couponOurModel.value.event}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 8.sp,
+            ),
+          ),
+          badgeColor: Color(0xffFF4848),
+          position: badges.BadgePosition(end: -13.w, top: -2.h),
+          alignment: Alignment.topRight,
+          child: Text(
+            "Event".tr,
+          ),
+        )));
 
     return tabs;
   }
@@ -211,7 +281,8 @@ class CouponPageController extends GetxListController<CouponModel> {
   @override
   Future<List<CouponModel>> loadData() async {
     //  showLoading();
-    List<CouponModel> couponList = await CouponApi.listCoupon(type);
+    couponOurModel.value = await CouponApi.listCoupon(type);
+    List<CouponModel> couponList = couponOurModel.value.coupons;
     // if (payOrderModel != null) {
     //   couponList = await CouponApi.avaList(payOrderModel!);
     // } else if (preOrder != null) {

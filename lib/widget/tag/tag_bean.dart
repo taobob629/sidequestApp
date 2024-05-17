@@ -16,4 +16,13 @@ class TagBean {
         "name": name,
         "value": value,
       };
+
+  // 深拷贝构造函数
+  TagBean.deepCopy(TagBean original)
+      : this.name = original.name,
+        this.value = original.value;
+
+  bool equals(TagBean? tagBean) {
+    return name == tagBean?.name && value == tagBean?.value;
+  }
 }

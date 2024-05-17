@@ -1,6 +1,3 @@
-import 'package:get/get.dart';
-import 'package:sq_hub_app/utils/decimal_utils.dart';
-
 class StoreTeaModel {
   int? id;
   int? storeId;
@@ -9,7 +6,7 @@ class StoreTeaModel {
   String? timeRange;
   String? printers;
   int? categoryId;
-  dynamic brief;
+  String? brief;
   int? isOnSale;
   dynamic sortOrder;
   dynamic picUrl;
@@ -34,7 +31,8 @@ class StoreTeaModel {
   String? name;
   dynamic onSale;
   String? image;
-  var count = 1.obs;
+  dynamic createTime;
+  dynamic updateTime;
 
   StoreTeaModel({
     this.id,
@@ -69,80 +67,81 @@ class StoreTeaModel {
     this.name,
     this.onSale,
     this.image,
+    this.createTime,
+    this.updateTime,
   });
 
   factory StoreTeaModel.fromJson(Map<String, dynamic> json) => StoreTeaModel(
-    id: json["id"],
-    storeId: json["storeId"],
-    commodityId: json["commodityId"],
-    selfAttr: json["selfAttr"],
-    timeRange: json["timeRange"],
-    printers: json["printers"],
-    categoryId: json["categoryId"],
-    brief: json["brief"],
-    isOnSale: json["isOnSale"],
-    sortOrder: json["sortOrder"],
-    picUrl: json["picUrl"],
-    isNew: json["isNew"],
-    isHot: json["isHot"],
-    unit: json["unit"],
-    memberPrice: json["memberPrice"],
-    retailPrice: json["retailPrice"],
-    detail: json["detail"],
-    tax: json["tax"],
-    orderByColumn: json["orderByColumn"],
-    isAsc: json["isAsc"],
-    storage: json["storage"],
-    historySelfAttr: json["historySelfAttr"],
-    specifications: json["specifications"],
-    threshold: json["threshold"],
-    subCategory: json["subCategory"],
-    vipOnly: json["vipOnly"],
-    voucher: json["voucher"],
-    material: json["material"],
-    categoryName: json["categoryName"],
-    name: json["name"],
-    onSale: json["onSale"],
-    image: json["image"],
-  );
+        id: json["id"],
+        storeId: json["storeId"],
+        commodityId: json["commodityId"],
+        selfAttr: json["selfAttr"],
+        timeRange: json["timeRange"],
+        printers: json["printers"],
+        categoryId: json["categoryId"],
+        brief: json["brief"],
+        isOnSale: json["isOnSale"],
+        sortOrder: json["sortOrder"],
+        picUrl: json["picUrl"],
+        isNew: json["isNew"],
+        isHot: json["isHot"],
+        unit: json["unit"],
+        memberPrice: json["memberPrice"],
+        retailPrice: json["retailPrice"],
+        detail: json["detail"],
+        tax: json["tax"],
+        orderByColumn: json["orderByColumn"],
+        isAsc: json["isAsc"],
+        storage: json["storage"],
+        historySelfAttr: json["historySelfAttr"],
+        specifications: json["specifications"],
+        threshold: json["threshold"],
+        subCategory: json["subCategory"],
+        vipOnly: json["vipOnly"],
+        voucher: json["voucher"],
+        material: json["material"],
+        categoryName: json["categoryName"],
+        name: json["name"],
+        onSale: json["onSale"],
+        image: json["image"],
+        createTime: json["createTime"],
+        updateTime: json["updateTime"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "storeId": storeId,
-    "commodityId": commodityId,
-    "selfAttr": selfAttr,
-    "timeRange": timeRange,
-    "printers": printers,
-    "categoryId": categoryId,
-    "brief": brief,
-    "isOnSale": isOnSale,
-    "sortOrder": sortOrder,
-    "picUrl": picUrl,
-    "isNew": isNew,
-    "isHot": isHot,
-    "unit": unit,
-    "memberPrice": memberPrice,
-    "retailPrice": retailPrice,
-    "detail": detail,
-    "tax": tax,
-    "orderByColumn": orderByColumn,
-    "isAsc": isAsc,
-    "storage": storage,
-    "historySelfAttr": historySelfAttr,
-    "specifications": specifications,
-    "threshold": threshold,
-    "subCategory": subCategory,
-    "vipOnly": vipOnly,
-    "voucher": voucher,
-    "material": material,
-    "categoryName": categoryName,
-    "name": name,
-    "onSale": onSale,
-    "image": image,
-    "count": count,
-  };
-
-  String getTotalPrice() {
-    return (retailPrice ?? "0").mul(count.value.toString());
-  }
+        "id": id,
+        "storeId": storeId,
+        "commodityId": commodityId,
+        "selfAttr": selfAttr,
+        "timeRange": timeRange,
+        "printers": printers,
+        "categoryId": categoryId,
+        "brief": brief,
+        "isOnSale": isOnSale,
+        "sortOrder": sortOrder,
+        "picUrl": picUrl,
+        "isNew": isNew,
+        "isHot": isHot,
+        "unit": unit,
+        "memberPrice": memberPrice,
+        "retailPrice": retailPrice,
+        "detail": detail,
+        "tax": tax,
+        "orderByColumn": orderByColumn,
+        "isAsc": isAsc,
+        "storage": storage,
+        "historySelfAttr": historySelfAttr,
+        "specifications": specifications,
+        "threshold": threshold,
+        "subCategory": subCategory,
+        "vipOnly": vipOnly,
+        "voucher": voucher,
+        "material": material,
+        "categoryName": categoryName,
+        "name": name,
+        "onSale": onSale,
+        "image": image,
+        "createTime": createTime,
+        "updateTime": updateTime,
+      };
 }

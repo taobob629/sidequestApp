@@ -40,6 +40,9 @@ class SimpleTags extends StatelessWidget {
 
   final bool? isSelectAll;
 
+  // 是否默认选择第一个
+  final bool? isDefaultSelectFirst;
+
   final Locale? tagTextLocale;
 
   final WrapCrossAlignment wrapCrossAxisAlignment;
@@ -83,6 +86,7 @@ class SimpleTags extends StatelessWidget {
     this.tagTextMaxlines,
     this.tagTextLocale,
     this.isSelectAll,
+    this.isDefaultSelectFirst,
     this.wrapCrossAxisAlignment = WrapCrossAlignment.start,
     this.wrapAlignment = WrapAlignment.start,
     this.wrapRunSpacing = 0,
@@ -98,8 +102,13 @@ class SimpleTags extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isSelectAll == true) {
       content.forEach((element) {
-        selectStr.add(element.value);
+        selectStr.add(element.name);
       });
+    }
+
+    if (isDefaultSelectFirst == true) {
+      // 默认选择第一个
+      selectStr.add(content[0].name);
     }
 
     return Obx(
@@ -123,7 +132,7 @@ class SimpleTags extends StatelessWidget {
 
     if (content.isNotEmpty) {
       for (int i = 0; i < content.length; i++) {
-        String tag = content[i].value;
+        String tag = content[i].name;
         toReturn.add(TagContainer(
           tag: tag,
           tagContainerDecoration: tagContainerDecoration,
