@@ -124,7 +124,7 @@ class BubbleTeaDetailCtr extends GetxController {
 
     final result =
         TabBubbleTeaCtr.find.selectTeaList.firstWhereOrNull((element) {
-      if (cacheModel.selectTopping.length == 1) {
+      if (element.selectTopping.length == 1) {
         return element.id == cacheModel.id &&
             element.brief == cacheModel.brief &&
             element.image == cacheModel.image &&
@@ -138,7 +138,8 @@ class BubbleTeaDetailCtr extends GetxController {
             element.selectIce?.value == cacheModel.selectIce?.value &&
             element.selectSugar?.name == cacheModel.selectSugar?.name &&
             element.selectSugar?.value == cacheModel.selectSugar?.value &&
-            element.selectTopping[0].name == cacheModel.selectTopping[0].name;
+            element.selectTopping[0].name == cacheModel.selectTopping[0].name &&
+            element.selectTopping[0].value == cacheModel.selectTopping[0].value;
       } else {
         return element.id == cacheModel.id &&
             element.brief == cacheModel.brief &&
@@ -154,7 +155,7 @@ class BubbleTeaDetailCtr extends GetxController {
             element.selectSugar?.name == cacheModel.selectSugar?.name &&
             element.selectSugar?.value == cacheModel.selectSugar?.value &&
             element.selectTopping[0].name == cacheModel.selectTopping[0].name &&
-            element.selectTopping[1].name == cacheModel.selectTopping[1].name;
+            element.selectTopping[0].value == cacheModel.selectTopping[0].value;
       }
     });
     if (result == null) {
@@ -169,19 +170,16 @@ class BubbleTeaDetailCtr extends GetxController {
 
   void selectSize(TagBean tagBean) {
     model.value.selectSize = tagBean;
-
     calculateTotalPrice();
   }
 
   void selectIce(TagBean tagBean) {
     model.value.selectIce = tagBean;
-
     calculateTotalPrice();
   }
 
   void selectSugar(TagBean tagBean) {
     model.value.selectSugar = tagBean;
-
     calculateTotalPrice();
   }
 
@@ -191,7 +189,6 @@ class BubbleTeaDetailCtr extends GetxController {
     if (isAdd) {
       model.value.selectTopping.add(tagBean);
     }
-
     calculateTotalPrice();
   }
 }

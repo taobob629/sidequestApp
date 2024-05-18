@@ -88,17 +88,17 @@ class MainPage extends StatelessWidget {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  height: padding.bottom + 50,
+                  height: padding.bottom + 62.h,
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
+                    decoration: BoxDecoration(
+                      color: hexColor('141517'),
                     ),
                   )),
               Positioned(
                   left: 0,
                   right: 0,
                   bottom: padding.bottom,
-                  height: 80.h,
+                  height: 100.h,
                   child: Obx(() => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.end,

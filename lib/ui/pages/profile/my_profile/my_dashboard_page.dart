@@ -26,31 +26,37 @@ class MyDashboardPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(
-                      left: 15.w,
-                      bottom: 17.h,
-                    ),
-                    child: Text(
-                      'SUBSCRIPTIONS'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.bold,
+                  Visibility(
+                    visible: UserController.find.userProfile.vips.isNotEmpty,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(
+                        left: 15.w,
+                        bottom: 17.h,
+                      ),
+                      child: Text(
+                        'SUBSCRIPTIONS'.tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                  Container(
-                    height: 140.h,
-                    margin: EdgeInsets.only(left: 16.w),
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (c, i) => _subscriptionItem(
-                          UserController.find.userProfile.vips[i], i),
-                      separatorBuilder: (c, i) => 12.horizontalSpace,
-                      itemCount: UserController.find.userProfile.vips.length,
+                  Visibility(
+                    visible: UserController.find.userProfile.vips.isNotEmpty,
+                    child: Container(
+                      height: 140.h,
+                      margin: EdgeInsets.only(left: 16.w),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (c, i) => _subscriptionItem(
+                            UserController.find.userProfile.vips[i], i),
+                        separatorBuilder: (c, i) => 12.horizontalSpace,
+                        itemCount: UserController.find.userProfile.vips.length,
+                      ),
                     ),
                   ),
                   // Obx(() => Container(

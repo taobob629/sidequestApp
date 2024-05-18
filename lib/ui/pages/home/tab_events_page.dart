@@ -17,193 +17,191 @@ class TabEventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => ListView.separated(
-      itemBuilder: (c, i) => InkWell(
-        onTap: () => Get.to(() => EventPage(
-          id: controller.list[i].id,
-          type: controller.list[i].matchDiff,
-        )),
-        child: Container(
-          decoration: BoxDecoration(
-            color: hexColor('141414'),
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          margin: EdgeInsets.symmetric(horizontal: 16.w),
-          padding: EdgeInsets.only(
-            left: 10.w,
-            right: 10.w,
-            top: 6.h,
-            bottom: 15.h,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 167.h,
-                width: 1.sw,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                  image: DecorationImage(
-                    image: NetworkImage('${controller.list[i].image}'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+          itemBuilder: (c, i) => InkWell(
+            onTap: () => Get.to(() => EventPage(
+                  id: controller.list[i].id,
+                  type: controller.list[i].matchDiff,
+                )),
+            child: Container(
+              decoration: BoxDecoration(
+                color: hexColor('141414'),
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10.w,
-                  top: 10.h,
-                ),
-                child: Text(
-                  '${controller.list[i].title}',
-                  style: TextStyle(
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
-                    color: Colors.white,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.only(
+                left: 10.w,
+                right: 10.w,
+                top: 6.h,
+                bottom: 15.h,
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10.w,
-                  top: 10.h,
-                ),
-                child: Text(
-                  '${controller.list[i].time}',
-                  style: TextStyle(
-                    fontFamily: FONT_LIGHT,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                    color: Colors.white.withOpacity(0.6),
-                  ),
-                ),
-              ),
-              Container(
-                width: 1.sw,
-                height: 1.h,
-                color: hexColor('303030'),
-                margin: EdgeInsets.symmetric(
-                  vertical: 10.h,
-                ),
-              ),
-              Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: controller.getJoinPeopleWidth(i),
-                    height: 34.w,
-                    child: Stack(
-                      children: [
-                        if (controller.list[i].joins.length > 3)
-                          Positioned(
-                            top: 0,
-                            left: 36.w,
-                            child: ImageUtil.networkImage(
-                              url: '${controller.list[i].joins[3].photo}',
-                              fit: BoxFit.fill,
-                              border: 24.w,
-                              height: 24.w,
-                              width: 24.w,
-                            ),
-                          ),
-                        if (controller.list[i].joins.length > 2)
-                          Positioned(
-                            top: 0,
-                            left: 24.w,
-                            child: ImageUtil.networkImage(
-                              url: '${controller.list[i].joins[2].photo}',
-                              fit: BoxFit.fill,
-                              border: 24.w,
-                              height: 24.w,
-                              width: 24.w,
-                            ),
-                          ),
-                        if (controller.list[i].joins.length > 1)
-                          Positioned(
-                            top: 0,
-                            left: 12.w,
-                            child: ImageUtil.networkImage(
-                              url: '${controller.list[i].joins[1].photo}',
-                              fit: BoxFit.fill,
-                              border: 24.w,
-                              height: 24.w,
-                              width: 24.w,
-                            ),
-                          ),
-                        if (controller.list[i].joins.isNotEmpty)
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            child: ImageUtil.networkImage(
-                              url: '${controller.list[i].joins[0].photo}',
-                              fit: BoxFit.fill,
-                              border: 24.w,
-                              height: 24.w,
-                              width: 24.w,
-                            ),
-                          ),
-                      ],
+                  Container(
+                    height: 167.h,
+                    width: 1.sw,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                      image: DecorationImage(
+                        image: NetworkImage('${controller.list[i].image}'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Attended by",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: " ${controller.list[i].joins?.length} ",
-                            style: TextStyle(
-                              color: hexColor('FFB20E'),
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "people.",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 10.w,
+                      top: 10.h,
+                    ),
+                    child: Text(
+                      '${controller.list[i].title}',
+                      style: TextStyle(
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp,
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 10.w,
+                      top: 10.h,
+                    ),
+                    child: Text(
+                      '${controller.list[i].time}',
+                      style: TextStyle(
+                        fontFamily: FONT_LIGHT,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                        color: Colors.white.withOpacity(0.6),
                       ),
                     ),
                   ),
                   Container(
-                    width: 78.w,
-                    height: 34.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(
-                        width: 1.w,
-                        color: hexColor('FFB20E'),
-                      ),
+                    width: 1.sw,
+                    height: 1.h,
+                    color: hexColor('303030'),
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10.h,
                     ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Join',
-                      style: TextStyle(
-                        color: hexColor('FFB20E'),
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
+                  ),
+                  Row(
+                    children: [
+                      Visibility(
+                        visible: controller.list[i].joins.isNotEmpty,
+                        child: SizedBox(
+                          width: controller.getJoinPeopleWidth(i),
+                          height: 34.w,
+                          child: Stack(
+                            children: [
+                              if (controller.list[i].joins.length > 3)
+                                Positioned(
+                                  top: 0,
+                                  left: 36.w,
+                                  child: ImageUtil.networkImage(
+                                    url: '${controller.list[i].joins[3].photo}',
+                                    fit: BoxFit.fill,
+                                    border: 24.w,
+                                    height: 24.w,
+                                    width: 24.w,
+                                  ),
+                                ),
+                              if (controller.list[i].joins.length > 2)
+                                Positioned(
+                                  top: 0,
+                                  left: 24.w,
+                                  child: ImageUtil.networkImage(
+                                    url: '${controller.list[i].joins[2].photo}',
+                                    fit: BoxFit.fill,
+                                    border: 24.w,
+                                    height: 24.w,
+                                    width: 24.w,
+                                  ),
+                                ),
+                              if (controller.list[i].joins.length > 1)
+                                Positioned(
+                                  top: 0,
+                                  left: 12.w,
+                                  child: ImageUtil.networkImage(
+                                    url: '${controller.list[i].joins[1].photo}',
+                                    fit: BoxFit.fill,
+                                    border: 24.w,
+                                    height: 24.w,
+                                    width: 24.w,
+                                  ),
+                                ),
+                              if (controller.list[i].joins.isNotEmpty)
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  child: ImageUtil.networkImage(
+                                    url: '${controller.list[i].joins[0].photo}',
+                                    fit: BoxFit.fill,
+                                    border: 24.w,
+                                    height: 24.w,
+                                    width: 24.w,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: controller.list[i].joins.isNotEmpty
+                            ? RichText(
+                                text: TextSpan(
+                                  text: " ${controller.list[i].joins.length} ",
+                                  style: TextStyle(
+                                    color: hexColor('FFB20E'),
+                                    fontSize: 10.sp,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: " attendees will join",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(),
+                      ),
+                      Container(
+                        width: 78.w,
+                        height: 34.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            width: 1.w,
+                            color: hexColor('FFB20E'),
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Join',
+                          style: TextStyle(
+                            color: hexColor('FFB20E'),
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      separatorBuilder: (c, i) => 15.verticalSpace,
-      itemCount: controller.list.length,
-    ));
+          separatorBuilder: (c, i) => 15.verticalSpace,
+          itemCount: controller.list.length,
+        ));
   }
 }
 

@@ -235,7 +235,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                         visible: ctr.selectTeaList.isNotEmpty &&
                             ctr.isShowDrinkNow.value,
                         child: Positioned(
-                          bottom: 0,
+                          bottom: 15.h,
                           left: 0,
                           right: 0,
                           child: drinkNowWidget(0),

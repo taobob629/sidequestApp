@@ -12,19 +12,20 @@ class BubbleConfirmOrderCtr extends GetxController with GetTickerProviderStateMi
   late TabController tabController;
   late List<Widget> tabs = [
     Text(
-      'In Store'.tr,
+      'Eat In'.tr,
       style: TextStyle(
-        fontFamily: FONT_LIGHT,
-        fontSize: 12.sp,
+        fontFamily: FONT_MEDIUM,
+        fontSize: 10.sp,
       ),
       maxLines: 1,
     ),
     Text(
-      'Pack'.tr,
+      'Takeaway'.tr,
       style: TextStyle(
-        fontFamily: FONT_LIGHT,
-        fontSize: 12.sp,
+        fontFamily: FONT_MEDIUM,
+        fontSize: 10.sp,
       ),
+      maxLines: 1,
     )
   ];
 

@@ -38,8 +38,8 @@ class _TabButtonState extends State<TabButton>
     return InkWell(
       onTap: () => widget.onTap.call(),
       child: SizedBox(
-        width: 50.h,
-        height: 50.h,
+        width: 56.h,
+        height: 56.h,
         child: Stack(
           children: createIcon(),
         ),
@@ -54,21 +54,21 @@ class _TabButtonState extends State<TabButton>
       icons.add(
         Container(
           alignment: Alignment.center,
-          width: 50.h,
-          height: 50.h,
+          width: 56.h,
+          height: 56.h,
           child: Image.asset(
             widget.selectIconName,
             fit: BoxFit.contain,
-            height: 50.h,
+            height: 56.h,
           ),
         ),
       );
     } else {
       icons.add(
         Container(
-          width: 50.h,
-          height: 50.h,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          width: 56.h,
+          height: 56.h,
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
           color: Colors.transparent,
           child: Image.asset(
             widget.normalIconName,

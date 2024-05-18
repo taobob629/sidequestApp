@@ -407,7 +407,6 @@ class MyProfilePage extends StatelessWidget {
                           ImageUtils.icon_orders,
                           "Orders".tr,
                           onTap: () {
-                            Get.to(() => BookingPage());
                           },
                         ),
                       ),

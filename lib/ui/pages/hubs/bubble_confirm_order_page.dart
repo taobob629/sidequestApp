@@ -121,7 +121,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                'Dining methods'.tr,
+                                'TAKE AWAY?'.tr,
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
                                   fontSize: 13.sp,
@@ -136,7 +136,9 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                               decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                      width: 1.w, color: Color(0xFFFFB20E)),
+                                    width: 1.w,
+                                    color: Color(0xFFFFB20E),
+                                  ),
                                   borderRadius: BorderRadius.circular(60.r),
                                 ),
                               ),
@@ -172,7 +174,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                'Meal pickup time'.tr,
+                                'PICKUP AT?'.tr,
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
                                   fontSize: 13.sp,
@@ -236,38 +238,40 @@ class BubbleConfirmOrderPage extends StatelessWidget {
           child: Row(
             children: [
               14.horizontalSpace,
-              Text(
-                '£${TabBubbleTeaCtr.find.totalPrice.value}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.sp,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              10.horizontalSpace,
               Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Discount：-0.0 ',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 12.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white.withOpacity(0.6),
-                          size: 14.sp,
-                        ),
-                      ),
-                    ],
+                child: Text(
+                  '£${TabBubbleTeaCtr.find.totalPrice.value}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
+              10.horizontalSpace,
+              // Expanded(
+              //   child: RichText(
+              //     text: TextSpan(
+              //       text: 'Discount：-0.0 ',
+              //       style: TextStyle(
+              //         color: Colors.white.withOpacity(0.6),
+              //         fontSize: 12.sp,
+              //         fontFamily: FONT_MEDIUM,
+              //         fontWeight: FontWeight.w400,
+              //       ),
+              //       children: [
+              //         WidgetSpan(
+              //           child: Icon(
+              //             Icons.arrow_forward_ios,
+              //             color: Colors.white.withOpacity(0.6),
+              //             size: 14.sp,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               InkWell(
                 onTap: () => ctr.payment(),
                 child: Container(

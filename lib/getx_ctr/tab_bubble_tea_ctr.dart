@@ -79,6 +79,7 @@ class TabBubbleTeaCtr extends GetxController {
       HubsApi.getTeaBanners(storeId),
       HubsApi.getTeaList(storeId, 0),
       HubsApi.getTeaCategory(storeId),
+      HubsApi.getVouchers(storeId),
     ]);
     if (isShowLoading) dismissLoading();
     if (list.length > 1) {
@@ -88,6 +89,9 @@ class TabBubbleTeaCtr extends GetxController {
       teaCategoryList.clear();
       teaCategoryList.add(TeaCategoryModel(id: 0, name: "All Type"));
       teaCategoryList.addAll(list[2]);
+    }
+    if (list.length > 3) {
+      final params = list[3];
     }
   }
 
@@ -142,7 +146,7 @@ class TabBubbleTeaCtr extends GetxController {
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
       if (currentSelectStore.value.map != null) {
-        List<String> latLog = currentSelectStore.value.map!.split(", ");
+        List<String> latLog = currentSelectStore.value.map!.split(",");
 
         // (51.5074, 0.1278)是伦敦的经纬度
         distances.value = GeolocatorUtils.calculateDistance(

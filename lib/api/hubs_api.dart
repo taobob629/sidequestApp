@@ -27,6 +27,12 @@ class HubsApi {
     return GoodsDetailModel.fromJson(response.data);
   }
 
+  static Future<dynamic> getVouchers(int? id) async {
+    var response = await http
+        .get('/sideQuest/app/hubs/getVouchers', queryParameters: {"id": id});
+    return response.data;
+  }
+
   static Future<List<StoreTeaModel>> getTeaList(
       int? storeId, int? categoryId) async {
     var response = await http.get('/sideQuest/app/hubs/teas', queryParameters: {
