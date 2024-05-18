@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:sq_hub_app/widget/tag/tag_bean.dart';
 
-class GoodsDetailModel {
+class GoodsDetailModel extends Equatable{
   String? brief;
   String? image;
   String? price;
@@ -81,9 +82,13 @@ class GoodsDetailModel {
         this.selectSugar = original.selectSugar != null ? TagBean.deepCopy(original.selectSugar!) : null,
         this.selectTopping = original.selectTopping.map((item) => TagBean.deepCopy(item)).toList(),
         this.count = original.count;
+
+  @override
+  List<Object?> get props => [brief, image, price, cpusize, name, ice, id, topping, sugar, selectSize, selectIce, selectSugar, selectTopping];
+
 }
 
-class GoodsParams {
+class GoodsParams extends Equatable {
   double price;
   String name;
 
@@ -105,4 +110,7 @@ class GoodsParams {
   GoodsParams.deepCopy(GoodsParams original)
       : this.price = original.price,
         this.name = original.name;
+
+  @override
+  List<Object?> get props => [price, name];
 }

@@ -1,4 +1,6 @@
-class TagBean {
+import 'package:equatable/equatable.dart';
+
+class TagBean extends Equatable{
   String name;
   String value;
 
@@ -25,4 +27,7 @@ class TagBean {
   bool equals(TagBean? tagBean) {
     return name == tagBean?.name && value == tagBean?.value;
   }
+
+  @override
+  List<Object?> get props => [name, value];
 }

@@ -122,48 +122,11 @@ class BubbleTeaDetailCtr extends GetxController {
     GoodsDetailModel cacheModel = GoodsDetailModel.deepCopy(model.value);
     cacheModel.count = count.value;
 
-    final result =
-        TabBubbleTeaCtr.find.selectTeaList.firstWhereOrNull((element) {
-      if (element.selectTopping.length == 1) {
-        return element.id == cacheModel.id &&
-            element.brief == cacheModel.brief &&
-            element.image == cacheModel.image &&
-            element.price == cacheModel.price &&
-            element.name == cacheModel.name &&
-            element.selectSize?.name == cacheModel.selectSize?.name &&
-            element.selectSize?.value == cacheModel.selectSize?.value &&
-            element.selectIce?.name == cacheModel.selectIce?.name &&
-            element.selectIce?.value == cacheModel.selectIce?.value &&
-            element.selectIce?.name == cacheModel.selectIce?.name &&
-            element.selectIce?.value == cacheModel.selectIce?.value &&
-            element.selectSugar?.name == cacheModel.selectSugar?.name &&
-            element.selectSugar?.value == cacheModel.selectSugar?.value &&
-            element.selectTopping[0].name == cacheModel.selectTopping[0].name &&
-            element.selectTopping[0].value == cacheModel.selectTopping[0].value;
-      } else {
-        return element.id == cacheModel.id &&
-            element.brief == cacheModel.brief &&
-            element.image == cacheModel.image &&
-            element.price == cacheModel.price &&
-            element.name == cacheModel.name &&
-            element.selectSize?.name == cacheModel.selectSize?.name &&
-            element.selectSize?.value == cacheModel.selectSize?.value &&
-            element.selectIce?.name == cacheModel.selectIce?.name &&
-            element.selectIce?.value == cacheModel.selectIce?.value &&
-            element.selectIce?.name == cacheModel.selectIce?.name &&
-            element.selectIce?.value == cacheModel.selectIce?.value &&
-            element.selectSugar?.name == cacheModel.selectSugar?.name &&
-            element.selectSugar?.value == cacheModel.selectSugar?.value &&
-            element.selectTopping[0].name == cacheModel.selectTopping[0].name &&
-            element.selectTopping[0].value == cacheModel.selectTopping[0].value;
-      }
-    });
-    if (result == null) {
-      TabBubbleTeaCtr.find.selectTeaList.add(cacheModel);
-    } else {
-      TabBubbleTeaCtr.find.selectTeaList.remove(result);
-      TabBubbleTeaCtr.find.selectTeaList.add(cacheModel);
+    bool isContains = TabBubbleTeaCtr.find.selectTeaList.contains(cacheModel);
+    if (isContains) {
+      TabBubbleTeaCtr.find.selectTeaList.remove(cacheModel);
     }
+    TabBubbleTeaCtr.find.selectTeaList.add(cacheModel);
 
     TabBubbleTeaCtr.find.calculateTotal();
   }
