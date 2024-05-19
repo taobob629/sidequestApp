@@ -7,6 +7,7 @@ class TabCyberCafeModel {
   dynamic images;
   String email;
   String openTime;
+  String shortName;
   dynamic remark;
   int manager;
   dynamic managerName;
@@ -24,6 +25,7 @@ class TabCyberCafeModel {
     this.images,
     required this.email,
     required this.openTime,
+    required this.shortName,
     this.remark,
     required this.manager,
     this.managerName,
@@ -49,6 +51,7 @@ class TabCyberCafeModel {
     map: json["map"],
     album: json["album"],
     areaVoList: json["areaVoList"],
+    shortName: json["shortName"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -67,5 +70,6 @@ class TabCyberCafeModel {
     "map": map,
     "album": album,
     "areaVoList": areaVoList,
+    "shortName": shortName,
   };
 }

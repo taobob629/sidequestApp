@@ -12,7 +12,7 @@ class ProfileModel {
   String signature = "";
   int isAuth = 0;
   int sidekickLevel = 1;
-  int loyalty = 1;
+  LoyaltyModel loyaltyModel = LoyaltyModel(loyalty: 1, taskId: 0, type: 0);
   CountryModel location = CountryModel();
   String nickName = "";
   int fans = 0;
@@ -66,7 +66,6 @@ class ProfileModel {
       this.avamins = 0,
       this.isAuth = 0,
       this.sidekickLevel = 1,
-      this.loyalty = 0,
       this.nickName = "",
       this.fans = 0,
       this.visitor = 0,
@@ -110,13 +109,16 @@ class ProfileModel {
     isAuth = json["isAuth"] ?? 0;
     sidekickLevel = json["sidekickLevel"] ?? 1;
     memberId = json["memberId"] ?? 0;
-    loyalty = json["loyalty"] ?? 0;
+    loyaltyModel = json["loyalty"] == null
+        ? LoyaltyModel(loyalty: 1, taskId: 0, type: 0)
+        : LoyaltyModel.fromJson(json["loyalty"]);
     backGround = json["backGround"] ?? "";
     signature = json["signature"] ?? "";
     pwId = json["pwId"] ?? 0;
     var loc = json["country"].toString();
     if (loc.isNotEmpty && loc != "null") {
-      location = CountryModel.fromJson(jsonDecode(loc.replaceAll("""\\""", """\\\\""")));
+      location = CountryModel.fromJson(
+          jsonDecode(loc.replaceAll("""\\""", """\\\\""")));
     } else {
       location = CountryModel();
     }
@@ -134,7 +136,9 @@ class ProfileModel {
     balance = json["balance"] ?? "0.00";
     uk = json["uk"] ?? "";
     trophies = json["trophies"] != null
-        ? json["trophies"].map<TrophieModel>((e) => TrophieModel.fromJson(e)).toList()
+        ? json["trophies"]
+            .map<TrophieModel>((e) => TrophieModel.fromJson(e))
+            .toList()
         : [];
     badges = json["badges"] != null
         ? json["badges"].map<BadgesItem>((e) => BadgesItem.fromJson(e)).toList()
@@ -226,6 +230,30 @@ class TrophieModel {
   }
 }
 
+class LoyaltyModel {
+  int loyalty = 1;
+  int taskId = 0;
+  int type = 0;
+
+  LoyaltyModel({
+    required this.loyalty,
+    required this.taskId,
+    required this.type,
+  });
+
+  factory LoyaltyModel.fromJson(Map<String, dynamic> json) => LoyaltyModel(
+        loyalty: json["loyalty"] ?? 1,
+        taskId: json["taskId"] ?? 0,
+        type: json["type"] ?? 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "loyalty": loyalty,
+        "taskId": taskId,
+        "type": type,
+      };
+}
+
 class AdModel {
   String url;
   String? link;
@@ -236,9 +264,9 @@ class AdModel {
   });
 
   factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
-    url: json["url"] ?? '',
-    link: json["link"],
-  );
+        url: json["url"] ?? '',
+        link: json["link"],
+      );
 }
 
 class VipModel {
@@ -263,7 +291,8 @@ class BadgesItem {
   List<BadgeItem> getPageData(int page) {
     if (badge.length <= 6) return badge;
     int nextPage = page + 1;
-    if (nextPage * 6 > badge.length) return badge.sublist(page * 6, badge.length);
+    if (nextPage * 6 > badge.length)
+      return badge.sublist(page * 6, badge.length);
     return badge.sublist(page * 6, nextPage * 6);
   }
 
@@ -287,7 +316,8 @@ class BadgesItem {
   });
 
   factory BadgesItem.fromJson(Map<String, dynamic>? json) => BadgesItem(
-        badge: asT<List>(json, 'badge').map((e) => BadgeItem.fromJson(e)).toList(),
+        badge:
+            asT<List>(json, 'badge').map((e) => BadgeItem.fromJson(e)).toList(),
         name: asT<String>(json, 'name'),
         tips: asT<String>(json, 'tips'),
       );

@@ -13,6 +13,7 @@ import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/vip/vip_page.dart';
 import 'package:sq_hub_app/ui/pages/setting/settings_page.dart';
 
+import '../../../../api/wy_http.dart';
 import '../../../../common/dialog_input.dart';
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
@@ -21,6 +22,7 @@ import '../../../../event_bus/beans/user_info_suc_bean.dart';
 import '../../../../event_bus/event_bus.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/profile_model.dart';
+import '../../../../model/task_model.dart';
 import '../../../../utils/navigator_helper.dart';
 import '../../../../utils/storage_manager.dart';
 import '../../../../utils/toast_utils.dart';
@@ -32,6 +34,7 @@ import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
 import '../integral/integral_home_page.dart';
 import '../invite/invite_page.dart';
+import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
 
 class MyProfilePage extends StatelessWidget {
@@ -443,78 +446,82 @@ class MyProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: 1.sw,
-              height: 100.h,
-              margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
-              decoration: ShapeDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Color(0xFF141517), Color(0xFF322531)],
+            InkWell(
+              onTap: () => t.jumpTaskDetail(),
+              child: Container(
+                width: 1.sw,
+                height: 100.h,
+                margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+                decoration: ShapeDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xFF141517), Color(0xFF322531)],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-              ),
-              child: Row(
-                children: [
-                  14.horizontalSpace,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Loyalty Card",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        8.verticalSpace,
-                        RichText(
-                          text: TextSpan(
-                            text: "Buy",
+                child: Row(
+                  children: [
+                    14.horizontalSpace,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Loyalty Card",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14.sp,
+                              fontSize: 18.sp,
                               fontFamily: FONT_MEDIUM,
-                              height: 1.5,
+                              fontWeight: FontWeight.bold,
                             ),
-                            children: [
-                              TextSpan(
-                                text: " ${t.user.value.loyalty} ",
-                                style: TextStyle(
-                                  color: AppColor.yellow,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  height: 1.5,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "more Bubbletea to get a free drink",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ],
                           ),
-                        ),
-                      ],
+                          8.verticalSpace,
+                          RichText(
+                            text: TextSpan(
+                              text: "Buy",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
+                                height: 1.5,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      " ${t.user.value.loyaltyModel.loyalty} ",
+                                  style: TextStyle(
+                                    color: AppColor.yellow,
+                                    fontSize: 14.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    height: 1.5,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "more Bubbletea to get a free drink",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Image.asset(
-                    ImageUtils.profile_loyalty_icon,
-                    width: 120.w,
-                  ),
-                  8.horizontalSpace,
-                ],
+                    Image.asset(
+                      ImageUtils.profile_loyalty_icon,
+                      width: 120.w,
+                    ),
+                    8.horizontalSpace,
+                  ],
+                ),
               ),
             ),
             MyDashboardPage(),
@@ -810,6 +817,22 @@ class ProfileController extends GetxController
       }
     } else {
       return '${user.value.avamins} min';
+    }
+  }
+
+  void jumpTaskDetail() async {
+    showLoading();
+    var response =
+        await http.get('/app/client/task/task?id=${user.value.loyaltyModel}');
+    dismissLoading();
+    if (response.data != null) {
+      TaskOutModel outModel = TaskOutModel.fromJson(response.data);
+      if (outModel.tasks.isNotEmpty) {
+        Get.to(() => TaskDetailPage(), arguments: {
+          'model': outModel.tasks.first,
+          'skipFlag': true,
+        });
+      }
     }
   }
 

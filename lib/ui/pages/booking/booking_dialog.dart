@@ -363,11 +363,7 @@ class BookingDialog extends StatelessWidget {
 
   void requestStoreInfoByStoreId(int storeId) async {
     showLoading();
-    var response = await http.get('/app/store/cybercafe/booking/stores/info',
-        queryParameters: ({
-          'id': storeId,
-        }));
-    cyberCafeDetailModel = CyberCafeDetailModel.fromJson(response.data);
+    cyberCafeDetailModel = await BookingApi.storeDetail(storeId);
     dismissLoading();
     showSelectTime();
   }

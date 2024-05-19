@@ -171,7 +171,7 @@ class TabCybercafePage extends StatelessWidget {
                             padding: EdgeInsets.only(top: 10.h),
                             alignment: Alignment.topCenter,
                             child: Text(
-                              index < 10 ? "0${index + 1}" : "${index + 1}",
+                              _ctr.list[index].shortName,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20.sp,
@@ -213,7 +213,7 @@ class CybercafeController extends GetxRefreshController<TabCyberCafeModel> {
   @override
   Future<List<TabCyberCafeModel>> loadData({int pageNum = 1}) async {
     List<TabCyberCafeModel> list = [];
-    var response = await http.get('/app/store/cybercafe/booking/stores',
+    var response = await http.get('/sideQuest/app/stores/storesList',
         queryParameters: ({
           'pageNum': pageNum,
           'pageSize': pageSize,

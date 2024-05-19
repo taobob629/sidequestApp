@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../api/booking_api.dart';
 import '../../../api/wy_http.dart';
 import '../../../common/colorful_button.dart';
 import '../../../config/app_color.dart';
@@ -338,11 +339,7 @@ class BookingDetailCtr extends GetxController {
 
   void _requestData() async {
     showLoading();
-    var response = await http.get('/app/store/cybercafe/booking/stores/info',
-        queryParameters: ({
-          'id': Get.arguments as int,
-        }));
-    model = CyberCafeDetailModel.fromJson(response.data);
+    model = await BookingApi.storeDetail(Get.arguments as int);
     dismissLoading();
     update();
   }
