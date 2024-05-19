@@ -131,6 +131,7 @@ class MyProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
                           onTap: t.goDev,
                           child: Container(
                             margin: EdgeInsets.only(left: 20.w),
@@ -398,7 +399,8 @@ class MyProfilePage extends StatelessWidget {
                           "Vouchers".tr,
                           onTap: () => NavigatorHelper.gotoCouponPage(
                             couponType: 5,
-                            whenComplete: () => UserController.instance().updateInfo(),
+                            whenComplete: () =>
+                                UserController.instance().updateInfo(),
                           ),
                         ),
                       ),
@@ -406,8 +408,7 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           ImageUtils.icon_orders,
                           "Orders".tr,
-                          onTap: () {
-                          },
+                          onTap: () {},
                         ),
                       ),
                     ],

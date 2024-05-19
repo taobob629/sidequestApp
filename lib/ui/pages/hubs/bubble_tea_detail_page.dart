@@ -13,6 +13,7 @@ import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../widget/tag/simple_tags.dart';
 import '../../../widget/tag/tag_bean.dart';
+import 'bubble_confirm_order_page.dart';
 
 class BubbleTeaDetailPage extends StatelessWidget {
   final ctr = Get.put(BubbleTeaDetailCtr());
@@ -330,15 +331,21 @@ class BubbleTeaDetailPage extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 TabBubbleTeaCtr.find.isShowDrinkNow.value = false;
-                dismissLoading();
-                SmartDialog.showAttach(
-                  targetContext: ctr.cartContext,
-                  usePenetrate: false,
-                  alignment: Alignment.topCenter,
-                  builder: (_) => cartWidget(),
-                  onDismiss: () =>
-                      TabBubbleTeaCtr.find.isShowDrinkNow.value = true,
-                );
+                if (TabBubbleTeaCtr.find.isShowCartDialog) {
+                  dismissLoading();
+                } else {
+                  TabBubbleTeaCtr.find.isShowCartDialog = true;
+                  SmartDialog.showAttach(
+                    targetContext: ctr.cartContext,
+                    usePenetrate: false,
+                    alignment: Alignment.topCenter,
+                    builder: (_) => cartWidget(),
+                    onDismiss: () {
+                      TabBubbleTeaCtr.find.isShowDrinkNow.value = true;
+                      TabBubbleTeaCtr.find.isShowCartDialog = false;
+                    },
+                  );
+                }
               },
               child: Obx(() => badges.Badge(
                     showBadge: TabBubbleTeaCtr.find.totalCount > 0,
@@ -383,7 +390,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   )),
             ),
             InkWell(
-              onTap: () => ctr.addToCart(),
+              onTap: () => Get.to(() => BubbleConfirmOrderPage()),
               child: Container(
                 width: 100.w,
                 height: 44.w,
@@ -524,7 +531,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                 ),
               ).paddingSymmetric(horizontal: 10.w),
               InkWell(
-                onTap: () => ctr.minusMoney(),
+                onTap: () => TabBubbleTeaCtr.find.minusMoney(i),
                 child: Icon(
                   Icons.remove_circle_outline,
                   color: Colors.white,

@@ -267,55 +267,63 @@ class TabBubbleTeaPage extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 ctr.isShowDrinkNow.value = false;
-                dismissLoading();
-                SmartDialog.showAttach(
-                  targetContext: ctr.cartContext,
-                  usePenetrate: false,
-                  alignment: Alignment.topCenter,
-                  builder: (_) => cartWidget(),
-                  onDismiss: () => ctr.isShowDrinkNow.value = true,
-                );
+                if (ctr.isShowCartDialog) {
+                  dismissLoading();
+                } else {
+                  ctr.isShowCartDialog = true;
+                  SmartDialog.showAttach(
+                    targetContext: ctr.cartContext,
+                    usePenetrate: false,
+                    alignment: Alignment.topCenter,
+                    builder: (_) => cartWidget(),
+                    onDismiss: () {
+                      ctr.isShowDrinkNow.value = true;
+                      ctr.isShowCartDialog = false;
+                    },
+                  );
+                }
               },
               child: Obx(() => badges.Badge(
-                showBadge: ctr.selectTeaList.isNotEmpty,
-                badgeContent: Text(
-                  '${ctr.totalCount.value}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.sp,
-                  ),
-                ),
-                badgeColor: hexColor('FF4848'),
-                position: badges.BadgePosition(top: -8.h),
-                alignment: Alignment.topRight,
-                child: Container(
-                  width: 44.w,
-                  height: 44.w,
-                  decoration: ShapeDecoration(
-                    color: hexColor('141517'),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1.w, color: hexColor('FFB20E')),
-                      borderRadius: BorderRadius.circular(60.r),
+                    showBadge: ctr.selectTeaList.isNotEmpty,
+                    badgeContent: Text(
+                      '${ctr.totalCount.value}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                  child: Image.asset(
-                    ImageUtils.drink_now_icon,
-                    scale: 2,
-                  ),
-                ),
-              )),
+                    badgeColor: hexColor('FF4848'),
+                    position: badges.BadgePosition(top: -8.h),
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 44.w,
+                      height: 44.w,
+                      decoration: ShapeDecoration(
+                        color: hexColor('141517'),
+                        shape: RoundedRectangleBorder(
+                          side:
+                              BorderSide(width: 1.w, color: hexColor('FFB20E')),
+                          borderRadius: BorderRadius.circular(60.r),
+                        ),
+                      ),
+                      child: Image.asset(
+                        ImageUtils.drink_now_icon,
+                        scale: 2,
+                      ),
+                    ),
+                  )),
             ),
             14.horizontalSpace,
             Expanded(
               child: Obx(() => Text(
-                '£${ctr.totalPrice.value}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.sp,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.w600,
-                ),
-              )),
+                    '£${ctr.totalPrice.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )),
             ),
             // Expanded(
             //   child: Center(
@@ -393,27 +401,27 @@ class TabBubbleTeaPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Obx(() => RichText(
-                    text: TextSpan(
-                      text: "${ctr.selectTeaList.length}  ",
-                      style: TextStyle(
-                        color: hexColor('FFB20E'),
-                        fontSize: 14.sp,
-                        fontFamily: 'DIN',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'item in total',
+                        text: TextSpan(
+                          text: "${ctr.selectTeaList.length}  ",
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
+                            color: hexColor('FFB20E'),
                             fontSize: 14.sp,
                             fontFamily: 'DIN',
                             fontWeight: FontWeight.w400,
                           ),
+                          children: [
+                            TextSpan(
+                              text: 'item in total',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 14.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ).paddingOnly(left: 16.w)),
+                      ).paddingOnly(left: 16.w)),
                 ),
                 InkWell(
                   onTap: () => ctr.clearTea(),
@@ -423,7 +431,7 @@ class TabBubbleTeaPage extends StatelessWidget {
               ],
             ),
             ctr.selectTeaList.length <= 3
-                ? commonWidget(true)
+                ? Expanded(child: commonWidget(true))
                 : Expanded(child: commonWidget(false)),
             drinkNowWidget(16.w),
           ],

@@ -10,6 +10,8 @@ import '../model/goods_detail_model.dart';
 import '../widget/tag/tag_bean.dart';
 
 class BubbleTeaDetailCtr extends GetxController {
+  static BubbleTeaDetailCtr get find => Get.find();
+
   var model =
       GoodsDetailModel(cpusize: [], ice: [], topping: [], sugar: []).obs;
   var sizeTags = <TagBean>[].obs;
@@ -117,11 +119,10 @@ class BubbleTeaDetailCtr extends GetxController {
       model.value.count = 1;
       TabBubbleTeaCtr.find.selectTeaList.remove(model.value);
       calculateTotalPrice(false);
-      showAddToCart.value = true;
-      dismissLoading();
 
       if (TabBubbleTeaCtr.find.totalCount.value == 0) {
         TabBubbleTeaCtr.find.selectTeaList.clear();
+        dismissLoading();
       }
       TabBubbleTeaCtr.find.calculateTotal();
     }

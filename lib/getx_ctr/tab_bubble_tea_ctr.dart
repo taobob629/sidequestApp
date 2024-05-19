@@ -13,6 +13,7 @@ import '../model/tea_category_model.dart';
 import '../service/location_service.dart';
 import '../utils/geolocator_utils.dart';
 import '../widget/tag/tag_bean.dart';
+import 'bubble_tea_detail_ctr.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
@@ -22,12 +23,15 @@ class TabBubbleTeaCtr extends GetxController {
   var categoryStr = "All Type".obs;
   var storesList = <BubbleTeaStoreModel>[].obs;
 
+  // 购物车dialog是否在显示, true显示，反之
+  bool isShowCartDialog = false;
   var isShowDrinkNow = true.obs;
   var selectTeaList = <GoodsDetailModel>[].obs;
   var totalCount = 0.obs;
   var totalPrice = "0".obs;
   var currentSelectStore = BubbleTeaStoreModel().obs;
   var distances = 0.0.obs;
+  var showAddToCart = true.obs;
 
   late BuildContext cartContext;
 
@@ -100,8 +104,13 @@ class TabBubbleTeaCtr extends GetxController {
     if (selectTeaList[i].count > 1) {
       selectTeaList[i].count -= 1;
     } else {
-      selectTeaList.removeWhere((element) => element.id == selectTeaList[i].id);
+      GoodsDetailModel? foundGoods = selectTeaList.firstWhereOrNull(
+          (goods) => goods.equalsIgnoringCount(selectTeaList[i]));
+      if (foundGoods != null) {
+        selectTeaList.remove(foundGoods);
+      }
       if (selectTeaList.isEmpty) {
+        BubbleTeaDetailCtr.find.showAddToCart.value = true;
         dismissLoading();
       }
     }
@@ -160,6 +169,7 @@ class TabBubbleTeaCtr extends GetxController {
   }
 
   void clearTea() {
+    BubbleTeaDetailCtr.find.showAddToCart.value = true;
     selectTeaList.clear();
     calculateTotal();
     dismissLoading();
