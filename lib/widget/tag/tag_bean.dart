@@ -30,4 +30,16 @@ class TagBean extends Equatable{
 
   @override
   List<Object?> get props => [name, value];
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TagBean &&
+        other.name == name &&
+        other.value == value;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ value.hashCode;
 }

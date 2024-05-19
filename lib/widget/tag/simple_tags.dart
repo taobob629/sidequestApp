@@ -9,6 +9,7 @@ class SimpleTags extends StatelessWidget {
   final List<TagBean> content;
 
   var selectStr = <String>[].obs;
+  final List<TagBean> defaultSelect;
 
   // bool：true添加，false删除
   final Function(TagBean, bool)? onTagPress;
@@ -38,11 +39,6 @@ class SimpleTags extends StatelessWidget {
   final TextAlign? tagTextAlign;
 
   final bool? tagTextSoftWrap;
-
-  final bool? isSelectAll;
-
-  // 是否默认选择第一个
-  final bool? isDefaultSelectFirst;
 
   final Locale? tagTextLocale;
 
@@ -76,6 +72,7 @@ class SimpleTags extends StatelessWidget {
     this.tagContainerDecoration,
     this.tagContainerSelectDecoration,
     this.tagIcon,
+    required this.defaultSelect,
     this.tagContainerPadding = EdgeInsets.zero,
     this.tagContainerMargin = EdgeInsets.zero,
     this.tagTextStyle,
@@ -86,8 +83,6 @@ class SimpleTags extends StatelessWidget {
     this.tagTextOverflow,
     this.tagTextMaxlines,
     this.tagTextLocale,
-    this.isSelectAll,
-    this.isDefaultSelectFirst,
     this.wrapCrossAxisAlignment = WrapCrossAlignment.start,
     this.wrapAlignment = WrapAlignment.start,
     this.wrapRunSpacing = 0,
@@ -101,16 +96,7 @@ class SimpleTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isSelectAll == true) {
-      content.forEach((element) {
-        selectStr.add(element.name);
-      });
-    }
-
-    if (isDefaultSelectFirst == true) {
-      // 默认选择第一个
-      selectStr.add(content[0].name);
-    }
+    selectStr.assignAll(defaultSelect.map((e) => e.name).toList());
 
     return Obx(
       () => Wrap(

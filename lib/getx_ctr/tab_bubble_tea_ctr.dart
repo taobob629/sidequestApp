@@ -132,7 +132,7 @@ class TabBubbleTeaCtr extends GetxController {
     }
     totalPrice.value = total.toString();
     // 查询优惠券
-    HubsApi.getVouchers(currentSelectStore.value.id);
+    // HubsApi.getVouchers(currentSelectStore.value.id);
   }
 
   void selectStore() async {

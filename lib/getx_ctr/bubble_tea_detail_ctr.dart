@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/api/hubs_api.dart';
 import 'package:sq_hub_app/getx_ctr/tab_bubble_tea_ctr.dart';
@@ -16,11 +18,12 @@ class BubbleTeaDetailCtr extends GetxController {
   var sugarTags = <TagBean>[].obs;
 
   var totalMoney = "0".obs;
-  var count = 1.obs;
 
   late Map<String, dynamic> map;
 
   var showAddToCart = true.obs;
+
+  late BuildContext cartContext;
 
   @override
   void onInit() {
@@ -56,20 +59,39 @@ class BubbleTeaDetailCtr extends GetxController {
           TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
     });
 
-    if (sizeTags.isNotEmpty) {
-      model.value.selectSize = sizeTags[0];
-    }
-    if (iceTags.isNotEmpty) {
-      model.value.selectIce = iceTags[0];
-    }
-    if (sugarTags.isNotEmpty) {
-      model.value.selectSugar = sugarTags[0];
-    }
-    if (toppingTags.isNotEmpty) {
-      model.value.selectTopping.assign(toppingTags[0]);
+    final result = findModelFromSelectTeaList(model.value);
+    if (result != null) {
+      showAddToCart.value = false;
+      // 找到了
+      model.value.selectSize = result.selectSize;
+      model.value.selectIce = result.selectIce;
+      model.value.selectSugar = result.selectSugar;
+      model.value.selectTopping = result.selectTopping;
+      model.value.count = result.count;
+    } else {
+      showAddToCart.value = true;
+      model.value.count = 1;
+      if (sizeTags.isNotEmpty) {
+        model.value.selectSize = sizeTags[0];
+      }
+      if (iceTags.isNotEmpty) {
+        model.value.selectIce = iceTags[0];
+      }
+      if (sugarTags.isNotEmpty) {
+        model.value.selectSugar = sugarTags[0];
+      }
+      if (toppingTags.isNotEmpty) {
+        model.value.selectTopping.assign(toppingTags[0]);
+      }
     }
 
-    calculateTotalPrice();
+    calculateTotalPrice(true);
+  }
+
+  GoodsDetailModel? findModelFromSelectTeaList(GoodsDetailModel model) {
+    GoodsDetailModel? findModel = TabBubbleTeaCtr.find.selectTeaList
+        .lastWhereOrNull((element) => element.id == model.id);
+    return findModel;
   }
 
   void addToCart() {
@@ -78,13 +100,49 @@ class BubbleTeaDetailCtr extends GetxController {
   }
 
   void addMoney() {
-    count.value++;
+    model.value.count++;
+    model.refresh();
 
-    calculateTotalPrice();
+    calculateTotalPrice(false);
     calculateOutPrice();
   }
 
-  void calculateTotalPrice() {
+  void minusMoney() {
+    if (model.value.count > 1) {
+      model.value.count--;
+      calculateTotalPrice(false);
+
+      calculateOutPrice();
+    } else {
+      model.value.count = 1;
+      TabBubbleTeaCtr.find.selectTeaList.remove(model.value);
+      calculateTotalPrice(false);
+      showAddToCart.value = true;
+      dismissLoading();
+
+      if (TabBubbleTeaCtr.find.totalCount.value == 0) {
+        TabBubbleTeaCtr.find.selectTeaList.clear();
+      }
+      TabBubbleTeaCtr.find.calculateTotal();
+    }
+
+    model.refresh();
+  }
+
+  void calculateOutPrice() {
+    GoodsDetailModel cacheModel = GoodsDetailModel.deepCopy(model.value);
+    cacheModel.count = model.value.count;
+
+    bool isContains = TabBubbleTeaCtr.find.selectTeaList.contains(cacheModel);
+    if (isContains) {
+      TabBubbleTeaCtr.find.selectTeaList.remove(cacheModel);
+    }
+    TabBubbleTeaCtr.find.selectTeaList.add(cacheModel);
+
+    TabBubbleTeaCtr.find.calculateTotal();
+  }
+
+  void calculateTotalPrice(bool isFound) {
     // 选择参数后的价格
     String paramsPrice = (model.value.selectSize?.value ?? "0")
         .add(model.value.selectIce?.value ?? "0")
@@ -98,52 +156,36 @@ class BubbleTeaDetailCtr extends GetxController {
           .add(model.value.selectTopping[1].value);
     }
 
-    totalMoney.value =
-        (model.value.price ?? "0").add(paramsPrice).mul(count.value.toString());
-  }
+    totalMoney.value = (model.value.price ?? "0").add(paramsPrice);
 
-  void minusMoney() {
-    if (count.value > 1) {
-      count.value--;
-      calculateTotalPrice();
-
-      calculateOutPrice();
-    } else {
-      count.value = 1;
-      calculateTotalPrice();
-      showAddToCart.value = true;
-
-      TabBubbleTeaCtr.find.selectTeaList.clear();
-      TabBubbleTeaCtr.find.calculateTotal();
+    if (isFound) {
+      // 查找匹配的 GoodsDetailModel 对象
+      GoodsDetailModel? foundGoods = TabBubbleTeaCtr.find.selectTeaList
+          .firstWhereOrNull((goods) => goods.equalsIgnoringCount(model.value));
+      if (foundGoods != null) {
+        showAddToCart.value = false;
+        model.value.count = foundGoods.count;
+      } else {
+        model.value.count = 1;
+        showAddToCart.value = true;
+      }
+      model.refresh();
     }
-  }
-
-  void calculateOutPrice() {
-    GoodsDetailModel cacheModel = GoodsDetailModel.deepCopy(model.value);
-    cacheModel.count = count.value;
-
-    bool isContains = TabBubbleTeaCtr.find.selectTeaList.contains(cacheModel);
-    if (isContains) {
-      TabBubbleTeaCtr.find.selectTeaList.remove(cacheModel);
-    }
-    TabBubbleTeaCtr.find.selectTeaList.add(cacheModel);
-
-    TabBubbleTeaCtr.find.calculateTotal();
   }
 
   void selectSize(TagBean tagBean) {
     model.value.selectSize = tagBean;
-    calculateTotalPrice();
+    calculateTotalPrice(true);
   }
 
   void selectIce(TagBean tagBean) {
     model.value.selectIce = tagBean;
-    calculateTotalPrice();
+    calculateTotalPrice(true);
   }
 
   void selectSugar(TagBean tagBean) {
     model.value.selectSugar = tagBean;
-    calculateTotalPrice();
+    calculateTotalPrice(true);
   }
 
   void selectToppings(TagBean tagBean, bool isAdd) {
@@ -152,6 +194,6 @@ class BubbleTeaDetailCtr extends GetxController {
     if (isAdd) {
       model.value.selectTopping.add(tagBean);
     }
-    calculateTotalPrice();
+    calculateTotalPrice(true);
   }
 }

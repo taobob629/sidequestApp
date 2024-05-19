@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sq_hub_app/widget/tag/tag_bean.dart';
 
 class GoodsDetailModel extends Equatable{
@@ -86,6 +87,21 @@ class GoodsDetailModel extends Equatable{
   @override
   List<Object?> get props => [brief, image, price, cpusize, name, ice, id, topping, sugar, selectSize, selectIce, selectSugar, selectTopping];
 
+  bool equalsIgnoringCount(GoodsDetailModel other) {
+    return other.brief == brief &&
+        other.image == image &&
+        other.price == price &&
+        listEquals(other.cpusize, cpusize) &&
+        other.name == name &&
+        listEquals(other.ice, ice) &&
+        other.id == id &&
+        listEquals(other.topping, topping) &&
+        listEquals(other.sugar, sugar) &&
+        other.selectSize == selectSize &&
+        other.selectIce == selectIce &&
+        other.selectSugar == selectSugar &&
+        listEquals(other.selectTopping, selectTopping);
+  }
 }
 
 class GoodsParams extends Equatable {
@@ -113,4 +129,16 @@ class GoodsParams extends Equatable {
 
   @override
   List<Object?> get props => [price, name];
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is GoodsParams &&
+        other.price == price &&
+        other.name == name;
+  }
+
+  @override
+  int get hashCode => price.hashCode ^ name.hashCode;
 }
