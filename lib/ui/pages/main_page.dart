@@ -112,33 +112,15 @@ class MainPage extends StatelessWidget {
                                 controller.controller.jumpToPage(0);
                                 controller.updateCurrentIndex(0);
                               }),
-                          TabButton(
-                              index: 1,
-                              currentIndex: controller.currentIndex.value,
-                              selectIconName: ImageUtils.tab_social,
-                              normalIconName: ImageUtils.tab_social_normal,
-                              onTap: () {
-                                controller.controller.jumpToPage(1);
-                                controller.updateCurrentIndex(1);
-                              }),
-                          TabButton(
-                              index: 2,
-                              currentIndex: controller.currentIndex.value,
-                              selectIconName: ImageUtils.tab_games,
-                              normalIconName: ImageUtils.tab_games_normal,
-                              onTap: () {
-                                controller.controller.jumpToPage(2);
-                                controller.updateCurrentIndex(2);
-                              }),
                           Badge(
                             shape: BadgeShape.circle,
                             badgeColor: Colors.red,
                             position: BadgePosition(top: 3.h, end: 5.h),
                             animationType: BadgeAnimationType.fade,
                             animationDuration:
-                                const Duration(microseconds: 500),
+                            const Duration(microseconds: 500),
                             showBadge:
-                                UserController.find.unreadMsgCount.value > 0,
+                            UserController.find.unreadMsgCount.value > 0,
                             badgeContent: Text(
                               "${UserController.find.unreadMsgCount.value}",
                               style: TextStyle(
@@ -148,15 +130,33 @@ class MainPage extends StatelessWidget {
                             ),
                             ignorePointer: true,
                             child: TabButton(
-                                index: 3,
+                                index: 1,
                                 currentIndex: controller.currentIndex.value,
-                                selectIconName: ImageUtils.tab_stores,
-                                normalIconName: ImageUtils.tab_stores_normal,
+                                selectIconName: ImageUtils.tab_social,
+                                normalIconName: ImageUtils.tab_social_normal,
                                 onTap: () {
-                                  controller.controller.jumpToPage(3);
-                                  controller.updateCurrentIndex(3);
+                                  controller.controller.jumpToPage(1);
+                                  controller.updateCurrentIndex(1);
                                 }),
                           ),
+                          TabButton(
+                              index: 2,
+                              currentIndex: controller.currentIndex.value,
+                              selectIconName: ImageUtils.tab_games,
+                              normalIconName: ImageUtils.tab_games_normal,
+                              onTap: () {
+                                controller.controller.jumpToPage(2);
+                                controller.updateCurrentIndex(2);
+                              }),
+                          TabButton(
+                              index: 3,
+                              currentIndex: controller.currentIndex.value,
+                              selectIconName: ImageUtils.tab_stores,
+                              normalIconName: ImageUtils.tab_stores_normal,
+                              onTap: () {
+                                controller.controller.jumpToPage(3);
+                                controller.updateCurrentIndex(3);
+                              }),
                           TabButton(
                               index: 4,
                               currentIndex: controller.currentIndex.value,

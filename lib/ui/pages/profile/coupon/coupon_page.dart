@@ -52,86 +52,90 @@ class CouponPage extends StatelessWidget {
           : null,
       body: Obx(() => controller.initializing.value
           ? buildLoad()
-          : controller.list.isEmpty
-              ? noDataEmpty()
-              : Column(
-                  children: [
-                    TabBar(
-                      padding: EdgeInsets.zero,
-                      controller: controller.tabController,
-                      isScrollable: false,
-                      labelColor: Color(0xFFFFCB0D),
-                      unselectedLabelColor: AppColor.textC5C5,
-                      indicatorColor: Color(0xFFFFCB0D),
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicatorWeight: 2,
-                      indicatorPadding: EdgeInsets.only(bottom: 5),
-                      labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                      labelStyle: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: FONT_MEDIUM,
-                      ),
-                      tabs: controller.createTabs(),
-                      onTap: (index) => controller.requestData(index),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 2,
-                          right: 2,
+          : Column(
+              children: [
+                TabBar(
+                  padding: EdgeInsets.zero,
+                  controller: controller.tabController,
+                  isScrollable: false,
+                  labelColor: Color(0xFFFFCB0D),
+                  unselectedLabelColor: AppColor.textC5C5,
+                  indicatorColor: Color(0xFFFFCB0D),
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 2,
+                  indicatorPadding: EdgeInsets.only(bottom: 5),
+                  labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                  labelStyle: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  tabs: controller.createTabs(),
+                  onTap: (index) => controller.requestData(index),
+                ),
+                controller.list.isEmpty
+                    ? noDataEmpty()
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            left: 2,
+                            right: 2,
+                          ),
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    mainAxisSpacing: 10.0,
+                                    crossAxisSpacing: 10.0,
+                                    childAspectRatio: 688 / 333),
+                            itemBuilder: (context, index) {
+                              CouponModel model = controller.list[index];
+                              return CouponItem(
+                                model: model,
+                                onTap: (model) =>
+                                    controller.selectCoupon(model),
+                              );
+                            },
+                            itemCount: controller.list.length,
+                          ),
                         ),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  mainAxisSpacing: 10.0,
-                                  crossAxisSpacing: 10.0,
-                                  childAspectRatio: 688 / 333),
-                          itemBuilder: (context, index) {
-                            CouponModel model = controller.list[index];
-                            return CouponItem(
-                              model: model,
-                              onTap: (model) => controller.selectCoupon(model),
-                            );
-                          },
-                          itemCount: controller.list.length,
-                        ),
                       ),
-                    ),
-                  ],
-                )),
-      bottomNavigationBar: Obx(() => controller
-                  .floatingActionButtonShow.value &&
-              controller.list.isNotEmpty
-          ? FloatingButton(
+              ],
+            )),
+      bottomNavigationBar: Visibility(
+        visible: controller.floatingActionButtonShow.value &&
+            controller.list.isNotEmpty,
+        child: Obx(() => FloatingButton(
               label: "ADD".tr,
               onTap: () => Get.dialog(
-                          AddCouponDialog(
-                            tab: controller.tab,
-                          ),
-                          barrierColor: Colors.black26)
-                      .then((value) {
-                    if (value != null) {
-                      controller.reload();
-                      Get.dialog(
-                          ConfirmDialog(title: "Voucher Added".tr, info: value),
-                          barrierColor: Colors.black26);
-                    }
-                  }))
-          : Container()),
+                AddCouponDialog(
+                  tab: controller.tab,
+                ),
+                barrierColor: Colors.black26,
+              ).then(
+                (value) {
+                  if (value != null) {
+                    controller.reload();
+                    Get.dialog(
+                        ConfirmDialog(title: "Voucher Added".tr, info: value),
+                        barrierColor: Colors.black26);
+                  }
+                },
+              ),
+            )),
+      ),
     );
   }
 
-  Widget noDataEmpty() => Center(
+  Widget noDataEmpty() => Expanded(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               ImageUtils.coupon_no_data_icon,

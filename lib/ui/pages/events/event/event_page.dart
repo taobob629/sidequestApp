@@ -464,12 +464,12 @@ class EventPageController extends BasePageController {
 
   void joinMatch(BuildContext context) async {
     print('zengchao = ${eventDetailModel.value.company.isNotEmpty}');
-    if (eventDetailModel.value.company.isNotEmpty) {
-      final result = await Get.bottomSheet(RiotDialog());
-      if (result != null) {
-
-      }
-    }
+    // if (eventDetailModel.value.company.isNotEmpty) {
+    //   final result = await Get.bottomSheet(RiotDialog());
+    //   if (result != null) {
+    //
+    //   }
+    // }
 
     int type = eventDetailModel.value.matchDiff;
     var timeResult;

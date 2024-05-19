@@ -79,7 +79,6 @@ class TabBubbleTeaCtr extends GetxController {
       HubsApi.getTeaBanners(storeId),
       HubsApi.getTeaList(storeId, 0),
       HubsApi.getTeaCategory(storeId),
-      HubsApi.getVouchers(storeId),
     ]);
     if (isShowLoading) dismissLoading();
     if (list.length > 1) {
@@ -89,9 +88,6 @@ class TabBubbleTeaCtr extends GetxController {
       teaCategoryList.clear();
       teaCategoryList.add(TeaCategoryModel(id: 0, name: "All Type"));
       teaCategoryList.addAll(list[2]);
-    }
-    if (list.length > 3) {
-      final params = list[3];
     }
   }
 
@@ -135,6 +131,8 @@ class TabBubbleTeaCtr extends GetxController {
           (item.price ?? "0").add(paramsPrice).mul(item.count.toString()));
     }
     totalPrice.value = total.toString();
+    // 查询优惠券
+    HubsApi.getVouchers(currentSelectStore.value.id);
   }
 
   void selectStore() async {
