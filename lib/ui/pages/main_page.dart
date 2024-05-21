@@ -118,9 +118,9 @@ class MainPage extends StatelessWidget {
                             position: BadgePosition(top: 3.h, end: 5.h),
                             animationType: BadgeAnimationType.fade,
                             animationDuration:
-                            const Duration(microseconds: 500),
+                                const Duration(microseconds: 500),
                             showBadge:
-                            UserController.find.unreadMsgCount.value > 0,
+                                UserController.find.unreadMsgCount.value > 0,
                             badgeContent: Text(
                               "${UserController.find.unreadMsgCount.value}",
                               style: TextStyle(
@@ -359,8 +359,9 @@ class MainPageController extends FullLifeCycleController
           }
           String? url = map["target"];
           Get.to(() => WebPage(
-            url: url, title: '',
-          ));
+                url: url,
+                title: '',
+              ));
         } else {
           PopAdDialog.show(value, cancelable: false);
         }

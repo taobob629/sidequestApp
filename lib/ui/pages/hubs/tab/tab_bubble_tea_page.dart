@@ -270,17 +270,19 @@ class TabBubbleTeaPage extends StatelessWidget {
                 if (ctr.isShowCartDialog) {
                   dismissLoading();
                 } else {
-                  ctr.isShowCartDialog = true;
-                  SmartDialog.showAttach(
-                    targetContext: ctr.cartContext,
-                    usePenetrate: false,
-                    alignment: Alignment.topCenter,
-                    builder: (_) => cartWidget(),
-                    onDismiss: () {
-                      ctr.isShowDrinkNow.value = true;
-                      ctr.isShowCartDialog = false;
-                    },
-                  );
+                  if (ctr.selectTeaList.isNotEmpty) {
+                    ctr.isShowCartDialog = true;
+                    SmartDialog.showAttach(
+                      targetContext: ctr.cartContext,
+                      usePenetrate: false,
+                      alignment: Alignment.topCenter,
+                      builder: (_) => cartWidget(),
+                      onDismiss: () {
+                        ctr.isShowDrinkNow.value = true;
+                        ctr.isShowCartDialog = false;
+                      },
+                    );
+                  }
                 }
               },
               child: Obx(() => badges.Badge(
@@ -350,12 +352,16 @@ class TabBubbleTeaPage extends StatelessWidget {
             //   ),
             // ),
             InkWell(
-              onTap: () => Get.to(() => BubbleConfirmOrderPage()),
+              onTap: () => ctr.selectTeaList.isNotEmpty
+                  ? Get.to(() => BubbleConfirmOrderPage())
+                  : null,
               child: Container(
                 width: 100.w,
                 height: 44.w,
                 decoration: ShapeDecoration(
-                  color: hexColor('FFB20E'),
+                  color: ctr.selectTeaList.isNotEmpty
+                      ? hexColor('FFB20E')
+                      : hexColor('CCCCCC'),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(60),
                   ),

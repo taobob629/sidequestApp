@@ -9,7 +9,7 @@ class SimpleTags extends StatelessWidget {
   final List<TagBean> content;
 
   var selectStr = <String>[].obs;
-  final List<TagBean> defaultSelect;
+  final List<TagBean?> defaultSelect;
 
   // bool：true添加，false删除
   final Function(TagBean, bool)? onTagPress;
@@ -96,7 +96,8 @@ class SimpleTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    selectStr.assignAll(defaultSelect.map((e) => e.name).toList());
+    selectStr
+        .assignAll(defaultSelect.map((e) => e != null ? e.name : "").toList());
 
     return Obx(
       () => Wrap(

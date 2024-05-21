@@ -214,8 +214,9 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   selectSize: 1,
                   tagList: ctr.sizeTags,
                   isDefaultSelectFirst: true,
-                  defaultSelect: [ctr.model.value.selectSize!],
-                  onTagPress: (tagBean, isAdd) => ctr.selectSize(tagBean),
+                  defaultSelect: [ctr.model.value.selectSize],
+                  onTagPress: (tagBean, isAdd) =>
+                      ctr.selectSize(tagBean, isAdd),
                 ),
               if (ctr.iceTags.isNotEmpty)
                 commonWidget(
@@ -223,8 +224,8 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   selectSize: 1,
                   isDefaultSelectFirst: true,
                   tagList: ctr.iceTags,
-                  defaultSelect: [ctr.model.value.selectIce!],
-                  onTagPress: (tagBean, isAdd) => ctr.selectIce(tagBean),
+                  defaultSelect: [ctr.model.value.selectIce],
+                  onTagPress: (tagBean, isAdd) => ctr.selectIce(tagBean, isAdd),
                 ),
               if (ctr.sugarTags.isNotEmpty)
                 commonWidget(
@@ -232,8 +233,9 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   selectSize: 1,
                   isDefaultSelectFirst: true,
                   tagList: ctr.sugarTags,
-                  defaultSelect: [ctr.model.value.selectSugar!],
-                  onTagPress: (tagBean, isAdd) => ctr.selectSugar(tagBean),
+                  defaultSelect: [ctr.model.value.selectSugar],
+                  onTagPress: (tagBean, isAdd) =>
+                      ctr.selectSugar(tagBean, isAdd),
                 ),
               if (ctr.toppingTags.isNotEmpty)
                 commonWidget(
@@ -255,7 +257,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
     required int selectSize,
     required bool isDefaultSelectFirst,
     required List<TagBean> tagList,
-    required List<TagBean> defaultSelect,
+    required List<TagBean?> defaultSelect,
     required Function(TagBean, bool isAdd) onTagPress,
   }) =>
       Column(
@@ -334,17 +336,19 @@ class BubbleTeaDetailPage extends StatelessWidget {
                 if (TabBubbleTeaCtr.find.isShowCartDialog) {
                   dismissLoading();
                 } else {
-                  TabBubbleTeaCtr.find.isShowCartDialog = true;
-                  SmartDialog.showAttach(
-                    targetContext: ctr.cartContext,
-                    usePenetrate: false,
-                    alignment: Alignment.topCenter,
-                    builder: (_) => cartWidget(),
-                    onDismiss: () {
-                      TabBubbleTeaCtr.find.isShowDrinkNow.value = true;
-                      TabBubbleTeaCtr.find.isShowCartDialog = false;
-                    },
-                  );
+                  if (TabBubbleTeaCtr.find.selectTeaList.isNotEmpty) {
+                    TabBubbleTeaCtr.find.isShowCartDialog = true;
+                    SmartDialog.showAttach(
+                      targetContext: ctr.cartContext,
+                      usePenetrate: false,
+                      alignment: Alignment.topCenter,
+                      builder: (_) => cartWidget(),
+                      onDismiss: () {
+                        TabBubbleTeaCtr.find.isShowDrinkNow.value = true;
+                        TabBubbleTeaCtr.find.isShowCartDialog = false;
+                      },
+                    );
+                  }
                 }
               },
               child: Obx(() => badges.Badge(
@@ -389,30 +393,34 @@ class BubbleTeaDetailPage extends StatelessWidget {
                     ),
                   )),
             ),
-            InkWell(
-              onTap: () => Get.to(() => BubbleConfirmOrderPage()),
-              child: Container(
-                width: 100.w,
-                height: 44.w,
-                decoration: ShapeDecoration(
-                  color: hexColor('FFB20E'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+            Obx(() => InkWell(
+                  onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
+                      ? ctr.drinkNow()
+                      : null,
+                  child: Container(
+                    width: 100.w,
+                    height: 44.w,
+                    decoration: ShapeDecoration(
+                      color: TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
+                          ? hexColor('FFB20E')
+                          : hexColor('CCCCCC'),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Drink Now',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Drink Now',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
+                )),
           ],
         ),
       );
@@ -465,7 +473,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                       ).paddingOnly(left: 16.w)),
                 ),
                 InkWell(
-                  onTap: () => TabBubbleTeaCtr.find.clearTea(),
+                  onTap: () => ctr.clearCart(),
                   child: Image.asset(ImageUtils.delete_icon),
                 ),
                 16.horizontalSpace,

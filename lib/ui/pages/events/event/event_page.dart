@@ -189,6 +189,11 @@ class EventPage extends StatelessWidget {
                     unselectedLabelStyle:
                         TextStyle(fontSize: 18.sp, fontFamily: FONT_MEDIUM),
                     tabs: createTabs(),
+                    onTap: (index) => controller.scrollController.animateTo(
+                      0.0,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    ),
                   )
                 ]),
               ),
@@ -516,7 +521,8 @@ class EventPageController extends BasePageController {
                   info: "You have successfully signed up!".tr),
               barrierColor: Colors.black26,
             );
-          } /*else {
+          }
+          /*else {
             showInfoDialog(
               map['code'].toString(),
               map['url'].toString(),

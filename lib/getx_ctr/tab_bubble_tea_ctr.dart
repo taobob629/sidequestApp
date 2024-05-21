@@ -110,7 +110,9 @@ class TabBubbleTeaCtr extends GetxController {
         selectTeaList.remove(foundGoods);
       }
       if (selectTeaList.isEmpty) {
-        BubbleTeaDetailCtr.find.showAddToCart.value = true;
+        if (Get.isRegistered<BubbleTeaDetailCtr>()) {
+          BubbleTeaDetailCtr.find.showAddToCart.value = true;
+        }
         dismissLoading();
       }
     }
@@ -169,7 +171,9 @@ class TabBubbleTeaCtr extends GetxController {
   }
 
   void clearTea() {
-    BubbleTeaDetailCtr.find.showAddToCart.value = true;
+    if (Get.isRegistered<BubbleTeaDetailCtr>()) {
+      BubbleTeaDetailCtr.find.showAddToCart.value = true;
+    }
     selectTeaList.clear();
     calculateTotal();
     dismissLoading();
