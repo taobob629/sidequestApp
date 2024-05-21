@@ -486,7 +486,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '£ ${ctr.getPrice(i)}',
+                '£ ${ctr.getPrice(ctr.selectTeaList[i])}',
                 style: TextStyle(
                   color: Color(0xFFFFB20E),
                   fontSize: 16.sp,

@@ -530,7 +530,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '£ ${TabBubbleTeaCtr.find.getPrice(i)}',
+                '£ ${TabBubbleTeaCtr.find.getPrice(TabBubbleTeaCtr.find.selectTeaList[i])}',
                 style: TextStyle(
                   color: Color(0xFFFFB20E),
                   fontSize: 16.sp,

@@ -62,19 +62,18 @@ class TabBubbleTeaCtr extends GetxController {
     }
   }
 
-  String getPrice(int i) {
-    String paramsPrice = (selectTeaList[i].selectSize?.value ?? "0")
-        .add(selectTeaList[i].selectIce?.value ?? "0")
-        .add(selectTeaList[i].selectSugar?.value ?? "0")
-        .add(selectTeaList[i].selectTopping[0].value);
-    if (selectTeaList[i].selectTopping.length > 1) {
-      paramsPrice = (selectTeaList[i].selectSize?.value ?? "0")
-          .add(selectTeaList[i].selectIce?.value ?? "0")
-          .add(selectTeaList[i].selectSugar?.value ?? "0")
-          .add(selectTeaList[i].selectTopping[0].value)
-          .add(selectTeaList[i].selectTopping[1].value);
+  String getPrice(GoodsDetailModel model) {
+    String paramsPrice = (model.selectSize?.value ?? "0")
+        .add(model.selectIce?.value ?? "0")
+        .add(model.selectSugar?.value ?? "0");
+    if (model.selectTopping.length == 1) {
+      paramsPrice = paramsPrice.add(model.selectTopping[0].value);
+    } else if (model.selectTopping.length == 2) {
+      paramsPrice = paramsPrice
+          .add(model.selectTopping[0].value)
+          .add(model.selectTopping[1].value);
     }
-    return (selectTeaList[i].price ?? "0").add(paramsPrice);
+    return (model.price ?? "0").add(paramsPrice);
   }
 
   void requestStoreInDataByStoreId(int? storeId, bool isShowLoading) async {
@@ -128,12 +127,11 @@ class TabBubbleTeaCtr extends GetxController {
 
       String paramsPrice = (item.selectSize?.value ?? "0")
           .add(item.selectIce?.value ?? "0")
-          .add(item.selectSugar?.value ?? "0")
-          .add(item.selectTopping[0].value);
-      if (item.selectTopping.length > 1) {
-        paramsPrice = (item.selectSize?.value ?? "0")
-            .add(item.selectIce?.value ?? "0")
-            .add(item.selectSugar?.value ?? "0")
+          .add(item.selectSugar?.value ?? "0");
+      if (item.selectTopping.length == 1) {
+        paramsPrice = paramsPrice.add(item.selectTopping[0].value);
+      } else if (item.selectTopping.length > 1) {
+        paramsPrice = paramsPrice
             .add(item.selectTopping[0].value)
             .add(item.selectTopping[1].value);
       }

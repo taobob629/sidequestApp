@@ -87,9 +87,6 @@ class BubbleTeaDetailCtr extends GetxController {
       if (sugarTags.isNotEmpty) {
         model.value.selectSugar = sugarTags[0];
       }
-      if (toppingTags.isNotEmpty) {
-        model.value.selectTopping.assign(toppingTags[0]);
-      }
     }
 
     calculateTotalPrice(true);
