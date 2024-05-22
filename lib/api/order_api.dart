@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:sq_hub_app/api/wy_http.dart';
 
 import '../model/order_detail.dart';
+import '../model/order_list_model.dart';
 import '../model/order_model.dart';
 
 class OrderApi {
@@ -9,6 +10,14 @@ class OrderApi {
     var response = await http.get('/app/order/list', queryParameters: ({"status": status}));
     List<OrderModel> list =
         response.data.map<OrderModel>((item) => OrderModel.fromJson(item)).toList();
+    return list;
+  }
+
+  static Future<List<OrderListModel>> getOrderList() async {
+    var response = await http.get('/sideQuest/app/sq/user/orderList');
+    List<OrderListModel> list = response.data
+        .map<OrderListModel>((item) => OrderListModel.fromJson(item))
+        .toList();
     return list;
   }
 

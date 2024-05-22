@@ -30,6 +30,7 @@ import '../../../../widget/my_progressbar.dart';
 import '../../booking/booking_page.dart';
 import '../../messages/fans/fans_list_page.dart';
 import '../../messages/follow/follow_list_page.dart';
+import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
 import '../integral/integral_home_page.dart';
@@ -411,7 +412,7 @@ class MyProfilePage extends StatelessWidget {
                         child: _dashboardLabelItem(
                           ImageUtils.icon_orders,
                           "Orders".tr,
-                          onTap: () {},
+                          onTap: () => Get.to(() => OrderListPage()),
                         ),
                       ),
                     ],

@@ -21,6 +21,7 @@ class ImageUtils {
   static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
   static const String icon_ps = 'assets/images/icon_ps.webp';
   static const String tea_icon = 'assets/images/tea_icon.webp';
+  static const String order_more_icon = 'assets/images/order_more_icon.webp';
   static const String coupon_no_data_icon = 'assets/images/coupon_no_data_icon.webp';
   static const String delete_icon = 'assets/images/delete_icon.webp';
   static const String tea_app_logo_icon = 'assets/images/tea_app_logo_icon.webp';

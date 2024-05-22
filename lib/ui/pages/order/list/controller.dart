@@ -5,75 +5,39 @@
  */
 import 'dart:async';
 
-import 'package:dio/src/response.dart' as dio;
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/api/order_api.dart';
+import 'package:sq_hub_app/utils/toast_utils.dart';
 
-import '../../../../api/network_method.dart';
-import '../../../../common/refreshlist_controller.dart';
-import '../../../../event_bus/beans/order_bean.dart';
-import '../../../../event_bus/event_bus.dart';
-import '../../../../model/service_list_model.dart';
-import '../detail/view.dart';
+import '../../../../common/getx_refresh_controller.dart';
+import '../../../../model/order_list_model.dart';
 
-class OrderListController extends RefreshListController<ServiceListModel> {
+class OrderListController extends GetxController {
 
-  late var type;
-  late var status;
+  late RefreshController refreshController;
 
-  OrderListController(this.type, this.status);
+  var list = <OrderListModel>[].obs;
 
-  StreamSubscription? subscription;
-
-  @override
-  buildMethodType() {
-    return NWMethod.GET;
-  }
+  var showOrHide = true.obs;
 
   @override
   void onInit() {
     super.onInit();
+    refreshController = RefreshController(initialRefresh: true);
 
-    subscription = eventBus.on<OrderBean>().listen((event) {
-      status = event.status;
-      request();
-    });
+    requestData();
   }
 
   @override
   void onClose() {
+    refreshController.dispose();
     super.onClose();
-
-    subscription?.cancel();
-    subscription = null;
   }
 
-  @override
-  Map<String, dynamic> buildParams() => {};
-
-  @override
-  String buildUrl() {
-    return '/peiwan/app/new/orders/list?type=$type&status=$status';
-  }
-
-  @override
-  bool paged() => true;
-
-  @override
-  List<ServiceListModel> dealData(dio.Response<dynamic> response) {
-    return response.data['rows']
-        .map<ServiceListModel>((item) => ServiceListModel.fromJson(item))
-        .toList();
-  }
-
-  @override
-  needAutoLoadData() => true;
-
-  toDetail(ServiceListModel item) {
-    Get.to(() => OrderDetailPage(),
-        arguments: {}
-          ..['id'] = item.id
-          ..['type'] = type)?.then((value) {
-            if(value==true) onRefresh();
-    });
+  void requestData() async {
+    showLoading();
+    list.value = await OrderApi.getOrderList();
+    dismissLoading();
   }
 }

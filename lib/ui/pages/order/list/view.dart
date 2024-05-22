@@ -5,173 +5,221 @@
   Created by chunma on .
   Copyright © sidequest_hub_app. All rights reserved.
 */
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/common/base_scaffold.dart';
+import 'package:sq_hub_app/config/icon_font.dart';
 
-import '../../../../common/basePage.dart';
-import '../../../../common/base_controller.dart';
-import '../../../../common/refresh_list.dart';
-import '../../../../common/refreshlist_controller.dart';
-import '../../../../common/styles.dart';
-import '../../../../config/icon_font.dart';
-import '../../../../model/service_list_model.dart';
-import '../../../../utils/utils.dart';
+import '../../../../image_utils.dart';
+import '../../../../model/order_list_model.dart';
+import '../../../../widget/image_util.dart';
 import 'controller.dart';
 
-class OrderListListPage extends BasePage {
-  var type;
-  var status;
-  OrderListController? controller;
+class OrderListPage extends StatelessWidget {
+  final ctr = Get.put(OrderListController());
 
-  OrderListListPage(this.type, this.status);
-
-  body(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        var model = controller?.mDatas[index];
-        return Container(
-          width: Get.width,
-          child: InkWell(
-            child: item(model!),
-            onTap: () => controller?.toDetail(model!),
-          ),
-        );
-      },
-      itemCount: controller?.mDatas.length ?? 0,
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        color: Colors.transparent,
-        height: 15.h,
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      title: "Order list".tr,
+      body: Obx(() => ListView.separated(
+            itemBuilder: (c, i) => itemWidget(ctr.list[i]),
+            separatorBuilder: (c, i) => 12.verticalSpace,
+            itemCount: ctr.list.length,
+          )),
     );
   }
 
-  @override
-  Widget buildBody(BuildContext context) {
-    return biuldSmartRefresh(
-        controller?.refreshController,
-        controller?.pageState == PageState.sucess
-            ? body(context)
-            : controller?.buildEmpty(),
-        onRefresh: () {
-          controller?.onRefresh();
-        },
-        onLoad: () => controller?.onLoadMore());
-  }
-
-  @override
-  RefreshListController pageController() {
-    if (controller != null) return controller!;
-    flog('OrderList_$type');
-    controller =
-        Get.put(OrderListController(type, status), tag: 'OrderList_$type');
-    controller?.refreshController = RefreshController(initialRefresh: false);
-    return controller!;
-    //  }
-  }
-
-  item(ServiceListModel model) {
-    return innnerBg(Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+  Widget itemWidget(OrderListModel model) => Container(
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 16.h,
+        ),
+        decoration: ShapeDecoration(
+          color: Color(0xFF141517),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-                height: 10.w,
-                width: 10.w,
-                decoration: ShapeDecoration(
-                    shape: StadiumBorder(), color: model.statusColor())),
-            10.horizontalSpace,
-            Text(
-              '${orderStatusMap[model.status]}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: FONT_MEDIUM,
-                  fontSize: 13.sp),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${model.orderTime}',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Text(
+                  'In progress',
+                  style: TextStyle(
+                    color: Color(0xFFFFB20E),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+              ],
             ),
-            Spacer(),
-            Text(
-              '${model.time}',
-              style: TextStyle(color: Color(0xFFB2B9C9), fontSize: 11.sp),
+            14.verticalSpace,
+            _goodListItemWidget(model.items),
+            Container(
+              height: 1.h,
+              decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
+            ),
+            Row(
+              children: [
+                Text(
+                  '${model.items.length}',
+                  style: TextStyle(
+                    color: Color(0xFFFFB20E),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                5.horizontalSpace,
+                Text(
+                  'item in total',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                14.horizontalSpace,
+                Expanded(
+                  child: Text(
+                    '£${model.total}',
+                    style: TextStyle(
+                      color: Color(0xFFFFB20E),
+                      fontSize: 20.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 120.w,
+                  height: 34.h,
+                  margin: EdgeInsets.symmetric(vertical: 14.h),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1.w,
+                        color: Color(0xFFFFB20E),
+                      ),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Pickup number',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFFFFB20E),
+                      fontSize: 14.sp,
+                      fontFamily: FONT_LIGHT,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: -0.41,
+                    ),
+                  ),
+                )
+              ],
             )
           ],
         ),
-        10.verticalSpace,
-        listDivider,
-        10.verticalSpace,
-        Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(17.r),
-              child: CachedNetworkImage(
-                imageUrl: model.icon,
-                width: 70.w,
-                height: 70.w,
-                fit: BoxFit.cover,
-              ),
-            ),
-            10.horizontalSpace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  '${model.gameName}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM),
-                ),
-                16.verticalSpace,
-                Row(
-                  children: [
-                    Image(
-                      image: AssetImage('assets/images/ic_balance_money.webp'),
-                      width: 15,
-                      height: 15,
-                    ),
-                    3.horizontalSpace,
-                    Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: '${model?.price}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM)),
-                      TextSpan(
-                          text: '/${model.unit}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.sp,
-                              fontFamily: FONT_MEDIUM)),
-                    ])),
-                    //  Spacer(),
-                  ],
-                ),
-              ],
-            ),
-            Spacer(),
-            Text(
-              'X${model.amount}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontFamily: FONT_MEDIUM),
-            )
-          ],
-        )
-      ],
-    ));
-  }
+      );
 
-  Widget innnerBg(Widget view) {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15).r,
-      padding: itemPadding10,
-      decoration: itemDecoration(color: Color(0xFF262731), radius: 17.r),
-      child: view,
-    );
-  }
+  Widget _goodListItemWidget(List<OrderItem> items) => SizedBox(
+        height: items.length > 1 ? 165.h : 100.h,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (c, i) => Row(
+                children: [
+                  ImageUtil.networkImage(
+                    url: '${items[i].picUrl}',
+                    width: 65.w,
+                    height: 65.w,
+                  ),
+                  10.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${items[i].name}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        8.verticalSpace,
+                        Text(
+                          '£${items[i].retailPrice}',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'X${items[i].num}',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              separatorBuilder: (c, i) => 12.verticalSpace,
+              itemCount: items.length,
+            ),
+            Obx(() => Visibility(
+                  visible: ctr.showOrHide.value && items.length > 1,
+                  child: Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      height: 80.h,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Color(0xff141517)],
+                        ),
+                      ),
+                      child: Image.asset(
+                        ImageUtils.order_more_icon,
+                        scale: 1.5,
+                      ),
+                    ),
+                  ),
+                )),
+          ],
+        ),
+      );
 }
