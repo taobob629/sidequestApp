@@ -32,19 +32,12 @@ class PayPage extends StatelessWidget {
     flog('payOrderModel ${controller.payOrderModel}');
     return KeyboardScaffold(
       title: "Pay Confirm".tr,
-      body: Platform.isIOS && StorageManager.getOnline() == false
-          ? ListView(
-              children: [
-                _buildPayView("Apple Pay".tr, "ios_pay",
-                    controller.payType.value, controller.payType.value)
-              ],
-            )
-          : ListView.separated(
-              itemBuilder: (context, index) =>
-                  Platform.isIOS ? iosWidget(index) : androidWidget(index),
-              separatorBuilder: (context, index) => 15.verticalSpace,
-              itemCount: Platform.isIOS ? 6 : 5,
-            ),
+      body: ListView.separated(
+        itemBuilder: (context, index) =>
+            Platform.isIOS ? iosWidget(index) : androidWidget(index),
+        separatorBuilder: (context, index) => 15.verticalSpace,
+        itemCount: Platform.isIOS ? 6 : 5,
+      ),
       floatingActionButton: _buildFloatingActionButton(),
     );
   }

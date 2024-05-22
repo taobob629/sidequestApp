@@ -10,6 +10,7 @@ class GoodsDetailModel extends Equatable{
   String? name;
   List<GoodsParams> ice;
   int? id;
+  int? commodityId;
   List<GoodsParams> topping;
   List<GoodsParams> sugar;
 
@@ -27,6 +28,7 @@ class GoodsDetailModel extends Equatable{
     this.name,
     required this.ice,
     this.id,
+    this.commodityId,
     required this.topping,
     required this.sugar,
   });
@@ -46,6 +48,7 @@ class GoodsDetailModel extends Equatable{
             : List<GoodsParams>.from(
                 json["ice"]!.map((x) => GoodsParams.fromJson(x))),
         id: json["id"],
+        commodityId: json["commodityId"],
         topping: json["topping"] == null
             ? []
             : List<GoodsParams>.from(
@@ -64,6 +67,7 @@ class GoodsDetailModel extends Equatable{
         "name": name,
         "ice": List<dynamic>.from(ice.map((x) => x.toJson())),
         "id": id,
+        "commodityId": commodityId,
         "topping": List<dynamic>.from(topping.map((x) => x.toJson())),
         "sugar": List<dynamic>.from(sugar.map((x) => x.toJson())),
       };
@@ -76,6 +80,7 @@ class GoodsDetailModel extends Equatable{
         this.name = original.name,
         this.ice = original.ice.map((item) => GoodsParams.deepCopy(item)).toList(),
         this.id = original.id,
+        this.commodityId = original.commodityId,
         this.topping = original.topping.map((item) => GoodsParams.deepCopy(item)).toList(),
         this.sugar = original.sugar.map((item) => GoodsParams.deepCopy(item)).toList(),
         this.selectSize = original.selectSize != null ? TagBean.deepCopy(original.selectSize!) : null,
@@ -85,7 +90,7 @@ class GoodsDetailModel extends Equatable{
         this.count = original.count;
 
   @override
-  List<Object?> get props => [brief, image, price, cpusize, name, ice, id, topping, sugar, selectSize, selectIce, selectSugar, selectTopping];
+  List<Object?> get props => [brief, image, price, cpusize, name, ice, id,  commodityId, topping, sugar, selectSize, selectIce, selectSugar, selectTopping];
 
   bool equalsIgnoringCount(GoodsDetailModel other) {
     return other.brief == brief &&
@@ -95,6 +100,7 @@ class GoodsDetailModel extends Equatable{
         other.name == name &&
         listEquals(other.ice, ice) &&
         other.id == id &&
+        other.commodityId == commodityId &&
         listEquals(other.topping, topping) &&
         listEquals(other.sugar, sugar) &&
         other.selectSize == selectSize &&

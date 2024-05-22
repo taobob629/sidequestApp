@@ -66,6 +66,10 @@ class BubbleTeaDetailCtr extends GetxController {
           TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
     });
 
+    initParamsAndPrice();
+  }
+
+  void initParamsAndPrice() {
     final result = findModelFromSelectTeaList(model.value);
     if (result != null) {
       showAddToCart.value = false;
@@ -99,6 +103,18 @@ class BubbleTeaDetailCtr extends GetxController {
   }
 
   void addToCart() {
+    if (model.value.selectSize == null) {
+      showToast("Please select at least one size");
+      return;
+    }
+    if (model.value.selectIce == null) {
+      showToast("Please select at least one size");
+      return;
+    }
+    if (model.value.selectSugar == null) {
+      showToast("Please select at least one size");
+      return;
+    }
     showAddToCart.value = false;
     calculateOutPrice();
   }
@@ -205,21 +221,5 @@ class BubbleTeaDetailCtr extends GetxController {
   void clearCart() {
     model.value.count = 1;
     TabBubbleTeaCtr.find.clearTea();
-  }
-
-  void drinkNow() {
-    if (model.value.selectSize == null) {
-      showToast("Please select at least one size");
-      return;
-    }
-    if (model.value.selectIce == null) {
-      showToast("Please select at least one size");
-      return;
-    }
-    if (model.value.selectSugar == null) {
-      showToast("Please select at least one size");
-      return;
-    }
-    Get.to(() => BubbleConfirmOrderPage());
   }
 }

@@ -346,6 +346,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                       onDismiss: () {
                         TabBubbleTeaCtr.find.isShowDrinkNow.value = true;
                         TabBubbleTeaCtr.find.isShowCartDialog = false;
+                        ctr.initParamsAndPrice();
                       },
                     );
                   }
@@ -395,7 +396,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
             ),
             Obx(() => InkWell(
                   onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
-                      ? ctr.drinkNow()
+                      ? Get.to(() => BubbleConfirmOrderPage())
                       : null,
                   child: Container(
                     width: 100.w,

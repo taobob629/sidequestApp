@@ -55,4 +55,21 @@ class HubsApi {
         .toList();
     return list;
   }
+
+  static Future<dynamic> confirmOrder({
+    required int storeId,
+    required List<Map<String, dynamic>> goodsList,
+    required String eatin,
+    required String arrivalTime,
+    String? couponId,
+  }) async {
+    var response =
+        await http.post('/sideQuest/app/hubs/confirmOrder', data: {
+      "storeId": storeId,
+      "goodsList": goodsList,
+      "eatin": eatin,
+      "arrivalTime": arrivalTime,
+    });
+    return response.data;
+  }
 }

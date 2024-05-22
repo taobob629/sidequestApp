@@ -79,6 +79,7 @@ dependencies:
   flutter_web_auth: ^0.5.0
   waterfall_flow: ^3.0.2
   decimal: ^2.3.3
+  numberpicker: ^2.1.2
 #  google_fonts: 4.0.4
   # tim_ui_kit: 0.1.8
   # tencent_cloud_chat_uikit: ^1.7.0
