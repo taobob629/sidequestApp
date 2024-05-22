@@ -33,8 +33,8 @@ class OrderListPage extends StatelessWidget {
   }
 
   Widget itemWidget(OrderListModel model) => InkWell(
-        onTap: () => Get.to(() => OrderDetailPage(),
-            arguments: Map()..['id'] = model.id),
+        onTap: () =>
+            Get.to(() => OrderDetailPage(), arguments: model.id),
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
           padding: EdgeInsets.symmetric(
@@ -146,97 +146,97 @@ class OrderListPage extends StatelessWidget {
         ),
       );
 
-  Widget _goodListItemWidget(OrderListModel model) =>
-      Obx(() => SizedBox(
-            height: model.items.length > 1 ? model.goodsItemTotalHeight.value : 100.h,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (c, i) => Row(
-                    children: [
-                      ImageUtil.networkImage(
-                        url: '${model.items[i].picUrl}',
-                        width: 65.w,
-                        height: 65.w,
-                      ),
-                      10.horizontalSpace,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${model.items[i].name}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            8.verticalSpace,
-                            Text(
-                              '£${model.items[i].retailPrice}',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 12.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'X${model.items[i].num}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+  Widget _goodListItemWidget(OrderListModel model) => Obx(() => SizedBox(
+        height:
+            model.items.length > 1 ? model.goodsItemTotalHeight.value : 100.h,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (c, i) => Row(
+                children: [
+                  ImageUtil.networkImage(
+                    url: '${model.items[i].picUrl}',
+                    width: 65.w,
+                    height: 65.w,
                   ),
-                  separatorBuilder: (c, i) => 12.verticalSpace,
-                  itemCount: model.items.length,
-                ),
-                Visibility(
-                  visible: model.items.length > 1,
-                  child: Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: InkWell(
-                      onTap: () => ctr.showOrHideItem(model),
-                      child: Container(
-                        height: 80.h,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.transparent, Color(0xff141517)],
+                  10.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${model.items[i].name}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        child: Image.asset(
-                          model.showOrHide.value
-                              ? ImageUtils.order_less_icon
-                              : ImageUtils.order_more_icon,
-                          scale: 1.5,
+                        8.verticalSpace,
+                        Text(
+                          '£${model.items[i].retailPrice}',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'X${model.items[i].num}',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              separatorBuilder: (c, i) => 12.verticalSpace,
+              itemCount: model.items.length,
+            ),
+            Visibility(
+              visible: model.items.length > 1,
+              child: Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: InkWell(
+                  onTap: () => ctr.showOrHideItem(model),
+                  child: Container(
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Color(0xff141517)],
                       ),
+                    ),
+                    child: Image.asset(
+                      model.showOrHide.value
+                          ? ImageUtils.order_less_icon
+                          : ImageUtils.order_more_icon,
+                      scale: 1.5,
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: false,
-                  child: Container(
-                    height: model.goodsItemTotalHeight.value,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ));
+            Visibility(
+              visible: false,
+              child: Container(
+                height: model.goodsItemTotalHeight.value,
+              ),
+            ),
+          ],
+        ),
+      ));
 }

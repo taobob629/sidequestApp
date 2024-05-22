@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:sq_hub_app/api/wy_http.dart';
 
 import '../model/order_detail.dart';
+import '../model/order_detail_new_model.dart';
 import '../model/order_list_model.dart';
 import '../model/order_model.dart';
 
@@ -31,6 +32,12 @@ class OrderApi {
 
   static Future<void> delete(String id) async {
     await http.get('/app/order/delete', queryParameters: ({"orderId": id}));
+  }
+
+  static Future<OrderDetailNewModel> orderDetailNew(var id) async {
+    var response =
+        await http.get('/sideQuest/app/sq/user/orderDetail', queryParameters: ({"orderId": id}));
+    return OrderDetailNewModel.fromJson(response.data);
   }
 
   static Future<OrderDetailModel> getOrderDetail(var id) async {
