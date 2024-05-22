@@ -1,9 +1,14 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 class OrderListModel {
   double? total;
   String? orderTime;
   int? id;
   List<OrderItem> items = [];
-  int? status;
+  String? status;
+  var showOrHide = false.obs;
+  var goodsItemTotalHeight = 165.w.obs;
 
   OrderListModel({
     this.total,

@@ -30,6 +30,8 @@ import 'widgets/acticon_widget.dart';
 class OrderDetailPage extends GetView<OrderDetailPageController> {
   @override
   Widget build(BuildContext context) {
+    Get.put(OrderDetailPageController());
+
     return ScaffoldWidget(
         appBar: AppBar(
           title: Text('Order details'.tr),

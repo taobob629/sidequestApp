@@ -5,6 +5,7 @@
  */
 import 'dart:async';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/api/order_api.dart';
@@ -18,8 +19,6 @@ class OrderListController extends GetxController {
   late RefreshController refreshController;
 
   var list = <OrderListModel>[].obs;
-
-  var showOrHide = true.obs;
 
   @override
   void onInit() {
@@ -39,5 +38,14 @@ class OrderListController extends GetxController {
     showLoading();
     list.value = await OrderApi.getOrderList();
     dismissLoading();
+  }
+
+  void showOrHideItem(OrderListModel model) {
+    model.showOrHide.value = !model.showOrHide.value;
+    if (model.showOrHide.value) {
+      model.goodsItemTotalHeight.value = (65.w + 12.h) * model.items.length;
+    } else {
+      model.goodsItemTotalHeight.value = 165.w;
+    }
   }
 }
