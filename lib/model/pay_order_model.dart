@@ -7,6 +7,7 @@ class PayType {
   static const PAY_GIFTS = -3; //送礼物
   static const PW_STRIP_ACCOUNT = 2; //陪玩账户充值
   static const PW_ALIPAY_ACCOUNT = 3; //陪玩金币账户充值
+  static const PW_BUBBLE_TEA_PAY = 4; //奶茶购买
 }
 
 class PayOrderModel {

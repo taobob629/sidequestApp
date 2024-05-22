@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:sq_hub_app/ui/pages/order/list/view.dart';
 
 import '../../../api/address_api.dart';
 import '../../../api/pay_api.dart';
@@ -495,15 +496,22 @@ class PayPageController extends GetxController {
       _timer?.cancel();
       _timer = null;
       Get.dialog(
-          ConfirmDialog(
-            cancelable: true,
-            title: "Payment Result".tr,
-            info:
-                "The payment result can not be confirmed, do you have finished it?"
-                    .tr,
-            onConfirm: () => manualCheckPay(orderId),
-          ),
-          barrierColor: Colors.black26);
+        ConfirmDialog(
+          cancelable: true,
+          title: "Payment Result".tr,
+          info:
+              "The payment result can not be confirmed, do you have finished it?"
+                  .tr,
+          onConfirm: () {
+            if (payOrderModel.type == 4) {
+              Get.offUntil(GetPageRoute(page: () => OrderListPage()), (route) => route.isFirst);
+            } else {
+              manualCheckPay(orderId);
+            }
+          },
+        ),
+        barrierColor: Colors.black26,
+      );
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:sq_hub_app/api/wy_http.dart';
 import 'package:sq_hub_app/model/goods_detail_model.dart';
 
+import '../model/bubble_confirm_order_model.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
@@ -56,7 +57,7 @@ class HubsApi {
     return list;
   }
 
-  static Future<dynamic> confirmOrder({
+  static Future<BubbleConfirmOrderModel> confirmOrder({
     required int storeId,
     required List<Map<String, dynamic>> goodsList,
     required String eatin,
@@ -70,6 +71,6 @@ class HubsApi {
       "eatin": eatin,
       "arrivalTime": arrivalTime,
     });
-    return response.data;
+    return BubbleConfirmOrderModel.fromJson(response.data);
   }
 }

@@ -58,7 +58,7 @@ class StoreConsumDetailPageController
   needAutoLoadData() => true;
 
   toDetail(ConsumListBean item) {
-    Get.to(() => OrderDetailPage(), arguments: Map()..['id'] = item.id)
+    Get.to(() => OrderDetailPage(), arguments: item.id)
         ?.then((value) {
       if (value == true) onRefresh();
     });

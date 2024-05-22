@@ -110,7 +110,7 @@ class OrderDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sidequest Hub Coventry',
+                        '${ctr.model.value.storeName}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,
@@ -119,7 +119,7 @@ class OrderDetailPage extends StatelessWidget {
                         ),
                       ).paddingOnly(bottom: 8.h),
                       Text(
-                        'UNIT 12 CATHEDRAL LANES SHOPPING CENTRE, Broadgate, Coventry CV1 1LL',
+                        '${ctr.model.value.address}',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
                           fontSize: 10.sp,

@@ -99,7 +99,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sidequest Hub Coventry',
+                        '${TabBubbleTeaCtr.find.currentSelectStore.value.name}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,
@@ -109,7 +109,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                       ),
                       8.verticalSpace,
                       Text(
-                        'UNIT 12 CATHEDRAL LANES SHOPPING CENTRE, Broadgate, Coventry CV1 1LL',
+                        '${TabBubbleTeaCtr.find.currentSelectStore.value.address}',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
                           fontSize: 10.sp,
@@ -225,7 +225,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
             ),
             child: ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (c, i) => i == 2 ? footerWidget() : itemWidget(i),
+              itemBuilder: (c, i) => itemWidget(i),
               separatorBuilder: (c, i) => 10.verticalSpace,
               itemCount: TabBubbleTeaCtr.find.selectTeaList.length,
             ),
@@ -364,94 +364,6 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                   fontSize: 12.sp,
                   fontFamily: FONT_MEDIUM,
                   fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ],
-      );
-
-  Widget footerWidget() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
-            margin: EdgeInsets.symmetric(vertical: 16.h),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Coupon',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              RichText(
-                text: TextSpan(
-                    text: "Currently unavailable".tr,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 12.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 14.sp,
-                        ).paddingOnly(left: 14.w),
-                      ),
-                    ]),
-              ),
-            ],
-          ),
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
-            margin: EdgeInsets.symmetric(vertical: 16.h),
-          ),
-          Row(
-            children: [
-              Spacer(),
-              RichText(
-                text: TextSpan(
-                  text: "2".tr,
-                  style: TextStyle(
-                    color: AppColor.yellow,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    WidgetSpan(child: 6.horizontalSpace),
-                    TextSpan(
-                      text: "item in total".tr,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.6),
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    WidgetSpan(child: 6.horizontalSpace),
-                    TextSpan(
-                      text: "£18".tr,
-                      style: TextStyle(
-                        color: AppColor.yellow,
-                        fontSize: 20.sp,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],

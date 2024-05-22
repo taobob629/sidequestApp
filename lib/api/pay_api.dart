@@ -21,6 +21,8 @@ class PayApi {
         return await _play(model);
       case PayType.PAY_GIFTS:
         return await _payGifts(model);
+      case PayType.PW_BUBBLE_TEA_PAY:
+        return await _buyBubbleTea(model);
       default:
         return await _openVip(model);
     }
@@ -95,11 +97,32 @@ class PayApi {
       "couponCode": model.couponCode,
       "payType": model.payType,
       "orderShot": model.orderShot,
+      "orderId": model.orderId,
       "phrase": 0,
     };
     var response = await http.post(
         model.payType == 1 ? '/app/order/stripe/goods' : '/app/order/goods',
         data: formData);
+
+    return PayInfoModel.fromJson(response.data);
+  }
+
+  static Future<PayInfoModel> _buyBubbleTea(PayOrderModel model) async {
+    var formData = {
+      "type": 2,
+      "addressId": model.addressId,
+      "goodsPrice": model.goodsPrice,
+      "freightPrice": model.freightPrice,
+      "tax": model.tax,
+      "couponId": model.couponId,
+      "couponPrice": model.couponPrice,
+      "couponCode": model.couponCode,
+      "payType": model.payType,
+      "orderShot": model.orderShot,
+      "id": model.orderId,
+      "phrase": 0,
+    };
+    var response = await http.post('/sideQuest/app/order/stripe/goods', data: formData);
 
     return PayInfoModel.fromJson(response.data);
   }
@@ -189,12 +212,9 @@ class PayApi {
   }
 
   static Future<bool> status(int type, String orderNo) async {
-    String url = '/app/order/status';
-    if (type == -2) {
-      url = '/peiwan/app/order/status';
-    }
+    String url = '/sideQuest/app/order/status';
     var response = await http.get(url, queryParameters: ({"orderNo": orderNo}));
-    return response.data["status"];
+    return response.data["status"] ?? false;
   }
 
   static Future<String> genToken() async {
