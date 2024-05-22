@@ -235,7 +235,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                         visible: ctr.selectTeaList.isNotEmpty &&
                             ctr.isShowDrinkNow.value,
                         child: Positioned(
-                          bottom: 15.h,
+                          bottom: 12.5.h,
                           left: 0,
                           right: 0,
                           child: drinkNowWidget(0),
@@ -253,7 +253,7 @@ class TabBubbleTeaPage extends StatelessWidget {
       );
 
   Widget drinkNowWidget(double horizontal) => Container(
-        height: 44.w,
+        height: 44.h,
         decoration: ShapeDecoration(
           color: hexColor('4C3608'),
           shape: RoundedRectangleBorder(

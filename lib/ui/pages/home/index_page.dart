@@ -92,14 +92,6 @@ class IndexPageController extends GetxController
   var selectTabStr = "Events".obs;
   List<IndexTabModel> tabs = [];
 
-  List<Widget> createPages() {
-    List<Widget> pages = [];
-    pages.add(KeepAliveWrapper(child: TabHeadlinesPage()));
-    pages.add(KeepAliveWrapper(child: TabNewsPage()));
-    pages.add(KeepAliveWrapper(child: TabHubsPage()));
-    return pages;
-  }
-
   @override
   void onInit() {
     super.onInit();
