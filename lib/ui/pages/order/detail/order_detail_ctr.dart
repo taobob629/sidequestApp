@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 import 'package:sq_hub_app/api/order_api.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
+import '../../../../common/base_controller.dart';
 import '../../../../model/order_detail_new_model.dart';
 
-class OrderDetailCtr extends GetxController {
+class OrderDetailCtr extends BasePageController {
 
   var model = OrderDetailNewModel(items: []).obs;
 
@@ -12,6 +13,7 @@ class OrderDetailCtr extends GetxController {
   void onInit() {
     super.onInit();
 
+    pageState = PageState.initialing;
     requestData();
   }
 
@@ -19,5 +21,6 @@ class OrderDetailCtr extends GetxController {
     showLoading();
     model.value = await OrderApi.orderDetailNew(Get.arguments);
     dismissLoading();
+    pageState = PageState.sucess;
   }
 }

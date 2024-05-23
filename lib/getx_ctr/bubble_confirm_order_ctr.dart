@@ -9,6 +9,10 @@ import 'package:sq_hub_app/ui/dialog/dialog_select_tea_time.dart';
 import '../api/hubs_api.dart';
 import '../common/dialog_date_time_picker.dart';
 import '../config/icon_font.dart';
+import '../model/bubble_confirm_order_model.dart';
+import '../model/pay_order_model.dart';
+import '../ui/pages/order/detail/view.dart';
+import '../utils/navigator_helper.dart';
 import '../utils/toast_utils.dart';
 
 class BubbleConfirmOrderCtr extends GetxController
@@ -114,20 +118,28 @@ class BubbleConfirmOrderCtr extends GetxController
       goodsList.add(map);
     });
 
-    await HubsApi.confirmOrder(
+    BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
       storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
       goodsList: goodsList,
       eatin: eatin.toString(),
       arrivalTime: ((DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString(),
+      couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
     );
     dismissLoading();
+    Get.back();
+    if (model.orderInfo?.statusValue != 1) {
+      // 余额支付失败，需要跳转到那边去；
+      PayOrderModel payOrderModel = PayOrderModel();
 
-    // PayOrderModel payOrderModel = PayOrderModel();
-    //
-    // payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
-    // payOrderModel.totalAmount = TabBubbleTeaCtr.find.totalPrice.value;
-    // payOrderModel.type = -1;
-    //
-    // NavigatorHelper.gotoPayPage(payOrderModel);
+      payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
+      payOrderModel.totalAmount = TabBubbleTeaCtr.find.totalPrice.value;
+      payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
+      payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
+
+      NavigatorHelper.gotoPayPage(payOrderModel);
+    } else {
+      TabBubbleTeaCtr.find.clearTea();
+      Get.to(() => OrderDetailPage(), arguments: model.orderInfo?.id);
+    }
   }
 }

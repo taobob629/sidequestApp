@@ -8,6 +8,7 @@ import 'package:ff_stars/ff_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/common/basePage.dart';
 import 'package:sq_hub_app/common/string_ext.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/order/detail/widgets/widgets.dart';
@@ -30,11 +31,11 @@ import 'controller.dart';
 import 'order_detail_ctr.dart';
 import 'widgets/acticon_widget.dart';
 
-class OrderDetailPage extends StatelessWidget {
+class OrderDetailPage extends BasePage {
   final ctr = Get.put(OrderDetailCtr());
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
         title: Text('Order details'.tr),
@@ -42,239 +43,244 @@ class OrderDetailPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Obx(() => Column(
-              children: [
-                Container(
-                  width: 1.sw,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF141517),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              'PICKUP NUMBER'.tr,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.41,
-                              ),
-                            ).paddingOnly(bottom: 12.h),
-                            Text(
-                              '${ctr.model.value.pickNum}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFFFFB20E),
-                                fontSize: 28.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ],
-                        ).paddingSymmetric(vertical: 24.h),
-                      ),
-                      Positioned(
-                        right: 10.w,
-                        top: 24.h,
-                        child: Text(
-                          '${ctr.model.value.status}',
+          children: [
+            Container(
+              width: 1.sw,
+              decoration: ShapeDecoration(
+                color: Color(0xFF141517),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'PICKUP NUMBER'.tr,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: -0.41,
+                          ),
+                        ).paddingOnly(bottom: 12.h),
+                        Text(
+                          '${ctr.model.value.pickNum}',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xFFFFB20E),
-                            fontSize: 14.sp,
+                            fontSize: 28.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      ],
+                    ).paddingSymmetric(vertical: 24.h),
+                  ),
+                  Positioned(
+                    right: 10.w,
+                    top: 24.h,
+                    child: Text(
+                      '${ctr.model.value.status}',
+                      style: TextStyle(
+                        color: Color(0xFFFFB20E),
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 1.sw,
+              decoration: ShapeDecoration(
+                color: Color(0xFF141517),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+              ),
+              padding: EdgeInsets.all(24.r),
+              margin: EdgeInsets.only(top: 12.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${ctr.model.value.storeName}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ).paddingOnly(bottom: 8.h),
+                  Text(
+                    '${ctr.model.value.address}',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 10.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                      height: 1.8,
+                    ),
+                  ).paddingOnly(right: 45.w),
+                  Container(
+                    height: 1.h,
+                    decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
+                    margin: EdgeInsets.symmetric(vertical: 12.h),
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (c, i) =>
+                        itemWidget(ctr.model.value.items[i]),
+                    separatorBuilder: (c, i) => 10.verticalSpace,
+                    itemCount: ctr.model.value.items.length,
+                  ),
+                  Container(
+                    height: 1.h,
+                    decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
+                    margin: EdgeInsets.symmetric(vertical: 12.h),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Total price',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 13.sp,
                             fontFamily: FONT_MEDIUM,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 1.sw,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF141517),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                  ),
-                  padding: EdgeInsets.all(24.r),
-                  margin: EdgeInsets.only(top: 12.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
                       Text(
-                        '${ctr.model.value.storeName}',
+                        '£${ctr.model.value.total}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ).paddingOnly(bottom: 8.h),
-                      Text(
-                        '${ctr.model.value.address}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
                           fontFamily: FONT_MEDIUM,
                           fontWeight: FontWeight.w400,
-                          height: 1.8,
                         ),
-                      ).paddingOnly(right: 45.w),
-                      Container(
-                        height: 1.h,
-                        decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
-                        margin: EdgeInsets.symmetric(vertical: 12.h),
-                      ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (c, i) =>
-                            itemWidget(ctr.model.value.items[i]),
-                        separatorBuilder: (c, i) => 10.verticalSpace,
-                        itemCount: ctr.model.value.items.length,
-                      ),
-                      Container(
-                        height: 1.h,
-                        decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
-                        margin: EdgeInsets.symmetric(vertical: 12.h),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Total price',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '£${ctr.model.value.total}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ).paddingOnly(top: 16.h, bottom: 26.h),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Discount',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '${ctr.model.value.discount}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
                       ),
                     ],
-                  ),
-                ),
-                Container(
-                  width: 1.sw,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFF141517),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                  ),
-                  margin: EdgeInsets.only(top: 12.h),
-                  padding: EdgeInsets.all(24.r),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  ).paddingOnly(top: 16.h, bottom: 26.h),
+                  Row(
                     children: [
+                      Expanded(
+                        child: Text(
+                          'Discount',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 13.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
                       Text(
-                        'Order Information',
+                        '£${ctr.model.value.discount}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Order number',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '${ctr.model.value.orderSn}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ).paddingOnly(top: 16.h),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Order time',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '${ctr.model.value.orderTime}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ).paddingOnly(top: 16.h),
                     ],
                   ),
+                ],
+              ),
+            ),
+            Container(
+              width: 1.sw,
+              decoration: ShapeDecoration(
+                color: Color(0xFF141517),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
-              ],
-            ).paddingSymmetric(horizontal: 16.w)),
+              ),
+              margin: EdgeInsets.only(top: 12.h),
+              padding: EdgeInsets.all(24.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Order Information',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Order number',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 13.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${ctr.model.value.orderSn}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ).paddingOnly(top: 16.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Order time',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 13.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${ctr.model.value.orderTime}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ).paddingOnly(top: 16.h),
+                ],
+              ),
+            ),
+          ],
+        ).paddingSymmetric(horizontal: 16.w)),
       ),
     );
+  }
+
+  @override
+  BasePageController pageController() {
+    return ctr;
   }
 
   Widget itemWidget(OrderDetailItem model) => Row(

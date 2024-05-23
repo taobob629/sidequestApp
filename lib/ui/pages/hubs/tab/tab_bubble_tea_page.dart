@@ -4,11 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
+import 'package:sq_hub_app/model/pay_order_model.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
+import '../../../../controller/user_controller.dart';
 import '../../../../getx_ctr/tab_bubble_tea_ctr.dart';
+import '../../../../utils/navigator_helper.dart';
 import '../../../../widget/image_util.dart';
 import '../bubble_confirm_order_page.dart';
 import '../bubble_tea_detail_page.dart';
@@ -316,41 +319,49 @@ class TabBubbleTeaPage extends StatelessWidget {
                   )),
             ),
             14.horizontalSpace,
+            Obx(() => Text(
+                  '£${ctr.totalPrice.value}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )),
             Expanded(
-              child: Obx(() => Text(
-                    '£${ctr.totalPrice.value}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w600,
+              child: InkWell(
+                onTap: () => NavigatorHelper.gotoCouponPage(
+                  couponType: 3,
+                  showTabbar: false,
+                  // 只是为了能有返回值创建的一个空的payOrderModel
+                  payOrderModel: PayOrderModel(),
+                  whenComplete: () => UserController.instance().updateInfo(),
+                  onSelect: (model) => ctr.selectCoupon(model),
+                ),
+                child: Center(
+                  child: Obx(() => RichText(
+                    text: TextSpan(
+                      text: 'Discount：-${ctr.discount.value} ',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 12.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      children: [
+                        WidgetSpan(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white.withOpacity(0.6),
+                            size: 14.sp,
+                          ),
+                        ),
+                      ],
                     ),
                   )),
+                ),
+              ),
             ),
-            // Expanded(
-            //   child: Center(
-            //     child: RichText(
-            //       text: TextSpan(
-            //         text: 'Discount：-0.0 ',
-            //         style: TextStyle(
-            //           color: Colors.white.withOpacity(0.6),
-            //           fontSize: 12.sp,
-            //           fontFamily: FONT_MEDIUM,
-            //           fontWeight: FontWeight.w400,
-            //         ),
-            //         children: [
-            //           WidgetSpan(
-            //             child: Icon(
-            //               Icons.arrow_forward_ios,
-            //               color: Colors.white.withOpacity(0.6),
-            //               size: 14.sp,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             InkWell(
               onTap: () => ctr.selectTeaList.isNotEmpty
                   ? Get.to(() => BubbleConfirmOrderPage())

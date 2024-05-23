@@ -8,8 +8,11 @@ import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/icon_font.dart';
+import '../../../controller/user_controller.dart';
 import '../../../getx_ctr/bubble_tea_detail_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
+import '../../../model/pay_order_model.dart';
+import '../../../utils/navigator_helper.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../widget/tag/simple_tags.dart';
 import '../../../widget/tag/tag_bean.dart';
@@ -383,16 +386,48 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   )),
             ),
             14.horizontalSpace,
+            Obx(() => Text(
+                  '£${TabBubbleTeaCtr.find.totalPrice.value}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )),
             Expanded(
-              child: Obx(() => Text(
-                    '£${TabBubbleTeaCtr.find.totalPrice.value}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )),
+              child: InkWell(
+                onTap: () => NavigatorHelper.gotoCouponPage(
+                  couponType: 3,
+                  showTabbar: false,
+                  // 只是为了能有返回值创建的一个空的payOrderModel
+                  payOrderModel: PayOrderModel(),
+                  whenComplete: () => UserController.instance().updateInfo(),
+                  onSelect: (model) => TabBubbleTeaCtr.find.selectCoupon(model),
+                ),
+                child: Center(
+                  child: Obx(() => RichText(
+                        text: TextSpan(
+                          text: 'Discount：-${TabBubbleTeaCtr.find.discount.value} ',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: FONT_MEDIUM,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          children: [
+                            WidgetSpan(
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white.withOpacity(0.6),
+                                size: 14.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
+              ),
             ),
             Obx(() => InkWell(
                   onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty

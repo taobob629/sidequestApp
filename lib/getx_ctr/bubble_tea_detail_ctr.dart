@@ -140,6 +140,8 @@ class BubbleTeaDetailCtr extends GetxController {
       calculateTotalPrice(false);
 
       if (TabBubbleTeaCtr.find.totalCount.value == 0) {
+        TabBubbleTeaCtr.find.selectCouponModel = null;
+        TabBubbleTeaCtr.find.discount.value = "0.0";
         TabBubbleTeaCtr.find.selectTeaList.clear();
         dismissLoading();
       }

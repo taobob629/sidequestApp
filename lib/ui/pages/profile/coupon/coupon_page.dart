@@ -23,6 +23,7 @@ class CouponPage extends StatelessWidget {
   static const int TYPE_ACTIVITY = 2;
   late final CouponPageController controller;
   bool showAppbar = false;
+  bool showTabbar = true;
 
   CouponPage({
     int couponType = 0,
@@ -30,6 +31,7 @@ class CouponPage extends StatelessWidget {
     Map<String, dynamic>? preOrder,
     int tab = TYPE_STORE,
     this.showAppbar = true,
+    this.showTabbar = true,
   }) {
     controller = Get.put(
       CouponPageController(
@@ -47,36 +49,39 @@ class CouponPage extends StatelessWidget {
     return Scaffold(
       appBar: showAppbar
           ? AppBar(
-              title: Text("Vouchers".tr),
+              title: Text("".tr),
             )
           : null,
       body: Obx(() => controller.initializing.value
           ? buildLoad()
           : Column(
               children: [
-                TabBar(
-                  padding: EdgeInsets.zero,
-                  controller: controller.tabController,
-                  isScrollable: false,
-                  labelColor: Color(0xFFFFCB0D),
-                  unselectedLabelColor: AppColor.textC5C5,
-                  indicatorColor: Color(0xFFFFCB0D),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicatorWeight: 2,
-                  indicatorPadding: EdgeInsets.only(bottom: 5),
-                  labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-                  labelStyle: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: FONT_MEDIUM,
+                Visibility(
+                  visible: showTabbar,
+                  child: TabBar(
+                    padding: EdgeInsets.zero,
+                    controller: controller.tabController,
+                    isScrollable: false,
+                    labelColor: Color(0xFFFFCB0D),
+                    unselectedLabelColor: AppColor.textC5C5,
+                    indicatorColor: Color(0xFFFFCB0D),
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 2,
+                    indicatorPadding: EdgeInsets.only(bottom: 5),
+                    labelPadding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
+                    labelStyle: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                    tabs: controller.createTabs(),
+                    onTap: (index) => controller.requestData(index),
                   ),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                  tabs: controller.createTabs(),
-                  onTap: (index) => controller.requestData(index),
                 ),
                 controller.list.isEmpty
                     ? noDataEmpty()
@@ -134,24 +139,27 @@ class CouponPage extends StatelessWidget {
   }
 
   Widget noDataEmpty() => Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              ImageUtils.coupon_no_data_icon,
-              width: 116.w,
-            ),
-            Text(
-              'No updates~',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w400,
+        child: Container(
+          width: 1.sw,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                ImageUtils.coupon_no_data_icon,
+                width: 116.w,
               ),
-            )
-          ],
+              Text(
+                'No updates~',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                  fontFamily: FONT_MEDIUM,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          ),
         ),
       );
 }

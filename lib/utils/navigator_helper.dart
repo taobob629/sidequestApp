@@ -20,7 +20,6 @@ import '../ui/pages/pay/pay_page.dart';
 import '../ui/pages/playwith/play_balance_page.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
 import '../ui/pages/profile/coupon/coupon_page.dart';
-import '../ui/pages/profile/coupon/tab_view.dart';
 import '../ui/pages/profile/edit/edit_profile_page.dart';
 import '../ui/pages/profile/other_profile/other_profile_page.dart';
 import '../ui/pages/profile/task/detail/task_detail_page.dart';
@@ -102,31 +101,22 @@ class NavigatorHelper {
     return model;
   }
 
-  static void gotoCouponPage(
-      {int couponType = 0,
-      int tab = 0,
-      PayOrderModel? payOrderModel,
-      Map<String, dynamic>? preOrder,
-      Function(CouponModel)? onSelect,
-      Function? whenComplete}) {
+  static void gotoCouponPage({
+    int couponType = 0,
+    int tab = 0,
+    PayOrderModel? payOrderModel,
+    Map<String, dynamic>? preOrder,
+    Function(CouponModel)? onSelect,
+    Function? whenComplete,
+    bool showTabbar = true,
+  }) {
     Get.to(() => CouponPage(
           couponType: couponType,
           payOrderModel: payOrderModel,
           preOrder: preOrder,
           tab: tab,
+          showTabbar: showTabbar,
         ))?.then((model) {
-      if (model != null) {
-        onSelect?.call(model);
-      }
-    }).whenComplete(() => whenComplete?.call());
-  }
-
-  static void gotoCouponTabPage(
-      {int couponType = 0,
-      PayOrderModel? payOrderModel,
-      Function(CouponModel)? onSelect,
-      Function? whenComplete}) {
-    Get.to(() => CouponTabPage())?.then((model) {
       if (model != null) {
         onSelect?.call(model);
       }

@@ -146,13 +146,12 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                             ),
                             child: Theme(
                               data: Theme.of(context).copyWith(
-                                tabBarTheme: Theme.of(context)
-                                    .tabBarTheme
-                                    .copyWith(
-                                  labelColor: Colors.white,
-                                  // 设置想要的选中标签文本颜色
-                                  unselectedLabelColor: AppColor.yellow,
-                                ),
+                                tabBarTheme:
+                                    Theme.of(context).tabBarTheme.copyWith(
+                                          labelColor: Colors.white,
+                                          // 设置想要的选中标签文本颜色
+                                          unselectedLabelColor: AppColor.yellow,
+                                        ),
                               ),
                               child: TabBar(
                                 controller: ctr.tabController,
@@ -234,7 +233,11 @@ class BubbleConfirmOrderPage extends StatelessWidget {
       ),
       floatingActionButton: Container(
         height: 44.w,
-        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        margin: EdgeInsets.only(
+          left: 16.w,
+          right: 16.w,
+          bottom: 20.h,
+        ),
         decoration: ShapeDecoration(
           color: hexColor('4C3608'),
           shape: RoundedRectangleBorder(
@@ -244,40 +247,38 @@ class BubbleConfirmOrderPage extends StatelessWidget {
         child: Row(
           children: [
             14.horizontalSpace,
-            Expanded(
-              child: Text(
-                '£${TabBubbleTeaCtr.find.totalPrice.value}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.sp,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.w600,
-                ),
+            Text(
+              '£${TabBubbleTeaCtr.find.totalPrice.value}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.w600,
               ),
             ),
             10.horizontalSpace,
-            // Expanded(
-            //   child: RichText(
-            //     text: TextSpan(
-            //       text: 'Discount：-0.0 ',
-            //       style: TextStyle(
-            //         color: Colors.white.withOpacity(0.6),
-            //         fontSize: 12.sp,
-            //         fontFamily: FONT_MEDIUM,
-            //         fontWeight: FontWeight.w400,
-            //       ),
-            //       children: [
-            //         WidgetSpan(
-            //           child: Icon(
-            //             Icons.arrow_forward_ios,
-            //             color: Colors.white.withOpacity(0.6),
-            //             size: 14.sp,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            Expanded(
+              child: RichText(
+                text: TextSpan(
+                  text: 'Discount：-${TabBubbleTeaCtr.find.discount.value} ',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 12.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  children: [
+                    WidgetSpan(
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white.withOpacity(0.6),
+                        size: 14.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             InkWell(
               onTap: () => ctr.payment(),
               child: Container(

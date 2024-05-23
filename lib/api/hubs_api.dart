@@ -62,7 +62,7 @@ class HubsApi {
     required List<Map<String, dynamic>> goodsList,
     required String eatin,
     required String arrivalTime,
-    String? couponId,
+    int? couponId,
   }) async {
     var response =
         await http.post('/sideQuest/app/hubs/confirmOrder', data: {
@@ -70,6 +70,7 @@ class HubsApi {
       "goodsList": goodsList,
       "eatin": eatin,
       "arrivalTime": arrivalTime,
+      "couponId": couponId,
     });
     return BubbleConfirmOrderModel.fromJson(response.data);
   }

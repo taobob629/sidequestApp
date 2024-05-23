@@ -9,6 +9,7 @@ import 'package:sq_hub_app/utils/toast_utils.dart';
 import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
 import '../model/bubble_tea_store_model.dart';
+import '../model/coupon_model.dart';
 import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
@@ -34,6 +35,8 @@ class TabBubbleTeaCtr extends GetxController {
   var currentSelectStore = BubbleTeaStoreModel().obs;
   var distances = 0.0.obs;
   var showAddToCart = true.obs;
+  var discount = "0.0".obs;
+  CouponModel? selectCouponModel;
 
   late BuildContext cartContext;
 
@@ -111,6 +114,8 @@ class TabBubbleTeaCtr extends GetxController {
         selectTeaList.remove(foundGoods);
       }
       if (selectTeaList.isEmpty) {
+        selectCouponModel = null;
+        discount.value = "0.0";
         if (Get.isRegistered<BubbleTeaDetailCtr>()) {
           BubbleTeaDetailCtr.find.showAddToCart.value = true;
         }
@@ -140,6 +145,9 @@ class TabBubbleTeaCtr extends GetxController {
 
       total += Decimal.parse(
           (item.price ?? "0").add(paramsPrice).mul(item.count.toString()));
+    }
+    if(selectTeaList.isEmpty) {
+      discount.value = "0.0";
     }
     totalPrice.value = total.toString();
     // 查询优惠券
@@ -174,6 +182,9 @@ class TabBubbleTeaCtr extends GetxController {
     if (Get.isRegistered<BubbleTeaDetailCtr>()) {
       BubbleTeaDetailCtr.find.showAddToCart.value = true;
     }
+
+    selectCouponModel = null;
+    discount.value = "0.0";
     selectTeaList.clear();
     calculateTotal();
     dismissLoading();
@@ -193,5 +204,10 @@ class TabBubbleTeaCtr extends GetxController {
           await HubsApi.getTeaList(currentSelectStore.value.id, model.id));
       dismissLoading();
     }
+  }
+
+  void selectCoupon(CouponModel couponModel) {
+    selectCouponModel = couponModel;
+    discount.value = couponModel.discount;
   }
 }
