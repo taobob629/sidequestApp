@@ -122,7 +122,7 @@ class IndexPageController extends GetxController
     if (selectTabStr.value.toLowerCase() == "Events".toLowerCase()) {
       TabEventsPageController.find.onRefresh(init: true);
     } else if (selectTabStr.value.toLowerCase() == "Bundles".toLowerCase()) {
-      TabBundlesPageController.find.onRefresh(init: true);
+      TabBundlesPageController.find.requestStoreList();
     } else if (selectTabStr.value.toLowerCase() == "News".toLowerCase()) {
       TabNewsPageController.find.onRefresh(init: true);
     }

@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:sq_hub_app/ui/pages/order/detail/view.dart';
 import 'package:sq_hub_app/ui/pages/order/list/view.dart';
 
 import '../../../api/address_api.dart';
@@ -504,7 +505,12 @@ class PayPageController extends GetxController {
                   .tr,
           onConfirm: () {
             if (payOrderModel.type == 4) {
-              Get.offUntil(GetPageRoute(page: () => OrderListPage()), (route) => route.isFirst);
+              Get.offUntil(
+                  GetPageRoute(
+                    settings: RouteSettings(arguments: payOrderModel.orderId),
+                    page: () => OrderDetailPage(),
+                  ),
+                  (route) => route.isFirst);
             } else {
               manualCheckPay(orderId);
             }
@@ -540,11 +546,27 @@ class PayPageController extends GetxController {
       cartController.clearCart();
     }
     Get.back();
+
     Get.dialog(
-            ConfirmDialog(
-                title: "Payment Result".tr, info: "Payment Successful!".tr),
-            barrierColor: Colors.black26)
-        .then((value) => Get.back(result: true));
+      ConfirmDialog(
+        title: "Payment Result".tr,
+        info: "Payment Successful!".tr,
+      ),
+      barrierColor: Colors.black26,
+    ).then(
+      (value) {
+        if (payOrderModel.type == 4) {
+          Get.offUntil(
+              GetPageRoute(
+                settings: RouteSettings(arguments: payOrderModel.orderId),
+                page: () => OrderDetailPage(),
+              ),
+              (route) => route.isFirst);
+        } else {
+          Get.back(result: true);
+        }
+      },
+    );
   }
 
   //原生返回事件调用

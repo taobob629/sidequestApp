@@ -52,30 +52,30 @@ class TabBubbleTeaPage extends StatelessWidget {
                                 ],
                               ),
                             )),
-                        6.verticalSpace,
-                        Obx(() => RichText(
-                              text: TextSpan(
-                                text:
-                                    "${ctr.distances.value.toStringAsFixed(2)}m",
-                                style: TextStyle(
-                                  color: const Color(0xFFFFB20E),
-                                  fontSize: 12.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: " away from you",
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.6),
-                                      fontSize: 12.sp,
-                                      fontFamily: 'DIN',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                        // 6.verticalSpace,
+                        // Obx(() => RichText(
+                        //       text: TextSpan(
+                        //         text:
+                        //             "${ctr.distances.value.toStringAsFixed(2)}m",
+                        //         style: TextStyle(
+                        //           color: const Color(0xFFFFB20E),
+                        //           fontSize: 12.sp,
+                        //           fontFamily: 'DIN',
+                        //           fontWeight: FontWeight.w400,
+                        //         ),
+                        //         children: [
+                        //           TextSpan(
+                        //             text: " away from you",
+                        //             style: TextStyle(
+                        //               color: Colors.white.withOpacity(0.6),
+                        //               fontSize: 12.sp,
+                        //               fontFamily: 'DIN',
+                        //               fontWeight: FontWeight.w400,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     )),
                       ],
                     ),
                   ),
@@ -172,6 +172,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                                   url: '${ctr.teaList[i].image}',
                                   width: 90.w,
                                   height: 90.h,
+                                  border: 16.r,
                                   fit: BoxFit.cover,
                                 ),
                                 10.horizontalSpace,
@@ -379,7 +380,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'Drink Now',
+                  'Order Now',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

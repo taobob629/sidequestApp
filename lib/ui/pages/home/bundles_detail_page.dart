@@ -119,7 +119,10 @@ class BundlesDetailPage extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Image.asset(ImageUtils.product_content_icon, height: 20.h,),
+                            Image.asset(
+                              ImageUtils.product_content_icon,
+                              height: 20.h,
+                            ),
                             10.horizontalSpace,
                             Text(
                               'Product Content',
@@ -143,7 +146,10 @@ class BundlesDetailPage extends StatelessWidget {
                         ).paddingOnly(left: 44.w, top: 20.h),
                         Row(
                           children: [
-                            Image.asset(ImageUtils.shop_icon, height: 20.h,),
+                            Image.asset(
+                              ImageUtils.shop_icon,
+                              height: 20.h,
+                            ),
                             10.horizontalSpace,
                             Text(
                               'Supported Stores',
@@ -176,7 +182,10 @@ class BundlesDetailPage extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(ImageUtils.introduce_icon, height: 20.h,),
+                                  Image.asset(
+                                    ImageUtils.introduce_icon,
+                                    height: 20.h,
+                                  ),
                                   10.horizontalSpace,
                                   Text(
                                     'Instructions',
@@ -232,15 +241,21 @@ class BundlesDetailPage extends StatelessWidget {
                           ),
                         ),
                         4.verticalSpace,
-                        Text(
-                          '£${double.parse(ctr.model.value.originalPrice).toStringAsFixed(0)}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.lineThrough,
+                        Visibility(
+                          visible: double.parse(ctr.model.value.price)
+                                  .toStringAsFixed(0) !=
+                              double.parse(ctr.model.value.originalPrice)
+                                  .toStringAsFixed(0),
+                          child: Text(
+                            '£${double.parse(ctr.model.value.originalPrice).toStringAsFixed(0)}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.lineThrough,
+                            ),
                           ),
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -525,7 +526,10 @@ class MyProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            MyDashboardPage(),
+            Visibility(
+              visible: Platform.isAndroid,
+              child: MyDashboardPage(),
+            ),
           ],
         ),
       ),

@@ -4,7 +4,7 @@ class CouponOurModel {
   late int gaming = 0;
   late int product = 0;
   late int event = 0;
-  late List<CouponModel> coupons = [];
+  late List<CouponsListModel> coupons = [];
 
   CouponOurModel({
     required this.gaming,
@@ -14,11 +14,30 @@ class CouponOurModel {
   });
 
   factory CouponOurModel.fromJson(Map<String, dynamic> json) => CouponOurModel(
-    gaming: json["gaming"],
-    product: json["product"],
-    coupons: json["coupons"] == null ? [] : List<CouponModel>.from(json["coupons"]!.map((x) => CouponModel.fromJson(x))),
-    event: json["event"],
-  );
+        gaming: json["gaming"],
+        product: json["product"],
+        coupons: json["coupons"] == null
+            ? []
+            : List<CouponsListModel>.from(
+                json["coupons"]!.map((x) => CouponsListModel.fromJson(x))),
+        event: json["event"],
+      );
+}
+
+class CouponsListModel {
+  late int id = 0;
+  late String typeName = "";
+  late CouponModel couponModel;
+
+  CouponsListModel();
+
+  CouponsListModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    typeName = json['type'] == null ? "" : json['type'];
+    couponModel = json["coupon"] == null
+        ? CouponModel()
+        : CouponModel.fromJson(json["coupon"]);
+  }
 }
 
 class CouponModel {
@@ -33,7 +52,6 @@ class CouponModel {
   late String productId = "0";
   late int freeTime = 0;
   late String couponCode = "";
-  late String typeName = "";
   late String qrcode = "";
   late String unit = "";
   late int usedCount = 0;
@@ -48,7 +66,7 @@ class CouponModel {
 
   @override
   String toString() {
-    return 'CouponModel{id: $id, name: $name, description: $description, type: $type, expireTime: $expireTime, discount: $_discount, limitStore: $limitStore, productId: $productId, freeTime: $freeTime, couponCode: $couponCode, typeName: $typeName, qrcode: $qrcode, unit: $unit, usedCount: $usedCount}';
+    return 'CouponModel{id: $id, name: $name, description: $description, type: $type, expireTime: $expireTime, discount: $_discount, limitStore: $limitStore, productId: $productId, freeTime: $freeTime, couponCode: $couponCode, qrcode: $qrcode, unit: $unit, usedCount: $usedCount}';
   }
 
   CouponModel();
@@ -57,35 +75,29 @@ class CouponModel {
     Map<String, dynamic> json, {
     bool needHourMinSec = false,
   }) {
-    id = json['coupon']['id'];
-    name = json['coupon']['name'] == null ? "" : json['coupon']['name'];
-    _discount =
-        json['coupon']['discount'] == null ? 0 : json['coupon']['discount'];
-    type = json['coupon']['type'];
+    id = json['id'];
+    name = json['name'] == null ? "" : json['name'];
+    _discount = json['discount'] == null ? 0 : json['discount'];
+    type = json['type'];
     if (needHourMinSec) {
-      expireTime = json['coupon']['expireTime'] == null
-          ? ""
-          : json['coupon']['expireTime'].toString();
+      expireTime =
+          json['expireTime'] == null ? "" : json['expireTime'].toString();
     } else {
-      expireTime = json['coupon']['expireTime'] == null
+      expireTime = json['expireTime'] == null
           ? ""
-          : json['coupon']['expireTime'].toString().substring(0, 10);
+          : json['expireTime'].toString().substring(0, 10);
     }
-    description = json['coupon']['description'] == null
-        ? ""
-        : json['coupon']['description'];
-    limitStore = json['coupon']['limitStore'] == null
-        ? ""
-        : json['coupon']['limitStore'];
-    freeTime = json['coupon']['freeTime'] ?? 0;
-    productId =
-        json['coupon']['productId'] == null ? "0" : json['coupon']['productId'];
-    couponCode = json['coupon']['code'] == null ? "" : json['coupon']['code'];
-    typeName = json['type'] == null ? "" : json['type'];
+    description = json['description'] == null ? "" : json['description'];
+    limitStore = json['limitStore'] == null ? "" : json['limitStore'];
+    freeTime = json['freeTime'] ?? 0;
+    productId = json['productId'] == null ? "0" : json['productId'];
+    couponCode = json['code'] == null ? "" : json['code'];
     qrcode = json['qrcode'] == null ? "" : json['qrcode'];
     unit = json['unit'] == null ? "" : json['unit'];
-    available = json['available'] == null ? "" : json['available'];
-    stores = json['coupon']["stores"] == null ? [] : List<String>.from(json['coupon']["stores"]!.map((x) => x));
+    available = json['available'] == null ? 0 : json['available'];
+    stores = json["stores"] == null
+        ? []
+        : List<String>.from(json["stores"]!.map((x) => x));
     usedCount = json['usedCount'] == null ? 0 : json['usedCount'];
   }
 }

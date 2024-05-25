@@ -116,7 +116,7 @@ class EventPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Obx(() => Text(
                   controller.eventDetailModel.value.canCancel
-                      ? 'CANCEL'.tr
+                      ? 'UnJoin'.tr
                       : "JOIN".tr,
                   style: TextStyle(
                       color: Colors.white, fontFamily: "DIN", fontSize: 18),
@@ -138,7 +138,7 @@ class EventPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Obx(() => Text(
                     controller.eventDetailModel.value.canCancel
-                        ? 'CANCEL'.tr
+                        ? 'UnJoin'.tr
                         : "JOIN".tr,
                     style: TextStyle(
                         color: Colors.white, fontFamily: "DIN", fontSize: 18),
@@ -413,8 +413,8 @@ class EventPageController extends BasePageController {
             dismissLoading();
             Get.dialog(
               ConfirmDialog(
-                title: "Congratulations".tr,
-                info: "You have successfully signed up!".tr,
+                title: "Be Prepared".tr,
+                info: "You have successfully joined this event!".tr,
               ),
               barrierColor: Colors.black26,
             );
@@ -445,8 +445,8 @@ class EventPageController extends BasePageController {
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(
-                    title: "Congratulations".tr,
-                    info: "You have successfully signed up!".tr),
+                    title: "Be Prepared".tr,
+                    info: "You have successfully joined this event!".tr),
                 barrierColor: Colors.black26);
             userController.updateInfo();
           });
@@ -517,8 +517,8 @@ class EventPageController extends BasePageController {
           if (map['code'].toString().isEmpty == true) {
             Get.dialog(
               ConfirmDialog(
-                  title: "Congratulations".tr,
-                  info: "You have successfully signed up!".tr),
+                  title: "Be Prepared".tr,
+                  info: "You have successfully joined this event!".tr),
               barrierColor: Colors.black26,
             );
           }

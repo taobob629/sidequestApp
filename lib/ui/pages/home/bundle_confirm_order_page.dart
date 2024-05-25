@@ -15,7 +15,7 @@ class BundleConfirmOrderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
-        title: 'Confirm Order'.tr,
+        title: 'Confirmation'.tr,
         leading: InkWell(
           onTap: () => Get.back(),
           child: Center(

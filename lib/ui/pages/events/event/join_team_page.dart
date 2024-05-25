@@ -394,7 +394,7 @@ class JoinTeamPageController extends GetxController {
       Get.dialog(
           ConfirmDialog(
             title: "Tips".tr,
-            info: "You have successfully signed up!".tr,
+            info: "You have successfully joined this event!".tr,
             onConfirm: () {
               Get.back();
               Get.back();

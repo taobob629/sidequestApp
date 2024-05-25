@@ -100,11 +100,11 @@ class CouponPage extends StatelessWidget {
                                     crossAxisSpacing: 10.0,
                                     childAspectRatio: 688 / 333),
                             itemBuilder: (context, index) {
-                              CouponModel model = controller.list[index];
+                              CouponsListModel couponsListModel = controller.list[index];
                               return CouponItem(
-                                model: model,
+                                listModel: couponsListModel,
                                 onTap: (model) =>
-                                    controller.selectCoupon(model),
+                                    controller.selectCoupon(couponsListModel),
                               );
                             },
                             itemCount: controller.list.length,
@@ -164,7 +164,7 @@ class CouponPage extends StatelessWidget {
       );
 }
 
-class CouponPageController extends GetxListController<CouponModel> {
+class CouponPageController extends GetxListController<CouponsListModel> {
   // late ScrollController scrollController;
   late TabController tabController;
   late var floatingActionButtonShow = true.obs;
@@ -291,10 +291,10 @@ class CouponPageController extends GetxListController<CouponModel> {
   }
 
   @override
-  Future<List<CouponModel>> loadData() async {
+  Future<List<CouponsListModel>> loadData() async {
     //  showLoading();
     couponOurModel.value = await CouponApi.listCoupon(type);
-    List<CouponModel> couponList = couponOurModel.value.coupons;
+    List<CouponsListModel> couponList = couponOurModel.value.coupons;
     // if (payOrderModel != null) {
     //   couponList = await CouponApi.avaList(payOrderModel!);
     // } else if (preOrder != null) {
@@ -312,12 +312,12 @@ class CouponPageController extends GetxListController<CouponModel> {
     return list;
   }
 
-  void selectCoupon(CouponModel model) {
+  void selectCoupon(CouponsListModel model) {
     if (payOrderModel != null || preOrder != null || couponType == 4) {
       Get.back(result: model);
     } else {
       Get.dialog(
-        CouponDialog(model: model),
+        CouponDialog(model: model.couponModel),
         barrierColor: Colors.black26,
       );
     }

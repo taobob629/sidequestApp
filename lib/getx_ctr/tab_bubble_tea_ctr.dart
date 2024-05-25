@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/api/coupon_api.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
@@ -23,7 +24,7 @@ class TabBubbleTeaCtr extends GetxController {
 
   var teaList = <StoreTeaModel>[].obs;
   List<TeaCategoryModel> teaCategoryList = [];
-  var categoryStr = "All Type".obs;
+  var categoryStr = "All/Select Type".obs;
   var storesList = <BubbleTeaStoreModel>[].obs;
 
   // 购物车dialog是否在显示, true显示，反之
@@ -36,7 +37,7 @@ class TabBubbleTeaCtr extends GetxController {
   var distances = 0.0.obs;
   var showAddToCart = true.obs;
   var discount = "0.0".obs;
-  CouponModel? selectCouponModel;
+  CouponsListModel? selectCouponModel;
 
   late BuildContext cartContext;
 
@@ -146,10 +147,10 @@ class TabBubbleTeaCtr extends GetxController {
       total += Decimal.parse(
           (item.price ?? "0").add(paramsPrice).mul(item.count.toString()));
     }
-    if(selectTeaList.isEmpty) {
+    if (selectTeaList.isEmpty) {
       discount.value = "0.0";
     }
-    totalPrice.value = total.toString();
+    totalPrice.value = total.toString().minus(discount.value);
     // 查询优惠券
     // HubsApi.getVouchers(currentSelectStore.value.id);
   }
@@ -192,12 +193,16 @@ class TabBubbleTeaCtr extends GetxController {
 
   void showCategoryDialog() async {
     final value = await Get.dialog(
-      SelectorDialog(items: this.teaCategoryList, title: "Select Type".tr),
+      SelectorDialog(items: this.teaCategoryList, title: "Select Category".tr),
       barrierColor: Colors.black26,
     );
     if (value != null) {
       TeaCategoryModel model = value as TeaCategoryModel;
-      categoryStr.value = model.name ?? '';
+      if (model.name?.contains("All Type") == true) {
+        categoryStr.value = 'All/Select Type';
+      } else {
+        categoryStr.value = model.name ?? '';
+      }
       showLoading();
 
       teaList.assignAll(
@@ -206,8 +211,44 @@ class TabBubbleTeaCtr extends GetxController {
     }
   }
 
-  void selectCoupon(CouponModel couponModel) {
+  void selectCoupon(CouponsListModel couponModel) async {
     selectCouponModel = couponModel;
-    discount.value = couponModel.discount;
+    showLoading();
+    List<Map<String, dynamic>> goodsList = [];
+    selectTeaList.forEach((element) {
+      List<String> toppingList = [];
+      if (element.selectTopping.length == 1) {
+        toppingList.add(element.selectTopping[0].name);
+      } else if (element.selectTopping.length == 2) {
+        toppingList.add(element.selectTopping[0].name);
+        toppingList.add(element.selectTopping[1].name);
+      }
+
+      Map<String, dynamic> map = {
+        "id": element.id,
+        "num": element.count,
+        "commodityId": element.commodityId,
+        "specifications": jsonEncode({
+          "CupSize": element.selectSize?.name,
+          "Ice": element.selectIce?.name,
+          "Sugar": element.selectSugar?.name,
+          "DrinkExtra": toppingList,
+          "FoodExtra": []
+        }),
+      };
+      goodsList.add(map);
+    });
+
+    final result = await CouponApi.calculateOrder(
+      storeId: currentSelectStore.value.id ?? 0,
+      goodsList: goodsList,
+      couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
+    );
+    dismissLoading();
+
+    if(result != null) {
+      discount.value = result;
+      totalPrice.value = totalPrice.value.minus(result);
+    }
   }
 }

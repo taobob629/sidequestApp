@@ -52,9 +52,27 @@ class CouponApi {
   }
 
   static Future<CouponOurModel> listCoupon(int type) async {
-    var response = await http.get('/sideQuest/app/sq/user/listCoupon?couponType=$type');
+    var response =
+        await http.get('/sideQuest/app/sq/user/listCoupon?couponType=$type');
     CouponOurModel result = CouponOurModel.fromJson(response.data);
     return result;
+  }
+
+  static Future<String?> calculateOrder({
+    required int storeId,
+    required List<Map<String, dynamic>> goodsList,
+    int? couponId,
+  }) async {
+    var response = await http
+        .post('/sideQuest/app/hubs/calculateOrder?couponId=$couponId', data: {
+      "storeId": storeId,
+      "goodsList": goodsList,
+      "couponId": couponId,
+    });
+    if (response.data != null) {
+      return response.data['discount'];
+    }
+    return null;
   }
 
   static Future<String?> add(String code) async {

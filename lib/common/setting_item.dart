@@ -6,9 +6,15 @@ import '../config/icon_font.dart';
 class SettingItem extends StatelessWidget {
   final String title;
   final String? info;
+  bool? showRightIcon;
   final Function onTap;
 
-  SettingItem({required this.title, required this.onTap, this.info});
+  SettingItem({
+    required this.title,
+    required this.onTap,
+    this.showRightIcon,
+    this.info,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +51,13 @@ class SettingItem extends StatelessWidget {
                       ),
                     ),
                     5.horizontalSpace,
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 16,
-                      color: Color(0xFFC5C3C6),
+                    Visibility(
+                      visible: showRightIcon ?? true,
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 16,
+                        color: Color(0xFFC5C3C6),
+                      ),
                     )
                   ],
                 ),

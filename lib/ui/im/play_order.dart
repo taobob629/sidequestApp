@@ -102,7 +102,7 @@ class PlayOrder extends StatelessWidget {
                                   liveUid,
                                   '${serviceItem['id']}',
                                   model.id,
-                                  model.couponCode,
+                                  model.couponModel.couponCode,
                                 );
                               })),
                           child: Container(

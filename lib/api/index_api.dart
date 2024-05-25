@@ -62,8 +62,9 @@ class IndexApi {
     return model;
   }
 
-  static Future<List<BundlesModel>> getBundles() async {
-    var response = await http.get('/sideQuest/app/whatOn/bundles');
+  static Future<List<BundlesModel>> getBundles(int? storeId) async {
+    var response = await http.get('/sideQuest/app/whatOn/bundles',
+        queryParameters: {"storeId": storeId});
     List<BundlesModel> list = response.data
         .map<BundlesModel>((item) => BundlesModel.fromJson(item))
         .toList();
@@ -71,7 +72,8 @@ class IndexApi {
   }
 
   static Future<BundlesDetailModel> bundleDetail(String id) async {
-    var response = await http.get('/sideQuest/app/whatOn/bundleDetial', queryParameters: {
+    var response =
+        await http.get('/sideQuest/app/whatOn/bundleDetial', queryParameters: {
       "id": id,
     });
     BundlesDetailModel model = BundlesDetailModel.fromJson(response.data);

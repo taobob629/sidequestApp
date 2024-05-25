@@ -3,17 +3,22 @@ import 'package:get/get.dart';
 import 'package:sq_hub_app/ui/pages/login/login_page.dart';
 
 import '../../../api/auth_api.dart';
+import '../../../api/index_api.dart';
 import '../../../api/user_api.dart';
 import '../../../common/base_scaffold.dart';
 import '../../../common/floating_button.dart';
 import '../../../common/setting_item.dart';
+import '../../../config/lang/translations.dart';
 import '../../../controller/user_controller.dart';
+import '../../../model/version_model.dart';
 import '../../../utils/platform_utils.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import '../../dialog/dialog_comment.dart';
 import '../../dialog/dialog_confirm.dart';
+import '../../dialog/dialog_upgrade.dart';
 import '../main_page.dart';
+import '../profile/vip/vip_page.dart';
 import 'about_page.dart';
 import 'language_page.dart';
 
@@ -23,39 +28,53 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Settings".tr,
-      body: Column(
-        children: [
-          SettingItem(
-            title: "ID".tr,
-            info: "${UserController.find.userProfile.uk}",
-            onTap: () {},
-          ),
-          SettingItem(
-            title: "Language".tr,
-            onTap: () => Get.to(() => LanguagePage()),
-          ),
-          SettingItem(
-            title: "Delete Account".tr,
-            info: UserController.find.user.value.email,
-            onTap: () => controller.deleteAccount(),
-          ),
-          SettingItem(
-            title: "About Us".tr,
-            onTap: () => gotoAboutPage(context),
-          ),
-          Obx(() => SettingItem(
-                title: "Version".tr,
-                info: controller.version.value,
-                onTap: () {},
-              )),
-        ],
-      ),
-      floatingActionButton: FloatingButton(
-        label: "SIGN OUT".tr,
-        onTap: () => controller.logout(),
-      )
-    );
+        title: "Settings".tr,
+        body: Column(
+          children: [
+            SettingItem(
+              title: "ID".tr,
+              info: "${UserController.find.userProfile.uk}",
+              showRightIcon: false,
+              onTap: () {},
+            ),
+            Obx(() => SettingItem(
+                  title: "Language".tr,
+                  info:
+                      controller.curLan.value.toLanguageTag().contains("en-US")
+                          ? "English"
+                          : "中文",
+                  onTap: () => Get.to(() => LanguagePage())?.then((value) =>
+                      controller.curLan.value = Get.locale ?? ENGLISH),
+                )),
+            SettingItem(
+              title: "Delete Account".tr,
+              info: UserController.find.user.value.email,
+              onTap: () => controller.deleteAccount(),
+            ),
+            SettingItem(
+              title: "About Us".tr,
+              onTap: () => gotoAboutPage(context),
+            ),
+            Obx(() => SettingItem(
+                  title: "Version".tr,
+                  info: controller.version.value,
+                  onTap: () => controller.checkVersion(),
+                )),
+            Visibility(
+              visible: controller.getMembership()["index"] != -1,
+              child: Obx(() => SettingItem(
+                    title: controller.getMembership()["name"],
+                    info: UserController.find.userProfile.nextRenew,
+                    onTap: () => Get.to(() => VipPage(),
+                        arguments: controller.getMembership()["index"]),
+                  )),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingButton(
+          label: "SIGN OUT".tr,
+          onTap: () => controller.logout(),
+        ));
   }
 
   void gotoAboutPage(BuildContext context) {
@@ -70,11 +89,40 @@ class SettingsPageController extends GetxController {
 
   var online = false.obs;
 
+  var curLan = Locale(ENGLISH.languageCode).obs;
+
   @override
   void onReady() async {
     super.onReady();
     version.value = await PlatformUtils.getAppVersion();
     online.value = StorageManager.getOnline();
+
+    curLan.value = Get.locale ?? ENGLISH;
+  }
+
+  Map<String, dynamic> getMembership() {
+    int vipLevel = UserController.find.userProfile.vipLevel;
+    String membershipName = "Normal";
+    int index = -1;
+    switch (vipLevel) {
+      case 5:
+        membershipName = "Adventurer";
+        index = 0;
+        break;
+      case 10:
+        membershipName = "Hero";
+        index = 1;
+        break;
+      case 15:
+        membershipName = "Champion";
+        index = 2;
+        break;
+      case 15:
+        membershipName = "Legend";
+        index = 3;
+        break;
+    }
+    return {"name": membershipName, "index": index};
   }
 
   void updateLanguage(Locale local) {
@@ -124,6 +172,17 @@ Deleting your account will remove your profile and all of your content from Side
         }
       },
     ));
+  }
+
+  void checkVersion() async {
+    showLoading();
+    VersionModel model = await IndexApi.checkVersion();
+    dismissLoading();
+    if (!model.upgrade) {
+      showError("You are using the latest version".tr);
+    } else {
+      Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);
+    }
   }
 
   Future<void> logout() async {

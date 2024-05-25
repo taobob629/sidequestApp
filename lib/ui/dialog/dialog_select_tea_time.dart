@@ -26,6 +26,7 @@ class DialogSelectTeaTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     selectHour.value = startHour;
+    selectMin.value = 0;
     return WyDialog(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -97,7 +98,10 @@ class DialogSelectTeaTime extends StatelessWidget {
           ),
         ),
         child: ColorfulButton(
-          onTap: () {},
+          onTap: () => Get.back(result: {
+            "selectHour": selectHour.value,
+            "selectMin": selectMin.value,
+          }),
           height: 40,
           child: Padding(
             padding: EdgeInsets.only(top: 4.h),

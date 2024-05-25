@@ -8,10 +8,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 
+import '../../../api/hubs_api.dart';
 import '../../../api/index_api.dart';
+import '../../../common/dialog_selector.dart';
 import '../../../common/getx_refresh_controller.dart';
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
+import '../../../model/bubble_tea_store_model.dart';
 import '../../../model/bundles_model.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../widget/image_util.dart';
@@ -24,112 +27,170 @@ class TabBundlesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
+          InkWell(
+            onTap: () => controller.selectStore(),
+            child: Row(
+              children: [
+                16.horizontalSpace,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(() => RichText(
+                            text: TextSpan(
+                              text:
+                                  '${controller.currentSelectStore.value.name}  ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w600,
+                              ),
+                              children: [
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.white,
+                                    size: 14.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                      // 6.verticalSpace,
+                      // Obx(() => RichText(
+                      //       text: TextSpan(
+                      //         text:
+                      //             "${ctr.distances.value.toStringAsFixed(2)}m",
+                      //         style: TextStyle(
+                      //           color: const Color(0xFFFFB20E),
+                      //           fontSize: 12.sp,
+                      //           fontFamily: 'DIN',
+                      //           fontWeight: FontWeight.w400,
+                      //         ),
+                      //         children: [
+                      //           TextSpan(
+                      //             text: " away from you",
+                      //             style: TextStyle(
+                      //               color: Colors.white.withOpacity(0.6),
+                      //               fontSize: 12.sp,
+                      //               fontFamily: 'DIN',
+                      //               fontWeight: FontWeight.w400,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     )),
+                    ],
+                  ),
+                ),
+                Image.asset(
+                  ImageUtils.bubble_tea_store_icon,
+                  width: 52.w,
+                  height: 38.h,
+                ),
+                16.horizontalSpace,
+              ],
+            ),
+          ),
           Expanded(
             child: Stack(
               children: [
-                SmartRefresher(
-                  controller: controller.refreshController,
-                  onRefresh: controller.onRefresh,
-                  onLoading: controller.loadMore,
-                  enablePullUp: true,
-                  enablePullDown: true,
-                  child: Obx(() => ListView.separated(
-                    itemBuilder: (c, i) => GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => Get.to(() => BundlesDetailPage(),
-                          arguments: controller.list[i].id),
-                      child: Container(
-                        height: 112.h,
-                        margin: EdgeInsets.symmetric(horizontal: 16.w),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF141517),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.r),
+                Obx(() => ListView.separated(
+                      itemBuilder: (c, i) => GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => Get.to(() => BundlesDetailPage(),
+                            arguments: controller.list[i].id),
+                        child: Container(
+                          height: 112.h,
+                          margin: EdgeInsets.symmetric(horizontal: 16.w),
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF141517),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              16.horizontalSpace,
+                              ImageUtil.networkImage(
+                                url: '${controller.list[i].image}',
+                                border: 10.r,
+                                width: 80.w,
+                                height: 80.h,
+                                fit: BoxFit.cover,
+                              ),
+                              10.horizontalSpace,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${controller.list[i].name}',
+                                      style: TextStyle(
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.sp,
+                                        color: Colors.white,
+                                      ),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    4.verticalSpace,
+                                    Text(
+                                      controller.list[i].brief ?? '',
+                                      style: TextStyle(
+                                        fontFamily: FONT_LIGHT,
+                                        fontSize: 12.sp,
+                                        color: Colors.white.withOpacity(0.6),
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    4.verticalSpace,
+                                    Text(
+                                      '£${controller.list[i].price}',
+                                      style: TextStyle(
+                                        color: const Color(0xFFFFB20E),
+                                        fontSize: 16.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () => controller.addTea(i),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 10.w,
+                                    top: 40.h,
+                                  ),
+                                  child: Image.asset(
+                                    ImageUtils.bundles_cart_icon,
+                                    scale: 2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            16.horizontalSpace,
-                            ImageUtil.networkImage(
-                              url: '${controller.list[i].image}',
-                              border: 10.r,
-                              width: 80.w,
-                              height: 80.h,
-                              fit: BoxFit.cover,
-                            ),
-                            10.horizontalSpace,
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${controller.list[i].name}',
-                                    style: TextStyle(
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.sp,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  4.verticalSpace,
-                                  Text(
-                                    controller.list[i].brief ?? '',
-                                    style: TextStyle(
-                                      fontFamily: FONT_LIGHT,
-                                      fontSize: 12.sp,
-                                      color: Colors.white.withOpacity(0.6),
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  4.verticalSpace,
-                                  Text(
-                                    '£${controller.list[i].price}',
-                                    style: TextStyle(
-                                      color: const Color(0xFFFFB20E),
-                                      fontSize: 16.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => controller.addTea(i),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 10.w,
-                                  top: 40.h,
-                                ),
-                                child: Image.asset(
-                                  ImageUtils.bundles_cart_icon,
-                                  scale: 2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
-                    ),
-                    separatorBuilder: (c, i) => 10.verticalSpace,
-                    itemCount: controller.list.length,
-                  )),
-                ),
+                      separatorBuilder: (c, i) => 10.verticalSpace,
+                      itemCount: controller.list.length,
+                    )),
                 Obx(() => Visibility(
-                  visible: controller.selectList.isNotEmpty &&
-                      controller.isShowDrinkNow.value,
-                  child: Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: drinkNowWidget(16.w),
-                  ),
-                )),
+                      visible: controller.selectList.isNotEmpty &&
+                          controller.isShowDrinkNow.value,
+                      child: Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: drinkNowWidget(16.w),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -340,14 +401,14 @@ class TabBundlesPage extends StatelessWidget {
             ),
             14.horizontalSpace,
             Obx(() => Text(
-              '£${controller.totalPrice.value}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
+                  '£${controller.totalPrice.value}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )),
             Expanded(
               child: Center(
                 child: RichText(
@@ -401,19 +462,39 @@ class TabBundlesPage extends StatelessWidget {
       );
 }
 
-class TabBundlesPageController extends GetxRefreshController<BundlesModel> {
+class TabBundlesPageController extends GetxController {
   static TabBundlesPageController get find => Get.find();
 
   var isShowDrinkNow = true.obs;
   late BuildContext cartContext;
   var selectList = <BundlesModel>[].obs;
   var totalPrice = "0".obs;
+  var storesList = <BubbleTeaStoreModel>[].obs;
+  var currentSelectStore = BubbleTeaStoreModel().obs;
+  var list = <BundlesModel>[].obs;
 
   @override
-  Future<List<BundlesModel>> loadData(
-      {int pageNum = GetxRefreshController.pageNumFirst}) async {
-    List<BundlesModel> list = await IndexApi.getBundles();
-    return list;
+  void onInit() {
+    super.onInit();
+
+    requestStoreList();
+  }
+
+  void requestStoreList() async {
+    showLoading();
+    storesList.value = await HubsApi.getStores();
+    if (storesList.isNotEmpty) {
+      currentSelectStore.value = storesList[0];
+      requestData(currentSelectStore.value.id, false);
+    } else {
+      dismissLoading();
+    }
+  }
+
+  void requestData(int? storeId, bool isShowLoading) async {
+    if (isShowLoading) showLoading();
+    list.value = await IndexApi.getBundles(storeId);
+    dismissLoading();
   }
 
   void addTea(int i) {
@@ -453,5 +534,17 @@ class TabBundlesPageController extends GetxRefreshController<BundlesModel> {
       total += Decimal.parse(item.getTotalPrice());
     }
     totalPrice.value = total.toString();
+  }
+
+  void selectStore() async {
+    final value = await Get.dialog(SelectorDialog(
+      items: storesList,
+      title: "Select Store".tr,
+      showInfo: true,
+    ));
+    if (value != null) {
+      currentSelectStore.value = value as BubbleTeaStoreModel;
+      requestData(currentSelectStore.value.id, true);
+    }
   }
 }

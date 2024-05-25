@@ -9,6 +9,7 @@ import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../model/beans/games_left_tab_bean.dart';
 import '../hubs/tab/tab_bubble_tea_page.dart';
 import '../hubs/tab/tab_games_filter_page.dart';
+import 'news_page.dart';
 
 class TabHubsPage extends StatelessWidget {
   final controller = Get.put(TabHubsPageController());
@@ -85,6 +86,8 @@ class TabHubsPageController extends GetxController {
     selectTopTabIndex.value = i;
     if (selectTopTabIndex.value == 0) {
       TabGamesFilterController.find.requestData();
+    } else if (selectTopTabIndex.value == 1) {
+      Get.to(() => NewsPage(id: 150));
     } else if (selectTopTabIndex.value == 2) {
       TabBubbleTeaCtr.find.requestData();
     }

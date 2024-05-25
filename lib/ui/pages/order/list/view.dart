@@ -128,7 +128,7 @@ class OrderListPage extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Pickup number',
+                      'Detail',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFFFFB20E),

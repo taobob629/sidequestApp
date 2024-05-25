@@ -43,8 +43,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                       Center(
                         child: ImageUtil.networkImage(
                           url: "${ctr.model.value.image}",
-                          width: 165.w,
-                          height: 165.w,
+                          height: 274.w,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -446,7 +445,7 @@ class BubbleTeaDetailPage extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Drink Now',
+                      'Order Now',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

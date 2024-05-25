@@ -1,6 +1,7 @@
 class ImageUtils {
 
   static const String default_logo = 'assets/images/default_logo.webp';
+  static const String message_empty_icon = 'assets/images/message_empty_icon.webp';
   static const String ic_exchange = 'assets/images/ic_exchange.webp';
   static const String profile_chat_icon = 'assets/images/profile_chat_icon.webp';
   static const String add_to_cart_icon = 'assets/images/add_to_cart_icon.webp';

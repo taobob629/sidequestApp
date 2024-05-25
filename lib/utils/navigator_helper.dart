@@ -106,7 +106,7 @@ class NavigatorHelper {
     int tab = 0,
     PayOrderModel? payOrderModel,
     Map<String, dynamic>? preOrder,
-    Function(CouponModel)? onSelect,
+    Function(CouponsListModel)? onSelect,
     Function? whenComplete,
     bool showTabbar = true,
   }) {

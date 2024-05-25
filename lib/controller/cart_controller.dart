@@ -210,8 +210,8 @@ class CartController extends GetxController {
     return ids;
   }
 
-  void couponSelect(CouponModel model) {
-    coupon.value = model;
+  void couponSelect(CouponsListModel model) {
+    coupon.value = model.couponModel;
     getTotalAmount();
   }
 

@@ -23,6 +23,7 @@ class ProfileModel {
   int followerToday = 0;
   int posts = 0;
   String balance = "0.00";
+  String nextRenew = "";
   String uk = "";
   List<TrophieModel> trophies = [];
   String gender = "1";
@@ -75,6 +76,7 @@ class ProfileModel {
       this.followerToday = 0,
       this.posts = 0,
       this.balance = "0.00",
+      this.nextRenew = "",
       this.uk = "",
       this.trophies = const [],
       this.badges = const [],
@@ -134,6 +136,7 @@ class ProfileModel {
     followerToday = json["followerToday"] ?? 0;
     posts = json["posts"] ?? 0;
     balance = json["balance"] ?? "0.00";
+    nextRenew = json["nextRenew"] ?? "";
     uk = json["uk"] ?? "";
     trophies = json["trophies"] != null
         ? json["trophies"]

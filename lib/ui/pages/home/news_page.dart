@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../api/index_api.dart';
+import '../../../common/flexible_header.dart';
 import '../../../common/getx_list_controller.dart';
 import '../../../common/page_title.dart';
 import '../../../config/app_color.dart';
@@ -13,64 +14,59 @@ import 'news/news_text.dart';
 import 'news/news_title.dart';
 
 class NewsPage extends StatelessWidget {
-
   final int id;
   late final NewsPageController controller;
 
-  NewsPage({required this.id}){
+  NewsPage({required this.id}) {
     controller = Get.put(NewsPageController(id: id));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
-      body: CustomScrollView(
-        controller: controller.scrollController,
-        slivers: [
-          Obx(() {
-            return SliverAppBar(
-              elevation: 0,
-              pinned: true,
-              backgroundColor: AppColor.background,
-              expandedHeight: controller.headerHeight.value,
-              title: PageTitle(
-                title: controller.title.value,
-                color: controller.titleColor.value,
-              ),
-              // flexibleSpace: controller.headerImage.value.isEmpty ? null : FlexibleHeader(
-              //   image: controller.headerImage.value,
-              // )
-            );
-          }),
-          Obx(() {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                  NewsContent nc = controller.list[index];
-                  switch (nc.type) {
-                    case 1:
-                      return NewsTitle(nc.content);
-                    case 2:
-                      return NewsInfo(nc.content);
-                    case 3:
-                      return NewsText(nc.content);
-                    default:
-                      return Container();
-                  }
-                },
-                childCount: controller.list.length
-              )
-            );
-          })
-        ],
-      )
-    );
+        backgroundColor: AppColor.background,
+        body: CustomScrollView(
+          controller: controller.scrollController,
+          slivers: [
+            Obx(() => SliverAppBar(
+                  elevation: 0,
+                  pinned: true,
+                  backgroundColor: AppColor.background,
+                  expandedHeight: controller.headerHeight.value,
+                  title: PageTitle(
+                    title: controller.title.value,
+                    color: controller.titleColor.value,
+                  ),
+                  flexibleSpace: controller.headerImage.value.isEmpty
+                      ? null
+                      : FlexibleHeader(
+                          image: controller.headerImage.value,
+                        ),
+                )),
+            Obx(() => SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      NewsContent nc = controller.list[index];
+                      switch (nc.type) {
+                        case 1:
+                          return NewsTitle(nc.content);
+                        case 2:
+                          return NewsInfo(nc.content);
+                        case 3:
+                          return NewsText(nc.content);
+                        default:
+                          return Container();
+                      }
+                    },
+                    childCount: controller.list.length,
+                  ),
+                ))
+          ],
+        ));
   }
 }
 
 class NewsPageController extends GetxListController<NewsContent> {
-
   int id;
 
   var title = "".obs;

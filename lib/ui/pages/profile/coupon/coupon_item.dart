@@ -10,10 +10,13 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../widget/paixs_widget.dart';
 
 class CouponItem extends StatelessWidget {
-  final CouponModel model;
+  final CouponsListModel listModel;
+  late CouponModel model;
   final Function(CouponModel)? onTap;
 
-  CouponItem({required this.model, this.onTap});
+  CouponItem({required this.listModel, this.onTap}) {
+    this.model = listModel.couponModel;
+  }
 
   img(int type) {
     var imgsrc;
@@ -44,9 +47,7 @@ class CouponItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => model.available == CouponModel.AVILABLE
-          ? onTap?.call(model)
-          : {showToast('Voucher Unavailable'.tr)},
+      onTap: () => onTap?.call(model),
       child: Stack(
         children: [
           Container(
@@ -73,6 +74,7 @@ class CouponItem extends StatelessWidget {
                                 children: [
                                   Text(
                                     '${model.discount}',
+                                    // '${model.discount}',
                                     style: TextStyle(
                                         color: model.available == CouponModel.AVILABLE
                                             ? Colors.white
@@ -112,7 +114,7 @@ class CouponItem extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  PWidget.text('${model.typeName}', [
+                                  PWidget.text('${listModel.typeName}', [
                                     model.available == CouponModel.AVILABLE
                                         ? Colors.yellow
                                         : Colors.grey,

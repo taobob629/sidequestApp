@@ -18,7 +18,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ctr.calStoreOpenTime();
     return BaseScaffold(
-      title: 'Confirm Order'.tr,
+      title: 'Confirmation'.tr,
       leading: InkWell(
         onTap: () => Get.back(),
         child: Center(
@@ -123,7 +123,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'TAKE AWAY?'.tr,
+                              'TAKE AWAY'.tr,
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.6),
                                 fontSize: 13.sp,
@@ -156,6 +156,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                               child: TabBar(
                                 controller: ctr.tabController,
                                 tabs: ctr.tabs,
+                                labelPadding: EdgeInsets.zero,
                                 overlayColor: MaterialStateProperty.all(
                                   Colors.transparent,
                                 ),
@@ -165,7 +166,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                                   radius: BorderRadius.circular(64.r),
                                   colors: [AppColor.yellow, AppColor.yellow],
                                 ),
-                                onTap: (index) => ctr.eatin = index,
+                                onTap: (index) => ctr.eatin.value = index,
                               ),
                             ),
                           ),
@@ -176,7 +177,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'PICKUP AT?'.tr,
+                              'PICKUP AT'.tr,
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.6),
                                 fontSize: 13.sp,
@@ -186,16 +187,20 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () => ctr.selectTime(),
-                            child: Text(
-                              '${ctr.startHour} : 00'.tr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                            onTap: () =>
+                                ctr.eatin.value == 0 ? null : ctr.selectTime(),
+                            child: Obx(() => Text(
+                                  ctr.eatin.value == 0
+                                      ? 'Now'
+                                      : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
+                                          .tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )),
                           ),
                         ],
                       ),

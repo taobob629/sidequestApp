@@ -20,29 +20,40 @@ class BubbleConfirmOrderCtr extends GetxController
   late TabController tabController;
 
   late List<Widget> tabs = [
-    Text(
-      'Eat In'.tr,
-      style: TextStyle(
-        fontFamily: FONT_MEDIUM,
-        fontSize: 10.sp,
+    FittedBox(
+      child: Text(
+        'Eat In'.tr,
+        style: TextStyle(
+          fontFamily: FONT_MEDIUM,
+          fontSize: 10.sp,
+        ),
+        maxLines: 1,
       ),
-      maxLines: 1,
     ),
-    Text(
-      'Takeaway'.tr,
-      style: TextStyle(
-        fontFamily: FONT_MEDIUM,
-        fontSize: 10.sp,
+    FittedBox(
+      child: Text(
+        'Takeaway'.tr,
+        style: TextStyle(
+          fontFamily: FONT_MEDIUM,
+          fontSize: 10.sp,
+        ),
+        maxLines: 1,
       ),
-      maxLines: 1,
     )
   ];
 
   // 0:eatin; 1:take away
-  int eatin = 0;
+  var eatin = 0.obs;
 
   int startHour = 12;
+  int startMin = 0;
   int endHour = 23;
+  int endMin = 0;
+
+  var selectHour = "12".obs;
+  var selectMin = "00".obs;
+
+  late DateTime selectPickupTime;
 
   @override
   void onInit() {
@@ -52,17 +63,50 @@ class BubbleConfirmOrderCtr extends GetxController
   }
 
   void calStoreOpenTime() {
-    RegExp regExp = RegExp(r'(\d{2}):\d{2}');
-    Iterable<Match> matches = regExp.allMatches(
+    // 定义正则表达式模式来匹配时间格式
+    RegExp regExp = RegExp(r'(\d{2}):(\d{2})');
+    // 使用正则表达式查找所有匹配项
+    Iterable<RegExpMatch> matches = regExp.allMatches(
         TabBubbleTeaCtr.find.currentSelectStore.value.openTime ?? '');
-    if (matches.length == 2) {
-      startHour = int.parse(matches.elementAt(0).group(1)!);
-      endHour = int.parse(matches.elementAt(1).group(1)!);
+    // 提取匹配项中的数字
+    List<int> times = [];
+    for (RegExpMatch match in matches) {
+      times.add(int.parse(match.group(1)!)); // 小时
+      times.add(int.parse(match.group(2)!)); // 分钟
+    }
+
+    if (times.length == 4) {
+      startHour = times[0];
+      startMin = times[1];
+      endHour = times[2];
+      endMin = times[3];
+
       DateTime nowTime = DateTime.now();
-      if (nowTime.hour >= endHour && nowTime.minute > 0) {
+      if (nowTime.hour >= endHour && nowTime.minute > endMin) {
         showError('The store is closed at the current time.');
         Get.back();
       }
+      if (nowTime.hour > startHour) {
+        selectHour.value =
+            nowTime.hour < 10 ? "0${nowTime.hour}" : "${nowTime.hour}";
+        if (nowTime.minute > startMin) {
+          selectMin.value =
+              nowTime.minute < 10 ? "0${nowTime.minute}" : "${nowTime.minute}";
+        } else {
+          selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
+        }
+      } else {
+        selectHour.value = startHour < 10 ? "0$startHour" : "$startHour";
+        selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
+      }
+
+      selectPickupTime = DateTime(
+        nowTime.year,
+        nowTime.month,
+        nowTime.day,
+        startHour,
+        0,
+      );
     }
   }
 
@@ -82,12 +126,27 @@ class BubbleConfirmOrderCtr extends GetxController
       ),
       barrierColor: Colors.black26,
     );
-    if (value != null) {}
+    if (value != null) {
+      selectHour.value = value["selectHour"] < 10
+          ? "0${value["selectHour"]}"
+          : "${value["selectHour"]}";
+      selectMin.value = value["selectMin"] < 10
+          ? "0${value["selectMin"]}"
+          : "${value["selectMin"]}";
+
+      selectPickupTime = DateTime(
+        nowTime.year,
+        nowTime.month,
+        nowTime.day,
+        value["selectHour"],
+        value["selectMin"],
+      );
+    }
   }
 
   void payment() async {
     DateTime nowTime = DateTime.now();
-    if (nowTime.hour >= endHour && nowTime.minute > 0) {
+    if (nowTime.hour >= endHour && nowTime.minute > endMin) {
       showError('The store is closed at the current time.');
       Get.back();
       return;
@@ -121,8 +180,10 @@ class BubbleConfirmOrderCtr extends GetxController
     BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
       storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
       goodsList: goodsList,
-      eatin: eatin.toString(),
-      arrivalTime: ((DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString(),
+      eatin: eatin.value.toString(),
+      arrivalTime: eatin.value == 0
+          ? ((nowTime.millisecondsSinceEpoch) ~/ 1000).toString()
+          : ((selectPickupTime.millisecondsSinceEpoch) ~/ 1000).toString(),
       couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
     );
     dismissLoading();
