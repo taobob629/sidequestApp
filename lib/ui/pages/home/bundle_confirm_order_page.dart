@@ -140,6 +140,8 @@ class BundleConfirmOrderPage extends StatelessWidget {
                     payOrderModel: PayOrderModel(),
                     whenComplete: () => UserController.instance().updateInfo(),
                     onSelect: (model) => controller.selectCoupon(model),
+                    storeId: TabBundlesPageController.find.currentSelectStore.value.id,
+                    goodsList: TabBundlesPageController.find.getGoodsListMap(),
                   ),
                   child: Obx(() => RichText(
                     text: TextSpan(

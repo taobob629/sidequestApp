@@ -401,6 +401,8 @@ class BubbleTeaDetailPage extends StatelessWidget {
                   showTabbar: false,
                   // 只是为了能有返回值创建的一个空的payOrderModel
                   payOrderModel: PayOrderModel(),
+                  storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id,
+                  goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
                   whenComplete: () => UserController.instance().updateInfo(),
                   onSelect: (model) => TabBubbleTeaCtr.find.selectCoupon(model),
                 ),

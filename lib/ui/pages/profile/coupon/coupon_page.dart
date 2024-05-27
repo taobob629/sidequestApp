@@ -10,6 +10,7 @@ import '../../../../common/getx_list_controller.dart';
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../model/coupon_model.dart';
+import '../../../../model/goods_detail_model.dart';
 import '../../../../model/pay_order_model.dart';
 import '../../../../widget/views.dart';
 import '../../../dialog/dialog_confirm.dart';
@@ -29,6 +30,8 @@ class CouponPage extends StatelessWidget {
     int couponType = 0,
     PayOrderModel? payOrderModel,
     Map<String, dynamic>? preOrder,
+    int? storeId,
+    List<Map<String, dynamic>>? goodsList,
     int tab = TYPE_STORE,
     this.showAppbar = true,
     this.showTabbar = true,
@@ -39,6 +42,8 @@ class CouponPage extends StatelessWidget {
         tab: tab,
         couponType: couponType,
         payOrderModel: payOrderModel,
+        storeId: storeId,
+        goodsList: goodsList,
       ),
       tag: '$tab',
     );
@@ -100,7 +105,8 @@ class CouponPage extends StatelessWidget {
                                     crossAxisSpacing: 10.0,
                                     childAspectRatio: 688 / 333),
                             itemBuilder: (context, index) {
-                              CouponsListModel couponsListModel = controller.list[index];
+                              CouponsListModel couponsListModel =
+                                  controller.list[index];
                               return CouponItem(
                                 listModel: couponsListModel,
                                 onTap: (model) =>
@@ -141,24 +147,11 @@ class CouponPage extends StatelessWidget {
   Widget noDataEmpty() => Expanded(
         child: Container(
           width: 1.sw,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                ImageUtils.coupon_no_data_icon,
-                width: 116.w,
-              ),
-              Text(
-                'No updates~',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontFamily: FONT_MEDIUM,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-            ],
+          child: Center(
+            child: Image.asset(
+              ImageUtils.coupon_no_data_icon,
+              width: 116.w,
+            ),
           ),
         ),
       );
@@ -176,15 +169,27 @@ class CouponPageController extends GetxListController<CouponsListModel> {
   Map<String, dynamic>? preOrder;
   int type = 3;
   bool isFirstEnter = true;
+  int? storeId;
+  List<Map<String, dynamic>>? goodsList;
 
-  var couponOurModel =
-      CouponOurModel(gaming: 0, product: 0, coupons: [], event: 0).obs;
+  var couponOurModel = CouponOurModel(
+    gaming: 0,
+    product: 0,
+    coupons: [],
+    event: 0,
+  ).obs;
 
-  CouponPageController(
-      {required this.payOrderModel,
-      required this.couponType,
-      this.preOrder,
-      this.tab = CouponPage.TYPE_STORE});
+  CouponPageController({
+    required this.payOrderModel,
+    required this.couponType,
+    int? storeId,
+    List<Map<String, dynamic>>? goodsList,
+    this.preOrder,
+    this.tab = CouponPage.TYPE_STORE,
+  }) {
+    this.storeId = storeId;
+    this.goodsList = goodsList;
+  }
 
   @override
   void onInit() {
@@ -293,7 +298,11 @@ class CouponPageController extends GetxListController<CouponsListModel> {
   @override
   Future<List<CouponsListModel>> loadData() async {
     //  showLoading();
-    couponOurModel.value = await CouponApi.listCoupon(type);
+    if (storeId != null) {
+      couponOurModel.value = await CouponApi.myVouchers(storeId: storeId, goodsList: goodsList);
+    } else {
+      couponOurModel.value = await CouponApi.listCoupon(type);
+    }
     List<CouponsListModel> couponList = couponOurModel.value.coupons;
     // if (payOrderModel != null) {
     //   couponList = await CouponApi.avaList(payOrderModel!);

@@ -11,6 +11,7 @@ import '../common/address_model.dart';
 import '../common/web_page.dart';
 import '../controller/user_controller.dart';
 import '../model/coupon_model.dart';
+import '../model/goods_detail_model.dart';
 import '../model/pay_order_model.dart';
 import '../model/task_model.dart';
 import '../ui/pages/booking/booking_page.dart';
@@ -104,6 +105,8 @@ class NavigatorHelper {
   static void gotoCouponPage({
     int couponType = 0,
     int tab = 0,
+    int? storeId,
+    List<Map<String, dynamic>>? goodsList,
     PayOrderModel? payOrderModel,
     Map<String, dynamic>? preOrder,
     Function(CouponsListModel)? onSelect,
@@ -115,6 +118,8 @@ class NavigatorHelper {
           payOrderModel: payOrderModel,
           preOrder: preOrder,
           tab: tab,
+          storeId: storeId,
+          goodsList: goodsList,
           showTabbar: showTabbar,
         ))?.then((model) {
       if (model != null) {

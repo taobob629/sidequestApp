@@ -58,13 +58,25 @@ class CouponApi {
     return result;
   }
 
+  static Future<CouponOurModel> myVouchers({
+    int? storeId,
+    List<Map<String, dynamic>>? goodsList,
+  }) async {
+    var response = await http.post('/sideQuest/app/hubs/myVouchers', data: {
+      "storeId": storeId,
+      "goodsList": goodsList,
+    });
+    CouponOurModel result = CouponOurModel.fromJson(response.data);
+    return result;
+  }
+
   static Future<String?> calculateOrder({
     required int storeId,
     required List<Map<String, dynamic>> goodsList,
     int? couponId,
   }) async {
     var response = await http
-        .post('/sideQuest/app/hubs/myVouchers?couponId=$couponId', data: {
+        .post('/sideQuest/app/hubs/calculateOrder', data: {
       "storeId": storeId,
       "goodsList": goodsList,
       "couponId": couponId,

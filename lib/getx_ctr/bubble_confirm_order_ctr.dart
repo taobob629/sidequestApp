@@ -188,6 +188,7 @@ class BubbleConfirmOrderCtr extends GetxController
     );
     dismissLoading();
     Get.back();
+    TabBubbleTeaCtr.find.clearTea();
     if (model.orderInfo?.statusValue != 1) {
       // 余额支付失败，需要跳转到那边去；
       PayOrderModel payOrderModel = PayOrderModel();

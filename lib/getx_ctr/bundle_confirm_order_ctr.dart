@@ -44,7 +44,7 @@ class BundleConfirmOrderCtr extends GetxController {
     if (result != null) {
       discount.value = result;
       TabBundlesPageController.find.totalPrice.value =
-          TabBundlesPageController.find.totalPrice.value.minus(result);
+          TabBundlesPageController.find.yhTotalPrice.minus(result);
     }
   }
 

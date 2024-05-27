@@ -31,8 +31,9 @@ class BundlesDetailCtr extends GetxController {
     dismissLoading();
   }
 
-  void addTea() {
+  void addTea() async {
     TabBundlesPageController.find.addTea(map['index']);
-    Get.to(() => BundleConfirmOrderPage());
+    await Get.to(() => BundleConfirmOrderPage());
+    TabBundlesPageController.find.clearTea();
   }
 }

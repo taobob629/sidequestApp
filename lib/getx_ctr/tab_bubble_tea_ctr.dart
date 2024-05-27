@@ -33,6 +33,8 @@ class TabBubbleTeaCtr extends GetxController {
   var selectTeaList = <GoodsDetailModel>[].obs;
   var totalCount = 0.obs;
   var totalPrice = "0".obs;
+  // 优惠券前的总价
+  String yhTotalPrice = "0";
   var currentSelectStore = BubbleTeaStoreModel().obs;
   var distances = 0.0.obs;
   var showAddToCart = true.obs;
@@ -151,6 +153,7 @@ class TabBubbleTeaCtr extends GetxController {
       discount.value = "0.0";
     }
     totalPrice.value = total.toString().minus(discount.value);
+    yhTotalPrice = totalPrice.value;
     // 查询优惠券
     // HubsApi.getVouchers(currentSelectStore.value.id);
   }
@@ -211,9 +214,7 @@ class TabBubbleTeaCtr extends GetxController {
     }
   }
 
-  void selectCoupon(CouponsListModel couponModel) async {
-    selectCouponModel = couponModel;
-    showLoading();
+  List<Map<String, dynamic>> getGoodsListMap() {
     List<Map<String, dynamic>> goodsList = [];
     selectTeaList.forEach((element) {
       List<String> toppingList = [];
@@ -238,17 +239,22 @@ class TabBubbleTeaCtr extends GetxController {
       };
       goodsList.add(map);
     });
+    return goodsList;
+  }
 
+  void selectCoupon(CouponsListModel couponModel) async {
+    selectCouponModel = couponModel;
+    showLoading();
     final result = await CouponApi.calculateOrder(
       storeId: currentSelectStore.value.id ?? 0,
-      goodsList: goodsList,
+      goodsList: getGoodsListMap(),
       couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
     );
     dismissLoading();
 
     if(result != null) {
       discount.value = result;
-      totalPrice.value = totalPrice.value.minus(result);
+      totalPrice.value = yhTotalPrice.minus(result);
     }
   }
 }

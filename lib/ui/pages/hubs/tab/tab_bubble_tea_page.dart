@@ -336,6 +336,8 @@ class TabBubbleTeaPage extends StatelessWidget {
                   showTabbar: false,
                   // 只是为了能有返回值创建的一个空的payOrderModel
                   payOrderModel: PayOrderModel(),
+                  storeId: ctr.currentSelectStore.value.id,
+                  goodsList: ctr.getGoodsListMap(),
                   whenComplete: () => UserController.instance().updateInfo(),
                   onSelect: (model) => ctr.selectCoupon(model),
                 ),

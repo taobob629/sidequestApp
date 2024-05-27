@@ -469,6 +469,8 @@ class TabBundlesPageController extends GetxController {
   late BuildContext cartContext;
   var selectList = <BundlesModel>[].obs;
   var totalPrice = "0".obs;
+  // 优惠券前的总价
+  String yhTotalPrice = "0";
   var storesList = <BubbleTeaStoreModel>[].obs;
   var currentSelectStore = BubbleTeaStoreModel().obs;
   var list = <BundlesModel>[].obs;
@@ -506,6 +508,7 @@ class TabBundlesPageController extends GetxController {
 
     totalPrice.value = selectList.fold<String>("0",
         (previousValue, element) => previousValue.add(element.price ?? "0"));
+    yhTotalPrice = totalPrice.value;
   }
 
   void clearTea() {
@@ -543,5 +546,18 @@ class TabBundlesPageController extends GetxController {
       currentSelectStore.value = value as BubbleTeaStoreModel;
       requestData(currentSelectStore.value.id, true);
     }
+  }
+
+  List<Map<String, dynamic>> getGoodsListMap() {
+    List<Map<String, dynamic>> goodsList = [];
+    selectList.forEach((element) {
+      Map<String, dynamic> map = {
+        "id": element.id,
+        "num": element.count.value,
+        "commodityId": element.commodityId,
+      };
+      goodsList.add(map);
+    });
+    return goodsList;
   }
 }
