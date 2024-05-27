@@ -35,6 +35,6 @@ class AddressModel {
     line2 = json['line2'] == null ? "" : json['line2'];
     postCode = json['postCode'] == null ? "" : json['postCode'];
     city = json['city'] ?? "";
-    useDefault = json['isDefault'] == 1 ?? false;
+    useDefault = json['isDefault'] == 1;
   }
 }

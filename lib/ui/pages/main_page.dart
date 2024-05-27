@@ -41,6 +41,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var padding = MediaQuery.of(context).padding;
+    print('padding.bottom = ${padding.bottom}');
 
     return WillPopScope(
       onWillPop: () async {
@@ -82,7 +83,8 @@ class MainPage extends StatelessWidget {
               ),
               Container(
                 color: hexColor('141517'),
-                height: 60.h,
+                height: 60.h + 16.h,
+                padding: EdgeInsets.only(bottom: 16.h),
                 child: Obx(() => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,

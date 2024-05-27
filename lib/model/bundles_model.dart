@@ -7,6 +7,7 @@ class BundlesModel {
   String? price;
   String? name;
   int? id;
+  int? commodityId;
   var count = 1.obs;
 
   BundlesModel({
@@ -15,6 +16,7 @@ class BundlesModel {
     this.price,
     this.name,
     this.id,
+    this.commodityId,
   });
 
   factory BundlesModel.fromJson(Map<String, dynamic> json) => BundlesModel(
@@ -23,6 +25,7 @@ class BundlesModel {
     price: json["price"],
     name: json["name"],
     id: json["id"],
+    commodityId: json["commodityId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -31,6 +34,7 @@ class BundlesModel {
     "price": price,
     "name": name,
     "id": id,
+    "commodityId": commodityId,
   };
 
   String getTotalPrice() {

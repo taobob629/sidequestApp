@@ -64,7 +64,7 @@ class CouponApi {
     int? couponId,
   }) async {
     var response = await http
-        .post('/sideQuest/app/hubs/calculateOrder?couponId=$couponId', data: {
+        .post('/sideQuest/app/hubs/myVouchers?couponId=$couponId', data: {
       "storeId": storeId,
       "goodsList": goodsList,
       "couponId": couponId,

@@ -38,7 +38,7 @@ class CsDropDownDialog extends StatelessWidget {
     double? positionTop = target?.dy;
     double? positionBottom = Get.height - target!.dy;
 
-    if (target!.dy + viewHeight >= Get.height) {
+    if (target.dy + viewHeight >= Get.height) {
       positionTop = null;
     } else {
       positionBottom = null;

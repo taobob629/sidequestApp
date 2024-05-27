@@ -27,6 +27,7 @@ class CouponOurModel {
 class CouponsListModel {
   late int id = 0;
   late String typeName = "";
+  late String unit = "";
   late CouponModel couponModel;
 
   CouponsListModel();
@@ -34,9 +35,10 @@ class CouponsListModel {
   CouponsListModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     typeName = json['type'] == null ? "" : json['type'];
+    unit = json['unit'] == null ? "" : json['unit'];
     couponModel = json["coupon"] == null
         ? CouponModel()
-        : CouponModel.fromJson(json["coupon"]);
+        : CouponModel.fromJson(json["coupon"], unit: unit);
   }
 }
 
@@ -47,13 +49,13 @@ class CouponModel {
   late String description = "";
   late int type = 0;
   late String expireTime = "";
+  late String unit = "";
   late int _discount = 0;
   late String limitStore = "";
   late String productId = "0";
   late int freeTime = 0;
   late String couponCode = "";
   late String qrcode = "";
-  late String unit = "";
   late int usedCount = 0;
   late int available = 0; //
   late List<String> stores = []; //
@@ -73,8 +75,10 @@ class CouponModel {
 
   CouponModel.fromJson(
     Map<String, dynamic> json, {
+    String unit = '',
     bool needHourMinSec = false,
   }) {
+    this.unit = unit;
     id = json['id'];
     name = json['name'] == null ? "" : json['name'];
     _discount = json['discount'] == null ? 0 : json['discount'];
@@ -93,7 +97,6 @@ class CouponModel {
     productId = json['productId'] == null ? "0" : json['productId'];
     couponCode = json['code'] == null ? "" : json['code'];
     qrcode = json['qrcode'] == null ? "" : json['qrcode'];
-    unit = json['unit'] == null ? "" : json['unit'];
     available = json['available'] == null ? 0 : json['available'];
     stores = json["stores"] == null
         ? []

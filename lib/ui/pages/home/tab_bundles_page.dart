@@ -100,7 +100,10 @@ class TabBundlesPage extends StatelessWidget {
                       itemBuilder: (c, i) => GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () => Get.to(() => BundlesDetailPage(),
-                            arguments: controller.list[i].id),
+                            arguments: {
+                              "id": controller.list[i].id,
+                              "index": i
+                            }),
                         child: Container(
                           height: 112.h,
                           margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -161,17 +164,14 @@ class TabBundlesPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () => controller.addTea(i),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 10.w,
-                                    top: 40.h,
-                                  ),
-                                  child: Image.asset(
-                                    ImageUtils.bundles_cart_icon,
-                                    scale: 2,
-                                  ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  right: 10.w,
+                                  top: 40.h,
+                                ),
+                                child: Image.asset(
+                                  ImageUtils.bundles_cart_icon,
+                                  scale: 2,
                                 ),
                               ),
                             ],
@@ -502,9 +502,6 @@ class TabBundlesPageController extends GetxController {
         selectList.firstWhereOrNull((element) => element.id == list[i].id);
     if (result == null) {
       selectList.add(list[i]);
-      showSuccess("Successful.".tr);
-    } else {
-      showError("You've already added it.".tr);
     }
 
     totalPrice.value = selectList.fold<String>("0",

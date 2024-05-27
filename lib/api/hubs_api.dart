@@ -74,4 +74,18 @@ class HubsApi {
     });
     return BubbleConfirmOrderModel.fromJson(response.data);
   }
+
+  static Future<BubbleConfirmOrderModel> confirmBundleOrder({
+    required int storeId,
+    required List<Map<String, dynamic>> goodsList,
+    int? couponId,
+  }) async {
+    var response =
+        await http.post('/sideQuest/app/hubs/confirmBundleOrder', data: {
+      "storeId": storeId,
+      "goodsList": goodsList,
+      "couponId": couponId,
+    });
+    return BubbleConfirmOrderModel.fromJson(response.data);
+  }
 }

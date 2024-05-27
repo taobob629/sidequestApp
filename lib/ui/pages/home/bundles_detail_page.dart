@@ -34,8 +34,7 @@ class BundlesDetailPage extends StatelessWidget {
                       Center(
                         child: ImageUtil.networkImage(
                           url: "${ctr.model.value.image}",
-                          width: 165.w,
-                          height: 165.w,
+                          height: 274.h,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -65,7 +64,7 @@ class BundlesDetailPage extends StatelessWidget {
                 ),
                 Positioned(
                   top: 260.h,
-                  bottom: 0,
+                  bottom: 60.h,
                   left: 0,
                   right: 0,
                   child: Container(
@@ -79,138 +78,132 @@ class BundlesDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          ctr.model.value.name ?? '',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w600,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ctr.model.value.name ?? '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ).paddingOnly(left: 16.w, top: 20.h),
+                          Visibility(
+                            visible: ctr.model.value.brief != null,
+                            child: Text(
+                              ctr.model.value.brief ?? '',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 13.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ).paddingOnly(
+                              left: 16.w,
+                              right: 110.w,
+                              top: 16.h,
+                              bottom: 12.h,
+                            ),
                           ),
-                        ).paddingOnly(left: 16.w, top: 20.h),
-                        Visibility(
-                          visible: ctr.model.value.brief != null,
-                          child: Text(
-                            ctr.model.value.brief ?? '',
+                          Row(
+                            children: [
+                              Image.asset(
+                                ImageUtils.product_content_icon,
+                                height: 20.h,
+                              ),
+                              10.horizontalSpace,
+                              Text(
+                                'Product Content',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
+                          Text(
+                            'All Day pass X4',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.6),
-                              fontSize: 13.sp,
+                              fontSize: 14.sp,
                               fontFamily: 'DIN',
                               fontWeight: FontWeight.w400,
                             ),
-                          ).paddingOnly(left: 16.w, top: 16.h),
-                        ),
-                        Text(
-                          'This coffee uses espresso, steam milk, andadditional caramel syrup',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 12.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ).paddingOnly(
-                          left: 16.w,
-                          right: 110.w,
-                          top: 12.h,
-                          bottom: 12.h,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              ImageUtils.product_content_icon,
-                              height: 20.h,
-                            ),
-                            10.horizontalSpace,
-                            Text(
-                              'Product Content',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
-                        Text(
-                          'All Day pass X4',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 14.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ).paddingOnly(left: 44.w, top: 20.h),
-                        Row(
-                          children: [
-                            Image.asset(
-                              ImageUtils.shop_icon,
-                              height: 20.h,
-                            ),
-                            10.horizontalSpace,
-                            Text(
-                              'Supported Stores',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
-                        ...ctr.model.value.stores
-                            .map(
-                              (e) => Text(
-                                e,
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.6),
-                                  fontSize: 14.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ).paddingOnly(left: 44.w, top: 20.h),
-                            )
-                            .toList(),
-                        Visibility(
-                          visible: ctr.model.value.introduce != null,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          ).paddingOnly(left: 44.w, top: 20.h),
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    ImageUtils.introduce_icon,
-                                    height: 20.h,
-                                  ),
-                                  10.horizontalSpace,
-                                  Text(
-                                    'Instructions',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
+                              Image.asset(
+                                ImageUtils.shop_icon,
+                                height: 20.h,
+                              ),
+                              10.horizontalSpace,
                               Text(
-                                '${ctr.model.value.introduce}',
+                                'Supported Stores',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.6),
+                                  color: Colors.white,
                                   fontSize: 14.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              ).paddingOnly(left: 44.w, top: 20.h),
+                              ),
                             ],
+                          ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
+                          ...ctr.model.value.stores
+                              .map(
+                                (e) => Text(
+                                  e,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: 14.sp,
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ).paddingOnly(left: 44.w, top: 20.h),
+                              )
+                              .toList(),
+                          Visibility(
+                            visible: ctr.model.value.introduce != null,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      ImageUtils.introduce_icon,
+                                      height: 20.h,
+                                    ),
+                                    10.horizontalSpace,
+                                    Text(
+                                      'Instructions',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ).paddingOnly(
+                                    left: 16.w, top: 20.h, right: 16.w),
+                                Text(
+                                  '${ctr.model.value.introduce}',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: 14.sp,
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ).paddingOnly(left: 44.w, top: 20.h),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -228,10 +221,10 @@ class BundlesDetailPage extends StatelessWidget {
                       ),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        15.verticalSpace,
                         Text(
-                          '£${double.parse(ctr.model.value.price).toStringAsFixed(0)}',
+                          '£${double.parse(ctr.model.value.price)}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -242,12 +235,10 @@ class BundlesDetailPage extends StatelessWidget {
                         ),
                         4.verticalSpace,
                         Visibility(
-                          visible: double.parse(ctr.model.value.price)
-                                  .toStringAsFixed(0) !=
-                              double.parse(ctr.model.value.originalPrice)
-                                  .toStringAsFixed(0),
+                          visible: ctr.model.value.price !=
+                              ctr.model.value.originalPrice,
                           child: Text(
-                            '£${double.parse(ctr.model.value.originalPrice).toStringAsFixed(0)}',
+                            '£${double.parse(ctr.model.value.originalPrice)}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -282,7 +273,7 @@ class BundlesDetailPage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            '£ ${ctr.totalMoney.value}',
+                            '£ ${ctr.model.value.price}',
                             style: TextStyle(
                               color: const Color(0xFFFFB20E),
                               fontSize: 24.sp,
@@ -292,7 +283,7 @@ class BundlesDetailPage extends StatelessWidget {
                           ).paddingOnly(left: 16.w),
                         ),
                         InkWell(
-                          onTap: () => Get.to(() => BundleConfirmOrderPage()),
+                          onTap: () => ctr.addTea(),
                           child: Container(
                             height: 40.h,
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
