@@ -187,9 +187,9 @@ class BubbleConfirmOrderCtr extends GetxController
       couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
     );
     dismissLoading();
-    Get.back();
-    TabBubbleTeaCtr.find.clearTea();
     if (model.orderInfo?.statusValue != 1) {
+      Get.back();
+      Get.back();
       // 余额支付失败，需要跳转到那边去；
       PayOrderModel payOrderModel = PayOrderModel();
 
@@ -199,9 +199,15 @@ class BubbleConfirmOrderCtr extends GetxController
       payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
 
       NavigatorHelper.gotoPayPage(payOrderModel);
+      TabBubbleTeaCtr.find.clearTea();
     } else {
       TabBubbleTeaCtr.find.clearTea();
-      Get.to(() => OrderDetailPage(), arguments: model.orderInfo?.id);
+      Get.offUntil(
+          GetPageRoute(
+            settings: RouteSettings(arguments: model.orderInfo?.id),
+            page: () => OrderDetailPage(),
+          ),
+          (route) => route.isFirst);
     }
   }
 }
