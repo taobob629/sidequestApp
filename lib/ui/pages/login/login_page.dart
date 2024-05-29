@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/config/app_color.dart';
@@ -221,6 +222,7 @@ class LoginPageController extends BasePageController {
   }
 
   void login() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     String email = emailEditingController.text;
     String password = passwordEditingController.text;
 

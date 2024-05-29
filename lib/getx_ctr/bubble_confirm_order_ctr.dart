@@ -5,11 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/getx_ctr/tab_bubble_tea_ctr.dart';
 import 'package:sq_hub_app/ui/dialog/dialog_select_tea_time.dart';
+import 'package:sq_hub_app/utils/decimal_utils.dart';
 
+import '../api/coupon_api.dart';
 import '../api/hubs_api.dart';
 import '../common/dialog_date_time_picker.dart';
 import '../config/icon_font.dart';
 import '../model/bubble_confirm_order_model.dart';
+import '../model/coupon_model.dart';
 import '../model/pay_order_model.dart';
 import '../ui/pages/order/detail/view.dart';
 import '../utils/navigator_helper.dart';
@@ -18,6 +21,9 @@ import '../utils/toast_utils.dart';
 class BubbleConfirmOrderCtr extends GetxController
     with GetTickerProviderStateMixin {
   late TabController tabController;
+  var discount = "0.0".obs;
+  var totalPrice = "0".obs;
+  CouponsListModel? selectCouponModel;
 
   late List<Widget> tabs = [
     FittedBox(
@@ -59,7 +65,25 @@ class BubbleConfirmOrderCtr extends GetxController
   void onInit() {
     super.onInit();
 
+    totalPrice.value = TabBubbleTeaCtr.find.totalPrice.value;
+    discount.value = TabBubbleTeaCtr.find.discount.value;
     tabController = TabController(length: tabs.length, vsync: this);
+  }
+
+  void selectCoupon(CouponsListModel couponModel) async {
+    selectCouponModel = couponModel;
+    showLoading();
+    final result = await CouponApi.calculateOrder(
+      storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
+      goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
+      couponId: selectCouponModel?.id,
+    );
+    dismissLoading();
+
+    if (result != null) {
+      discount.value = result;
+      totalPrice.value = totalPrice.value.minus(result);
+    }
   }
 
   void calStoreOpenTime() {
@@ -184,7 +208,7 @@ class BubbleConfirmOrderCtr extends GetxController
       arrivalTime: eatin.value == 0
           ? ((nowTime.millisecondsSinceEpoch) ~/ 1000).toString()
           : ((selectPickupTime.millisecondsSinceEpoch) ~/ 1000).toString(),
-      couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
+      couponId: selectCouponModel?.id,
     );
     dismissLoading();
     if (model.orderInfo?.statusValue != 1) {

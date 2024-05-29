@@ -6,8 +6,11 @@ import 'package:sq_hub_app/getx_ctr/tab_bubble_tea_ctr.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
+import '../controller/user_controller.dart';
 import '../model/goods_detail_model.dart';
+import '../model/pay_order_model.dart';
 import '../ui/pages/hubs/bubble_confirm_order_page.dart';
+import '../utils/navigator_helper.dart';
 import '../widget/tag/tag_bean.dart';
 
 class BubbleTeaDetailCtr extends GetxController {
@@ -137,7 +140,6 @@ class BubbleTeaDetailCtr extends GetxController {
       calculateTotalPrice(false);
 
       if (TabBubbleTeaCtr.find.totalCount.value == 0) {
-        TabBubbleTeaCtr.find.selectCouponModel = null;
         TabBubbleTeaCtr.find.discount.value = "0.0";
         TabBubbleTeaCtr.find.selectTeaList.clear();
         dismissLoading();

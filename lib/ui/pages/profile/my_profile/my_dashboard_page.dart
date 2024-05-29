@@ -49,9 +49,12 @@ class MyDashboardPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Image.asset(
-                            "assets/images/huizhang_${UserController.find.userProfile.vipLevel}.webp",
-                            height: 14.h,
+                          Visibility(
+                            visible: UserController.find.userProfile.vipLevel > 0,
+                            child: Image.asset(
+                              "assets/images/huizhang_${UserController.find.userProfile.vipLevel}.webp",
+                              height: 14.h,
+                            ),
                           ),
                           4.horizontalSpace,
                           Text(

@@ -16,6 +16,7 @@ import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
 import '../service/location_service.dart';
+import '../ui/pages/hubs/bubble_confirm_order_page.dart';
 import '../ui/pages/hubs/bubble_tea_detail_page.dart';
 import '../ui/pages/hubs/tea_ad_list_page.dart';
 import '../utils/geolocator_utils.dart';
@@ -43,7 +44,6 @@ class TabBubbleTeaCtr extends GetxController {
   var distances = 0.0.obs;
   var showAddToCart = true.obs;
   var discount = "0.0".obs;
-  CouponsListModel? selectCouponModel;
 
   late BuildContext cartContext;
 
@@ -124,7 +124,6 @@ class TabBubbleTeaCtr extends GetxController {
         selectTeaList.remove(foundGoods);
       }
       if (selectTeaList.isEmpty) {
-        selectCouponModel = null;
         discount.value = "0.0";
         if (Get.isRegistered<BubbleTeaDetailCtr>()) {
           BubbleTeaDetailCtr.find.showAddToCart.value = true;
@@ -185,6 +184,7 @@ class TabBubbleTeaCtr extends GetxController {
         );
       }
 
+      clearTea();
       requestStoreInDataByStoreId(currentSelectStore.value.id, true);
     }
   }
@@ -194,7 +194,6 @@ class TabBubbleTeaCtr extends GetxController {
       BubbleTeaDetailCtr.find.showAddToCart.value = true;
     }
 
-    selectCouponModel = null;
     discount.value = "0.0";
     selectTeaList.clear();
     calculateTotal();
@@ -247,22 +246,6 @@ class TabBubbleTeaCtr extends GetxController {
       goodsList.add(map);
     });
     return goodsList;
-  }
-
-  void selectCoupon(CouponsListModel couponModel) async {
-    selectCouponModel = couponModel;
-    showLoading();
-    final result = await CouponApi.calculateOrder(
-      storeId: currentSelectStore.value.id ?? 0,
-      goodsList: getGoodsListMap(),
-      couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
-    );
-    dismissLoading();
-
-    if (result != null) {
-      discount.value = result;
-      totalPrice.value = yhTotalPrice.minus(result);
-    }
   }
 
   void jumpPage(String? link) async {

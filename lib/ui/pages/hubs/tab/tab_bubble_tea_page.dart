@@ -321,51 +321,53 @@ class TabBubbleTeaPage extends StatelessWidget {
                   )),
             ),
             14.horizontalSpace,
-            Obx(() => Text(
-                  '£${ctr.totalPrice.value}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w600,
-                  ),
-                )),
             Expanded(
-              child: InkWell(
-                onTap: () => NavigatorHelper.gotoCouponPage(
-                  couponType: 3,
-                  showTabbar: false,
-                  // 只是为了能有返回值创建的一个空的payOrderModel
-                  payOrderModel: PayOrderModel(),
-                  storeId: ctr.currentSelectStore.value.id,
-                  goodsList: ctr.getGoodsListMap(),
-                  whenComplete: () => UserController.instance().updateInfo(),
-                  onSelect: (model) => ctr.selectCoupon(model),
-                ),
-                child: Center(
-                  child: Obx(() => RichText(
-                        text: TextSpan(
-                          text: 'Discount：-${ctr.discount.value} ',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 12.sp,
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [
-                            WidgetSpan(
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white.withOpacity(0.6),
-                                size: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-              ),
+              child: Obx(() => Text(
+                    '£${ctr.totalPrice.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )),
             ),
+            // Expanded(
+            //   child: InkWell(
+            //     onTap: () => NavigatorHelper.gotoCouponPage(
+            //       couponType: 3,
+            //       showTabbar: false,
+            //       // 只是为了能有返回值创建的一个空的payOrderModel
+            //       payOrderModel: PayOrderModel(),
+            //       storeId: ctr.currentSelectStore.value.id,
+            //       goodsList: ctr.getGoodsListMap(),
+            //       whenComplete: () => UserController.instance().updateInfo(),
+            //       onSelect: (model) => ctr.selectCoupon(model),
+            //     ),
+            //     child: Center(
+            //       child: Obx(() => RichText(
+            //             text: TextSpan(
+            //               text: 'Discount：-${ctr.discount.value} ',
+            //               style: TextStyle(
+            //                 color: Colors.white.withOpacity(0.6),
+            //                 fontSize: 12.sp,
+            //                 fontFamily: FONT_MEDIUM,
+            //                 fontWeight: FontWeight.w400,
+            //               ),
+            //               children: [
+            //                 WidgetSpan(
+            //                   child: Icon(
+            //                     Icons.arrow_forward_ios,
+            //                     color: Colors.white.withOpacity(0.6),
+            //                     size: 14.sp,
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           )),
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () => ctr.selectTeaList.isNotEmpty
                   ? Get.to(() => BubbleConfirmOrderPage())

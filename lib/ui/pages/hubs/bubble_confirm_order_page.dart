@@ -7,8 +7,11 @@ import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/app_color.dart';
+import '../../../controller/user_controller.dart';
 import '../../../getx_ctr/bubble_confirm_order_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
+import '../../../model/pay_order_model.dart';
+import '../../../utils/navigator_helper.dart';
 import '../../../widget/container_tab_indicator.dart';
 
 class BubbleConfirmOrderPage extends StatelessWidget {
@@ -189,17 +192,29 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                           InkWell(
                             onTap: () =>
                                 ctr.eatin.value == 0 ? null : ctr.selectTime(),
-                            child: Obx(() => Text(
-                                  ctr.eatin.value == 0
-                                      ? 'Now'
-                                      : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
-                                          .tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                            child: Obx(() => Row(
+                                  children: [
+                                    Text(
+                                      ctr.eatin.value == 0
+                                          ? 'Now'
+                                          : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
+                                              .tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: ctr.eatin.value != 0,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.white,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ],
                                 )),
                           ),
                         ],
@@ -241,7 +256,7 @@ class BubbleConfirmOrderPage extends StatelessWidget {
         margin: EdgeInsets.only(
           left: 16.w,
           right: 16.w,
-          bottom: 20.h,
+          bottom: 34.h,
         ),
         decoration: ShapeDecoration(
           color: hexColor('4C3608'),
@@ -252,36 +267,48 @@ class BubbleConfirmOrderPage extends StatelessWidget {
         child: Row(
           children: [
             14.horizontalSpace,
-            Text(
-              '£${TabBubbleTeaCtr.find.totalPrice.value}',
+            Obx(() => Text(
+              '£${ctr.totalPrice.value}',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.sp,
                 fontFamily: FONT_MEDIUM,
                 fontWeight: FontWeight.w600,
               ),
-            ),
+            )),
             10.horizontalSpace,
             Expanded(
-              child: RichText(
-                text: TextSpan(
-                  text: 'Discount：-${TabBubbleTeaCtr.find.discount.value} ',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontSize: 12.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    WidgetSpan(
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white.withOpacity(0.6),
-                        size: 14.sp,
-                      ),
-                    ),
-                  ],
+              child: InkWell(
+                onTap: () => NavigatorHelper.gotoCouponPage(
+                  couponType: 3,
+                  showTabbar: false,
+                  // 只是为了能有返回值创建的一个空的payOrderModel
+                  payOrderModel: PayOrderModel(),
+                  storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id,
+                  goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
+                  whenComplete: () => UserController.instance().updateInfo(),
+                  onSelect: (model) => ctr.selectCoupon(model),
                 ),
+                child: Obx(() => RichText(
+                  text: TextSpan(
+                    text: 'Discount：-${ctr.discount.value} ',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    children: [
+                      WidgetSpan(
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white.withOpacity(0.6),
+                          size: 14.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
               ),
             ),
             InkWell(

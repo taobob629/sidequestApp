@@ -37,7 +37,7 @@ class BundleConfirmOrderCtr extends GetxController {
     final result = await CouponApi.calculateOrder(
       storeId: TabBundlesPageController.find.currentSelectStore.value.id ?? 0,
       goodsList: goodsList,
-      couponId: TabBubbleTeaCtr.find.selectCouponModel?.id,
+      couponId: selectCouponModel?.id,
     );
     dismissLoading();
 
