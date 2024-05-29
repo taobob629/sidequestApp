@@ -26,8 +26,6 @@ class BubbleTeaDetailCtr extends GetxController {
 
   var totalMoney = "0".obs;
 
-  late Map<String, dynamic> map;
-
   var showAddToCart = true.obs;
 
   late BuildContext cartContext;
@@ -36,13 +34,12 @@ class BubbleTeaDetailCtr extends GetxController {
   void onInit() {
     super.onInit();
 
-    map = Get.arguments as Map<String, dynamic>;
     requestData();
   }
 
   void requestData() async {
     showLoading();
-    model.value = await HubsApi.goodDetail(map["id"]);
+    model.value = await HubsApi.goodDetail(Get.arguments);
     dismissLoading();
 
     sizeTags.clear();

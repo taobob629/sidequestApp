@@ -163,11 +163,15 @@ class LoginPage extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: keyboardShow ? 10 : 40,
-              child: Center(
+              child: Visibility(
+                visible: !keyboardShow,
+                child: Center(
                   child: PrivacyCheck(
-                controller: controller.controller,
-              )),
-            )
+                    controller: controller.controller,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       );

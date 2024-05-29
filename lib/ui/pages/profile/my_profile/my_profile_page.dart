@@ -194,16 +194,21 @@ class MyProfilePage extends StatelessWidget {
                                       ),
                                     ),
                                     6.horizontalSpace,
-                                    InkWell(
-                                      onTap: () =>
-                                          Get.to(() => FollowListPage()),
-                                      child: Text(
-                                        'Followers',
-                                        style: TextStyle(
-                                          color: Color(0xFF808388),
-                                          fontSize: 12.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w400,
+                                    badges.Badge(
+                                      showBadge: t.user.value.newFollowers > 0,
+                                      badgeColor: Color(0xffFF4848),
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () =>
+                                            Get.to(() => FollowListPage()),
+                                        child: Text(
+                                          'Followers',
+                                          style: TextStyle(
+                                            color: Color(0xFF808388),
+                                            fontSize: 12.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -229,15 +234,21 @@ class MyProfilePage extends StatelessWidget {
                                       ),
                                     ),
                                     6.horizontalSpace,
-                                    InkWell(
-                                      onTap: () => Get.to(() => FansListPage()),
-                                      child: Text(
-                                        'Fans',
-                                        style: TextStyle(
-                                          color: Color(0xFF808388),
-                                          fontSize: 12.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w400,
+                                    badges.Badge(
+                                      showBadge: t.user.value.newFans > 0,
+                                      badgeColor: Color(0xffFF4848),
+                                      alignment: Alignment.centerRight,
+                                      child: InkWell(
+                                        onTap: () =>
+                                            Get.to(() => FansListPage()),
+                                        child: Text(
+                                          'Fans',
+                                          style: TextStyle(
+                                            color: Color(0xFF808388),
+                                            fontSize: 12.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -827,8 +838,8 @@ class ProfileController extends GetxController
 
   void jumpTaskDetail() async {
     showLoading();
-    var response =
-        await http.get('/app/client/task/task?id=${user.value.loyaltyModel}');
+    var response = await http
+        .get('/app/client/task/task?id=${user.value.loyaltyModel.taskId}');
     dismissLoading();
     if (response.data != null) {
       TaskOutModel outModel = TaskOutModel.fromJson(response.data);
@@ -839,6 +850,26 @@ class ProfileController extends GetxController
         });
       }
     }
+  }
+
+  String getMembership() {
+    int vipLevel = UserController.find.userProfile.vipLevel;
+    String membershipName = "";
+    switch (vipLevel) {
+      case 5:
+        membershipName = "Adventurer";
+        break;
+      case 10:
+        membershipName = "Hero";
+        break;
+      case 15:
+        membershipName = "Champion";
+        break;
+      case 15:
+        membershipName = "Legend";
+        break;
+    }
+    return membershipName;
   }
 
   @override

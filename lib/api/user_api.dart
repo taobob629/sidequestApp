@@ -19,21 +19,22 @@ class UserApi {
     return UserInfoModel.fromJson(response.data);
   }
 
-  static Future<String> uploadAvatar(File image, Function(int, int)? sendCallback) async {
+  static Future<String> uploadAvatar(
+      File image, Function(int, int)? sendCallback) async {
     String path = image.path;
     var name = path.substring(path.lastIndexOf("/") + 1, path.length);
     FormData formData = FormData.fromMap({
       //这里写其他需要传递的参数
       "file": await MultipartFile.fromFile(path, filename: name)
     });
-    var response =
-    await http.post('/app/user/uploadAvatar', data: formData, onSendProgress: sendCallback);
+    var response = await http.post('/app/user/uploadAvatar',
+        data: formData, onSendProgress: sendCallback);
 
     return response.data['url'];
   }
 
-  static Future<void> updateProfile(
-      String nick, String birthday, String firstName, String lastName, String phone) async {
+  static Future<void> updateProfile(String nick, String birthday,
+      String firstName, String lastName, String phone) async {
     await http.get('/app/user/updateProfile',
         queryParameters: ({
           'nick': nick,
@@ -45,20 +46,24 @@ class UserApi {
   }
 
   static Future<bool> havePayPassword() async {
-    var response = await http.get('/app/user/havePayPassword', queryParameters: ({}));
+    var response =
+        await http.get('/app/user/havePayPassword', queryParameters: ({}));
     return response.data['data'] != null && response.data['data'] == true;
   }
 
-  static Future<bool> updatePayPassword(String oldPassword, String newPassword) async {
+  static Future<bool> updatePayPassword(
+      String oldPassword, String newPassword) async {
     var formData = {
       "oldPassword": oldPassword,
       "newPassword": newPassword,
     };
-    var response = await http.post('/app/user/updatePayPassword', data: formData);
+    var response =
+        await http.post('/app/user/updatePayPassword', data: formData);
     return response.data;
   }
 
-  static Future<bool> updateLoginPassword(String oldPassword, String newPassword) async {
+  static Future<bool> updateLoginPassword(
+      String oldPassword, String newPassword) async {
     var formData = {
       "oldPassword": oldPassword,
       "newPassword": newPassword,
@@ -80,14 +85,17 @@ class UserApi {
     await http.get('/app/user/delete', queryParameters: ({}));
   }
 
-  static Future<List<AttentionModel>> attentionList(int pageNum, int pageSize) async {
+  static Future<List<AttentionModel>> attentionList(
+      int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
     var response = await http.get('/peiwan/app/user/followlist',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
-    list = response.data.map<AttentionModel>((item) => AttentionModel.fromJson(item)).toList();
+    list = response.data
+        .map<AttentionModel>((item) => AttentionModel.fromJson(item))
+        .toList();
     return list;
   }
 
@@ -97,7 +105,9 @@ class UserApi {
     if (response.data == null) {
       return list;
     }
-    list = response.data.map<SkillModel>((item) => SkillModel.fromJson(item)).toList();
+    list = response.data
+        .map<SkillModel>((item) => SkillModel.fromJson(item))
+        .toList();
     return list;
   }
 
@@ -112,52 +122,63 @@ class UserApi {
   }
 
   static Future<Response> addSkillItem(Map<String, dynamic> params) async {
-    var response = await http.post('/peiwan/app/service/addItem', queryParameters: params);
+    var response =
+        await http.post('/peiwan/app/service/addItem', queryParameters: params);
     return response;
   }
 
   static Future<Response> deleteSkillItem(var id) async {
-    var response = await http.get('/peiwan/app/service/deleteItem/?id=$id',
+    var response = await http.get(
+      '/peiwan/app/service/deleteItem/?id=$id',
     );
     return response;
   }
 
-  static Future<List<AttentionModel>> fansList(int pageNum, int pageSize) async {
+  static Future<List<AttentionModel>> fansList(
+      int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
-    var response = await http.get('/peiwan/app/users/fanslist',
+    var response = await http.get('/sideQuest/app/users/fanslist',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
-    list = response.data.map<AttentionModel>((item) => AttentionModel.fromJson(item)).toList();
+    list = response.data
+        .map<AttentionModel>((item) => AttentionModel.fromJson(item))
+        .toList();
     return list;
   }
 
-  static Future<List<AttentionModel>> followList(int pageNum, int pageSize) async {
+  static Future<List<AttentionModel>> followList(
+      int pageNum, int pageSize) async {
     List<AttentionModel> list = [];
-    var response = await http.get('/peiwan/app/users/followlist',
+    var response = await http.get('/sideQuest/app/users/followlist',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
-    list = response.data.map<AttentionModel>((item) => AttentionModel.fromJson(item)).toList();
+    list = response.data
+        .map<AttentionModel>((item) => AttentionModel.fromJson(item))
+        .toList();
     return list;
   }
 
-  static Future<List<VisitorModel>> visitorList(int pageNum, int pageSize) async {
+  static Future<List<VisitorModel>> visitorList(
+      int pageNum, int pageSize) async {
     List<VisitorModel> list = [];
     var response = await http.get('/peiwan/app/profile/visitors',
         queryParameters: ({'pageNum': pageNum, 'pageSize': pageSize}));
     if (response.data == null) {
       return list;
     }
-    list = response.data.map<VisitorModel>((item) => VisitorModel.fromJson(item)).toList();
+    list = response.data
+        .map<VisitorModel>((item) => VisitorModel.fromJson(item))
+        .toList();
     return list;
   }
 
   static Future<Response> attention(touid) async {
-    var response =
-    await http.get('/peiwan/app/users/attention/', queryParameters: ({"touid": touid}));
+    var response = await http.get('/sideQuest/app/social/attention',
+        queryParameters: ({"touid": touid}));
     return response;
   }
 
@@ -166,16 +187,19 @@ class UserApi {
    */
   static Future<LevelModel> level(var type) async {
     var response = await http.get(
-        type == TYPE_VIP ? '/peiwan/app/order/live/level' : '/peiwan/app/order/user/level',
+        type == TYPE_VIP
+            ? '/peiwan/app/order/live/level'
+            : '/peiwan/app/order/user/level',
         queryParameters: ({}));
     return LevelModel.fromJson(response.data);
   }
 
-  static Future<List<GameUserModel>> search(String key,{var type}) async {
-    var response =
-    await http.get('/peiwan/app/new/search', queryParameters: ({"searchParams": key,'type':type}));
-    List<GameUserModel> list =
-    response.data.map<GameUserModel>((item) => GameUserModel.fromJson(item)).toList();
+  static Future<List<GameUserModel>> search(String key, {var type}) async {
+    var response = await http.get('/peiwan/app/new/search',
+        queryParameters: ({"searchParams": key, 'type': type}));
+    List<GameUserModel> list = response.data
+        .map<GameUserModel>((item) => GameUserModel.fromJson(item))
+        .toList();
     return list;
   }
 

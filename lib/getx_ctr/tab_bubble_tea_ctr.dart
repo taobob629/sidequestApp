@@ -9,20 +9,23 @@ import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
+import '../model/bubble_tea_ad_model.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/coupon_model.dart';
 import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
 import '../service/location_service.dart';
+import '../ui/pages/hubs/bubble_tea_detail_page.dart';
+import '../ui/pages/hubs/tea_ad_list_page.dart';
 import '../utils/geolocator_utils.dart';
-import '../widget/tag/tag_bean.dart';
 import 'bubble_tea_detail_ctr.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
 
   var teaList = <StoreTeaModel>[].obs;
+  var teaADList = <BubbleTeaAdModel>[].obs;
   List<TeaCategoryModel> teaCategoryList = [];
   var categoryStr = "All/Select Type".obs;
   var storesList = <BubbleTeaStoreModel>[].obs;
@@ -33,6 +36,7 @@ class TabBubbleTeaCtr extends GetxController {
   var selectTeaList = <GoodsDetailModel>[].obs;
   var totalCount = 0.obs;
   var totalPrice = "0".obs;
+
   // 优惠券前的总价
   String yhTotalPrice = "0";
   var currentSelectStore = BubbleTeaStoreModel().obs;
@@ -92,13 +96,16 @@ class TabBubbleTeaCtr extends GetxController {
       HubsApi.getTeaCategory(storeId),
     ]);
     if (isShowLoading) dismissLoading();
+    if (list.isNotEmpty) {
+      teaADList.assignAll(list[0] as Iterable<BubbleTeaAdModel>);
+    }
     if (list.length > 1) {
-      teaList.assignAll(list[1]);
+      teaList.assignAll(list[1] as Iterable<StoreTeaModel>);
     }
     if (list.length > 2) {
       teaCategoryList.clear();
       teaCategoryList.add(TeaCategoryModel(id: 0, name: "All Type"));
-      teaCategoryList.addAll(list[2]);
+      teaCategoryList.addAll(list[2] as Iterable<TeaCategoryModel>);
     }
   }
 
@@ -252,9 +259,28 @@ class TabBubbleTeaCtr extends GetxController {
     );
     dismissLoading();
 
-    if(result != null) {
+    if (result != null) {
       discount.value = result;
       totalPrice.value = yhTotalPrice.minus(result);
+    }
+  }
+
+  void jumpPage(String? link) async {
+    if (link != null) {
+      Map<String, dynamic> jsonMap = json.decode(link);
+      String name = jsonMap['name'];
+      int categoryId = jsonMap['categoryId'];
+      int goodId = jsonMap['goodId'];
+      int type = jsonMap['type'];
+      if (type == 1) {
+        showLoading();
+        teaList.assignAll(
+            await HubsApi.getTeaList(currentSelectStore.value.id, categoryId));
+        dismissLoading();
+        Get.to(() => TeaADListPage());
+      } else if (type == 0) {
+        Get.to(() => BubbleTeaDetailPage(), arguments: goodId);
+      }
     }
   }
 }

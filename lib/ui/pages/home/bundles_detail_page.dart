@@ -111,33 +111,6 @@ class BundlesDetailPage extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                ImageUtils.product_content_icon,
-                                height: 20.h,
-                              ),
-                              10.horizontalSpace,
-                              Text(
-                                'Product Content',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ).paddingOnly(left: 16.w, top: 20.h, right: 16.w),
-                          Text(
-                            'All Day pass X4',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 14.sp,
-                              fontFamily: 'DIN',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ).paddingOnly(left: 44.w, top: 20.h),
-                          Row(
-                            children: [
-                              Image.asset(
                                 ImageUtils.shop_icon,
                                 height: 20.h,
                               ),

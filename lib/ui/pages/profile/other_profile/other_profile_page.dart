@@ -572,9 +572,9 @@ class OtherProfilePage extends StatelessWidget {
     tabs.add(Text(
       "Posts".tr,
     ));
-    tabs.add(Text(
-      "Album".tr,
-    ));
+    // tabs.add(Text(
+    //   "Album".tr,
+    // ));
 
     return tabs;
   }
@@ -582,7 +582,7 @@ class OtherProfilePage extends StatelessWidget {
   List<Widget> createPages() {
     List<Widget> pages = [];
     pages.add(OtherPostsPage());
-    pages.add(OtherAlbumPage());
+    // pages.add(OtherAlbumPage());
     return pages;
   }
 }
@@ -659,7 +659,7 @@ class OtherProfileController extends BasePageController {
       return;
     }
     showLoading();
-    UserApi.attention(player.value.uid).then((value) async {
+    UserApi.attention(player.value.memberId).then((value) async {
       dismissLoading();
       await showHearts(context, offset, "");
       player.value.follow = !player.value.follow;
@@ -669,6 +669,7 @@ class OtherProfileController extends BasePageController {
         player.value.fans -= 1;
       }
       player.refresh();
+      UserController.find.updateInfo();
     }).catchError((e) {
       dismissLoading();
       print(e);

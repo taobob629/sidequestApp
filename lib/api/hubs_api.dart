@@ -2,6 +2,7 @@ import 'package:sq_hub_app/api/wy_http.dart';
 import 'package:sq_hub_app/model/goods_detail_model.dart';
 
 import '../model/bubble_confirm_order_model.dart';
+import '../model/bubble_tea_ad_model.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
@@ -16,10 +17,16 @@ class HubsApi {
     return list;
   }
 
-  static Future<dynamic> getTeaBanners(int? storeId) async {
+  static Future<List<BubbleTeaAdModel>> getTeaBanners(int? storeId) async {
     var response = await http.get('/sideQuest/app/hubs/teaBanners',
         queryParameters: {"storeId": storeId});
-    return response.data;
+    if (response.data == null) {
+      return [];
+    }
+    List<BubbleTeaAdModel> list = response.data
+        .map<BubbleTeaAdModel>((item) => BubbleTeaAdModel.fromJson(item))
+        .toList();
+    return list;
   }
 
   static Future<GoodsDetailModel> goodDetail(int? id) async {
@@ -64,8 +71,7 @@ class HubsApi {
     required String arrivalTime,
     int? couponId,
   }) async {
-    var response =
-        await http.post('/sideQuest/app/hubs/confirmOrder', data: {
+    var response = await http.post('/sideQuest/app/hubs/confirmOrder', data: {
       "storeId": storeId,
       "goodsList": goodsList,
       "eatin": eatin,

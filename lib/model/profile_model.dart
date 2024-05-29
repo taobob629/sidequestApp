@@ -16,10 +16,12 @@ class ProfileModel {
   CountryModel location = CountryModel();
   String nickName = "";
   int fans = 0;
+  int newFans = 0;
   int visitor = 0;
   int visitorToday = 0;
   int vipLevel = 0;
   int followers = 0;
+  int newFollowers = 0;
   int followerToday = 0;
   int posts = 0;
   String balance = "0.00";
@@ -69,10 +71,12 @@ class ProfileModel {
       this.sidekickLevel = 1,
       this.nickName = "",
       this.fans = 0,
+      this.newFans = 0,
       this.visitor = 0,
       this.visitorToday = 0,
       this.vipLevel = 0,
       this.followers = 0,
+      this.newFollowers = 0,
       this.followerToday = 0,
       this.posts = 0,
       this.balance = "0.00",
@@ -129,10 +133,12 @@ class ProfileModel {
     phone = json["phone"] ?? "";
 
     fans = json["fans"] ?? 0;
+    newFans = json["newFans"] ?? 0;
     visitor = json["visitor"] ?? 0;
     visitorToday = json["visitorToday"] ?? 0;
     vipLevel = json["vipLevel"] ?? 0;
     followers = json["followers"] ?? 0;
+    newFollowers = json["newFollowers"] ?? 0;
     followerToday = json["followerToday"] ?? 0;
     posts = json["posts"] ?? 0;
     balance = json["balance"] ?? "0.00";

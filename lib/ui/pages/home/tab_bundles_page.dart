@@ -476,8 +476,8 @@ class TabBundlesPageController extends GetxController {
   var list = <BundlesModel>[].obs;
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
 
     requestStoreList();
   }

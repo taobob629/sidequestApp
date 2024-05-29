@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/image_utils.dart';
 
 import '../../../../api/im_api.dart';
@@ -37,117 +38,127 @@ class FansListPage extends StatelessWidget {
     return BaseScaffold(
       title: 'My Followers'.tr,
       body: Obx(
-        () => SmartRefresher(
-            controller: t.refreshController,
-            onLoading: () => t.loadMore(),
-            onRefresh: () => t.onRefresh(),
-            enablePullUp: true,
-            child: ListView.builder(
-                itemCount: t.list.length,
-                itemBuilder: (context, index) {
-                  final model = t.list[index];
-                  return Container(
-                    height: 60,
-                    margin: EdgeInsets.symmetric(horizontal: 14, vertical: 15),
-                    child: Row(
-                      children: [
-                        Visibility(
-                            visible: t.selelctMode,
-                            child: Obx(() => Checkbox(
-                                  value: model.isSelet,
-                                  onChanged: (bool? value) {
-                                    model.isSelet = value ?? false;
-                                  },
-                                ))),
-                        GestureDetector(
-                            onTap: () =>
-                                NavigatorHelper.toOtherProfile(model.id),
-                            child: CachedNetworkImage(
-                                imageUrl: model.avatar,
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover)),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                model.name,
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Row(
+        () => t.list.isNotEmpty
+            ? SmartRefresher(
+                controller: t.refreshController,
+                onLoading: () => t.loadMore(),
+                onRefresh: () => t.onRefresh(),
+                enablePullUp: true,
+                child: ListView.builder(
+                    itemCount: t.list.length,
+                    itemBuilder: (context, index) {
+                      final model = t.list[index];
+                      return Container(
+                        height: 60,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 14, vertical: 15),
+                        child: Row(
+                          children: [
+                            Visibility(
+                                visible: t.selelctMode,
+                                child: Obx(() => Checkbox(
+                                      value: model.isSelet,
+                                      onChanged: (bool? value) {
+                                        model.isSelet = value ?? false;
+                                      },
+                                    ))),
+                            GestureDetector(
+                                onTap: () =>
+                                    NavigatorHelper.toOtherProfile(model.id),
+                                child: CachedNetworkImage(
+                                    imageUrl: model.avatar,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover)),
+                            Expanded(
+                                child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SexAndAgeWidget(
-                                    age: model.age,
-                                    sex: model.sex,
+                                  Text(
+                                    model.name,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  6.horizontalSpace,
-                                  GameLevelWidget(
-                                    height: 16.h,
-                                    level: model.isAuth == 0
-                                        ? model.titlesLevel
-                                        : model.userLevel,
-                                    isAuth: model.isAuth,
-                                    userId:
-                                        UserController.find.userProfile.pwId,
+                                  Row(
+                                    children: [
+                                      SexAndAgeWidget(
+                                        age: model.age,
+                                        sex: model.sex,
+                                      ),
+                                      6.horizontalSpace,
+                                      GameLevelWidget(
+                                        height: 16.h,
+                                        level: model.isAuth == 0
+                                            ? model.titlesLevel
+                                            : model.userLevel,
+                                        isAuth: model.isAuth,
+                                        userId: UserController
+                                            .find.userProfile.pwId,
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    model.signature,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColor.whiteGray),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
-                              Text(
-                                model.signature,
-                                style: TextStyle(
-                                    fontSize: 12, color: AppColor.whiteGray),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        )),
-                        if (model.status.value == 1)
-                          GestureDetector(
-                            onTap: () {
-                              t.followOrNot(model.id);
-                            },
-                            child: Container(
-                              height: 28,
-                              width: 76,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: AppColor.itemBg,
-                                  borderRadius: BorderRadius.circular(14)),
-                              child: Image.asset(
-                                ImageUtils.ic_exchange,
-                                width: 16,
-                                height: 16,
-                              ),
-                            ),
-                          )
-                        else
-                          GestureDetector(
-                              onTap: () {
-                                t.followOrNot(model.id);
-                              },
-                              child: Container(
-                                height: 28,
-                                width: 76,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: AppColor.yellow),
-                                    borderRadius: BorderRadius.circular(14)),
-                                child: Text("+ Follow",
-                                    style: TextStyle(
-                                        color: AppColor.yellow, fontSize: 13)),
-                              ))
-                      ],
-                    ),
-                  );
-                })),
+                            )),
+                            if (model.status.value == 1)
+                              GestureDetector(
+                                onTap: () {
+                                  t.followOrNot(model.id);
+                                },
+                                child: Container(
+                                  height: 28,
+                                  width: 76,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: AppColor.itemBg,
+                                      borderRadius: BorderRadius.circular(14)),
+                                  child: Image.asset(
+                                    ImageUtils.ic_exchange,
+                                    width: 16,
+                                    height: 16,
+                                  ),
+                                ),
+                              )
+                            else
+                              GestureDetector(
+                                  onTap: () {
+                                    t.followOrNot(model.id);
+                                  },
+                                  child: Container(
+                                    height: 28,
+                                    width: 76,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: AppColor.yellow),
+                                        borderRadius:
+                                            BorderRadius.circular(14)),
+                                    child: Text("+ Follow",
+                                        style: TextStyle(
+                                            color: AppColor.yellow,
+                                            fontSize: 13)),
+                                  ))
+                          ],
+                        ),
+                      );
+                    }))
+            : EmptyView(),
       ),
       floatingActionButton: Visibility(
         visible: t.selelctMode,

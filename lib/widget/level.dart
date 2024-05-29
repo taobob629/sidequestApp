@@ -41,11 +41,9 @@ class GameLevelWidget extends StatelessWidget {
   }
 }
 
-userIcon(int level, {double height = 24}) {
+userIcon(int level, {double height = 26}) {
   return Container(
     height: height,
-    width: height * 3,
-    constraints: BoxConstraints(maxWidth: height * 3),
     padding: EdgeInsets.symmetric(horizontal: height / 4),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(height / 2)),
@@ -61,7 +59,6 @@ userIcon(int level, {double height = 24}) {
           height: height - 2,
           width: height - 2,
         ),
-        Spacer(),
         Text(
           getUserText(level),
           style: TextStyle(
@@ -78,14 +75,14 @@ getUserImg(int level) {
   if (level > 9) {
     return 'SVIP${level - 9 + 1}';
   }
-  return 'VIP$level';
+  return 'VIP${level + 1}';
 }
 
 getUserText(int level) {
   if (level > 9) {
     return 'SVIP${level - 9 + 1}';
   }
-  return 'VIP$level';
+  return 'VIP${level + 1}';
 }
 
 getColors(int level) {
