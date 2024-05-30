@@ -112,10 +112,8 @@ class BookingItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.21),
                       borderRadius: BorderRadius.all(Radius.circular(20.w))),
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white60,
-                    size: 20.w,
+                  child: Image.asset(
+                    ImageUtils.booking_cancel_icon,
                   ),
                 ),
               ),

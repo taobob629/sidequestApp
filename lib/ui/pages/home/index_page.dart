@@ -105,8 +105,7 @@ class IndexPageController extends GetxController
 
   void requestData() async {
     isLoadFinish.value = false;
-    tabs.clear();
-    tabs.addAll(await IndexApi.getIndexTabs());
+    tabs.assignAll(await IndexApi.getIndexTabs());
     selectTabStr.value = tabs[0].name;
 
     tabController = TabController(

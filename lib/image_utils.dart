@@ -75,6 +75,7 @@ class ImageUtils {
   static const String icon_dianzan = 'assets/images/icon_dianzan.webp';
   static const String arrow_more = 'assets/images/arrow_more.webp';
   static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
+  static const String booking_cancel_icon = 'assets/images/booking_cancel_icon.webp';
   static const String post_add_border_icon = 'assets/images/post_add_border_icon.webp';
   static const String emenry_pc_icon = 'assets/images/emenry_pc_icon.webp';
   static const String icon_first = 'assets/images/icon_first.webp';

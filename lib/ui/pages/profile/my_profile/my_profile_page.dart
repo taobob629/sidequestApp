@@ -271,13 +271,16 @@ class MyProfilePage extends StatelessWidget {
                                       ),
                                     ),
                                     6.horizontalSpace,
-                                    Text(
-                                      'Posts',
-                                      style: TextStyle(
-                                        color: Color(0xFF808388),
-                                        fontSize: 12.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w400,
+                                    InkWell(
+                                      onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
+                                      child: Text(
+                                        'Posts',
+                                        style: TextStyle(
+                                          color: Color(0xFF808388),
+                                          fontSize: 12.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ],

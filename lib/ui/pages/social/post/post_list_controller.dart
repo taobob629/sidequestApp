@@ -49,7 +49,7 @@ class PostListController extends GetxRefreshController<PostItemModel> {
         DateTime.now());
     return cHour > 24
         ? addTime.toDateStr
-        : cHour == 0
+        : cHour <= 0
             ? 'now'
             : '${cHour}h';
   }
