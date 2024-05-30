@@ -45,7 +45,7 @@ class PlayerInfoModel {
     avatar = json['avatar'] ?? avatar;
     follow = json['follow'] == 1;
     fans = json['fans'] ?? fans;
-    sex = json['sex'] ?? sex;
+    sex = json['sex'] == null ? 0 : int.parse(json['sex']);
     memberId = json['memberId'] ?? memberId;
     uk = json['uk'] ?? uk;
     followers = json['followers'] ?? followers;

@@ -76,7 +76,7 @@ class PostListItemView extends GetView<PostListController> {
                 GestureDetector(
                   onTap: () {
                     if (!isSelf) {
-                      NavigatorHelper.toOtherProfile(model.uid);
+                      NavigatorHelper.toOtherProfile(model.memberId);
                     }
                   },
                   child: ClipOval(

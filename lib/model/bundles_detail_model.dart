@@ -7,6 +7,7 @@ class BundlesDetailModel {
   String? name;
   String? introduce;
   List<Voucher>? vouchers;
+  int? saleOnApp;
 
   BundlesDetailModel({
     this.brief,
@@ -17,6 +18,7 @@ class BundlesDetailModel {
     this.name,
     this.introduce,
     this.vouchers,
+    this.saleOnApp,
   });
 
   factory BundlesDetailModel.fromJson(Map<String, dynamic> json) => BundlesDetailModel(
@@ -28,6 +30,7 @@ class BundlesDetailModel {
     vouchers: json["vouchers"] == null ? [] : List<Voucher>.from(json["vouchers"]!.map((x) => Voucher.fromJson(x))),
     name: json["name"],
     introduce: json["introduce"],
+    saleOnApp: json["saleOnApp"],
   );
 }
 

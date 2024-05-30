@@ -255,25 +255,29 @@ class BundlesDetailPage extends StatelessWidget {
                             ),
                           ).paddingOnly(left: 16.w),
                         ),
-                        InkWell(
-                          onTap: () => ctr.addTea(),
-                          child: Container(
-                            height: 40.h,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            margin: EdgeInsets.only(right: 16.w),
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFFFFB20E),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Buy Now',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.bold,
+                        Visibility(
+                          visible: ctr.model.value.saleOnApp == 1,
+                          child: InkWell(
+                            onTap: () => ctr.addTea(),
+                            child: Container(
+                              height: 40.h,
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              margin: EdgeInsets.only(right: 16.w),
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFFFFB20E),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Buy Now',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),

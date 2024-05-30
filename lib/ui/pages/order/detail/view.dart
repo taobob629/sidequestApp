@@ -12,6 +12,7 @@ import 'package:sq_hub_app/common/basePage.dart';
 import 'package:sq_hub_app/common/string_ext.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/order/detail/widgets/widgets.dart';
+import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:timelines/timelines.dart';
 
 import '../../../../common/base_controller.dart';
@@ -184,7 +185,7 @@ class OrderDetailPage extends BasePage {
                             ),
                           ),
                         ],
-                      ).paddingOnly(top: 16.h, bottom: 26.h),
+                      ).paddingOnly(top: 16.h, bottom: 10.h),
                       Row(
                         children: [
                           Expanded(
@@ -200,6 +201,30 @@ class OrderDetailPage extends BasePage {
                           ),
                           Text(
                             '£${ctr.model.value.discount}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ).paddingOnly(bottom: 10.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'SubTotal',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 13.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '£${ctr.model.value.total.toString().minus(ctr.model.value.discount.toString())}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,

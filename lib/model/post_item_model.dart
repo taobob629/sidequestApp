@@ -25,6 +25,7 @@ class PostItemModel {
   int isAuth = 0;
   int userLevel = 0;
   int titlesLevel = 0;
+  int memberId = 0;
 
   showContent() {
     if (type == TYPE_DEFAULT) return content;
@@ -59,5 +60,6 @@ class PostItemModel {
     isAuth = json["isauth"] ?? 0;
     userLevel = json["userLevel"] ?? 1;
     titlesLevel = json["titlesLevel"] ?? 1;
+    memberId = json["memberId"] ?? 0;
   }
 }

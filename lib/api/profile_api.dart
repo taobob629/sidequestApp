@@ -83,7 +83,7 @@ abstract class ProfileApi {
 
   /// player profile player用户信息
   static Future<PlayerInfoModel> getPlayerInfo({required playerId, gid}) async {
-    var response = await http.get('/peiwan/app/profile/player', queryParameters: {"id": playerId, "gid": gid});
+    var response = await http.get('/sideQuest/app/sq/user/detail', queryParameters: {"id": playerId, "gid": gid});
     return PlayerInfoModel.fromJson(response.data);
   }
 

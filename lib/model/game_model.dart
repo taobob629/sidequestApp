@@ -21,18 +21,21 @@ class GameModel {
 class GameItemModel {
   String? image;
   String? name;
+  List<String> stores = [];
   int? type;
 
   GameItemModel({
     this.image,
     this.name,
     this.type,
+    required this.stores,
   });
 
   factory GameItemModel.fromJson(Map<String, dynamic> json) => GameItemModel(
     image: json["image"],
     name: json["name"],
     type: json["type"],
+    stores: json["stores"] == null ? [] : List<String>.from(json["stores"]!.map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {

@@ -8,6 +8,7 @@ import '../../../../image_utils.dart';
 import '../../../../model/beans/games_left_tab_bean.dart';
 import '../../../../model/game_model.dart';
 import '../../../../widget/image_util.dart';
+import '../../../dialog/dialog_support_stores.dart';
 
 class TabGamesFilterPage extends StatelessWidget {
   final controller = TabGamesFilterController.find;
@@ -96,31 +97,34 @@ class TabGamesFilterPage extends StatelessWidget {
                             childAspectRatio: 0.8,
                           ),
                           itemBuilder: (BuildContext context, int index) =>
-                              Column(
-                            children: [
-                              ImageUtil.networkImage(
-                                url: "${controller.list[index].image}",
-                                width: 120.w,
-                                height: 120.w,
-                                fit: BoxFit.cover,
-                                border: 8.r,
-                              ),
-                              10.verticalSpace,
-                              Text(
-                                '${controller.list[index].name}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
+                              InkWell(
+                                onTap: () => Get.dialog(DialogSupportStores(
+                                    controller.list[index].stores)),
+                                child: Column(
+                                  children: [
+                                    ImageUtil.networkImage(
+                                      url: "${controller.list[index].image}",
+                                      width: 120.w,
+                                      height: 120.w,
+                                      fit: BoxFit.cover,
+                                      border: 8.r,
+                                    ),
+                                    10.verticalSpace,
+                                    Text(
+                                      '${controller.list[index].name}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13.sp,
+                                        fontFamily: 'DIN',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
-                          ),
-                        )
+                              ))
                       : Center(
                           child: EmptyView(),
                         ),
