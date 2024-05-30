@@ -218,7 +218,7 @@ class BubbleConfirmOrderCtr extends GetxController
       PayOrderModel payOrderModel = PayOrderModel();
 
       payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
-      payOrderModel.totalAmount = TabBubbleTeaCtr.find.totalPrice.value;
+      payOrderModel.totalAmount = model.orderInfo?.subTotal.toString() ?? "0";
       payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
       payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
 

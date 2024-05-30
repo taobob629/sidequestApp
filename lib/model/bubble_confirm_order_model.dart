@@ -18,6 +18,7 @@ class BubbleConfirmOrderModel {
 
 class OrderInfo {
   double? total;
+  double? subTotal;
   String? address;
   String? orderTime;
   String? orderSn;
@@ -32,6 +33,7 @@ class OrderInfo {
 
   OrderInfo({
     this.total,
+    this.subTotal,
     this.address,
     this.orderTime,
     this.orderSn,
@@ -47,6 +49,7 @@ class OrderInfo {
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
     total: json["total"]?.toDouble(),
+    subTotal: json["subTotal"]?.toDouble(),
     address: json["address"],
     orderTime: json["orderTime"],
     orderSn: json["orderSn"],
@@ -62,6 +65,7 @@ class OrderInfo {
 
   Map<String, dynamic> toJson() => {
     "total": total,
+    "subTotal": subTotal,
     "address": address,
     "orderTime": orderTime,
     "orderSn": orderSn,
