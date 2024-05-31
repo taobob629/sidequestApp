@@ -41,116 +41,120 @@ class FollowListPage extends StatelessWidget {
     return BaseScaffold(
       title: 'My Followings'.tr,
       body: Obx(
-        () => t.list.isNotEmpty
-            ? SmartRefresher(
-                controller: t.refreshController,
-                onLoading: () => t.loadMore(),
-                onRefresh: () => t.onRefresh(),
-                enablePullUp: true,
-                child: ListView.builder(
-                    itemCount: t.list.length,
-                    itemBuilder: (context, index) {
-                      final model = t.list[index];
-                      return Container(
-                        height: 60,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 14, vertical: 15),
-                        child: Row(
-                          children: [
-                            Visibility(
-                                visible: t.selelctMode,
-                                child: Obx(() => Checkbox(
-                                      value: model.isSelet,
-                                      onChanged: (bool? value) {
-                                        model.isSelet = value ?? false;
-                                      },
-                                    ))),
-                            GestureDetector(
-                                onTap: () =>
-                                    NavigatorHelper.toOtherProfile(model.id),
-                                child: CachedNetworkImage(
-                                    imageUrl: model.avatar,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover)),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      model.name,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Row(
+        () => t.isLoading.value
+            ? Container()
+            : t.list.isNotEmpty
+                ? SmartRefresher(
+                    controller: t.refreshController,
+                    onLoading: () => t.loadMore(),
+                    onRefresh: () => t.onRefresh(),
+                    enablePullUp: true,
+                    child: ListView.builder(
+                        itemCount: t.list.length,
+                        itemBuilder: (context, index) {
+                          final model = t.list[index];
+                          return Container(
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 15),
+                            child: Row(
+                              children: [
+                                Visibility(
+                                    visible: t.selelctMode,
+                                    child: Obx(() => Checkbox(
+                                          value: model.isSelet,
+                                          onChanged: (bool? value) {
+                                            model.isSelet = value ?? false;
+                                          },
+                                        ))),
+                                GestureDetector(
+                                    onTap: () => NavigatorHelper.toOtherProfile(
+                                        model.id),
+                                    child: CachedNetworkImage(
+                                        imageUrl: model.avatar,
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover)),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        SexAndAgeWidget(
-                                          age: model.age,
-                                          sex: model.sex,
+                                        Text(
+                                          model.name,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        6.horizontalSpace,
-                                        GameLevelWidget(
-                                          height: 16.h,
-                                          level: model.isAuth == 0
-                                              ? model.titlesLevel
-                                              : model.userLevel,
-                                          isAuth: model.isAuth,
-                                          userId: UserController
-                                              .find.userProfile.pwId,
+                                        Row(
+                                          children: [
+                                            SexAndAgeWidget(
+                                              age: model.age,
+                                              sex: model.sex,
+                                            ),
+                                            6.horizontalSpace,
+                                            GameLevelWidget(
+                                              height: 16.h,
+                                              level: model.isAuth == 0
+                                                  ? model.titlesLevel
+                                                  : model.userLevel,
+                                              isAuth: model.isAuth,
+                                              userId: UserController
+                                                  .find.userProfile.pwId,
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          model.signature,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: AppColor.whiteGray),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      model.signature,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: AppColor.whiteGray),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                // if (model.isFans)
+                                GestureDetector(
+                                  onTap: () {
+                                    t.unFollow(model.id);
+                                  },
+                                  child: Container(
+                                    height: 28,
+                                    width: 76,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: AppColor.itemBg,
+                                        borderRadius:
+                                            BorderRadius.circular(14)),
+                                    child: Text("UnFollow".tr,
+                                        style: TextStyle(
+                                            color: AppColor.whiteGray,
+                                            fontSize: 13)),
+                                  ),
+                                )
+                                // else
+                                // Container(
+                                //   height: 28,
+                                //   width: 76,
+                                //   alignment: Alignment.center,
+                                //   decoration: BoxDecoration(border: Border.all(color: AppColor.yellow), borderRadius: BorderRadius.circular(14)),
+                                //   child: Text("+ Follow", style: TextStyle(color: AppColor.yellow, fontSize: 13)),
+                                // )
+                              ],
                             ),
-                            // if (model.isFans)
-                            GestureDetector(
-                              onTap: () {
-                                t.unFollow(model.id);
-                              },
-                              child: Container(
-                                height: 28,
-                                width: 76,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: AppColor.itemBg,
-                                    borderRadius: BorderRadius.circular(14)),
-                                child: Text("UnFollow".tr,
-                                    style: TextStyle(
-                                        color: AppColor.whiteGray,
-                                        fontSize: 13)),
-                              ),
-                            )
-                            // else
-                            // Container(
-                            //   height: 28,
-                            //   width: 76,
-                            //   alignment: Alignment.center,
-                            //   decoration: BoxDecoration(border: Border.all(color: AppColor.yellow), borderRadius: BorderRadius.circular(14)),
-                            //   child: Text("+ Follow", style: TextStyle(color: AppColor.yellow, fontSize: 13)),
-                            // )
-                          ],
-                        ),
-                      );
-                    }))
-            : EmptyView(),
+                          );
+                        }))
+                : EmptyView(),
       ),
       floatingActionButton: Visibility(
         visible: t.selelctMode,

@@ -19,20 +19,42 @@ abstract class ProfileApi {
 
   /// profile-post  帖子列表
   static Future<List<PostItemModel>> getPostList({int page = 0, uid}) async {
-    var response = await http.post('/peiwan/app/profile/listPost', data: {"pageNum": page, "pageSize": 20, "uid": uid});
-    return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
+    var response = await http.post('/peiwan/app/profile/listPost',
+        data: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data
+        .map<PostItemModel>((e) => PostItemModel.fromJson(e))
+        .toList();
+  }
+
+  /// profile-post  自己帖子列表
+  static Future<List<PostItemModel>> getMyPostList({int page = 0}) async {
+    var response = await http.get('/sideQuest/app/social/myPosts', queryParameters: {
+      "pageNum": page,
+      "pageSize": 20,
+    });
+    return response.data
+        .map<PostItemModel>((e) => PostItemModel.fromJson(e))
+        .toList();
   }
 
   /// profile-post  帖子列表
-  static Future<List<PostItemModel>> getMyRepliedPostList({int page = 0, uid}) async {
-    var response = await http.get('/peiwan/app/posts/myreply', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
-    return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
+  static Future<List<PostItemModel>> getMyRepliedPostList(
+      {int page = 0, uid}) async {
+    var response = await http.get('/peiwan/app/posts/myreply',
+        queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data
+        .map<PostItemModel>((e) => PostItemModel.fromJson(e))
+        .toList();
   }
 
   /// profile-post  帖子列表
-  static Future<List<PostItemModel>> getMyPraisedPostList({int page = 0, uid}) async {
-    var response = await http.get('/peiwan/app/posts/mypraise', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
-    return response.data.map<PostItemModel>((e) => PostItemModel.fromJson(e)).toList();
+  static Future<List<PostItemModel>> getMyPraisedPostList(
+      {int page = 0, uid}) async {
+    var response = await http.get('/peiwan/app/posts/mypraise',
+        queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data
+        .map<PostItemModel>((e) => PostItemModel.fromJson(e))
+        .toList();
   }
 
   /// profile-post  点赞/取消点赞
@@ -45,7 +67,8 @@ abstract class ProfileApi {
 
   /// profile-post  点赞/取消点赞
   static Future deletePost({int postId = 0}) async {
-    var response = await http.get('/peiwan/app/posts/delete_posts', queryParameters: {
+    var response =
+        await http.get('/peiwan/app/posts/delete_posts', queryParameters: {
       "postsId": postId,
     });
     return response.data;
@@ -53,19 +76,24 @@ abstract class ProfileApi {
 
   /// profile-album  相册列表
   static Future<List<AlbumItemModel>> getPhotoList({int page = 0}) async {
-    var response = await http.get('/peiwan/app/profile/getPhotos', queryParameters: {"pageNum": page, "pageSize": 20});
-    return response.data["rows"].map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
+    var response = await http.get('/peiwan/app/profile/getPhotos',
+        queryParameters: {"pageNum": page, "pageSize": 20});
+    return response.data["rows"]
+        .map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e))
+        .toList();
   }
 
   /// profile-album  添加图片到相册
   static Future addPhoto(String thumb) async {
-    var response = await http.post('/peiwan/app/profile/addPhoto', data: {"thumb": thumb});
+    var response =
+        await http.post('/peiwan/app/profile/addPhoto', data: {"thumb": thumb});
     return response.data;
   }
 
   /// profile-album  设置背景图
   static Future setBackground(String photoId) async {
-    var response = await http.get('/peiwan/app/profile/setBackground', queryParameters: {"photoId": photoId});
+    var response = await http.get('/peiwan/app/profile/setBackground',
+        queryParameters: {"photoId": photoId});
     return response.data;
   }
 
@@ -78,36 +106,50 @@ abstract class ProfileApi {
   /// vip详情
   static Future getVipDetail() async {
     var response = await http.get('/peiwan/app/profile/vipDetail');
-    return response.data.map<VipInfoModel>((e) => VipInfoModel.fromJson(e)).toList();
+    return response.data
+        .map<VipInfoModel>((e) => VipInfoModel.fromJson(e))
+        .toList();
   }
 
   /// player profile player用户信息
   static Future<PlayerInfoModel> getPlayerInfo({required playerId, gid}) async {
-    var response = await http.get('/sideQuest/app/sq/user/detail', queryParameters: {"id": playerId, "gid": gid});
+    var response = await http.get('/sideQuest/app/sq/user/detail',
+        queryParameters: {"id": playerId, "gid": gid});
     return PlayerInfoModel.fromJson(response.data);
   }
 
   /// others-album  相册列表
-  static Future<List<AlbumItemModel>> getOtherPhotos({int page = 0, required uid}) async {
-    var response = await http.get('/peiwan/app/profile/getOtherPhotos', queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
-    return response.data["rows"].map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e)).toList();
+  static Future<List<AlbumItemModel>> getOtherPhotos(
+      {int page = 0, required uid}) async {
+    var response = await http.get('/peiwan/app/profile/getOtherPhotos',
+        queryParameters: {"pageNum": page, "pageSize": 20, "uid": uid});
+    return response.data["rows"]
+        .map<AlbumItemModel>((e) => AlbumItemModel.fromJson(e))
+        .toList();
   }
 
   /// player profile player用户信息
   static Future<ProfileDetailBean> profileInit() async {
     var response = await http.get('/peiwan/app/profile/profileInit');
-    return  ProfileDetailBean.fromJson(response.data);
+    return ProfileDetailBean.fromJson(response.data);
   }
 
   /// profile-album  添加图片到相册
-  static Future updateProfile(String nick, String phone, String country, String gender) async {
-    var response = await http.post('/peiwan/app/profile/updateProfile', data: {"nick": nick, "phone": phone, "country": country, "gender": gender});
+  static Future updateProfile(
+      String nick, String phone, String country, String gender) async {
+    var response = await http.post('/peiwan/app/profile/updateProfile', data: {
+      "nick": nick,
+      "phone": phone,
+      "country": country,
+      "gender": gender
+    });
     return response.data;
   }
 
   /// player profile player用户信息
   static Future uk2id(uk) async {
-    var response = await http.get('/peiwan/app/profile/uk2id', queryParameters: {"uk": uk});
+    var response = await http
+        .get('/peiwan/app/profile/uk2id', queryParameters: {"uk": uk});
     return response.data;
   }
 
@@ -118,16 +160,21 @@ abstract class ProfileApi {
 
   /// 查看自己的评价
   static Future<List<RatingCommentModel>> myCommentsList({int page = 1}) async {
-    var response = await http.get('/peiwan/app/users/myComments', queryParameters: {
+    var response =
+        await http.get('/peiwan/app/users/myComments', queryParameters: {
       "pageNum": page,
       "pageSize": 20,
     });
-    return response.data["rows"].map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e)).toList();
+    return response.data["rows"]
+        .map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e))
+        .toList();
   }
 
   /// 查看别人的游戏评价
-  static Future<Map> othersCommentsList({int page = 1, required String liveid, required String skillId}) async {
-    var response = await http.get('/peiwan/app/users/listComments', queryParameters: {
+  static Future<Map> othersCommentsList(
+      {int page = 1, required String liveid, required String skillId}) async {
+    var response =
+        await http.get('/peiwan/app/users/listComments', queryParameters: {
       "pageNum": page,
       "pageSize": 20,
       "liveid": liveid,

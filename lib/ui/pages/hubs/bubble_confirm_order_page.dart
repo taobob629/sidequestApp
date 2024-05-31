@@ -111,15 +111,28 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                         ),
                       ),
                       8.verticalSpace,
-                      Text(
-                        '${TabBubbleTeaCtr.find.currentSelectStore.value.address}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 10.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w400,
-                          height: 1.8,
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white.withOpacity(0.6),
+                            size: 12.sp,
+                          ).paddingOnly(top: 4.h),
+                          3.horizontalSpace,
+                          Expanded(
+                            child: Text(
+                              '${TabBubbleTeaCtr.find.currentSelectStore.value.address}',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 10.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.w400,
+                                height: 1.8,
+                              ),
+                            ),
+                          ),
+                        ],
                       ).paddingOnly(right: 45.w),
                       15.verticalSpace,
                       Row(
@@ -268,14 +281,14 @@ class BubbleConfirmOrderPage extends StatelessWidget {
           children: [
             14.horizontalSpace,
             Obx(() => Text(
-              '£${ctr.totalPrice.value}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
+                  '£${ctr.totalPrice.value}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )),
             10.horizontalSpace,
             Expanded(
               child: InkWell(
@@ -290,25 +303,25 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                   onSelect: (model) => ctr.selectCoupon(model),
                 ),
                 child: Obx(() => RichText(
-                  text: TextSpan(
-                    text: 'Discount：-${ctr.discount.value} ',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
-                      fontSize: 12.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.arrow_forward_ios,
+                      text: TextSpan(
+                        text: 'Discount：-${ctr.discount.value} ',
+                        style: TextStyle(
                           color: Colors.white.withOpacity(0.6),
-                          size: 14.sp,
+                          fontSize: 12.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w400,
                         ),
+                        children: [
+                          WidgetSpan(
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white.withOpacity(0.6),
+                              size: 14.sp,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )),
+                    )),
               ),
             ),
             InkWell(

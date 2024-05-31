@@ -38,6 +38,7 @@ import '../integral/integral_home_page.dart';
 import '../invite/invite_page.dart';
 import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
+import 'my_posts_page.dart';
 
 class MyProfilePage extends StatelessWidget {
   MyProfilePage({Key? key}) : super(key: key);
@@ -272,7 +273,8 @@ class MyProfilePage extends StatelessWidget {
                                     ),
                                     6.horizontalSpace,
                                     InkWell(
-                                      onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
+                                      onTap: () => Get.to(() => MyPostsPage()),
+                                      // onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
                                       child: Text(
                                         'Posts',
                                         style: TextStyle(
