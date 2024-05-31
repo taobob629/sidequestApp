@@ -6,6 +6,7 @@
 import 'package:get/get.dart';
 
 import '../../../../common/base_tab_controller.dart';
+import '../../../controller/user_controller.dart';
 import '../../../utils/storage_manager.dart';
 import '../login/login_page.dart';
 

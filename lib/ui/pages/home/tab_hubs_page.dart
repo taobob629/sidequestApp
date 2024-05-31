@@ -61,7 +61,6 @@ class TabHubsPage extends StatelessWidget {
             ),
           ),
           if (controller.selectTopTabIndex.value == 0) TabGamesFilterPage(),
-          if (controller.selectTopTabIndex.value == 1) TabGamesFilterPage(),
           if (controller.selectTopTabIndex.value == 2) TabBubbleTeaPage(),
         ],
       ));
@@ -83,6 +82,10 @@ class TabHubsPageController extends GetxController {
   }
 
   void clickTopTab(int i) {
+    if (i == 1) {
+      Get.to(() => NewsPage(id: 150));
+      return;
+    }
     selectTopTabIndex.value = i;
     if (selectTopTabIndex.value == 0) {
       TabGamesFilterController.find.requestData();

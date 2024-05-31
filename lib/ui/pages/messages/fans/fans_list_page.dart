@@ -90,26 +90,12 @@ class FansListPage extends StatelessWidget {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
-                                      Row(
-                                        children: [
-                                          SexAndAgeWidget(
-                                            age: model.age,
-                                            sex: model.sex,
-                                          ),
-                                          6.horizontalSpace,
-                                          GameLevelWidget(
-                                            height: 16.h,
-                                            level: model.isAuth == 0
-                                                ? model.titlesLevel
-                                                : model.userLevel,
-                                            isAuth: model.isAuth,
-                                            userId: UserController
-                                                .find.userProfile.pwId,
-                                          ),
-                                        ],
+                                      SexAndAgeWidget(
+                                        age: model.age,
+                                        sex: model.sex,
                                       ),
                                       Text(
-                                        model.signature,
+                                        model.uk,
                                         style: TextStyle(
                                             fontSize: 12,
                                             color: AppColor.whiteGray),

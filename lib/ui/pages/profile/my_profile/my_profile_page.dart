@@ -8,6 +8,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/ui/pages/profile/qrcode/my_qr_code_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/select_avatar_dialog.dart';
 import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
@@ -58,148 +59,149 @@ class MyProfilePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: hexColor('0A0A0A'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 20.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  10.verticalSpace,
-                  SafeArea(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+      body: SmartRefresher(
+        controller: t.refreshController,
+        onRefresh: () => t.onRefresh(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 20.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    10.verticalSpace,
+                    SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.to(() => MyQrCodePage()),
+                            child: Container(
+                              width: 30.w,
+                              height: 30.w,
+                              decoration: ShapeDecoration(
+                                color: Colors.black.withOpacity(0.2),
+                                shape: OvalBorder(),
+                              ),
+                              child: Image.asset(
+                                ImageUtils.qr_code,
+                                scale: 1.8,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.to(() => SettingsPage()),
+                            child: Container(
+                              width: 30.w,
+                              height: 30.w,
+                              margin: EdgeInsets.only(
+                                right: 15.w,
+                                left: 10.w,
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.black.withOpacity(0.2),
+                                shape: OvalBorder(),
+                              ),
+                              child: Image.asset(
+                                ImageUtils.profile_setting,
+                                scale: 1.8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Get.to(() => MyQrCodePage()),
-                          child: Container(
-                            width: 30.w,
-                            height: 30.w,
-                            decoration: ShapeDecoration(
-                              color: Colors.black.withOpacity(0.2),
-                              shape: OvalBorder(),
-                            ),
-                            child: Image.asset(
-                              ImageUtils.qr_code,
-                              scale: 1.8,
-                            ),
+                          onTap: () => showCustom(
+                            SelectAvatarDialog(),
+                            alignment: Alignment.bottomCenter,
+                            clickMaskDismiss: true,
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () => Get.to(() => SettingsPage()),
-                          child: Container(
-                            width: 30.w,
-                            height: 30.w,
-                            margin: EdgeInsets.only(
-                              right: 15.w,
-                              left: 10.w,
-                            ),
-                            decoration: ShapeDecoration(
-                              color: Colors.black.withOpacity(0.2),
-                              shape: OvalBorder(),
-                            ),
-                            child: Image.asset(
-                              ImageUtils.profile_setting,
-                              scale: 1.8,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => showCustom(
-                          SelectAvatarDialog(),
-                          alignment: Alignment.bottomCenter,
-                          clickMaskDismiss: true,
-                        ),
-                        child: Obx(() => Container(
-                              alignment: Alignment.center,
-                              child: Opacity(
-                                opacity:
-                                    userController.userProfile.userAvatar == 1
-                                        ? 1
-                                        : 0.3,
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    imageUrl: userController.userProfile.avatar,
-                                    width: 50.w,
-                                    height: 50.w,
-                                    fit: BoxFit.cover,
+                          child: Obx(() => Container(
+                                alignment: Alignment.center,
+                                child: Opacity(
+                                  opacity:
+                                      userController.userProfile.userAvatar == 1
+                                          ? 1
+                                          : 0.3,
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          userController.userProfile.avatar,
+                                      width: 50.w,
+                                      height: 50.w,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: t.goDev,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 20.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// nickname
-                                Row(
-                                  children: [
-                                    Flexible(
-                                      child: Obx(() => Text(
-                                            userController.userProfile.nickName,
-                                            style: TextStyle(
-                                              fontSize: 20.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          )),
-                                    ),
-                                    6.horizontalSpace,
-                                    Obx(() => Visibility(
-                                          visible: t.user.value.vipLevel >= 5,
-                                          child: GestureDetector(
-                                            onTap: () =>
-                                                Get.to(() => VipPage()),
-                                            child: Image.asset(
-                                              "assets/images/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
-                                              height: 20.w,
-                                            ),
-                                          ),
-                                        )),
-                                    6.horizontalSpace,
-                                    6.horizontalSpace,
-                                  ],
-                                ),
-                                6.verticalSpace,
-
-                                /// labels: sex、language、location
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () =>
-                                          Get.to(() => FollowListPage()),
-                                      child: Text(
-                                        '${t.user.value.followers}',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                              )),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: t.goDev,
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  /// nickname
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Obx(() => Text(
+                                              userController
+                                                  .userProfile.nickName,
+                                              style: TextStyle(
+                                                fontSize: 20.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            )),
                                       ),
-                                    ),
-                                    6.horizontalSpace,
-                                    badges.Badge(
-                                      showBadge: t.user.value.newFollowers > 0,
-                                      badgeColor: Color(0xffFF4848),
-                                      alignment: Alignment.centerRight,
-                                      child: InkWell(
+                                      6.horizontalSpace,
+                                      Obx(() => Visibility(
+                                            visible: t.user.value.vipLevel >= 5,
+                                            child: GestureDetector(
+                                              onTap: () =>
+                                                  Get.to(() => VipPage()),
+                                              child: Image.asset(
+                                                "assets/images/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
+                                                height: 20.w,
+                                              ),
+                                            ),
+                                          )),
+                                      6.horizontalSpace,
+                                      6.horizontalSpace,
+                                    ],
+                                  ),
+                                  6.verticalSpace,
+
+                                  /// labels: sex、language、location
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () =>
+                                            Get.to(() => FollowListPage()),
+                                        child: Obx(() => Text(
+                                              '${t.user.value.followers}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: FONT_MEDIUM,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )),
+                                      ),
+                                      6.horizontalSpace,
+                                      InkWell(
                                         onTap: () =>
                                             Get.to(() => FollowListPage()),
                                         child: Text(
@@ -212,38 +214,89 @@ class MyProfilePage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: 1.w,
-                                      height: 14.h,
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xFF727272)),
-                                    ),
-                                    InkWell(
-                                      onTap: () => Get.to(() => FansListPage()),
-                                      child: Text(
-                                        '${t.user.value.fans}',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                      Container(
+                                        width: 1.w,
+                                        height: 14.h,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 12.w),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF727272)),
                                       ),
-                                    ),
-                                    6.horizontalSpace,
-                                    badges.Badge(
-                                      showBadge: t.user.value.newFans > 0,
-                                      badgeColor: Color(0xffFF4848),
-                                      alignment: Alignment.centerRight,
-                                      child: InkWell(
+                                      InkWell(
                                         onTap: () =>
-                                            Get.to(() => FansListPage()),
+                                            Get.to(() => FansListPage())
+                                                ?.whenComplete(() {
+                                          userController.updateInfo();
+                                          t.onRefresh();
+                                        }),
+                                        child: Obx(() => Text(
+                                              '${t.user.value.fans}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: FONT_MEDIUM,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )),
+                                      ),
+                                      6.horizontalSpace,
+                                      Obx(() => badges.Badge(
+                                            showBadge: t.user.value.newFans > 0,
+                                            badgeColor: Color(0xffFF4848),
+                                            alignment: Alignment.centerRight,
+                                            padding: EdgeInsets.all(3.r),
+                                            position: badges.BadgePosition(
+                                              top: -4.h,
+                                              end: -4.w,
+                                            ),
+                                            child: InkWell(
+                                              onTap: () =>
+                                                  Get.to(() => FansListPage())
+                                                      ?.whenComplete(() {
+                                                userController.updateInfo();
+                                                t.onRefresh();
+                                              }),
+                                              child: Text(
+                                                'Fans',
+                                                style: TextStyle(
+                                                  color: Color(0xFF808388),
+                                                  fontSize: 12.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                      Container(
+                                        width: 1.w,
+                                        height: 14.h,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 12.w),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF727272)),
+                                      ),
+                                      InkWell(
+                                        onTap: () =>
+                                            Get.to(() => MyPostsPage()),
+                                        child: Obx(() => Text(
+                                              '${t.user.value.posts}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: FONT_MEDIUM,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )),
+                                      ),
+                                      6.horizontalSpace,
+                                      InkWell(
+                                        onTap: () =>
+                                            Get.to(() => MyPostsPage()),
+                                        // onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
                                         child: Text(
-                                          'Fans',
+                                          'Posts',
                                           style: TextStyle(
                                             color: Color(0xFF808388),
                                             fontSize: 12.sp,
@@ -252,279 +305,85 @@ class MyProfilePage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      width: 1.w,
-                                      height: 14.h,
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xFF727272)),
-                                    ),
-                                    Text(
-                                      '${t.user.value.posts}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    6.horizontalSpace,
-                                    InkWell(
-                                      onTap: () => Get.to(() => MyPostsPage()),
-                                      // onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
-                                      child: Text(
-                                        'Posts',
-                                        style: TextStyle(
-                                          color: Color(0xFF808388),
-                                          fontSize: 12.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
-              child: Column(
-                children: [
-                  Container(
-                    height: 52.h,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF141517),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                    padding: EdgeInsets.only(
-                      left: 10.w,
-                      right: 14.w,
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Image.asset(ImageUtils.emenry_bg_icon),
-                        ),
-                        Center(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                ImageUtils.emenry_pc_icon,
-                                width: 40.w,
-                              ),
-                              6.horizontalSpace,
-                              Expanded(
-                                child: Obx(() => MyProgressbar(
-                                      value:
-                                          t.user.value.totalmins.toDouble() == 0
-                                              ? 0
-                                              : t.user.value.avamins /
-                                                  t.user.value.totalmins
-                                                      .toDouble(),
-                                      width: 234.w,
-                                      height: 12.h,
-                                      padding: EdgeInsets.only(
-                                        right: progress,
-                                      ),
-                                      direction: Axis.horizontal,
-                                      innerDecoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.centerLeft,
-                                            end: Alignment.centerRight,
-                                            colors: [
-                                              Color(0xFFFF8E0E),
-                                              Color(0xFFD7E57F)
-                                            ],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(6.r)),
-                                    )),
-                              ),
-                              16.horizontalSpace,
-                              Text(
-                                t.getShowTime(),
-                                style: TextStyle(
-                                  color: Color(0xFFFFCB0D),
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  achievements(),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 4.w,
-                vertical: 18.h,
-              ),
-              margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
-              decoration: ShapeDecoration(
-                color: Color(0xFF141517),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'MY FEATURES'.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ).paddingOnly(left: 16.w),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_wallet,
-                          "Top Up".tr,
-                          onTap: () {
-                            userController.checkLogin(() =>
-                                Get.to(() => BalancePage())?.whenComplete(
-                                    () => userController.updateInfo()));
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_vouchers,
-                          "Vouchers".tr,
-                          onTap: () => NavigatorHelper.gotoCouponPage(
-                            couponType: 5,
-                            whenComplete: () =>
-                                UserController.instance().updateInfo(),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_orders,
-                          "Orders".tr,
-                          onTap: () => Get.to(() => OrderListPage()),
-                        ),
-                      ),
-                    ],
-                  ),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_bookings,
-                          "Bookings".tr,
-                          onTap: () {
-                            Get.to(() => BookingPage());
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: _dashboardLabelItem(
-                          ImageUtils.icon_task,
-                          "Quest".tr,
-                          onTap: () => Get.to(() => TaskPage())
-                              ?.then((value) => userController.updateInfo()),
-                          badgeNum: userController.userProfile.taskNum,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: () => t.jumpTaskDetail(),
-              child: Container(
-                width: 1.sw,
-                height: 100.h,
-                margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
-                decoration: ShapeDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xFF141517), Color(0xFF322531)],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                ),
-                child: Row(
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
+                child: Column(
                   children: [
-                    14.horizontalSpace,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Container(
+                      height: 52.h,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFF141517),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 10.w,
+                        right: 14.w,
+                      ),
+                      child: Stack(
                         children: [
-                          Text(
-                            "Loyalty Card",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Image.asset(ImageUtils.emenry_bg_icon),
                           ),
-                          8.verticalSpace,
-                          RichText(
-                            text: TextSpan(
-                              text: "Buy",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                height: 1.5,
-                              ),
+                          Center(
+                            child: Row(
                               children: [
-                                TextSpan(
-                                  text:
-                                      " ${t.user.value.loyaltyModel.loyalty} ",
-                                  style: TextStyle(
-                                    color: AppColor.yellow,
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    height: 1.5,
-                                  ),
+                                Image.asset(
+                                  ImageUtils.emenry_pc_icon,
+                                  width: 40.w,
                                 ),
-                                TextSpan(
-                                  text: "more Bubbletea to get a free drink",
+                                6.horizontalSpace,
+                                Expanded(
+                                  child: Obx(() => MyProgressbar(
+                                        value:
+                                            t.user.value.totalmins.toDouble() ==
+                                                    0
+                                                ? 0
+                                                : t.user.value.avamins /
+                                                    t.user.value.totalmins
+                                                        .toDouble(),
+                                        width: 234.w,
+                                        height: 12.h,
+                                        padding: EdgeInsets.only(
+                                          right: progress,
+                                        ),
+                                        direction: Axis.horizontal,
+                                        innerDecoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerRight,
+                                              colors: [
+                                                Color(0xFFFF8E0E),
+                                                Color(0xFFD7E57F)
+                                              ],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6.r)),
+                                      )),
+                                ),
+                                16.horizontalSpace,
+                                Text(
+                                  t.getShowTime(),
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xFFFFCB0D),
                                     fontSize: 14.sp,
                                     fontFamily: FONT_MEDIUM,
-                                    height: 1.5,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
@@ -533,20 +392,184 @@ class MyProfilePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Image.asset(
-                      ImageUtils.profile_loyalty_icon,
-                      width: 120.w,
-                    ),
-                    8.horizontalSpace,
+                    achievements(),
                   ],
                 ),
               ),
-            ),
-            Visibility(
-              visible: Platform.isAndroid,
-              child: MyDashboardPage(),
-            ),
-          ],
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4.w,
+                  vertical: 18.h,
+                ),
+                margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+                decoration: ShapeDecoration(
+                  color: Color(0xFF141517),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'MY FEATURES'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ).paddingOnly(left: 16.w),
+                    20.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_wallet,
+                            "Top Up".tr,
+                            onTap: () {
+                              userController.checkLogin(() =>
+                                  Get.to(() => BalancePage())?.whenComplete(
+                                      () => userController.updateInfo()));
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_vouchers,
+                            "Vouchers".tr,
+                            onTap: () => NavigatorHelper.gotoCouponPage(
+                              couponType: 5,
+                              whenComplete: () =>
+                                  UserController.instance().updateInfo(),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_orders,
+                            "Orders".tr,
+                            onTap: () => Get.to(() => OrderListPage()),
+                          ),
+                        ),
+                      ],
+                    ),
+                    20.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_bookings,
+                            "Bookings".tr,
+                            onTap: () {
+                              Get.to(() => BookingPage());
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_task,
+                            "Quest".tr,
+                            onTap: () => Get.to(() => TaskPage())
+                                ?.then((value) => userController.updateInfo()),
+                            badgeNum: userController.userProfile.taskNum,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () => t.jumpTaskDetail(),
+                child: Container(
+                  width: 1.sw,
+                  height: 100.h,
+                  margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF141517), Color(0xFF322531)],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      14.horizontalSpace,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Loyalty Card",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            8.verticalSpace,
+                            Obx(() => RichText(
+                                  text: TextSpan(
+                                    text: "Buy",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                      height: 1.5,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            " ${t.user.value.loyaltyModel.loyalty} ",
+                                        style: TextStyle(
+                                          color: AppColor.yellow,
+                                          fontSize: 14.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "more Bubbletea to get a free drink",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                      Image.asset(
+                        ImageUtils.profile_loyalty_icon,
+                        width: 120.w,
+                      ),
+                      8.horizontalSpace,
+                    ],
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: Platform.isAndroid,
+                child: MyDashboardPage(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -757,11 +780,13 @@ class ProfileController extends GetxController
   int devCount = 0;
 
   var user = ProfileModel().obs;
-  StreamSubscription? subscription;
+
+  late RefreshController refreshController;
 
   @override
   void onInit() {
     super.onInit();
+    refreshController = RefreshController(initialRefresh: false);
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value =
         StorageManager.sharedPreferences.getString("ProfileBackground") ?? "";
@@ -791,15 +816,13 @@ class ProfileController extends GetxController
     //             GlobalKeyConstants.profileFriendshipKey,
     //           ]));
     // }
-
-    subscription = eventBus.on<UserInfoSucBean>().listen((event) {
-      user.value = UserController.find.userProfile;
-    });
   }
 
   @override
   void onReady() {
     super.onReady();
+
+    onRefresh();
   }
 
   // getProfileInfo() {
@@ -877,11 +900,16 @@ class ProfileController extends GetxController
     return membershipName;
   }
 
+  void onRefresh() async {
+    await userController.updateInfo();
+    refreshController.refreshCompleted();
+    user.value = UserController.find.userProfile;
+  }
+
   @override
   void onClose() {
     super.onClose();
 
-    subscription?.cancel();
-    subscription = null;
+    refreshController.dispose();
   }
 }
