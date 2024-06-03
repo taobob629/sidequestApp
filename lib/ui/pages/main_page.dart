@@ -30,6 +30,7 @@ import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
 import '../dialog/dialog_ad.dart';
+import '../dialog/dialog_upgrade.dart';
 import 'login/login_page.dart';
 import 'notification/notification_page.dart';
 
@@ -256,17 +257,31 @@ class MainPageController extends FullLifeCycleController
     }
 
     checkAd();
-    // _timer = Timer.periodic(Duration(minutes: 5), (timer) {
-    //   IndexApi.checkVersion().then((value) {
-    //     if (value.upgrade && value.force) {
-    //       showCustom(
-    //         UpgradeDialog(model: value),
-    //         clickMaskDismiss: value.force,
-    //       );
-    //       _timer.cancel();
-    //     }
-    //   });
-    // });
+
+    IndexApi.checkVersion().then((value) {
+      if (value.upgrade) {
+        if (Get.context != null) {
+          showCustom(
+            UpgradeDialog(model: value),
+            clickMaskDismiss: !value.force,
+            backDismiss: false,
+          );
+        }
+      }
+    });
+
+    _timer = Timer.periodic(Duration(minutes: 5), (timer) {
+      IndexApi.checkVersion().then((value) {
+        if (value.upgrade) {
+          showCustom(
+            UpgradeDialog(model: value),
+            clickMaskDismiss: !value.force,
+              backDismiss: false,
+          );
+          _timer.cancel();
+        }
+      });
+    });
   }
 
   @override

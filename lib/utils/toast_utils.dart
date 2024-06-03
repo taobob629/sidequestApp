@@ -45,6 +45,7 @@ showCustom(
   Widget widget, {
   bool clickMaskDismiss = true,
   AlignmentGeometry? alignment,
+  bool? backDismiss,
   Color? maskColor,
   // 点击事件是否穿透
   bool usePenetrate = false,
@@ -56,5 +57,6 @@ showCustom(
     maskColor: maskColor,
     usePenetrate: usePenetrate,
     onDismiss: onDismiss,
+    backDismiss: backDismiss,
   );
 }
