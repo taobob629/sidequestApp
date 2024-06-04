@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
 
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart' as Get;
 
 import '../config/app_config.dart';
@@ -12,7 +13,6 @@ import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
 import '../utils/toast_utils.dart';
 import '../utils/utils.dart';
-import '../widget/show_error_widget.dart';
 import 'base_http.dart';
 
 ///是否正在登录
@@ -86,7 +86,7 @@ class ApiInterceptor extends InterceptorsWrapper {
         if (requestPath == '/peiwan/app/tim/getSig') {
           return handler.next(response);
         }
-        dismissLoading();
+        dismissLoading(status: SmartStatus.loading);
         var email = StorageManager.getAccount();
         var password = StorageManager.getPassword();
         if (email.isEmpty || password.isEmpty) {
@@ -97,11 +97,11 @@ class ApiInterceptor extends InterceptorsWrapper {
           UserController.find.switchLogin();
         }
       } else {
-        dismissLoading();
+        dismissLoading(status: SmartStatus.loading);
         if (respData.msg.isEmpty) {
-          showErrorWidget("Server Failure");
+          showError("Server Failure");
         } else {
-          showErrorWidget("${respData.msg}");
+          showError("${respData.msg}");
         }
 
         // response.data = respData.data;
@@ -116,7 +116,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
     log(' onError: ${err.message}');
-    dismissLoading();
+    dismissLoading(status: SmartStatus.loading);
     showToast("Networking Failure");
   }
 }

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sq_hub_app/image_utils.dart';
@@ -17,26 +15,17 @@ import '../../../../controller/user_controller.dart';
 import '../../../../model/player_info_mdoel.dart';
 import '../../../../model/skill_model.dart';
 import '../../../../service/voice_player.dart';
-import '../../../../utils/platform_utils.dart';
-import '../../../../utils/string_utils.dart';
 import '../../../../utils/toast_utils.dart';
 import '../../../../utils/utils.dart';
-import '../../../../widget/cs_Intimacy_progress.dart';
 import '../../../../widget/image_util.dart';
-import '../../../../widget/level.dart';
 import '../../../../widget/profile/voice_profile.dart';
 import '../../../../widget/profile/voice_widget.dart';
 import '../../../../widget/route.dart';
-import '../../../../widget/show_error_widget.dart';
 import '../../main_page.dart';
 import '../../playwith/balance/my_earnings_page.dart';
 import '../../service/add/add_game_page.dart';
 import '../../social/post/view/gift_animation.dart';
-import '../../social/post/view/gift_suc_anim.dart';
-import '../../social/post/view/give_gifts_dialog.dart';
 import '../play_order/play_order_page.dart';
-import 'other_album_page.dart';
-import 'other_dashboard_page.dart';
 import 'other_posts_page.dart';
 
 class PlayState {

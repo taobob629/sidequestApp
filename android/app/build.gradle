@@ -121,7 +121,7 @@ dependencies {
     implementation (name: 'pay360mobilesdk', ext: 'aar')
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation platform('com.google.firebase:firebase-bom:32.8.1')
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
 

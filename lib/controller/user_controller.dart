@@ -43,7 +43,6 @@ import '../utils/db_helper.dart';
 import '../utils/login_flag.dart';
 import '../utils/storage_manager.dart';
 import '../utils/utils.dart';
-import '../widget/show_error_widget.dart';
 import '../widget/voice_widget.dart';
 
 class UserController extends GetxController {
@@ -383,7 +382,7 @@ class UserController extends GetxController {
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
-      showErrorWidget(e.toString());
+      showError(e.toString());
     }
   }
 
@@ -454,7 +453,7 @@ class UserController extends GetxController {
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
-      showErrorWidget(e.toString());
+      showError(e.toString());
     }
   }
 

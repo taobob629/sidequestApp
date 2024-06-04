@@ -13,7 +13,6 @@ import '../../../controller/user_controller.dart';
 import '../../../model/login_model.dart';
 import '../../../utils/datetime_utils.dart';
 import '../../../utils/toast_utils.dart';
-import '../../../widget/show_error_widget.dart';
 import '../login/choose_game/view.dart';
 import '../main_page.dart';
 
@@ -229,7 +228,7 @@ class RegisterPageController extends GetxController {
       codeFocusNode.requestFocus();
       step.value = 2;
     } else {
-      showErrorWidget('verification code incorrect'.tr);
+      showError('verification code incorrect'.tr);
     }
   }
 

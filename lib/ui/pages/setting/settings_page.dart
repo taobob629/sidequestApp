@@ -5,6 +5,7 @@ import 'package:sq_hub_app/ui/pages/login/login_page.dart';
 import '../../../api/auth_api.dart';
 import '../../../api/index_api.dart';
 import '../../../api/user_api.dart';
+import '../../../api/wy_http.dart';
 import '../../../common/base_scaffold.dart';
 import '../../../common/floating_button.dart';
 import '../../../common/setting_item.dart';
@@ -18,8 +19,10 @@ import '../../dialog/dialog_comment.dart';
 import '../../dialog/dialog_confirm.dart';
 import '../../dialog/dialog_upgrade.dart';
 import '../main_page.dart';
+import '../profile/my_profile/profile_edit_page.dart';
 import '../profile/vip/vip_page.dart';
 import 'about_page.dart';
+import 'change_password_page.dart';
 import 'language_page.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -36,6 +39,18 @@ class SettingsPage extends StatelessWidget {
               info: "${UserController.find.userProfile.uk}",
               showRightIcon: false,
               onTap: () {},
+            ),
+            SettingItem(
+              title: "Personal".tr,
+              onTap: () => Get.to(() => ProfileEditPage()),
+            ),
+            SettingItem(
+              title: "Account Password".tr,
+              onTap: () => controller.checkHasPwd(1),
+            ),
+            SettingItem(
+              title: "Payment Pin".tr,
+              onTap: () => controller.checkHasPwd(2),
             ),
             Obx(() => SettingItem(
                   title: "Language".tr,
@@ -125,6 +140,23 @@ class SettingsPageController extends GetxController {
     return {"name": membershipName, "index": index};
   }
 
+  void checkHasPwd(int type) async {
+    showLoading();
+    var response = await http.get('/peiwan/app/user/hasPwd');
+    dismissLoading();
+    if (type == 1) {
+      Get.to(() => ChangePasswordPage(
+        type: 1,
+        hasPwd: response.data['haspwd'],
+      ));
+    } else {
+      Get.to(() => ChangePasswordPage(
+        type: 2,
+        hasPwd: response.data['haspin'],
+      ));
+    }
+  }
+
   void updateLanguage(Locale local) {
     if (local.languageCode == Get.locale?.languageCode) {
       Get.back();
@@ -181,7 +213,11 @@ Deleting your account will remove your profile and all of your content from Side
     if (!model.upgrade) {
       showError("You are using the latest version".tr);
     } else {
-      Get.dialog(UpgradeDialog(model: model), barrierColor: Colors.black26);
+      showCustom(
+        UpgradeDialog(model: model),
+        clickMaskDismiss: !model.force,
+        backDismiss: false,
+      );
     }
   }
 

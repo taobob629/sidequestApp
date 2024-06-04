@@ -9,8 +9,8 @@ showLoading({String msg = 'loading...', bool clickMaskDismiss = true}) {
   );
 }
 
-dismissLoading() {
-  SmartDialog.dismiss();
+dismissLoading({SmartStatus status = SmartStatus.smart}) {
+  SmartDialog.dismiss(status: SmartStatus.smart);
 }
 
 showToast(var msg, {Duration? duration}) async {
