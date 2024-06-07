@@ -18,12 +18,13 @@ class MyDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 200,), () => t.scrollToCenter());
     return Obx(() => Column(
           children: [
             /// Subscriptions
             Container(
               width: double.infinity,
-              margin: EdgeInsets.only(top: 20.h),
+              margin: EdgeInsets.only(top: 6.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -33,7 +34,6 @@ class MyDashboardPage extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.only(
                         left: 15.w,
-                        bottom: 15.h,
                         right: 15.w,
                       ),
                       child: Row(
@@ -50,7 +50,8 @@ class MyDashboardPage extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: UserController.find.userProfile.vipLevel > 0,
+                            visible:
+                                UserController.find.userProfile.vipLevel > 0,
                             child: Image.asset(
                               "assets/images/huizhang_${UserController.find.userProfile.vipLevel}.webp",
                               height: 14.h,
@@ -73,6 +74,7 @@ class MyDashboardPage extends StatelessWidget {
                   Visibility(
                     visible: UserController.find.userProfile.vips.isNotEmpty,
                     child: SingleChildScrollView(
+                      controller: t.scrollController,
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
@@ -81,7 +83,14 @@ class MyDashboardPage extends StatelessWidget {
                               .asMap()
                               .entries
                               .map((e) {
-                            return _subscriptionItem(e.value, e.key);
+                            return _subscriptionItem(
+                              e.value,
+                              e.key,
+                              UserController.find.userProfile.vipLevel ==
+                                      e.value.level
+                                  ? t.targetKey
+                                  : null,
+                            );
                           }).toList(),
                         ],
                       ),
@@ -99,8 +108,9 @@ class MyDashboardPage extends StatelessWidget {
         ));
   }
 
-  Widget _subscriptionItem(VipModel vipModel, int index) {
+  Widget _subscriptionItem(VipModel vipModel, int index, Key? key) {
     return Container(
+      key: key,
       height: 150.h,
       child: Stack(
         children: [

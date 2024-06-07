@@ -19,17 +19,19 @@ import '../../../model/consum_model.dart';
 import '../../../widget/views.dart';
 import 'controller.dart';
 
-class StoreConsumDetailPage extends GetView<StoreConsumDetailPageController> {
+class StoreConsumDetailPage extends StatelessWidget {
+  final controller = Get.put(StoreConsumDetailPageController());
+
   body(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context, index) {
-        var model = controller?.mDatas[index];
+        var model = controller.mDatas[index];
         return Container(
           width: Get.width,
-          child: item(model!),
+          child: item(model),
         );
       },
-      itemCount: controller?.mDatas.length ?? 0,
+      itemCount: controller.mDatas.length ?? 0,
       separatorBuilder: (BuildContext context, int index) => Divider(
         color: Colors.transparent,
         height: 15.h,

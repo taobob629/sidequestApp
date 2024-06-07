@@ -315,7 +315,7 @@ class MyProfilePage extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 20).r,
+                margin: EdgeInsets.only(left: 15, right: 15, top: 15).r,
                 child: Column(
                   children: [
                     Container(
@@ -375,14 +375,14 @@ class MyProfilePage extends StatelessWidget {
                                 ),
                                 16.horizontalSpace,
                                 Obx(() => Text(
-                                  t.getShowTime(),
-                                  style: TextStyle(
-                                    color: Color(0xFFFFCB0D),
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )),
+                                      t.getShowTime(),
+                                      style: TextStyle(
+                                        color: Color(0xFFFFCB0D),
+                                        fontSize: 14.sp,
+                                        fontFamily: FONT_MEDIUM,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )),
                               ],
                             ),
                           ),
@@ -396,9 +396,9 @@ class MyProfilePage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 4.w,
-                  vertical: 18.h,
+                  vertical: 10.h,
                 ),
-                margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+                margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 10.h),
                 decoration: ShapeDecoration(
                   color: Color(0xFF141517),
                   shape: RoundedRectangleBorder(
@@ -427,8 +427,8 @@ class MyProfilePage extends StatelessWidget {
                             "Top Up".tr,
                             onTap: () {
                               userController.checkLogin(() =>
-                                  Get.to(() => BalancePage())?.whenComplete(
-                                      () => userController.updateInfo()));
+                                  Get.to(() => BalancePage())
+                                      ?.whenComplete(() => t.onRefresh()));
                             },
                           ),
                         ),
@@ -484,7 +484,7 @@ class MyProfilePage extends StatelessWidget {
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_consumption,
-                            "consumption".tr,
+                            "Consumption".tr,
                             onTap: () => Get.to(() => StoreConsumListPage()),
                           ),
                         ),
@@ -501,7 +501,7 @@ class MyProfilePage extends StatelessWidget {
                 child: Container(
                   width: 1.sw,
                   height: 100.h,
-                  margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 12.h),
+                  margin: EdgeInsets.fromLTRB(15.w, 0.h, 15.w, 10.h),
                   decoration: ShapeDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -615,15 +615,15 @@ class MyProfilePage extends StatelessWidget {
     );
   }
 
-  Widget achievements() => Obx(() => Container(
+  Widget achievements() => Container(
         decoration: ShapeDecoration(
           color: Color(0xFF141517),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
         ),
-        margin: EdgeInsets.symmetric(vertical: 15.h),
-        padding: EdgeInsets.symmetric(vertical: 14.h),
+        margin: EdgeInsets.symmetric(vertical: 10.h),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -638,24 +638,28 @@ class MyProfilePage extends StatelessWidget {
             ).paddingOnly(left: 16.w),
             Row(
               children: [
-                achievementItem(
-                  '£${t.user.value.balance}',
-                  ImageUtils.ic_corns_new2,
-                  "Credits".tr,
-                  'UK offline store top-up'.tr,
-                  onTap: () {
-                    if (StorageManager.getOnline())
-                      Get.to(() => BalancePage())?.whenComplete(
-                          () => UserController.instance().updateInfo());
-                  },
-                ),
-                achievementItem(t.user.value.coupons, ImageUtils.ic_coupons_new,
-                    "Vouchers".tr, 'Your Coupons'.tr, onTap: () {
-                  NavigatorHelper.gotoCouponPage(
-                    couponType: 5,
-                    whenComplete: () => UserController.instance().updateInfo(),
-                  );
-                }),
+                Obx(() => achievementItem(
+                      '£${t.user.value.balance}',
+                      ImageUtils.ic_corns_new2,
+                      "Credits".tr,
+                      'UK offline store top-up'.tr,
+                      onTap: () {
+                        if (StorageManager.getOnline())
+                          Get.to(() => BalancePage())?.whenComplete(
+                              () => UserController.instance().updateInfo());
+                      },
+                    )),
+                Obx(() => achievementItem(
+                        t.user.value.coupons,
+                        ImageUtils.ic_coupons_new,
+                        "Vouchers".tr,
+                        'Your Coupons'.tr, onTap: () {
+                      NavigatorHelper.gotoCouponPage(
+                        couponType: 5,
+                        whenComplete: () =>
+                            UserController.instance().updateInfo(),
+                      );
+                    })),
                 // achievementItem(
                 //     t.user.value.checkTotal,
                 //     ImageUtils.ic_coupons_points,
@@ -667,7 +671,7 @@ class MyProfilePage extends StatelessWidget {
             ),
           ],
         ),
-      ));
+      );
 
   Widget achievementItem(
     var text,
@@ -758,21 +762,6 @@ class MyProfilePage extends StatelessWidget {
           ),
         ),
       );
-
-  List<Widget> createTabs() {
-    List<Widget> tabs = [];
-    tabs.add(Text(
-      "Info".tr,
-    ));
-    tabs.add(Text(
-      "Posts".tr,
-    ));
-    tabs.add(Text(
-      "Album".tr,
-    ));
-
-    return tabs;
-  }
 }
 
 class ProfileController extends GetxController
@@ -793,6 +782,10 @@ class ProfileController extends GetxController
   var user = ProfileModel().obs;
 
   late RefreshController refreshController;
+
+  // 为了让订阅的Widget滚动到屏幕中间
+  ScrollController scrollController = ScrollController();
+  GlobalKey targetKey = GlobalKey();
 
   @override
   void onInit() {
@@ -859,6 +852,25 @@ class ProfileController extends GetxController
         Get.back();
       }
     });
+  }
+
+  void scrollToCenter() {
+    // 计算目标 Widget 的位置
+    final RenderBox renderBox =
+        targetKey.currentContext?.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero,
+        ancestor: Get.context!.findRenderObject());
+    final screenWidth = MediaQuery.of(Get.context!).size.width;
+    final widgetWidth = renderBox.size.width;
+
+    // 计算滚动偏移量以将目标 Widget 滚动到屏幕中心
+    final offset = position.dx - (screenWidth / 2 - widgetWidth / 2);
+
+    scrollController.animateTo(
+      offset,
+      duration: Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
   }
 
   void jumpVipPage(int index) async {

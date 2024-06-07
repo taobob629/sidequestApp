@@ -252,6 +252,14 @@ class PostListItemView extends GetView<PostListController> {
                         },
                       ),
                     )),
+                if (model.praiseNum > 0)
+                  Text(
+                    model.praiseNum.toString(),
+                    style: TextStyle(
+                      color: Color(0xff808388),
+                      fontSize: 18.sp,
+                    ),
+                  ),
                 24.horizontalSpace,
                 badges.Badge(
                   showBadge: model.newComment.value > 0,
@@ -266,6 +274,14 @@ class PostListItemView extends GetView<PostListController> {
                     height: 24.w,
                   ),
                 ),
+                if (model.commentNum > 0)
+                  Text(
+                    model.commentNum.toString(),
+                    style: TextStyle(
+                      color: Color(0xff808388),
+                      fontSize: 18.sp,
+                    ),
+                  ).paddingOnly(left: 4.w),
                 // 24.horizontalSpace,
                 // GestureDetector(
                 //   behavior: HitTestBehavior.opaque,
