@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/config/app_color.dart';
 
 import '../../../../api/index_api.dart';
 import '../../../../common/empty_view.dart';
@@ -102,12 +103,24 @@ class TabGamesFilterPage extends StatelessWidget {
                                     controller.list[index].stores)),
                                 child: Column(
                                   children: [
-                                    ImageUtil.networkImage(
-                                      url: "${controller.list[index].image}",
-                                      width: 120.w,
-                                      height: 120.w,
-                                      fit: BoxFit.cover,
-                                      border: 8.r,
+                                    Container(
+                                      width: 120.h,
+                                      height: 120.h,
+                                      decoration: BoxDecoration(
+                                        color: hexColor("222222"),
+                                        borderRadius: BorderRadius.circular(8.r),
+                                      ),
+                                      child: Center(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(4.r),
+                                          child: ImageUtil.networkImage(
+                                            url: "${controller.list[index].image}",
+                                            width: (120 * 3 / 4).h,
+                                            height: 120.h,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     10.verticalSpace,
                                     Text(

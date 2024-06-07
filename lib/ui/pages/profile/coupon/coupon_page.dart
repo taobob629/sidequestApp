@@ -119,10 +119,10 @@ class CouponPage extends StatelessWidget {
                       ),
               ],
             )),
-      bottomNavigationBar: Visibility(
-        visible: controller.floatingActionButtonShow.value &&
-            controller.list.isNotEmpty,
-        child: Obx(() => FloatingButton(
+      bottomNavigationBar: Obx(() => Visibility(
+            visible: controller.floatingActionButtonShow.value &&
+                controller.list.isNotEmpty,
+            child: FloatingButton(
               label: "ADD".tr,
               onTap: () => Get.dialog(
                 AddCouponDialog(
@@ -139,8 +139,8 @@ class CouponPage extends StatelessWidget {
                   }
                 },
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 
@@ -299,7 +299,8 @@ class CouponPageController extends GetxListController<CouponsListModel> {
   Future<List<CouponsListModel>> loadData() async {
     //  showLoading();
     if (storeId != null) {
-      couponOurModel.value = await CouponApi.myVouchers(storeId: storeId, goodsList: goodsList);
+      couponOurModel.value =
+          await CouponApi.myVouchers(storeId: storeId, goodsList: goodsList);
     } else {
       couponOurModel.value = await CouponApi.listCoupon(type);
     }

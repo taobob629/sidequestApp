@@ -112,6 +112,7 @@ class ImageUtils {
   static const String task_received_icon = 'assets/images/task_received_icon.webp';
   static const String task_expired_icon = 'assets/images/task_expired_icon.webp';
   static const String icon_task = 'assets/images/icon_task.webp';
+  static const String icon_connection = 'assets/images/icon_connection.webp';
   static const String icon_riot = 'assets/images/icon_riot.webp';
   static const String icon_consumption = 'assets/images/icon_consumption.webp';
   static const String vip_header_bg = 'assets/images/vip_header_bg.webp';

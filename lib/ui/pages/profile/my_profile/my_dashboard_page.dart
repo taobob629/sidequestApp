@@ -123,7 +123,7 @@ class MyDashboardPage extends StatelessWidget {
             margin: EdgeInsets.only(right: 12.w, top: 10.h),
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: () => Get.to(() => VipPage(), arguments: index),
+              onTap: () => t.jumpVipPage(index),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

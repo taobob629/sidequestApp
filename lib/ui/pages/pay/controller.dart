@@ -524,6 +524,7 @@ class PayPageController extends GetxController {
   Future<void> manualCheckPay(String orderNo) async {
     showLoading();
     bool payStatus = await PayApi.status(payOrderModel.type, orderNo);
+    dismissLoading();
     if (payStatus) {
       _onPayDone();
     } else {

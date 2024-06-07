@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:badges/badges.dart' as badges;
@@ -20,8 +19,6 @@ import '../../../../common/dialog_input.dart';
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
-import '../../../../event_bus/beans/user_info_suc_bean.dart';
-import '../../../../event_bus/event_bus.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/profile_model.dart';
 import '../../../../model/task_model.dart';
@@ -29,14 +26,14 @@ import '../../../../utils/navigator_helper.dart';
 import '../../../../utils/storage_manager.dart';
 import '../../../../utils/toast_utils.dart';
 import '../../../../widget/my_progressbar.dart';
+import '../../../consum/list/view.dart';
+import '../../addgame/add_game_account_page.dart';
 import '../../booking/booking_page.dart';
 import '../../messages/fans/fans_list_page.dart';
 import '../../messages/follow/follow_list_page.dart';
 import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
-import '../integral/integral_home_page.dart';
-import '../invite/invite_page.dart';
 import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
 import 'my_posts_page.dart';
@@ -377,7 +374,7 @@ class MyProfilePage extends StatelessWidget {
                                       )),
                                 ),
                                 16.horizontalSpace,
-                                Text(
+                                Obx(() => Text(
                                   t.getShowTime(),
                                   style: TextStyle(
                                     color: Color(0xFFFFCB0D),
@@ -385,7 +382,7 @@ class MyProfilePage extends StatelessWidget {
                                     fontFamily: FONT_MEDIUM,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
+                                )),
                               ],
                             ),
                           ),
@@ -453,12 +450,6 @@ class MyProfilePage extends StatelessWidget {
                             onTap: () => Get.to(() => OrderListPage()),
                           ),
                         ),
-                      ],
-                    ),
-                    20.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_bookings,
@@ -468,6 +459,12 @@ class MyProfilePage extends StatelessWidget {
                             },
                           ),
                         ),
+                      ],
+                    ),
+                    20.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_task,
@@ -475,6 +472,20 @@ class MyProfilePage extends StatelessWidget {
                             onTap: () => Get.to(() => TaskPage())
                                 ?.then((value) => userController.updateInfo()),
                             badgeNum: userController.userProfile.taskNum,
+                          ),
+                        ),
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_connection,
+                            "Connections".tr,
+                            onTap: () => Get.to(() => AddGameAccountPage()),
+                          ),
+                        ),
+                        Expanded(
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_consumption,
+                            "consumption".tr,
+                            onTap: () => Get.to(() => StoreConsumListPage()),
                           ),
                         ),
                         Expanded(
@@ -848,6 +859,11 @@ class ProfileController extends GetxController
         Get.back();
       }
     });
+  }
+
+  void jumpVipPage(int index) async {
+    await Get.to(() => VipPage(), arguments: index);
+    onRefresh();
   }
 
   String getShowTime() {
