@@ -36,7 +36,7 @@ class PayPage extends StatelessWidget {
         itemBuilder: (context, index) =>
             Platform.isIOS ? iosWidget(index) : androidWidget(index),
         separatorBuilder: (context, index) => 15.verticalSpace,
-        itemCount: Platform.isIOS ? 6 : 5,
+        itemCount: 5,
       ),
       floatingActionButton: _buildFloatingActionButton(),
     );
@@ -55,13 +55,6 @@ class PayPage extends StatelessWidget {
       }
       return Obx(() => _buildCredit(1, controller.payType.value));
     } else if (index == 3) {
-      return Obx(() => _buildPayView(
-            "Apple Pay".tr,
-            "Apple Pay".tr,
-            7,
-            controller.payType.value,
-          ));
-    } else if (index == 4) {
       if (orderType == PayType.PW_STRIP_ACCOUNT) {
         return Obx(() =>
             _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
@@ -73,7 +66,7 @@ class PayPage extends StatelessWidget {
             _buildPayView("Alipay".tr, "alipay", 4, controller.payType.value));
         //return Container();
       }
-    } else if (index == 5) {
+    } else if (index == 4) {
       if (orderType == PayType.PW_RECHARGE) {
         return Obx(() => _buildPayView(
             "Gold Coins".tr, "balance_money", 2, controller.payType.value,

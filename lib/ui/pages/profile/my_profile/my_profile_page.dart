@@ -223,7 +223,6 @@ class MyProfilePage extends StatelessWidget {
                                         onTap: () =>
                                             Get.to(() => FansListPage())
                                                 ?.whenComplete(() {
-                                          userController.updateInfo();
                                           t.onRefresh();
                                         }),
                                         child: Obx(() => Text(
@@ -251,7 +250,6 @@ class MyProfilePage extends StatelessWidget {
                                               onTap: () =>
                                                   Get.to(() => FansListPage())
                                                       ?.whenComplete(() {
-                                                userController.updateInfo();
                                                 t.onRefresh();
                                               }),
                                               child: Text(
@@ -438,8 +436,7 @@ class MyProfilePage extends StatelessWidget {
                             "Vouchers".tr,
                             onTap: () => NavigatorHelper.gotoCouponPage(
                               couponType: 5,
-                              whenComplete: () =>
-                                  UserController.instance().updateInfo(),
+                              whenComplete: () => t.onRefresh(),
                             ),
                           ),
                         ),
@@ -644,9 +641,8 @@ class MyProfilePage extends StatelessWidget {
                       "Credits".tr,
                       'UK offline store top-up'.tr,
                       onTap: () {
-                        if (StorageManager.getOnline())
-                          Get.to(() => BalancePage())?.whenComplete(
-                              () => UserController.instance().updateInfo());
+                        Get.to(() => BalancePage())
+                            ?.whenComplete(() => t.onRefresh());
                       },
                     )),
                 Obx(() => achievementItem(
@@ -656,8 +652,7 @@ class MyProfilePage extends StatelessWidget {
                         'Your Coupons'.tr, onTap: () {
                       NavigatorHelper.gotoCouponPage(
                         couponType: 5,
-                        whenComplete: () =>
-                            UserController.instance().updateInfo(),
+                        whenComplete: () => t.onRefresh(),
                       );
                     })),
                 // achievementItem(

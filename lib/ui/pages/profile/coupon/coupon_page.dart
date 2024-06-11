@@ -139,7 +139,7 @@ class CouponPage extends StatelessWidget {
                   }
                 },
               ),
-            ),
+            ).paddingOnly(bottom: 10.h),
           )),
     );
   }
