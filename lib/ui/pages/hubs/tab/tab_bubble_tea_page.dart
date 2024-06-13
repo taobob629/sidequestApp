@@ -52,30 +52,30 @@ class TabBubbleTeaPage extends StatelessWidget {
                                 ],
                               ),
                             )),
-                        // 6.verticalSpace,
-                        // Obx(() => RichText(
-                        //       text: TextSpan(
-                        //         text:
-                        //             "${ctr.distances.value.toStringAsFixed(2)}m",
-                        //         style: TextStyle(
-                        //           color: const Color(0xFFFFB20E),
-                        //           fontSize: 12.sp,
-                        //           fontFamily: 'DIN',
-                        //           fontWeight: FontWeight.w400,
-                        //         ),
-                        //         children: [
-                        //           TextSpan(
-                        //             text: " away from you",
-                        //             style: TextStyle(
-                        //               color: Colors.white.withOpacity(0.6),
-                        //               fontSize: 12.sp,
-                        //               fontFamily: 'DIN',
-                        //               fontWeight: FontWeight.w400,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     )),
+                        6.verticalSpace,
+                        Obx(() => RichText(
+                              text: TextSpan(
+                                text:
+                                    "${ctr.minDistances.value.toStringAsFixed(2)}m",
+                                style: TextStyle(
+                                  color: const Color(0xFFFFB20E),
+                                  fontSize: 12.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: " away from you",
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.6),
+                                      fontSize: 12.sp,
+                                      fontFamily: 'DIN',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ],
                     ),
                   ),

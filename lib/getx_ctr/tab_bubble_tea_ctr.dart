@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/api/coupon_api.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
@@ -11,15 +11,12 @@ import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
 import '../model/bubble_tea_ad_model.dart';
 import '../model/bubble_tea_store_model.dart';
-import '../model/coupon_model.dart';
 import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
 import '../service/location_service.dart';
-import '../ui/pages/hubs/bubble_confirm_order_page.dart';
 import '../ui/pages/hubs/bubble_tea_detail_page.dart';
 import '../ui/pages/hubs/tea_ad_list_page.dart';
-import '../utils/geolocator_utils.dart';
 import 'bubble_tea_detail_ctr.dart';
 
 class TabBubbleTeaCtr extends GetxController {
@@ -41,7 +38,7 @@ class TabBubbleTeaCtr extends GetxController {
   // 优惠券前的总价
   String yhTotalPrice = "0";
   var currentSelectStore = BubbleTeaStoreModel().obs;
-  var distances = 0.0.obs;
+  var minDistances = double.infinity.obs;
   var showAddToCart = true.obs;
   var discount = "0.0".obs;
 
@@ -57,20 +54,29 @@ class TabBubbleTeaCtr extends GetxController {
   void requestData() async {
     storesList.value = await HubsApi.getStores();
     if (storesList.isNotEmpty) {
-      currentSelectStore.value = storesList[0];
-      if (currentSelectStore.value.map != null) {
-        List<String> latLog = currentSelectStore.value.map!.split(", ");
+      storesList.forEach((element) {
+        if (element.map != null) {
+          List<String> latLog = element.map!.replaceAll(" ", "").split(",");
+          double distances = Geolocator.distanceBetween(
+            LocationService().position?.latitude ?? 51.51272691932477,
+            LocationService().position?.longitude ?? -0.12896615379992515,
+            double.parse(latLog[0]),
+            double.parse(latLog[1]),
+          );
 
-        // (51.5074, 0.1278)是伦敦的经纬度
-        distances.value = GeolocatorUtils.calculateDistance(
-          LocationService().position?.latitude ?? 51.5074,
-          LocationService().position?.longitude ?? 0.1278,
-          double.parse(latLog[0]),
-          double.parse(latLog[1]),
-        );
+          print('distances = $distances');
+
+          if (distances < minDistances.value) {
+            minDistances.value = distances;
+            currentSelectStore.value = element;
+          }
+        }
+      });
+      if (currentSelectStore.value.id == null) {
+        currentSelectStore.value = storesList.first;
       }
 
-      requestStoreInDataByStoreId(storesList.first.id, false);
+      requestStoreInDataByStoreId(currentSelectStore.value.id, false);
     }
   }
 
@@ -160,8 +166,6 @@ class TabBubbleTeaCtr extends GetxController {
     }
     totalPrice.value = total.toString().minus(discount.value);
     yhTotalPrice = totalPrice.value;
-    // 查询优惠券
-    // HubsApi.getVouchers(currentSelectStore.value.id);
   }
 
   void selectStore() async {
@@ -173,12 +177,11 @@ class TabBubbleTeaCtr extends GetxController {
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
       if (currentSelectStore.value.map != null) {
-        List<String> latLog = currentSelectStore.value.map!.split(",");
+        List<String> latLog = currentSelectStore.value.map!.replaceAll(" ", "").split(",");
 
-        // (51.5074, 0.1278)是伦敦的经纬度
-        distances.value = GeolocatorUtils.calculateDistance(
-          LocationService().position?.latitude ?? 51.5074,
-          LocationService().position?.longitude ?? 0.1278,
+        minDistances.value = Geolocator.distanceBetween(
+          LocationService().position?.latitude ?? 51.51272691932477,
+          LocationService().position?.longitude ?? -0.12896615379992515,
           double.parse(latLog[0]),
           double.parse(latLog[1]),
         );

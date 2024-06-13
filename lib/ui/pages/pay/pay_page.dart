@@ -326,7 +326,7 @@ class PayPage extends StatelessWidget {
   Widget _buildCredit(int value, int groupValue) {
     String payMethod = "";
     if (Platform.isAndroid) {
-      payMethod = "&  Google Pay";
+      // payMethod = "&  Google Pay";
     } else if (Platform.isIOS) {
       // payMethod = "&  Apple Pay";
     }

@@ -9,6 +9,8 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 
+import '../utils/utils.dart';
+
 class LocationService {
 // 工厂方法构造函数 - 通过UserModel()获取对象1
   factory LocationService() => _getInstance();
@@ -59,7 +61,7 @@ class LocationService {
             .listen((Position? pos) {
       position = pos;
     });
- //   flog('position${position}');
+   flog('position: $position');
   }
 
   dispose() {
