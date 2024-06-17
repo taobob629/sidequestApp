@@ -38,46 +38,53 @@ class TabBubbleTeaCtr extends GetxController {
   // 优惠券前的总价
   String yhTotalPrice = "0";
   var currentSelectStore = BubbleTeaStoreModel().obs;
-  var minDistances = double.infinity.obs;
+  var minDistances = 0.0.obs;
   var showAddToCart = true.obs;
   var discount = "0.0".obs;
 
   late BuildContext cartContext;
 
-  @override
-  void onInit() {
-    super.onInit();
+  // var sb = "".obs;
+  var isLoading = true.obs;
 
-    requestData();
-  }
+  void requestData() {
+    isLoading.value = true;
+    Future.delayed(Duration(milliseconds: 200), () async {
+      // sb.value = "";
+      storesList.value = await HubsApi.getStores();
+      if (storesList.isNotEmpty) {
+        for (int i = 0; i < storesList.length; i++) {
+          if (storesList[i].map != null) {
+            List<String> latLog =
+                storesList[i].map!.replaceAll(" ", "").split(",");
+            double distances = Geolocator.distanceBetween(
+              LocationService().position?.latitude ?? 51.51272691932477,
+              LocationService().position?.longitude ?? -0.12896615379992515,
+              double.parse(latLog[0]),
+              double.parse(latLog[1]),
+            );
+            if (i == 0) {
+              minDistances.value = distances;
+            }
 
-  void requestData() async {
-    storesList.value = await HubsApi.getStores();
-    if (storesList.isNotEmpty) {
-      storesList.forEach((element) {
-        if (element.map != null) {
-          List<String> latLog = element.map!.replaceAll(" ", "").split(",");
-          double distances = Geolocator.distanceBetween(
-            LocationService().position?.latitude ?? 51.51272691932477,
-            LocationService().position?.longitude ?? -0.12896615379992515,
-            double.parse(latLog[0]),
-            double.parse(latLog[1]),
-          );
+            print('distances = $distances, $i');
+            // sb.value += "${storesList[i].name}和当前设备相距：$distances";
 
-          print('distances = $distances');
-
-          if (distances < minDistances.value) {
-            minDistances.value = distances;
-            currentSelectStore.value = element;
+            if (distances < minDistances.value) {
+              minDistances.value = distances;
+              currentSelectStore.value = storesList[i];
+            }
           }
         }
-      });
-      if (currentSelectStore.value.id == null) {
-        currentSelectStore.value = storesList.first;
-      }
+        if (currentSelectStore.value.id == null) {
+          currentSelectStore.value = storesList.first;
+        }
 
-      requestStoreInDataByStoreId(currentSelectStore.value.id, false);
-    }
+        requestStoreInDataByStoreId(currentSelectStore.value.id, false);
+      } else {
+        isLoading.value = false;
+      }
+    });
   }
 
   String getPrice(GoodsDetailModel model) {
@@ -101,6 +108,7 @@ class TabBubbleTeaCtr extends GetxController {
       HubsApi.getTeaList(storeId, 0),
       HubsApi.getTeaCategory(storeId),
     ]);
+    isLoading.value = false;
     if (isShowLoading) dismissLoading();
     if (list.isNotEmpty) {
       teaADList.assignAll(list[0] as Iterable<BubbleTeaAdModel>);
@@ -177,7 +185,8 @@ class TabBubbleTeaCtr extends GetxController {
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
       if (currentSelectStore.value.map != null) {
-        List<String> latLog = currentSelectStore.value.map!.replaceAll(" ", "").split(",");
+        List<String> latLog =
+            currentSelectStore.value.map!.replaceAll(" ", "").split(",");
 
         minDistances.value = Geolocator.distanceBetween(
           LocationService().position?.latitude ?? 51.51272691932477,

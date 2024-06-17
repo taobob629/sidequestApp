@@ -156,6 +156,9 @@ class MainPage extends StatelessWidget {
                           } else {
                             controller.controller.jumpToPage(4);
                             controller.updateCurrentIndex(4);
+                            if (Get.isRegistered<ProfileController>()) {
+                              ProfileController.find.onRefresh();
+                            }
                           }
                         }),
                   ],

@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:card_swiper/card_swiper.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -45,15 +43,6 @@ class MyProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progress = 0;
-    double percent = (t.user.value.totalmins.toDouble() == 0
-        ? 0
-        : t.user.value.avamins / t.user.value.totalmins.toDouble());
-    progress = 234.w - 234.w * percent;
-    if (progress > 234.w) {
-      progress = 0;
-    }
-
     return Scaffold(
       backgroundColor: hexColor('0A0A0A'),
       body: SmartRefresher(
@@ -355,7 +344,7 @@ class MyProfilePage extends StatelessWidget {
                                         width: 234.w,
                                         height: 12.h,
                                         padding: EdgeInsets.only(
-                                          right: progress,
+                                          right: t.getProgress(),
                                         ),
                                         direction: Axis.horizontal,
                                         innerDecoration: BoxDecoration(
@@ -583,35 +572,6 @@ class MyProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _memberVipWidget() {
-    return Container(
-      margin: EdgeInsets.only(left: 15, right: 15).r,
-      height: 70.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.r),
-        gradient: LinearGradient(
-          colors: [Color(0xff433B31), Color(0xff262731)],
-        ),
-      ),
-      child: Swiper(
-        itemCount: userController.userProfile.ads.length,
-        itemBuilder: (c, i) => ClipRRect(
-          borderRadius: BorderRadius.circular(15.r),
-          child: ExtendedImage.network(
-            userController.userProfile.ads[i].url,
-            fit: BoxFit.fill,
-          ),
-        ),
-        scrollDirection: Axis.vertical,
-        autoplay: userController.userProfile.ads.length > 1 ? true : false,
-        onTap: (index) => userController.userProfile.ads[index].link != null
-            ? NavigatorHelper.gotoConfigTarget(
-                userController.userProfile.ads[index].link!)
-            : showError('link is null'.tr),
-      ),
-    );
-  }
-
   Widget achievements() => Container(
         decoration: ShapeDecoration(
           color: Color(0xFF141517),
@@ -776,6 +736,8 @@ class ProfileController extends GetxController
 
   var user = ProfileModel().obs;
 
+  double progress = 0.0;
+
   late RefreshController refreshController;
 
   // 为了让订阅的Widget滚动到屏幕中间
@@ -817,13 +779,6 @@ class ProfileController extends GetxController
     // }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-
-    onRefresh();
-  }
-
   // getProfileInfo() {
   //   ProfileApi.getProfileInfo().then((value) {
   //     vm.value = ProfileModel.fromJson(value);
@@ -850,6 +805,9 @@ class ProfileController extends GetxController
   }
 
   void scrollToCenter() {
+    if (targetKey.currentContext == null) {
+      return;
+    }
     // 计算目标 Widget 的位置
     final RenderBox renderBox =
         targetKey.currentContext?.findRenderObject() as RenderBox;
@@ -885,6 +843,17 @@ class ProfileController extends GetxController
     } else {
       return '${user.value.avamins} min';
     }
+  }
+
+  double getProgress() {
+    double percent = (user.value.totalmins.toDouble() == 0
+        ? 0
+        : user.value.avamins / user.value.totalmins.toDouble());
+    progress = 234.w - 234.w * percent;
+    if (progress > 234.w) {
+      progress = 0;
+    }
+    return progress;
   }
 
   void jumpTaskDetail() async {
