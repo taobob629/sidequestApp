@@ -23,182 +23,182 @@ class BubbleTeaDetailPage extends StatelessWidget {
         width: 1.sw,
         height: 1.sh,
         padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-        child: Obx(() => Stack(
-              children: [
-                Container(
-                  width: 1.sw,
-                  height: 274.h,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(0.00, -1.00),
-                      end: Alignment(0, 1),
-                      colors: [Color(0xFF0A0A0A), Color(0xFF2B221C)],
+        child: Obx(() => ctr.isLoading.value ? Container() : Stack(
+          children: [
+            Container(
+              width: 1.sw,
+              height: 274.h,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(0.00, -1.00),
+                  end: Alignment(0, 1),
+                  colors: [Color(0xFF0A0A0A), Color(0xFF2B221C)],
+                ),
+              ),
+              child: Stack(
+                children: [
+                  Center(
+                    child: ImageUtil.networkImage(
+                      url: "${ctr.model.value.image}",
+                      height: 274.w,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: ImageUtil.networkImage(
-                          url: "${ctr.model.value.image}",
-                          height: 274.w,
-                          fit: BoxFit.cover,
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => Get.back(),
+                    child: Container(
+                      width: 34.w,
+                      height: 34.w,
+                      margin: EdgeInsets.only(left: 16.w),
+                      decoration: ShapeDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.back(),
-                        child: Container(
-                          width: 34.w,
-                          height: 34.w,
-                          margin: EdgeInsets.only(left: 16.w),
-                          decoration: ShapeDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            color: Colors.white,
-                            size: 20.sp,
-                          ),
-                        ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                        size: 20.sp,
                       ),
-                    ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 260.h,
+              bottom: 60.h,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: 1.sw,
+                decoration: ShapeDecoration(
+                  color: hexColor('0A0A0A'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.r),
+                      topRight: Radius.circular(16.r),
+                    ),
                   ),
                 ),
-                Positioned(
-                  top: 260.h,
-                  bottom: 60.h,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    width: 1.sw,
-                    decoration: ShapeDecoration(
-                      color: hexColor('0A0A0A'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16.r),
-                          topRight: Radius.circular(16.r),
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ctr.model.value.name ?? '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                        fontFamily: 'DIN',
+                        fontWeight: FontWeight.w600,
                       ),
+                    ).paddingOnly(left: 16.w, top: 20.h),
+                    Visibility(
+                      visible: ctr.model.value.brief != null,
+                      child: Text(
+                        ctr.model.value.brief ?? '',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 13.sp,
+                          fontFamily: 'DIN',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ).paddingOnly(left: 16.w, top: 16.h),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    20.verticalSpace,
+                    Row(
                       children: [
+                        Expanded(
+                          child: Text(
+                            'Price',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ).paddingOnly(left: 16.w),
+                        ),
                         Text(
-                          ctr.model.value.name ?? '',
+                          '£${ctr.totalMoney.value}',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18.sp,
-                            fontFamily: 'DIN',
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
                             fontWeight: FontWeight.w600,
                           ),
-                        ).paddingOnly(left: 16.w, top: 20.h),
-                        Visibility(
-                          visible: ctr.model.value.brief != null,
-                          child: Text(
-                            ctr.model.value.brief ?? '',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontSize: 13.sp,
-                              fontFamily: 'DIN',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ).paddingOnly(left: 16.w, top: 16.h),
-                        ),
-                        20.verticalSpace,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Price',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ).paddingOnly(left: 16.w),
-                            ),
-                            Text(
-                              '£${ctr.totalMoney.value}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ).paddingOnly(right: 16.w),
-                          ],
-                        ),
-                        6.verticalSpace,
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Quantity',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ).paddingOnly(left: 16.w),
-                            ),
-                            Obx(() => !ctr.showAddToCart.value
-                                ? qualityWidget()
-                                : InkWell(
-                                    onTap: () => ctr.addToCart(),
-                                    child: Container(
-                                      width: 100.w,
-                                      height: 34.w,
-                                      decoration: ShapeDecoration(
-                                        color: hexColor('FFB20E'),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'Add To Cart',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                            16.horizontalSpace,
-                          ],
-                        ),
-                        paramsWidget(),
+                        ).paddingOnly(right: 16.w),
                       ],
                     ),
-                  ),
+                    6.verticalSpace,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Quantity',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ).paddingOnly(left: 16.w),
+                        ),
+                        Obx(() => !ctr.showAddToCart.value
+                            ? qualityWidget()
+                            : InkWell(
+                          onTap: () => ctr.addToCart(),
+                          child: Container(
+                            width: 100.w,
+                            height: 34.w,
+                            decoration: ShapeDecoration(
+                              color: hexColor('FFB20E'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(8.r),
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Add To Cart',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        )),
+                        16.horizontalSpace,
+                      ],
+                    ),
+                    paramsWidget(),
+                  ],
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: addToCartWidget(16.w),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Builder(builder: (context) {
-                    ctr.cartContext = context;
-                    return 0.verticalSpace;
-                  }),
-                ),
-              ],
-            )),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: addToCartWidget(16.w),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Builder(builder: (context) {
+                ctr.cartContext = context;
+                return 0.verticalSpace;
+              }),
+            ),
+          ],
+        )),
       );
 
   Widget paramsWidget() => Expanded(

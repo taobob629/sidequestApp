@@ -29,6 +29,8 @@ class BubbleTeaDetailCtr extends GetxController {
 
   var totalMoney = "0".obs;
 
+  var isLoading = true.obs;
+
   var showAddToCart = true.obs;
 
   late BuildContext cartContext;
@@ -44,6 +46,7 @@ class BubbleTeaDetailCtr extends GetxController {
     showLoading();
     model.value = await HubsApi.goodDetail(Get.arguments);
     dismissLoading();
+    isLoading.value = false;
 
     sizeTags.clear();
     model.value.cpusize.forEach((element) {

@@ -470,7 +470,7 @@ class MyProfilePage extends StatelessWidget {
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_consumption,
-                            "Consumption".tr,
+                            "Your Games".tr,
                             onTap: () => Get.to(() => StoreConsumListPage()),
                           ),
                         ),
@@ -585,7 +585,7 @@ class MyProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'MY ASSETS',
+              'MY BALANCE',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,

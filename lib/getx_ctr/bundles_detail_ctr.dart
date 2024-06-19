@@ -16,6 +16,7 @@ class BundlesDetailCtr extends GetxController {
   ).obs;
 
   late Map map;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -29,6 +30,7 @@ class BundlesDetailCtr extends GetxController {
     showLoading();
     model.value = await IndexApi.bundleDetail(map['id'].toString());
     dismissLoading();
+    isLoading.value = false;
   }
 
   void addTea() async {
