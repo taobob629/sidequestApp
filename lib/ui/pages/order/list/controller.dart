@@ -19,6 +19,7 @@ class OrderListController extends GetxController {
   late RefreshController refreshController;
 
   var list = <OrderListModel>[].obs;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -38,6 +39,7 @@ class OrderListController extends GetxController {
     showLoading();
     list.value = await OrderApi.getOrderList();
     dismissLoading();
+    isLoading.value = false;
   }
 
   void showOrHideItem(OrderListModel model) {

@@ -82,19 +82,6 @@ class OrderDetailPage extends BasePage {
                           ],
                         ).paddingSymmetric(vertical: 24.h),
                       ),
-                      Positioned(
-                        right: 10.w,
-                        top: 24.h,
-                        child: Text(
-                          '${ctr.model.value.status}',
-                          style: TextStyle(
-                            color: Color(0xFFFFB20E),
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -250,14 +237,29 @@ class OrderDetailPage extends BasePage {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Order Information',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Order Information',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontFamily: FONT_MEDIUM,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '${ctr.model.value.status}',
+                            style: TextStyle(
+                              color: Color(0xFFFFB20E),
+                              fontSize: 14.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                       Row(
                         children: [

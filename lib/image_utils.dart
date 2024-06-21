@@ -8,6 +8,7 @@ class ImageUtils {
   static const String add_to_cart_icon = 'assets/images/add_to_cart_icon.webp';
   static const String bundles_cart_icon = 'assets/images/bundles_cart_icon.webp';
   static const String icon_duo_room = 'assets/images/icon_duo_room.webp';
+  static const String distance_icon = 'assets/images/distance_icon.webp';
   static const String tab_top_icon = 'assets/images/tab_top_icon.webp';
   static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
   static const String icon_battle_room = 'assets/images/icon_battle_room.webp';

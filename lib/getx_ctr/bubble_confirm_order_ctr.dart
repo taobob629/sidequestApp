@@ -13,6 +13,7 @@ import '../config/icon_font.dart';
 import '../model/bubble_confirm_order_model.dart';
 import '../model/coupon_model.dart';
 import '../model/pay_order_model.dart';
+import '../ui/dialog/dialog_confirm_store.dart';
 import '../ui/pages/order/detail/view.dart';
 import '../utils/navigator_helper.dart';
 import '../utils/toast_utils.dart';
@@ -101,12 +102,16 @@ class BubbleConfirmOrderCtr extends GetxController
 
     if (isOpenCrossDay) {
       // 营业时间跨天
-      return (currentHour > startHour || (currentHour == startHour && currentMinute >= startMin)) ||
-          (currentHour < endHour || (currentHour == endHour && currentMinute < endMin));
+      return (currentHour > startHour ||
+              (currentHour == startHour && currentMinute >= startMin)) ||
+          (currentHour < endHour ||
+              (currentHour == endHour && currentMinute < endMin));
     } else {
       // 营业时间未跨天
-      return (currentHour > startHour || (currentHour == startHour && currentMinute >= startMin)) &&
-          (currentHour < endHour || (currentHour == endHour && currentMinute < endMin));
+      return (currentHour > startHour ||
+              (currentHour == startHour && currentMinute >= startMin)) &&
+          (currentHour < endHour ||
+              (currentHour == endHour && currentMinute < endMin));
     }
   }
 
@@ -115,7 +120,8 @@ class BubbleConfirmOrderCtr extends GetxController
       showError("The current store's business hours were not obtained.");
       Get.back();
     }
-    if (!isWithinBusinessHours(TabBubbleTeaCtr.find.currentSelectStore.value.openTime!)) {
+    if (!isWithinBusinessHours(
+        TabBubbleTeaCtr.find.currentSelectStore.value.openTime!)) {
       showError('The store is closed at the current time.');
       Get.back();
     }
@@ -123,10 +129,10 @@ class BubbleConfirmOrderCtr extends GetxController
     DateTime nowTime = DateTime.now();
     if (nowTime.hour > startHour) {
       selectHour.value =
-      nowTime.hour < 10 ? "0${nowTime.hour}" : "${nowTime.hour}";
+          nowTime.hour < 10 ? "0${nowTime.hour}" : "${nowTime.hour}";
       if (nowTime.minute > startMin) {
         selectMin.value =
-        nowTime.minute < 10 ? "0${nowTime.minute}" : "${nowTime.minute}";
+            nowTime.minute < 10 ? "0${nowTime.minute}" : "${nowTime.minute}";
       } else {
         selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
       }
@@ -185,63 +191,67 @@ class BubbleConfirmOrderCtr extends GetxController
       Get.back();
       return;
     }
-    showLoading();
-    List<Map<String, dynamic>> goodsList = [];
-    TabBubbleTeaCtr.find.selectTeaList.forEach((element) {
-      List<String> toppingList = [];
-      if (element.selectTopping.length == 1) {
-        toppingList.add(element.selectTopping[0].name);
-      } else if (element.selectTopping.length == 2) {
-        toppingList.add(element.selectTopping[0].name);
-        toppingList.add(element.selectTopping[1].name);
+
+    final result = await showCustom(DialogConfirmStore());
+    if (result != null) {
+      showLoading();
+      List<Map<String, dynamic>> goodsList = [];
+      TabBubbleTeaCtr.find.selectTeaList.forEach((element) {
+        List<String> toppingList = [];
+        if (element.selectTopping.length == 1) {
+          toppingList.add(element.selectTopping[0].name);
+        } else if (element.selectTopping.length == 2) {
+          toppingList.add(element.selectTopping[0].name);
+          toppingList.add(element.selectTopping[1].name);
+        }
+
+        Map<String, dynamic> map = {
+          "id": element.id,
+          "num": element.count,
+          "commodityId": element.commodityId,
+          "specifications": jsonEncode({
+            "CupSize": element.selectSize?.name,
+            "Ice": element.selectIce?.name,
+            "Sugar": element.selectSugar?.name,
+            "DrinkExtra": toppingList,
+            "FoodExtra": []
+          }),
+        };
+        goodsList.add(map);
+      });
+
+      BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
+        storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
+        goodsList: goodsList,
+        eatin: eatin.value.toString(),
+        arrivalTime: eatin.value == 0
+            ? ((nowTime.millisecondsSinceEpoch) ~/ 1000).toString()
+            : ((selectPickupTime.millisecondsSinceEpoch) ~/ 1000).toString(),
+        couponId: selectCouponModel?.id,
+      );
+      dismissLoading();
+      if (model.orderInfo?.statusValue != 1) {
+        Get.back();
+        Get.back();
+        // 余额支付失败，需要跳转到那边去；
+        PayOrderModel payOrderModel = PayOrderModel();
+
+        payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
+        payOrderModel.totalAmount = model.orderInfo?.subTotal.toString() ?? "0";
+        payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
+        payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
+
+        NavigatorHelper.gotoPayPage(payOrderModel);
+        TabBubbleTeaCtr.find.clearTea();
+      } else {
+        TabBubbleTeaCtr.find.clearTea();
+        Get.offUntil(
+            GetPageRoute(
+              settings: RouteSettings(arguments: model.orderInfo?.id),
+              page: () => OrderDetailPage(),
+            ),
+            (route) => route.isFirst);
       }
-
-      Map<String, dynamic> map = {
-        "id": element.id,
-        "num": element.count,
-        "commodityId": element.commodityId,
-        "specifications": jsonEncode({
-          "CupSize": element.selectSize?.name,
-          "Ice": element.selectIce?.name,
-          "Sugar": element.selectSugar?.name,
-          "DrinkExtra": toppingList,
-          "FoodExtra": []
-        }),
-      };
-      goodsList.add(map);
-    });
-
-    BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
-      storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
-      goodsList: goodsList,
-      eatin: eatin.value.toString(),
-      arrivalTime: eatin.value == 0
-          ? ((nowTime.millisecondsSinceEpoch) ~/ 1000).toString()
-          : ((selectPickupTime.millisecondsSinceEpoch) ~/ 1000).toString(),
-      couponId: selectCouponModel?.id,
-    );
-    dismissLoading();
-    if (model.orderInfo?.statusValue != 1) {
-      Get.back();
-      Get.back();
-      // 余额支付失败，需要跳转到那边去；
-      PayOrderModel payOrderModel = PayOrderModel();
-
-      payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
-      payOrderModel.totalAmount = model.orderInfo?.subTotal.toString() ?? "0";
-      payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
-      payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
-
-      NavigatorHelper.gotoPayPage(payOrderModel);
-      TabBubbleTeaCtr.find.clearTea();
-    } else {
-      TabBubbleTeaCtr.find.clearTea();
-      Get.offUntil(
-          GetPageRoute(
-            settings: RouteSettings(arguments: model.orderInfo?.id),
-            page: () => OrderDetailPage(),
-          ),
-          (route) => route.isFirst);
     }
   }
 }

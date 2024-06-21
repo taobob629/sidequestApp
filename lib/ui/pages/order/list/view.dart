@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/base_scaffold.dart';
+import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
 
 import '../../../../image_utils.dart';
@@ -23,18 +24,21 @@ class OrderListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: "Order list".tr,
-      body: Obx(() => ListView.separated(
-            itemBuilder: (c, i) => itemWidget(ctr.list[i]),
-            separatorBuilder: (c, i) => 12.verticalSpace,
-            itemCount: ctr.list.length,
-          )),
+      title: "My Orders".tr,
+      body: Obx(() => ctr.isLoading.value
+          ? Container()
+          : ctr.list.isNotEmpty
+              ? ListView.separated(
+                  itemBuilder: (c, i) => itemWidget(ctr.list[i]),
+                  separatorBuilder: (c, i) => 12.verticalSpace,
+                  itemCount: ctr.list.length,
+                )
+              : EmptyView()),
     );
   }
 
   Widget itemWidget(OrderListModel model) => InkWell(
-        onTap: () =>
-            Get.to(() => OrderDetailPage(), arguments: model.id),
+        onTap: () => Get.to(() => OrderDetailPage(), arguments: model.id),
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
           padding: EdgeInsets.symmetric(
