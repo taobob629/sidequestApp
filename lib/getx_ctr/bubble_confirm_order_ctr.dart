@@ -9,7 +9,6 @@ import 'package:sq_hub_app/utils/decimal_utils.dart';
 
 import '../api/coupon_api.dart';
 import '../api/hubs_api.dart';
-import '../common/dialog_date_time_picker.dart';
 import '../config/icon_font.dart';
 import '../model/bubble_confirm_order_model.dart';
 import '../model/coupon_model.dart';
@@ -86,52 +85,63 @@ class BubbleConfirmOrderCtr extends GetxController
     }
   }
 
+  bool isWithinBusinessHours(String openTime) {
+    final timeParts = openTime.split(" - ");
+    startHour = int.parse(timeParts[0].split(':')[0]);
+    startMin = int.parse(timeParts[0].split(':')[1]);
+    endHour = int.parse(timeParts[1].split(':')[0]);
+    endMin = int.parse(timeParts[1].split(':')[1]);
+
+    final now = DateTime.now();
+    final currentHour = now.hour;
+    final currentMinute = now.minute;
+
+    // 处理跨天情况
+    bool isOpenCrossDay = endHour < startHour;
+
+    if (isOpenCrossDay) {
+      // 营业时间跨天
+      return (currentHour > startHour || (currentHour == startHour && currentMinute >= startMin)) ||
+          (currentHour < endHour || (currentHour == endHour && currentMinute < endMin));
+    } else {
+      // 营业时间未跨天
+      return (currentHour > startHour || (currentHour == startHour && currentMinute >= startMin)) &&
+          (currentHour < endHour || (currentHour == endHour && currentMinute < endMin));
+    }
+  }
+
   void calStoreOpenTime() {
-    // 定义正则表达式模式来匹配时间格式
-    RegExp regExp = RegExp(r'(\d{2}):(\d{2})');
-    // 使用正则表达式查找所有匹配项
-    Iterable<RegExpMatch> matches = regExp.allMatches(
-        TabBubbleTeaCtr.find.currentSelectStore.value.openTime ?? '');
-    // 提取匹配项中的数字
-    List<int> times = [];
-    for (RegExpMatch match in matches) {
-      times.add(int.parse(match.group(1)!)); // 小时
-      times.add(int.parse(match.group(2)!)); // 分钟
+    if (TabBubbleTeaCtr.find.currentSelectStore.value.openTime == null) {
+      showError("The current store's business hours were not obtained.");
+      Get.back();
+    }
+    if (!isWithinBusinessHours(TabBubbleTeaCtr.find.currentSelectStore.value.openTime!)) {
+      showError('The store is closed at the current time.');
+      Get.back();
     }
 
-    if (times.length == 4) {
-      startHour = times[0];
-      startMin = times[1];
-      endHour = times[2];
-      endMin = times[3];
-
-      DateTime nowTime = DateTime.now();
-      if (nowTime.hour >= endHour && nowTime.minute > endMin) {
-        showError('The store is closed at the current time.');
-        Get.back();
-      }
-      if (nowTime.hour > startHour) {
-        selectHour.value =
-            nowTime.hour < 10 ? "0${nowTime.hour}" : "${nowTime.hour}";
-        if (nowTime.minute > startMin) {
-          selectMin.value =
-              nowTime.minute < 10 ? "0${nowTime.minute}" : "${nowTime.minute}";
-        } else {
-          selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
-        }
+    DateTime nowTime = DateTime.now();
+    if (nowTime.hour > startHour) {
+      selectHour.value =
+      nowTime.hour < 10 ? "0${nowTime.hour}" : "${nowTime.hour}";
+      if (nowTime.minute > startMin) {
+        selectMin.value =
+        nowTime.minute < 10 ? "0${nowTime.minute}" : "${nowTime.minute}";
       } else {
-        selectHour.value = startHour < 10 ? "0$startHour" : "$startHour";
         selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
       }
-
-      selectPickupTime = DateTime(
-        nowTime.year,
-        nowTime.month,
-        nowTime.day,
-        startHour,
-        0,
-      );
+    } else {
+      selectHour.value = startHour < 10 ? "0$startHour" : "$startHour";
+      selectMin.value = startMin < 10 ? "0$startMin" : "$startMin";
     }
+
+    selectPickupTime = DateTime(
+      nowTime.year,
+      nowTime.month,
+      nowTime.day,
+      startHour,
+      0,
+    );
   }
 
   void selectTime() async {
