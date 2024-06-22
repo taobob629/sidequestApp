@@ -185,13 +185,11 @@ class BubbleConfirmOrderCtr extends GetxController
   }
 
   void payment() async {
-    DateTime nowTime = DateTime.now();
-    if (nowTime.hour >= endHour && nowTime.minute > endMin) {
+    if (!isWithinBusinessHours(
+        TabBubbleTeaCtr.find.currentSelectStore.value.openTime!)) {
       showError('The store is closed at the current time.');
       Get.back();
-      return;
     }
-
     final result = await showCustom(DialogConfirmStore());
     if (result != null) {
       showLoading();
@@ -225,7 +223,7 @@ class BubbleConfirmOrderCtr extends GetxController
         goodsList: goodsList,
         eatin: eatin.value.toString(),
         arrivalTime: eatin.value == 0
-            ? ((nowTime.millisecondsSinceEpoch) ~/ 1000).toString()
+            ? ((DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
             : ((selectPickupTime.millisecondsSinceEpoch) ~/ 1000).toString(),
         couponId: selectCouponModel?.id,
       );
