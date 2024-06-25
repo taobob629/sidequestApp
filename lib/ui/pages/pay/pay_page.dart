@@ -328,7 +328,7 @@ class PayPage extends StatelessWidget {
     if (Platform.isAndroid) {
       // payMethod = "&  Google Pay";
     } else if (Platform.isIOS) {
-      // payMethod = "&  Apple Pay";
+      payMethod = "&  Apple Pay";
     }
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),

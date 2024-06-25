@@ -325,7 +325,7 @@ class PayPageController extends GetxController {
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: payInfoModel.clientSecret,
-          merchantDisplayName: 'SideQuest',
+          merchantDisplayName: 'Sidequest Hub',
           customerId: payInfoModel.customerId,
           customerEphemeralKeySecret: payInfoModel.ephemeralKeySecret,
           applePay: applePay,

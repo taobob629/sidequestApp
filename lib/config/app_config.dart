@@ -84,7 +84,8 @@ class AppConfig {
       }
     }
     //flog('Stripe.publishableKey ${Stripe.publishableKey}');
-    Stripe.merchantIdentifier = "merchant.com.sidequest";
+    Stripe.merchantIdentifier = "merchant.com.sidequesthub.sq.hub";
+    Stripe.urlScheme = 'flutterstripe';
     await Stripe.instance.applySettings();
 
     bool? initDone = await _coreInstance.init(
