@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sq_hub_app/api/wy_http.dart';
+import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../model/balance_record_model.dart';
 import '../model/bank_card_model.dart';
@@ -52,7 +53,9 @@ class BalanceApi {
    * 金币和金额充值规则
    */
   static Future<ChargeRuleModel> chargeRule() async {
+    showLoading();
     var response = await http.get('/peiwan/app/home/chargeRule');
+    dismissLoading();
     return ChargeRuleModel.fromJson(response.data);
   }
   //添加银行卡

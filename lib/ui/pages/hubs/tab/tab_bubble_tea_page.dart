@@ -24,6 +24,7 @@ class TabBubbleTeaPage extends StatelessWidget {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  10.verticalSpace,
                   InkWell(
                     onTap: () => ctr.selectStore(),
                     child: Row(
@@ -90,7 +91,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  10.verticalSpace,
+                  20.verticalSpace,
                   Obx(() => Visibility(
                         visible: ctr.teaADList.isNotEmpty,
                         child: SizedBox(

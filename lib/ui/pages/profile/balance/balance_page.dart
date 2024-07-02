@@ -103,6 +103,7 @@ class BalancePage extends StatelessWidget {
               subTitle: "",
               marginTop: 15.h,
             ),
+            10.verticalSpace,
             Obx(() => _buildChargeItems(context)),
             // ItemTitle(
             //     title: "Other Top Up Amount".tr,

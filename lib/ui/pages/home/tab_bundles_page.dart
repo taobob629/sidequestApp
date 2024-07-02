@@ -28,6 +28,7 @@ class TabBundlesPage extends StatelessWidget {
   Widget build(BuildContext context) => Expanded(
         child: Column(
           children: [
+            10.verticalSpace,
             InkWell(
               onTap: () => controller.selectStore(),
               child: Row(
@@ -94,6 +95,7 @@ class TabBundlesPage extends StatelessWidget {
                 ],
               ),
             ),
+            20.verticalSpace,
             Expanded(
               child: Stack(
                 children: [
