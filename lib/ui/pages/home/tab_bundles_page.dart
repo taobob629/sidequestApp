@@ -25,180 +25,183 @@ class TabBundlesPage extends StatelessWidget {
   final controller = TabBundlesPageController.find;
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          InkWell(
-            onTap: () => controller.selectStore(),
-            child: Row(
-              children: [
-                16.horizontalSpace,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(() => RichText(
-                            text: TextSpan(
-                              text:
-                                  '${controller.currentSelectStore.value.name}  ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w600,
+  Widget build(BuildContext context) => Expanded(
+        child: Column(
+          children: [
+            InkWell(
+              onTap: () => controller.selectStore(),
+              child: Row(
+                children: [
+                  16.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(() => RichText(
+                              text: TextSpan(
+                                text:
+                                    '${controller.currentSelectStore.value.name}  ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: Colors.white,
+                                      size: 14.sp,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            )),
+                        // 6.verticalSpace,
+                        // Obx(() => RichText(
+                        //       text: TextSpan(
+                        //         text:
+                        //             "${ctr.distances.value.toStringAsFixed(2)}m",
+                        //         style: TextStyle(
+                        //           color: const Color(0xFFFFB20E),
+                        //           fontSize: 12.sp,
+                        //           fontFamily: 'DIN',
+                        //           fontWeight: FontWeight.w400,
+                        //         ),
+                        //         children: [
+                        //           TextSpan(
+                        //             text: " away from you",
+                        //             style: TextStyle(
+                        //               color: Colors.white.withOpacity(0.6),
+                        //               fontSize: 12.sp,
+                        //               fontFamily: 'DIN',
+                        //               fontWeight: FontWeight.w400,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     )),
+                      ],
+                    ),
+                  ),
+                  Image.asset(
+                    ImageUtils.bubble_tea_store_icon,
+                    width: 52.w,
+                    height: 38.h,
+                  ),
+                  16.horizontalSpace,
+                ],
+              ),
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  Obx(() => ListView.separated(
+                        itemBuilder: (c, i) => GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => Get.to(() => BundlesDetailPage(),
+                              arguments: {
+                                "id": controller.list[i].id,
+                                "index": i
+                              }),
+                          child: Container(
+                            height: 112.h,
+                            margin: EdgeInsets.symmetric(horizontal: 16.w),
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFF141517),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                            ),
+                            child: Row(
                               children: [
-                                WidgetSpan(
-                                  child: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    color: Colors.white,
-                                    size: 14.sp,
+                                16.horizontalSpace,
+                                ImageUtil.networkImage(
+                                  url: '${controller.list[i].image}',
+                                  border: 10.r,
+                                  width: 80.w,
+                                  height: 80.h,
+                                  fit: BoxFit.cover,
+                                ),
+                                10.horizontalSpace,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${controller.list[i].name}',
+                                        style: TextStyle(
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14.sp,
+                                          color: Colors.white,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      4.verticalSpace,
+                                      Text(
+                                        controller.list[i].brief ?? '',
+                                        style: TextStyle(
+                                          fontFamily: FONT_LIGHT,
+                                          fontSize: 12.sp,
+                                          color: Colors.white.withOpacity(0.6),
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      4.verticalSpace,
+                                      Text(
+                                        '£${controller.list[i].price}',
+                                        style: TextStyle(
+                                          color: const Color(0xFFFFB20E),
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 10.w,
+                                    top: 40.h,
+                                  ),
+                                  child: Image.asset(
+                                    ImageUtils.bundles_cart_icon,
+                                    scale: 2,
                                   ),
                                 ),
                               ],
                             ),
-                          )),
-                      // 6.verticalSpace,
-                      // Obx(() => RichText(
-                      //       text: TextSpan(
-                      //         text:
-                      //             "${ctr.distances.value.toStringAsFixed(2)}m",
-                      //         style: TextStyle(
-                      //           color: const Color(0xFFFFB20E),
-                      //           fontSize: 12.sp,
-                      //           fontFamily: 'DIN',
-                      //           fontWeight: FontWeight.w400,
-                      //         ),
-                      //         children: [
-                      //           TextSpan(
-                      //             text: " away from you",
-                      //             style: TextStyle(
-                      //               color: Colors.white.withOpacity(0.6),
-                      //               fontSize: 12.sp,
-                      //               fontFamily: 'DIN',
-                      //               fontWeight: FontWeight.w400,
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     )),
-                    ],
-                  ),
-                ),
-                Image.asset(
-                  ImageUtils.bubble_tea_store_icon,
-                  width: 52.w,
-                  height: 38.h,
-                ),
-                16.horizontalSpace,
-              ],
-            ),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                Obx(() => ListView.separated(
-                      itemBuilder: (c, i) => GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.to(() => BundlesDetailPage(),
-                            arguments: {
-                              "id": controller.list[i].id,
-                              "index": i
-                            }),
-                        child: Container(
-                          height: 112.h,
-                          margin: EdgeInsets.symmetric(horizontal: 16.w),
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFF141517),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.r),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              16.horizontalSpace,
-                              ImageUtil.networkImage(
-                                url: '${controller.list[i].image}',
-                                border: 10.r,
-                                width: 80.w,
-                                height: 80.h,
-                                fit: BoxFit.cover,
-                              ),
-                              10.horizontalSpace,
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${controller.list[i].name}',
-                                      style: TextStyle(
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.sp,
-                                        color: Colors.white,
-                                      ),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    4.verticalSpace,
-                                    Text(
-                                      controller.list[i].brief ?? '',
-                                      style: TextStyle(
-                                        fontFamily: FONT_LIGHT,
-                                        fontSize: 12.sp,
-                                        color: Colors.white.withOpacity(0.6),
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    4.verticalSpace,
-                                    Text(
-                                      '£${controller.list[i].price}',
-                                      style: TextStyle(
-                                        color: const Color(0xFFFFB20E),
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  right: 10.w,
-                                  top: 40.h,
-                                ),
-                                child: Image.asset(
-                                  ImageUtils.bundles_cart_icon,
-                                  scale: 2,
-                                ),
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                      separatorBuilder: (c, i) => 10.verticalSpace,
-                      itemCount: controller.list.length,
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.selectList.isNotEmpty &&
-                          controller.isShowDrinkNow.value,
-                      child: Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: drinkNowWidget(16.w),
-                      ),
-                    )),
-              ],
+                        separatorBuilder: (c, i) => 10.verticalSpace,
+                        itemCount: controller.list.length,
+                      )),
+                  Obx(() => Visibility(
+                        visible: controller.selectList.isNotEmpty &&
+                            controller.isShowDrinkNow.value,
+                        child: Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: drinkNowWidget(16.w),
+                        ),
+                      )),
+                ],
+              ),
             ),
-          ),
-          Builder(builder: (context) {
-            controller.cartContext = context;
-            return 0.verticalSpace;
-          }),
-        ],
+            Builder(builder: (context) {
+              controller.cartContext = context;
+              return 0.verticalSpace;
+            }),
+          ],
+        ),
       );
 
   Widget cartWidget() => Container(
@@ -469,6 +472,7 @@ class TabBundlesPageController extends GetxController {
   late BuildContext cartContext;
   var selectList = <BundlesModel>[].obs;
   var totalPrice = "0".obs;
+
   // 优惠券前的总价
   String yhTotalPrice = "0";
   var storesList = <BubbleTeaStoreModel>[].obs;

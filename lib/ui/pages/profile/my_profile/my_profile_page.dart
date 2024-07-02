@@ -29,7 +29,9 @@ import '../../addgame/add_game_account_page.dart';
 import '../../booking/booking_page.dart';
 import '../../messages/fans/fans_list_page.dart';
 import '../../messages/follow/follow_list_page.dart';
+import '../../messages/messages_page.dart';
 import '../../order/list/view.dart';
+import '../../social/tab_social_page.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
 import '../integral/integral_home_page.dart';
@@ -64,36 +66,35 @@ class MyProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () => Get.to(() => MyQrCodePage()),
-                            child: Container(
-                              width: 30.w,
-                              height: 30.w,
-                              decoration: ShapeDecoration(
-                                color: Colors.black.withOpacity(0.2),
-                                shape: OvalBorder(),
-                              ),
-                              child: Image.asset(
-                                ImageUtils.qr_code,
-                                scale: 1.8,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
                             onTap: () => Get.to(() => SettingsPage()),
                             child: Container(
                               width: 30.w,
                               height: 30.w,
-                              margin: EdgeInsets.only(
-                                right: 15.w,
-                                left: 10.w,
-                              ),
                               decoration: ShapeDecoration(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.white.withOpacity(0.1),
                                 shape: OvalBorder(),
                               ),
                               child: Image.asset(
                                 ImageUtils.profile_setting,
                                 scale: 1.8,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.to(() => MyQrCodePage()),
+                            child: Container(
+                              height: 30.w,
+                              margin: EdgeInsets.only(
+                                right: 15.w,
+                                left: 10.w,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Image.asset(
+                                ImageUtils.scan_code_icon,
+                                scale: 2,
                               ),
                             ),
                           ),
@@ -171,127 +172,127 @@ class MyProfilePage extends StatelessWidget {
                                   6.verticalSpace,
 
                                   /// labels: sex、language、location
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () =>
-                                            Get.to(() => FollowListPage()),
-                                        child: Obx(() => Text(
-                                              '${t.user.value.followers}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.sp,
-                                                fontFamily: FONT_MEDIUM,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            )),
-                                      ),
-                                      6.horizontalSpace,
-                                      InkWell(
-                                        onTap: () =>
-                                            Get.to(() => FollowListPage()),
-                                        child: Text(
-                                          'Followers',
-                                          style: TextStyle(
-                                            color: Color(0xFF808388),
-                                            fontSize: 12.sp,
-                                            fontFamily: FONT_MEDIUM,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 1.w,
-                                        height: 14.h,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 12.w),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFF727272)),
-                                      ),
-                                      InkWell(
-                                        onTap: () =>
-                                            Get.to(() => FansListPage())
-                                                ?.whenComplete(() {
-                                          t.onRefresh();
-                                        }),
-                                        child: Obx(() => Text(
-                                              '${t.user.value.fans}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.sp,
-                                                fontFamily: FONT_MEDIUM,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            )),
-                                      ),
-                                      6.horizontalSpace,
-                                      Obx(() => badges.Badge(
-                                            showBadge: t.user.value.newFans > 0,
-                                            badgeColor: Color(0xffFF4848),
-                                            alignment: Alignment.centerRight,
-                                            padding: EdgeInsets.all(3.r),
-                                            position: badges.BadgePosition(
-                                              top: -4.h,
-                                              end: -4.w,
-                                            ),
-                                            child: InkWell(
-                                              onTap: () =>
-                                                  Get.to(() => FansListPage())
-                                                      ?.whenComplete(() {
-                                                t.onRefresh();
-                                              }),
-                                              child: Text(
-                                                'Fans',
-                                                style: TextStyle(
-                                                  color: Color(0xFF808388),
-                                                  fontSize: 12.sp,
-                                                  fontFamily: FONT_MEDIUM,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                      Container(
-                                        width: 1.w,
-                                        height: 14.h,
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 12.w),
-                                        decoration: BoxDecoration(
-                                            color: Color(0xFF727272)),
-                                      ),
-                                      InkWell(
-                                        onTap: () =>
-                                            Get.to(() => MyPostsPage()),
-                                        child: Obx(() => Text(
-                                              '${t.user.value.posts}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.sp,
-                                                fontFamily: FONT_MEDIUM,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            )),
-                                      ),
-                                      6.horizontalSpace,
-                                      InkWell(
-                                        onTap: () =>
-                                            Get.to(() => MyPostsPage()),
-                                        // onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
-                                        child: Text(
-                                          'Posts',
-                                          style: TextStyle(
-                                            color: Color(0xFF808388),
-                                            fontSize: 12.sp,
-                                            fontFamily: FONT_MEDIUM,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     InkWell(
+                                  //       onTap: () =>
+                                  //           Get.to(() => FollowListPage()),
+                                  //       child: Obx(() => Text(
+                                  //             '${t.user.value.followers}',
+                                  //             textAlign: TextAlign.center,
+                                  //             style: TextStyle(
+                                  //               color: Colors.white,
+                                  //               fontSize: 16.sp,
+                                  //               fontFamily: FONT_MEDIUM,
+                                  //               fontWeight: FontWeight.w700,
+                                  //             ),
+                                  //           )),
+                                  //     ),
+                                  //     6.horizontalSpace,
+                                  //     InkWell(
+                                  //       onTap: () =>
+                                  //           Get.to(() => FollowListPage()),
+                                  //       child: Text(
+                                  //         'Followers',
+                                  //         style: TextStyle(
+                                  //           color: Color(0xFF808388),
+                                  //           fontSize: 12.sp,
+                                  //           fontFamily: FONT_MEDIUM,
+                                  //           fontWeight: FontWeight.w400,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     Container(
+                                  //       width: 1.w,
+                                  //       height: 14.h,
+                                  //       margin: EdgeInsets.symmetric(
+                                  //           horizontal: 12.w),
+                                  //       decoration: BoxDecoration(
+                                  //           color: Color(0xFF727272)),
+                                  //     ),
+                                  //     InkWell(
+                                  //       onTap: () =>
+                                  //           Get.to(() => FansListPage())
+                                  //               ?.whenComplete(() {
+                                  //         t.onRefresh();
+                                  //       }),
+                                  //       child: Obx(() => Text(
+                                  //             '${t.user.value.fans}',
+                                  //             textAlign: TextAlign.center,
+                                  //             style: TextStyle(
+                                  //               color: Colors.white,
+                                  //               fontSize: 16.sp,
+                                  //               fontFamily: FONT_MEDIUM,
+                                  //               fontWeight: FontWeight.w700,
+                                  //             ),
+                                  //           )),
+                                  //     ),
+                                  //     6.horizontalSpace,
+                                  //     Obx(() => badges.Badge(
+                                  //           showBadge: t.user.value.newFans > 0,
+                                  //           badgeColor: Color(0xffFF4848),
+                                  //           alignment: Alignment.centerRight,
+                                  //           padding: EdgeInsets.all(3.r),
+                                  //           position: badges.BadgePosition(
+                                  //             top: -4.h,
+                                  //             end: -4.w,
+                                  //           ),
+                                  //           child: InkWell(
+                                  //             onTap: () =>
+                                  //                 Get.to(() => FansListPage())
+                                  //                     ?.whenComplete(() {
+                                  //               t.onRefresh();
+                                  //             }),
+                                  //             child: Text(
+                                  //               'Fans',
+                                  //               style: TextStyle(
+                                  //                 color: Color(0xFF808388),
+                                  //                 fontSize: 12.sp,
+                                  //                 fontFamily: FONT_MEDIUM,
+                                  //                 fontWeight: FontWeight.w400,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         )),
+                                  //     Container(
+                                  //       width: 1.w,
+                                  //       height: 14.h,
+                                  //       margin: EdgeInsets.symmetric(
+                                  //           horizontal: 12.w),
+                                  //       decoration: BoxDecoration(
+                                  //           color: Color(0xFF727272)),
+                                  //     ),
+                                  //     InkWell(
+                                  //       onTap: () =>
+                                  //           Get.to(() => MyPostsPage()),
+                                  //       child: Obx(() => Text(
+                                  //             '${t.user.value.posts}',
+                                  //             textAlign: TextAlign.center,
+                                  //             style: TextStyle(
+                                  //               color: Colors.white,
+                                  //               fontSize: 16.sp,
+                                  //               fontFamily: FONT_MEDIUM,
+                                  //               fontWeight: FontWeight.w700,
+                                  //             ),
+                                  //           )),
+                                  //     ),
+                                  //     6.horizontalSpace,
+                                  //     InkWell(
+                                  //       onTap: () =>
+                                  //           Get.to(() => MyPostsPage()),
+                                  //       // onTap: () => NavigatorHelper.toOtherProfile(t.user.value.memberId),
+                                  //       child: Text(
+                                  //         'Posts',
+                                  //         style: TextStyle(
+                                  //           color: Color(0xFF808388),
+                                  //           fontSize: 12.sp,
+                                  //           fontFamily: FONT_MEDIUM,
+                                  //           fontWeight: FontWeight.w400,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),
@@ -454,15 +455,6 @@ class MyProfilePage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _dashboardLabelItem(
-                            ImageUtils.icon_task,
-                            "Quest".tr,
-                            onTap: () => Get.to(() => TaskPage())
-                                ?.then((value) => userController.updateInfo()),
-                            badgeNum: userController.userProfile.taskNum,
-                          ),
-                        ),
-                        Expanded(
-                          child: _dashboardLabelItem(
                             ImageUtils.icon_connection,
                             "Connections".tr,
                             onTap: () => Get.to(() => AddGameAccountPage()),
@@ -476,8 +468,13 @@ class MyProfilePage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Container(),
+                          child: _dashboardLabelItem(
+                            ImageUtils.message_icon,
+                            "Messages".tr,
+                            onTap: () => Get.to(() => MessagesPage()),
+                          ),
                         ),
+                        Spacer(),
                       ],
                     ),
                   ],

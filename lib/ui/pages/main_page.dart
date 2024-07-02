@@ -12,7 +12,9 @@ import 'package:get/get.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
+import 'package:sq_hub_app/ui/pages/profile/events/tab_event_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
+import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
 import 'package:sq_hub_app/ui/pages/social/tab_social_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
@@ -31,6 +33,7 @@ import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
 import '../dialog/dialog_ad.dart';
 import '../dialog/dialog_upgrade.dart';
+import 'home/tab_events_page.dart';
 import 'login/login_page.dart';
 import 'notification/notification_page.dart';
 
@@ -138,8 +141,8 @@ class MainPage extends StatelessWidget {
                     TabButton(
                         index: 3,
                         currentIndex: controller.currentIndex.value,
-                        selectIconName: ImageUtils.tab_stores,
-                        normalIconName: ImageUtils.tab_stores_normal,
+                        selectIconName: ImageUtils.tab_quest,
+                        normalIconName: ImageUtils.tab_quest_normal,
                         onTap: () {
                           controller.controller.jumpToPage(3);
                           controller.updateCurrentIndex(3);
@@ -189,9 +192,9 @@ class MainPageController extends FullLifeCycleController
 
   List<Widget> tabs = [
     IndexPage(),
-    TabSocialPage(),
+    TabEventsPage(),
     TabHubsPage(),
-    KeepAliveWrapper(child: TabCybercafePage()),
+    TaskPage(),
     MyProfilePage(),
   ];
 

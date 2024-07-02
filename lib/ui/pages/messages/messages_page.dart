@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/common/base_scaffold.dart';
 import 'package:sq_hub_app/image_utils.dart';
 
 import '../../../common/keep_alive_wrapper.dart';
@@ -30,8 +31,9 @@ class MessagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ConversationListPage(
+    return BaseScaffold(
+      title: "Messages".tr,
+      body: ConversationListPage(
         unreadCountChange: (int count) {
           Future.delayed(Duration(seconds: 1), () {
             unreadSingleCount = count;

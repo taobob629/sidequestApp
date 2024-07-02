@@ -113,7 +113,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                           ),
                         ),
                       )),
-                  10.verticalSpace,
+                  20.verticalSpace,
                   InkWell(
                     onTap: () => ctr.showCategoryDialog(),
                     child: Row(
@@ -136,7 +136,6 @@ class TabBubbleTeaPage extends StatelessWidget {
                                     text: ctr.categoryStr.value,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
                                       fontFamily: FONT_MEDIUM,
                                       fontSize: 18.sp,
                                     ),
@@ -152,6 +151,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  10.verticalSpace,
                   Expanded(
                     child: Obx(() => Stack(
                           children: [

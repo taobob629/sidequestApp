@@ -19,6 +19,8 @@ class ImageUtils {
   static const String tab_games = 'assets/images/tab_games.webp';
   static const String tab_games_normal = 'assets/images/tab_games_normal.png';
   static const String tab_stores = 'assets/images/tab_stores.webp';
+  static const String tab_quest = 'assets/images/tab_quest.webp';
+  static const String tab_quest_normal = 'assets/images/tab_quest_normal.webp';
   static const String tab_stores_normal = 'assets/images/tab_stores_normal.png';
   static const String tab_profile = 'assets/images/tab_profile.webp';
   static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
@@ -86,6 +88,7 @@ class ImageUtils {
   static const String ic_edit_new = 'assets/images/ic_edit_new.webp';
   static const String add_pic = 'assets/images/add_pic.webp';
   static const String qr_code = 'assets/images/qr_code.webp';
+  static const String scan_code_icon = 'assets/images/scan_code_icon.webp';
   static const String profile_avatar_border = 'assets/images/profile_avatar_border.webp';
   static const String ic_coupons_new = 'assets/images/ic_coupons_new.webp';
   static const String ic_coupons_points = 'assets/images/ic_coupons_points.webp';
@@ -116,6 +119,7 @@ class ImageUtils {
   static const String icon_connection = 'assets/images/icon_connection.webp';
   static const String icon_riot = 'assets/images/icon_riot.webp';
   static const String icon_consumption = 'assets/images/icon_consumption.webp';
+  static const String message_icon = 'assets/images/message_icon.webp';
   static const String vip_header_bg = 'assets/images/vip_header_bg.webp';
   static const String ic_store = 'assets/images/ic_store.png';
   static const String icon_voice_record = 'assets/images/icon_voice_record.webp';
