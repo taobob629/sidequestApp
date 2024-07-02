@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart' as Get;
+import 'package:sq_hub_app/widget/show_error_widget.dart';
 
 import '../config/app_config.dart';
 import '../controller/user_controller.dart';
@@ -99,9 +100,9 @@ class ApiInterceptor extends InterceptorsWrapper {
       } else {
         dismissLoading(status: SmartStatus.loading);
         if (respData.msg.isEmpty) {
-          showError("Server Failure");
+          showErrorWidget("Server Failure");
         } else {
-          showError("${respData.msg}");
+          showErrorWidget("${respData.msg}");
         }
 
         // response.data = respData.data;
