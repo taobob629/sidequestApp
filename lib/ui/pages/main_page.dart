@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:badges/badges.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
@@ -12,16 +11,12 @@ import 'package:get/get.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
-import 'package:sq_hub_app/ui/pages/profile/events/tab_event_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
-import 'package:sq_hub_app/ui/pages/social/tab_social_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
-import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 
 import '../../api/index_api.dart';
-import '../../common/keep_alive_wrapper.dart';
 import '../../common/web_page.dart';
 import '../../config/app_color.dart';
 import '../../config/app_config.dart';
@@ -90,82 +85,64 @@ class MainPage extends StatelessWidget {
                 height: 60.h + 16.h,
                 padding: EdgeInsets.only(bottom: 16.h),
                 child: Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TabButton(
-                        index: 0,
-                        currentIndex: controller.currentIndex.value,
-                        selectIconName: ImageUtils.tab_home,
-                        normalIconName: ImageUtils.tab_home_normal,
-                        onTap: () {
-                          controller.controller.jumpToPage(0);
-                          controller.updateCurrentIndex(0);
-                        }),
-                    Badge(
-                      shape: BadgeShape.circle,
-                      badgeColor: Colors.red,
-                      position: BadgePosition(top: 3.h, end: 5.h),
-                      animationType: BadgeAnimationType.fade,
-                      animationDuration:
-                      const Duration(microseconds: 500),
-                      showBadge:
-                      UserController.find.unreadMsgCount.value > 0,
-                      badgeContent: Text(
-                        "${UserController.find.unreadMsgCount.value}",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                      ignorePointer: true,
-                      child: TabButton(
-                          index: 1,
-                          currentIndex: controller.currentIndex.value,
-                          selectIconName: ImageUtils.tab_social,
-                          normalIconName: ImageUtils.tab_social_normal,
-                          onTap: () {
-                            controller.controller.jumpToPage(1);
-                            controller.updateCurrentIndex(1);
-                          }),
-                    ),
-                    TabButton(
-                        index: 2,
-                        currentIndex: controller.currentIndex.value,
-                        selectIconName: ImageUtils.tab_games,
-                        normalIconName: ImageUtils.tab_games_normal,
-                        onTap: () {
-                          controller.controller.jumpToPage(2);
-                          controller.updateCurrentIndex(2);
-                        }),
-                    TabButton(
-                        index: 3,
-                        currentIndex: controller.currentIndex.value,
-                        selectIconName: ImageUtils.tab_quest,
-                        normalIconName: ImageUtils.tab_quest_normal,
-                        onTap: () {
-                          controller.controller.jumpToPage(3);
-                          controller.updateCurrentIndex(3);
-                        }),
-                    TabButton(
-                        index: 4,
-                        currentIndex: controller.currentIndex.value,
-                        selectIconName: ImageUtils.tab_profile,
-                        normalIconName: ImageUtils.tab_profile_normal,
-                        onTap: () {
-                          var account = StorageManager.getToken();
-                          if (account.isEmpty) {
-                            Get.to(() => LoginPage());
-                          } else {
-                            controller.controller.jumpToPage(4);
-                            controller.updateCurrentIndex(4);
-                            if (Get.isRegistered<ProfileController>()) {
-                              ProfileController.find.onRefresh();
-                            }
-                          }
-                        }),
-                  ],
-                )),
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TabButton(
+                            index: 0,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_home,
+                            normalIconName: ImageUtils.tab_home_normal,
+                            onTap: () {
+                              controller.controller.jumpToPage(0);
+                              controller.updateCurrentIndex(0);
+                            }),
+                        TabButton(
+                            index: 1,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_social,
+                            normalIconName: ImageUtils.tab_social_normal,
+                            onTap: () {
+                              controller.controller.jumpToPage(1);
+                              controller.updateCurrentIndex(1);
+                            }),
+                        TabButton(
+                            index: 2,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_games,
+                            normalIconName: ImageUtils.tab_games_normal,
+                            onTap: () {
+                              controller.controller.jumpToPage(2);
+                              controller.updateCurrentIndex(2);
+                            }),
+                        TabButton(
+                            index: 3,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_quest,
+                            normalIconName: ImageUtils.tab_quest_normal,
+                            onTap: () {
+                              controller.controller.jumpToPage(3);
+                              controller.updateCurrentIndex(3);
+                            }),
+                        TabButton(
+                            index: 4,
+                            currentIndex: controller.currentIndex.value,
+                            selectIconName: ImageUtils.tab_profile,
+                            normalIconName: ImageUtils.tab_profile_normal,
+                            onTap: () {
+                              var account = StorageManager.getToken();
+                              if (account.isEmpty) {
+                                Get.to(() => LoginPage());
+                              } else {
+                                controller.controller.jumpToPage(4);
+                                controller.updateCurrentIndex(4);
+                                if (Get.isRegistered<ProfileController>()) {
+                                  ProfileController.find.onRefresh();
+                                }
+                              }
+                            }),
+                      ],
+                    )),
               ),
             ],
           )),
@@ -282,7 +259,7 @@ class MainPageController extends FullLifeCycleController
           showCustom(
             UpgradeDialog(model: value),
             clickMaskDismiss: !value.force,
-              backDismiss: false,
+            backDismiss: false,
           );
           _timer.cancel();
         }

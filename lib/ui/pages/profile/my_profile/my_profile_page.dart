@@ -468,11 +468,11 @@ class MyProfilePage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: _dashboardLabelItem(
-                            ImageUtils.message_icon,
-                            "Messages".tr,
-                            onTap: () => Get.to(() => MessagesPage()),
-                          ),
+                          child: Obx(() => _dashboardLabelItem(
+                              ImageUtils.message_icon, "Messages".tr,
+                              onTap: () => Get.to(() => MessagesPage()),
+                              badgeNum:
+                                  UserController.find.unreadMsgCount.value)),
                         ),
                         Spacer(),
                       ],
