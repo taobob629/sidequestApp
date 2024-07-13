@@ -613,13 +613,13 @@ class MyProfilePage extends StatelessWidget {
                         whenComplete: () => t.onRefresh(),
                       );
                     })),
-                achievementItem(
-                    t.user.value.checkTotal,
-                    ImageUtils.ic_coupons_points,
-                    "Points".tr,
-                    'Your Coupons'.tr,
-                    onTap: () => Get.to(() => IntegralHomePage())
-                        ?.whenComplete(() => t.onRefresh())),
+                // achievementItem(
+                //     t.user.value.checkTotal,
+                //     ImageUtils.ic_coupons_points,
+                //     "Points".tr,
+                //     'Your Coupons'.tr,
+                //     onTap: () => Get.to(() => IntegralHomePage())
+                //         ?.whenComplete(() => t.onRefresh())),
               ],
             ),
           ],
