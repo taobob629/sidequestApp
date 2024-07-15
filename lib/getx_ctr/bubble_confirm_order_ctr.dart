@@ -218,7 +218,7 @@ class BubbleConfirmOrderCtr extends GetxController
         goodsList.add(map);
       });
 
-      BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
+      BubbleConfirmOrderModel? model = await HubsApi.confirmOrder(
         storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
         goodsList: goodsList,
         eatin: eatin.value.toString(),
@@ -228,27 +228,30 @@ class BubbleConfirmOrderCtr extends GetxController
         couponId: selectCouponModel?.id,
       );
       dismissLoading();
-      if (model.orderInfo?.statusValue != 1) {
-        Get.back();
-        Get.back();
-        // 余额支付失败，需要跳转到那边去；
-        PayOrderModel payOrderModel = PayOrderModel();
+      if (model != null) {
+        if (model.orderInfo?.statusValue != 1) {
+          Get.back();
+          Get.back();
+          // 余额支付失败，需要跳转到那边去；
+          PayOrderModel payOrderModel = PayOrderModel();
 
-        payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
-        payOrderModel.totalAmount = model.orderInfo?.subTotal.toString() ?? "0";
-        payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
-        payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
+          payOrderModel.goodsPrice = TabBubbleTeaCtr.find.totalPrice.value;
+          payOrderModel.totalAmount =
+              model.orderInfo?.subTotal.toString() ?? "0";
+          payOrderModel.orderId = model.orderInfo?.id.toString() ?? '0';
+          payOrderModel.type = PayType.PW_BUBBLE_TEA_PAY;
 
-        NavigatorHelper.gotoPayPage(payOrderModel);
-        TabBubbleTeaCtr.find.clearTea();
-      } else {
-        TabBubbleTeaCtr.find.clearTea();
-        Get.offUntil(
-            GetPageRoute(
-              settings: RouteSettings(arguments: model.orderInfo?.id),
-              page: () => OrderDetailPage(),
-            ),
-            (route) => route.isFirst);
+          NavigatorHelper.gotoPayPage(payOrderModel);
+          TabBubbleTeaCtr.find.clearTea();
+        } else {
+          TabBubbleTeaCtr.find.clearTea();
+          Get.offUntil(
+              GetPageRoute(
+                settings: RouteSettings(arguments: model.orderInfo?.id),
+                page: () => OrderDetailPage(),
+              ),
+              (route) => route.isFirst);
+        }
       }
     }
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/colorful_button.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../model/event_detail_model.dart';
@@ -19,28 +21,14 @@ class JoinButton extends GetView<EventPageController> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width - 30;
     return Container(
-      height: 50,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Stack(
+      height: 50.h,
+      margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 30.h),
+      child: Row(
         children: [
-          Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: (width -30)/ 2 ,
-              child: _buildLeftButton()),
-          Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              width: (width -30)/ 2 ,
-              child: _buildRightButton())
+          Expanded(child: _buildLeftButton()),
+          15.horizontalSpace,
+          Expanded(child: _buildRightButton())
         ],
       ),
     );
@@ -48,38 +36,26 @@ class JoinButton extends GetView<EventPageController> {
 
   Widget _buildLeftButton() {
     flog(' eventDetailModel.canCancel');
-    return Stack(
-      children: [
-        Container(
+    return ColorfulButton(
+      child: Obx(() => Text(
+        eventDetailModel.canCancel ? 'VIEW'.tr : "JOIN TEAM".tr,
+        style: TextStyle(
           color: Colors.white,
-          child: Center(
-              child: Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: Obx(() => Text(
-                  eventDetailModel.canCancel ? 'VIEW'.tr : "JOIN TEAM".tr,
-                  style: TextStyle(color: Color(0xFFF73B0C), fontFamily: FONT_LIGHT, fontSize: 18),
-                )),
-          )),
+          fontFamily: FONT_LIGHT,
+          fontSize: 18,
         ),
-        Material(
-          color: Colors.transparent,
-          child: Ink(
-            child: InkWell(
-                onTap: () =>
-                    userController.checkLogin(() => eventDetailModel.canCancel
-                        ? controller.viewTeam()
-                        : Get.to(() => JoinTeamPage(
-                              id: eventDetailModel.id,
-                              create: false,
-                              banner: eventDetailModel.listImage.isEmpty
-                                  ? eventDetailModel.image
-                                  : eventDetailModel.listImage,
-                              location: [],
-                            ))),
-                child: Container()),
-          ),
-        )
-      ],
+      )),
+      onTap: () =>
+          userController.checkLogin(() => eventDetailModel.canCancel
+              ? controller.viewTeam()
+              : Get.to(() => JoinTeamPage(
+            id: eventDetailModel.id,
+            create: false,
+            banner: eventDetailModel.listImage.isEmpty
+                ? eventDetailModel.image
+                : eventDetailModel.listImage,
+            location: [],
+          ))),
     );
   }
 
@@ -91,11 +67,11 @@ class JoinButton extends GetView<EventPageController> {
             Container(
               height: 50,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xFFFC3C02), Color(0xFF841FC3)]),
-              ),
+                  borderRadius: BorderRadius.circular(40),
+                  gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFFE96524), Color(0xFFD49C21)])),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

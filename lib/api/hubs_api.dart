@@ -64,7 +64,7 @@ class HubsApi {
     return list;
   }
 
-  static Future<BubbleConfirmOrderModel> confirmOrder({
+  static Future<BubbleConfirmOrderModel?> confirmOrder({
     required int storeId,
     required List<Map<String, dynamic>> goodsList,
     required String eatin,
@@ -78,6 +78,9 @@ class HubsApi {
       "arrivalTime": arrivalTime,
       "couponId": couponId,
     });
+    if (response.data['data'] == null) {
+      return null;
+    }
     return BubbleConfirmOrderModel.fromJson(response.data);
   }
 

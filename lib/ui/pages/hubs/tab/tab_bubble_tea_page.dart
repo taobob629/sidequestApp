@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
 
@@ -156,92 +157,102 @@ class TabBubbleTeaPage extends StatelessWidget {
                   Expanded(
                     child: Obx(() => Stack(
                           children: [
-                            ListView.separated(
-                              itemBuilder: (c, i) => GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => Get.to(() => BubbleTeaDetailPage(),
-                                    arguments: ctr.teaList[i].id),
-                                child: Container(
-                                  height: 112.h,
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFF141517),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                    ),
-                                  ),
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      16.horizontalSpace,
-                                      ImageUtil.networkImage(
-                                        url: '${ctr.teaList[i].image}',
-                                        width: 90.w,
-                                        height: 90.h,
-                                        border: 16.r,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      10.horizontalSpace,
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                            ctr.teaList.isNotEmpty
+                                ? ListView.separated(
+                                    itemBuilder: (c, i) => GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => Get.to(
+                                          () => BubbleTeaDetailPage(),
+                                          arguments: ctr.teaList[i].id),
+                                      child: Container(
+                                        height: 112.h,
+                                        decoration: ShapeDecoration(
+                                          color: const Color(0xFF141517),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16.r),
+                                          ),
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
                                           children: [
-                                            Text(
-                                              '${ctr.teaList[i].name}',
-                                              style: TextStyle(
-                                                fontFamily: FONT_MEDIUM,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 14.sp,
-                                                color: Colors.white,
-                                              ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
+                                            16.horizontalSpace,
+                                            ImageUtil.networkImage(
+                                              url: '${ctr.teaList[i].image}',
+                                              width: 90.w,
+                                              height: 90.h,
+                                              border: 16.r,
+                                              fit: BoxFit.cover,
                                             ),
-                                            4.verticalSpace,
-                                            Text(
-                                              ctr.teaList[i].brief ?? '',
-                                              style: TextStyle(
-                                                fontFamily: FONT_LIGHT,
-                                                fontSize: 12.sp,
-                                                color: Colors.white
-                                                    .withOpacity(0.6),
+                                            10.horizontalSpace,
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${ctr.teaList[i].name}',
+                                                    style: TextStyle(
+                                                      fontFamily: FONT_MEDIUM,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  4.verticalSpace,
+                                                  Text(
+                                                    ctr.teaList[i].brief ?? '',
+                                                    style: TextStyle(
+                                                      fontFamily: FONT_LIGHT,
+                                                      fontSize: 12.sp,
+                                                      color: Colors.white
+                                                          .withOpacity(0.6),
+                                                    ),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  4.verticalSpace,
+                                                  Text(
+                                                    '£ ${ctr.teaList[i].retailPrice}',
+                                                    style: TextStyle(
+                                                      color: const Color(
+                                                          0xFFFFB20E),
+                                                      fontSize: 16.sp,
+                                                      fontFamily: FONT_MEDIUM,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            4.verticalSpace,
-                                            Text(
-                                              '£ ${ctr.teaList[i].retailPrice}',
-                                              style: TextStyle(
-                                                color: const Color(0xFFFFB20E),
-                                                fontSize: 16.sp,
-                                                fontFamily: FONT_MEDIUM,
-                                                fontWeight: FontWeight.w600,
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: 10.w,
+                                                top: 40.h,
+                                              ),
+                                              child: Icon(
+                                                Icons.add_circle_outline,
+                                                color: hexColor('FFB20E'),
+                                                size: 24.sp,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          right: 10.w,
-                                          top: 40.h,
-                                        ),
-                                        child: Icon(
-                                          Icons.add_circle_outline,
-                                          color: hexColor('FFB20E'),
-                                          size: 24.sp,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              separatorBuilder: (c, i) => 10.verticalSpace,
-                              itemCount: ctr.teaList.length,
-                            ),
+                                    ),
+                                    separatorBuilder: (c, i) =>
+                                        10.verticalSpace,
+                                    itemCount: ctr.teaList.length,
+                                  )
+                                : EmptyView(),
                             Visibility(
                               visible: ctr.selectTeaList.isNotEmpty &&
                                   ctr.isShowDrinkNow.value,
