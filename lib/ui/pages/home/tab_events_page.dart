@@ -19,7 +19,7 @@ class TabEventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      title: ''.tr,
+      title: 'Events'.tr,
       body: Obx(() => SmartRefresher(
             controller: controller.refreshController,
             onLoading: () => controller.loadMore(),
