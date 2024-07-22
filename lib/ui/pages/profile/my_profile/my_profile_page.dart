@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/ui/pages/profile/qrcode/my_qr_code_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/select_avatar_dialog.dart';
-import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/vip/vip_page.dart';
 import 'package:sq_hub_app/ui/pages/setting/settings_page.dart';
 
@@ -27,17 +26,12 @@ import '../../../../widget/my_progressbar.dart';
 import '../../../consum/list/view.dart';
 import '../../addgame/add_game_account_page.dart';
 import '../../booking/booking_page.dart';
-import '../../messages/fans/fans_list_page.dart';
-import '../../messages/follow/follow_list_page.dart';
 import '../../messages/messages_page.dart';
 import '../../order/list/view.dart';
-import '../../social/tab_social_page.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
-import '../integral/integral_home_page.dart';
 import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
-import 'my_posts_page.dart';
 
 class MyProfilePage extends StatelessWidget {
   MyProfilePage({Key? key}) : super(key: key);

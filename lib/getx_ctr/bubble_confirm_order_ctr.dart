@@ -82,7 +82,7 @@ class BubbleConfirmOrderCtr extends GetxController
 
     if (result != null) {
       discount.value = result;
-      totalPrice.value = totalPrice.value.minus(result);
+      totalPrice.value = TabBubbleTeaCtr.find.totalPrice.value.minus(result);
     }
   }
 
@@ -218,7 +218,7 @@ class BubbleConfirmOrderCtr extends GetxController
         goodsList.add(map);
       });
 
-      BubbleConfirmOrderModel? model = await HubsApi.confirmOrder(
+      BubbleConfirmOrderModel model = await HubsApi.confirmOrder(
         storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id ?? 0,
         goodsList: goodsList,
         eatin: eatin.value.toString(),
@@ -228,7 +228,7 @@ class BubbleConfirmOrderCtr extends GetxController
         couponId: selectCouponModel?.id,
       );
       dismissLoading();
-      if (model != null) {
+      if (model.orderInfo != null) {
         if (model.orderInfo?.statusValue != 1) {
           Get.back();
           Get.back();
