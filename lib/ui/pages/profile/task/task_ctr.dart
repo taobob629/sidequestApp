@@ -1,3 +1,4 @@
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/getx_refresh_controller.dart';
 
@@ -29,7 +30,7 @@ class TaskCtr extends GetxRefreshController<TaskModel>
         'type': type
       }
     );
-    dismissLoading();
+    dismissLoading(status: SmartStatus.loading);
 
     if (response.data == null) {
       return list;

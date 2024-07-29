@@ -213,10 +213,9 @@ Deleting your account will remove your profile and all of your content from Side
     if (!model.upgrade) {
       showError("You are using the latest version".tr);
     } else {
-      showCustom(
-        UpgradeDialog(model: model),
-        clickMaskDismiss: !model.force,
-        backDismiss: false,
+      Get.dialog(
+          UpgradeDialog(model: model),
+          barrierDismissible: !model.force
       );
     }
   }

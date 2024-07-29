@@ -502,7 +502,7 @@ class TabBundlesPageController extends GetxController {
   void requestData(int? storeId, bool isShowLoading) async {
     if (isShowLoading) showLoading();
     list.value = await IndexApi.getBundles(storeId);
-    dismissLoading();
+    dismissLoading(status: SmartStatus.loading);
   }
 
   void addTea(int i) {

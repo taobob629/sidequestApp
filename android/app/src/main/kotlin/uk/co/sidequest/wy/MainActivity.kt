@@ -60,7 +60,7 @@ class MainActivity: FlutterFragmentActivity(),PPOPaymentDelegate {
                 wxApi?.registerApp(_wxAppId) // 将该app注册到微信
             }
         }
-        registerReceiver(mMessageReceiver, IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP))
+        registerReceiver(mMessageReceiver, IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP), Context.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onDestroy() {

@@ -244,10 +244,9 @@ class MainPageController extends FullLifeCycleController
     IndexApi.checkVersion().then((value) {
       if (value.upgrade) {
         if (Get.context != null) {
-          showCustom(
+          Get.dialog(
             UpgradeDialog(model: value),
-            clickMaskDismiss: !value.force,
-            backDismiss: false,
+            barrierDismissible: !value.force
           );
         }
       }
@@ -256,10 +255,9 @@ class MainPageController extends FullLifeCycleController
     _timer = Timer.periodic(Duration(minutes: 5), (timer) {
       IndexApi.checkVersion().then((value) {
         if (value.upgrade) {
-          showCustom(
-            UpgradeDialog(model: value),
-            clickMaskDismiss: !value.force,
-            backDismiss: false,
+          Get.dialog(
+              UpgradeDialog(model: value),
+              barrierDismissible: !value.force
           );
           _timer.cancel();
         }
