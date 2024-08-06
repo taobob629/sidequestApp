@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/config/app_color.dart';
+import 'package:sq_hub_app/ui/pages/login/secondary_page.dart';
 import 'package:sq_hub_app/ui/pages/main_page.dart';
 import 'package:sq_hub_app/ui/pages/register/register_page.dart';
 
@@ -284,6 +285,7 @@ class LoginPageController extends BasePageController {
   void loginSuccess(LoginModel loginModel) {
     dismissLoading();
     if (loginModel.validate == 0) {
+      UserController.find.imLogin();
       //如果是从登录页面跳转的，跳转到选择游戏页面先
       var fromRegister = Get.arguments?['fromRegister'];
       if (fromRegister == true) {
@@ -292,12 +294,18 @@ class LoginPageController extends BasePageController {
       }
       Get.offAll(() => MainPage());
     } else {
-      Get.to(
-        () => RegisterPage(),
-        arguments: {}
-          ..['type'] = 1
-          ..['loginModel'] = loginModel,
-      );
+      if (loginModel.secondary == 1) {
+        Get.off(() => SecondaryPage(
+              loginModel: loginModel,
+            ));
+      } else {
+        Get.to(
+          () => RegisterPage(),
+          arguments: {}
+            ..['type'] = 1
+            ..['loginModel'] = loginModel,
+        );
+      }
     }
   }
 }

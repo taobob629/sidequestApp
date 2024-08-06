@@ -30,18 +30,6 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   40.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          onPressed: () => Get.back(),
-                          icon: Icon(
-                            Icons.close,
-                            size: 17.w,
-                            color: AppColor.whiteGray,
-                          ))
-                    ],
-                  ),
                   Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20).w),

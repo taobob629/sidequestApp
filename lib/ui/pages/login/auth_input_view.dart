@@ -41,7 +41,7 @@ class AuthInputView extends StatelessWidget {
       height: 48,
       padding: const EdgeInsets.only(left: 16).r,
       decoration: BoxDecoration(
-        color: hexColor('#48464A'),
+        color: Colors.white10,
         borderRadius: const BorderRadius.all(Radius.circular(50)).w,
       ),
       child: Row(
