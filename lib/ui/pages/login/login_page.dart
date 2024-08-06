@@ -154,6 +154,29 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        20.verticalSpace,
+                        Visibility(
+                          visible: Platform.isIOS,
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => controller.loginWithApple(),
+                            child: Container(
+                              width: 46.w,
+                              height: 46.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(46.r),
+                                border: Border.all(
+                                  color: Color(0xff707070),
+                                  width: 1.w,
+                                ),
+                              ),
+                              child: Image.asset(
+                                ImageUtils.apple_icon,
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -219,6 +242,16 @@ class LoginPageController extends BasePageController {
     // emailFocusNode.dispose();
     // passwordFocusNode.dispose();
     super.onClose();
+  }
+
+  void loginWithApple() {
+    if (controller.check()) {
+      UserController.find.appleLogin(
+          needLogin: true,
+          done: (LoginModel loginModel) {
+            loginSuccess(loginModel);
+          });
+    }
   }
 
   void login() async {

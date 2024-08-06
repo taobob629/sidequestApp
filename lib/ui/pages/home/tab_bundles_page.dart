@@ -168,16 +168,6 @@ class TabBundlesPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 10.w,
-                                    top: 40.h,
-                                  ),
-                                  child: Image.asset(
-                                    ImageUtils.bundles_cart_icon,
-                                    scale: 2,
-                                  ),
-                                ),
                               ],
                             ),
                           ),

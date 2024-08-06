@@ -9,8 +9,8 @@ showLoading({String msg = 'loading...', bool clickMaskDismiss = true}) {
   );
 }
 
-dismissLoading({SmartStatus status = SmartStatus.smart}) {
-  SmartDialog.dismiss(status: SmartStatus.smart);
+dismissLoading({SmartStatus status = SmartStatus.smart, String? tag}) {
+  SmartDialog.dismiss(status: status, tag: tag);
 }
 
 showToast(var msg, {Duration? duration}) async {
@@ -44,6 +44,7 @@ showError(var msg, {Duration? duration}) {
 showCustom(
   Widget widget, {
   bool clickMaskDismiss = true,
+  String? tag,
   AlignmentGeometry? alignment,
   bool? backDismiss,
   Color? maskColor,
@@ -54,6 +55,7 @@ showCustom(
   return await SmartDialog.show(
     builder: (builder) => widget,
     clickMaskDismiss: clickMaskDismiss,
+    tag: tag,
     maskColor: maskColor,
     usePenetrate: usePenetrate,
     onDismiss: onDismiss,
