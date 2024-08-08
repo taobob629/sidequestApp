@@ -495,17 +495,21 @@ class UserController extends GetxController {
       if (loginFlag == LoginFlag.ios) {
         Get.to(() => OtherRegisterPage(), arguments: credential);
       } else if (loginFlag == LoginFlag.google) {
-        Get.to(() => OtherRegisterPage(), arguments: {
-          'account': account,
-          'idToken': idToken,
-        });
+        if (account != null && idToken != null) {
+          Get.to(() => OtherRegisterPage(), arguments: {
+            'account': account,
+            'idToken': idToken,
+          });
+        }
       } else if (loginFlag == LoginFlag.discord) {
-        Get.to(() => OtherRegisterPage(), arguments: {
-          'discordAppId': discordAppId,
-          'email': email,
-          'nickName': nickName,
-          'discriminator': discriminator,
-        });
+        if (discordAppId != null && email != null && nickName != null && discriminator != null) {
+          Get.to(() => OtherRegisterPage(), arguments: {
+            'discordAppId': discordAppId,
+            'email': email,
+            'nickName': nickName,
+            'discriminator': discriminator,
+          });
+        }
       }
       return;
     }

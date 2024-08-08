@@ -10,6 +10,7 @@ class ImageUtils {
   static const String icon_duo_room = 'assets/images/icon_duo_room.webp';
   static const String distance_icon = 'assets/images/distance_icon.webp';
   static const String apple_icon = 'assets/images/apple_icon.webp';
+  static const String google_icon = 'assets/images/google_icon.webp';
   static const String tab_top_icon = 'assets/images/tab_top_icon.webp';
   static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
   static const String icon_battle_room = 'assets/images/icon_battle_room.webp';
