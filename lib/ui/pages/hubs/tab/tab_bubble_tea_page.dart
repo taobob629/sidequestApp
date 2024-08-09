@@ -28,68 +28,75 @@ class TabBubbleTeaPage extends StatelessWidget {
                   10.verticalSpace,
                   InkWell(
                     onTap: () => ctr.selectStore(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Obx(() => RichText(
-                                    text: TextSpan(
-                                      text:
-                                          '${ctr.currentSelectStore.value.name}  ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      children: [
-                                        WidgetSpan(
-                                          child: Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: Colors.white,
-                                            size: 14.sp,
-                                          ),
+                    child: Container(
+                      padding: EdgeInsets.all(8.r),
+                      decoration: BoxDecoration(
+                        color: AppColor.yellow.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Obx(() => RichText(
+                                      text: TextSpan(
+                                        text:
+                                            '${ctr.currentSelectStore.value.name}  ',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15.sp,
+                                          fontFamily: 'DIN',
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                      ],
-                                    ),
-                                  )),
-                              6.verticalSpace,
-                              Obx(() => RichText(
-                                    text: TextSpan(
-                                      text: ctr.minDistances.value >= 1000
-                                          ? "${(ctr.minDistances.value / 1000).toStringAsFixed(2)}km"
-                                          : "${ctr.minDistances.value.toStringAsFixed(2)}m",
-                                      style: TextStyle(
-                                        color: const Color(0xFFFFB20E),
-                                        fontSize: 12.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: " away from you",
-                                          style: TextStyle(
-                                            color:
-                                                Colors.white.withOpacity(0.6),
-                                            fontSize: 12.sp,
-                                            fontFamily: 'DIN',
-                                            fontWeight: FontWeight.w400,
+                                        children: [
+                                          WidgetSpan(
+                                            child: Icon(
+                                              Icons.arrow_forward_ios_outlined,
+                                              color: Colors.white,
+                                              size: 14.sp,
+                                            ),
                                           ),
+                                        ],
+                                      ),
+                                    )),
+                                6.verticalSpace,
+                                Obx(() => RichText(
+                                      text: TextSpan(
+                                        text: ctr.minDistances.value >= 1000
+                                            ? "${(ctr.minDistances.value / 1000).toStringAsFixed(2)}km"
+                                            : "${ctr.minDistances.value.toStringAsFixed(2)}m",
+                                        style: TextStyle(
+                                          color: const Color(0xFFFFB20E),
+                                          fontSize: 12.sp,
+                                          fontFamily: 'DIN',
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                      ],
-                                    ),
-                                  )),
-                            ],
+                                        children: [
+                                          TextSpan(
+                                            text: " away from you",
+                                            style: TextStyle(
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                              fontSize: 12.sp,
+                                              fontFamily: 'DIN',
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
                           ),
-                        ),
-                        Image.asset(
-                          ImageUtils.bubble_tea_store_icon,
-                          width: 52.w,
-                          height: 38.h,
-                        ),
-                      ],
+                          Image.asset(
+                            ImageUtils.bubble_tea_store_icon,
+                            width: 52.w,
+                            height: 38.h,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   20.verticalSpace,

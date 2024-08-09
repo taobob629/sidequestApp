@@ -48,7 +48,7 @@ class TabEventsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 167.h,
+                              height: 164.h,
                               width: 1.sw,
                               decoration: BoxDecoration(
                                 color: Colors.grey,
@@ -64,7 +64,7 @@ class TabEventsPage extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(
                                 left: 10.w,
-                                top: 10.h,
+                                top: 8.h,
                               ),
                               child: Text(
                                 '${controller.list[i].title}',
@@ -81,7 +81,7 @@ class TabEventsPage extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(
                                 left: 10.w,
-                                top: 10.h,
+                                top: 8.h,
                               ),
                               child: Text(
                                 '${controller.list[i].time}',
@@ -98,7 +98,7 @@ class TabEventsPage extends StatelessWidget {
                               height: 1.h,
                               color: hexColor('303030'),
                               margin: EdgeInsets.symmetric(
-                                vertical: 10.h,
+                                vertical: 8.h,
                               ),
                             ),
                             Row(
@@ -216,7 +216,7 @@ class TabEventsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    separatorBuilder: (c, i) => 15.verticalSpace,
+                    separatorBuilder: (c, i) => 10.verticalSpace,
                     itemCount: controller.list.length,
                   )
                 : EmptyView(),
