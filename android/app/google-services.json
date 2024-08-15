@@ -1,52 +1,26 @@
 {
   "project_info": {
-    "project_number": "40635894328",
-    "project_id": "sidequest-fc39e",
-    "storage_bucket": "sidequest-fc39e.appspot.com"
+    "project_number": "337857089229",
+    "project_id": "sidequest-push",
+    "storage_bucket": "sidequest-push.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:40635894328:android:bc263936245a6ea34e74cd",
+        "mobilesdk_app_id": "1:337857089229:android:25cd54cf2697dd0076a384",
         "android_client_info": {
           "package_name": "uk.co.sidequest.wy"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "40635894328-8jfa238bbcerkb4gpp9hhrciqbanqaed.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "uk.co.sidequest.wy",
-            "certificate_hash": "d12eac34d522efcedb82f2f4726c7f8b67d4facb"
-          }
-        },
-        {
-          "client_id": "40635894328-41mipj0r1k72d9hdlovu0ae8irfpbii2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCkeonQ4zkaqjSD5KzgTX_oaJHofHCzTbU"
+          "current_key": "AIzaSyCkjhwByIXCy_2Ynop61J18jlpeAabZFzs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "40635894328-41mipj0r1k72d9hdlovu0ae8irfpbii2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "40635894328-lgg8oi13171vnaijmp0b35mp1cp3famc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "uk.co.sidequest.wy",
-                "app_store_id": "1614945163"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

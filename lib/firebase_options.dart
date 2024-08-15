@@ -41,20 +41,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCkeonQ4zkaqjSD5KzgTX_oaJHofHCzTbU',
-    appId: '1:40635894328:android:a7f5e07d815ac5864e74cd',
-    messagingSenderId: '40635894328',
-    projectId: 'sidequest-fc39e',
-    storageBucket: 'sidequest-fc39e.appspot.com',
+    apiKey: 'AIzaSyCkjhwByIXCy_2Ynop61J18jlpeAabZFzs',
+    appId: '1:337857089229:android:25cd54cf2697dd0076a384',
+    messagingSenderId: '337857089229',
+    projectId: 'sidequest-push',
+    storageBucket: 'sidequest-push.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD_p_tf02DK2GXl5HjNXVLlTPEjeLqtldA',
-    appId: '1:40635894328:ios:645edde531ed18444e74cd',
-    messagingSenderId: '40635894328',
-    projectId: 'sidequest-fc39e',
-    storageBucket: 'sidequest-fc39e.appspot.com',
-    iosClientId: 'com.googleusercontent.apps.40635894328-lgg8oi13171vnaijmp0b35mp1cp3famc',
-    iosBundleId: 'uk.co.sidequest.wy',
+    apiKey: 'AIzaSyA5tAeq3w02AtUsVQJN3dby8qi9HA7BD0s',
+    appId: '1:337857089229:ios:7b030b8601831e6376a384',
+    messagingSenderId: '337857089229',
+    projectId: 'sidequest-push',
+    storageBucket: 'sidequest-push.appspot.com',
+    // iosClientId: 'com.googleusercontent.apps.40635894328-lgg8oi13171vnaijmp0b35mp1cp3famc',
+    iosBundleId: 'com.uk.co.sq.hub',
   );
 }
