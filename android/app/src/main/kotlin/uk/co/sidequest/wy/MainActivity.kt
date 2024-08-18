@@ -14,8 +14,6 @@ import android.os.Message
 import android.util.Log
 import androidx.annotation.NonNull
 import com.alipay.sdk.app.PayTask
-import com.pay360.mobilesdk.payment.*
-import com.pay360.mobilesdk.utils.PPOLuhn
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelpay.PayReq
 import com.tencent.mm.opensdk.openapi.IWXAPI
@@ -29,7 +27,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 import org.json.JSONObject
 
 
-class MainActivity: FlutterFragmentActivity(),PPOPaymentDelegate {
+class MainActivity: FlutterFragmentActivity() {
     private lateinit var eventChannel: EventChannel
     var eventSink: EventChannel.EventSink? = null
     var wxApi: IWXAPI?  = null
@@ -139,69 +137,6 @@ class MainActivity: FlutterFragmentActivity(),PPOPaymentDelegate {
                     wxApi?.sendReq(req)
                     result.success(info)
                 }
-                "verifyCard" ->{
-                    val cardNumber = methodCall.argument<String>("cardNumber").toString()
-                    val cardFine = PPOLuhn.validateCreditCardNumber(cardNumber)
-                    result.success(cardFine)
-                }
-                "getCardPay" -> {
-
-                    val token = methodCall.argument<String>("token").toString()
-                    val cardNumber = methodCall.argument<String>("cardNumber").toString()
-                    val cardHolder = methodCall.argument<String>("cardHolder").toString()
-                    val exDate = methodCall.argument<String>("exDate").toString()
-                    val cvCode = methodCall.argument<String>("cvCode").toString()
-                    val orderId = methodCall.argument<String>("orderId").toString()
-                    val amount = methodCall.argument<String>("amount").toString()
-                    val recurring = methodCall.argument<String>("recurring").toString()
-
-                    val transaction = PPOTransaction()
-                        .setCurrency("GBP")
-                        .setAmount(amount.toDouble())
-                        .setTransactionDescription("SideQuest Transaction")
-                        .setMerchantRef(orderId)
-                        .setIsRecurring(recurring)
-                        .setIsDeferred("false")
-
-                    val card = PPOCard()
-                        .setPan(cardNumber)
-                        .setCv2(cvCode)
-                        .setExpiryDate(exDate)
-                        .setCardHolderName(cardHolder)
-
-                    val address = PPOBillingAddress()
-                        .setLine1("")
-                        .setLine2("")
-                        .setLine3("")
-                        .setLine4("")
-                        .setCity("")
-                        .setRegion("")
-                        .setPostcode("")
-                        .setCountryCode("GBR")
-
-                    val customer = PPOCustomer()
-                        .setEmail("")
-                        .setDateOfBirthday("")
-                        .setTelephone("")
-
-                    val credentials = PPOCredentials(token, "8001699")
-
-                    val payment = PPOPayment(this@MainActivity, this@MainActivity)
-                        .setCredentials(credentials)
-                        .setTransaction(transaction)
-                        .setCard(card)
-                        .setBillingAddress(address)
-                        .setCustomer(customer)
-
-
-                    try {
-                        payment.processGuestPayment()
-                    } catch (e: Exception) {
-                        Log.e("test", e.message!!)
-                    }
-
-                    result.success("")
-                }
                 else -> {
                     result.notImplemented()
                 }
@@ -228,36 +163,5 @@ class MainActivity: FlutterFragmentActivity(),PPOPaymentDelegate {
                 }
             }
         }
-    }
-
-    override fun cardPaymentProceedWithSuccess(
-        ppoPaymentType: PPOPaymentType?,
-        ppoPaymentResponse: PPOPaymentResponse?) {
-        Log.e("test", "cardPaymentProceedWithSuccess:"+
-                ppoPaymentResponse?.processing?.status+"-"+ppoPaymentResponse?.processing?.result)
-
-        val mainThread = Handler(Looper.getMainLooper())
-        mainThread.post {
-            val result = HashMap<String, String?>()
-            if("SUCCESS" == ppoPaymentResponse?.processing?.status) {
-                Log.e("test", "send transactionId back")
-                result["code"] = "1"
-                result["data"] = ppoPaymentResponse.transaction?.transactionId
-            }else{
-                result["code"] = "0"
-                result["data"] = ppoPaymentResponse?.processing?.result
-            }
-            eventSink?.success(result)
-        }
-        return
-
-    }
-
-    override fun cardPaymentProceedWithFailure(ppoPaymentType: PPOPaymentType, s: String) {
-        Log.e("test", "cardPaymentProceedWithFailure--" + ppoPaymentType.name + "---" + s)
-        val result = HashMap<String, String?>()
-        result["code"] = "0"
-        result["data"] = s
-        eventSink?.success(result)
     }
 }
