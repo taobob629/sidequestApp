@@ -161,15 +161,22 @@ class MainActivity : FlutterFragmentActivity() {
         AlipayPlusClient.setConfiguration(configuration)
         val callback =
             IAPPaymentSheetEventCallback<IAPPaymentSheetEvent> {
+                Log.i("zengchao", "${it.name}, ${it.message}")
                 when (it.name) {
                     "EVENT_SELECT_AND_PAY" -> {
                         Log.d("Android", "zengchao EVENT_SELECT_AND_PAY")
-                        result.success("gotopay")
+                        val mainThread = Handler(Looper.getMainLooper())
+                        mainThread.postDelayed({
+                            result.success("gotopay")
+                        }, 200)
                     }
 
                     "EVENT_USER_CANCEL" -> {
                         Log.d("Android", "zengchao EVENT_USER_CANCEL")
-                        result.success("cancel")
+                        val mainThread = Handler(Looper.getMainLooper())
+                        mainThread.postDelayed({
+                            result.error("-1","cancel", null)
+                        }, 200)
                     }
                 }
             }
