@@ -185,6 +185,7 @@ class MainActivity : FlutterFragmentActivity() {
             orderInfo,
             callback
         )
+        sendMsgEvent("dismissloading")
     }
 
     @SuppressLint("HandlerLeak")

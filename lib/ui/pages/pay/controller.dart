@@ -232,7 +232,7 @@ class PayPageController extends GetxController {
   }
 
   void pay({bool isPlay = false}) async {
-    showLoading();
+    showLoading(clickMaskDismiss: false);
     flog('pay 正常支付进来了');
     if (Platform.isIOS && payType.value == 7) {
       // 苹果内购
@@ -595,6 +595,8 @@ class PayPageController extends GetxController {
 
   //原生返回事件调用
   void _onPayResult(dynamic content) async {
+    // 收到android原生eventSink?.success返回的消息关闭弹窗
+    dismissLoading();
     if (payType.value == 4) {
       //alipay
       if (content.toString() == "6001") {
