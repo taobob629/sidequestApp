@@ -53,6 +53,7 @@ import AlipayPlusClient
                     } else if sheetEvent.name == IAPPaymentSheetEventDidSelectWalletAndPay {
                         // your own logic
                         print("zengchao = IAPPaymentSheetEventDidSelectWalletAndPay")
+                        flutterResult("gotopay")
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentException {
                         // your own logic after payment interruption
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
@@ -69,13 +70,12 @@ import AlipayPlusClient
                         // your own logic after payment success
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentSuccess")
-                        self?.eventSink?("0")
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentProcessing {
                         // your own logic after payment finishes but status is ongoing
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentProcessing")
                     }
-                    flutterResult("")
+                    self?.eventSink?("0")
                 }
             } else if flutterMethodCall.method == "verifyCard" {
 //                let cardNumber = param["cardNumber"]!

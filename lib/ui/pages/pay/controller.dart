@@ -286,26 +286,14 @@ class PayPageController extends GetxController {
           String result = await _channel.invokeMethod('getAlipay', params);
           flog("zengchao = $result");
           dismissLoading();
-          if (Platform.isAndroid) {
-            if (result == "gotopay") {
-              Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-                  barrierColor: Colors.black26)
-                  .whenComplete(() {
-                _timer?.cancel();
-                Get.find<UserController>().updateInfo();
-              });
-              startTimer(payInfoModel);
-            }
-          } else {
-            Future.delayed(Duration(seconds: 3), () {
-              Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-                  barrierColor: Colors.black26)
-                  .whenComplete(() {
-                _timer?.cancel();
-                Get.find<UserController>().updateInfo();
-              });
-              startTimer(payInfoModel);
+          if (result == "gotopay") {
+            Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
+                barrierColor: Colors.black26)
+                .whenComplete(() {
+              _timer?.cancel();
+              Get.find<UserController>().updateInfo();
             });
+            startTimer(payInfoModel);
           }
         } catch (e) {
           flog(e.toString());
@@ -595,7 +583,7 @@ class PayPageController extends GetxController {
 
   //原生返回事件调用
   void _onPayResult(dynamic content) async {
-    // 收到android原生eventSink?.success返回的消息关闭弹窗
+    // 收到android原生eventSink?.success和iOS原生self?.eventSink返回的消息关闭弹窗
     dismissLoading();
     if (payType.value == 4) {
       //alipay
