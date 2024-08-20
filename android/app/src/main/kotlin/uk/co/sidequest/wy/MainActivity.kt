@@ -124,7 +124,7 @@ class MainActivity : FlutterFragmentActivity() {
                 "getAlipay" -> {
                     val info = methodCall.argument<String>("info").toString()
                     Log.d("Android", "alipay info = $info")
-                    initPay(this@MainActivity, eventSink, result, info)
+                    initPay(this@MainActivity, result, info)
                 }
 
                 "getWxpay" -> {
@@ -150,6 +150,36 @@ class MainActivity : FlutterFragmentActivity() {
         }
     }
 
+    /**
+     * 调用 alipay+支付
+     */
+    private fun initPay(context: Context, result: MethodChannel.Result, orderInfo: String) {
+        val configuration = IAPConfiguration()
+        configuration.acquirerId = "5Y39882YDWFU05385"; //fusionpay提供
+        configuration.merchantId = "AEF11846594";//fusionpay提供
+        configuration.language = "zh_CN";
+        AlipayPlusClient.setConfiguration(configuration)
+        val callback =
+            IAPPaymentSheetEventCallback<IAPPaymentSheetEvent> {
+                when (it.name) {
+                    "EVENT_SELECT_AND_PAY" -> {
+                        Log.d("Android", "zengchao EVENT_SELECT_AND_PAY")
+                        result.success("gotopay")
+                    }
+
+                    "EVENT_USER_CANCEL" -> {
+                        Log.d("Android", "zengchao EVENT_USER_CANCEL")
+                        result.success("cancel")
+                    }
+                }
+            }
+        AlipayPlusClient.showPaymentSheet(
+            context,
+            orderInfo,
+            callback
+        )
+    }
+
     @SuppressLint("HandlerLeak")
     private val mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -172,35 +202,4 @@ class MainActivity : FlutterFragmentActivity() {
             }
         }
     }
-}
-
-/**
- * 调用 alipay+支付
- */
-fun initPay(context: Context, sink: EventChannel.EventSink?, result: MethodChannel.Result, orderInfo: String) {
-    val configuration = IAPConfiguration()
-    configuration.acquirerId = "5Y39882YDWFU05385"; //fusionpay提供
-    configuration.merchantId = "AEF11846594";//fusionpay提供
-    configuration.language = "zh_CN";
-    AlipayPlusClient.setConfiguration(configuration)
-    val callback =
-        IAPPaymentSheetEventCallback<IAPPaymentSheetEvent> {
-            when (it.name) {
-                "EVENT_SELECT_AND_PAY" -> {
-                    Log.d("Android", "zengchao EVENT_SELECT_AND_PAY")
-                    result.success("gotopay")
-                }
-
-                "EVENT_USER_CANCEL" -> {
-                    Log.d("Android", "zengchao EVENT_USER_CANCEL")
-                    result.error("cancel", "Unknown event received", null)
-                }
-            }
-        }
-    //paymentData是 fusionpay 接口返回的数据 https://speca.io/fusionpay/fusionpay-payment-api#alipay-plus-online-app 这个接口返回的 app_data数据
-    AlipayPlusClient.showPaymentSheet(
-        context,
-        orderInfo,
-        callback
-    )
 }
