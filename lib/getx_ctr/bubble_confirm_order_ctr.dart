@@ -49,7 +49,7 @@ class BubbleConfirmOrderCtr extends GetxController
   ];
 
   // 0:eatin; 1:take away
-  var eatin = 0.obs;
+  var eatin = 1.obs;
 
   int startHour = 12;
   int startMin = 0;
@@ -67,7 +67,7 @@ class BubbleConfirmOrderCtr extends GetxController
 
     totalPrice.value = TabBubbleTeaCtr.find.totalPrice.value;
     discount.value = TabBubbleTeaCtr.find.discount.value;
-    tabController = TabController(length: tabs.length, vsync: this);
+    tabController = TabController(length: tabs.length, vsync: this, initialIndex: 1);
   }
 
   void selectCoupon(CouponsListModel couponModel) async {

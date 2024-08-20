@@ -25,14 +25,17 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import org.json.JSONObject
+import com.iap.basic.alipay.config.IAPConfiguration
+import com.iap.alipayplusclient.AlipayPlusClient
+import com.iap.cashier.callback.IAPPaymentSheetEventCallback
+import com.iap.cashier.data.model.IAPPaymentSheetEvent
 
-
-class MainActivity: FlutterFragmentActivity() {
+class MainActivity : FlutterFragmentActivity() {
     private lateinit var eventChannel: EventChannel
     var eventSink: EventChannel.EventSink? = null
-    var wxApi: IWXAPI?  = null
+    var wxApi: IWXAPI? = null
     private val _wxAppId = "wx736c6b186e6f1da8"
-    private var mMessageReceiver:BroadcastReceiver? = null
+    private var mMessageReceiver: BroadcastReceiver? = null
 
     private lateinit var methodChannel: MethodChannel
 
@@ -43,10 +46,15 @@ class MainActivity: FlutterFragmentActivity() {
         val notificationManager: NotificationManager =
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val systemChannel = NotificationChannel("system", "System Notification", NotificationManager.IMPORTANCE_HIGH)
+            val systemChannel = NotificationChannel(
+                "system",
+                "System Notification",
+                NotificationManager.IMPORTANCE_HIGH
+            )
             notificationManager.createNotificationChannel(systemChannel)
 
-            val msgChannel = NotificationChannel("message", "Users Message", NotificationManager.IMPORTANCE_HIGH)
+            val msgChannel =
+                NotificationChannel("message", "Users Message", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(msgChannel)
         }
 
@@ -58,7 +66,11 @@ class MainActivity: FlutterFragmentActivity() {
                 wxApi?.registerApp(_wxAppId) // 将该app注册到微信
             }
         }
-        registerReceiver(mMessageReceiver, IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP), Context.RECEIVER_NOT_EXPORTED)
+        registerReceiver(
+            mMessageReceiver,
+            IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP),
+            Context.RECEIVER_NOT_EXPORTED
+        )
     }
 
     override fun onDestroy() {
@@ -77,66 +89,60 @@ class MainActivity: FlutterFragmentActivity() {
         sendMsgEvent(custom)
     }
 
-    private fun sendMsgEvent(custom: String?){
+    private fun sendMsgEvent(custom: String?) {
         if (custom != null && custom.isNotEmpty()) {
             val mainThread = Handler(Looper.getMainLooper())
-            mainThread.postDelayed({eventSink?.success(custom)},200)
+            mainThread.postDelayed({ eventSink?.success(custom) }, 200)
         }
     }
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
 
-        eventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, "uk.co.wanyoo.wy.event.msg")
+        eventChannel =
+            EventChannel(flutterEngine.dartExecutor.binaryMessenger, "uk.co.wanyoo.wy.event.msg")
         eventChannel.setStreamHandler(object : EventChannel.StreamHandler {
             override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
                 eventSink = events
                 Log.d("Android", "EventChannel onListen called")
             }
+
             override fun onCancel(arguments: Any?) {
                 Log.w("Android", "EventChannel onCancel called")
             }
         })
 
-        methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "uk.co.wanyoo.wy.method")
+        methodChannel =
+            MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "uk.co.wanyoo.wy.method")
         methodChannel.setMethodCallHandler { methodCall: MethodCall, result: MethodChannel.Result ->
             when (methodCall.method) {
                 "test" -> {
                     val info = methodCall.argument<String>("info").toString()
                     Log.d("Android", "flutter call test info = $info")
                 }
+
                 "getAlipay" -> {
                     val info = methodCall.argument<String>("info").toString()
                     Log.d("Android", "alipay info = $info")
-                    val orderInfo: String = info
-                    val payRunnable = Runnable {
-                        val alipay = PayTask(this)
-                        val ret = alipay.payV2(orderInfo, true)
-                        val msg = Message()
-                        msg.what = 1
-                        msg.obj = ret
-                        mHandler.sendMessage(msg)
-                    }
-                    val payThread = Thread(payRunnable)
-                    payThread.start()
-                    val list = listOf("")
-                    result.success(list)
+                    initPay(this@MainActivity, eventSink, result, info)
                 }
+
                 "getWxpay" -> {
                     val info = methodCall.argument<String>("info").toString()
                     Log.d("Android", "wx pay info = $info")
                     val json = JSONObject(info)
                     val req = PayReq()
-                    req.appId			= json.getString("appid")
-                    req.partnerId		= json.getString("partnerid")
-                    req.prepayId		= json.getString("prepayid")
-                    req.nonceStr		= json.getString("noncestr")
-                    req.timeStamp		= json.getString("timestamp")
-                    req.packageValue	= json.getString("package")
-                    req.sign			= json.getString("sign")
+                    req.appId = json.getString("appid")
+                    req.partnerId = json.getString("partnerid")
+                    req.prepayId = json.getString("prepayid")
+                    req.nonceStr = json.getString("noncestr")
+                    req.timeStamp = json.getString("timestamp")
+                    req.packageValue = json.getString("package")
+                    req.sign = json.getString("sign")
                     wxApi?.sendReq(req)
                     result.success(info)
                 }
+
                 else -> {
                     result.notImplemented()
                 }
@@ -150,18 +156,51 @@ class MainActivity: FlutterFragmentActivity() {
             when (msg.what) {
                 1 -> {
                     val payResult = PayResult(msg.obj as Map<String?, String?>)
+
                     /**
                      * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
                      */
-                    val resultInfo : String = payResult.result !!// 同步返回需要验证的信息
-                    val resultStatus: String = payResult.resultStatus !!
+                    val resultInfo: String = payResult.result!!// 同步返回需要验证的信息
+                    val resultStatus: String = payResult.resultStatus!!
                     println(resultInfo)
                     println(resultStatus)
                     eventSink?.success(resultStatus)
                 }
+
                 else -> {
                 }
             }
         }
     }
+}
+
+/**
+ * 调用 alipay+支付
+ */
+fun initPay(context: Context, sink: EventChannel.EventSink?, result: MethodChannel.Result, orderInfo: String) {
+    val configuration = IAPConfiguration()
+    configuration.acquirerId = "5Y39882YDWFU05385"; //fusionpay提供
+    configuration.merchantId = "AEF11846594";//fusionpay提供
+    configuration.language = "zh_CN";
+    AlipayPlusClient.setConfiguration(configuration)
+    val callback =
+        IAPPaymentSheetEventCallback<IAPPaymentSheetEvent> {
+            when (it.name) {
+                "EVENT_SELECT_AND_PAY" -> {
+                    Log.d("Android", "zengchao EVENT_SELECT_AND_PAY")
+                    result.success("gotopay")
+                }
+
+                "EVENT_USER_CANCEL" -> {
+                    Log.d("Android", "zengchao EVENT_USER_CANCEL")
+                    result.error("cancel", "Unknown event received", null)
+                }
+            }
+        }
+    //paymentData是 fusionpay 接口返回的数据 https://speca.io/fusionpay/fusionpay-payment-api#alipay-plus-online-app 这个接口返回的 app_data数据
+    AlipayPlusClient.showPaymentSheet(
+        context,
+        orderInfo,
+        callback
+    )
 }

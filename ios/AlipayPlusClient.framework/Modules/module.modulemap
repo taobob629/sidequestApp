@@ -1,0 +1,6 @@
+framework module AlipayPlusClient {
+  umbrella header "AlipayPlusClient.h"
+
+  export *
+  module * { export * }
+}

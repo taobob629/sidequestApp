@@ -232,6 +232,7 @@ class PayPageController extends GetxController {
   }
 
   void pay({bool isPlay = false}) async {
+    showLoading();
     flog('pay 正常支付进来了');
     if (Platform.isIOS && payType.value == 7) {
       // 苹果内购
@@ -277,22 +278,41 @@ class PayPageController extends GetxController {
     if (payType.value == 4) {
       PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
       if (payInfoModel.result != null) {
-        final Map params = <String, dynamic>{
-          'info': payInfoModel.result!.appData
-        };
-        //    flog('appdata $params');
-        await _channel.invokeMethod('getAlipay', params);
+        try {
+          final Map params = <String, dynamic>{
+            'info': payInfoModel.result!.appData
+          };
+          //    flog('appdata $params');
+          String result = await _channel.invokeMethod('getAlipay', params);
+          flog("zengchao = $result");
+          dismissLoading();
+          if (result == "gotopay" && Platform.isAndroid) {
+            Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
+                barrierColor: Colors.black26)
+                .whenComplete(() {
+              _timer?.cancel();
+              Get.find<UserController>().updateInfo();
+            });
+            startTimer(payInfoModel);
+          } else {
+            Future.delayed(Duration(seconds: 3), () {
+              Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
+                  barrierColor: Colors.black26)
+                  .whenComplete(() {
+                _timer?.cancel();
+                Get.find<UserController>().updateInfo();
+              });
+              startTimer(payInfoModel);
+            });
+          }
+        } catch (e) {
+          flog(e.toString());
+          dismissLoading();
+        }
       } else {
         showError("Server response error!".tr);
         return;
       }
-      Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-              barrierColor: Colors.black26)
-          .whenComplete(() {
-        _timer?.cancel();
-        Get.find<UserController>().updateInfo();
-      });
-      startTimer(payInfoModel);
     } else if (payType.value == 1) {
       showLoading();
       final billingDetails = BillingDetails(

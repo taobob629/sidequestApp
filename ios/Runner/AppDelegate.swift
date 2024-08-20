@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import AlipayPlusClient
 
 
 @UIApplicationMain
@@ -30,10 +31,52 @@ import Flutter
         methodChannel.setMethodCallHandler {[weak self](flutterMethodCall, flutterResult) in
             let param = flutterMethodCall.arguments as! Dictionary<String, String>
             if flutterMethodCall.method == "getAlipay" {
-                AlipaySDK.defaultService()?.payOrder(param["info"]!, dynamicLaunch: true, fromScheme: "sideQuestAlipay", callback: { (resultDic) in
-                    self?.eventSink?(resultDic?["resultStatus"])
-                })
-                flutterResult("")
+                let configuration = IAPConfiguration()
+                configuration.envType = "PROD"
+                configuration.acquirerId = "5Y39882YDWFU05385"
+                configuration.merchantId = "AEF11846594"
+                configuration.language = "zh_CN"
+                configuration.fromScheme = "sideQuestAlipay"
+                    
+                AlipayPlusClient.shared().configuration = configuration
+                    
+                AlipayPlusClient.shared().showPaymentSheet(param["info"]!) { sheetEvent in
+                    if sheetEvent.name == IAPPaymentSheetEventDidShow {
+                        // your own logic
+                        print("zengchao = IAPPaymentSheetEventDidShow")
+                    } else if sheetEvent.name == IAPPaymentSheetEventThrowException {
+                        // your own logic
+                        print("zengchao = IAPPaymentSheetEventThrowException")
+                    } else if sheetEvent.name == IAPPaymentSheetEventUserDidCancel {
+                        // your own logic
+                        print("zengchao = IAPPaymentSheetEventUserDidCancel")
+                    } else if sheetEvent.name == IAPPaymentSheetEventDidSelectWalletAndPay {
+                        // your own logic
+                        print("zengchao = IAPPaymentSheetEventDidSelectWalletAndPay")
+                    } else if sheetEvent.name == IAPPaymentSheetEventPaymentException {
+                        // your own logic after payment interruption
+                        // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
+                        print("zengchao = IAPPaymentSheetEventPaymentException")
+                    } else if sheetEvent.name == IAPPaymentSheetEventPaymentCanceled {
+                        // your own logic after payment cancelation
+                        // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
+                        print("zengchao = IAPPaymentSheetEventPaymentCanceled")
+                    } else if sheetEvent.name == IAPPaymentSheetEventPaymentFailed {
+                        // your own logic after payment failure
+                        // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
+                        print("zengchao = IAPPaymentSheetEventPaymentFailed")
+                    } else if sheetEvent.name == IAPPaymentSheetEventPaymentSuccess {
+                        // your own logic after payment success
+                        // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
+                        print("zengchao = IAPPaymentSheetEventPaymentSuccess")
+                        self?.eventSink?("0")
+                    } else if sheetEvent.name == IAPPaymentSheetEventPaymentProcessing {
+                        // your own logic after payment finishes but status is ongoing
+                        // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
+                        print("zengchao = IAPPaymentSheetEventPaymentProcessing")
+                    }
+                    flutterResult("")
+                }
             } else if flutterMethodCall.method == "verifyCard" {
 //                let cardNumber = param["cardNumber"]!
 //                print("cardNumber::::"+cardNumber)
