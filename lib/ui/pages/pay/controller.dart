@@ -286,14 +286,16 @@ class PayPageController extends GetxController {
           String result = await _channel.invokeMethod('getAlipay', params);
           flog("zengchao = $result");
           dismissLoading();
-          if (result == "gotopay" && Platform.isAndroid) {
-            Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-                barrierColor: Colors.black26)
-                .whenComplete(() {
-              _timer?.cancel();
-              Get.find<UserController>().updateInfo();
-            });
-            startTimer(payInfoModel);
+          if (Platform.isAndroid) {
+            if (result == "gotopay") {
+              Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
+                  barrierColor: Colors.black26)
+                  .whenComplete(() {
+                _timer?.cancel();
+                Get.find<UserController>().updateInfo();
+              });
+              startTimer(payInfoModel);
+            }
           } else {
             Future.delayed(Duration(seconds: 3), () {
               Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
@@ -514,6 +516,7 @@ class PayPageController extends GetxController {
       return;
     }
     if (checkCount > 10) {
+      Get.back();
       _timer?.cancel();
       _timer = null;
       Get.dialog(
