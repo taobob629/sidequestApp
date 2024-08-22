@@ -1,6 +1,7 @@
 import UIKit
 import Flutter
 import AlipayPlusClient
+import Firebase
 
 
 @UIApplicationMain
@@ -12,7 +13,19 @@ import AlipayPlusClient
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+      FirebaseApp.configure()
+      
       GeneratedPluginRegistrant.register(with: self)
+      
+      UNUserNotificationCenter.current().delegate = self
+      
+      // 请求用户允许接收推送通知
+      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+          print("Permission granted: \(granted)")
+      }
+              
+      // 注册远程通知
+      application.registerForRemoteNotifications()
       
 //        StripeAPI.defaultPublishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg"
           
@@ -180,6 +193,10 @@ import AlipayPlusClient
         }
           
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
+    
+    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken:Data) {
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
