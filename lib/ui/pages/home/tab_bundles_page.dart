@@ -3,19 +3,19 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 
 import '../../../api/hubs_api.dart';
 import '../../../api/index_api.dart';
 import '../../../common/dialog_selector.dart';
-import '../../../common/getx_refresh_controller.dart';
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../model/bubble_tea_store_model.dart';
 import '../../../model/bundles_model.dart';
+import '../../../service/location_service.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../widget/image_util.dart';
 import 'bundle_confirm_order_page.dart';
@@ -31,68 +31,77 @@ class TabBundlesPage extends StatelessWidget {
             10.verticalSpace,
             InkWell(
               onTap: () => controller.selectStore(),
-              child: Row(
-                children: [
-                  16.horizontalSpace,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(() => RichText(
-                              text: TextSpan(
-                                text:
-                                    '${controller.currentSelectStore.value.name}  ',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                children: [
-                                  WidgetSpan(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_outlined,
-                                      color: Colors.white,
-                                      size: 14.sp,
-                                    ),
+              child: Container(
+                padding: EdgeInsets.all(8.r),
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                decoration: BoxDecoration(
+                  color: AppColor.yellow.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Row(
+                  children: [
+                    16.horizontalSpace,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(() => RichText(
+                                text: TextSpan(
+                                  text:
+                                      '${controller.currentSelectStore.value.name}  ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                ],
-                              ),
-                            )),
-                        // 6.verticalSpace,
-                        // Obx(() => RichText(
-                        //       text: TextSpan(
-                        //         text:
-                        //             "${ctr.distances.value.toStringAsFixed(2)}m",
-                        //         style: TextStyle(
-                        //           color: const Color(0xFFFFB20E),
-                        //           fontSize: 12.sp,
-                        //           fontFamily: 'DIN',
-                        //           fontWeight: FontWeight.w400,
-                        //         ),
-                        //         children: [
-                        //           TextSpan(
-                        //             text: " away from you",
-                        //             style: TextStyle(
-                        //               color: Colors.white.withOpacity(0.6),
-                        //               fontSize: 12.sp,
-                        //               fontFamily: 'DIN',
-                        //               fontWeight: FontWeight.w400,
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     )),
-                      ],
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                        color: Colors.white,
+                                        size: 14.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          6.verticalSpace,
+                          Obx(() => RichText(
+                                text: TextSpan(
+                                  text: controller.minDistances.value >= 1000
+                                      ? "${(controller.minDistances.value / 1000).toStringAsFixed(2)}km"
+                                      : "${controller.minDistances.value.toStringAsFixed(2)}m",
+                                  style: TextStyle(
+                                    color: const Color(0xFFFFB20E),
+                                    fontSize: 12.sp,
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: " away from you",
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.6),
+                                        fontSize: 12.sp,
+                                        fontFamily: 'DIN',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                  Image.asset(
-                    ImageUtils.bubble_tea_store_icon,
-                    width: 52.w,
-                    height: 38.h,
-                  ),
-                  16.horizontalSpace,
-                ],
+                    Image.asset(
+                      ImageUtils.bubble_tea_store_icon,
+                      width: 52.w,
+                      height: 38.h,
+                    ),
+                    16.horizontalSpace,
+                  ],
+                ),
               ),
             ),
             20.verticalSpace,
@@ -464,6 +473,7 @@ class TabBundlesPageController extends GetxController {
   late BuildContext cartContext;
   var selectList = <BundlesModel>[].obs;
   var totalPrice = "0".obs;
+  var minDistances = 0.0.obs;
 
   // 优惠券前的总价
   String yhTotalPrice = "0";
@@ -482,7 +492,32 @@ class TabBundlesPageController extends GetxController {
     showLoading();
     storesList.value = await HubsApi.getStores();
     if (storesList.isNotEmpty) {
-      currentSelectStore.value = storesList[0];
+      for (int i = 0; i < storesList.length; i++) {
+        if (storesList[i].map != null) {
+          List<String> latLog =
+              storesList[i].map!.replaceAll(" ", "").split(",");
+          double distances = Geolocator.distanceBetween(
+            LocationService().position?.latitude ?? 51.51272691932477,
+            LocationService().position?.longitude ?? -0.12896615379992515,
+            double.parse(latLog[0]),
+            double.parse(latLog[1]),
+          );
+          if (i == 0) {
+            minDistances.value = distances;
+          }
+
+          print('distances = $distances, $i');
+          // sb.value += "${storesList[i].name}和当前设备相距：$distances";
+
+          if (distances < minDistances.value) {
+            minDistances.value = distances;
+            currentSelectStore.value = storesList[i];
+          }
+        }
+      }
+      if (currentSelectStore.value.id == null) {
+        currentSelectStore.value = storesList.first;
+      }
       requestData(currentSelectStore.value.id, false);
     } else {
       dismissLoading();
@@ -540,6 +575,21 @@ class TabBundlesPageController extends GetxController {
     ));
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
+      requestData(currentSelectStore.value.id, true);
+
+      if (currentSelectStore.value.map != null) {
+        List<String> latLog =
+            currentSelectStore.value.map!.replaceAll(" ", "").split(",");
+
+        minDistances.value = Geolocator.distanceBetween(
+          LocationService().position?.latitude ?? 51.51272691932477,
+          LocationService().position?.longitude ?? -0.12896615379992515,
+          double.parse(latLog[0]),
+          double.parse(latLog[1]),
+        );
+      }
+
+      clearTea();
       requestData(currentSelectStore.value.id, true);
     }
   }
