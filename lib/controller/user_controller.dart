@@ -41,6 +41,7 @@ import '../ui/pages/scan/qr_login_page.dart';
 import '../ui/pages/scan/scan_page.dart';
 import '../utils/db_helper.dart';
 import '../utils/login_flag.dart';
+import '../utils/notification/notifications_controller.dart';
 import '../utils/storage_manager.dart';
 import '../utils/utils.dart';
 import '../widget/voice_widget.dart';
@@ -242,13 +243,13 @@ class UserController extends GetxController {
 
   Future<void> login(
       {String? email,
-        String? password,
-        bool showLoadings = false,
-        bool checkLastLoginTime = false,
-        Function(LoginModel)? done}) async {
+      String? password,
+      bool showLoadings = false,
+      bool checkLastLoginTime = false,
+      Function(LoginModel)? done}) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
-          lastLoginTime.millisecondsSinceEpoch <
+              lastLoginTime.millisecondsSinceEpoch <
           600000) {
         return;
       }
@@ -267,7 +268,7 @@ class UserController extends GetxController {
       showLoading(clickMaskDismiss: false);
     }
     LoginModel loginModel =
-    await AuthApi.signIn(email, password).catchError((e) {
+        await AuthApi.signIn(email, password).catchError((e) {
       dismissLoading();
     });
 
@@ -287,7 +288,7 @@ class UserController extends GetxController {
   }) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
-          lastLoginTime.millisecondsSinceEpoch <
+              lastLoginTime.millisecondsSinceEpoch <
           600000) {
         return;
       }
@@ -351,7 +352,7 @@ class UserController extends GetxController {
   }) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
-          lastLoginTime.millisecondsSinceEpoch <
+              lastLoginTime.millisecondsSinceEpoch <
           600000) {
         return;
       }
@@ -361,7 +362,7 @@ class UserController extends GetxController {
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
       GoogleSignInAuthentication? authentication =
-      await account?.authentication;
+          await account?.authentication;
 
       flog('google sign in $account');
       LoginModel loginModel = await AuthApi.signInGoogle(
@@ -394,7 +395,7 @@ class UserController extends GetxController {
   }) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
-          lastLoginTime.millisecondsSinceEpoch <
+              lastLoginTime.millisecondsSinceEpoch <
           600000) {
         return;
       }
@@ -468,7 +469,7 @@ class UserController extends GetxController {
     });
 
     final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: 'sidequest')
+            url: url.toString(), callbackUrlScheme: 'sidequest')
         .onError((error, stackTrace) {
       dismissLoading();
       return '';
@@ -478,18 +479,18 @@ class UserController extends GetxController {
   }
 
   void setLocalInfo(
-      LoginModel loginModel,
-      Function(LoginModel)? done, {
-        String? password,
-        String? loginFlag,
-        AuthorizationCredentialAppleID? credential,
-        GoogleSignInAccount? account,
-        String? idToken,
-        String? discordAppId,
-        String? email,
-        String? nickName,
-        String? discriminator,
-      }) async {
+    LoginModel loginModel,
+    Function(LoginModel)? done, {
+    String? password,
+    String? loginFlag,
+    AuthorizationCredentialAppleID? credential,
+    GoogleSignInAccount? account,
+    String? idToken,
+    String? discordAppId,
+    String? email,
+    String? nickName,
+    String? discriminator,
+  }) async {
     if (loginModel.gotoLogin2) {
       dismissLoading();
       if (loginFlag == LoginFlag.ios) {
@@ -502,7 +503,10 @@ class UserController extends GetxController {
           });
         }
       } else if (loginFlag == LoginFlag.discord) {
-        if (discordAppId != null && email != null && nickName != null && discriminator != null) {
+        if (discordAppId != null &&
+            email != null &&
+            nickName != null &&
+            discriminator != null) {
           Get.to(() => OtherRegisterPage(), arguments: {
             'discordAppId': discordAppId,
             'email': email,
@@ -548,7 +552,7 @@ class UserController extends GetxController {
       ChannelPush.requestPermission();
       Future.delayed(const Duration(seconds: 5), () async {
         final bool isUploadSuccess =
-        await ChannelPush.uploadToken(PushConfig.appInfo);
+            await ChannelPush.uploadToken(PushConfig.appInfo);
         // ignore: avoid_print
         print("Push token upload result: $isUploadSuccess");
       });
@@ -558,14 +562,15 @@ class UserController extends GetxController {
   ///处理推送点击事件
   void handleClickNotification(Map<String, dynamic> msg) async {
     String ext = msg['ext'] ?? "";
+    if (ext.isEmpty) return;
     Map<String, dynamic> extMsp = jsonDecode(ext);
     String convId = extMsp["conversationID"] ?? "";
     if (convId.isNotEmpty) {
       Future.delayed(Duration(seconds: 1)).then((value) async {
         var conversationManager =
-        TencentImSDKPlugin.v2TIMManager.getConversationManager();
+            TencentImSDKPlugin.v2TIMManager.getConversationManager();
         V2TimValueCallback<V2TimConversation> conv =
-        await conversationManager.getConversation(conversationID: convId);
+            await conversationManager.getConversation(conversationID: convId);
         if (conv.data != null) {
           Get.to(() => ChatPage(selectedConversation: conv.data!));
         }
@@ -590,13 +595,13 @@ class UserController extends GetxController {
       Get.back();
     } else {
       var conversationManager =
-      TencentImSDKPlugin.v2TIMManager.getConversationManager();
+          TencentImSDKPlugin.v2TIMManager.getConversationManager();
       V2TimValueCallback<V2TimConversation> conv = await conversationManager
           .getConversation(conversationID: "c2c_${uk}");
       if (conv.data != null)
         Get.to(() => ChatPage(
-          selectedConversation: conv.data!,
-        ));
+              selectedConversation: conv.data!,
+            ));
     }
   }
 
@@ -628,20 +633,20 @@ class UserController extends GetxController {
         TencentImSDKPlugin.v2TIMManager
             .getConversationManager()
             .addConversationListener(
-            listener: V2TimConversationListener(
-                onTotalUnreadMessageCountChanged: (count) {
-                  flog(count, 'onTotalUnreadMessageCountChanged');
-                  unreadMsgCount.value = count;
-                  FlutterAppBadger.isAppBadgeSupported().then((value) {
-                    flog(value, 'onTotalUnreadMessageCountChanged');
-                    if (unreadMsgCount.value == 0) {
-                      FlutterAppBadger.removeBadge();
-                    } else {
-                      FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
-                          title: 'New Message');
-                    }
-                  });
-                }, onConversationChanged: (v) {
+                listener: V2TimConversationListener(
+                    onTotalUnreadMessageCountChanged: (count) {
+              flog(count, 'onTotalUnreadMessageCountChanged');
+              unreadMsgCount.value = count;
+              FlutterAppBadger.isAppBadgeSupported().then((value) {
+                flog(value, 'onTotalUnreadMessageCountChanged');
+                if (unreadMsgCount.value == 0) {
+                  FlutterAppBadger.removeBadge();
+                } else {
+                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
+                      title: 'New Message');
+                }
+              });
+            }, onConversationChanged: (v) {
               flog(v.length, 'onConversationChanged');
             }, onNewConversation: (v) {
               flog(v.length, 'onNewConversation');
@@ -649,7 +654,7 @@ class UserController extends GetxController {
         TencentImSDKPlugin.v2TIMManager
             .getMessageManager()
             .addAdvancedMsgListener(listener:
-        V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
+                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
           //播放提示音
           if (msg.customElem?.data != null) {
             var data = msg.customElem!.data!;
@@ -697,11 +702,21 @@ class UserController extends GetxController {
 
     switch (map["type"]) {
       case 'Riot_Notify':
-      // 拳头登录成功的通知
+        // 拳头登录成功的通知
         String str = Get.routing.current;
         if ('/WebPage' == str) {
           Get.back(result: true);
         }
+        break;
+
+      case 'push-message':
+        Map<String, dynamic> target = map['target'];
+        NotificationController.createNewNotification(
+          title: map["title"],
+          content: map["content"],
+          id: target["id"].toString(),
+          type: target["type"],
+        );
         break;
     }
   }
@@ -760,8 +775,8 @@ class UserController extends GetxController {
       //String deData = decryptData(data);
       if (data.indexOf("qlogin") >= 0) {
         Get.to(() => QrLoginPage(
-          code: data,
-        ));
+              code: data,
+            ));
         return;
       }
       if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {

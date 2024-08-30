@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sq_hub_app/utils/notification/notifications_controller.dart';
 import 'package:sq_hub_app/utils/platform_utils.dart';
 import 'package:sq_hub_app/utils/storage_manager.dart';
 import 'package:sq_hub_app/utils/utils.dart';
@@ -39,6 +40,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = HttpsOverrides();
+
+  await NotificationController.initializeLocalNotifications();
+  await NotificationController.initializeIsolateReceivePort();
 
   await getAppPackageInfo();
   await AppConfig.init("default");

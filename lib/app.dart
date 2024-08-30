@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/ui/pages/main_page.dart';
+import 'package:sq_hub_app/utils/notification/notifications_controller.dart';
 import 'package:sq_hub_app/widget/custom_error_widget.dart';
 import 'package:sq_hub_app/widget/custom_loading_widget.dart';
 import 'package:sq_hub_app/widget/custom_success_widget.dart';
@@ -26,6 +28,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NotificationController.startListeningNotificationEvents();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp, //只能纵向
       DeviceOrientation.portraitDown, //只能纵向
@@ -34,11 +38,11 @@ class App extends StatelessWidget {
 
     return RefreshConfiguration(
         headerBuilder: () => const WaterDropHeader(
-          waterDropColor: AppColor.whiteGray,
-        ),
+              waterDropColor: AppColor.whiteGray,
+            ),
         footerBuilder: () => const ClassicFooter(
-          noDataText: "",
-        ),
+              noDataText: "",
+            ),
         enableLoadingWhenFailed: true,
         hideFooterWhenNotFull: !true,
         enableBallisticLoad: true,
@@ -56,11 +60,18 @@ class App extends StatelessWidget {
               navigatorKey: AppConfig.navigatorKey,
               theme: theme.copyWith(
                   textTheme: const TextTheme(),
-                  appBarTheme: AppBarTheme(backgroundColor: AppColor.primary, elevation: 0, centerTitle: true, titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontFamily: FONT_MEDIUM)),
+                  appBarTheme: AppBarTheme(
+                      backgroundColor: AppColor.primary,
+                      elevation: 0,
+                      centerTitle: true,
+                      titleTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: FONT_MEDIUM)),
                   // primaryColor: AppColor.accent,
                   unselectedWidgetColor: Colors.white,
                   scaffoldBackgroundColor: AppColor.background,
-                  primaryIconTheme: IconThemeData(color: AppColor.iconColorPrimary),
+                  primaryIconTheme:
+                      IconThemeData(color: AppColor.iconColorPrimary),
                   colorScheme: theme.colorScheme.copyWith(
                     primary: AppColor.primary,
                     secondary: AppColor.accent,
