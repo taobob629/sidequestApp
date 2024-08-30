@@ -97,20 +97,26 @@ class NotificationController {
       case 'match':
         // 比赛
         Get.to(() => EventPage(
-          id: receivedAction.payload == null
-              ? 0
-              : int.parse(receivedAction.payload!["id"].toString()),
-          type: 0,
-        ));
+              id: receivedAction.payload == null
+                  ? 0
+                  : RegExp(r'^\d+$')
+                          .hasMatch(receivedAction.payload!["notificationId"].toString())
+                      ? int.parse(receivedAction.payload!["notificationId"].toString())
+                      : 0,
+              type: 0,
+            ));
         break;
 
       case 'news':
         // 新闻
         Get.to(() => NewsPage(
-          id: receivedAction.payload == null
-              ? 0
-              : int.parse(receivedAction.payload!["id"].toString()),
-        ));
+              id: receivedAction.payload == null
+                  ? 0
+                  : RegExp(r'^\d+$')
+                          .hasMatch(receivedAction.payload!["notificationId"].toString())
+                      ? int.parse(receivedAction.payload!["notificationId"].toString())
+                      : 0,
+            ));
         break;
     }
   }
@@ -200,7 +206,7 @@ class NotificationController {
           largeIcon: 'asset://assets/images/default_logo.webp',
           //'asset://assets/images/balloons-in-sky.jpg',
           notificationLayout: NotificationLayout.BigPicture,
-          payload: {'notificationId': '1234567890', "id": id, "type": type}),
+          payload: {'notificationId': id, "type": type}),
     );
   }
 

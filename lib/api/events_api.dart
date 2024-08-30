@@ -31,18 +31,25 @@ class EventsApi {
     return list;
   }
 
-  static Future<EventDetailModel> getMatchDetail(int id) async {
+  static Future<EventDetailModel?> getMatchDetail(int id) async {
     var response = await http.get('/app/events/26/match/detail/$id',
         queryParameters: ({})
     );
+    if (response.data.toString().contains("data") && response.data["data"] == null) {
+      return null;
+    }
     return EventDetailModel.fromJson(response.data);
   }
 
-  static Future<EventDetailModel> getActivityDetail(int id) async {
+  static Future<EventDetailModel?> getActivityDetail(int id) async {
     // var response = await http.get('/app/events/event/detail/$id',
     var response = await http.get('/app/events/26/event/detail/$id',
         queryParameters: ({})
     );
+
+    if (response.data["data"] == null) {
+      return null;
+    }
     return EventDetailModel.fromJson(response.data);
   }
 

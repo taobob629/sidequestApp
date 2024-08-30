@@ -50,6 +50,7 @@ class EventPage extends StatelessWidget {
       id: id,
       type: type,
     ));
+    controller.initData();
   }
 
   @override
@@ -293,12 +294,6 @@ class EventPageController extends BasePageController {
         }
       }
     });
-    initData();
-  }
-
-  @override
-  void onReady() async {
-    super.onReady();
   }
 
   @override
@@ -310,24 +305,29 @@ class EventPageController extends BasePageController {
   }
 
   Future<void> onRefresh() async {
+    EventDetailModel? model;
     if (type == 1) {
-      eventDetailModel.value = await EventsApi.getActivityDetail(id);
+      model = await EventsApi.getActivityDetail(id);
     } else {
-      eventDetailModel.value = await EventsApi.getMatchDetail(id);
+      model = await EventsApi.getMatchDetail(id);
+    }
+    if (model != null) {
+      eventDetailModel.value = model;
     }
   }
 
   void initData() async {
-    EventDetailModel model;
+    EventDetailModel? model;
     if (type == 1) {
       model = await EventsApi.getActivityDetail(id);
-      initTabs(model);
     } else {
       model = await EventsApi.getMatchDetail(id);
+    }
+    if (model == null) {
+      Get.back();
+      return;
+    } else {
       initTabs(model);
-      // if (model.code.isNotEmpty) {
-      //   showInfoDialog(model.code, model.url);
-      // }
     }
     tabController = TabController(
       length: tabs.length,
@@ -409,7 +409,10 @@ class EventPageController extends BasePageController {
                 userController.user.value.id, store.id,
                 memberCouponId: eventDetailModel.value.memberCouponId,
                 cupsleeve: dateTime);
-            eventDetailModel.value = await EventsApi.getActivityDetail(id);
+            EventDetailModel? model = await EventsApi.getActivityDetail(id);
+            if (model != null) {
+              eventDetailModel.value = model;
+            }
             dismissLoading();
             Get.dialog(
               ConfirmDialog(
@@ -441,7 +444,10 @@ class EventPageController extends BasePageController {
               memberCouponId: eventDetailModel.value.memberCouponId,
             );
 
-            eventDetailModel.value = await EventsApi.getActivityDetail(id);
+            EventDetailModel? model = await EventsApi.getActivityDetail(id);
+            if (model != null) {
+              eventDetailModel.value = model;
+            }
             dismissLoading();
             Get.dialog(
                 ConfirmDialog(

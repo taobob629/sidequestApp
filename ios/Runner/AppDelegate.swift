@@ -1,7 +1,6 @@
 import UIKit
 import Flutter
 import AlipayPlusClient
-import Firebase
 
 
 @UIApplicationMain
@@ -13,34 +12,22 @@ import Firebase
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-      FirebaseApp.configure()
-      
       GeneratedPluginRegistrant.register(with: self)
-      
-      UNUserNotificationCenter.current().delegate = self
-      
-      // 请求用户允许接收推送通知
-      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-          print("Permission granted: \(granted)")
-      }
-              
-      // 注册远程通知
-      application.registerForRemoteNotifications()
-      
+
 //        StripeAPI.defaultPublishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg"
-          
+
         let controller:FlutterViewController = window.rootViewController as! FlutterViewController
         let eventChannel = FlutterEventChannel(
             name: "uk.co.wanyoo.wy.event.msg",
             binaryMessenger: controller.binaryMessenger
         )
         eventChannel.setStreamHandler(self)
-                  
+
         let methodChannel = FlutterMethodChannel.init(
             name: "uk.co.wanyoo.wy.method",
             binaryMessenger: controller.binaryMessenger
         )
-          
+
         methodChannel.setMethodCallHandler {[weak self](flutterMethodCall, flutterResult) in
             let param = flutterMethodCall.arguments as! Dictionary<String, String>
             if flutterMethodCall.method == "getAlipay" {
@@ -50,9 +37,9 @@ import Firebase
                 configuration.merchantId = "AEF11846594"
                 configuration.language = "zh_CN"
                 configuration.fromScheme = "sideQuestAlipay"
-                    
+
                 AlipayPlusClient.shared().configuration = configuration
-                    
+
                 AlipayPlusClient.shared().showPaymentSheet(param["info"]!) { sheetEvent in
                     if sheetEvent.name == IAPPaymentSheetEventDidShow {
                         // your own logic
@@ -184,19 +171,15 @@ import Firebase
 //                    self?.eventSink?(result)
 //                }
 
-                
+
             }
         }
-      
+
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().delegate = self
         }
-          
+
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    }
-    
-    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken:Data) {
-        Messaging.messaging().apnsToken = deviceToken
     }
     
     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
