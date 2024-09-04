@@ -363,7 +363,8 @@ class ChatPage extends StatelessWidget {
         }
       },
       userAvatarBuilder: (context, message) {
-        if (message.customElem?.data != null) {
+        if (message.customElem?.data != null &&
+            message.customElem!.data! != "") {
           var json = jsonDecode(message.customElem!.data!);
           var data;
 
@@ -389,59 +390,68 @@ class ChatPage extends StatelessWidget {
       messageItemBuilder: MessageItemBuilder(
           customMessageItemBuilder: (message, isShowJump, clearJump) {
         flog('isself ${message.isSelf}');
-        var json = jsonDecode(message.customElem!.data!);
-        var data = json;
-        var type = data['type'];
-        if (data["message"] != null) {
-          data = data['message'];
+
+        if (message.customElem?.data != null &&
+            message.customElem!.data! != "") {
+          var json = jsonDecode(message.customElem!.data!);
+          var data = json;
+          var type = data['type'];
+          if (data["message"] != null) {
+            data = data['message'];
+          }
+          data['isself'] = message.isSelf;
+          flog('data = $data');
+          return GestureDetector(
+            onTap: () {
+              switch (type) {
+                case MessageType.TYPE_PLAY_ORDER:
+                  Get.to(() => OrderDetailPage(),
+                          arguments: {}..['id'] = data['orderId'])
+                      ?.whenComplete(() => _getPlayOrder());
+                  break;
+
+                case MessageType.TYPE_TOPUP_REFUND:
+                  controller.topUpRefund(data['orderId']);
+                  break;
+
+                case MessageType.TYPE_POST_MESSAGE:
+                  NavigatorHelper.toPostDetail(data["postId"]);
+                  // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
+                  break;
+
+                case MessageType.TYPE_INVITE:
+                  flog('$data');
+                  var gid = data['groupId'];
+                  if (gid == null) {
+                    showToast('gid为空');
+                    return;
+                  }
+                  ImUtils.joniGroup(context, data['groupId'],
+                      isNeedReplace: true);
+                  break;
+
+                case MessageType.TYPE_GIFT_ORDER:
+                  Get.to(() => MyGiftDetailPage(), arguments: {
+                    'id': data['id'],
+                    'type': 2,
+                  });
+                  break;
+
+                default:
+                  break;
+              }
+            },
+            child: CustomMessageView(
+              type: type,
+              data: data,
+            ),
+          );
+        } else {
+          return Text(
+            "Unsupported message type, please update your app!",
+            style: TextStyle(fontSize: 12, color: Colors.white24),
+          );
         }
-        data['isself'] = message.isSelf;
-        flog('data = $data');
-        return GestureDetector(
-          onTap: () {
-            switch (type) {
-              case MessageType.TYPE_PLAY_ORDER:
-                Get.to(() => OrderDetailPage(),
-                        arguments: {}..['id'] = data['orderId'])
-                    ?.whenComplete(() => _getPlayOrder());
-                break;
-
-              case MessageType.TYPE_TOPUP_REFUND:
-                controller.topUpRefund(data['orderId']);
-                break;
-
-              case MessageType.TYPE_POST_MESSAGE:
-                NavigatorHelper.toPostDetail(data["postId"]);
-                // Get.toNamed(AppPages.PostDetail, arguments: t.list[index])!.whenComplete(() => t.onRefresh());
-                break;
-
-              case MessageType.TYPE_INVITE:
-                flog('$data');
-                var gid = data['groupId'];
-                if (gid == null) {
-                  showToast('gid为空');
-                  return;
-                }
-                ImUtils.joniGroup(context, data['groupId'],
-                    isNeedReplace: true);
-                break;
-
-              case MessageType.TYPE_GIFT_ORDER:
-                Get.to(() => MyGiftDetailPage(), arguments: {
-                  'id': data['id'],
-                  'type': 2,
-                });
-                break;
-
-              default:
-                break;
-            }
-          },
-          child: CustomMessageView(
-            type: type,
-            data: data,
-          ),
-        );
       }),
       conversation:
           selectedConversation, // Callback for the clicking of the message sender profile photo. This callback can be used with `TIMUIKitProfile`.

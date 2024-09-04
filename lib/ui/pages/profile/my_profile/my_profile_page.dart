@@ -163,8 +163,16 @@ class MyProfilePage extends StatelessWidget {
                                       6.horizontalSpace,
                                     ],
                                   ),
-                                  6.verticalSpace,
+                                  4.verticalSpace,
 
+                                  Obx(() => Text(
+                                    "${userController.userProfile.uk}",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Colors.white,
+                                      fontFamily: FONT_MEDIUM,
+                                    ),
+                                  )),
                                   /// labels: sex、language、location
                                   // Row(
                                   //   children: [
