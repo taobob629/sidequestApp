@@ -57,7 +57,7 @@ class ImageUtils {
   static const String icon_phone = 'assets/images/icon_phone.webp';
   static const String icon_navigation = 'assets/images/icon_navigation.webp';
   static const String gift_bg = 'assets/images/gift_bg.webp';
-  static const String icon_activities = 'assets/images/icon_activities.webp';
+  static const String icon_activities = 'assets/images/icon_activities.png';
   static const String icon_voice_play = 'assets/images/icon_voice_play.webp';
   static const String ic_balance_time = 'assets/images/ic_balance_time.webp';
   static const String icon_voice_progress = 'assets/images/icon_voice_progress.webp';
@@ -105,6 +105,7 @@ class ImageUtils {
   static const String profile_setting = 'assets/images/profile_setting.webp';
   static const String ic_edit2 = 'assets/images/ic_edit2.webp';
   static const String ic_email = 'assets/images/ic_email.webp';
+  static const String ic_nav = 'assets/images/ic_nav.webp';
   static const String ic_location = 'assets/images/ic_location.webp';
   static const String ic_booking_game = 'assets/images/ic_booking_game.webp';
   static const String ic_booking_time = 'assets/images/ic_booking_time.webp';

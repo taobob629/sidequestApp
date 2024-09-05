@@ -165,6 +165,7 @@ class PayPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    showLoading();
     this.getCoin();
     initInAppPay();
     List<AddressModel> list = await AddressApi.list();
@@ -213,7 +214,6 @@ class PayPageController extends GetxController {
   }
 
   Future<void> havePassword() async {
-    showLoading();
     havePayPassword.value = await UserApi.havePayPassword();
     dismissLoading();
   }
@@ -232,18 +232,18 @@ class PayPageController extends GetxController {
   }
 
   void pay({bool isPlay = false}) async {
-    showLoading(clickMaskDismiss: false);
     flog('pay 正常支付进来了');
-    if (Platform.isIOS && payType.value == 7) {
-      // 苹果内购
-      inAppPay();
-      return;
-    }
     if (!isPlay) {
       if (address.value.id == 0) {
         showInfo("Please select your billing address".tr);
         return;
       }
+    }
+    showLoading(clickMaskDismiss: false);
+    if (Platform.isIOS && payType.value == 7) {
+      // 苹果内购
+      inAppPay();
+      return;
     }
     payOrderModel.addressId = address.value.id;
 

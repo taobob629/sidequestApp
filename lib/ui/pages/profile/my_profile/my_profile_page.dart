@@ -30,6 +30,7 @@ import '../../messages/messages_page.dart';
 import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
+import '../events/my_events_page.dart';
 import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
 
@@ -166,13 +167,14 @@ class MyProfilePage extends StatelessWidget {
                                   4.verticalSpace,
 
                                   Obx(() => Text(
-                                    "${userController.userProfile.uk}",
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Colors.white,
-                                      fontFamily: FONT_MEDIUM,
-                                    ),
-                                  )),
+                                        "${userController.userProfile.uk}",
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.white,
+                                          fontFamily: FONT_MEDIUM,
+                                        ),
+                                      )),
+
                                   /// labels: sex、language、location
                                   // Row(
                                   //   children: [
@@ -417,9 +419,10 @@ class MyProfilePage extends StatelessWidget {
                             ImageUtils.icon_wallet,
                             "Top Up".tr,
                             onTap: () {
-                              userController.checkLogin(() =>
-                                  Get.to(() => BalancePage())
-                                      ?.whenComplete(() => t.onRefresh()));
+                              userController.checkLogin(
+                                () => Get.to(() => BalancePage())
+                                    ?.whenComplete(() => t.onRefresh()),
+                              );
                             },
                           ),
                         ),
@@ -437,7 +440,9 @@ class MyProfilePage extends StatelessWidget {
                           child: _dashboardLabelItem(
                             ImageUtils.icon_orders,
                             "Orders".tr,
-                            onTap: () => Get.to(() => OrderListPage()),
+                            onTap: () => Get.to(
+                              () => OrderListPage(),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -445,7 +450,9 @@ class MyProfilePage extends StatelessWidget {
                             ImageUtils.icon_bookings,
                             "Bookings".tr,
                             onTap: () {
-                              Get.to(() => BookingPage());
+                              Get.to(
+                                () => BookingPage(),
+                              );
                             },
                           ),
                         ),
@@ -459,7 +466,9 @@ class MyProfilePage extends StatelessWidget {
                           child: _dashboardLabelItem(
                             ImageUtils.icon_connection,
                             "Connections".tr,
-                            onTap: () => Get.to(() => AddGameAccountPage()),
+                            onTap: () => Get.to(
+                              () => AddGameAccountPage(),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -471,12 +480,22 @@ class MyProfilePage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Obx(() => _dashboardLabelItem(
-                              ImageUtils.message_icon, "Messages".tr,
-                              onTap: () => Get.to(() => MessagesPage()),
-                              badgeNum:
-                                  UserController.find.unreadMsgCount.value)),
+                                ImageUtils.message_icon,
+                                "Messages".tr,
+                                onTap: () => Get.to(() => MessagesPage()),
+                                badgeNum:
+                                    UserController.find.unreadMsgCount.value,
+                              )),
                         ),
-                        Spacer(),
+                        Expanded(
+                          child: Obx(() => _dashboardLabelItem(
+                                ImageUtils.icon_activities,
+                                "Activities".tr,
+                                onTap: () => Get.to(() => MyEventsPage()),
+                                badgeNum:
+                                    UserController.find.unreadMsgCount.value,
+                              )),
+                        ),
                       ],
                     ),
                   ],

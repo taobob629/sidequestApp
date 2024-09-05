@@ -405,7 +405,7 @@ class EventPageController extends BasePageController {
           var dateTime = timeSplit.join(':');
           checkFee(() async {
             showLoading();
-            await EventsApi.joinActivity(eventDetailModel.value.id,
+            final result = await EventsApi.joinActivity(eventDetailModel.value.id,
                 userController.user.value.id, store.id,
                 memberCouponId: eventDetailModel.value.memberCouponId,
                 cupsleeve: dateTime);
@@ -414,14 +414,16 @@ class EventPageController extends BasePageController {
               eventDetailModel.value = model;
             }
             dismissLoading();
-            Get.dialog(
-              ConfirmDialog(
-                title: "Be Prepared".tr,
-                info: "You have successfully joined this event!".tr,
-              ),
-              barrierColor: Colors.black26,
-            );
-            userController.updateInfo();
+            if (result) {
+              Get.dialog(
+                ConfirmDialog(
+                  title: "Be Prepared".tr,
+                  info: "You have successfully joined this event!".tr,
+                ),
+                barrierColor: Colors.black26,
+              );
+              userController.updateInfo();
+            }
           });
         }
       } else {
@@ -437,7 +439,7 @@ class EventPageController extends BasePageController {
           LocationModel store = item as LocationModel;
           checkFee(() async {
             showLoading();
-            await EventsApi.joinActivity(
+            final result = await EventsApi.joinActivity(
               eventDetailModel.value.id,
               userController.user.value.id,
               store.id,
@@ -449,12 +451,14 @@ class EventPageController extends BasePageController {
               eventDetailModel.value = model;
             }
             dismissLoading();
-            Get.dialog(
-                ConfirmDialog(
-                    title: "Be Prepared".tr,
-                    info: "You have successfully joined this event!".tr),
-                barrierColor: Colors.black26);
-            userController.updateInfo();
+            if (result) {
+              Get.dialog(
+                  ConfirmDialog(
+                      title: "Be Prepared".tr,
+                      info: "You have successfully joined this event!".tr),
+                  barrierColor: Colors.black26);
+              userController.updateInfo();
+            }
           });
         }
       }

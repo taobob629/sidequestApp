@@ -47,7 +47,7 @@ class EventsApi {
         queryParameters: ({})
     );
 
-    if (response.data["data"] == null) {
+    if (response.data.toString().contains("data") && response.data["data"] == null) {
       return null;
     }
     return EventDetailModel.fromJson(response.data);
@@ -77,7 +77,7 @@ class EventsApi {
     return list;
   }
 
-  static Future<void> joinActivity(int eventId,int userId,int location,{String cupsleeve = '',var memberCouponId}) async {
+  static Future<bool> joinActivity(int eventId,int userId,int location,{String cupsleeve = '',var memberCouponId}) async {
     var formData = {
       "matchId" : eventId,
       "memberId" : userId,
@@ -88,7 +88,12 @@ class EventsApi {
     var response = await http.post('/app/events/joinActivity',
         data: formData
     );
+    if (response.data.toString().contains("data") && response.data["data"] == null) {
+      return false;
+    }
+    return true;
   }
+
   static Future<Response> cancelActivity(var eventId) async {
     var response = await http.get('/app/events/cancellEvent/$eventId');
     return response;

@@ -122,7 +122,7 @@ class AddressItem extends StatelessWidget {
             IconTextWidget(
               textColor: textColor,
               iconColor: iconColor,
-              icon: 'ic_email',
+              icon: ImageUtils.ic_email,
               text: address.email,
               size: 13.w,
             ),
@@ -130,13 +130,13 @@ class AddressItem extends StatelessWidget {
             IconTextWidget(
               textColor: textColor,
               iconColor: iconColor,
-              icon: 'ic_location',
+              icon: ImageUtils.ic_location,
               text: "${address.line1} | ${address.line2} | ${address.city} | ${address.postCode}",
               size: 13.w,
             ),
             divider,
             IconTextWidget(
-              icon: 'ic_nav',
+              icon: ImageUtils.ic_nav,
               iconColor: iconColor,
               textColor: textColor,
               text: address.postCode,
