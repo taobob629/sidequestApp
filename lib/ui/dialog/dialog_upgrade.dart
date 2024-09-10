@@ -129,7 +129,7 @@ class UpgradeDialog extends StatelessWidget {
                           onTap: () async {
                             StoreRedirect.redirect(
                               androidAppId: "uk.co.sidequest.wy",
-                              iOSAppId: "1614945163",
+                              iOSAppId: "6478599943",
                             );
                           },
                           child: Container(

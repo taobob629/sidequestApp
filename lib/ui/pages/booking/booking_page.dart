@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/ui/pages/booking/reserve_page.dart';
 
 import '../../../common/empty_view.dart';
 import '../../../common/floating_button.dart';

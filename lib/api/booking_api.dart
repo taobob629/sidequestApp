@@ -74,4 +74,9 @@ class BookingApi {
         }));
     return CyberCafeDetailModel.fromJson(response.data);
   }
+
+  static Future<String?> getContact() async {
+    var response = await http.get('/sideQuest/app/stores/store/contact');
+    return response.statusMessage;
+  }
 }

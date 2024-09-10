@@ -54,7 +54,21 @@ class BookingDialog extends StatelessWidget {
   // true：新的预定入口，false：原来的预定入口
   bool isOldBooking = true;
 
-  BookingDialog(this.isOldBooking, this.id, this.telephone);
+  // 店铺描述
+  var storeContact = "".obs;
+
+  BookingDialog(this.isOldBooking, this.id, this.telephone) {
+    requestData();
+  }
+
+  void requestData() async {
+    showLoading();
+    final result = await BookingApi.getContact();
+    dismissLoading();
+    if (result != null && result.isNotEmpty) {
+      storeContact.value = result;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,201 +91,184 @@ class BookingDialog extends StatelessWidget {
     }
 
     return Obx(() => Container(
-      height: height,
-      decoration: BoxDecoration(
-        color: Color(0xff1B1A1E),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15.r),
-          topRight: Radius.circular(15.r),
-        ),
-      ),
-      padding:
-      EdgeInsets.fromLTRB(15.w, ScreenUtil().statusBarHeight, 15.w, 0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          height: height,
+          decoration: BoxDecoration(
+            color: Color(0xff1B1A1E),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15.r),
+              topRight: Radius.circular(15.r),
+            ),
+          ),
+          padding:
+              EdgeInsets.fromLTRB(15.w, ScreenUtil().statusBarHeight, 15.w, 0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Reservation information'.tr,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Reservation information'.tr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => Get.back(),
+                      child: Text(
+                        'Cancel'.tr,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: isOldBooking,
+                  child: SelectView(
+                    label: "Store".tr,
+                    tips: "Store".tr,
+                    backgroundColor: Color(0xff262731),
+                    marginDis: 4,
+                    value: selectStore.value.name,
+                    onTap: storeSelect,
                   ),
                 ),
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => Get.back(),
+                SelectView(
+                  label: "What Time".tr,
+                  tips: "What Time".tr,
+                  backgroundColor: Color(0xff262731),
+                  marginDis: 4,
+                  value: !ifSelectDuration.value
+                      ? null
+                      : formatDate(time.value,
+                          [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
+                  onTap: showSelectTime,
+                ),
+                SelectView(
+                  label: "How long".tr,
+                  tips: "How long".tr,
+                  value: !ifSelectHowLong.value ? null : duration.value.name,
+                  backgroundColor: Color(0xff262731),
+                  marginDis: 4,
+                  onTap: showSelectHowLong,
+                ),
+                SelectView(
+                  label: "Room".tr,
+                  tips: "Select Room".tr,
+                  backgroundColor: Color(0xff262731),
+                  marginDis: 4,
+                  value: ifSelectRoom.value ? area.value.name : null,
+                  onTap: () => showSelectRoom(),
+                ),
+                SelectView(
+                  label: "Players".tr,
+                  tips: "Select Players".tr,
+                  backgroundColor: Color(0xff262731),
+                  value: players.value == -1 ? null : players.value.toString(),
+                  marginDis: 4,
+                  onTap: showSelectPlayers,
+                ),
+                _telephoneWidget(),
+                30.verticalSpace,
+                ColorfulButton(
                   child: Text(
-                    'Cancel'.tr,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    "Book Now".tr,
                     style: TextStyle(
-                      fontSize: 16.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontFamily: "DIN",
+                      fontSize: 18.sp,
+                    ),
+                  ),
+                  height: 40.h,
+                  borderRadius: 20.r,
+                  onTap: booking,
+                ),
+                contentPadding(
+                  child: Text.rich(
+                    TextSpan(children: [
+                      TextSpan(
+                          text: storeContact.value.isNotEmpty
+                              ? storeContact.value
+                              : "* For any bootcamps/party bookings please contact support@sidequestmeta.com. If you wish to organise a gaming event with us then contact event@sidequestmeta.com. For canterbury store, please contact admin@sidequestcanterbury.com.".tr,
+                          style: TextStyle(
+                            color: Color(0xFFC5C3C6),
+                            fontSize: 12.sp,
+                            fontFamily: FONT_LIGHT,
+                          )),
+                    ]),
+                    strutStyle: StrutStyle(
+                      height: 1.1,
+                      fontFamily: FONT_LIGHT,
                     ),
                   ),
                 ),
               ],
             ),
-            Visibility(
-              visible: isOldBooking,
-              child: SelectView(
-                label: "Store".tr,
-                tips: "Store".tr,
-                backgroundColor: Color(0xff262731),
-                marginDis: 4,
-                value: selectStore.value.name,
-                onTap: storeSelect,
-              ),
-            ),
-            SelectView(
-              label: "What Time".tr,
-              tips: "What Time".tr,
-              backgroundColor: Color(0xff262731),
-              marginDis: 4,
-              value: !ifSelectDuration.value
-                  ? null
-                  : formatDate(time.value,
-                  [dd, '/', M, '/', yyyy, ' ', HH, ':', nn]),
-              onTap: showSelectTime,
-            ),
-            SelectView(
-              label: "How long".tr,
-              tips: "How long".tr,
-              value: !ifSelectHowLong.value ? null : duration.value.name,
-              backgroundColor: Color(0xff262731),
-              marginDis: 4,
-              onTap: showSelectHowLong,
-            ),
-            SelectView(
-              label: "Room".tr,
-              tips: "Select Room".tr,
-              backgroundColor: Color(0xff262731),
-              marginDis: 4,
-              value: ifSelectRoom.value ? area.value.name : null,
-              onTap: () => showSelectRoom(),
-            ),
-            SelectView(
-              label: "Players".tr,
-              tips: "Select Players".tr,
-              backgroundColor: Color(0xff262731),
-              value: players.value == -1 ? null : players.value.toString(),
-              marginDis: 4,
-              onTap: showSelectPlayers,
-            ),
-            _telephoneWidget(),
-            30.verticalSpace,
-            ColorfulButton(
-              child: Text(
-                "Book Now".tr,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "DIN",
-                  fontSize: 18.sp,
-                ),
-              ),
-              height: 40.h,
-              borderRadius: 20.r,
-              onTap: booking,
-            ),
-            contentPadding(
-                child: Text.rich(
-                  TextSpan(children: [
-                    TextSpan(
-                        text:
-                        "* For any bootcamps/party bookings please contact support@sidequestmeta.com. If you wish to organise a gaming event with us then contact event@sidequestmeta.com." +
-                            '\n'.tr,
-                        style: TextStyle(
-                          color: Color(0xFFC5C3C6),
-                          fontSize: 12.sp,
-                          fontFamily: FONT_LIGHT,
-                        )),
-                    TextSpan(
-                        text:
-                        "* We require at least 4 people to attend bookings for Squad and Battle Rooms, and 2 people for Duo Rooms. If less people arrive for the booking then the deposit will not be refunded." +
-                            '\n'.tr,
-                        style: TextStyle(
-                          color: Color(0xFFC5C3C6),
-                          fontSize: 12.sp,
-                          fontFamily: FONT_LIGHT,
-                        )),
-                    TextSpan(
-                        text:
-                        "* If you are late by more than 30 minutes to your booked time then your reservation will be cancelled and deposit won’t be refunded." +
-                            '\n'.tr,
-                        style: TextStyle(
-                          color: Color(0xFFC5C3C6),
-                          fontSize: 12.sp,
-                          fontFamily: FONT_LIGHT,
-                        )),
-                  ]),
-                  strutStyle: StrutStyle(
-                    height: 1.1,
-                    fontFamily: FONT_LIGHT,
-                  ),
-                )),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 
   Widget _telephoneWidget() => Container(
-    width: Get.width,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            left: 4,
-            right: 4,
-            top: 10,
-          ).h,
-          child: Text(
-            'Telephone'.tr,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontFamily: FONT_MEDIUM),
-          ),
-        ),
-        Container(
-          height: 45.h,
-          margin: EdgeInsets.only(left: 4, right: 4, top: 5, bottom: 3),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: BoxDecoration(
-            color: Color(0xff262731),
-            borderRadius: BorderRadius.circular(10).r,
-          ),
-          alignment: Alignment.centerLeft,
-          child: TextField(
-            controller: telephoneCtr,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              isDense: true,
-              isCollapsed: true,
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                left: 4,
+                right: 4,
+                top: 10,
+              ).h,
+              child: Text(
+                'Telephone'.tr,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: FONT_MEDIUM),
+              ),
             ),
-            maxLines: 1,
-            style: TextStyle(
-              color: Color(0xFFC5C3C6),
-              fontFamily: FONT_LIGHT,
-              fontSize: 14.sp,
+            Container(
+              height: 45.h,
+              margin: EdgeInsets.only(left: 4, right: 4, top: 5, bottom: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: BoxDecoration(
+                color: Color(0xff262731),
+                borderRadius: BorderRadius.circular(10).r,
+              ),
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                controller: telephoneCtr,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  isDense: true,
+                  isCollapsed: true,
+                ),
+                maxLines: 1,
+                style: TextStyle(
+                  color: Color(0xFFC5C3C6),
+                  fontFamily: FONT_LIGHT,
+                  fontSize: 14.sp,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   void requestStoresData() async {
     showLoading();
@@ -427,7 +424,7 @@ class BookingDialog extends StatelessWidget {
 
     String weekDay = formatDate(selectDateTime, [D]);
     String selectDateOpenTime =
-    timeList.firstWhere((element) => element.contains(weekDay));
+        timeList.firstWhere((element) => element.contains(weekDay));
     int minHour = 0;
 
     // 正则表达式匹配一个或多个数字
@@ -483,7 +480,7 @@ class BookingDialog extends StatelessWidget {
       durationList.add(model);
     }
     Get.dialog(SelectorDialog(items: this.durationList, title: "How Long".tr),
-        barrierColor: Colors.black26)
+            barrierColor: Colors.black26)
         .then((value) {
       if (value != null) {
         ifSelectHowLong.value = true;
@@ -519,7 +516,7 @@ class BookingDialog extends StatelessWidget {
     Get.dialog(ConfirmDialog(
       title: '',
       info:
-      'The deposit of your booking is ${this.area.value.model.bookingPrice}',
+          'The deposit of your booking is ${this.area.value.model.bookingPrice}',
       onConfirm: () => gotoBooking(),
     ));
   }
