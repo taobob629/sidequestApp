@@ -119,28 +119,23 @@ class CouponPage extends StatelessWidget {
                       ),
               ],
             )),
-      bottomNavigationBar: Obx(() => Visibility(
-            visible: controller.floatingActionButtonShow.value &&
-                controller.list.isNotEmpty,
-            child: FloatingButton(
-              label: "ADD".tr,
-              onTap: () => Get.dialog(
-                AddCouponDialog(
-                  tab: controller.tab,
-                ),
-                barrierColor: Colors.black26,
-              ).then(
-                (value) {
-                  if (value != null) {
-                    controller.reload();
-                    Get.dialog(
-                        ConfirmDialog(title: "Voucher Added".tr, info: value),
-                        barrierColor: Colors.black26);
-                  }
-                },
-              ),
-            ).paddingOnly(bottom: 10.h),
-          )),
+      bottomNavigationBar: FloatingButton(
+        label: "ADD".tr,
+        onTap: () => Get.dialog(
+          AddCouponDialog(
+            tab: controller.tab,
+          ),
+          barrierColor: Colors.black26,
+        ).then(
+          (value) {
+            if (value != null) {
+              controller.reload();
+              Get.dialog(ConfirmDialog(title: "Voucher Added".tr, info: value),
+                  barrierColor: Colors.black26);
+            }
+          },
+        ),
+      ).paddingOnly(bottom: 10.h),
     );
   }
 
@@ -160,7 +155,6 @@ class CouponPage extends StatelessWidget {
 class CouponPageController extends GetxListController<CouponsListModel> {
   // late ScrollController scrollController;
   late TabController tabController;
-  late var floatingActionButtonShow = true.obs;
   late double offset = 0;
 
   PayOrderModel? payOrderModel;

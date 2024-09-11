@@ -488,13 +488,11 @@ class MyProfilePage extends StatelessWidget {
                               )),
                         ),
                         Expanded(
-                          child: Obx(() => _dashboardLabelItem(
-                                ImageUtils.icon_activities,
-                                "Activities".tr,
-                                onTap: () => Get.to(() => MyEventsPage()),
-                                badgeNum:
-                                    UserController.find.unreadMsgCount.value,
-                              )),
+                          child: _dashboardLabelItem(
+                            ImageUtils.icon_activities,
+                            "Activities".tr,
+                            onTap: () => Get.to(() => MyEventsPage()),
+                          ),
                         ),
                       ],
                     ),
