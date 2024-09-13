@@ -20,6 +20,7 @@ import '../secondary_page.dart';
     描述:
  */
 class OtherRegisterCtr extends GetxController {
+  TextEditingController nickNameEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
   TextEditingController loginPsdController = TextEditingController();
   TextEditingController paymentPinController = TextEditingController();
@@ -106,6 +107,11 @@ class OtherRegisterCtr extends GetxController {
   void signUp() async {
     String email = emailEditingController.text.toString();
 
+    if (nickNameEditingController.text.isEmpty) {
+      showInfo("Please input your nickName".tr);
+      return;
+    }
+
     if (otherEmail == null) {
       if (email.isEmpty) {
         showInfo("Please input a email as your account".tr);
@@ -145,25 +151,22 @@ class OtherRegisterCtr extends GetxController {
     LoginModel loginModel;
     if (credential != null) {
       loginModel = await AuthApi.signInApple(
-        credential!,
-        '/peiwan/app/user/appleLogin2',
-        email: email,
-        birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-        sex: selectSex.value.name,
-        pwd: loginPsdController.text,
-        payment: paymentPinController.text,
-      );
-    } else {
-      if (googleSignInAccount != null) {
-        loginModel = await AuthApi.signInGoogle(
-          '/peiwan/app/user/googleLogin2',
-          googleSignInAccount!,
-          idToken,
+          credential!, '/peiwan/app/user/appleLogin2',
+          email: email,
           birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
           sex: selectSex.value.name,
           pwd: loginPsdController.text,
           payment: paymentPinController.text,
-        );
+          nickName: nickNameEditingController.text);
+    } else {
+      if (googleSignInAccount != null) {
+        loginModel = await AuthApi.signInGoogle(
+            '/peiwan/app/user/googleLogin2', googleSignInAccount!, idToken,
+            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+            sex: selectSex.value.name,
+            pwd: loginPsdController.text,
+            payment: paymentPinController.text,
+            nickName: nickNameEditingController.text);
       } else {
         loginModel = await AuthApi.signInDiscord(
           '/peiwan/app/user/discordLogin2',

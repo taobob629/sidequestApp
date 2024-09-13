@@ -98,9 +98,8 @@ class PopAdDialog extends StatelessWidget {
         width: 30.w,
         margin: EdgeInsets.only(top: 24.h),
         decoration: BoxDecoration(
-          color: Color(0x80000000),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: hexColor('303030'), width: 1.w),
         ),
         child: Center(
           child: Icon(

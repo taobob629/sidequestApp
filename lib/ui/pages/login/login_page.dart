@@ -178,29 +178,29 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: Platform.isAndroid,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => controller.loginWithGoogle(),
-                            child: Container(
-                              width: 46.w,
-                              height: 46.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(46.r),
-                                border: Border.all(
-                                  color: Color(0xff707070),
-                                  width: 1.w,
-                                ),
-                              ),
-                              padding: EdgeInsets.all(8.r),
-                              child: Image.asset(
-                                ImageUtils.google_icon,
-                                scale: 4,
-                              ),
-                            ),
-                          ),
-                        )
+                        // Visibility(
+                        //   visible: Platform.isAndroid,
+                        //   child: GestureDetector(
+                        //     behavior: HitTestBehavior.translucent,
+                        //     onTap: () => controller.loginWithGoogle(),
+                        //     child: Container(
+                        //       width: 46.w,
+                        //       height: 46.w,
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(46.r),
+                        //         border: Border.all(
+                        //           color: Color(0xff707070),
+                        //           width: 1.w,
+                        //         ),
+                        //       ),
+                        //       padding: EdgeInsets.all(8.r),
+                        //       child: Image.asset(
+                        //         ImageUtils.google_icon,
+                        //         scale: 4,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

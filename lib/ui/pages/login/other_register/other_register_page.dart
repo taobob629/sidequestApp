@@ -69,6 +69,12 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
 
   List<Widget> createStep2() {
     List<Widget> list = [];
+    list.add(AuthInputView(
+      tips: "Please input your nickName".tr,
+      editingController: controller.nickNameEditingController,
+      keyboardType: TextInputType.text,
+    ));
+    list.add(10.verticalSpace);
     list.add(Visibility(
       visible: controller.otherEmail == null,
       child: AuthInputView(

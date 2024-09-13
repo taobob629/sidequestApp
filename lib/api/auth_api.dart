@@ -243,6 +243,7 @@ class AuthApi {
         String? sex,
         String? pwd,
         String? payment,
+        String? nickName,
       }) async {
     var formData = {
       'userIdentifier': credential.userIdentifier,
@@ -253,6 +254,7 @@ class AuthApi {
       'sex': sex,
       'pwd': pwd,
       'payment': payment,
+      'nickName': nickName,
     };
     var response = await http.post(
       url,
@@ -269,6 +271,7 @@ class AuthApi {
         String? sex,
         String? pwd,
         String? payment,
+        String? nickName,
       }) async {
     var formData = {
       'email': account?.email,
@@ -279,6 +282,7 @@ class AuthApi {
       'serverAuthCode': account?.serverAuthCode,
       'pwd': pwd,
       'payment': payment,
+      'nickName': nickName,
     };
     var response = await http.post(
       url,
