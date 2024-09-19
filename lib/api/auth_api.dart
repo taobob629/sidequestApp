@@ -111,7 +111,7 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
-  static Future<UserModel> validateInfo(
+  static Future<UserModel?> validateInfo(
       String name,
       String value,
       String token,
@@ -131,6 +131,9 @@ class AuthApi {
       options: options,
     );
 
+    if (response.data.toString().contains("code") && response.data['code'] != 200) {
+      return null;
+    }
     return UserModel.fromJson(response.data);
   }
 

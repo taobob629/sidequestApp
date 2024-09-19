@@ -11,7 +11,9 @@ import '../../../../widget/views.dart';
 import 'controller.dart';
 import 'widget/item.dart';
 
-class ChooseGamesPage extends GetView<ChooseGamePageController> {
+class ChooseGamesPage extends StatelessWidget {
+  final controller = Get.put(ChooseGamePageController());
+
   final data = List.generate(128, (i) => Color(0xFFFF00FF - 2 * i));
 
   @override

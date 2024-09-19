@@ -13,19 +13,18 @@ import '../../../model/user_model.dart';
 import '../../../utils/toast_utils.dart';
 
 class SecondaryPage extends StatelessWidget {
-
   late final LoginModel loginModel;
 
   late final SecondaryPageController controller;
 
-  SecondaryPage({required this.loginModel}){
+  SecondaryPage({required this.loginModel}) {
     controller = Get.put(SecondaryPageController(loginModel: loginModel));
   }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardScaffold(
-      title: "Account Validation".tr,
+        title: "Account Validation".tr,
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(
@@ -37,7 +36,8 @@ class SecondaryPage extends StatelessWidget {
                 ),
                 Text(
                   "Validate Information".tr,
-                  style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 28),
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "DIN", fontSize: 28),
                 ),
                 SizedBox(
                   height: 10,
@@ -53,7 +53,8 @@ class SecondaryPage extends StatelessWidget {
                         onTap: () {
                           Get.dialog(
                                   SelectorDialog(
-                                    items: controller.loginModel.verifyFieldList,
+                                    items:
+                                        controller.loginModel.verifyFieldList,
                                     title: "Validate By".tr,
                                   ),
                                   barrierColor: Colors.black26)
@@ -63,37 +64,44 @@ class SecondaryPage extends StatelessWidget {
                             }
                           });
                         },
-                    ),
-                    SizedBox(height: 20,),
-                    InputView(
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InputView(
                         label: "Validate information".tr,
-                        tips: 'Please input your'.tr + "${controller.way.value}",
+                        tips:
+                            'Please input your'.tr + "${controller.way.value}",
                         controller: controller.validateEditingController,
                       ),
-                    SizedBox(height: 100,),
-                    ColorfulButton(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4),
+                      SizedBox(
+                        height: 100,
+                      ),
+                      ColorfulButton(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
                           child: Text(
                             "CONFIRM".tr,
-                            style: TextStyle(color: Colors.white, fontFamily: "DIN", fontSize: 18),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "DIN",
+                                fontSize: 18),
                           ),
                         ),
-                      height: 48,
-                      onTap: ()=>controller.validate(),
-                    )
-                  ],
-                );
-              })
-            ],
+                        height: 48,
+                        onTap: () => controller.validate(),
+                      )
+                    ],
+                  );
+                })
+              ],
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }
 
-class SecondaryPageController extends GetxController{
+class SecondaryPageController extends GetxController {
   var way = "".obs;
 
   late VerifyField fieldSelect;
@@ -107,8 +115,8 @@ class SecondaryPageController extends GetxController{
   void onInit() {
     super.onInit();
     validateEditingController = TextEditingController();
-    if(loginModel.verifyFieldList.isNotEmpty) {
-      way.value =loginModel.verifyFieldList[0].label;
+    if (loginModel.verifyFieldList.isNotEmpty) {
+      way.value = loginModel.verifyFieldList[0].label;
       fieldSelect = loginModel.verifyFieldList[0];
     }
   }
@@ -119,12 +127,12 @@ class SecondaryPageController extends GetxController{
     super.onClose();
   }
 
-  void selectWay(VerifyField model){
+  void selectWay(VerifyField model) {
     this.way.value = model.label;
     fieldSelect = model;
   }
 
-  void validate() async{
+  void validate() async {
     String data = validateEditingController.text;
     if (data.isEmpty) {
       showInfo('Please input your'.tr + " $way");
@@ -132,13 +140,14 @@ class SecondaryPageController extends GetxController{
     }
     showLoading();
 
-    UserModel userModel = await AuthApi.validateInfo(fieldSelect.name, data, loginModel.token);
+    UserModel? userModel =
+        await AuthApi.validateInfo(fieldSelect.name, data, loginModel.token);
     dismissLoading();
-    loginModel.user = userModel;
-    Get.offAll(RegisterPage(),
-        arguments: {}
-          ..['type'] = 2
-          ..['loginModel'] = loginModel);
+    if (userModel != null) {
+      loginModel.user = userModel;
+      Get.offAll(() => RegisterPage(),
+          arguments: {'type': 2, 'loginModel': loginModel});
+    }
     //  Get.off(()=>RegisterPage(type: 2,loginModel: loginModel,));
   }
 }

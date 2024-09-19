@@ -11,7 +11,9 @@ import '../../../../../image_utils.dart';
 import '../../../../../model/game_model.dart';
 import '../controller.dart';
 
-class GameWidget extends GetView<ChooseGamePageController> {
+class GameWidget extends StatelessWidget {
+  final controller = Get.put(ChooseGamePageController());
+
   late SimpleGameModel item;
 
   GameWidget(this.item);

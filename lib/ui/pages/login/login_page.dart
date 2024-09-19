@@ -318,11 +318,11 @@ class LoginPageController extends BasePageController {
     if (loginModel.validate == 0) {
       UserController.find.imLogin();
       //如果是从登录页面跳转的，跳转到选择游戏页面先
-      var fromRegister = Get.arguments?['fromRegister'];
-      if (fromRegister == true) {
-        Get.offAll(() => ChooseGamesPage());
-        return;
-      }
+      // var fromRegister = Get.arguments?['fromRegister'];
+      // if (fromRegister == true) {
+      //   Get.offAll(() => ChooseGamesPage());
+      //   return;
+      // }
       Get.offAll(() => MainPage());
     } else {
       if (loginModel.secondary == 1) {

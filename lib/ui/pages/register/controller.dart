@@ -252,7 +252,7 @@ class RegisterPageController extends GetxController {
     //firstName = firstEditingController.text.trim();
     // lastName = lastEditingController.text.trim();
     nick = nickEditingController.text.trim();
-    // phone = phoneEditingController.text.trim();
+    phone = phoneEditingController.text.trim();
     invite = inviteEditingController.text.trim();
     pin = pinEditingController.text.trim();
 
@@ -343,11 +343,11 @@ class RegisterPageController extends GetxController {
     dismissLoading();
     if (loginModel.validate == 0) {
       //如果是从登录页面跳转的，跳转到选择游戏页面先
-      var fromRegister = Get.arguments?['fromRegister'];
-      if (fromRegister == true) {
-        Get.offAll(() => ChooseGamesPage());
-        return;
-      }
+      // var fromRegister = Get.arguments?['fromRegister'];
+      // if (fromRegister == true) {
+      //   Get.offAll(() => ChooseGamesPage());
+      //   return;
+      // }
       Get.offAll(() => MainPage());
     } else {
       Get.to(
