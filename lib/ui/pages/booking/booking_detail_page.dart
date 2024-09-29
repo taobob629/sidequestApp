@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/widget/image_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../api/booking_api.dart';
@@ -48,13 +49,14 @@ class BookingDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      28.verticalSpace,
+                      26.verticalSpace,
                       if (_ctr.model != null)
-                        Image.network(
-                          '${_ctr.model?.headImage}',
+                        ImageUtil.networkImage(
+                          url: '${_ctr.model?.headImage}',
                           height: 180.h,
                           width: Get.width,
                           fit: BoxFit.cover,
+                          border: 10.r,
                         ),
                       15.verticalSpace,
                       Text(
@@ -160,7 +162,7 @@ class BookingDetailPage extends StatelessWidget {
                       ),
                       15.verticalSpace,
                       Text(
-                        'Price'.tr,
+                        'Configuration list'.tr,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -185,7 +187,6 @@ class BookingDetailPage extends StatelessWidget {
                               color: Color(0xff262731),
                               borderRadius: BorderRadius.circular(5.r),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
                             alignment: Alignment.center,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -196,8 +197,8 @@ class BookingDetailPage extends StatelessWidget {
                                     Image.asset(
                                       _ctr.getIconRes(
                                           _ctr.model?.areaVoList[i].areaName),
-                                      width: 20.w,
-                                      height: 20.h,
+                                      width: 25.w,
+                                      height: 25.h,
                                     ),
                                     13.horizontalSpace,
                                     Column(
@@ -228,22 +229,103 @@ class BookingDetailPage extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    Spacer(),
-                                    Text(
-                                      dList.length == 1
-                                          ? '￡ ${dList[0].price}/hr/person'
-                                          : '',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        color: Color(0xffFFD20E),
+                                    Expanded(
+                                      child: Text(
+                                        dList.length == 1
+                                            ? '￡ ${dList[0].price}/hr/person'
+                                            : '',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xffFFD20E),
+                                        ),
                                       ),
                                     ),
                                   ],
+                                ).paddingSymmetric(horizontal: 10.w),
+                                Container(
+                                  height: 1.h,
+                                  color: hexColor('#3A3C48'),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 12.h,
+                                    horizontal: 10.w,
+                                  ),
                                 ),
-                                if (dList.length == 1) 15.verticalSpace,
+                                InkWell(
+                                  onTap: () {
+                                    if (_ctr.currentIndex.value == -1) {
+                                      _ctr.currentIndex.value = i;
+                                    } else {
+                                      if (_ctr.currentIndex.value == i) {
+                                        _ctr.currentIndex.value = -1;
+                                      } else {
+                                        _ctr.currentIndex.value = i;
+                                      }
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          'Configuration Details',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: FONT_LIGHT,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Obx(() => Icon(
+                                            _ctr.currentIndex.value == i
+                                                ? Icons.keyboard_arrow_up
+                                                : Icons.keyboard_arrow_right,
+                                            color: Colors.white,
+                                            size: 28.sp,
+                                          )),
+                                    ],
+                                  ).paddingSymmetric(horizontal: 10.w),
+                                ),
+                                15.verticalSpace,
+                                Obx(() => Visibility(
+                                      visible: _ctr.currentIndex.value == i,
+                                      child: Column(
+                                        children: [
+                                          configurationItemWidget(
+                                            icon: ImageUtils.processer_icon,
+                                            name: 'Processor',
+                                            value: vo?.processor ?? '',
+                                            bgColor: hexColor('#30313D'),
+                                          ),
+                                          configurationItemWidget(
+                                            icon: ImageUtils.icon_gpu,
+                                            name: 'GPU',
+                                            value: vo?.gpu ?? '',
+                                          ),
+                                          configurationItemWidget(
+                                            icon: ImageUtils.icon_ram,
+                                            name: 'Ram',
+                                            value: vo?.memory ?? '',
+                                            bgColor: hexColor('#30313D'),
+                                          ),
+                                          configurationItemWidget(
+                                            icon: ImageUtils.icon_size,
+                                            name: 'Screen Size',
+                                            value: vo?.screenSize ?? '',
+                                          ),
+                                          configurationItemWidget(
+                                            icon: ImageUtils.icon_hz,
+                                            name: 'Screens hz',
+                                            value: vo?.screenHz ?? '',
+                                            bgColor: hexColor('#30313D'),
+                                          ),
+                                          15.verticalSpace,
+                                        ],
+                                      ),
+                                    )),
                                 if (dList.length > 1)
                                   ...dList
                                       .map(
@@ -291,7 +373,7 @@ class BookingDetailPage extends StatelessWidget {
               ),
               bottomNavigationBar: Container(
                 margin: EdgeInsets.only(
-                  bottom: 30.h,
+                  bottom: 20.h,
                   left: 15.w,
                   right: 15.w,
                 ),
@@ -324,11 +406,50 @@ class BookingDetailPage extends StatelessWidget {
               ),
             ));
   }
+
+  Widget configurationItemWidget({
+    required String icon,
+    required String name,
+    required String value,
+    Color? bgColor,
+  }) =>
+      Container(
+        height: 44.h,
+        color: bgColor ?? Colors.transparent,
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: Row(
+          children: [
+            Image.asset(
+              icon,
+              scale: 2.6,
+            ).paddingOnly(right: 8.w),
+            Expanded(
+              child: Text(
+                name,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: FONT_LIGHT,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontFamily: FONT_LIGHT,
+                color: hexColor('#FFD20E'),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class BookingDetailCtr extends GetxController {
   static BookingDetailCtr get find => Get.find();
   CyberCafeDetailModel? model;
+  var currentIndex = (-1).obs;
 
   @override
   void onInit() {

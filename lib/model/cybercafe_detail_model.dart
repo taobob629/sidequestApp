@@ -89,6 +89,11 @@ class AreaVoList {
   int booking;
   int computers;
   int useFree;
+  String processor;
+  String gpu;
+  String memory;
+  String screenSize;
+  String screenHz;
 
   AreaVoList({
     required this.id,
@@ -105,6 +110,11 @@ class AreaVoList {
     required this.booking,
     required this.computers,
     required this.useFree,
+    required this.processor,
+    required this.gpu,
+    required this.memory,
+    required this.screenSize,
+    required this.screenHz,
   });
 
   factory AreaVoList.fromJson(Map<String, dynamic> json) => AreaVoList(
@@ -122,6 +132,11 @@ class AreaVoList {
     booking: json["booking"],
     computers: json["computers"],
     useFree: json["useFree"],
+    processor: json["processor"] ?? '',
+    gpu: json["gpu"] ?? '',
+    memory: json["memory"] ?? '',
+    screenHz: json["screenHz"] ?? '',
+    screenSize: json["screenSize"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

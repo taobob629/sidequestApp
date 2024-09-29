@@ -55,6 +55,11 @@ class ImageUtils {
   static const String icon_dibiao = 'assets/images/icon_dibiao.webp';
   static const String icon_public_area = 'assets/images/icon_public_area.webp';
   static const String icon_phone = 'assets/images/icon_phone.webp';
+  static const String processer_icon = 'assets/images/processer_icon.webp';
+  static const String icon_ram = 'assets/images/icon_ram.webp';
+  static const String icon_gpu = 'assets/images/icon_gpu.webp';
+  static const String icon_hz = 'assets/images/icon_hz.webp';
+  static const String icon_size = 'assets/images/icon_size.webp';
   static const String icon_navigation = 'assets/images/icon_navigation.webp';
   static const String gift_bg = 'assets/images/gift_bg.webp';
   static const String icon_activities = 'assets/images/icon_activities.png';
