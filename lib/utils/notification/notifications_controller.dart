@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import '../../config/app_config.dart';
 import '../../ui/pages/events/event/event_page.dart';
 import '../../ui/pages/home/news_page.dart';
+import '../../ui/pages/notification/notification_page.dart';
 
 class NotificationController {
   static ReceivedAction? initialAction;
@@ -99,9 +100,10 @@ class NotificationController {
         Get.to(() => EventPage(
               id: receivedAction.payload == null
                   ? 0
-                  : RegExp(r'^\d+$')
-                          .hasMatch(receivedAction.payload!["notificationId"].toString())
-                      ? int.parse(receivedAction.payload!["notificationId"].toString())
+                  : RegExp(r'^\d+$').hasMatch(
+                          receivedAction.payload!["notificationId"].toString())
+                      ? int.parse(
+                          receivedAction.payload!["notificationId"].toString())
                       : 0,
               type: 0,
             ));
@@ -112,11 +114,16 @@ class NotificationController {
         Get.to(() => NewsPage(
               id: receivedAction.payload == null
                   ? 0
-                  : RegExp(r'^\d+$')
-                          .hasMatch(receivedAction.payload!["notificationId"].toString())
-                      ? int.parse(receivedAction.payload!["notificationId"].toString())
+                  : RegExp(r'^\d+$').hasMatch(
+                          receivedAction.payload!["notificationId"].toString())
+                      ? int.parse(
+                          receivedAction.payload!["notificationId"].toString())
                       : 0,
             ));
+        break;
+
+      default:
+        Get.to(() => NotificationPage());
         break;
     }
   }

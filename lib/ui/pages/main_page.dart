@@ -354,7 +354,7 @@ class MainPageController extends FullLifeCycleController
 
   Future selectNotification(String? payload) async {
     print('On Local Message Opened App');
-    Get.to(() => NotificationPage());
+    // Get.to(() => NotificationPage());
   }
 
   Future onDidReceiveLocalNotification(

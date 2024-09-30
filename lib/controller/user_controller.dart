@@ -693,7 +693,7 @@ class UserController extends GetxController {
   }
 
   void _dealMsg(V2TimMessage msg) {
-    if (msg.customElem == null || msg.customElem?.data == null) {
+    if (msg.customElem == null || msg.customElem?.data == null || msg.customElem?.data == "") {
       return;
     }
 
@@ -709,7 +709,7 @@ class UserController extends GetxController {
         }
         break;
 
-      case 'push-message':
+      case 'notify':
         Map<String, dynamic> target = map['target'];
         NotificationController.createNewNotification(
           title: map["title"],
