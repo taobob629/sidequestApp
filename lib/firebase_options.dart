@@ -41,11 +41,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCkjhwByIXCy_2Ynop61J18jlpeAabZFzs',
-    appId: '1:337857089229:android:25cd54cf2697dd0076a384',
-    messagingSenderId: '337857089229',
-    projectId: 'sidequest-push',
-    storageBucket: 'sidequest-push.appspot.com',
+    apiKey: 'AIzaSyCmYBoVJ0sieOiO0ElEB1D48hUAaqdibDM',
+    appId: '1:760458602993:android:723c8e8653df547535bc50',
+    messagingSenderId: '760458602993',
+    projectId: 'sidequest-b26dd',
+    storageBucket: 'sidequest-b26dd.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

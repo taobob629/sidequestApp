@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "337857089229",
-    "project_id": "sidequest-push",
-    "storage_bucket": "sidequest-push.appspot.com"
+    "project_number": "760458602993",
+    "project_id": "sidequest-b26dd",
+    "storage_bucket": "sidequest-b26dd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:337857089229:android:25cd54cf2697dd0076a384",
+        "mobilesdk_app_id": "1:760458602993:android:723c8e8653df547535bc50",
         "android_client_info": {
           "package_name": "uk.co.sidequest.wy"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCkjhwByIXCy_2Ynop61J18jlpeAabZFzs"
+          "current_key": "AIzaSyCmYBoVJ0sieOiO0ElEB1D48hUAaqdibDM"
         }
       ],
       "services": {
