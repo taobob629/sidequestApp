@@ -218,4 +218,5 @@ class ImageUtils {
   static const String tab_sidekick = 'assets/images/tab_sidekick.png';
   static const String charge_badge = 'assets/images/charge_badge.png';
   static const String ic_match_o_people = 'assets/images/ic_match_o_people.svg';
+  static const String icon_copy = 'assets/images/icon_copy.svg';
 }

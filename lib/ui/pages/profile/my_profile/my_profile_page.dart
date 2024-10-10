@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/ui/pages/profile/qrcode/my_qr_code_page.dart';
@@ -166,14 +168,32 @@ class MyProfilePage extends StatelessWidget {
                                   ),
                                   4.verticalSpace,
 
-                                  Obx(() => Text(
-                                        "${userController.userProfile.uk}",
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.white,
-                                          fontFamily: FONT_MEDIUM,
+                                  Row(
+                                    children: [
+                                      Obx(() => Text(
+                                            "${userController.userProfile.uk}",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Colors.white,
+                                              fontFamily: FONT_MEDIUM,
+                                            ),
+                                          )),
+                                      6.horizontalSpace,
+                                      InkWell(
+                                        onTap: () async {
+                                          // 将文本复制到剪贴板
+                                          await Clipboard.setData(
+                                            ClipboardData(text: userController.userProfile.uk),
+                                          );
+                                          showToast("copy UK id");
+                                        },
+                                        child: SvgPicture.asset(
+                                          ImageUtils.icon_copy,
+                                          width: 16.sp,
                                         ),
-                                      )),
+                                      ),
+                                    ],
+                                  ),
 
                                   /// labels: sex、language、location
                                   // Row(
