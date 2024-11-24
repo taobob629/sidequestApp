@@ -33,6 +33,7 @@ import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';
 import '../events/my_events_page.dart';
+import '../integral/integral_home_page.dart';
 import '../task/detail/task_detail_page.dart';
 import 'my_dashboard_page.dart';
 
@@ -162,8 +163,7 @@ class MyProfilePage extends StatelessWidget {
                                               ),
                                             ),
                                           )),
-                                      6.horizontalSpace,
-                                      6.horizontalSpace,
+                                      12.horizontalSpace,
                                     ],
                                   ),
                                   4.verticalSpace,
@@ -652,13 +652,13 @@ class MyProfilePage extends StatelessWidget {
                         whenComplete: () => t.onRefresh(),
                       );
                     })),
-                // achievementItem(
-                //     t.user.value.checkTotal,
-                //     ImageUtils.ic_coupons_points,
-                //     "Points".tr,
-                //     'Your Coupons'.tr,
-                //     onTap: () => Get.to(() => IntegralHomePage())
-                //         ?.whenComplete(() => t.onRefresh())),
+                achievementItem(
+                    t.user.value.checkTotal,
+                    ImageUtils.ic_coupons_points,
+                    "Points".tr,
+                    'Your Coupons'.tr,
+                    onTap: () => Get.to(() => IntegralHomePage())
+                        ?.whenComplete(() => t.onRefresh())),
               ],
             ),
           ],

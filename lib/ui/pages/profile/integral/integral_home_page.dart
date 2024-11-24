@@ -332,17 +332,17 @@ class IntegralHomePage extends StatelessWidget {
                           children: [
                             RichText(
                               text: TextSpan(
-                                  text: "Check-in days ".tr,
+                                  text: "App check-in days ".tr,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xFFFFB20E),
                                     fontSize: 13.sp,
                                     fontFamily: "DIN",
                                   ),
                                   children: [
                                     TextSpan(
-                                        text: " 300".tr,
+                                        text: " Store check-in".tr,
                                         style: TextStyle(
-                                          color: Color(0xFFFFB20E),
+                                          color: Colors.white,
                                           fontSize: 13.sp,
                                           fontFamily: "DIN",
                                         )),
@@ -851,13 +851,17 @@ class IntegralHomePage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 40.w,
+              width: 100.w,
               height: 90.h,
               margin: EdgeInsets.only(bottom: 6.h),
-              decoration: ShapeDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xFF2C2C33),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r),
+                borderRadius: BorderRadius.circular(20.r),
+                border: Border.all(
+                  color: t.isSameDay(model.day)
+                      ? hexColor('#FFB20E')
+                      : Colors.transparent,
+                  width: 1.w,
                 ),
               ),
               child: Column(

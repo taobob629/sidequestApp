@@ -57,7 +57,8 @@ class IntegralHomeCtr extends GetxController {
 
   String getCheckInIcon(CheckList? model) {
     DateTime givenDate = DateTime.parse(model?.day ?? "0000-00-00");
-    flog('zengchao = ${model?.checkType}，${DateTime.now().difference(givenDate).inHours}');
+    flog(
+        'zengchao = ${model?.checkType}，${DateTime.now().difference(givenDate).inHours}');
     int chaDay = DateTime.now().difference(givenDate).inHours;
 
     if (model?.checkType == 1) {
@@ -68,5 +69,13 @@ class IntegralHomeCtr extends GetxController {
       return ImageUtils.integral_checkin_grey_icon;
     }
     return ImageUtils.integral_checkin_icon;
+  }
+
+  bool isSameDay(String dateString) {
+    final date = DateTime.parse(dateString);
+    final now = DateTime.now();
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
   }
 }
