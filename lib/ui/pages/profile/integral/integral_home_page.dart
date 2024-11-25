@@ -364,60 +364,60 @@ class IntegralHomePage extends StatelessWidget {
                                             .length >
                                         1)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[1]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[1],
+                                        ),
                                       ),
                                     8.horizontalSpace,
                                     if (t.integralCheckInModel.value.checkList
                                             .length >
                                         2)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[2]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[2],
+                                        ),
                                       ),
                                     8.horizontalSpace,
                                     if (t.integralCheckInModel.value.checkList
                                             .length >
                                         3)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[3]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[3],
+                                        ),
                                       ),
                                     8.horizontalSpace,
                                     if (t.integralCheckInModel.value.checkList
                                             .length >
                                         4)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[4]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[4],
+                                        ),
                                       ),
                                     8.horizontalSpace,
                                     if (t.integralCheckInModel.value.checkList
                                             .length >
                                         5)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[5]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[5],
+                                        ),
                                       ),
                                     8.horizontalSpace,
                                     if (t.integralCheckInModel.value.checkList
                                             .length >
                                         6)
                                       Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralCheckInModel
-                                            .value
-                                            .checkList[6]),
+                                        child: weekCheckInWidget(
+                                          t.integralCheckInModel.value
+                                              .checkList[6],
+                                        ),
                                       ),
                                   ],
                                 )),
@@ -453,7 +453,7 @@ class IntegralHomePage extends StatelessWidget {
                               mainAxisSpacing: 15.0.h,
                             ),
                             itemBuilder: (context, index) =>
-                                pointsRedemptionWidget(index),
+                                pointsRedemptionWidget(t.goods[index]),
                             itemCount: t.goods.length > 4 ? 4 : t.goods.length,
                           )),
                     ],
@@ -462,11 +462,11 @@ class IntegralHomePage extends StatelessWidget {
               ),
       );
 
-  Widget pointsRedemptionWidget(int index) => Expanded(
+  Widget pointsRedemptionWidget(dynamic good) => Expanded(
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () => Get.to(() => IntegralDetailPage(),
-              arguments: t.goods[index]['id']),
+          onTap: () =>
+              Get.to(() => IntegralDetailPage(), arguments: good['id']),
           child: Container(
             decoration: ShapeDecoration(
               gradient: LinearGradient(
@@ -482,7 +482,7 @@ class IntegralHomePage extends StatelessWidget {
             child: Column(
               children: [
                 CachedNetworkImage(
-                  imageUrl: '${t.goods[index]['picUrl']}',
+                  imageUrl: '${good['picUrl']}',
                   fit: BoxFit.cover,
                   width: 106.w,
                   height: 106.w,
@@ -492,7 +492,7 @@ class IntegralHomePage extends StatelessWidget {
                   width: 1.sw,
                   margin: EdgeInsets.only(left: 15.w),
                   child: Text(
-                    '${t.goods[index]['name']}',
+                    '${good['name']}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13.sp,
@@ -507,7 +507,7 @@ class IntegralHomePage extends StatelessWidget {
                     15.horizontalSpace,
                     RichText(
                       text: TextSpan(
-                          text: "${t.goods[index]['points']}\n",
+                          text: "${good['points']}\n",
                           style: TextStyle(
                             color: Color(0xFFFFB20E),
                             fontSize: 16.sp,
@@ -852,7 +852,7 @@ class IntegralHomePage extends StatelessWidget {
           children: [
             Container(
               width: 100.w,
-              height: 90.h,
+              height: 70.h,
               margin: EdgeInsets.only(bottom: 6.h),
               decoration: BoxDecoration(
                 color: Color(0xFF2C2C33),
@@ -876,11 +876,8 @@ class IntegralHomePage extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  6.verticalSpace,
+                  8.verticalSpace,
                   Image.asset(
-                    // model.checkType == 0
-                    //     ? ImageUtils.integral_checkin_icon
-                    //     : ImageUtils.integral_checkin_grey_icon,
                     t.getCheckInIcon(model),
                     width: 28.w,
                     height: 28.w,

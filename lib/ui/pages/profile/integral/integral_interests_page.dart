@@ -333,24 +333,25 @@ class IntegralInterestsPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              RichText(
-                                text: TextSpan(
-                                  text: 'You can redeem ',
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Colors.white,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: '4',
+                              Obx(() => RichText(
+                                    text: TextSpan(
+                                      text: 'You can redeem ',
                                       style: TextStyle(
-                                        color: hexColor("FFB20E"),
+                                        fontSize: 13.sp,
+                                        color: Colors.white,
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '${ctr.integralCouponModel.value.couponList.length}',
+                                          style: TextStyle(
+                                            color: hexColor("FFB20E"),
+                                          ),
+                                        ),
+                                        TextSpan(text: ' coupons.'),
+                                      ],
                                     ),
-                                    TextSpan(text: ' coupons.'),
-                                  ],
-                                ),
-                              ),
+                                  )),
                             ],
                           ),
                         ),
