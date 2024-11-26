@@ -1,19 +1,17 @@
+import 'package:csslib/parser.dart';
+import 'package:date_format/date_format.dart';
 import 'package:get/get.dart';
 
 import '../../../../../api/wy_http.dart';
 import '../../../../../image_utils.dart';
 import '../../../../../model/integral_checkin_model.dart';
+import '../../../../../model/integral_info_model.dart';
 import '../../../../../model/integral_task_model.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
 
 class IntegralHomeCtr extends GetxController {
-  var integralCheckInModel = IntegralCheckInModel(
-    checkList: [],
-    nexIntegralNumber: 0,
-    integralTotal: 0,
-    lv: 1,
-  ).obs;
+  var integralInfoModel = IntegralInfoModel(appSign: [], lvList: []).obs;
   var integralTaskModel = IntegralTaskModel().obs;
   var goods = [].obs;
   var isLoading = true.obs;
@@ -28,15 +26,15 @@ class IntegralHomeCtr extends GetxController {
   void requestData() async {
     showLoading();
     final responseList = await Future.wait([
-      http.get('/web/app/integral/queryCheckInList'),
+      http.get('/app/point/info'),
       http.get('/web/app/integral/queryIntegralTaskList'),
       http.get('/web/app/integral/pointGoods'),
     ]);
 
     dismissLoading();
     isLoading.value = false;
-    integralCheckInModel.value =
-        IntegralCheckInModel.fromJson(responseList[0].data);
+    integralInfoModel.value =
+        IntegralInfoModel.fromJson(responseList[0].data);
     integralTaskModel.value = IntegralTaskModel.fromJson(responseList[1].data);
     Map<String, dynamic> goodsMap = responseList[2].data;
     final list = goodsMap.values.toList();
@@ -47,24 +45,30 @@ class IntegralHomeCtr extends GetxController {
 
   void checkIn() async {
     showLoading();
-    final response = await http.post('/web/app/integral/addCheckIn');
+    final response = await http.post('/app/point/sign', data: {"signType": "1"});
     dismissLoading();
     requestData();
-    if (response.data != null && response.data['code'] == 200) {
-      showToast(response.data['msg']);
+    if (response.data) {
+      showToast('Sign in successfully');
     }
   }
 
-  String getCheckInIcon(CheckList? model) {
-    DateTime givenDate = DateTime.parse(model?.day ?? "0000-00-00");
-    flog(
-        'zengchao = ${model?.checkType}，${DateTime.now().difference(givenDate).inHours}');
+  String getCheckInIcon(Sign? model) {
+    if (model?.day == null) return "";
+
+    // 解析 "dd/MM" 格式的日期字符串
+    List<String> parts = model!.day.split('/');
+    int dayOfMonth = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    DateTime givenDate = DateTime(DateTime.now().year, month, dayOfMonth);
+
+    // 0未签到 1已签到 2待签到
     int chaDay = DateTime.now().difference(givenDate).inHours;
 
-    if (model?.checkType == 1) {
+    if (model.state == 1) {
       // 已经签到的用绿色
       return ImageUtils.integral_checkin_green_icon;
-    } else if (model?.checkType == 0 && chaDay > 0) {
+    } else if (model.state == 0 && chaDay > 0) {
       // 过期未签到的用灰色
       return ImageUtils.integral_checkin_grey_icon;
     }
@@ -72,10 +76,10 @@ class IntegralHomeCtr extends GetxController {
   }
 
   bool isSameDay(String dateString) {
-    final date = DateTime.parse(dateString);
-    final now = DateTime.now();
-    return date.year == now.year &&
-        date.month == now.month &&
-        date.day == now.day;
+    // 获取今天的日期
+    DateTime today = DateTime.now();
+    String todayFormatted = formatDate(today, [dd, '/', mm]);
+
+    return dateString == todayFormatted;
   }
 }

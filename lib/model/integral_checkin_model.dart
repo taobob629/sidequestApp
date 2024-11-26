@@ -47,30 +47,26 @@ class IntegralCheckInModel {
 }
 
 class CheckList {
-  // 1签到的，0未签到
-  int? checkType;
-  int? number;
+  // 0未签到 1已签到 2待签到
+  int? state;
+  int? point;
   String day;
-  int? awardType;
 
   CheckList({
-    this.checkType,
-    this.number,
+    this.point,
     required this.day,
-    this.awardType,
+    this.state,
   });
 
   factory CheckList.fromJson(Map<String, dynamic> json) => CheckList(
-    checkType: json["checkType"],
-    number: json["number"],
+    state: json["state"],
+    point: json["point"],
     day: json["day"] ?? '----',
-    awardType: json["awardType"],
   );
 
   Map<String, dynamic> toJson() => {
-    "checkType": checkType,
-    "number": number,
+    "point": point,
+    "state": state,
     "day": day,
-    "awardType": awardType,
   };
 }

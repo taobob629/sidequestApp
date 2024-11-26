@@ -78,7 +78,7 @@ class DeveloperPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text("dev127", style: TextStyle(fontSize: 14, color: Colors.white),),
+                  child: Text("dev117", style: TextStyle(fontSize: 14, color: Colors.white),),
                 )
               ],
             ),

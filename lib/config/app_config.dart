@@ -31,7 +31,7 @@ class AppConfig {
   static String? name;
 
   static String _devServer = 'http://114.117.203.137:8081';
-  static String _devServer2 = 'http://1.14.75.127:8081';
+  static String _devServer2 = 'http://139.186.149.117:8081';
   static String _testServer = 'http://43.136.135.198:8081';
   static String _prodServer = 'https://sidequestmeta.com';
 

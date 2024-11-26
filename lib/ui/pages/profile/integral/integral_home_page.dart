@@ -3,6 +3,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/model/integral_info_model.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
@@ -31,6 +32,7 @@ class IntegralHomePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      10.verticalSpace,
                       SafeArea(
                         child: GestureDetector(
                           onTap: () => Get.back(),
@@ -43,7 +45,7 @@ class IntegralHomePage extends StatelessWidget {
                       Row(
                         children: [
                           Obx(() => ExtendedImage.network(
-                                '${t.integralCheckInModel.value.memberPhoto}',
+                                '${t.integralInfoModel.value.pointInfo?.memberPhoto}',
                                 width: 40.w,
                                 height: 40.w,
                                 shape: BoxShape.circle,
@@ -67,7 +69,7 @@ class IntegralHomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Obx(() => Text(
-                                      '${t.integralCheckInModel.value.userName}',
+                                      '${t.integralInfoModel.value.pointInfo?.nickName}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,
@@ -83,7 +85,7 @@ class IntegralHomePage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Obx(() => Text(
-                                            'Points:${t.integralCheckInModel.value.checkTotal}',
+                                            'Points:${t.integralInfoModel.value.pointInfo?.pointsTotal}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFF9CA3AF),
@@ -106,10 +108,10 @@ class IntegralHomePage extends StatelessWidget {
                           Obx(() => GestureDetector(
                                 onTap: () => Get.to(
                                   () => IntegralInterestsPage(),
-                                  arguments: t.integralCheckInModel.value.lv,
+                                  arguments: t.integralInfoModel.value.pointInfo?.expGrade,
                                 ),
                                 child: Image.asset(
-                                  'assets/images/integral_lv${t.integralCheckInModel.value.lv == 0 ? t.integralCheckInModel.value.lv + 1 : t.integralCheckInModel.value.lv}_icon.webp',
+                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade == 0 ? (t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1 : t.integralInfoModel.value.pointInfo?.expGrade}_icon.webp',
                                   scale: 2,
                                 ),
                               )),
@@ -120,10 +122,10 @@ class IntegralHomePage extends StatelessWidget {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => Get.to(
                               () => IntegralInterestsPage(),
-                              arguments: t.integralCheckInModel.value.lv,
+                              arguments: t.integralInfoModel.value.pointInfo?.expGrade,
                             ),
                             child: Text(
-                              '${t.integralCheckInModel.value.describe}',
+                              '${t.integralInfoModel.value.pointInfo?.expGradeName}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13.sp,
@@ -139,181 +141,22 @@ class IntegralHomePage extends StatelessWidget {
                               behavior: HitTestBehavior.translucent,
                               onTap: () => Get.to(
                                 () => IntegralInterestsPage(),
-                                arguments: t.integralCheckInModel.value.lv,
+                                arguments: t.integralInfoModel.value.pointInfo?.expGrade,
                               ),
                               child: LinearProgressBar(
                                 width: 200.w,
-                                progress: (t.integralCheckInModel.value
-                                            .integralTotal
-                                            .toDouble() /
-                                        t.integralCheckInModel.value
-                                            .nexIntegralNumber
-                                            .toDouble()) *
+                                progress: ((t.integralInfoModel.value.pointInfo
+                                                ?.pointsTotal ??
+                                            0) /
+                                        (t.integralInfoModel.value.pointInfo
+                                                ?.nextExperience ??
+                                            0)) *
                                     100,
                                 height: 6.h,
                               ),
                             ),
                           )),
                       30.verticalSpace,
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: Container(
-                      //         height: 60.h,
-                      //         decoration: ShapeDecoration(
-                      //           gradient: LinearGradient(
-                      //             begin: Alignment(0.00, -1.00),
-                      //             end: Alignment(0, 1),
-                      //             colors: [Color(0xFF202026), Color(0xFF202026)],
-                      //           ),
-                      //           shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(10.r),
-                      //           ),
-                      //         ),
-                      //         child: Stack(
-                      //           children: [
-                      //             Container(
-                      //               width: 60.w,
-                      //               height: 60.h,
-                      //               decoration: ShapeDecoration(
-                      //                 gradient: LinearGradient(
-                      //                   begin: Alignment.centerLeft,
-                      //                   end: Alignment.centerRight,
-                      //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
-                      //                 ),
-                      //                 shape: RoundedRectangleBorder(
-                      //                   borderRadius: BorderRadius.circular(10.r),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             Positioned(
-                      //               left: 10.w,
-                      //               bottom: 0,
-                      //               child: Image.asset(
-                      //                 ImageUtils.integral_benefit_bottom_icon,
-                      //                 width: 32.w,
-                      //                 height: 12.h,
-                      //               ),
-                      //             ),
-                      //             Center(
-                      //               child: GestureDetector(
-                      //                 behavior: HitTestBehavior.translucent,
-                      //                 onTap: () => Get.to(
-                      //                   () => IntegralInterestsPage(),
-                      //                   arguments: t.integralCheckInModel.value.lv,
-                      //                 ),
-                      //                 child: Row(
-                      //                   children: [
-                      //                     10.horizontalSpace,
-                      //                     Image.asset(
-                      //                       ImageUtils.integral_benefit_icon,
-                      //                       scale: 2.5,
-                      //                     ),
-                      //                     8.horizontalSpace,
-                      //                     Expanded(
-                      //                       child: Text(
-                      //                         'My Benefits'.tr,
-                      //                         style: TextStyle(
-                      //                           color: Colors.white,
-                      //                           fontSize: 16.sp,
-                      //                           fontFamily: 'DIN',
-                      //                           fontWeight: FontWeight.w700,
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     Image.asset(
-                      //                       ImageUtils.integral_arrow_icon,
-                      //                     ),
-                      //                     6.horizontalSpace,
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     10.horizontalSpace,
-                      //     Expanded(
-                      //       child: Container(
-                      //         height: 60.h,
-                      //         decoration: ShapeDecoration(
-                      //           gradient: LinearGradient(
-                      //             begin: Alignment(0.00, -1.00),
-                      //             end: Alignment(0, 1),
-                      //             colors: [Color(0xFF202026), Color(0xFF202026)],
-                      //           ),
-                      //           shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(10.r),
-                      //           ),
-                      //         ),
-                      //         child: Stack(
-                      //           children: [
-                      //             Container(
-                      //               width: 60.w,
-                      //               height: 60.h,
-                      //               decoration: ShapeDecoration(
-                      //                 gradient: LinearGradient(
-                      //                   begin: Alignment.centerLeft,
-                      //                   end: Alignment.centerRight,
-                      //                   colors: [Color(0xFF4E2828), Color(0xFF202026)],
-                      //                 ),
-                      //                 shape: RoundedRectangleBorder(
-                      //                   borderRadius: BorderRadius.circular(10.r),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             Positioned(
-                      //               left: 10.w,
-                      //               bottom: 0,
-                      //               child: Image.asset(
-                      //                 ImageUtils.integral_points_mall_bottom_icon,
-                      //                 width: 32.w,
-                      //                 height: 12.h,
-                      //               ),
-                      //             ),
-                      //             Center(
-                      //               child: GestureDetector(
-                      //                 behavior: HitTestBehavior.translucent,
-                      //                 onTap: () => Get.to(
-                      //                   () => IntegralRedemptionPage(),
-                      //                   arguments:
-                      //                       t.integralCheckInModel.value.checkTotal,
-                      //                 ),
-                      //                 child: Row(
-                      //                   children: [
-                      //                     10.horizontalSpace,
-                      //                     Image.asset(
-                      //                       ImageUtils.integral_point_mall_icon,
-                      //                       scale: 2.5,
-                      //                     ),
-                      //                     8.horizontalSpace,
-                      //                     Expanded(
-                      //                       child: Text(
-                      //                         'Points Mall'.tr,
-                      //                         style: TextStyle(
-                      //                           color: Colors.white,
-                      //                           fontSize: 16.sp,
-                      //                           fontFamily: 'DIN',
-                      //                           fontWeight: FontWeight.w700,
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                     Image.asset(
-                      //                       ImageUtils.integral_arrow_icon,
-                      //                     ),
-                      //                     6.horizontalSpace,
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // 15.verticalSpace,
                       Container(
                         width: 1.sw,
                         decoration: ShapeDecoration(
@@ -351,72 +194,66 @@ class IntegralHomePage extends StatelessWidget {
                             10.verticalSpace,
                             Obx(() => Row(
                                   children: [
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                         .isNotEmpty)
                                       Expanded(
                                         child: weekCheckInWidget(t
-                                            .integralCheckInModel
+                                            .integralInfoModel
                                             .value
-                                            .checkList[0]),
+                                            .appSign[0]),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         1)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[1],
+                                          t.integralInfoModel.value.appSign[1],
                                         ),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         2)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[2],
+                                          t.integralInfoModel.value.appSign[2],
                                         ),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         3)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[3],
+                                          t.integralInfoModel.value.appSign[3],
                                         ),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         4)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[4],
+                                          t.integralInfoModel.value.appSign[4],
                                         ),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         5)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[5],
+                                          t.integralInfoModel.value.appSign[5],
                                         ),
                                       ),
                                     8.horizontalSpace,
-                                    if (t.integralCheckInModel.value.checkList
+                                    if (t.integralInfoModel.value.appSign
                                             .length >
                                         6)
                                       Expanded(
                                         child: weekCheckInWidget(
-                                          t.integralCheckInModel.value
-                                              .checkList[6],
+                                          t.integralInfoModel.value.appSign[6],
                                         ),
                                       ),
                                   ],
@@ -438,7 +275,8 @@ class IntegralHomePage extends StatelessWidget {
                         marginRight: 0,
                         onTap: () => Get.to(
                           () => IntegralRedemptionPage(),
-                          arguments: t.integralCheckInModel.value.checkTotal,
+                          arguments:
+                              t.integralInfoModel.value.pointInfo?.pointsTotal,
                         ),
                       ),
                       Obx(() => GridView.builder(
@@ -844,8 +682,7 @@ class IntegralHomePage extends StatelessWidget {
             )),
       );
 
-  Widget weekCheckInWidget(CheckList model, {Function? onTap}) =>
-      GestureDetector(
+  Widget weekCheckInWidget(Sign model, {Function? onTap}) => GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => t.checkIn(),
         child: Column(
@@ -868,7 +705,7 @@ class IntegralHomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'x${model.number}',
+                    'x${model.point}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14.sp,
@@ -886,7 +723,7 @@ class IntegralHomePage extends StatelessWidget {
               ),
             ),
             Text(
-              '${model.day.split('-')[1]}/${model.day.split('-')[2]}',
+              '${model.day}',
               style: TextStyle(
                 color: Color(0xFF9CA3AF),
                 fontSize: 12.sp,
