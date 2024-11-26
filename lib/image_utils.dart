@@ -25,6 +25,8 @@ class ImageUtils {
   static const String tab_quest = 'assets/images/tab_quest.webp';
   static const String tab_quest_normal = 'assets/images/tab_quest_normal.webp';
   static const String tab_stores_normal = 'assets/images/tab_stores_normal.png';
+  static const String icon_bubble = 'assets/images/icon_bubble.png';
+  static const String icon_invitation = 'assets/images/icon_invitation.png';
   static const String tab_profile = 'assets/images/tab_profile.webp';
   static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
   static const String icon_ps = 'assets/images/icon_ps.webp';

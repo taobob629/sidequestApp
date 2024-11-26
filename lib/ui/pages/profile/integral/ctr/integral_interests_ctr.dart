@@ -13,6 +13,9 @@ class IntegralInterestsCtr extends GetxController {
   var currentVIPIndex = 0.obs;
   var integralModel = IntegralModel(levelConfigVoList: []).obs;
   var levelCoupons = <LevelCoupon>[].obs;
+  var contentList = <dynamic>[].obs;
+  // true显示，false隐藏
+  var showOrHideCoupon = false.obs;
 
   @override
   void onInit() {
@@ -28,6 +31,7 @@ class IntegralInterestsCtr extends GetxController {
     dismissLoading();
     integralModel.value = IntegralModel.fromJson(result.data);
     getCoupons();
+    getContentList();
   }
 
   void getCoupons() {
@@ -48,9 +52,33 @@ class IntegralInterestsCtr extends GetxController {
     levelCoupons.assignAll(result);
   }
 
+  List<LevelCoupon> getContentCoupons(String? coupons) {
+    if (coupons == null) return [];
+    List<dynamic> decodedJson = jsonDecode(coupons);
+    final result =
+        decodedJson.map((json) => LevelCoupon.fromJson(json)).toList();
+    return result;
+  }
+
+  void getContentList() {
+    if (integralModel.value.levelConfigVoList.isEmpty) {
+      contentList.clear();
+      return;
+    }
+    if (integralModel.value.levelConfigVoList[currentVIPIndex.value].content ==
+        null) {
+      contentList.clear();
+      return;
+    }
+    List<dynamic> decodedJson = jsonDecode(
+        integralModel.value.levelConfigVoList[currentVIPIndex.value].content!);
+    contentList.assignAll(decodedJson);
+  }
+
   void changeIndex(int index) {
     currentVIPIndex.value = index;
     getCoupons();
+    getContentList();
   }
 
   void redeemCoupon(int id) async {
@@ -63,8 +91,7 @@ class IntegralInterestsCtr extends GetxController {
     dismissLoading();
     if (result.data) {
       showToast("Redeem Successful".tr);
-    } else {
-      showToast("You have already received it.".tr);
     }
+    requestData();
   }
 }

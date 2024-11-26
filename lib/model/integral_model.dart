@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class IntegralModel {
   List<LevelConfigVoList> levelConfigVoList;
 
@@ -67,17 +69,57 @@ class LevelConfigVoList {
       };
 }
 
+class ContentModel {
+  List<LevelCoupon> coupons;
+  List<Description> description;
+  String title;
+
+  ContentModel({
+    required this.coupons,
+    required this.description,
+    required this.title,
+  });
+
+  factory ContentModel.fromJson(Map<String, dynamic> json) {
+    return ContentModel(
+      coupons: json['coupons'] != null
+          ? List<LevelCoupon>.from(
+              jsonDecode(json['coupons']).map((x) => LevelCoupon.fromJson(x)))
+          : [],
+      description: List<Description>.from(
+          json['description'].map((x) => Description.fromJson(x))),
+      title: json['title'],
+    );
+  }
+}
+
+class Description {
+  String value;
+
+  Description({
+    required this.value,
+  });
+
+  factory Description.fromJson(Map<String, dynamic> json) {
+    return Description(
+      value: json['value'],
+    );
+  }
+}
+
 class LevelCoupon {
   int level;
   String name;
   String description;
   int id;
+  int state;
 
   LevelCoupon({
     required this.level,
     required this.name,
     required this.description,
     required this.id,
+    required this.state,
   });
 
   factory LevelCoupon.fromJson(Map<String, dynamic> json) {
@@ -86,6 +128,7 @@ class LevelCoupon {
       name: json['name'],
       description: json['description'],
       id: json['id'],
+      state: json['state'] ?? 1,
     );
   }
 
@@ -95,6 +138,7 @@ class LevelCoupon {
       'name': name,
       'description': description,
       'id': id,
+      'state': state,
     };
   }
 }

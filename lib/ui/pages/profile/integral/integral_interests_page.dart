@@ -20,6 +20,7 @@ class IntegralInterestsPage extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          10.verticalSpace,
           SafeArea(
             child: GestureDetector(
               onTap: () => Get.back(),
@@ -188,6 +189,92 @@ class IntegralInterestsPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  20.verticalSpace,
+                  Obx(() => ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (c, i) => Container(
+                          margin: EdgeInsets.symmetric(horizontal: 15.w),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 20.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: hexColor('#2D2D34'),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    i % 2 == 0
+                                        ? ImageUtils.icon_invitation
+                                        : ImageUtils.icon_bubble,
+                                    width: 40.w,
+                                    height: 40.w,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${ctr.contentList[i]['title']}',
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        10.verticalSpace,
+                                        Text(
+                                          '${ctr.contentList[i]['description']}',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            color: hexColor('#FFB20E'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Obx(() => InkWell(
+                                        onTap: () =>
+                                            ctr.showOrHideCoupon.value =
+                                                !ctr.showOrHideCoupon.value,
+                                        child: Icon(
+                                          ctr.showOrHideCoupon.value
+                                              ? Icons
+                                                  .keyboard_arrow_down_outlined
+                                              : Icons
+                                                  .keyboard_arrow_right_outlined,
+                                          size: 40.sp,
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              Obx(() => Visibility(
+                                    visible: ctr.showOrHideCoupon.value,
+                                    child: Column(
+                                      children: [
+                                        10.verticalSpace,
+                                        ...ctr
+                                            .getContentCoupons(
+                                                ctr.contentList[i]['coupons'])
+                                            .map((e) => couponItemWidget(e))
+                                            .toList()
+                                      ],
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        separatorBuilder: (c, i) => 10.verticalSpace,
+                        itemCount: ctr.contentList.length,
+                      )),
                   Container(
                     width: 1.sw,
                     padding: EdgeInsets.only(
@@ -228,8 +315,7 @@ class IntegralInterestsPage extends StatelessWidget {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text:
-                                              '${ctr.levelCoupons.length}',
+                                          text: '${ctr.levelCoupons.length}',
                                           style: TextStyle(
                                             color: hexColor("FFB20E"),
                                           ),
@@ -245,109 +331,8 @@ class IntegralInterestsPage extends StatelessWidget {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.zero,
-                              itemBuilder: (c, i) => Container(
-                                width: 1.sw,
-                                decoration: ShapeDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment(-1.00, -0.04),
-                                    end: Alignment(1, 0.04),
-                                    colors: [
-                                      Color(0xFF302D26),
-                                      Color(0xFF2D2D34)
-                                    ],
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        width: 1, color: Color(0xFF524B41)),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w,
-                                  vertical: 15.h,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 42.w,
-                                      height: 42.w,
-                                      decoration: ShapeDecoration(
-                                        color: Color(0x19F097FF),
-                                        shape: OvalBorder(),
-                                      ),
-                                      child: Center(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(24.r),
-                                          child: Image.asset(
-                                            ImageUtils.integral_coupon_icon,
-                                            width: 20.w,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    10.horizontalSpace,
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '${ctr.levelCoupons[i].name}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.sp,
-                                              fontFamily: FONT_MEDIUM,
-                                            ),
-                                          ),
-                                          8.verticalSpace,
-                                          Text(
-                                            '${ctr.levelCoupons[i].description}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10.sp,
-                                              fontFamily: FONT_LIGHT,
-                                            ),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => ctr.redeemCoupon(ctr.levelCoupons[i].id),
-                                      child: Container(
-                                        height: 30.h,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 14.w,
-                                          vertical: 4.h,
-                                        ),
-                                        decoration: ShapeDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment(1.00, 0.00),
-                                            end: Alignment(-1, 0),
-                                            colors: [Color(0xFFFFB20E), Color(0xFFFF760E)],
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30.r),
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Redeem',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14.sp,
-                                            fontFamily: 'DIN',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              itemBuilder: (c, i) =>
+                                  couponItemWidget(ctr.levelCoupons[i]),
                               separatorBuilder: (c, i) => 10.verticalSpace,
                               itemCount: ctr.levelCoupons.length,
                             )),
@@ -359,5 +344,106 @@ class IntegralInterestsPage extends StatelessWidget {
             ),
           ),
         ],
+      );
+
+  Widget couponItemWidget(LevelCoupon model) => Container(
+        width: 1.sw,
+        decoration: ShapeDecoration(
+          gradient: LinearGradient(
+            begin: Alignment(-1.00, -0.04),
+            end: Alignment(1, 0.04),
+            colors: [Color(0xFF302D26), Color(0xFF2D2D34)],
+          ),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 1, color: Color(0xFF524B41)),
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 10.w,
+          vertical: 15.h,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42.w,
+              height: 42.w,
+              decoration: ShapeDecoration(
+                color: Color(0x19F097FF),
+                shape: OvalBorder(),
+              ),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24.r),
+                  child: Image.asset(
+                    ImageUtils.integral_coupon_icon,
+                    width: 20.w,
+                  ),
+                ),
+              ),
+            ),
+            10.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${model.name}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
+                  8.verticalSpace,
+                  Text(
+                    '${model.description}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.sp,
+                      fontFamily: FONT_LIGHT,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: model.state == 0,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => ctr.redeemCoupon(model.id),
+                child: Container(
+                  height: 30.h,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 4.h,
+                  ),
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(1.00, 0.00),
+                      end: Alignment(-1, 0),
+                      colors: [Color(0xFFFFB20E), Color(0xFFFF760E)],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Redeem',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: 'DIN',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       );
 }
