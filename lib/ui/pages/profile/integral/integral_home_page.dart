@@ -108,7 +108,8 @@ class IntegralHomePage extends StatelessWidget {
                           Obx(() => GestureDetector(
                                 onTap: () => Get.to(
                                   () => IntegralInterestsPage(),
-                                  arguments: t.integralInfoModel.value.pointInfo?.expGrade,
+                                  arguments: t.integralInfoModel.value.pointInfo
+                                      ?.expGrade,
                                 ),
                                 child: Image.asset(
                                   'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade == 0 ? (t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1 : t.integralInfoModel.value.pointInfo?.expGrade}_icon.webp',
@@ -122,15 +123,15 @@ class IntegralHomePage extends StatelessWidget {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => Get.to(
                               () => IntegralInterestsPage(),
-                              arguments: t.integralInfoModel.value.pointInfo?.expGrade,
+                              arguments:
+                                  t.integralInfoModel.value.pointInfo?.expGrade,
                             ),
                             child: Text(
-                              '${t.integralInfoModel.value.pointInfo?.expGradeName}',
+                              'Need ${(t.integralInfoModel.value.pointInfo?.nextExperience ?? 0) - (t.integralInfoModel.value.pointInfo?.experience ?? 0)} xp to level up to Lv${(t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}.',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13.sp,
                                 fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           )),
@@ -141,12 +142,13 @@ class IntegralHomePage extends StatelessWidget {
                               behavior: HitTestBehavior.translucent,
                               onTap: () => Get.to(
                                 () => IntegralInterestsPage(),
-                                arguments: t.integralInfoModel.value.pointInfo?.expGrade,
+                                arguments: t.integralInfoModel.value.pointInfo
+                                    ?.expGrade,
                               ),
                               child: LinearProgressBar(
                                 width: 200.w,
                                 progress: ((t.integralInfoModel.value.pointInfo
-                                                ?.pointsTotal ??
+                                                ?.experience ??
                                             0) /
                                         (t.integralInfoModel.value.pointInfo
                                                 ?.nextExperience ??
@@ -157,6 +159,182 @@ class IntegralHomePage extends StatelessWidget {
                             ),
                           )),
                       30.verticalSpace,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 60.h,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(0.00, -1.00),
+                                  end: Alignment(0, 1),
+                                  colors: [
+                                    Color(0xFF202026),
+                                    Color(0xFF202026)
+                                  ],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 60.w,
+                                    height: 60.h,
+                                    decoration: ShapeDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          Color(0xFF4E2828),
+                                          Color(0xFF202026)
+                                        ],
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 10.w,
+                                    bottom: 0,
+                                    child: Image.asset(
+                                      ImageUtils.integral_benefit_bottom_icon,
+                                      width: 32.w,
+                                      height: 12.h,
+                                    ),
+                                  ),
+                                  Center(
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => Get.to(
+                                        () => IntegralInterestsPage(),
+                                        arguments: t.integralInfoModel.value
+                                            .pointInfo?.expGrade,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          10.horizontalSpace,
+                                          Image.asset(
+                                            ImageUtils.integral_benefit_icon,
+                                            width: 26.w,
+                                            height: 26.w,
+                                          ),
+                                          4.horizontalSpace,
+                                          Expanded(
+                                            child: Text(
+                                              'My Benefits'.tr,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: 'DIN',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                          Image.asset(
+                                            ImageUtils.integral_arrow_icon,
+                                          ),
+                                          4.horizontalSpace,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          10.horizontalSpace,
+                          Expanded(
+                            child: Container(
+                              height: 60.h,
+                              decoration: ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(0.00, -1.00),
+                                  end: Alignment(0, 1),
+                                  colors: [
+                                    Color(0xFF202026),
+                                    Color(0xFF202026)
+                                  ],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 60.w,
+                                    height: 60.h,
+                                    decoration: ShapeDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          Color(0xFF4E2828),
+                                          Color(0xFF202026)
+                                        ],
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: 10.w,
+                                    bottom: 0,
+                                    child: Image.asset(
+                                      ImageUtils.integral_points_mall_bottom_icon,
+                                      width: 32.w,
+                                      height: 12.h,
+                                    ),
+                                  ),
+                                  Center(
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => Get.to(
+                                        () => IntegralRedemptionPage(),
+                                        arguments: t.integralInfoModel.value
+                                            .pointInfo?.pointsTotal,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          10.horizontalSpace,
+                                          Image.asset(
+                                            ImageUtils.integral_point_mall_icon,
+                                            width: 26.w,
+                                            height: 26.w,
+                                          ),
+                                          8.horizontalSpace,
+                                          Expanded(
+                                            child: Text(
+                                              'Points Mall'.tr,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: 'DIN',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                          Image.asset(
+                                            ImageUtils.integral_arrow_icon,
+                                          ),
+                                          6.horizontalSpace,
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      15.verticalSpace,
                       Container(
                         width: 1.sw,
                         decoration: ShapeDecoration(

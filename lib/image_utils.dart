@@ -14,6 +14,10 @@ class ImageUtils {
   static const String google_icon = 'assets/images/google_icon.webp';
   static const String tab_top_icon = 'assets/images/tab_top_icon.webp';
   static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
+  static const String integral_benefit_icon = 'assets/images/integral_benefit_icon.webp';
+  static const String integral_benefit_bottom_icon = 'assets/images/integral_benefit_bottom_icon.webp';
+  static const String integral_point_mall_icon = 'assets/images/integral_point_mall_icon.webp';
+  static const String integral_points_mall_bottom_icon = 'assets/images/integral_points_mall_bottom_icon.webp';
   static const String icon_battle_room = 'assets/images/icon_battle_room.webp';
   static const String tab_home = 'assets/images/tab_home.webp';
   static const String tab_home_normal = 'assets/images/tab_home_normal.webp';

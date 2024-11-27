@@ -35,7 +35,6 @@ class IntegralInterestsPage extends StatelessWidget {
           ),
           Obx(() => Container(
                 height: 160.h,
-                margin: EdgeInsets.only(top: 20.h),
                 child: Swiper(
                   itemBuilder: (BuildContext context, int index) {
                     return Stack(
@@ -228,13 +227,23 @@ class IntegralInterestsPage extends StatelessWidget {
                                             color: Colors.white,
                                           ),
                                         ),
-                                        10.verticalSpace,
-                                        Text(
-                                          '${ctr.contentList[i]['description']}',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontFamily: FONT_MEDIUM,
-                                            color: hexColor('#FFB20E'),
+                                        Visibility(
+                                          visible: ctr.contentList[i]
+                                                  ['notes'] !=
+                                              null,
+                                          child: 10.verticalSpace,
+                                        ),
+                                        Visibility(
+                                          visible: ctr.contentList[i]
+                                                  ['notes'] !=
+                                              null,
+                                          child: Text(
+                                            '${ctr.contentList[i]['notes']}',
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              color: hexColor('#FFB20E'),
+                                            ),
                                           ),
                                         ),
                                       ],
