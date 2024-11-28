@@ -23,23 +23,23 @@ class IntegralModel {
 class LevelConfigVoList {
   int? id;
   String? content;
-  int? threshold;
+  int threshold;
   String? name;
   String? description;
-  int? level;
+  int level;
   int? locked;
-  int? nowExperience;
+  int nowExperience;
   String? levelCoupons;
 
   LevelConfigVoList({
     this.id,
     this.content,
-    this.threshold,
+    required this.threshold,
     this.name,
     this.description,
-    this.level,
+    required this.level,
     this.locked,
-    this.nowExperience,
+    required this.nowExperience,
     this.levelCoupons,
   });
 
@@ -47,12 +47,12 @@ class LevelConfigVoList {
       LevelConfigVoList(
         id: json["id"],
         content: json["content"],
-        threshold: json["threshold"],
+        threshold: json["threshold"] ?? 0,
         name: json["name"],
         description: json["description"],
-        level: json["level"],
+        level: json["level"] ?? 0,
         locked: json["locked"],
-        nowExperience: json["nowExperience"],
+        nowExperience: json["nowExperience"] ?? 0,
         levelCoupons: json["levelCoupons"],
       );
 

@@ -9,8 +9,7 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
-import '../../../../model/integral_checkin_model.dart';
-import '../../../../widget/linear_progressbar_widget.dart';
+import '../../../../widget/progress_bar/animation_progress_bar.dart';
 import '../task/task_page.dart';
 import 'ctr/integral_home_ctr.dart';
 import 'integral_detail_page.dart';
@@ -136,25 +135,28 @@ class IntegralHomePage extends StatelessWidget {
                             ),
                           )),
                       6.verticalSpace,
-                      Obx(() => Transform.translate(
-                            offset: Offset(-6.w, 0),
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => Get.to(
-                                () => IntegralInterestsPage(),
-                                arguments: t.integralInfoModel.value.pointInfo
-                                    ?.expGrade,
-                              ),
-                              child: LinearProgressBar(
-                                width: 200.w,
-                                progress: ((t.integralInfoModel.value.pointInfo
-                                                ?.experience ??
-                                            0) /
-                                        (t.integralInfoModel.value.pointInfo
-                                                ?.nextExperience ??
-                                            0)) *
-                                    100,
-                                height: 6.h,
+                      Obx(() => GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => Get.to(
+                              () => IntegralInterestsPage(),
+                              arguments:
+                                  t.integralInfoModel.value.pointInfo?.expGrade,
+                            ),
+                            child: SizedBox(
+                              width: 200.w,
+                              child: FAProgressBar(
+                                size: 6.h,
+                                currentValue: (t.integralInfoModel.value
+                                            .pointInfo?.experience ??
+                                        0) /
+                                    (t.integralInfoModel.value.pointInfo
+                                            ?.nextExperience ??
+                                        0),
+                                progressGradient: LinearGradient(colors: [
+                                  hexColor('#FF760E'),
+                                  hexColor('#FFB20E')
+                                ]),
+                                backgroundColor: hexColor('#45494B'),
                               ),
                             ),
                           )),
@@ -287,7 +289,8 @@ class IntegralHomePage extends StatelessWidget {
                                     left: 10.w,
                                     bottom: 0,
                                     child: Image.asset(
-                                      ImageUtils.integral_points_mall_bottom_icon,
+                                      ImageUtils
+                                          .integral_points_mall_bottom_icon,
                                       width: 32.w,
                                       height: 12.h,
                                     ),

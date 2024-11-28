@@ -48,6 +48,7 @@ class IntegralHomeCtr extends GetxController {
     final response = await http.post('/app/point/sign', data: {"signType": "1"});
     dismissLoading();
     requestData();
+    flog("zengchao = ${response.data}");
     if (response.data) {
       showToast('Sign in successfully');
     }

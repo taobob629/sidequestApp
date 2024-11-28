@@ -183,7 +183,9 @@ class MyProfilePage extends StatelessWidget {
                                         onTap: () async {
                                           // 将文本复制到剪贴板
                                           await Clipboard.setData(
-                                            ClipboardData(text: userController.userProfile.uk),
+                                            ClipboardData(
+                                                text: userController
+                                                    .userProfile.uk),
                                           );
                                           showToast("copy UK id");
                                         },
@@ -621,15 +623,42 @@ class MyProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'MY BALANCE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontFamily: FONT_MEDIUM,
-                fontWeight: FontWeight.w700,
-              ),
-            ).paddingOnly(left: 16.w),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'MY ASSETS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ).paddingOnly(left: 16.w),
+                Stack(
+                  children: [
+                    SvgPicture.asset(
+                      ImageUtils.point_lv_icon,
+                      width: 116.w,
+                      height: 20.w,
+                    ),
+                    Positioned(
+                      right: 6.w,
+                      top: 4.h,
+                      child: Obx(() => Text(
+                            'Upgrade to LV.${userController.userProfile.lv + 1}',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                    ),
+                  ],
+                ).marginOnly(right: 16.w),
+              ],
+            ),
             Row(
               children: [
                 Obx(() => achievementItem(

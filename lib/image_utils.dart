@@ -181,6 +181,7 @@ class ImageUtils {
   static const String icon_vouchers = 'assets/images/icon_vouchers.webp';
   static const String ic_corns_new2 = 'assets/images/ic_corns_new2.webp';
   static const String add_game_account_content = 'assets/images/add_game_account_content.svg';
+  static const String point_lv_icon = 'assets/images/point_lv_icon.svg';
   static const String integral_checkin_green_icon = 'assets/images/integral_checkin_green_icon.webp';
   static const String integral_checkin_grey_icon = 'assets/images/integral_checkin_grey_icon.webp';
   static const String integral_checkin_icon = 'assets/images/integral_checkin_icon.webp';

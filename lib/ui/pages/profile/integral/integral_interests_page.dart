@@ -7,9 +7,8 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
-import '../../../../model/integral_coupon_model.dart';
 import '../../../../model/integral_model.dart';
-import '../../../../widget/linear_progressbar_widget.dart';
+import '../../../../widget/progress_bar/animation_progress_bar.dart';
 import '../task/task_page.dart';
 import 'ctr/integral_interests_ctr.dart';
 
@@ -46,7 +45,6 @@ class IntegralInterestsPage extends StatelessWidget {
                           padding: EdgeInsets.only(
                             left: 16.w,
                             right: 16.w,
-                            top: 16.h,
                           ),
                           decoration: ShapeDecoration(
                             gradient: LinearGradient(
@@ -62,6 +60,7 @@ class IntegralInterestsPage extends StatelessWidget {
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 '${ctr.integralModel.value.levelConfigVoList[index].name}',
@@ -71,9 +70,9 @@ class IntegralInterestsPage extends StatelessWidget {
                                   fontFamily: FONT_MEDIUM,
                                 ),
                               ),
-                              10.verticalSpace,
+                              4.verticalSpace,
                               Text(
-                                'Points:${ctr.integralModel.value.levelConfigVoList[index].threshold}',
+                                'Experience:${ctr.integralModel.value.levelConfigVoList[index].threshold}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Color(0xFF9CA3AF),
@@ -82,36 +81,51 @@ class IntegralInterestsPage extends StatelessWidget {
                                 ),
                               ),
                               4.verticalSpace,
-                              Transform.translate(
-                                offset: Offset(-6.w, 0),
-                                child: LinearProgressBar(
-                                  width: 120.w,
-                                  progress: ((ctr
-                                                  .integralModel
-                                                  .value
-                                                  .levelConfigVoList[index]
-                                                  .nowExperience ??
-                                              0) /
-                                          (ctr
-                                                  .integralModel
-                                                  .value
-                                                  .levelConfigVoList[index]
-                                                  .threshold ??
-                                              0)) *
-                                      100,
-                                  height: 4.h,
-                                  bgColor: hexColor('242531'),
-                                  progressStartColor: hexColor('ffffff'),
-                                  progressEndColor: hexColor('ffffff'),
+                              SizedBox(
+                                width: 120.w,
+                                child: FAProgressBar(
+                                  size: 4.h,
+                                  currentValue: (ctr
+                                          .integralModel
+                                          .value
+                                          .levelConfigVoList[index]
+                                          .nowExperience) /
+                                      (ctr.integralModel.value
+                                          .levelConfigVoList[index].threshold),
+                                  progressColor: hexColor('ffffff'),
+                                  backgroundColor: hexColor('242531'),
                                 ),
                               ),
+                              6.verticalSpace,
+                              Text(
+                                (ctr
+                                                .integralModel
+                                                .value
+                                                .levelConfigVoList[index]
+                                                .nowExperience) -
+                                            (ctr
+                                                .integralModel
+                                                .value
+                                                .levelConfigVoList[index]
+                                                .threshold) <=
+                                        0
+                                    ? "Only ${(ctr.integralModel.value.levelConfigVoList[index].threshold) - (ctr.integralModel.value.levelConfigVoList[index].nowExperience)} EXP left to reach Level ${ctr.integralModel.value.levelConfigVoList[index].level}"
+                                    : "You've achieved the this level",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF9CA3AF),
+                                  fontSize: 12.sp,
+                                  fontFamily: FONT_LIGHT,
+                                ),
+                              ),
+                              6.verticalSpace,
                               GestureDetector(
                                 onTap: () => Get.to(() => TaskPage())?.then(
                                     (value) =>
                                         UserController.find.updateInfo()),
                                 child: Container(
                                   height: 26.h,
-                                  margin: EdgeInsets.only(top: 15.h),
+                                  margin: EdgeInsets.only(bottom: 6.h),
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   decoration: ShapeDecoration(
@@ -249,18 +263,24 @@ class IntegralInterestsPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Obx(() => InkWell(
-                                        onTap: () =>
-                                            ctr.showOrHideCoupon.value =
-                                                !ctr.showOrHideCoupon.value,
-                                        child: Icon(
-                                          ctr.showOrHideCoupon.value
-                                              ? Icons
-                                                  .keyboard_arrow_down_outlined
-                                              : Icons
-                                                  .keyboard_arrow_right_outlined,
-                                          size: 40.sp,
-                                          color: Colors.white,
+                                  Obx(() => Visibility(
+                                        visible: ctr
+                                            .getContentCoupons(
+                                                ctr.contentList[i]['coupons'])
+                                            .isNotEmpty,
+                                        child: InkWell(
+                                          onTap: () =>
+                                              ctr.showOrHideCoupon.value =
+                                                  !ctr.showOrHideCoupon.value,
+                                          child: Icon(
+                                            ctr.showOrHideCoupon.value
+                                                ? Icons
+                                                    .keyboard_arrow_down_outlined
+                                                : Icons
+                                                    .keyboard_arrow_right_outlined,
+                                            size: 40.sp,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       )),
                                 ],
