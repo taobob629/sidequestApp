@@ -313,49 +313,52 @@ class IntegralInterestsPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            bottom: 15.h,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 4.w,
-                                height: 14.h,
-                                color: hexColor("FFB20E"),
-                                margin: EdgeInsets.only(right: 8.w),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Coupons'.tr,
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    color: Colors.white,
-                                  ),
+                        Obx(() => Visibility(
+                              visible: ctr.levelCoupons.isNotEmpty,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  bottom: 15.h,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 4.w,
+                                      height: 14.h,
+                                      color: hexColor("FFB20E"),
+                                      margin: EdgeInsets.only(right: 8.w),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        'Coupons'.tr,
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'You can redeem ',
+                                        style: TextStyle(
+                                          fontSize: 13.sp,
+                                          color: Colors.white,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: '${ctr.levelCoupons.length}',
+                                            style: TextStyle(
+                                              color: hexColor("FFB20E"),
+                                            ),
+                                          ),
+                                          TextSpan(text: ' coupons.'),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Obx(() => RichText(
-                                    text: TextSpan(
-                                      text: 'You can redeem ',
-                                      style: TextStyle(
-                                        fontSize: 13.sp,
-                                        color: Colors.white,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '${ctr.levelCoupons.length}',
-                                          style: TextStyle(
-                                            color: hexColor("FFB20E"),
-                                          ),
-                                        ),
-                                        TextSpan(text: ' coupons.'),
-                                      ],
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ),
+                            )),
                         Obx(() => ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
