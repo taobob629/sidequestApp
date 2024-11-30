@@ -9,6 +9,7 @@ class OrderDetailNewModel {
   List<OrderDetailItem> items = [];
   String? pickNum;
   String? status;
+  int reward = 0;
 
   OrderDetailNewModel({
     this.total,
@@ -21,6 +22,7 @@ class OrderDetailNewModel {
     required this.items,
     this.pickNum,
     this.status,
+    required this.reward,
   });
 
   factory OrderDetailNewModel.fromJson(Map<String, dynamic> json) => OrderDetailNewModel(
@@ -34,6 +36,7 @@ class OrderDetailNewModel {
     items: json["items"] == null ? [] : List<OrderDetailItem>.from(json["items"]!.map((x) => OrderDetailItem.fromJson(x))),
     pickNum: json["pickNum"],
     status: json["status"],
+    reward: json["reward"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {

@@ -53,35 +53,83 @@ class OrderDetailPage extends BasePage {
                       borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
-                  child: Stack(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.w,
+                    vertical: 24.h,
+                  ),
+                  child: Column(
                     children: [
-                      Center(
-                        child: Column(
+                      Text(
+                        'PICKUP NUMBER'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 14.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: -0.41,
+                        ),
+                      ).paddingOnly(bottom: 12.h),
+                      Text(
+                        '${ctr.model.value.pickNum}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFFFB20E),
+                          fontSize: 28.sp,
+                          fontFamily: FONT_MEDIUM,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Visibility(
+                        visible: ctr.model.value.reward > 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'PICKUP NUMBER'.tr,
+                              'Points reward'.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
+                                color: Color(0x99ffffff),
                                 fontSize: 14.sp,
                                 fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.41,
                               ),
-                            ).paddingOnly(bottom: 12.h),
-                            Text(
-                              '${ctr.model.value.pickNum}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFFFFB20E),
-                                fontSize: 28.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.r),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    hexColor('#442A23'),
+                                    hexColor('#141517')
+                                  ],
+                                ),
                               ),
-                            )
+                              padding: EdgeInsets.fromLTRB(4.w, 6.h, 30.w, 6.h),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    ImageUtils.coin_red,
+                                    width: 19.w,
+                                    height: 19.w,
+                                  ),
+                                  4.horizontalSpace,
+                                  Text(
+                                    '${ctr.model.value.reward}Points',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: hexColor('#FFB20E'),
+                                      fontSize: 14.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
-                        ).paddingSymmetric(vertical: 24.h),
-                      ),
+                        ).marginOnly(top: 28.h),
+                      )
                     ],
                   ),
                 ),

@@ -7,7 +7,7 @@ import '../../../../model/order_detail_new_model.dart';
 
 class OrderDetailCtr extends BasePageController {
 
-  var model = OrderDetailNewModel(items: []).obs;
+  var model = OrderDetailNewModel(items: [], reward: 0).obs;
 
   @override
   void onInit() {
