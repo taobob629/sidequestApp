@@ -1,3 +1,18 @@
+class FriendOutModel {
+  int approvalNum;
+  List<FriendModel> list;
+
+  FriendOutModel({required this.approvalNum, required this.list});
+
+  factory FriendOutModel.fromJson(Map<String, dynamic> json) => FriendOutModel(
+        approvalNum: json["approvalNum"] ?? 0,
+        list: json["list"] == null
+            ? []
+            : List<FriendModel>.from(
+                json["list"].map((x) => FriendModel.fromJson(x))),
+      );
+}
+
 class FriendModel {
   int? id;
   int? memberId;
@@ -20,24 +35,24 @@ class FriendModel {
   });
 
   factory FriendModel.fromJson(Map<String, dynamic> json) => FriendModel(
-    id: json["id"],
-    memberId: json["memberId"],
-    toMemberId: json["toMemberId"],
-    friendState: json["friendState"],
-    notes: json["notes"],
-    nickName: json["nickName"],
-    memberCode: json["memberCode"],
-    memberPhoto: json["memberPhoto"],
-  );
+        id: json["id"],
+        memberId: json["memberId"],
+        toMemberId: json["toMemberId"],
+        friendState: json["friendState"],
+        notes: json["notes"],
+        nickName: json["nickName"],
+        memberCode: json["memberCode"],
+        memberPhoto: json["memberPhoto"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "memberId": memberId,
-    "toMemberId": toMemberId,
-    "friendState": friendState,
-    "notes": notes,
-    "nickName": nickName,
-    "memberCode": memberCode,
-    "memberPhoto": memberPhoto,
-  };
+        "id": id,
+        "memberId": memberId,
+        "toMemberId": toMemberId,
+        "friendState": friendState,
+        "notes": notes,
+        "nickName": nickName,
+        "memberCode": memberCode,
+        "memberPhoto": memberPhoto,
+      };
 }

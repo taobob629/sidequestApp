@@ -20,8 +20,8 @@ class ConnectionsCtr extends GetxController
     tabsList = [
       Obx(() => Container(
         height: 34.h,
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
         alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         decoration: BoxDecoration(
           color: hexColor('#141414'),
           border: Border.all(
@@ -31,12 +31,12 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('Add game account'.tr),
+        child: Text('Add Friend'.tr),
       )),
       Obx(() => Container(
         height: 34.h,
-        alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 16.w),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: hexColor('#141414'),
           border: Border.all(
@@ -46,7 +46,7 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('Add Friend'.tr),
+        child: Text('Add game account'.tr),
       )),
     ];
     tabBarController = TabController(length: tabsList.length, vsync: this);

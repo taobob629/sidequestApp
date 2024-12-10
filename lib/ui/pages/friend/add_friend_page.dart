@@ -5,8 +5,10 @@ import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/config/app_color.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
 import 'package:sq_hub_app/widget/image_util.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../../image_utils.dart';
+import '../playwith/balance/widget/tips_dialog.dart';
 import 'add_friend_ctr.dart';
 
 class AddFriendPage extends StatelessWidget {
@@ -80,51 +82,45 @@ class AddFriendPage extends StatelessWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => ctr.requestFriends(),
+                    onTap: () => ctr.requestData(),
                     child: Text(
                       'My Friends'.tr,
                       style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: FONT_LIGHT,
-                        color: ctr.isSelectFriend.value
-                            ? hexColor('#FFB20E')
-                            : Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                        color: Colors.white,
                       ),
                     ).paddingOnly(right: 10.w),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => ctr.requestApproval(),
-                      child: Text(
-                        'Pending Approval'.tr,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: FONT_LIGHT,
-                          color: !ctr.isSelectFriend.value
-                              ? hexColor('#FFB20E')
-                              : Colors.white,
+                  Spacer(),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTapDown: (details) {
+                      print(details.globalPosition);
+                      Get.dialog(TipsDialog(
+                        offset: details.globalPosition,
+                        tips: "这是提示内容这是提示内容这是提示内容",
+                      ));
+                    },
+                    child: Container(
+                      width: 15.w,
+                      height: 15.w,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: hexColor('#FFB20E'),
+                          width: 1.2.w,
                         ),
+                        borderRadius: BorderRadius.circular(15.w),
                       ),
-                    ),
-                  ),
-                  Container(
-                    width: 15.w,
-                    height: 15.w,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: hexColor('#FFB20E'),
-                        width: 1.2.w,
-                      ),
-                      borderRadius: BorderRadius.circular(15.w),
-                    ),
-                    margin: EdgeInsets.only(right: 8.w),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '?',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontFamily: FONT_MEDIUM,
-                        color: hexColor('#FFB20E'),
+                      margin: EdgeInsets.only(right: 8.w),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '?',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontFamily: FONT_MEDIUM,
+                          color: hexColor('#FFB20E'),
+                        ),
                       ),
                     ),
                   ),
@@ -139,13 +135,44 @@ class AddFriendPage extends StatelessWidget {
                 ],
               ).marginOnly(left: 16.w, right: 16.w, top: 16.h),
             )),
+        Obx(() => GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => ctr.approval(),
+          child: Row(
+            children: [
+              badges.Badge(
+                showBadge: ctr.friendOutModel.value.approvalNum > 0,
+                badgeContent: Text(
+                  '${ctr.friendOutModel.value.approvalNum}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10.sp,
+                  ),
+                ),
+                badgeColor: Color(0xffFF4848),
+                position: badges.BadgePosition(end: -14.w, top: -6),
+                alignment: Alignment.topRight,
+                child: Text(
+                  'Pending Approval'.tr,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontFamily: FONT_LIGHT,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Spacer(),
+              Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16.sp,),
+            ],
+          ).marginOnly(left: 22.w, right: 32.w, top: 16.h, bottom: 16.h),
+        )),
         Expanded(
           child: Obx(() => ctr.friendList.isNotEmpty
               ? ListView.separated(
                   itemBuilder: (c, i) => Container(
                     padding: EdgeInsets.fromLTRB(
                       16.w,
-                      14.h,
+                      4.h,
                       18.w,
                       14.h,
                     ),

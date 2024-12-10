@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/model/friend_model.dart';
+import 'package:sq_hub_app/ui/pages/friend/approval/approval_ctr.dart';
 import 'package:sq_hub_app/utils/utils.dart';
 
 import '../../../api/wy_http.dart';
@@ -9,14 +10,21 @@ import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../controller/user_controller.dart';
 import '../../../utils/toast_utils.dart';
+import 'approval/approval_page.dart';
 
 class AddFriendCtr extends GetxController {
+  static AddFriendCtr get find => Get.find();
+
+  var friendOutModel = FriendOutModel(
+    approvalNum: 0,
+    list: [],
+  ).obs;
   var friendList = <FriendModel>[].obs;
+
   TextEditingController searchCtr = TextEditingController();
 
   // 是否是搜索的朋友，true：是，反之
   var isSearchFriend = false.obs;
-  var isSelectFriend = true.obs;
 
   @override
   void onInit() {
@@ -30,20 +38,16 @@ class AddFriendCtr extends GetxController {
     final response = await http.get('/app/point/friend/list');
     dismissLoading();
 
-    friendList.value = response.data
-        .map<FriendModel>((item) => FriendModel.fromJson(item))
-        .toList();
+    friendOutModel.value = FriendOutModel.fromJson(response.data);
+
+    friendList.value = friendOutModel.value.list;
     isSearchFriend.value = false;
   }
 
   void searchFriend(BuildContext context) async {
     FocusScope.of(context).unfocus();
     if (searchCtr.text.isEmpty) {
-      if (isSelectFriend.value) {
-        requestData();
-        return;
-      }
-      requestApproval();
+      requestData();
       return;
     }
     showLoading();
@@ -82,36 +86,22 @@ class AddFriendCtr extends GetxController {
     }
   }
 
-  void requestApproval() async {
-    isSelectFriend.value = false;
-    showLoading();
-    final response = await http.get('/app/point/approval/list');
-    dismissLoading();
-
-    friendList.value = response.data
-        .map<FriendModel>((item) => FriendModel.fromJson(item))
-        .toList();
-    isSearchFriend.value = false;
-  }
-
-  void requestFriends() async {
-    isSelectFriend.value = true;
-    requestData();
+  void approval() async {
+    await Get.to(() => ApprovalPage());
   }
 
   void addOrRejectFriends(bool isAdd, int? memberId) async {
     showLoading();
-    final response = await http.post('/app/point/set/friend', data: {
+    await http.post('/app/point/set/friend', data: {
       "memberId": memberId,
       // 1同意 4拒绝
       "friendState": isAdd ? 1 : 4,
     });
     dismissLoading();
-    if (isSelectFriend.value) {
-      requestData();
-      return;
+    requestData();
+    if (Get.isRegistered<ApprovalCtr>()) {
+      ApprovalCtr.find.requestData();
     }
-    requestApproval();
   }
 
   Widget getFunByState(FriendModel model) {

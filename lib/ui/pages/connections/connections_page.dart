@@ -28,6 +28,7 @@ class ConnectionsPage extends StatelessWidget {
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TabBar(
             controller: ctr.tabBarController,
@@ -49,14 +50,14 @@ class ConnectionsPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             indicatorColor: Colors.transparent,
-          ).marginSymmetric(horizontal: 16.w, vertical: 12.h),
+          ).marginSymmetric(vertical: 12.h),
           10.verticalSpace,
           Expanded(
             child: TabBarView(
               controller: ctr.tabBarController,
               children: [
-                AddGameAccountPage(),
                 AddFriendPage(),
+                AddGameAccountPage(),
               ],
             ),
           ),
