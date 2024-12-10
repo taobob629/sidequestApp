@@ -1,0 +1,201 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sq_hub_app/model/friend_model.dart';
+import 'package:sq_hub_app/utils/utils.dart';
+
+import '../../../api/wy_http.dart';
+import '../../../config/app_color.dart';
+import '../../../config/icon_font.dart';
+import '../../../controller/user_controller.dart';
+import '../../../utils/toast_utils.dart';
+
+class AddFriendCtr extends GetxController {
+  var friendList = <FriendModel>[].obs;
+  TextEditingController searchCtr = TextEditingController();
+
+  // 是否是搜索的朋友，true：是，反之
+  var isSearchFriend = false.obs;
+  var isSelectFriend = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    requestData();
+  }
+
+  void requestData() async {
+    showLoading();
+    final response = await http.get('/app/point/friend/list');
+    dismissLoading();
+
+    friendList.value = response.data
+        .map<FriendModel>((item) => FriendModel.fromJson(item))
+        .toList();
+    isSearchFriend.value = false;
+  }
+
+  void searchFriend(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+    if (searchCtr.text.isEmpty) {
+      if (isSelectFriend.value) {
+        requestData();
+        return;
+      }
+      requestApproval();
+      return;
+    }
+    showLoading();
+    final response = await http.get('/app/point/member/list', queryParameters: {
+      "name": searchCtr.text,
+    });
+    dismissLoading();
+
+    friendList.value = response.data
+        .map<FriendModel>((item) => FriendModel.fromJson(item))
+        .toList();
+    isSearchFriend.value = true;
+  }
+
+  void removeFriend(int? toMemberId) async {
+    showLoading();
+    await http.post('/app/point/del/friend', data: {
+      "toMemberId": toMemberId,
+    });
+    dismissLoading();
+    requestData();
+  }
+
+  void addFriend(FriendModel model) async {
+    if (model.memberCode == UserController.find.userProfile.uk) {
+      showToast("You cannot add yourself".tr);
+      return;
+    }
+    showLoading();
+    final result = await http.post('/app/point/add/friend', data: {
+      "toMemberId": model.id,
+    });
+    dismissLoading();
+    if (result.data == true) {
+      showToast("Successfully".tr);
+    }
+  }
+
+  void requestApproval() async {
+    isSelectFriend.value = false;
+    showLoading();
+    final response = await http.get('/app/point/approval/list');
+    dismissLoading();
+
+    friendList.value = response.data
+        .map<FriendModel>((item) => FriendModel.fromJson(item))
+        .toList();
+    isSearchFriend.value = false;
+  }
+
+  void requestFriends() async {
+    isSelectFriend.value = true;
+    requestData();
+  }
+
+  void addOrRejectFriends(bool isAdd, int? memberId) async {
+    showLoading();
+    final response = await http.post('/app/point/set/friend', data: {
+      "memberId": memberId,
+      // 1同意 4拒绝
+      "friendState": isAdd ? 1 : 4,
+    });
+    dismissLoading();
+    if (isSelectFriend.value) {
+      requestData();
+      return;
+    }
+    requestApproval();
+  }
+
+  Widget getFunByState(FriendModel model) {
+    // friendState  状态（ 0待确认  1已通过  2陌生人，3已申请 ，4，已拒绝）
+    switch (model.friendState) {
+      case 0:
+        return Row(
+          children: [
+            InkWell(
+              onTap: () => addOrRejectFriends(false, model.memberId),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4.w,
+                  vertical: 6.h,
+                ),
+                child: Text(
+                  "Reject".tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontFamily: FONT_LIGHT,
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => addOrRejectFriends(true, model.memberId),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 4.w,
+                  vertical: 6.h,
+                ),
+                margin: EdgeInsets.only(left: 6.w),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                child: Text(
+                  "Accept".tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontFamily: FONT_LIGHT,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      case 1:
+        return IconButton(
+          onPressed: () => removeFriend(model.toMemberId),
+          icon: Icon(
+            Icons.remove_circle_outline,
+            color: Colors.red,
+            size: 30.sp,
+          ),
+        );
+      case 3:
+        return Text(
+          "Wait Approve".tr,
+          style: TextStyle(
+            color: hexColor('#32BE48'),
+            fontFamily: FONT_MEDIUM,
+            fontSize: 14.sp,
+          ),
+        ).paddingOnly(left: 4.w);
+
+      case 2:
+      case 4:
+      default:
+        // 陌生人、已拒绝和默认的时候显示添加按钮
+        return IconButton(
+          onPressed: () => addFriend(model),
+          icon: Icon(
+            Icons.add_circle_outline_outlined,
+            color: hexColor('FFB20E'),
+            size: 30.sp,
+          ),
+        );
+    }
+  }
+}

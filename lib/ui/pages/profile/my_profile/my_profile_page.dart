@@ -26,8 +26,8 @@ import '../../../../utils/storage_manager.dart';
 import '../../../../utils/toast_utils.dart';
 import '../../../../widget/my_progressbar.dart';
 import '../../../consum/list/view.dart';
-import '../../addgame/add_game_account_page.dart';
 import '../../booking/booking_page.dart';
+import '../../connections/connections_page.dart';
 import '../../messages/messages_page.dart';
 import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
@@ -489,7 +489,7 @@ class MyProfilePage extends StatelessWidget {
                             ImageUtils.icon_connection,
                             "Connections".tr,
                             onTap: () => Get.to(
-                              () => AddGameAccountPage(),
+                              () => ConnectionsPage(),
                             ),
                           ),
                         ),
