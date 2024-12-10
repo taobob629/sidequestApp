@@ -131,86 +131,84 @@ class IntegralRedemptionPage extends StatelessWidget {
         ),
       );
 
-  Widget pointsRedemptionWidget(int index) => Expanded(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => Get.to(() => IntegralDetailPage(),
-              arguments: _ctr.selectGoods[index]['id']),
-          child: Container(
-            decoration: ShapeDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.00, -1.00),
-                end: Alignment(0, 1),
-                colors: [Color(0xFF202026), Color(0xFF202026)],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
+  Widget pointsRedemptionWidget(int index) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => Get.to(() => IntegralDetailPage(),
+            arguments: _ctr.selectGoods[index]['id']),
+        child: Container(
+          decoration: ShapeDecoration(
+            gradient: LinearGradient(
+              begin: Alignment(0.00, -1.00),
+              end: Alignment(0, 1),
+              colors: [Color(0xFF202026), Color(0xFF202026)],
             ),
-            padding: EdgeInsets.symmetric(vertical: 15.h),
-            child: Column(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: '${_ctr.selectGoods[index]['picUrl']}',
-                  fit: BoxFit.cover,
-                  width: 106.w,
-                  height: 106.w,
-                ),
-                15.verticalSpace,
-                Container(
-                  width: 1.sw,
-                  margin: EdgeInsets.only(left: 15.w),
-                  child: Text(
-                    '${_ctr.selectGoods[index]['name']}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontFamily: 'DIN',
-                      fontWeight: FontWeight.w400,
-                    ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.r),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 15.h),
+          child: Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: '${_ctr.selectGoods[index]['picUrl']}',
+                fit: BoxFit.cover,
+                width: 106.w,
+                height: 106.w,
+              ),
+              15.verticalSpace,
+              Container(
+                width: 1.sw,
+                margin: EdgeInsets.only(left: 15.w),
+                child: Text(
+                  '${_ctr.selectGoods[index]['name']}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13.sp,
+                    fontFamily: 'DIN',
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                15.verticalSpace,
-                Row(
-                  children: [
-                    15.horizontalSpace,
-                    RichText(
-                      text: TextSpan(
-                          text: "${_ctr.selectGoods[index]['points']}\n".tr,
-                          style: TextStyle(
-                            color: Color(0xFFFFB20E),
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                          children: [
-                            TextSpan(
-                                text: "Points".tr,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                  fontFamily: FONT_LIGHT,
-                                )),
-                          ]),
+              ),
+              15.verticalSpace,
+              Row(
+                children: [
+                  15.horizontalSpace,
+                  RichText(
+                    text: TextSpan(
+                        text: "${_ctr.selectGoods[index]['points']}\n".tr,
+                        style: TextStyle(
+                          color: Color(0xFFFFB20E),
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: "Points".tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11.sp,
+                                fontFamily: FONT_LIGHT,
+                              )),
+                        ]),
+                  ),
+                  Spacer(),
+                  Container(
+                    width: 24.w,
+                    height: 24.w,
+                    decoration: BoxDecoration(
+                      color: hexColor('4dFFB20E'),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    Spacer(),
-                    Container(
-                      width: 24.w,
-                      height: 24.w,
-                      decoration: BoxDecoration(
-                        color: hexColor('4dFFB20E'),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: AppColor.yellow,
-                        size: 18.sp,
-                      ),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: AppColor.yellow,
+                      size: 18.sp,
                     ),
-                    15.horizontalSpace,
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  15.horizontalSpace,
+                ],
+              ),
+            ],
           ),
         ),
       );

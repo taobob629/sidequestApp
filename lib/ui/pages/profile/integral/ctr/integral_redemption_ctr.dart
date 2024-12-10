@@ -23,7 +23,7 @@ class IntegralRedemptionCtr extends GetxController
   void requestData() async {
     points = Get.arguments;
     showLoading();
-    final response = await http.get('/web/app/integral/pointGoods');
+    final response = await http.get('/app/point/pointGoods');
     dismissLoading();
     Map<String, dynamic> goodsMap = response.data;
     tabs.value = goodsMap.keys.toList();

@@ -21,7 +21,7 @@ class IntegralDetailCtr extends GetxController {
 
   void requestData() async {
     showLoading();
-    final response = await http.get('/web/app/integral/goodDetail', queryParameters: {
+    final response = await http.get('/app/point/goodDetail', queryParameters: {
       "goodId": id,
     });
     integralGoodsDetailModel.value = IntegralGoodsDetailModel.fromJson(response.data);

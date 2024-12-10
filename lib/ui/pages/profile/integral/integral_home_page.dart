@@ -481,86 +481,76 @@ class IntegralHomePage extends StatelessWidget {
               ),
       );
 
-  Widget pointsRedemptionWidget(dynamic good) => Expanded(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () =>
-              Get.to(() => IntegralDetailPage(), arguments: good['id']),
-          child: Container(
-            decoration: ShapeDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.00, -1.00),
-                end: Alignment(0, 1),
-                colors: [Color(0xFF202026), Color(0xFF202026)],
+  Widget pointsRedemptionWidget(dynamic good) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => Get.to(() => IntegralDetailPage(), arguments: good['id']),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Color(0xFF202026),
+              borderRadius: BorderRadius.circular(15.r)),
+          padding: EdgeInsets.symmetric(vertical: 15.h),
+          child: Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: '${good['picUrl']}',
+                fit: BoxFit.cover,
+                width: 106.w,
+                height: 106.w,
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 15.h),
-            child: Column(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: '${good['picUrl']}',
-                  fit: BoxFit.cover,
-                  width: 106.w,
-                  height: 106.w,
-                ),
-                15.verticalSpace,
-                Container(
-                  width: 1.sw,
-                  margin: EdgeInsets.only(left: 15.w),
-                  child: Text(
-                    '${good['name']}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13.sp,
-                      fontFamily: 'DIN',
-                      fontWeight: FontWeight.w400,
-                    ),
+              15.verticalSpace,
+              Container(
+                width: 1.sw,
+                margin: EdgeInsets.only(left: 15.w),
+                child: Text(
+                  '${good['name']}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13.sp,
+                    fontFamily: 'DIN',
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                15.verticalSpace,
-                Row(
-                  children: [
-                    15.horizontalSpace,
-                    RichText(
-                      text: TextSpan(
-                          text: "${good['points']}\n",
-                          style: TextStyle(
-                            color: Color(0xFFFFB20E),
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                          children: [
-                            TextSpan(
-                                text: "Points".tr,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                  fontFamily: FONT_LIGHT,
-                                )),
-                          ]),
+              ),
+              15.verticalSpace,
+              Row(
+                children: [
+                  15.horizontalSpace,
+                  RichText(
+                    text: TextSpan(
+                        text: "${good['points']}\n",
+                        style: TextStyle(
+                          color: Color(0xFFFFB20E),
+                          fontSize: 16.sp,
+                          fontFamily: FONT_MEDIUM,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: "Points".tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11.sp,
+                                fontFamily: FONT_LIGHT,
+                              )),
+                        ]),
+                  ),
+                  Spacer(),
+                  Container(
+                    width: 24.w,
+                    height: 24.w,
+                    decoration: BoxDecoration(
+                      color: hexColor('4dFFB20E'),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    Spacer(),
-                    Container(
-                      width: 24.w,
-                      height: 24.w,
-                      decoration: BoxDecoration(
-                        color: hexColor('4dFFB20E'),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Icon(
-                        Icons.arrow_forward,
-                        color: AppColor.yellow,
-                        size: 18.sp,
-                      ),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: AppColor.yellow,
+                      size: 18.sp,
                     ),
-                    15.horizontalSpace,
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  15.horizontalSpace,
+                ],
+              ),
+            ],
           ),
         ),
       );

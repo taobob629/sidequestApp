@@ -27,8 +27,8 @@ class IntegralHomeCtr extends GetxController {
     showLoading();
     final responseList = await Future.wait([
       http.get('/app/point/info'),
-      http.get('/web/app/integral/queryIntegralTaskList'),
-      http.get('/web/app/integral/pointGoods'),
+      http.get('/app/point/task/list'),
+      http.get('/app/point/pointGoods'),
     ]);
 
     dismissLoading();
