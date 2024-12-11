@@ -29,6 +29,7 @@ class IntegralRedemptionPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                10.verticalSpace,
                 SafeArea(
                   child: GestureDetector(
                     onTap: () => Get.back(),

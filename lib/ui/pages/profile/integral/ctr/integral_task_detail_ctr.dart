@@ -18,7 +18,7 @@ class IntegralTaskDetailCtr extends GetxController {
   void requestData() async {
     showLoading();
     final response =
-        await http.get('/web/app/integral/getInfo', queryParameters: {
+        await http.get('/app/point/getInfo', queryParameters: {
       'id': Get.arguments,
     });
     integralTaskDetailModel.value = IntegralTaskDetailModel.fromJson(response.data);

@@ -38,7 +38,7 @@ class IntegralRecordCtr extends GetxRefreshController<IntegralListRow>
     }
 
     var response = await http.get(
-      '/web/app/integral/queryIntegralDetailList',
+      '/app/point/queryIntegralDetailList',
       queryParameters: params,
     );
     final model = IntegralListModel.fromJson(response.data);

@@ -30,7 +30,7 @@ class IntegralDetailCtr extends GetxController {
 
   void confirm() async {
     showLoading();
-    final response = await http.get('/web/app/integral/redeemGood', queryParameters: {
+    final response = await http.get('/app/point/redeemGood', queryParameters: {
       "goodId": id,
     });
     dismissLoading();
