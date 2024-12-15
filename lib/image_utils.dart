@@ -35,6 +35,7 @@ class ImageUtils {
   static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
   static const String icon_ps = 'assets/images/icon_ps.webp';
   static const String tea_icon = 'assets/images/tea_icon.webp';
+  static const String icon_flash = 'assets/images/icon_flash.svg';
   static const String order_more_icon = 'assets/images/order_more_icon.webp';
   static const String order_less_icon = 'assets/images/order_less_icon.webp';
   static const String coupon_no_data_icon = 'assets/images/coupon_no_data_icon.webp';

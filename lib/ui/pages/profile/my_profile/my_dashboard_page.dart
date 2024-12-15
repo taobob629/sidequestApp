@@ -22,83 +22,83 @@ class MyDashboardPage extends StatelessWidget {
     return Obx(() => Column(
           children: [
             /// Subscriptions
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 6.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Visibility(
-                    visible: UserController.find.userProfile.vips.isNotEmpty,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(
-                        left: 15.w,
-                        right: 15.w,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'SUBSCRIPTIONS'.tr,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible:
-                                UserController.find.userProfile.vipLevel > 0,
-                            child: Image.asset(
-                              "assets/images/huizhang_${UserController.find.userProfile.vipLevel}.webp",
-                              height: 14.h,
-                            ),
-                          ),
-                          4.horizontalSpace,
-                          Text(
-                            t.getMembership(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: UserController.find.userProfile.vips.isNotEmpty,
-                    child: SingleChildScrollView(
-                      controller: t.scrollController,
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          16.horizontalSpace,
-                          ...UserController.find.userProfile.vips
-                              .asMap()
-                              .entries
-                              .map((e) {
-                            return _subscriptionItem(
-                              e.value,
-                              e.key,
-                              UserController.find.userProfile.vipLevel ==
-                                      e.value.level
-                                  ? t.targetKey
-                                  : null,
-                            );
-                          }).toList(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   width: double.infinity,
+            //   margin: EdgeInsets.only(top: 6.h),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Visibility(
+            //         visible: UserController.find.userProfile.vips.isNotEmpty,
+            //         child: Container(
+            //           alignment: Alignment.centerLeft,
+            //           margin: EdgeInsets.only(
+            //             left: 15.w,
+            //             right: 15.w,
+            //           ),
+            //           child: Row(
+            //             children: [
+            //               Expanded(
+            //                 child: Text(
+            //                   'SUBSCRIPTIONS'.tr,
+            //                   style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 16.sp,
+            //                     fontFamily: FONT_MEDIUM,
+            //                     fontWeight: FontWeight.bold,
+            //                   ),
+            //                 ),
+            //               ),
+            //               Visibility(
+            //                 visible:
+            //                     UserController.find.userProfile.vipLevel > 0,
+            //                 child: Image.asset(
+            //                   "assets/images/huizhang_${UserController.find.userProfile.vipLevel}.webp",
+            //                   height: 14.h,
+            //                 ),
+            //               ),
+            //               4.horizontalSpace,
+            //               Text(
+            //                 t.getMembership(),
+            //                 style: TextStyle(
+            //                   color: Colors.white,
+            //                   fontSize: 13.sp,
+            //                   fontFamily: FONT_MEDIUM,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       Visibility(
+            //         visible: UserController.find.userProfile.vips.isNotEmpty,
+            //         child: SingleChildScrollView(
+            //           controller: t.scrollController,
+            //           scrollDirection: Axis.horizontal,
+            //           child: Row(
+            //             children: [
+            //               16.horizontalSpace,
+            //               ...UserController.find.userProfile.vips
+            //                   .asMap()
+            //                   .entries
+            //                   .map((e) {
+            //                 return _subscriptionItem(
+            //                   e.value,
+            //                   e.key,
+            //                   UserController.find.userProfile.vipLevel ==
+            //                           e.value.level
+            //                       ? t.targetKey
+            //                       : null,
+            //                 );
+            //               }).toList(),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
             /// Trophies
             ...UserController.find.userProfile.badges

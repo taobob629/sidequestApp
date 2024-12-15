@@ -67,7 +67,7 @@ class IntegralDetailPage extends StatelessWidget {
                           ),
                           10.verticalSpace,
                           Text(
-                            'Mouse 50% off coupon',
+                            '${ctr.integralGoodsDetailModel.value.name}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18.sp,
@@ -116,13 +116,7 @@ class IntegralDetailPage extends StatelessWidget {
                           ),
                           10.verticalSpace,
                           orderWidget(
-                              'Points once exchanged cannot be refunded. After successful exchange, you can view and use them in [My - Wallet - Coupons].'),
-                          10.verticalSpace,
-                          orderWidget(
-                              'Points once exchanged cannot be refunded. After successful exchange, you can view and use them in [My - Wallet - Coupons].'),
-                          10.verticalSpace,
-                          orderWidget(
-                              'Points once exchanged cannot be refunded. After successful exchange, you can view and use them in [My - Wallet - Coupons].'),
+                              "${ctr.integralGoodsDetailModel.value.des}"),
                         ],
                       ),
                     ),
@@ -156,30 +150,13 @@ class IntegralDetailPage extends StatelessWidget {
 
   Widget orderWidget(String desc) => Padding(
         padding: EdgeInsets.only(bottom: 10.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 4.w,
-              height: 4.w,
-              margin: EdgeInsets.only(top: 6.h),
-              decoration: ShapeDecoration(
-                color: Color(0xFFFFB20E),
-                shape: OvalBorder(),
-              ),
-            ),
-            6.horizontalSpace,
-            Expanded(
-              child: Text(
-                desc,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontFamily: FONT_LIGHT,
-                ),
-              ),
-            )
-          ],
+        child: Text(
+          desc,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12.sp,
+            fontFamily: FONT_LIGHT,
+          ),
         ),
       );
 

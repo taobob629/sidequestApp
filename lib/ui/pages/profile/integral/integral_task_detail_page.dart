@@ -1,240 +1,311 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/colorful_button.dart';
+import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
+import '../../../../model/integral_task_model.dart';
+import '../../../../widget/progress_bar/with_icon_progress_bar.dart';
 import 'ctr/integral_task_detail_ctr.dart';
 
 class IntegralTaskDetailPage extends StatelessWidget {
-
   final ctr = Get.put(IntegralTaskDetailCtr());
 
   @override
-  Widget build(BuildContext context) => Obx(() => Container(
-    width: 1.sw,
-    height: 1.sh,
-    child: Stack(
-      children: [
-        Image.asset(
-          ImageUtils.integral_task_detail_top,
-          fit: BoxFit.fill,
-          width: 1.sw,
-          height: 280.h,
-        ),
-        SafeArea(
-          child: Container(
-            height: 40.h,
-            child: IconButton(
-              onPressed: () => Get.back(),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          top: 230.h,
-          child: Container(
-            width: 1.sw,
-            height: 1.sh,
-            decoration: ShapeDecoration(
-              color: Color(0xFF161819),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.r),
-                  topRight: Radius.circular(20.r),
+  Widget build(BuildContext context) => Container(
+        width: 1.sw,
+        height: 1.sh,
+        child: Obx(() => Stack(
+              children: [
+                Image.asset(
+                  ImageUtils.integral_task_detail_top,
+                  fit: BoxFit.fill,
+                  width: 1.sw,
+                  height: 280.h,
                 ),
-              ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 74.h,
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.r),
-                        topRight: Radius.circular(20.r),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xff4B3B28),
-                          Color(0xff161819),
-                        ],
+                SafeArea(
+                  child: Container(
+                    height: 40.h,
+                    child: IconButton(
+                      onPressed: () => Get.back(),
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
                       ),
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 100,
+                  top: 230.h,
+                  child: Container(
+                    width: 1.sw,
+                    height: 1.sh,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF161819),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 8.h, right: 6.w),
-                          child: Image.asset(
-                            ImageUtils.integral_checkin_icon,
-                            height: 30.h,
+                        Container(
+                          height: 74.h,
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.r),
+                              topRight: Radius.circular(20.r),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(0xff4B3B28),
+                                Color(0xff161819),
+                              ],
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 8.h, right: 6.w),
+                                child: Image.asset(
+                                  ImageUtils.integral_checkin_icon,
+                                  height: 30.h,
+                                ),
+                              ),
+                              Text(
+                                '${ctr.model.value.pointsNum} Points',
+                                style: TextStyle(
+                                  color: Color(0xFFFFB20E),
+                                  fontSize: 16.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          'X${ctr.integralTaskDetailModel.value.integralNumber} Points'.tr,
-                          style: TextStyle(
-                            color: Color(0xFFFFB20E),
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
+                        Padding(
+                          padding: EdgeInsets.only(left: 15.w),
+                          child: Text(
+                            '${ctr.model.value.taskName}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp,
+                              fontFamily: FONT_MEDIUM,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 280.w,
+                          margin: EdgeInsets.only(
+                            left: 16.w,
+                            top: 14.h,
+                            bottom: 6.h,
+                          ),
+                          child: WithIconProgressBar(
+                            size: 6.h,
+                            currentValue:
+                                ((ctr.model.value.nowTaskDetail?.myNum ?? 0)
+                                            .toDouble() *
+                                        100) /
+                                    (ctr.model.value.nowTaskDetail?.maxNum ?? 1)
+                                        .toDouble(),
+                            // 这里的高度和下面的icon的Container高度要一致
+                            outBoxHeight: 18.w,
+                            // 这里的宽度是为了计算百分比的，要和WithIconProgressBar的父组件Container的宽度要一致
+                            outBoxWidth: 280.w,
+                            progressGradient: LinearGradient(colors: [
+                              hexColor('#FFB20E'),
+                              hexColor('#5D61EC'),
+                            ]),
+                            backgroundColor: hexColor('#45494B'),
+                            icon: Container(
+                              width: 18.w,
+                              height: 18.w,
+                              decoration: BoxDecoration(
+                                color: hexColor('#FFB20E'),
+                                borderRadius: BorderRadius.circular(18.w),
+                              ),
+                              child: SvgPicture.asset(ImageUtils.icon_flash),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 1.sw,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFF202026),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                          ),
+                          margin: EdgeInsets.only(
+                            top: 10.h,
+                            left: 15.w,
+                            right: 15.w,
+                          ),
+                          padding: EdgeInsets.all(20.r),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Task description'.tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                ),
+                              ),
+                              10.verticalSpace,
+                              orderWidget('${ctr.model.value.description}'),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: 1.sw,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFF202026),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                            ),
+                            margin: EdgeInsets.only(
+                              top: 10.h,
+                              left: 15.w,
+                              right: 15.w,
+                            ),
+                            padding: EdgeInsets.all(20.r),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'History records'.tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                ).paddingOnly(bottom: 16.h),
+                                Expanded(
+                                  child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (c, i) => Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${ctr.model.value.taskName}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                ),
+                                              ).paddingOnly(bottom: 10.h),
+                                              Text(
+                                                '${ctr.model.value.taskDetailList[i].createTime}',
+                                                style: TextStyle(
+                                                  color: hexColor('#9CA3AF'),
+                                                  fontSize: 12.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          ctr.model.value.taskDetailList[i]
+                                                      .taskState ==
+                                                  1
+                                              ? 'Received'.tr
+                                              : 'Unclaimed'.tr,
+                                          style: TextStyle(
+                                            color: ctr
+                                                        .model
+                                                        .value
+                                                        .taskDetailList[i]
+                                                        .taskState ==
+                                                    1
+                                                ? hexColor('#5ECA46')
+                                                : Colors.white,
+                                            fontSize: 16.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    separatorBuilder: (c, i) => Container(
+                                      color: hexColor('#3C3C43'),
+                                      height: 1.h,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10.h),
+                                    ),
+                                    itemCount:
+                                        ctr.model.value.taskDetailList.length,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15.w),
+                ),
+                Positioned(
+                  left: 16.w,
+                  right: 16.w,
+                  bottom: 30.h,
+                  child: ColorfulButton(
                     child: Text(
-                      '${ctr.integralTaskDetailModel.value.taskName}'.tr,
+                      "To Complete".tr,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.sp,
-                        fontFamily: FONT_MEDIUM,
+                        fontSize: 20.sp,
+                        fontFamily: FONT_LIGHT,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    height: 50.h,
+                    onTap: () => Get.back(result: true),
                   ),
-                  Container(
-                    width: 1.sw,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF202026),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                    margin: EdgeInsets.only(
-                      top: 10.h,
-                      left: 15.w,
-                      right: 15.w,
-                    ),
-                    padding: EdgeInsets.all(20.r),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Task description',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                        10.verticalSpace,
-                        orderWidget(
-                            '${ctr.integralTaskDetailModel.value.description}'),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 1.sw,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF202026),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
-                    margin: EdgeInsets.only(
-                      top: 10.h,
-                      left: 15.w,
-                      right: 15.w,
-                    ),
-                    padding: EdgeInsets.all(20.r),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Requirements description',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                        10.verticalSpace,
-                        orderWidget(
-                            '${ctr.integralTaskDetailModel.value.taskAskFor}'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    ),
-  ));
+                ),
+              ],
+            )),
+      );
 
   Widget orderWidget(String desc) => Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Container(
-        width: 4.w,
-        height: 4.w,
-        margin: EdgeInsets.only(top: 6.h),
-        decoration: ShapeDecoration(
-          color: Color(0xFFFFB20E),
-          shape: OvalBorder(),
-        ),
-      ),
-      6.horizontalSpace,
-      Expanded(
-        child: Text(
-          desc,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.sp,
-            fontFamily: FONT_LIGHT,
-          ),
-        ),
-      )
-    ],
-  );
-
-  Widget itemWidget({
-    required String icon,
-    required String name,
-    required String num,
-    required Color color,
-  }) =>
-      Expanded(
-        child: Column(
-          children: [
-            Image.asset(
-              icon,
-              scale: 2.0,
-              fit: BoxFit.cover,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 4.w,
+            height: 4.w,
+            margin: EdgeInsets.only(top: 6.h),
+            decoration: ShapeDecoration(
+              color: Color(0xFFFFB20E),
+              shape: OvalBorder(),
             ),
-            4.verticalSpace,
-            Text(
-              name,
+          ),
+          6.horizontalSpace,
+          Expanded(
+            child: Text(
+              desc,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12.sp,
-                fontFamily: 'DIN',
+                fontFamily: FONT_LIGHT,
               ),
             ),
-            6.verticalSpace,
-            Text(
-              num,
-              style: TextStyle(
-                color: color,
-                fontSize: 14.sp,
-                fontFamily: 'DIN',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       );
 }

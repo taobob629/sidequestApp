@@ -12,7 +12,7 @@ import '../../../../../utils/utils.dart';
 
 class IntegralHomeCtr extends GetxController {
   var integralInfoModel = IntegralInfoModel(appSign: [], lvList: []).obs;
-  var integralTaskModel = IntegralTaskModel().obs;
+  var integralTaskModel = IntegralTaskModel(rows: []).obs;
   var goods = [].obs;
   var isLoading = true.obs;
 

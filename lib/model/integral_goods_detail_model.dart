@@ -5,6 +5,7 @@ class IntegralGoodsDetailModel {
   int? myPoints;
   String? name;
   String? pic;
+  String? des;
 
   IntegralGoodsDetailModel({
     this.enoughPoint,
@@ -13,6 +14,7 @@ class IntegralGoodsDetailModel {
     this.myPoints,
     this.name,
     this.pic,
+    this.des,
   });
 
   factory IntegralGoodsDetailModel.fromJson(Map<String, dynamic> json) => IntegralGoodsDetailModel(
@@ -22,6 +24,7 @@ class IntegralGoodsDetailModel {
     name: json["name"],
     pic: json["pic"],
     myPoints: json["myPoints"],
+    des: json["des"],
   );
 
   Map<String, dynamic> toJson() => {

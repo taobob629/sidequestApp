@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/ui/pages/main_page.dart';
 import 'package:sq_hub_app/ui/pages/setting/settings_page.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
@@ -52,22 +53,24 @@ class IntegralRecordPage extends StatelessWidget {
               ),
               10.verticalSpace,
               Expanded(
-                child: Obx(() => SmartRefresher(
-                      controller: ctr.refreshController,
-                      onLoading: () => ctr.loadMore(),
-                      onRefresh: () => ctr.onRefresh(),
-                      enablePullUp: true,
-                      enablePullDown: true,
-                      child: ListView.separated(
-                        itemBuilder: (c, i) => _itemWidget(ctr.list[i]),
-                        separatorBuilder: (c, i) => Container(
-                          height: 1.h,
-                          margin: EdgeInsets.symmetric(vertical: 15.h),
-                          decoration: BoxDecoration(color: Color(0xFF45494B)),
+                child: Obx(() => ctr.list.isNotEmpty
+                    ? SmartRefresher(
+                        controller: ctr.refreshController,
+                        onLoading: () => ctr.loadMore(),
+                        onRefresh: () => ctr.onRefresh(),
+                        enablePullUp: true,
+                        enablePullDown: true,
+                        child: ListView.separated(
+                          itemBuilder: (c, i) => _itemWidget(ctr.list[i]),
+                          separatorBuilder: (c, i) => Container(
+                            height: 1.h,
+                            margin: EdgeInsets.symmetric(vertical: 15.h),
+                            decoration: BoxDecoration(color: Color(0xFF45494B)),
+                          ),
+                          itemCount: ctr.list.length,
                         ),
-                        itemCount: ctr.list.length,
-                      ),
-                    )),
+                      )
+                    : EmptyView()),
               ),
             ],
           ),
@@ -83,7 +86,7 @@ class IntegralRecordPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${model.integralName}',
+                    '${model.detailName}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -92,7 +95,7 @@ class IntegralRecordPage extends StatelessWidget {
                   ),
                   6.verticalSpace,
                   Text(
-                    '${model.checkDay}',
+                    '${model.createTime}',
                     style: TextStyle(
                       color: Color(0xFF9CA3AF),
                       fontSize: 11.sp,
@@ -103,12 +106,10 @@ class IntegralRecordPage extends StatelessWidget {
               ),
             ),
             Text(
-              ctr.mold == 0
-                  ? '+${model.integralNumber}'
-                  : '-${model.integralNumber}',
+              '${model.pointsNum}',
               textAlign: TextAlign.right,
               style: TextStyle(
-                color: Color(ctr.mold == 0 ? 0xFF7BD335 : 0xFFF72F2F),
+                color: Color(ctr.type == 1 ? 0xFF7BD335 : 0xFFF72F2F),
                 fontSize: 20,
                 fontFamily: FONT_MEDIUM,
               ),

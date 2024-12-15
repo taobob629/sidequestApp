@@ -573,8 +573,7 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.isNotEmpty)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[0].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[0].id),
                     child: Row(
                       children: [
                         Container(
@@ -647,7 +646,7 @@ class IntegralHomePage extends StatelessWidget {
                               ),
                               3.horizontalSpace,
                               Text(
-                                'x${t.integralTaskModel.value.rows[0].integralNumber}',
+                                'x${t.integralTaskModel.value.rows[0].pointsNum}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14.sp,
@@ -664,8 +663,7 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.length > 1)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[1].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[1].id),
                     child: Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: Row(
@@ -740,7 +738,7 @@ class IntegralHomePage extends StatelessWidget {
                                 ),
                                 3.horizontalSpace,
                                 Text(
-                                  'x${t.integralTaskModel.value.rows[1].integralNumber}',
+                                  'x${t.integralTaskModel.value.rows[1].pointsNum}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
@@ -758,8 +756,7 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.length > 2)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[2].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[2].id),
                     child: Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: Row(
@@ -834,7 +831,7 @@ class IntegralHomePage extends StatelessWidget {
                                 ),
                                 3.horizontalSpace,
                                 Text(
-                                  'x${t.integralTaskModel.value.rows[2].integralNumber}',
+                                  'x${t.integralTaskModel.value.rows[2].pointsNum}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,

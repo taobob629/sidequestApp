@@ -12,12 +12,11 @@ class IntegralRecordCtr extends GetxRefreshController<IntegralListRow>
 
   List<Widget> tabsList = [
     Tab(text: 'Received'.tr),
-    Tab(text: 'Income'.tr),
     Tab(text: 'Expenditure'.tr),
   ];
 
-  // receive:0; income:1; Expenditure:不传
-  int mold = 0;
+  // receive:1; Expenditure:2
+  int type = 1;
 
   @override
   void onInit() {
@@ -32,10 +31,8 @@ class IntegralRecordCtr extends GetxRefreshController<IntegralListRow>
       "userId": UserController.find.userProfile.memberId,
       "pageNum": pageNum,
       "pageSize": pageSize,
+      "type": type,
     };
-    if (mold != 2) {
-      params['mold'] = mold;
-    }
 
     var response = await http.get(
       '/app/point/queryIntegralDetailList',
@@ -47,7 +44,7 @@ class IntegralRecordCtr extends GetxRefreshController<IntegralListRow>
   }
 
   void changeData(int index) {
-    mold = index;
+    type = index + 1;
     onRefresh(init: true);
   }
 }

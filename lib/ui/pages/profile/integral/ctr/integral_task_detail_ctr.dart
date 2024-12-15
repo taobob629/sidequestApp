@@ -1,27 +1,31 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 
 import '../../../../../api/wy_http.dart';
+import '../../../../../model/integral_goods_detail_model.dart';
 import '../../../../../model/integral_task_detail_model.dart';
 import '../../../../../utils/toast_utils.dart';
 
 class IntegralTaskDetailCtr extends GetxController {
 
-  var integralTaskDetailModel = IntegralTaskDetailModel().obs;
+  var model = IntegralTaskDetailModel(taskDetailList: []).obs;
+  int? id;
 
   @override
   void onInit() {
     super.onInit();
 
+    id = Get.arguments;
     requestData();
   }
 
   void requestData() async {
     showLoading();
-    final response =
-        await http.get('/app/point/getInfo', queryParameters: {
-      'id': Get.arguments,
+    final response = await http.get('/app/point/task/info', queryParameters: {
+      "id": id,
     });
-    integralTaskDetailModel.value = IntegralTaskDetailModel.fromJson(response.data);
     dismissLoading();
+    model.value = IntegralTaskDetailModel.fromJson(response.data);
   }
 }

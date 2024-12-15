@@ -6,54 +6,57 @@ class IntegralListModel {
 
   IntegralListModel.fromJson(Map<String, dynamic> json) {
     total = json["total"] ?? 0;
-    rows = json["rows"] == null ? [] : List<IntegralListRow>.from(json["rows"]!.map((x) => IntegralListRow.fromJson(x)));
+    rows = json["rows"] == null
+        ? []
+        : List<IntegralListRow>.from(
+            json["rows"]!.map((x) => IntegralListRow.fromJson(x)));
   }
 }
 
 class IntegralListRow {
   int? id;
-  int? integralId;
-  int? userId;
-  String? checkDay;
-  String? integralName;
-  int? integralNumber;
-  int? status;
-  int? mold;
-  int? checkType;
+  int? memberId;
+  String? detailName;
+  String? dataId;
+  int? pointsNum;
+  int? pointsType;
+  int? pointsState;
+  String? notes;
+  String? createTime;
 
   IntegralListRow({
     this.id,
-    this.integralId,
-    this.userId,
-    this.checkDay,
-    this.integralName,
-    this.integralNumber,
-    this.status,
-    this.mold,
-    this.checkType,
+    this.memberId,
+    this.detailName,
+    this.dataId,
+    this.pointsNum,
+    this.pointsType,
+    this.pointsState,
+    this.notes,
+    this.createTime,
   });
 
-  factory IntegralListRow.fromJson(Map<String, dynamic> json) => IntegralListRow(
-    id: json["id"],
-    integralId: json["integralId"],
-    userId: json["userId"],
-    checkDay: json["checkDay"],
-    integralName: json["integralName"],
-    integralNumber: json["integralNumber"],
-    status: json["status"],
-    mold: json["mold"],
-    checkType: json["checkType"],
-  );
+  factory IntegralListRow.fromJson(Map<String, dynamic> json) =>
+      IntegralListRow(
+        id: json["id"],
+        memberId: json["memberId"],
+        detailName: json["detailName"],
+        dataId: json["dataId"],
+        pointsNum: json["pointsNum"],
+        pointsType: json["pointsType"],
+        pointsState: json["pointsState"],
+        notes: json["notes"],
+        createTime: json["createTime"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "integralId": integralId,
-    "userId": userId,
-    "checkDay": checkDay,
-    "integralName": integralName,
-    "integralNumber": integralNumber,
-    "status": status,
-    "mold": mold,
-    "checkType": checkType,
-  };
+        "id": id,
+        "memberId": memberId,
+        "detailName": detailName,
+        "dataId": dataId,
+        "pointsNum": pointsNum,
+        "pointsType": pointsType,
+        "pointsState": pointsState,
+        "notes": notes,
+      };
 }
