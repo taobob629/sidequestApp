@@ -1,10 +1,12 @@
 class IntegralInfoModel {
   List<Sign> appSign;
+  List<Sign> webSign;
   PointInfo? pointInfo;
   List<LvList> lvList;
 
   IntegralInfoModel({
     required this.appSign,
+    required this.webSign,
     this.pointInfo,
     required this.lvList,
   });
@@ -14,6 +16,9 @@ class IntegralInfoModel {
         appSign: json["appSign"] == null
             ? []
             : List<Sign>.from(json["appSign"]!.map((x) => Sign.fromJson(x))),
+        webSign: json["webSign"] == null
+            ? []
+            : List<Sign>.from(json["webSign"]!.map((x) => Sign.fromJson(x))),
         pointInfo: json["pointInfo"] == null
             ? null
             : PointInfo.fromJson(json["pointInfo"]),
@@ -24,6 +29,7 @@ class IntegralInfoModel {
 
   Map<String, dynamic> toJson() => {
         "appSign": List<dynamic>.from(appSign.map((x) => x.toJson())),
+        "webSign": List<dynamic>.from(webSign.map((x) => x.toJson())),
         "pointInfo": pointInfo?.toJson(),
         "lvList": List<dynamic>.from(lvList.map((x) => x.toJson())),
       };

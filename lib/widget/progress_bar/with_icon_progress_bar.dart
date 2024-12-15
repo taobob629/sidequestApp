@@ -39,7 +39,7 @@ class WithIconProgressBar extends StatelessWidget {
             // 这下面的需要自己一步一步调试的
             Positioned(
               left: (((currentValue * outBoxWidth) / 100) - 20) > 0
-                  ? ((currentValue * outBoxWidth) / 100) - 20
+                  ? ((currentValue * outBoxWidth) / 100) - 18.w
                   : 0,
               top: 0,
               child: icon,

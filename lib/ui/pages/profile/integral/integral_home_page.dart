@@ -354,91 +354,61 @@ class IntegralHomePage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                  text: "App check-in days ".tr,
-                                  style: TextStyle(
-                                    color: Color(0xFFFFB20E),
-                                    fontSize: 13.sp,
-                                    fontFamily: "DIN",
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                        text: " Store check-in".tr,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13.sp,
-                                          fontFamily: "DIN",
-                                        )),
-                                  ]),
-                            ),
-                            10.verticalSpace,
                             Obx(() => Row(
                                   children: [
-                                    if (t.integralInfoModel.value.appSign
-                                        .isNotEmpty)
-                                      Expanded(
-                                        child: weekCheckInWidget(t
-                                            .integralInfoModel
-                                            .value
-                                            .appSign[0]),
-                                      ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        1)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[1],
+                                    InkWell(
+                                      onTap: () => t.isAppTab.value = true,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: t.isAppTab.value
+                                              ? Colors.yellow
+                                              : Colors.transparent,
+                                          borderRadius:
+                                              BorderRadius.circular(6.r),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.w, vertical: 3.h),
+                                        child: Text(
+                                          "App check-in".tr,
+                                          style: TextStyle(
+                                            color: t.isAppTab.value
+                                                ? Colors.black
+                                                : Colors.white,
+                                            fontSize: 13.sp,
+                                            fontFamily: "DIN",
+                                          ),
                                         ),
                                       ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        2)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[2],
+                                    ),
+                                    14.horizontalSpace,
+                                    InkWell(
+                                      onTap: () => t.isAppTab.value = false,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: !t.isAppTab.value
+                                              ? Colors.yellow
+                                              : Colors.transparent,
+                                          borderRadius:
+                                              BorderRadius.circular(6.r),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.w, vertical: 3.h),
+                                        child: Text(
+                                          "Store check-in".tr,
+                                          style: TextStyle(
+                                            color: !t.isAppTab.value
+                                                ? Colors.black
+                                                : Colors.white,
+                                            fontSize: 13.sp,
+                                            fontFamily: "DIN",
+                                          ),
                                         ),
                                       ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        3)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[3],
-                                        ),
-                                      ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        4)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[4],
-                                        ),
-                                      ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        5)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[5],
-                                        ),
-                                      ),
-                                    8.horizontalSpace,
-                                    if (t.integralInfoModel.value.appSign
-                                            .length >
-                                        6)
-                                      Expanded(
-                                        child: weekCheckInWidget(
-                                          t.integralInfoModel.value.appSign[6],
-                                        ),
-                                      ),
+                                    ),
                                   ],
                                 )),
+                            10.verticalSpace,
+                            signInfoWidget(),
                           ],
                         ),
                       ),
@@ -480,6 +450,108 @@ class IntegralHomePage extends StatelessWidget {
                 ),
               ),
       );
+
+  Widget signInfoWidget() => Obx(() => t.isAppTab.value
+      ? Row(
+          children: [
+            if (t.integralInfoModel.value.appSign.isNotEmpty)
+              Expanded(
+                child: weekCheckInWidget(t.integralInfoModel.value.appSign[0]),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 1)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[1],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 2)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[2],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 3)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[3],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 4)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[4],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 5)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[5],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.appSign.length > 6)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.appSign[6],
+                ),
+              ),
+          ],
+        )
+      : Row(
+          children: [
+            if (t.integralInfoModel.value.webSign.isNotEmpty)
+              Expanded(
+                child: weekCheckInWidget(t.integralInfoModel.value.webSign[0]),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 1)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[1],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 2)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[2],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 3)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[3],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 4)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[4],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 5)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[5],
+                ),
+              ),
+            8.horizontalSpace,
+            if (t.integralInfoModel.value.webSign.length > 6)
+              Expanded(
+                child: weekCheckInWidget(
+                  t.integralInfoModel.value.webSign[6],
+                ),
+              ),
+          ],
+        ));
 
   Widget pointsRedemptionWidget(dynamic good) => GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -573,7 +645,8 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.isNotEmpty)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[0].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
+                        arguments: t.integralTaskModel.value.rows[0].id),
                     child: Row(
                       children: [
                         Container(
@@ -663,7 +736,8 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.length > 1)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[1].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
+                        arguments: t.integralTaskModel.value.rows[1].id),
                     child: Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: Row(
@@ -756,7 +830,8 @@ class IntegralHomePage extends StatelessWidget {
                 if (t.integralTaskModel.value.rows.length > 2)
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: t.integralTaskModel.value.rows[2].id),
+                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
+                        arguments: t.integralTaskModel.value.rows[2].id),
                     child: Container(
                       margin: EdgeInsets.only(top: 15.h),
                       child: Row(

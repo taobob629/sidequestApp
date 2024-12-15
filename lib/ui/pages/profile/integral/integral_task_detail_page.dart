@@ -103,7 +103,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: 280.w,
+                          width: 340.w,
                           margin: EdgeInsets.only(
                             left: 16.w,
                             top: 14.h,
@@ -120,7 +120,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                             // 这里的高度和下面的icon的Container高度要一致
                             outBoxHeight: 18.w,
                             // 这里的宽度是为了计算百分比的，要和WithIconProgressBar的父组件Container的宽度要一致
-                            outBoxWidth: 280.w,
+                            outBoxWidth: 340.w,
                             progressGradient: LinearGradient(colors: [
                               hexColor('#FFB20E'),
                               hexColor('#5D61EC'),

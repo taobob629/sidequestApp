@@ -11,10 +11,14 @@ import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
 
 class IntegralHomeCtr extends GetxController {
-  var integralInfoModel = IntegralInfoModel(appSign: [], lvList: []).obs;
+  var integralInfoModel =
+      IntegralInfoModel(appSign: [], lvList: [], webSign: []).obs;
   var integralTaskModel = IntegralTaskModel(rows: []).obs;
   var goods = [].obs;
   var isLoading = true.obs;
+
+  // 签到点击的是app还是store
+  var isAppTab = true.obs;
 
   @override
   void onInit() {
@@ -33,8 +37,7 @@ class IntegralHomeCtr extends GetxController {
 
     dismissLoading();
     isLoading.value = false;
-    integralInfoModel.value =
-        IntegralInfoModel.fromJson(responseList[0].data);
+    integralInfoModel.value = IntegralInfoModel.fromJson(responseList[0].data);
     integralTaskModel.value = IntegralTaskModel.fromJson(responseList[1].data);
     Map<String, dynamic> goodsMap = responseList[2].data;
     final list = goodsMap.values.toList();
@@ -45,11 +48,12 @@ class IntegralHomeCtr extends GetxController {
 
   void checkIn() async {
     showLoading();
-    final response = await http.post('/app/point/sign', data: {"signType": "1"});
+    final response = await http.post('/app/point/sign',
+        data: {"signType": isAppTab.value ? "1" : "2"});
     dismissLoading();
     requestData();
     flog("zengchao = ${response.data}");
-    if (response.data) {
+    if (response.data == true) {
       showToast('Sign in successfully');
     }
   }
