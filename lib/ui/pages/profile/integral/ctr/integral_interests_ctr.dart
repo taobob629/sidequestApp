@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 
 import '../../../../../api/wy_http.dart';
 import '../../../../../model/integral_model.dart';
@@ -12,10 +13,8 @@ class IntegralInterestsCtr extends GetxController {
 
   var currentVIPIndex = 0.obs;
   var integralModel = IntegralModel(levelConfigVoList: []).obs;
-  var levelCoupons = <LevelCoupon>[].obs;
+  var levelCoupons = <CouponsModel>[].obs;
   var contentList = <dynamic>[].obs;
-  // true显示，false隐藏
-  var showOrHideCoupon = false.obs;
 
   @override
   void onInit() {
@@ -40,24 +39,12 @@ class IntegralInterestsCtr extends GetxController {
       return;
     }
     if (integralModel
-            .value.levelConfigVoList[currentVIPIndex.value].levelCoupons ==
-        null) {
+        .value.levelConfigVoList[currentVIPIndex.value].coupons.isEmpty) {
       levelCoupons.clear();
       return;
     }
-    List<dynamic> decodedJson = jsonDecode(integralModel
-        .value.levelConfigVoList[currentVIPIndex.value].levelCoupons!);
-    final result =
-        decodedJson.map((json) => LevelCoupon.fromJson(json)).toList();
-    levelCoupons.assignAll(result);
-  }
-
-  List<LevelCoupon> getContentCoupons(String? coupons) {
-    if (coupons == null) return [];
-    List<dynamic> decodedJson = jsonDecode(coupons);
-    final result =
-        decodedJson.map((json) => LevelCoupon.fromJson(json)).toList();
-    return result;
+    levelCoupons.assignAll(
+        integralModel.value.levelConfigVoList[currentVIPIndex.value].coupons);
   }
 
   void getContentList() {
@@ -81,7 +68,7 @@ class IntegralInterestsCtr extends GetxController {
     getContentList();
   }
 
-  void redeemCoupon(int id) async {
+  void redeemCoupon(int? id) async {
     showLoading();
     final result = await http.post('/app/point/add/coupon', data: {
       "level":

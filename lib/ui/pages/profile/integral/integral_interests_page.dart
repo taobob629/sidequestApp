@@ -9,7 +9,9 @@ import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_model.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
+import '../../../dialog/dialog_confirm.dart';
 import '../task/task_page.dart';
+import 'coupon_tip_dialog.dart';
 import 'ctr/integral_interests_ctr.dart';
 
 class IntegralInterestsPage extends StatelessWidget {
@@ -263,41 +265,21 @@ class IntegralInterestsPage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Obx(() => Visibility(
-                                        visible: ctr
-                                            .getContentCoupons(
-                                                ctr.contentList[i]['coupons'])
-                                            .isNotEmpty,
-                                        child: InkWell(
-                                          onTap: () =>
-                                              ctr.showOrHideCoupon.value =
-                                                  !ctr.showOrHideCoupon.value,
-                                          child: Icon(
-                                            ctr.showOrHideCoupon.value
-                                                ? Icons
-                                                    .keyboard_arrow_down_outlined
-                                                : Icons
-                                                    .keyboard_arrow_right_outlined,
-                                            size: 40.sp,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )),
+                                  InkWell(
+                                    onTap: () => Get.dialog(
+                                      CouponTipDialog(
+                                        info: ctr.contentList[i]["description"],
+                                      ),
+                                      barrierColor: Colors.black38,
+                                    ),
+                                    child: Icon(
+                                      Icons.error_outline,
+                                      size: 20.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
                               ),
-                              Obx(() => Visibility(
-                                    visible: ctr.showOrHideCoupon.value,
-                                    child: Column(
-                                      children: [
-                                        10.verticalSpace,
-                                        ...ctr
-                                            .getContentCoupons(
-                                                ctr.contentList[i]['coupons'])
-                                            .map((e) => couponItemWidget(e))
-                                            .toList()
-                                      ],
-                                    ),
-                                  ))
                             ],
                           ),
                         ),
@@ -362,7 +344,7 @@ class IntegralInterestsPage extends StatelessWidget {
                         Obx(() => ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 30.h),
                               itemBuilder: (c, i) =>
                                   couponItemWidget(ctr.levelCoupons[i]),
                               separatorBuilder: (c, i) => 10.verticalSpace,
@@ -378,7 +360,7 @@ class IntegralInterestsPage extends StatelessWidget {
         ],
       );
 
-  Widget couponItemWidget(LevelCoupon model) => Container(
+  Widget couponItemWidget(CouponsModel model) => Container(
         width: 1.sw,
         decoration: ShapeDecoration(
           gradient: LinearGradient(
@@ -427,54 +409,75 @@ class IntegralInterestsPage extends StatelessWidget {
                       fontFamily: FONT_MEDIUM,
                     ),
                   ),
-                  8.verticalSpace,
-                  Text(
-                    '${model.description}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10.sp,
-                      fontFamily: FONT_LIGHT,
+                  Visibility(
+                    visible: model.description != null,
+                    child: 8.verticalSpace,
+                  ),
+                  Visibility(
+                    visible: model.description != null,
+                    child: Text(
+                      '${model.description}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  ),
+                  8.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'X${model.num}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.sp,
+                          fontFamily: FONT_LIGHT,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Visibility(
+                        visible: model.state == 0,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => ctr.redeemCoupon(model.id),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: ShapeDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment(1.00, 0.00),
+                                end: Alignment(-1, 0),
+                                colors: [Color(0xFFFFB20E), Color(0xFFFF760E)],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Redeem',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),
             ),
-            Visibility(
-              visible: model.state == 0,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => ctr.redeemCoupon(model.id),
-                child: Container(
-                  height: 30.h,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 14.w,
-                    vertical: 4.h,
-                  ),
-                  decoration: ShapeDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(1.00, 0.00),
-                      end: Alignment(-1, 0),
-                      colors: [Color(0xFFFFB20E), Color(0xFFFF760E)],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Redeem',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: 'DIN',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       );

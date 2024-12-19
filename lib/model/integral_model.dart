@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class IntegralModel {
   List<LevelConfigVoList> levelConfigVoList;
 
@@ -30,6 +28,7 @@ class LevelConfigVoList {
   int? locked;
   int nowExperience;
   String? levelCoupons;
+  List<CouponsModel> coupons;
 
   LevelConfigVoList({
     this.id,
@@ -41,6 +40,7 @@ class LevelConfigVoList {
     this.locked,
     required this.nowExperience,
     this.levelCoupons,
+    required this.coupons,
   });
 
   factory LevelConfigVoList.fromJson(Map<String, dynamic> json) =>
@@ -54,6 +54,10 @@ class LevelConfigVoList {
         locked: json["locked"],
         nowExperience: json["nowExperience"] ?? 0,
         levelCoupons: json["levelCoupons"],
+        coupons: json["coupons"] == null
+            ? []
+            : List<CouponsModel>.from(
+                json["coupons"]!.map((x) => CouponsModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -66,79 +70,46 @@ class LevelConfigVoList {
         "locked": locked,
         "nowExperience": nowExperience,
         "levelCoupons": levelCoupons,
+        "coupons": List<dynamic>.from(coupons.map((x) => x.toJson())),
       };
 }
 
-class ContentModel {
-  List<LevelCoupon> coupons;
-  List<Description> description;
-  String title;
+class CouponsModel {
+  String? code;
+  int? level;
+  int? num;
+  String? name;
+  String? description;
+  int? id;
+  int? state;
 
-  ContentModel({
-    required this.coupons,
-    required this.description,
-    required this.title,
+  CouponsModel({
+    this.code,
+    this.level,
+    this.num,
+    this.name,
+    this.description,
+    this.id,
+    this.state,
   });
 
-  factory ContentModel.fromJson(Map<String, dynamic> json) {
-    return ContentModel(
-      coupons: json['coupons'] != null
-          ? List<LevelCoupon>.from(
-              jsonDecode(json['coupons']).map((x) => LevelCoupon.fromJson(x)))
-          : [],
-      description: List<Description>.from(
-          json['description'].map((x) => Description.fromJson(x))),
-      title: json['title'],
-    );
-  }
-}
+  factory CouponsModel.fromJson(Map<String, dynamic> json) => CouponsModel(
+        code: json["code"],
+        level: json["level"],
+        num: json["num"],
+        name: json["name"],
+        description: json["description"],
+        id: json["id"],
+        state: json["state"],
+      );
 
-class Description {
-  String value;
-
-  Description({
-    required this.value,
-  });
-
-  factory Description.fromJson(Map<String, dynamic> json) {
-    return Description(
-      value: json['value'],
-    );
-  }
-}
-
-class LevelCoupon {
-  int level;
-  String name;
-  String description;
-  int id;
-  int state;
-
-  LevelCoupon({
-    required this.level,
-    required this.name,
-    required this.description,
-    required this.id,
-    required this.state,
-  });
-
-  factory LevelCoupon.fromJson(Map<String, dynamic> json) {
-    return LevelCoupon(
-      level: json['level'],
-      name: json['name'],
-      description: json['description'],
-      id: json['id'],
-      state: json['state'] ?? 1,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'level': level,
-      'name': name,
-      'description': description,
-      'id': id,
-      'state': state,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "level": level,
+        "num": num,
+        "name": name,
+        "description": description,
+        "id": id,
+        "state": state,
+      };
 }
