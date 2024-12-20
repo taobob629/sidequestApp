@@ -13,7 +13,7 @@ abstract class ProfileApi {
 
   /// profile 用户信息
   static Future getProfileInfo() async {
-    var response = await http.get('/sideQuest/app/sq/user/memberInfo');
+    var response = await http.get('/sideQuest/app/sq/user/memberInfo2');
     return ProfileModel.fromJson(response.data);
   }
 

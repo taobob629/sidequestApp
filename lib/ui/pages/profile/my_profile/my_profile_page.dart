@@ -635,32 +635,35 @@ class MyProfilePage extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ).paddingOnly(left: 16.w),
-                InkWell(
-                  onTap: () => Get.to(() => IntegralHomePage())
-                      ?.whenComplete(() => t.onRefresh()),
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(
-                        ImageUtils.point_lv_icon,
-                        width: 116.w,
-                        height: 20.w,
-                      ),
-                      Positioned(
-                        right: 6.w,
-                        top: 4.h,
-                        child: Obx(() => Text(
-                              'Upgrade to LV.${userController.userProfile.lv + 1}',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 10.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.bold,
+                Obx(() => Visibility(
+                      visible: userController.userProfile.lv != -1,
+                      child: InkWell(
+                        onTap: () => Get.to(() => IntegralHomePage())
+                            ?.whenComplete(() => t.onRefresh()),
+                        child: Stack(
+                          children: [
+                            SvgPicture.asset(
+                              ImageUtils.point_lv_icon,
+                              width: 116.w,
+                              height: 20.w,
+                            ),
+                            Positioned(
+                              right: 6.w,
+                              top: 4.h,
+                              child: Text(
+                                'Upgrade to LV.${userController.userProfile.lv + 1}',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 10.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            )),
+                            ),
+                          ],
+                        ).marginOnly(right: 16.w),
                       ),
-                    ],
-                  ).marginOnly(right: 16.w),
-                ),
+                    )),
               ],
             ),
             Row(

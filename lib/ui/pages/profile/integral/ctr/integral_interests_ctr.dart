@@ -68,17 +68,21 @@ class IntegralInterestsCtr extends GetxController {
     getContentList();
   }
 
-  void redeemCoupon(int? id) async {
-    showLoading();
-    final result = await http.post('/app/point/add/coupon', data: {
-      "level":
-          integralModel.value.levelConfigVoList[currentVIPIndex.value].level,
-      "couponId": id,
-    });
-    dismissLoading();
-    if (result.data) {
-      showToast("Redeem Successful".tr);
+  void redeemCoupon(CouponsModel model) async {
+    if (model.state == 0) {
+      showLoading();
+      final result = await http.post('/app/point/add/coupon', data: {
+        "level":
+            integralModel.value.levelConfigVoList[currentVIPIndex.value].level,
+        "couponId": model.id,
+        "num": model.num,
+        "couponCode": model.code,
+      });
+      dismissLoading();
+      if (result.data) {
+        showToast("Redeem Successful".tr);
+      }
+      requestData();
     }
-    requestData();
   }
 }

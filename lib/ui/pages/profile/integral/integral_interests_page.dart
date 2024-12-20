@@ -440,39 +440,38 @@ class IntegralInterestsPage extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Visibility(
-                        visible: model.state == 0,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => ctr.redeemCoupon(model.id),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 4.h,
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => ctr.redeemCoupon(model),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment(1.00, 0.00),
+                              end: Alignment(-1, 0),
+                              colors: model.state == 0
+                                  ? [Color(0xFFFFB20E), Color(0xFFFF760E)]
+                                  : [Colors.grey, Colors.grey],
                             ),
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment(1.00, 0.00),
-                                end: Alignment(-1, 0),
-                                colors: [Color(0xFFFFB20E), Color(0xFFFF760E)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.r),
-                              ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.r),
                             ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Redeem',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
-                              ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Redeem',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
