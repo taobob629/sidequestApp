@@ -3,12 +3,15 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/model/integral_info_model.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
+import '../../../../model/integral_task_model.dart';
+import '../../../../widget/container_tab_indicator.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
 import '../task/task_page.dart';
 import 'ctr/integral_home_ctr.dart';
@@ -413,15 +416,47 @@ class IntegralHomePage extends StatelessWidget {
                         ),
                       ),
                       titleWidget(
-                        leftText: "Task Center",
+                        leftText: "Task Center".tr,
                         marginLeft: 0,
                         marginRight: 0,
                         onTap: () => Get.to(() => TaskPage())
                             ?.then((value) => UserController.find.updateInfo()),
                       ),
+                      Container(
+                        height: 30.h,
+                        margin: EdgeInsets.only(bottom: 14.h),
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (c, i) => Obx(() => GestureDetector(
+                                onTap: () => t.selectTaskCenterTab(i),
+                                child: Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 14.w),
+                                  decoration: BoxDecoration(
+                                    color: t.taskCenterIndex.value == i
+                                        ? hexColor('#FFB20E')
+                                        : hexColor('#212127'),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    t.taskCenterTab[i]["name"],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                          separatorBuilder: (c, i) => 10.horizontalSpace,
+                          itemCount: t.taskCenterTab.length,
+                        ),
+                      ),
                       taskCenterWidget(),
                       titleWidget(
-                        leftText: "Points Redemption",
+                        leftText: "Points Redemption".tr,
                         marginLeft: 0,
                         marginRight: 0,
                         onTap: () => Get.to(
@@ -581,6 +616,8 @@ class IntegralHomePage extends StatelessWidget {
                     fontFamily: 'DIN',
                     fontWeight: FontWeight.w400,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               15.verticalSpace,
@@ -639,290 +676,147 @@ class IntegralHomePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
           ),
         ),
-        padding: EdgeInsets.all(15.r),
+        padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 0),
         child: Obx(() => Column(
               children: [
-                if (t.integralTaskModel.value.rows.isNotEmpty)
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[0].id),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 34.w,
-                          height: 34.w,
-                          decoration: ShapeDecoration(
-                            color: Color(0x19F097FF),
-                            shape: OvalBorder(),
-                          ),
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(24.r),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    '${t.integralTaskModel.value.rows[0].icon}',
-                                width: 20.w,
-                                height: 20.w,
-                                fit: BoxFit.cover,
-                                placeholder: (c, url) => Image.asset(
-                                  ImageUtils.default_logo,
-                                  width: 20.w,
-                                ),
-                                errorWidget: (c, c1, c2) =>
-                                    Image.asset(ImageUtils.default_logo),
-                              ),
-                            ),
-                          ),
-                        ),
-                        10.horizontalSpace,
-                        Expanded(
-                          child: Text(
-                            '${t.integralTaskModel.value.rows[0].description}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          height: 30.h,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: ShapeDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment(1.00, 0.00),
-                              end: Alignment(-1, 0),
-                              colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.r),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 4.h),
-                                child: Image.asset(
-                                  ImageUtils.integral_checkin_icon,
-                                  width: 20.w,
-                                  height: 20.w,
-                                ),
-                              ),
-                              3.horizontalSpace,
-                              Text(
-                                'x${t.integralTaskModel.value.rows[0].pointsNum}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                if (t.integralTaskModel.value.rows.length > 1)
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[1].id),
-                    child: Container(
-                      margin: EdgeInsets.only(top: 15.h),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 34.w,
-                            height: 34.w,
-                            decoration: ShapeDecoration(
-                              color: Color(0x19F097FF),
-                              shape: OvalBorder(),
-                            ),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(24.r),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      '${t.integralTaskModel.value.rows[1].icon}',
-                                  width: 20.w,
-                                  height: 20.w,
-                                  fit: BoxFit.cover,
-                                  placeholder: (c, url) => Image.asset(
-                                    ImageUtils.default_logo,
-                                    width: 20.w,
-                                  ),
-                                  errorWidget: (c, c1, c2) =>
-                                      Image.asset(ImageUtils.default_logo),
-                                ),
-                              ),
-                            ),
-                          ),
-                          10.horizontalSpace,
-                          Expanded(
-                            child: Text(
-                              '${t.integralTaskModel.value.rows[1].description}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Container(
-                            height: 30.h,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment(1.00, 0.00),
-                                end: Alignment(-1, 0),
-                                colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.r),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 4.h),
-                                  child: Image.asset(
-                                    ImageUtils.integral_checkin_icon,
-                                    width: 20.w,
-                                    height: 20.w,
-                                  ),
-                                ),
-                                3.horizontalSpace,
-                                Text(
-                                  'x${t.integralTaskModel.value.rows[1].pointsNum}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: 'DIN',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                if (t.integralTaskModel.value.rows.length > 2)
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.to(() => IntegralTaskDetailPage(),
-                        arguments: t.integralTaskModel.value.rows[2].id),
-                    child: Container(
-                      margin: EdgeInsets.only(top: 15.h),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 34.w,
-                            height: 34.w,
-                            decoration: ShapeDecoration(
-                              color: Color(0x19F097FF),
-                              shape: OvalBorder(),
-                            ),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(24.r),
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      '${t.integralTaskModel.value.rows[2].icon}',
-                                  width: 20.w,
-                                  height: 20.w,
-                                  fit: BoxFit.cover,
-                                  placeholder: (c, url) => Image.asset(
-                                    ImageUtils.default_logo,
-                                    width: 20.w,
-                                  ),
-                                  errorWidget: (c, c1, c2) =>
-                                      Image.asset(ImageUtils.default_logo),
-                                ),
-                              ),
-                            ),
-                          ),
-                          10.horizontalSpace,
-                          Expanded(
-                            child: Text(
-                              '${t.integralTaskModel.value.rows[2].description}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Container(
-                            height: 30.h,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment(1.00, 0.00),
-                                end: Alignment(-1, 0),
-                                colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.r),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 4.h),
-                                  child: Image.asset(
-                                    ImageUtils.integral_checkin_icon,
-                                    width: 20.w,
-                                    height: 20.w,
-                                  ),
-                                ),
-                                3.horizontalSpace,
-                                Text(
-                                  'x${t.integralTaskModel.value.rows[2].pointsNum}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontFamily: 'DIN',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                if (!t.showOrHideTaskCenter.value && t.integralTaskModel.value.rows.length <= 3)
+                  lessTaskCenterWidget(),
+                if (!t.showOrHideTaskCenter.value && t.integralTaskModel.value.rows.length > 3)
+                  lessTaskCenterWidget(),
+                if (t.showOrHideTaskCenter.value)
+                  ...t.integralTaskModel.value.rows
+                      .map((e) => commonTaskCenterWidget(e))
+                      .toList(),
+                if (t.showOrHideTaskCenter.value)
+                  Obx(() => InkWell(
+                        onTap: () => t.showOrHideTaskCenter.value =
+                            !t.showOrHideTaskCenter.value,
+                        child: Image.asset(
+                          t.showOrHideTaskCenter.value
+                              ? ImageUtils.order_less_icon
+                              : ImageUtils.order_more_icon,
+                          scale: 1.5,
+                        ).marginOnly(bottom: 15.h),
+                      )),
               ],
             )),
+      );
+
+  Widget commonTaskCenterWidget(IntegralTask task) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: task.id),
+        child: Row(
+          children: [
+            Container(
+              width: 34.w,
+              height: 34.w,
+              decoration: ShapeDecoration(
+                color: Color(0x19F097FF),
+                shape: OvalBorder(),
+              ),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24.r),
+                  child: CachedNetworkImage(
+                    imageUrl: '${task.icon}',
+                    width: 20.w,
+                    height: 20.w,
+                    fit: BoxFit.cover,
+                    placeholder: (c, url) => Image.asset(
+                      ImageUtils.default_logo,
+                      width: 20.w,
+                    ),
+                    errorWidget: (c, c1, c2) =>
+                        Image.asset(ImageUtils.default_logo),
+                  ),
+                ),
+              ),
+            ),
+            10.horizontalSpace,
+            Expanded(
+              child: Text(
+                '${task.description}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              height: 30.h,
+              padding: EdgeInsets.symmetric(
+                horizontal: 14.w,
+                vertical: 4.h,
+              ),
+              decoration: ShapeDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment(1.00, 0.00),
+                  end: Alignment(-1, 0),
+                  colors: [Color(0xFFFF760E), Color(0xFFFFB20E)],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 4.h),
+                    child: Image.asset(
+                      ImageUtils.integral_checkin_icon,
+                      width: 20.w,
+                      height: 20.w,
+                    ),
+                  ),
+                  3.horizontalSpace,
+                  Text(
+                    'x${task.pointsNum}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: 'DIN',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ).marginOnly(bottom: 23.h);
+
+  Widget lessTaskCenterWidget() => Column(
+        children: [
+          if (t.integralTaskModel.value.rows.isEmpty)
+            Image.asset(
+              ImageUtils.empty,
+              width: 43.w,
+              height: 43.w,
+            ).marginOnly(bottom: 15.h),
+          if (t.integralTaskModel.value.rows.isNotEmpty)
+            commonTaskCenterWidget(t.integralTaskModel.value.rows[0]),
+          if (t.integralTaskModel.value.rows.length > 1)
+            commonTaskCenterWidget(t.integralTaskModel.value.rows[1]),
+          if (t.integralTaskModel.value.rows.length > 2)
+            commonTaskCenterWidget(t.integralTaskModel.value.rows[2]),
+          if (t.integralTaskModel.value.rows.length > 3)
+            Obx(() => InkWell(
+                  onTap: () => t.showOrHideTaskCenter.value =
+                      !t.showOrHideTaskCenter.value,
+                  child: Image.asset(
+                    t.showOrHideTaskCenter.value
+                        ? ImageUtils.order_less_icon
+                        : ImageUtils.order_more_icon,
+                    scale: 1.5,
+                  ).marginOnly(bottom: 15.h),
+                )),
+        ],
       );
 
   Widget weekCheckInWidget(Sign model, {Function? onTap}) => GestureDetector(

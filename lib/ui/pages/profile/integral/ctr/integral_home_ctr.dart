@@ -20,6 +20,17 @@ class IntegralHomeCtr extends GetxController {
   // 签到点击的是app还是store
   var isAppTab = true.obs;
 
+  // 1：One-off,2:Daily,3:weekly,4:monthly
+  int taskFrequency = 2;
+  var taskCenterIndex = 0.obs;
+  var showOrHideTaskCenter = false.obs;
+  List<Map<String, dynamic>> taskCenterTab = [
+    {"name": "Daily".tr, "value": 2},
+    {"name": "Weekly".tr, "value": 3},
+    {"name": "Monthly".tr, "value": 4},
+    {"name": "One-Off".tr, "value": 1},
+  ];
+
   @override
   void onInit() {
     super.onInit();
@@ -31,7 +42,8 @@ class IntegralHomeCtr extends GetxController {
     showLoading();
     final responseList = await Future.wait([
       http.get('/app/point/info'),
-      http.get('/app/point/task/list'),
+      http.get('/app/point/task/list',
+          queryParameters: {"taskFrequency": taskFrequency}),
       http.get('/app/point/pointGoods'),
     ]);
 
@@ -44,6 +56,20 @@ class IntegralHomeCtr extends GetxController {
     if (list.isNotEmpty) {
       goods.value = list[0];
     }
+  }
+
+  void selectTaskCenterTab(int i) {
+    showOrHideTaskCenter.value = false;
+    taskCenterIndex.value = i;
+    taskFrequency = taskCenterTab[i]["value"];
+    requestTaskList();
+  }
+
+  void requestTaskList() async {
+    showLoading();
+    final response = await http.get('/app/point/task/list', queryParameters: {"taskFrequency": taskFrequency});
+    dismissLoading();
+    integralTaskModel.value = IntegralTaskModel.fromJson(response.data);
   }
 
   void checkIn() async {
@@ -65,10 +91,15 @@ class IntegralHomeCtr extends GetxController {
     List<String> parts = model!.day.split('/');
     int dayOfMonth = int.parse(parts[0]);
     int month = int.parse(parts[1]);
-    DateTime givenDate = DateTime(DateTime.now().year, month, dayOfMonth);
+    DateTime givenDate = DateTime(DateTime
+        .now()
+        .year, month, dayOfMonth);
 
     // 0未签到 1已签到 2待签到
-    int chaDay = DateTime.now().difference(givenDate).inHours;
+    int chaDay = DateTime
+        .now()
+        .difference(givenDate)
+        .inHours;
 
     if (model.state == 1) {
       // 已经签到的用绿色
