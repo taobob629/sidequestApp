@@ -353,7 +353,7 @@ class IntegralHomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
-                        padding: EdgeInsets.all(15.r),
+                        padding: EdgeInsets.all(10.r),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -537,54 +537,151 @@ class IntegralHomePage extends StatelessWidget {
               ),
           ],
         )
-      : Row(
+      : Column(
           children: [
-            if (t.integralInfoModel.value.webSign.isNotEmpty)
-              Expanded(
-                child: weekCheckInWidget(t.integralInfoModel.value.webSign[0]),
-              ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 1)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[1],
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 10.h,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Last week'.tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                            Text(
+                              'checked in'.tr,
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 14.sp,
+                                fontFamily: 'DIN',
+                              ),
+                            ).paddingSymmetric(vertical: 4.h),
+                            Text(
+                              t.integralInfoModel.value.webSign.isNotEmpty
+                                  ? '+${t.integralInfoModel.value.webSign[0].point}'
+                                  : '+0',
+                              style: TextStyle(
+                                color: hexColor('#FFB20E'),
+                                fontSize: 14.sp,
+                                fontFamily: 'DIN',
+                              ),
+                            ),
+                          ],
+                        ),
+                        t.integralInfoModel.value.webSign.isNotEmpty
+                            ? Image.asset(
+                                t.integralInfoModel.value.webSign[0].state == 1
+                                    ? ImageUtils.integral_store_check_green_icon
+                                    : ImageUtils
+                                        .integral_store_check_yellow_icon,
+                                width: 32.w,
+                                height: 32.w,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                ImageUtils.integral_store_check_yellow_icon,
+                                width: 32.w,
+                                height: 32.w,
+                                fit: BoxFit.cover,
+                              ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 2)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[2],
+                8.horizontalSpace,
+                Expanded(
+                  child: Container(
+                    width: 155.w,
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20.r),
+                        border: Border.all(
+                          color: hexColor('#DFB93C'),
+                          width: 1.w,
+                        )),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 10.h,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Current week'.tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                ),
+                              ).paddingOnly(bottom: 4.h),
+                              Text(
+                                'not checked'.tr,
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 14.sp,
+                                  fontFamily: 'DIN',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        t.integralInfoModel.value.webSign.length > 1
+                            ? Image.asset(
+                                t.integralInfoModel.value.webSign[1].state == 1
+                                    ? ImageUtils.integral_store_check_green_icon
+                                    : ImageUtils
+                                        .integral_store_check_yellow_icon,
+                                width: 32.w,
+                                height: 32.w,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                ImageUtils.integral_store_check_yellow_icon,
+                                width: 32.w,
+                                height: 32.w,
+                                fit: BoxFit.cover,
+                              ),
+                      ],
+                    ),
+                  ),
                 ),
+              ],
+            ),
+            Text(
+              'description of rules;description of rules;description of rules'
+                  .tr,
+              style: TextStyle(
+                color: Color(0xFF9CA3AF),
+                fontSize: 12.sp,
+                fontFamily: 'DIN',
+                fontWeight: FontWeight.w400,
               ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 3)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[3],
-                ),
-              ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 4)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[4],
-                ),
-              ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 5)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[5],
-                ),
-              ),
-            8.horizontalSpace,
-            if (t.integralInfoModel.value.webSign.length > 6)
-              Expanded(
-                child: weekCheckInWidget(
-                  t.integralInfoModel.value.webSign[6],
-                ),
-              ),
+            ).paddingOnly(top: 10.h),
           ],
         ));
 
@@ -679,9 +776,11 @@ class IntegralHomePage extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 0),
         child: Obx(() => Column(
               children: [
-                if (!t.showOrHideTaskCenter.value && t.integralTaskModel.value.rows.length <= 3)
+                if (!t.showOrHideTaskCenter.value &&
+                    t.integralTaskModel.value.rows.length <= 3)
                   lessTaskCenterWidget(),
-                if (!t.showOrHideTaskCenter.value && t.integralTaskModel.value.rows.length > 3)
+                if (!t.showOrHideTaskCenter.value &&
+                    t.integralTaskModel.value.rows.length > 3)
                   lessTaskCenterWidget(),
                 if (t.showOrHideTaskCenter.value)
                   ...t.integralTaskModel.value.rows
