@@ -1,54 +1,28 @@
 class IntegralTaskModel {
-  int? total;
-  List<IntegralTask> rows;
-
-  IntegralTaskModel({
-    this.total,
-    required this.rows,
-  });
-
-  factory IntegralTaskModel.fromJson(Map<String, dynamic> json) =>
-      IntegralTaskModel(
-        total: json["total"],
-        rows: json["rows"] == null
-            ? []
-            : List<IntegralTask>.from(json["rows"]!.map((x) => IntegralTask.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "total": total,
-        "rows": rows == null
-            ? []
-            : List<dynamic>.from(rows!.map((x) => x.toJson())),
-      };
-}
-
-class IntegralTask {
   int? id;
   String? taskName;
   String? description;
   int? taskSource;
   int? taskType;
-  dynamic storeIds;
   int? taskFrequency;
   int? taskHide;
   int? taskActivity;
-  dynamic icon;
+  String? icon;
   String? taskStartTime;
   String? taskEndTime;
   int? pointsNum;
   int? taskState;
-  dynamic notes;
+  String? notes;
   String? createTime;
   String? updateTime;
+  int? maxNum;
 
-  IntegralTask({
+  IntegralTaskModel({
     this.id,
     this.taskName,
     this.description,
     this.taskSource,
     this.taskType,
-    this.storeIds,
     this.taskFrequency,
     this.taskHide,
     this.taskActivity,
@@ -60,15 +34,16 @@ class IntegralTask {
     this.notes,
     this.createTime,
     this.updateTime,
+    this.maxNum,
   });
 
-  factory IntegralTask.fromJson(Map<String, dynamic> json) => IntegralTask(
+  factory IntegralTaskModel.fromJson(Map<String, dynamic> json) =>
+      IntegralTaskModel(
         id: json["id"],
         taskName: json["taskName"],
         description: json["description"],
         taskSource: json["taskSource"],
         taskType: json["taskType"],
-        storeIds: json["storeIds"],
         taskFrequency: json["taskFrequency"],
         taskHide: json["taskHide"],
         taskActivity: json["taskActivity"],
@@ -80,6 +55,7 @@ class IntegralTask {
         notes: json["notes"],
         createTime: json["createTime"],
         updateTime: json["updateTime"],
+        maxNum: json["maxNum"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -88,7 +64,6 @@ class IntegralTask {
         "description": description,
         "taskSource": taskSource,
         "taskType": taskType,
-        "storeIds": storeIds,
         "taskFrequency": taskFrequency,
         "taskHide": taskHide,
         "taskActivity": taskActivity,
@@ -100,5 +75,6 @@ class IntegralTask {
         "notes": notes,
         "createTime": createTime,
         "updateTime": updateTime,
+        "maxNum": maxNum,
       };
 }

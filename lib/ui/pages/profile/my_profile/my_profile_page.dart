@@ -651,7 +651,7 @@ class MyProfilePage extends StatelessWidget {
                               right: 6.w,
                               top: 4.h,
                               child: Text(
-                                'Upgrade to LV.${userController.userProfile.lv + 1}',
+                                'Upgrade to LV.${userController.userProfile.lv}',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 10.sp,
@@ -688,13 +688,13 @@ class MyProfilePage extends StatelessWidget {
                         whenComplete: () => t.onRefresh(),
                       );
                     })),
-                achievementItem(
+                Obx(() => achievementItem(
                     t.user.value.checkTotal,
                     ImageUtils.ic_coupons_points,
                     "Points".tr,
                     'Your Coupons'.tr,
                     onTap: () => Get.to(() => IntegralHomePage())
-                        ?.whenComplete(() => t.onRefresh())),
+                        ?.whenComplete(() => t.onRefresh()))),
               ],
             ),
           ],

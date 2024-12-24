@@ -114,7 +114,7 @@ class IntegralHomePage extends StatelessWidget {
                                       ?.expGrade,
                                 ),
                                 child: Image.asset(
-                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade == 0 ? (t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1 : t.integralInfoModel.value.pointInfo?.expGrade}_icon.webp',
+                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade}_icon.webp',
                                   scale: 2,
                                 ),
                               )),
@@ -673,7 +673,7 @@ class IntegralHomePage extends StatelessWidget {
               ],
             ),
             Text(
-              'description of rules;description of rules;description of rules'
+              'Visit and log in to any PC station at any SideQuest store to check in'
                   .tr,
               style: TextStyle(
                 color: Color(0xFF9CA3AF),
@@ -777,13 +777,13 @@ class IntegralHomePage extends StatelessWidget {
         child: Obx(() => Column(
               children: [
                 if (!t.showOrHideTaskCenter.value &&
-                    t.integralTaskModel.value.rows.length <= 3)
+                    t.integralTaskList.length <= 3)
                   lessTaskCenterWidget(),
                 if (!t.showOrHideTaskCenter.value &&
-                    t.integralTaskModel.value.rows.length > 3)
+                    t.integralTaskList.length > 3)
                   lessTaskCenterWidget(),
                 if (t.showOrHideTaskCenter.value)
-                  ...t.integralTaskModel.value.rows
+                  ...t.integralTaskList
                       .map((e) => commonTaskCenterWidget(e))
                       .toList(),
                 if (t.showOrHideTaskCenter.value)
@@ -801,7 +801,7 @@ class IntegralHomePage extends StatelessWidget {
             )),
       );
 
-  Widget commonTaskCenterWidget(IntegralTask task) => GestureDetector(
+  Widget commonTaskCenterWidget(IntegralTaskModel task) => GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: task.id),
         child: Row(
@@ -892,19 +892,19 @@ class IntegralHomePage extends StatelessWidget {
 
   Widget lessTaskCenterWidget() => Column(
         children: [
-          if (t.integralTaskModel.value.rows.isEmpty)
+          if (t.integralTaskList.isEmpty)
             Image.asset(
               ImageUtils.empty,
               width: 43.w,
               height: 43.w,
             ).marginOnly(bottom: 15.h),
-          if (t.integralTaskModel.value.rows.isNotEmpty)
-            commonTaskCenterWidget(t.integralTaskModel.value.rows[0]),
-          if (t.integralTaskModel.value.rows.length > 1)
-            commonTaskCenterWidget(t.integralTaskModel.value.rows[1]),
-          if (t.integralTaskModel.value.rows.length > 2)
-            commonTaskCenterWidget(t.integralTaskModel.value.rows[2]),
-          if (t.integralTaskModel.value.rows.length > 3)
+          if (t.integralTaskList.isNotEmpty)
+            commonTaskCenterWidget(t.integralTaskList[0]),
+          if (t.integralTaskList.length > 1)
+            commonTaskCenterWidget(t.integralTaskList[1]),
+          if (t.integralTaskList.length > 2)
+            commonTaskCenterWidget(t.integralTaskList[2]),
+          if (t.integralTaskList.length > 3)
             Obx(() => InkWell(
                   onTap: () => t.showOrHideTaskCenter.value =
                       !t.showOrHideTaskCenter.value,

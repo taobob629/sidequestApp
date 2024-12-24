@@ -13,7 +13,7 @@ import '../../../../../utils/utils.dart';
 class IntegralHomeCtr extends GetxController {
   var integralInfoModel =
       IntegralInfoModel(appSign: [], lvList: [], webSign: []).obs;
-  var integralTaskModel = IntegralTaskModel(rows: []).obs;
+  var integralTaskList = <IntegralTaskModel>[].obs;
   var goods = [].obs;
   var isLoading = true.obs;
 
@@ -50,7 +50,10 @@ class IntegralHomeCtr extends GetxController {
     dismissLoading();
     isLoading.value = false;
     integralInfoModel.value = IntegralInfoModel.fromJson(responseList[0].data);
-    integralTaskModel.value = IntegralTaskModel.fromJson(responseList[1].data);
+    integralTaskList.value = responseList[1]
+        .data
+        .map<IntegralTaskModel>((item) => IntegralTaskModel.fromJson(item))
+        .toList();
     Map<String, dynamic> goodsMap = responseList[2].data;
     final list = goodsMap.values.toList();
     if (list.isNotEmpty) {
@@ -67,9 +70,12 @@ class IntegralHomeCtr extends GetxController {
 
   void requestTaskList() async {
     showLoading();
-    final response = await http.get('/app/point/task/list', queryParameters: {"taskFrequency": taskFrequency});
+    final response = await http.get('/app/point/task/list',
+        queryParameters: {"taskFrequency": taskFrequency});
     dismissLoading();
-    integralTaskModel.value = IntegralTaskModel.fromJson(response.data);
+    integralTaskList.value = response.data
+        .map<IntegralTaskModel>((item) => IntegralTaskModel.fromJson(item))
+        .toList();
   }
 
   void checkIn() async {
@@ -91,15 +97,10 @@ class IntegralHomeCtr extends GetxController {
     List<String> parts = model!.day.split('/');
     int dayOfMonth = int.parse(parts[0]);
     int month = int.parse(parts[1]);
-    DateTime givenDate = DateTime(DateTime
-        .now()
-        .year, month, dayOfMonth);
+    DateTime givenDate = DateTime(DateTime.now().year, month, dayOfMonth);
 
     // 0未签到 1已签到 2待签到
-    int chaDay = DateTime
-        .now()
-        .difference(givenDate)
-        .inHours;
+    int chaDay = DateTime.now().difference(givenDate).inHours;
 
     if (model.state == 1) {
       // 已经签到的用绿色
