@@ -1,3 +1,5 @@
+import 'integral_task_detail_model.dart';
+
 class IntegralTaskModel {
   int? id;
   String? taskName;
@@ -16,6 +18,7 @@ class IntegralTaskModel {
   String? createTime;
   String? updateTime;
   int? maxNum;
+  NowTaskDetail? nowTaskDetail;
 
   IntegralTaskModel({
     this.id,
@@ -35,6 +38,7 @@ class IntegralTaskModel {
     this.createTime,
     this.updateTime,
     this.maxNum,
+    this.nowTaskDetail,
   });
 
   factory IntegralTaskModel.fromJson(Map<String, dynamic> json) =>
@@ -56,6 +60,9 @@ class IntegralTaskModel {
         createTime: json["createTime"],
         updateTime: json["updateTime"],
         maxNum: json["maxNum"],
+        nowTaskDetail: json["nowTaskDetail"] == null
+            ? null
+            : NowTaskDetail.fromJson(json["nowTaskDetail"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,5 +83,6 @@ class IntegralTaskModel {
         "createTime": createTime,
         "updateTime": updateTime,
         "maxNum": maxNum,
+        "nowTaskDetail": nowTaskDetail?.toJson(),
       };
 }

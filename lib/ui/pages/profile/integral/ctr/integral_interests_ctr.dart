@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/utils/utils.dart';
 
 import '../../../../../api/wy_http.dart';
 import '../../../../../model/integral_model.dart';
@@ -20,7 +19,7 @@ class IntegralInterestsCtr extends GetxController {
   void onInit() {
     super.onInit();
 
-    currentVIPIndex.value = (Get.arguments ?? 1) - 1;
+    currentVIPIndex.value = Get.arguments ?? 0;
     requestData();
   }
 
