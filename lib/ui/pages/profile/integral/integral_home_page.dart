@@ -114,7 +114,7 @@ class IntegralHomePage extends StatelessWidget {
                                       ?.expGrade,
                                 ),
                                 child: Image.asset(
-                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade}_icon.webp',
+                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade ?? 0}_icon.webp',
                                   scale: 2,
                                 ),
                               )),
@@ -991,7 +991,7 @@ class IntegralHomePage extends StatelessWidget {
                 color: Color(0xFF2C2C33),
                 borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
-                  color: t.isSameDay(model.day)
+                  color: t.isSameDay(model)
                       ? hexColor('#FFB20E')
                       : Colors.transparent,
                   width: 1.w,

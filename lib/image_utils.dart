@@ -82,6 +82,8 @@ class ImageUtils {
   static const String tab_console_icon = 'assets/images/tab_console_icon.webp';
   static const String tab_racing_icon = 'assets/images/tab_racing_icon.webp';
   static const String bubble_tea_store_icon = 'assets/images/bubble_tea_store_icon.webp';
+  static const String sign_success_icon = 'assets/images/sign_success_icon.svg';
+  static const String sign_coin_icon = 'assets/images/sign_coin_icon.webp';
   static const String ic_checked = 'assets/images/ic_checked.webp';
   static const String icon_xuanze = 'assets/images/icon_xuanze.webp';
   static const String friendship_img = 'assets/images/friendship_img.webp';

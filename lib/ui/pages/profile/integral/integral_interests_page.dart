@@ -266,12 +266,19 @@ class IntegralInterestsPage extends StatelessWidget {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () => Get.dialog(
-                                      CouponTipDialog(
-                                        info: ctr.contentList[i]["description"],
-                                      ),
-                                      barrierColor: Colors.black38,
-                                    ),
+                                    onTap: () => ctr.contentList[i]
+                                                    ["description"] !=
+                                                null &&
+                                            ctr.contentList[i]["description"] !=
+                                                ""
+                                        ? Get.dialog(
+                                            CouponTipDialog(
+                                              info: ctr.contentList[i]
+                                                  ["description"],
+                                            ),
+                                            barrierColor: Colors.black38,
+                                          )
+                                        : null,
                                     child: Icon(
                                       Icons.error_outline,
                                       size: 20.sp,

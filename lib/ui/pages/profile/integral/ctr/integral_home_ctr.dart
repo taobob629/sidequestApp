@@ -9,6 +9,7 @@ import '../../../../../model/integral_info_model.dart';
 import '../../../../../model/integral_task_model.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
+import '../../../../dialog/dialog_sign_success.dart';
 
 class IntegralHomeCtr extends GetxController {
   var integralInfoModel =
@@ -19,6 +20,9 @@ class IntegralHomeCtr extends GetxController {
 
   // 签到点击的是app还是store
   var isAppTab = true.obs;
+
+  // 当前日期的model
+  Sign? todayModel;
 
   // 1：One-off,2:Daily,3:weekly,4:monthly
   int taskFrequency = 2;
@@ -84,9 +88,8 @@ class IntegralHomeCtr extends GetxController {
         data: {"signType": isAppTab.value ? "1" : "2"});
     dismissLoading();
     requestData();
-    flog("zengchao = ${response.data}");
     if (response.data == true) {
-      showToast('Sign in successfully');
+      showCustom(SignSuccessDialog(todayModel?.point));
     }
   }
 
@@ -112,11 +115,15 @@ class IntegralHomeCtr extends GetxController {
     return ImageUtils.integral_checkin_icon;
   }
 
-  bool isSameDay(String dateString) {
+  bool isSameDay(Sign model) {
     // 获取今天的日期
     DateTime today = DateTime.now();
     String todayFormatted = formatDate(today, [dd, '/', mm]);
 
-    return dateString == todayFormatted;
+    bool isToday = model.day == todayFormatted;
+    if (isToday) {
+      todayModel = model;
+    }
+    return isToday;
   }
 }
