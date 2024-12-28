@@ -260,24 +260,29 @@ class IntegralInterestsPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () => ctr.contentList[i]
-                                                  ["description"] !=
-                                              null &&
-                                          ctr.contentList[i]["description"] !=
-                                              ""
-                                      ? Get.dialog(
-                                          CouponTipDialog(
-                                            info: ctr.contentList[i]
-                                                ["description"],
-                                          ),
-                                          barrierColor: Colors.black38,
-                                        )
-                                      : null,
-                                  child: Icon(
-                                    Icons.error_outline,
-                                    size: 20.sp,
-                                    color: Colors.white,
+                                Visibility(
+                                  visible: ctr.contentList[i]["description"] !=
+                                          null &&
+                                      ctr.contentList[i]["description"] != "",
+                                  child: InkWell(
+                                    onTap: () => ctr.contentList[i]
+                                                    ["description"] !=
+                                                null &&
+                                            ctr.contentList[i]["description"] !=
+                                                ""
+                                        ? Get.dialog(
+                                            CouponTipDialog(
+                                              info: ctr.contentList[i]
+                                                  ["description"],
+                                            ),
+                                            barrierColor: Colors.black38,
+                                          )
+                                        : null,
+                                    child: Icon(
+                                      Icons.error_outline,
+                                      size: 20.sp,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -319,24 +324,6 @@ class IntegralInterestsPage extends StatelessWidget {
                                         fontFamily: FONT_MEDIUM,
                                         color: Colors.white,
                                       ),
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'You can redeem ',
-                                      style: TextStyle(
-                                        fontSize: 13.sp,
-                                        color: Colors.white,
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: '${ctr.levelCoupons.length}',
-                                          style: TextStyle(
-                                            color: hexColor("FFB20E"),
-                                          ),
-                                        ),
-                                        TextSpan(text: ' coupons.'),
-                                      ],
                                     ),
                                   ),
                                 ],
@@ -464,7 +451,7 @@ class IntegralInterestsPage extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            'Redeem',
+                            'Claim',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,

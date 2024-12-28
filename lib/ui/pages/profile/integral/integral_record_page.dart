@@ -106,10 +106,10 @@ class IntegralRecordPage extends StatelessWidget {
               ),
             ),
             Text(
-              '${model.pointsNum}',
+              ctr.type == 1 ? '+${model.pointsNum}' : '-${model.pointsNum}',
               textAlign: TextAlign.right,
               style: TextStyle(
-                color: Color(ctr.type == 1 ? 0xFF7BD335 : 0xFFF72F2F),
+                color: Color(ctr.type == 1 ? 0xFFF72F2F : 0xFF7BD335),
                 fontSize: 20,
                 fontFamily: FONT_MEDIUM,
               ),

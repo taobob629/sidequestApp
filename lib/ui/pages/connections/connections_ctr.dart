@@ -31,7 +31,7 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('Add Friend'.tr),
+        child: Text('My Connections'.tr),
       )),
       Obx(() => Container(
         height: 34.h,

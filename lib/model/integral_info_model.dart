@@ -3,16 +3,19 @@ class IntegralInfoModel {
   List<Sign> webSign;
   PointInfo? pointInfo;
   List<LvList> lvList;
+  int? couponNum;
 
   IntegralInfoModel({
     required this.appSign,
     required this.webSign,
     this.pointInfo,
     required this.lvList,
+    this.couponNum,
   });
 
   factory IntegralInfoModel.fromJson(Map<String, dynamic> json) =>
       IntegralInfoModel(
+        couponNum: json["couponNum"] ?? 0,
         appSign: json["appSign"] == null
             ? []
             : List<Sign>.from(json["appSign"]!.map((x) => Sign.fromJson(x))),

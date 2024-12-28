@@ -10,6 +10,7 @@ import 'package:badges/badges.dart' as badges;
 import '../../../image_utils.dart';
 import '../playwith/balance/widget/tips_dialog.dart';
 import 'add_friend_ctr.dart';
+import 'add_rule_dialog.dart';
 
 class AddFriendPage extends StatelessWidget {
   final ctr = Get.put(AddFriendCtr());
@@ -97,9 +98,8 @@ class AddFriendPage extends StatelessWidget {
                     behavior: HitTestBehavior.translucent,
                     onTapDown: (details) {
                       print(details.globalPosition);
-                      Get.dialog(TipsDialog(
+                      Get.dialog(AddRuleDialog(
                         offset: details.globalPosition,
-                        tips: "这是提示内容这是提示内容这是提示内容",
                       ));
                     },
                     child: Container(
@@ -115,7 +115,7 @@ class AddFriendPage extends StatelessWidget {
                       margin: EdgeInsets.only(right: 8.w),
                       alignment: Alignment.center,
                       child: Text(
-                        '?',
+                        '!',
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontFamily: FONT_MEDIUM,
@@ -136,36 +136,40 @@ class AddFriendPage extends StatelessWidget {
               ).marginOnly(left: 16.w, right: 16.w, top: 16.h),
             )),
         Obx(() => GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => ctr.approval(),
-          child: Row(
-            children: [
-              badges.Badge(
-                showBadge: ctr.friendOutModel.value.approvalNum > 0,
-                badgeContent: Text(
-                  '${ctr.friendOutModel.value.approvalNum}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10.sp,
+              behavior: HitTestBehavior.translucent,
+              onTap: () => ctr.approval(),
+              child: Row(
+                children: [
+                  badges.Badge(
+                    showBadge: ctr.friendOutModel.value.approvalNum > 0,
+                    badgeContent: Text(
+                      '${ctr.friendOutModel.value.approvalNum}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                      ),
+                    ),
+                    badgeColor: Color(0xffFF4848),
+                    position: badges.BadgePosition(end: -14.w, top: -6),
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Pending Approval'.tr,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: FONT_LIGHT,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
-                badgeColor: Color(0xffFF4848),
-                position: badges.BadgePosition(end: -14.w, top: -6),
-                alignment: Alignment.topRight,
-                child: Text(
-                  'Pending Approval'.tr,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontFamily: FONT_LIGHT,
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
                     color: Colors.white,
+                    size: 16.sp,
                   ),
-                ),
-              ),
-              Spacer(),
-              Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16.sp,),
-            ],
-          ).marginOnly(left: 22.w, right: 32.w, top: 16.h, bottom: 16.h),
-        )),
+                ],
+              ).marginOnly(left: 22.w, right: 32.w, top: 16.h, bottom: 16.h),
+            )),
         Expanded(
           child: Obx(() => ctr.friendList.isNotEmpty
               ? ListView.separated(

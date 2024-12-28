@@ -3,17 +3,14 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/common/empty_view.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:sq_hub_app/model/integral_info_model.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
-import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_task_model.dart';
-import '../../../../widget/container_tab_indicator.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
-import '../task/task_page.dart';
 import 'ctr/integral_home_ctr.dart';
 import 'integral_detail_page.dart';
 import 'integral_interests_page.dart';
@@ -229,14 +226,47 @@ class IntegralHomePage extends StatelessWidget {
                                           ),
                                           4.horizontalSpace,
                                           Expanded(
-                                            child: Text(
-                                              'My Benefits'.tr,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.sp,
-                                                fontFamily: 'DIN',
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'My Benefits'.tr,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16.sp,
+                                                    fontFamily: 'DIN',
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                badges.Badge(
+                                                  showBadge: t.integralInfoModel
+                                                          .value.couponNum! >
+                                                      0,
+                                                  badgeContent: Text(
+                                                    '${t.integralInfoModel.value.couponNum}',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 10.sp,
+                                                    ),
+                                                  ),
+                                                  badgeColor: Color(0xffFF4848),
+                                                  position:
+                                                      badges.BadgePosition(
+                                                    end: -14,
+                                                    top: -6,
+                                                  ),
+                                                  alignment: Alignment.topRight,
+                                                  child: Text(
+                                                    ''.tr,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16.sp,
+                                                      fontFamily: 'DIN',
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Image.asset(
