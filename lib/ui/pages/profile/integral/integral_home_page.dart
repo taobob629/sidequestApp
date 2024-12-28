@@ -87,7 +87,7 @@ class IntegralHomePage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Obx(() => Text(
-                                            'Points:${t.integralInfoModel.value.pointInfo?.pointsTotal}',
+                                            'Points:${t.integralInfoModel.value.pointInfo?.points}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Color(0xFF9CA3AF),
@@ -419,8 +419,7 @@ class IntegralHomePage extends StatelessWidget {
                         leftText: "Task Center".tr,
                         marginLeft: 0,
                         marginRight: 0,
-                        onTap: () => Get.to(() => TaskPage())
-                            ?.then((value) => UserController.find.updateInfo()),
+                        viewAllText: '',
                       ),
                       Container(
                         height: 30.h,
@@ -807,148 +806,146 @@ class IntegralHomePage extends StatelessWidget {
             )),
       );
 
-  Widget commonTaskCenterWidget(IntegralTaskModel task) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 34.w,
-                height: 34.w,
-                decoration: ShapeDecoration(
-                  color: Color(0x19F097FF),
-                  shape: OvalBorder(),
-                ),
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24.r),
-                    child: CachedNetworkImage(
-                      imageUrl: '${task.icon}',
-                      width: 20.w,
-                      height: 20.w,
-                      fit: BoxFit.cover,
-                      placeholder: (c, url) => Image.asset(
-                        ImageUtils.default_logo,
-                        width: 20.w,
-                      ),
-                      errorWidget: (c, c1, c2) =>
-                          Image.asset(ImageUtils.default_logo),
-                    ),
-                  ),
-                ),
-              ),
-              10.horizontalSpace,
-              Expanded(
-                child: Text(
-                  '${task.description}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () =>
-                    Get.to(() => IntegralTaskDetailPage(), arguments: task.id),
-                child: Container(
-                  width: 82.w,
-                  height: 30.h,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 4.h,
-                  ),
+  Widget commonTaskCenterWidget(IntegralTaskModel task) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => Get.to(() => IntegralTaskDetailPage(), arguments: task.id),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 34.w,
+                  height: 34.w,
                   decoration: ShapeDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(1.00, 0.00),
-                      end: Alignment(-1, 0),
-                      colors: task.nowTaskDetail?.myNum ==
-                              task.nowTaskDetail?.maxNum
-                          ? [Color(0xFF2C2E3B), Color(0xFF2C2E3B)]
-                          : [Color(0xFFFF760E), Color(0xFFFFB20E)],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.r),
+                    color: Color(0x19F097FF),
+                    shape: OvalBorder(),
+                  ),
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24.r),
+                      child: CachedNetworkImage(
+                        imageUrl: '${task.icon}',
+                        width: 20.w,
+                        height: 20.w,
+                        fit: BoxFit.cover,
+                        placeholder: (c, url) => Image.asset(
+                          ImageUtils.default_logo,
+                          width: 20.w,
+                        ),
+                        errorWidget: (c, c1, c2) =>
+                            Image.asset(ImageUtils.default_logo),
+                      ),
                     ),
                   ),
-                  alignment: Alignment.center,
+                ),
+                10.horizontalSpace,
+                Expanded(
                   child: Text(
-                    task.nowTaskDetail?.myNum == task.nowTaskDetail?.maxNum
-                        ? 'Completed'.tr
-                        : "GO".tr,
+                    '${task.taskName}',
                     style: TextStyle(
                       color: Colors.white,
+                      fontSize: 14.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Visibility(
+                  visible:
+                      task.nowTaskDetail?.myNum == task.nowTaskDetail?.maxNum,
+                  child: Container(
+                    width: 82.w,
+                    height: 30.h,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 4.h,
+                    ),
+                    decoration: ShapeDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(1.00, 0.00),
+                        end: Alignment(-1, 0),
+                        colors: [Color(0xFF2C2E3B), Color(0xFF2C2E3B)],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Completed'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: 'DIN',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 9.h,
+                left: 42.w,
+                bottom: 4.h,
+              ),
+              child: FAProgressBar(
+                size: 6.h,
+                currentValue: (task.nowTaskDetail?.myNum ?? 0).toDouble(),
+                maxValue: (task.nowTaskDetail?.maxNum ?? 100).toDouble(),
+                progressGradient: LinearGradient(
+                    colors: [hexColor('#FFB20E'), hexColor('#5D61EC')]),
+                backgroundColor: hexColor('#45494B'),
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 4.h,
+                    left: 42.w,
+                  ),
+                  child: Image.asset(
+                    ImageUtils.integral_checkin_icon,
+                    width: 20.w,
+                    height: 20.w,
+                  ),
+                ),
+                3.horizontalSpace,
+                Expanded(
+                  child: Text(
+                    'x${task.pointsNum}',
+                    style: TextStyle(
+                      color: hexColor('#FFB20E'),
                       fontSize: 14.sp,
                       fontFamily: 'DIN',
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              top: 9.h,
-              left: 42.w,
-              bottom: 4.h,
-            ),
-            child: FAProgressBar(
-              size: 6.h,
-              currentValue: (task.nowTaskDetail?.myNum ?? 0).toDouble(),
-              maxValue: (task.nowTaskDetail?.maxNum ?? 100).toDouble(),
-              progressGradient: LinearGradient(
-                  colors: [hexColor('#FFB20E'), hexColor('#5D61EC')]),
-              backgroundColor: hexColor('#45494B'),
-            ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                  top: 4.h,
-                  left: 42.w,
-                ),
-                child: Image.asset(
-                  ImageUtils.integral_checkin_icon,
-                  width: 20.w,
-                  height: 20.w,
-                ),
-              ),
-              3.horizontalSpace,
-              Expanded(
-                child: Text(
-                  'x${task.pointsNum}',
+                Text(
+                  '${(task.nowTaskDetail?.myNum ?? 0)}/${(task.nowTaskDetail?.maxNum ?? 100)}',
                   style: TextStyle(
-                    color: hexColor('#FFB20E'),
-                    fontSize: 14.sp,
-                    fontFamily: 'DIN',
-                    fontWeight: FontWeight.w400,
+                    color: hexColor('ffffff'),
+                    fontSize: 12.sp,
+                    fontFamily: FONT_MEDIUM,
                   ),
                 ),
-              ),
-              Text(
-                '${(task.nowTaskDetail?.myNum ?? 0)}/${(task.nowTaskDetail?.maxNum ?? 100)}',
-                style: TextStyle(
-                  color: hexColor('ffffff'),
-                  fontSize: 12.sp,
-                  fontFamily: FONT_MEDIUM,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: 1,
-            color: hexColor('#2C2E3B'),
-            margin: EdgeInsets.only(top: 12.h),
-          )
-        ],
-      ).marginOnly(bottom: 14.h);
+              ],
+            ),
+            Container(
+              height: 1,
+              color: hexColor('#2C2E3B'),
+              margin: EdgeInsets.only(top: 12.h),
+            )
+          ],
+        ).marginOnly(bottom: 14.h),
+      );
 
   Widget lessTaskCenterWidget() => Column(
         children: [
@@ -991,7 +988,7 @@ class IntegralHomePage extends StatelessWidget {
                 color: Color(0xFF2C2C33),
                 borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
-                  color: t.isSameDay(model)
+                  color: t.isToday(model)
                       ? hexColor('#FFB20E')
                       : Colors.transparent,
                   width: 1.w,

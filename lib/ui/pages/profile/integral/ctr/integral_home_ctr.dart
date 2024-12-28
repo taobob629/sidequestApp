@@ -23,6 +23,8 @@ class IntegralHomeCtr extends GetxController {
 
   // 当前日期的model
   Sign? todayModel;
+  // 今天是否已经签到了
+  bool isTodaySign = false;
 
   // 1：One-off,2:Daily,3:weekly,4:monthly
   int taskFrequency = 2;
@@ -83,6 +85,7 @@ class IntegralHomeCtr extends GetxController {
   }
 
   void checkIn() async {
+    if (isTodaySign) return;
     showLoading();
     final response = await http.post('/app/point/sign',
         data: {"signType": isAppTab.value ? "1" : "2"});
@@ -115,7 +118,7 @@ class IntegralHomeCtr extends GetxController {
     return ImageUtils.integral_checkin_icon;
   }
 
-  bool isSameDay(Sign model) {
+  bool isToday(Sign model) {
     // 获取今天的日期
     DateTime today = DateTime.now();
     String todayFormatted = formatDate(today, [dd, '/', mm]);
@@ -123,6 +126,9 @@ class IntegralHomeCtr extends GetxController {
     bool isToday = model.day == todayFormatted;
     if (isToday) {
       todayModel = model;
+      if (model.state == 1) {
+        isTodaySign = true;
+      }
     }
     return isToday;
   }

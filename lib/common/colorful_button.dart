@@ -7,20 +7,24 @@ class ColorfulButton extends StatelessWidget {
   final Function? onTap;
   double borderRadius;
   List<Color>? colors;
+  EdgeInsetsGeometry? margin;
 
-  ColorfulButton(
-      {required this.child,
-      this.height,
-      this.width,
-      this.onTap,
-      this.borderRadius = 40,
-      this.colors});
+  ColorfulButton({
+    required this.child,
+    this.height,
+    this.width,
+    this.onTap,
+    this.borderRadius = 40,
+    this.colors,
+    this.margin,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
       width: width,
+      margin: margin,
       child: Stack(
         children: [
           Container(

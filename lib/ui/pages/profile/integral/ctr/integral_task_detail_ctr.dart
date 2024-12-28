@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 
 import '../../../../../api/wy_http.dart';
 import '../../../../../model/integral_goods_detail_model.dart';

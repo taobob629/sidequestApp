@@ -118,15 +118,6 @@ class MainPage extends StatelessWidget {
                         TabButton(
                             index: 3,
                             currentIndex: controller.currentIndex.value,
-                            selectIconName: ImageUtils.tab_quest,
-                            normalIconName: ImageUtils.tab_quest_normal,
-                            onTap: () {
-                              controller.controller.jumpToPage(3);
-                              controller.updateCurrentIndex(3);
-                            }),
-                        TabButton(
-                            index: 4,
-                            currentIndex: controller.currentIndex.value,
                             selectIconName: ImageUtils.tab_profile,
                             normalIconName: ImageUtils.tab_profile_normal,
                             onTap: () {
@@ -134,8 +125,8 @@ class MainPage extends StatelessWidget {
                               if (account.isEmpty) {
                                 Get.to(() => LoginPage());
                               } else {
-                                controller.controller.jumpToPage(4);
-                                controller.updateCurrentIndex(4);
+                                controller.controller.jumpToPage(3);
+                                controller.updateCurrentIndex(3);
                                 if (Get.isRegistered<ProfileController>()) {
                                   ProfileController.find.onRefresh();
                                 }
@@ -171,7 +162,6 @@ class MainPageController extends FullLifeCycleController
     IndexPage(),
     TabEventsPage(),
     TabHubsPage(),
-    TaskPage(),
     MyProfilePage(),
   ];
 

@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:html/dom.dart' as dom;
 
 import '../../../../common/base_scaffold.dart';
 import '../../../../common/colorful_button.dart';
@@ -16,149 +22,154 @@ class IntegralDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BaseScaffold(
         title: "Details".tr,
-        body: Obx(() => Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    40.verticalSpace,
-                    Center(
-                      child: CachedNetworkImage(
+        body: Obx(() => ctr.integralGoodsDetailModel.value.name == null
+            ? Container()
+            : Container(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CachedNetworkImage(
                         imageUrl: '${ctr.integralGoodsDetailModel.value.pic}',
-                        fit: BoxFit.cover,
-                        height: 120.w,
                         errorWidget: (c, m, e) =>
                             Image.asset(ImageUtils.default_logo),
+                        height: 200.h,
+                        width: 300.w,
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                    Container(
-                      width: 1.sw,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF202026),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
+                      Container(
+                        width: 1.sw,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF202026),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                         ),
-                      ),
-                      margin: EdgeInsets.only(top: 36.h),
-                      padding: EdgeInsets.all(20.r),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  "${ctr.integralGoodsDetailModel.value.price} ",
+                        margin: EdgeInsets.only(top: 20.h),
+                        padding: EdgeInsets.all(20.r),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text:
+                                    "${ctr.integralGoodsDetailModel.value.price} ",
+                                style: TextStyle(
+                                  color: AppColor.yellow,
+                                  fontSize: 20.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "Points".tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      fontFamily: FONT_LIGHT,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            10.verticalSpace,
+                            Text(
+                              '${ctr.integralGoodsDetailModel.value.name}',
                               style: TextStyle(
-                                color: AppColor.yellow,
-                                fontSize: 20.sp,
+                                color: Colors.white,
+                                fontSize: 18.sp,
                                 fontFamily: FONT_MEDIUM,
                               ),
-                              children: [
-                                TextSpan(
-                                  text: "Points".tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.sp,
-                                    fontFamily: FONT_LIGHT,
-                                  ),
-                                ),
-                              ],
                             ),
-                          ),
-                          10.verticalSpace,
-                          Text(
-                            '${ctr.integralGoodsDetailModel.value.name}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontFamily: FONT_MEDIUM,
+                            Text(
+                              '--------------------------------------------------------------------------------------------------------------------------------------------',
+                              style: TextStyle(
+                                color: hexColor('3C3C43'),
+                                fontSize: 10.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                              maxLines: 1,
                             ),
-                          ),
-                          Text(
-                            '--------------------------------------------------------------------------------------------------------------------------------------------',
-                            style: TextStyle(
-                              color: hexColor('3C3C43'),
-                              fontSize: 10.sp,
-                              fontFamily: FONT_MEDIUM,
+                            6.verticalSpace,
+                            ...ctr.integralGoodsDetailModel.value.coupons.map(
+                              (e) => infoWidget(e.couponName ?? ''),
                             ),
-                            maxLines: 1,
-                          ),
-                          6.verticalSpace,
-                          ...ctr.integralGoodsDetailModel.value.coupons.map(
-                            (e) => orderWidget(e.couponName ?? ''),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 1.sw,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF202026),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
+                          ],
                         ),
                       ),
-                      margin: EdgeInsets.only(
-                        top: 10.h,
-                        bottom: 48.h,
-                      ),
-                      padding: EdgeInsets.all(20.r),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Kindly Reminder',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontFamily: FONT_MEDIUM,
-                            ),
-                          ),
-                          10.verticalSpace,
-                          orderWidget(
-                              "${ctr.integralGoodsDetailModel.value.des}"),
-                        ],
-                      ),
-                    ),
-                    ColorfulButton(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          ctr.integralGoodsDetailModel.value.enoughPoint == true
-                              ? "${ctr.integralGoodsDetailModel.value.price} points"
-                              : "Insufficient points, earn points".tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: "DIN",
+                      Container(
+                        width: 1.sw,
+                        decoration: ShapeDecoration(
+                          color: Color(0xFF202026),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
+                        margin: EdgeInsets.only(
+                          top: 10.h,
+                          bottom: 48.h,
+                        ),
+                        padding: EdgeInsets.all(20.r),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Description'.tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            infoWidget('${ctr.integralGoodsDetailModel.value.des}')
+                          ],
+                        ),
                       ),
-                      height: 50.h,
-                      onTap: () =>
-                          ctr.integralGoodsDetailModel.value.enoughPoint == true
-                              ? Get.dialog(
-                                  pointsPayWidget(),
-                                )
-                              : Get.back(),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )),
-      );
-
-  Widget orderWidget(String desc) => Padding(
-        padding: EdgeInsets.only(bottom: 10.h),
-        child: Text(
-          desc,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.sp,
-            fontFamily: FONT_LIGHT,
+              )),
+        floatingActionButton: ColorfulButton(
+          margin: EdgeInsets.only(bottom: 10.h),
+          child: Text(
+            ctr.integralGoodsDetailModel.value.enoughPoint == true
+                ? "${ctr.integralGoodsDetailModel.value.price} points"
+                : "Insufficient points, earn points".tr,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: "DIN",
+            ),
           ),
+          height: 50.h,
+          width: 0.85.sw,
+          onTap: () => ctr.integralGoodsDetailModel.value.enoughPoint == true
+              ? Get.dialog(
+                  pointsPayWidget(),
+                )
+              : Get.back(),
         ),
       );
+
+  Widget infoWidget(String des) => Platform.isAndroid
+      ? Html(
+          data: des,
+          style: {"body": Style()},
+          onLinkTap: (
+            String? url,
+            RenderContext context,
+            Map<String, String> attributes,
+            dom.Element? element,
+          ) async {
+            if (url != null) {
+              await launchUrl(Uri.parse(url));
+            }
+          },
+        )
+      : HtmlWidget(
+          des,
+          onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
+        );
 
   Widget pointsPayWidget() => Center(
         child: Container(

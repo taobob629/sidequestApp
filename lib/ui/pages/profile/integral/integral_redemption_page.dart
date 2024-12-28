@@ -14,123 +14,124 @@ class IntegralRedemptionPage extends StatelessWidget {
   final _ctr = Get.put(IntegralRedemptionCtr());
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Image.asset(
-                ImageUtils.integral_redemption_top_icon,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                10.verticalSpace,
-                SafeArea(
-                  child: GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    ),
-                  ),
+  Widget build(BuildContext context) => Obx(() => _ctr.tabs.isEmpty
+      ? Container()
+      : Container(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Image.asset(
+                  ImageUtils.integral_redemption_top_icon,
+                  fit: BoxFit.cover,
                 ),
-                30.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'My points',
-                            style: TextStyle(
-                              color: Color(0xFF9CA3AF),
-                              fontSize: 13.sp,
-                              fontFamily: 'DIN',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          10.verticalSpace,
-                          Text(
-                            '${_ctr.points}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32.sp,
-                              fontFamily: FONT_MEDIUM,
-                            ),
-                          ),
-                        ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  10.verticalSpace,
+                  SafeArea(
+                    child: GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                ),
-                10.verticalSpace,
-                titleWidget(
-                  leftText: "Points Redemption",
-                  marginLeft: 0,
-                  marginRight: 0,
-                  viewAllText: '',
-                  onTap: () => Get.to(() => IntegralRedemptionPage()),
-                ),
-                Container(
-                  height: 30.h,
-                  child: Obx(() => ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (c, i) => GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => _ctr.selectTab(i),
-                          child: Obx(() => Container(
-                                height: 30.h,
-                                padding:
-                                    EdgeInsets.only(left: 15.w, right: 15.w),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(23).r,
-                                    gradient: i == _ctr.selectStatus.value
-                                        ? LinearGradient(colors: [
-                                            AppColor.yellow,
-                                            AppColor.yellow,
-                                          ])
-                                        : LinearGradient(colors: [
-                                            AppColor.tabBackGround,
-                                            AppColor.tabBackGround
-                                          ])),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  _ctr.tabs[i],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
-                                ),
-                              )),
+                  ),
+                  30.verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'My points',
+                              style: TextStyle(
+                                color: Color(0xFF9CA3AF),
+                                fontSize: 13.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            10.verticalSpace,
+                            Text(
+                              '${_ctr.points}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                          ],
                         ),
-                        separatorBuilder: (c, i) => 10.horizontalSpace,
-                        itemCount: _ctr.tabs.length,
-                      )),
-                ),
-                15.verticalSpace,
-                Expanded(
-                  child: Obx(() => GridView.builder(
-                        padding: EdgeInsets.zero,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, // 3 columns
-                          childAspectRatio: 0.72,
-                          crossAxisSpacing: 15.0.w,
-                          mainAxisSpacing: 15.0.h,
-                        ),
-                        itemBuilder: (context, index) =>
-                            pointsRedemptionWidget(index),
-                        itemCount: _ctr.selectGoods.length,
-                      )),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+                      ),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  titleWidget(
+                    leftText: "Points Redemption",
+                    marginLeft: 0,
+                    marginRight: 0,
+                    viewAllText: '',
+                    onTap: () => Get.to(() => IntegralRedemptionPage()),
+                  ),
+                  Container(
+                    height: 30.h,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (c, i) => GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => _ctr.selectTab(i),
+                        child: Obx(() => Container(
+                              height: 30.h,
+                              padding: EdgeInsets.only(left: 15.w, right: 15.w),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(23).r,
+                                  gradient: i == _ctr.selectStatus.value
+                                      ? LinearGradient(colors: [
+                                          AppColor.yellow,
+                                          AppColor.yellow,
+                                        ])
+                                      : LinearGradient(colors: [
+                                          AppColor.tabBackGround,
+                                          AppColor.tabBackGround
+                                        ])),
+                              alignment: Alignment.center,
+                              child: Text(
+                                _ctr.tabs[i],
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.sp),
+                              ),
+                            )),
+                      ),
+                      separatorBuilder: (c, i) => 10.horizontalSpace,
+                      itemCount: _ctr.tabs.length,
+                    ),
+                  ),
+                  15.verticalSpace,
+                  Expanded(
+                    child: GridView.builder(
+                      padding: EdgeInsets.zero,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // 3 columns
+                        childAspectRatio: 0.72,
+                        crossAxisSpacing: 15.0.w,
+                        mainAxisSpacing: 15.0.h,
+                      ),
+                      itemBuilder: (context, index) =>
+                          pointsRedemptionWidget(index),
+                      itemCount: _ctr.selectGoods.length,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
 
   Widget pointsRedemptionWidget(int index) => GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -168,6 +169,8 @@ class IntegralRedemptionPage extends StatelessWidget {
                     fontFamily: 'DIN',
                     fontWeight: FontWeight.w400,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               15.verticalSpace,
