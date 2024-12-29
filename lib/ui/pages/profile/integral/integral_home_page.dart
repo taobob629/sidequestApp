@@ -26,6 +26,7 @@ class IntegralHomePage extends StatelessWidget {
         () => t.isLoading.value
             ? Container()
             : SingleChildScrollView(
+                controller: t.scrollController,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Column(
@@ -105,11 +106,7 @@ class IntegralHomePage extends StatelessWidget {
                             ),
                           ),
                           Obx(() => GestureDetector(
-                                onTap: () => Get.to(
-                                  () => IntegralInterestsPage(),
-                                  arguments: t.integralInfoModel.value.pointInfo
-                                      ?.expGrade,
-                                ),
+                                onTap: () => t.toInterestsPage(),
                                 child: Image.asset(
                                   'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade ?? 0}_icon.webp',
                                   scale: 2,
@@ -120,11 +117,7 @@ class IntegralHomePage extends StatelessWidget {
                       ),
                       Obx(() => GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            onTap: () => Get.to(
-                              () => IntegralInterestsPage(),
-                              arguments:
-                                  t.integralInfoModel.value.pointInfo?.expGrade,
-                            ),
+                            onTap: () => t.toInterestsPage(),
                             child: Text(
                               'Need ${(t.integralInfoModel.value.pointInfo?.nextExperience ?? 0) - (t.integralInfoModel.value.pointInfo?.experience ?? 0)} xp to level up to Lv${(t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}.',
                               style: TextStyle(
@@ -137,11 +130,7 @@ class IntegralHomePage extends StatelessWidget {
                       6.verticalSpace,
                       Obx(() => GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            onTap: () => Get.to(
-                              () => IntegralInterestsPage(),
-                              arguments:
-                                  t.integralInfoModel.value.pointInfo?.expGrade,
-                            ),
+                            onTap: () => t.toInterestsPage(),
                             child: SizedBox(
                               width: 200.w,
                               child: FAProgressBar(
@@ -211,11 +200,7 @@ class IntegralHomePage extends StatelessWidget {
                                   Center(
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.translucent,
-                                      onTap: () => Get.to(
-                                        () => IntegralInterestsPage(),
-                                        arguments: t.integralInfoModel.value
-                                            .pointInfo?.expGrade,
-                                      ),
+                                      onTap: () => t.toInterestsPage(),
                                       child: Row(
                                         children: [
                                           10.horizontalSpace,
@@ -450,6 +435,7 @@ class IntegralHomePage extends StatelessWidget {
                         marginLeft: 0,
                         marginRight: 0,
                         viewAllText: '',
+                        taskCenterKey: t.taskCenterKey,
                       ),
                       Container(
                         height: 30.h,
@@ -675,7 +661,9 @@ class IntegralHomePage extends StatelessWidget {
                                 ),
                               ).paddingOnly(bottom: 4.h),
                               Text(
-                                'not checked'.tr,
+                                t.integralInfoModel.value.webSign[1].state == 1
+                                    ? 'checked in'.tr
+                                    : 'not checked'.tr,
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
                                   fontSize: 14.sp,
@@ -1066,8 +1054,10 @@ Widget titleWidget({
   double? marginRight,
   Function? onTap,
   String viewAllText = "View all",
+  Key? taskCenterKey,
 }) =>
     Container(
+      key: taskCenterKey,
       margin: EdgeInsets.only(
         left: marginLeft ?? 15.w,
         right: marginRight ?? 15.w,

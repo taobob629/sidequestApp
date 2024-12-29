@@ -1,5 +1,6 @@
 import 'package:csslib/parser.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../api/wy_http.dart';
@@ -10,8 +11,12 @@ import '../../../../../model/integral_task_model.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
 import '../../../../dialog/dialog_sign_success.dart';
+import '../integral_interests_page.dart';
 
 class IntegralHomeCtr extends GetxController {
+  final ScrollController scrollController = ScrollController();
+  final GlobalKey taskCenterKey = GlobalKey();
+
   var integralInfoModel =
       IntegralInfoModel(appSign: [], lvList: [], webSign: []).obs;
   var integralTaskList = <IntegralTaskModel>[].obs;
@@ -23,6 +28,7 @@ class IntegralHomeCtr extends GetxController {
 
   // 当前日期的model
   Sign? todayModel;
+
   // 今天是否已经签到了
   bool isTodaySign = false;
 
@@ -42,6 +48,12 @@ class IntegralHomeCtr extends GetxController {
     super.onInit();
 
     requestData();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
   }
 
   void requestData() async {
@@ -64,6 +76,47 @@ class IntegralHomeCtr extends GetxController {
     final list = goodsMap.values.toList();
     if (list.isNotEmpty) {
       goods.value = list[0];
+    }
+  }
+
+  void toInterestsPage() async {
+    final result = await Get.to(
+      () => IntegralInterestsPage(),
+      arguments: integralInfoModel.value.pointInfo?.expGrade,
+    );
+    if (result != null) {
+      scrollToContainer();
+    }
+  }
+
+  void scrollToContainer() {
+    // 确保 taskCenterKey 已关联到 widget 树中的 RenderObject
+    if (taskCenterKey.currentContext == null) return;
+
+    // 获取 RenderBox 并检查是否为非空
+    final RenderBox? renderBox =
+        taskCenterKey.currentContext?.findRenderObject() as RenderBox?;
+
+    if (renderBox != null) {
+      // 使用 RenderBox 的 localToGlobal 方法计算位置
+      final Offset offset = renderBox.localToGlobal(Offset.zero);
+
+      // 如果需要滚动到顶部，请考虑容器在其父级中的偏移量
+      final double topOffset =
+          offset.dy - MediaQuery.of(Get.context!).padding.top;
+
+      // 滚动到目标位置
+      // scrollController.animateTo(
+      //   topOffset,
+      //   duration: Duration(milliseconds: 500),
+      //   curve: Curves.easeInOut,
+      // );
+      // 使用 Scrollable.ensureVisible 将指定的 widget 滚动入视图
+      Scrollable.ensureVisible(
+        taskCenterKey.currentContext!,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
     }
   }
 

@@ -116,8 +116,7 @@ class IntegralInterestsPage extends StatelessWidget {
                             ),
                             6.verticalSpace,
                             GestureDetector(
-                              onTap: () => Get.to(() => TaskPage())?.then(
-                                  (value) => UserController.find.updateInfo()),
+                              onTap: () => Get.back(result: true),
                               child: Container(
                                 height: 26.h,
                                 margin: EdgeInsets.only(bottom: 6.h),
