@@ -38,65 +38,84 @@ class AddRuleDialog extends StatelessWidget {
               color: Color(0xff282640),
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.white,
-                  width: 1.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 1.w,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      tipContentWidget(
+                        "Level",
+                        "Discount",
+                        "Combo Limit",
+                        "Connections Limit",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 1",
+                        "5%",
+                        "2",
+                        "2",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 2",
+                        "10%",
+                        "2",
+                        "5",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 3",
+                        "15%",
+                        "3",
+                        "8",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 4",
+                        "20%",
+                        "3",
+                        "10",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 5",
+                        "25%",
+                        "4",
+                        "12",
+                      ),
+                      Container(color: Colors.white, height: 1.w),
+                      tipContentWidget(
+                        "Level 6",
+                        "30%",
+                        "4",
+                        "15",
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  tipContentWidget(
-                    "Level",
-                    "Discount",
-                    "Combo Limit",
-                    "Connections Limit",
+                Text(
+                  "You are able to change your connection once a month.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11.sp,
                   ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 1",
-                    "5%",
-                    "2",
-                    "2",
+                ).paddingOnly(top: 10.h, bottom: 4.h),
+                Text(
+                  "You will get the maximum Combo discount from you connections",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11.sp,
                   ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 2",
-                    "10%",
-                    "2",
-                    "5",
-                  ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 3",
-                    "15%",
-                    "3",
-                    "8",
-                  ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 4",
-                    "20%",
-                    "3",
-                    "10",
-                  ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 5",
-                    "25%",
-                    "4",
-                    "12",
-                  ),
-                  Container(color: Colors.white, height: 1.w),
-                  tipContentWidget(
-                    "Level 6",
-                    "30%",
-                    "4",
-                    "15",
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

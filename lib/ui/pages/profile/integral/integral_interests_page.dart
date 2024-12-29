@@ -91,10 +91,11 @@ class IntegralInterestsPage extends StatelessWidget {
                               child: FAProgressBar(
                                 size: 4.h,
                                 currentValue: (ctr
-                                        .integralModel
-                                        .value
-                                        .levelConfigVoList[index]
-                                        .nowExperience) /
+                                            .integralModel
+                                            .value
+                                            .levelConfigVoList[index]
+                                            .nowExperience *
+                                        100) /
                                     (ctr.integralModel.value
                                         .levelConfigVoList[index].threshold),
                                 progressColor: hexColor('ffffff'),
@@ -103,14 +104,7 @@ class IntegralInterestsPage extends StatelessWidget {
                             ),
                             6.verticalSpace,
                             Text(
-                              (ctr.integralModel.value.levelConfigVoList[index]
-                                              .nowExperience) -
-                                          (ctr
-                                              .integralModel
-                                              .value
-                                              .levelConfigVoList[index]
-                                              .threshold) <=
-                                      0
+                              ctr.currentUserVipLevel != (index + 1)
                                   ? "Only ${(ctr.integralModel.value.levelConfigVoList[index].threshold) - (ctr.integralModel.value.levelConfigVoList[index].nowExperience)} EXP left to reach Level ${ctr.integralModel.value.levelConfigVoList[index].level}"
                                   : "You've achieved the this level",
                               textAlign: TextAlign.center,

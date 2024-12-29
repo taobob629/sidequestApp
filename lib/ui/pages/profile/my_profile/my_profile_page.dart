@@ -647,9 +647,10 @@ class MyProfilePage extends StatelessWidget {
                               width: 116.w,
                               height: 20.w,
                             ),
-                            Positioned(
-                              right: 6.w,
-                              top: 4.h,
+                            Container(
+                              height: 20.w,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(left: 40.w),
                               child: Text(
                                 'Upgrade to LV.${userController.userProfile.lv}',
                                 style: TextStyle(

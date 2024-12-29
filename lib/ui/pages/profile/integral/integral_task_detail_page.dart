@@ -292,7 +292,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                   Positioned(
                     left: 16.w,
                     right: 16.w,
-                    bottom: 30.h,
+                    bottom: 20.h,
                     child: ColorfulButton(
                       child: Text(
                         "To Complete".tr,

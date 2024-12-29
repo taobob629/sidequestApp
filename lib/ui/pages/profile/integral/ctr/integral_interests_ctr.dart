@@ -11,6 +11,8 @@ class IntegralInterestsCtr extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   var currentVIPIndex = 0.obs;
+  int currentUserVipLevel = 0;
+
   var integralModel = IntegralModel(levelConfigVoList: []).obs;
   var levelCoupons = <CouponsModel>[].obs;
   var contentList = <dynamic>[].obs;
@@ -19,7 +21,8 @@ class IntegralInterestsCtr extends GetxController {
   void onInit() {
     super.onInit();
 
-    currentVIPIndex.value = Get.arguments ?? 0;
+    currentUserVipLevel = Get.arguments ?? 0;
+    currentVIPIndex.value = currentUserVipLevel > 0 ? currentUserVipLevel - 1 : currentUserVipLevel;
     requestData();
   }
 
