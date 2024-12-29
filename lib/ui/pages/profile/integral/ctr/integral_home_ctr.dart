@@ -98,20 +98,7 @@ class IntegralHomeCtr extends GetxController {
         taskCenterKey.currentContext?.findRenderObject() as RenderBox?;
 
     if (renderBox != null) {
-      // 使用 RenderBox 的 localToGlobal 方法计算位置
-      final Offset offset = renderBox.localToGlobal(Offset.zero);
-
-      // 如果需要滚动到顶部，请考虑容器在其父级中的偏移量
-      final double topOffset =
-          offset.dy - MediaQuery.of(Get.context!).padding.top;
-
-      // 滚动到目标位置
-      // scrollController.animateTo(
-      //   topOffset,
-      //   duration: Duration(milliseconds: 500),
-      //   curve: Curves.easeInOut,
-      // );
-      // 使用 Scrollable.ensureVisible 将指定的 widget 滚动入视图
+      // 滚动到目标位置 使用 Scrollable.ensureVisible 将指定的 widget 滚动入视图
       Scrollable.ensureVisible(
         taskCenterKey.currentContext!,
         duration: Duration(milliseconds: 500),
