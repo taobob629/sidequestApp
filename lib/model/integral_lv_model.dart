@@ -115,4 +115,10 @@ class IntegralLevelModel extends SelectorItem {
   String toString() {
     return name;
   }
+
+  IntegralLevelModel.deepCopy(IntegralLevelModel original)
+      : this.zhekou = original.zhekou,
+        this.name = original.name,
+        this.model = original.model,
+        this.friendLimitCount = original.friendLimitCount;
 }

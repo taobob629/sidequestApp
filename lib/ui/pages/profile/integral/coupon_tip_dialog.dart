@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:sq_hub_app/common/colorful_button.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/dom.dart' as dom;
 
@@ -200,8 +201,10 @@ class CouponTipDialog extends StatelessWidget {
                       addFriendList.clear();
                       yourLevelModel.value = selectModel;
 
-                      calPrice.value = editingController.text
-                          .mul(selectModel.zhekou.toString());
+                      if (editingController.text.isNotEmpty) {
+                        calPrice.value = editingController.text
+                            .mul(selectModel.zhekou.toString());
+                      }
                     }
                   },
                   yourLevel: yourLevelModel.value.name,
@@ -308,7 +311,7 @@ class CouponTipDialog extends StatelessWidget {
                   child: InkWell(
                     onTap: () => addFriendList.length <
                             yourLevelModel.value.friendLimitCount - 1
-                        ? addFriendList.add(lvList[0])
+                        ? addFriendList.add(IntegralLevelModel.deepCopy(lvList[0]))
                         : showToast(
                             "You can only add up to ${yourLevelModel.value.friendLimitCount} friends per level."),
                     child: Container(
@@ -392,9 +395,11 @@ class CouponTipDialog extends StatelessWidget {
               onTap: () {
                 final ji = addFriendList.fold(1.0,
                     (previousValue, element) => previousValue * element.zhekou);
-                calPrice.value = yourLevelModel.value.zhekou
-                    .toString()
-                    .mul(editingController.text.mul(ji.toString()));
+                if (editingController.text.isNotEmpty) {
+                  calPrice.value = yourLevelModel.value.zhekou
+                      .toString()
+                      .mul(editingController.text.mul(ji.toString()));
+                }
               },
             ),
             Text(
