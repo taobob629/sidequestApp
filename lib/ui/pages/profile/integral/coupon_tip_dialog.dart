@@ -24,6 +24,7 @@ class CouponTipDialog extends StatelessWidget {
   final String? confirmBtn;
   final Function? onConfirm;
   final TextEditingController editingController = TextEditingController();
+  String inputDigital = "";
   var addFriendList = <IntegralLevelModel>[].obs;
   var yourLevelModel = IntegralLevelModel().obs;
 
@@ -487,20 +488,30 @@ class CouponTipDialog extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 32.h,
-              height: 32.h,
-              decoration: BoxDecoration(
-                color: hexColor('5E6B84'),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(3.r),
-                  bottomLeft: Radius.circular(3.r),
+            InkWell(
+              onTap: () {
+                if (inputDigital.isNotEmpty) {
+                  editingController.text =
+                      double.parse(editingController.text.minus("1")) < 0
+                          ? "1"
+                          : editingController.text.minus("1");
+                }
+              },
+              child: Container(
+                width: 32.h,
+                height: 32.h,
+                decoration: BoxDecoration(
+                  color: hexColor('5E6B84'),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(3.r),
+                    bottomLeft: Radius.circular(3.r),
+                  ),
                 ),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.remove,
-                color: Colors.white,
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.remove,
+                  color: Colors.white,
+                ),
               ),
             ),
             Expanded(
@@ -529,22 +540,30 @@ class CouponTipDialog extends StatelessWidget {
                   isDense: true,
                   border: InputBorder.none,
                 ),
+                onChanged: (value) => inputDigital = value,
               ),
             ),
-            Container(
-              width: 32.h,
-              height: 32.h,
-              decoration: BoxDecoration(
-                color: hexColor('5E6B84'),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(3.r),
-                  bottomRight: Radius.circular(3.r),
+            InkWell(
+              onTap: () {
+                if (inputDigital.isNotEmpty) {
+                  editingController.text = editingController.text.add("1");
+                }
+              },
+              child: Container(
+                width: 32.h,
+                height: 32.h,
+                decoration: BoxDecoration(
+                  color: hexColor('5E6B84'),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(3.r),
+                    bottomRight: Radius.circular(3.r),
+                  ),
                 ),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
