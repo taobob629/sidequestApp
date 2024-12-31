@@ -186,6 +186,7 @@ class CouponTipDialog extends StatelessWidget {
             ).paddingOnly(top: 16.h, bottom: 13.h),
             Obx(() => selectWidget(
                   onTap: () async {
+                    SystemChannels.textInput.invokeMethod('TextInput.hide');
                     final result = await showCustom(
                       SelectorDialog(
                         items: lvList,
@@ -490,6 +491,7 @@ class CouponTipDialog extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
+                SystemChannels.textInput.invokeMethod('TextInput.hide');
                 if (inputDigital.isNotEmpty) {
                   editingController.text =
                       double.parse(editingController.text.minus("1")) < 0
@@ -545,6 +547,7 @@ class CouponTipDialog extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                SystemChannels.textInput.invokeMethod('TextInput.hide');
                 if (inputDigital.isNotEmpty) {
                   editingController.text = editingController.text.add("1");
                 }
